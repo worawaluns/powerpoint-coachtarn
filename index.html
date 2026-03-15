@@ -13,9 +13,9 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 :root{
   --grad-start:#EB7D4A;
   --grad-end:#D34724;
-  --btn-grad-start:#1A8A47;
-  --btn-grad-end:#136130;
-  --btn-shadow:0 6px 20px rgba(19,97,48,0.30);
+  --btn-grad-start:#F5A623;
+  --btn-grad-end:#D4880E;
+  --btn-shadow:0 6px 20px rgba(212,136,14,0.35);
   --orange:#EB7D4A;
   --red:#D34724;
   --text:#0A0A0A;
@@ -61,7 +61,7 @@ body{
 .nav-right{display:flex;align-items:center;gap:8px}
 .nav-cta{
   background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
-  box-shadow:0 3px 12px rgba(19,97,48,0.24);
+  box-shadow:0 3px 12px rgba(212,136,14,0.28);
   color:#fff;border:none;border-radius:100px;
   padding:9px 18px;font-size:13px;font-weight:700;
   font-family:inherit;cursor:pointer;white-space:nowrap;
@@ -463,6 +463,7 @@ body{
   will-change:transform;
 }
 .strip-row.row2{margin-top:12px;transform:translateX(-60px)}
+.strip-row.row3{margin-top:12px;transform:translateX(-20px)}
 .slide-tile{
   flex-shrink:0;width:150px;
   background:#fff;border-radius:14px;
@@ -789,47 +790,46 @@ body{
    STICKY BOTTOM BAR
 ══════════════════════════════════════ */
 .sticky-bar{
-  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  position:fixed;bottom:0;left:50%;
+  transform:translateX(-50%) translateY(110%);
   width:100%;max-width:var(--max);z-index:99;
-  background:rgba(255,255,255,0.92);
+  background:rgba(255,255,255,0.95);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   border-top:1px solid var(--border);
-  padding:10px 16px 18px;
-  box-shadow:0 -4px 24px rgba(0,0,0,0.08);
-  transition:transform .3s var(--ease);
+  padding:10px 14px 18px;
+  box-shadow:0 -4px 24px rgba(0,0,0,0.10);
+  transition:transform .4s var(--ease);
 }
-.sticky-bar.hidden{transform:translateX(-50%) translateY(120%)}
-/* 3 reassurance chips above button */
-.sticky-chips{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  margin-bottom:9px;
+.sticky-bar.visible{transform:translateX(-50%) translateY(0)}
+.sticky-bar.hide-final{transform:translateX(-50%) translateY(110%)}
+/* compact row: price left + button right */
+.sticky-inner{
+  display:flex;align-items:center;gap:10px;
 }
-.sticky-chip{
-  display:flex;align-items:center;gap:4px;
-  font-size:11px;font-weight:600;color:var(--text-mid);
+.sticky-price-col{
+  display:flex;flex-direction:column;align-items:flex-start;flex-shrink:0;
 }
-.sticky-chip svg{width:12px;height:12px;flex-shrink:0;color:#1A8A47}
+.sticky-price-main{
+  font-size:20px;font-weight:900;color:var(--red);letter-spacing:-0.5px;line-height:1;
+}
+.sticky-price-old{
+  font-size:12px;color:#bbb;text-decoration:line-through;font-weight:500;
+}
 .btn-sticky{
-  width:100%;
+  flex:1;
   background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
   box-shadow:var(--btn-shadow);
-  color:#fff;border:none;border-radius:14px;padding:0;
+  color:#fff;border:none;border-radius:12px;
+  padding:13px 16px;
   font-family:inherit;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-decoration:none;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  text-decoration:none;font-size:15px;font-weight:800;letter-spacing:-0.2px;
   transition:transform .15s;overflow:hidden;
 }
-.btn-sticky:active{transform:scale(0.99)}
-.sticky-btn-main{
-  font-size:17px;font-weight:800;letter-spacing:-0.2px;
-  padding:14px 20px 4px;line-height:1;
-}
-.sticky-btn-sub{
-  font-size:11px;font-weight:500;opacity:0.75;
-  padding:0 20px 12px;
-}
+.btn-sticky:active{transform:scale(0.98)}
+.btn-sticky svg{width:18px;height:18px;flex-shrink:0}
 
-.sticky-spacer{height:88px;background:#F5F5F5}
+.sticky-spacer{height:72px;background:#F5F5F5}
 .nav-spacer{height:60px}
 
 /* ══════════════════════════════════════
@@ -1125,6 +1125,16 @@ body{
       <div class="slide-tile"><div class="slide-tile-thumb g3"><div class="slide-tile-label">Creative</div></div><div class="slide-tile-info"><div class="slide-tile-name">Creative</div><div class="slide-tile-count">110+ สไลด์</div></div></div>
       <div class="slide-tile"><div class="slide-tile-thumb g4"><div class="slide-tile-label">Strategy</div></div><div class="slide-tile-info"><div class="slide-tile-name">Strategy</div><div class="slide-tile-count">90+ สไลด์</div></div></div>
       <div class="slide-tile"><div class="slide-tile-thumb g8"><div class="slide-tile-label">Medical</div></div><div class="slide-tile-info"><div class="slide-tile-name">Medical</div><div class="slide-tile-count">65+ สไลด์</div></div></div>
+    </div>
+    <div class="strip-row row3" id="row3">
+      <div class="slide-tile"><div class="slide-tile-thumb g3"><div class="slide-tile-label">Nonprofit</div></div><div class="slide-tile-info"><div class="slide-tile-name">Nonprofit</div><div class="slide-tile-count">55+ สไลด์</div></div></div>
+      <div class="slide-tile"><div class="slide-tile-thumb g4"><div class="slide-tile-label">Portfolio</div></div><div class="slide-tile-info"><div class="slide-tile-name">Portfolio</div><div class="slide-tile-count">70+ สไลด์</div></div></div>
+      <div class="slide-tile"><div class="slide-tile-thumb g5"><div class="slide-tile-label">Real Estate</div></div><div class="slide-tile-info"><div class="slide-tile-name">Real Estate</div><div class="slide-tile-count">60+ สไลด์</div></div></div>
+      <div class="slide-tile"><div class="slide-tile-thumb g6"><div class="slide-tile-label">Tech</div></div><div class="slide-tile-info"><div class="slide-tile-name">Tech Startup</div><div class="slide-tile-count">85+ สไลด์</div></div></div>
+      <div class="slide-tile"><div class="slide-tile-thumb g7"><div class="slide-tile-label">Retail</div></div><div class="slide-tile-info"><div class="slide-tile-name">Retail & Brand</div><div class="slide-tile-count">75+ สไลด์</div></div></div>
+      <div class="slide-tile"><div class="slide-tile-thumb g8"><div class="slide-tile-label">Legal</div></div><div class="slide-tile-info"><div class="slide-tile-name">Legal & Law</div><div class="slide-tile-count">50+ สไลด์</div></div></div>
+      <div class="slide-tile"><div class="slide-tile-thumb g1"><div class="slide-tile-label">Minimalist</div></div><div class="slide-tile-info"><div class="slide-tile-name">Minimalist</div><div class="slide-tile-count">120+ สไลด์</div></div></div>
+      <div class="slide-tile"><div class="slide-tile-thumb g2"><div class="slide-tile-label">Dark Mode</div></div><div class="slide-tile-info"><div class="slide-tile-name">Dark Mode</div><div class="slide-tile-count">95+ สไลด์</div></div></div>
     </div>
   </div>
 </section>
@@ -1480,24 +1490,16 @@ body{
 
 <!-- STICKY BAR -->
 <div class="sticky-bar" id="stickyBar">
-  <div class="sticky-chips">
-    <div class="sticky-chip">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      ใช้งานง่าย
+  <div class="sticky-inner">
+    <div class="sticky-price-col">
+      <div class="sticky-price-main">499฿</div>
+      <div class="sticky-price-old">ปกติ 999฿</div>
     </div>
-    <div class="sticky-chip">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      ได้ไฟล์ทางอีเมลทันที
-    </div>
-    <div class="sticky-chip">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-      ไม่มีรายเดือน
-    </div>
+    <a href="order.html" class="btn-sticky">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      รับสไลด์ทันที — สั่งเลย
+    </a>
   </div>
-  <a href="order.html" class="btn-sticky">
-    <div class="sticky-btn-main">สั่งซื้อเลย — รับสไลด์ทันที</div>
-    <div class="sticky-btn-sub">ราคาพิเศษ 499 บาท เท่านั้น · Bonus Slides ฟรี!</div>
-  </a>
 </div>
 <div class="sticky-spacer"></div>
 
@@ -1519,6 +1521,7 @@ window.addEventListener('scroll', () => {
 /* ── Parallax strip ── */
 const row1 = document.getElementById('row1');
 const row2 = document.getElementById('row2');
+const row3 = document.getElementById('row3');
 const stripWrap = document.getElementById('stripWrap');
 window.addEventListener('scroll', () => {
   const rect = stripWrap.getBoundingClientRect();
@@ -1527,17 +1530,27 @@ window.addEventListener('scroll', () => {
   const off = (progress - 0.5) * 160;
   row1.style.transform = `translateX(${-off}px)`;
   row2.style.transform = `translateX(${off - 60}px)`;
+  row3.style.transform = `translateX(${-off * 0.7 - 20}px)`;
 }, {passive:true});
 
 /* ── FAQ ── */
 function toggleFaq(btn) { btn.closest('.faq-item').classList.toggle('open'); }
 
-/* ── Sticky hide at final CTA ── */
+/* ── Sticky bar: show after hero, hide at final CTA ── */
 const stickyBar = document.getElementById('stickyBar');
-const finalCta = document.querySelector('.final-cta');
+let stickyAfterHero = false, stickyAtFinal = false;
+function updateSticky() {
+  stickyBar.classList.toggle('visible', stickyAfterHero && !stickyAtFinal);
+  stickyBar.classList.toggle('hide-final', stickyAtFinal);
+}
 new IntersectionObserver(entries => {
-  entries.forEach(e => stickyBar.classList.toggle('hidden', e.isIntersecting));
-}, {threshold:0.3}).observe(finalCta);
+  stickyAfterHero = !entries[0].isIntersecting;
+  updateSticky();
+}, {threshold:0}).observe(document.querySelector('.hero'));
+new IntersectionObserver(entries => {
+  stickyAtFinal = entries[0].isIntersecting;
+  updateSticky();
+}, {threshold:0.3}).observe(document.querySelector('.final-cta'));
 
 /* ── Drawer ── */
 function openDrawer() {
