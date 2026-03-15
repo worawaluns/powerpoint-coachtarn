@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Preview — PowerPoint by Coach Tarn</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'SukhumvitSet', 'Sukhumvit Set', 'Noto Sans Thai', sans-serif;
+    background: #111;
+    color: #fff;
+  }
+
+  /* ─── TAB SWITCHER ─── */
+  .tab-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 9999;
+    display: flex;
+    background: #111;
+    border-bottom: 1px solid #333;
+    padding: 0 16px;
+  }
+  .tab-bar button {
+    flex: 1;
+    padding: 14px 8px;
+    background: none;
+    border: none;
+    color: #888;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all .2s;
+    letter-spacing: 0.3px;
+  }
+  .tab-bar button.active { color: #fff; border-bottom-color: #FF6B35; }
+
+  .concept { display: none; padding-top: 53px; }
+  .concept.active { display: block; }
+
+  /* ─────────────────────────────────────────────
+     CONCEPT A — "Warm Coach"
+     ขาว + ส้มแดง, รูป Coach Tarn dominant
+  ───────────────────────────────────────────── */
+  #conceptA {
+    background: #fff;
+    color: #1A1A1A;
+    font-family: 'SukhumvitSet', 'Sukhumvit Set', 'Noto Sans Thai', sans-serif;
+  }
+
+  /* Hero A */
+  .a-hero {
+    background: #fff;
+    padding: 40px 24px 0;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .a-badge {
+    display: inline-block;
+    background: #FFF0EB;
+    color: #D93D1A;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+  .a-headline {
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.3;
+    color: #1A1A1A;
+    margin-bottom: 12px;
+  }
+  .a-headline span { color: #D93D1A; }
+  .a-sub {
+    font-size: 16px;
+    font-weight: 400;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .a-price-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .a-price-old {
+    font-size: 16px;
+    color: #999;
+    text-decoration: line-through;
+    font-weight: 500;
+  }
+  .a-price-new {
+    font-size: 38px;
+    font-weight: 800;
+    color: #D93D1A;
+  }
+  .a-price-unit { font-size: 16px; color: #555; font-weight: 500; margin-top: 6px; }
+  .a-bonus {
+    background: #FFF5E6;
+    border: 1.5px dashed #FF8C00;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #B35900;
+    font-weight: 600;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .a-bonus .icon { font-size: 20px; }
+  .a-cta {
+    background: #D93D1A;
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: inherit;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(217,61,26,0.35);
+    margin-bottom: 12px;
+  }
+  .a-cta-sub {
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 32px;
+  }
+  .a-coach-img {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(135deg, #FFE0D6 0%, #FFDCC8 100%);
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+  }
+  .a-coach-img .placeholder-icon {
+    width: 80px; height: 80px;
+    background: #D93D1A;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; color: #fff;
+  }
+  .a-coach-img p { font-size: 13px; color: #B35900; font-weight: 600; }
+
+  /* Slides preview A */
+  .a-slides-section {
+    background: #F8F8F8;
+    padding: 36px 24px;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .a-section-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #D93D1A;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .a-section-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1A1A1A;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .a-section-sub { font-size: 14px; color: #666; margin-bottom: 24px; }
+  .a-slides-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .a-slide-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  .a-slide-thumb {
+    width: 100%;
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .a-slide-thumb.t1 { background: linear-gradient(135deg, #D93D1A, #FF6B35); }
+  .a-slide-thumb.t2 { background: linear-gradient(135deg, #1A1A2E, #16213E); }
+  .a-slide-thumb.t3 { background: linear-gradient(135deg, #0F3460, #533483); }
+  .a-slide-thumb.t4 { background: linear-gradient(135deg, #E84393, #D93D1A); }
+  .a-slide-info { padding: 10px 12px; }
+  .a-slide-name { font-size: 12px; font-weight: 700; color: #1A1A1A; }
+  .a-slide-count { font-size: 11px; color: #888; margin-top: 2px; }
+
+  /* Pain A */
+  .a-pain-section {
+    background: #fff;
+    padding: 36px 24px;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .a-pain-card {
+    background: #FFF5F2;
+    border-left: 4px solid #D93D1A;
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A1A1A;
+    line-height: 1.4;
+  }
+
+  /* Sticky A */
+  .a-sticky {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: #fff;
+    border-top: 1px solid #F0E8E6;
+    padding: 12px 24px 20px;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  /* ─────────────────────────────────────────────
+     CONCEPT B — "Premium Dark"
+     มืด + ทอง/ส้ม, รู้สึก premium มากขึ้น
+  ───────────────────────────────────────────── */
+  #conceptB {
+    background: #0D0D0D;
+    color: #fff;
+    font-family: 'SukhumvitSet', 'Sukhumvit Set', 'Noto Sans Thai', sans-serif;
+  }
+
+  .b-hero {
+    background: #0D0D0D;
+    padding: 44px 24px 40px;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .b-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(217,61,26,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .b-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,107,53,0.12);
+    border: 1px solid rgba(255,107,53,0.3);
+    color: #FF8C50;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    width: fit-content;
+  }
+  .b-eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    color: #FF6B35;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .b-headline {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .b-headline .accent { color: #FF6B35; }
+  .b-sub {
+    font-size: 15px;
+    color: #999;
+    line-height: 1.7;
+    margin-bottom: 36px;
+    font-weight: 400;
+  }
+  .b-stats {
+    display: flex;
+    gap: 0;
+    margin-bottom: 36px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .b-stat {
+    flex: 1;
+    padding: 16px 12px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .b-stat:last-child { border-right: none; }
+  .b-stat-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    display: block;
+  }
+  .b-stat-label { font-size: 11px; color: #666; margin-top: 2px; font-weight: 500; }
+  .b-price-block {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .b-price-new {
+    font-size: 44px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+  }
+  .b-price-old {
+    font-size: 18px;
+    color: #555;
+    text-decoration: line-through;
+    padding-bottom: 4px;
+  }
+  .b-price-save {
+    background: #D93D1A;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 6px;
+  }
+  .b-bonus {
+    background: rgba(255,140,0,0.1);
+    border: 1px solid rgba(255,140,0,0.25);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 14px;
+    color: #FFB347;
+    font-weight: 600;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.4;
+  }
+  .b-cta {
+    background: linear-gradient(135deg, #D93D1A 0%, #FF6B35 100%);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: inherit;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(217,61,26,0.4);
+    margin-bottom: 10px;
+  }
+  .b-cta-sub { text-align: center; font-size: 13px; color: #555; }
+
+  /* Slides B */
+  .b-slides-section {
+    background: #111;
+    padding: 40px 24px;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .b-section-label {
+    font-size: 12px; font-weight: 700; color: #FF6B35;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .b-section-title {
+    font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 6px; line-height: 1.3;
+  }
+  .b-section-sub { font-size: 14px; color: #666; margin-bottom: 24px; }
+  .b-slides-scroll {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+  }
+  .b-slide-card {
+    min-width: 160px;
+    background: #1A1A1A;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .b-slide-thumb {
+    width: 160px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 700;
+  }
+  .b-slide-thumb.t1 { background: linear-gradient(135deg, #D93D1A, #FF6B35); }
+  .b-slide-thumb.t2 { background: linear-gradient(135deg, #1A1A2E, #0F3460); }
+  .b-slide-thumb.t3 { background: linear-gradient(135deg, #0A3D2B, #1A5C42); }
+  .b-slide-thumb.t4 { background: linear-gradient(135deg, #2D1B69, #533483); }
+  .b-slide-info { padding: 10px 12px; }
+  .b-slide-name { font-size: 12px; font-weight: 700; color: #fff; }
+  .b-slide-count { font-size: 11px; color: #555; margin-top: 2px; }
+
+  /* Pain B */
+  .b-pain-section {
+    background: #0D0D0D;
+    padding: 40px 24px;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+  .b-pain-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ccc;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .b-pain-check {
+    width: 22px; height: 22px;
+    background: rgba(217,61,26,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: #D93D1A; flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* ─────────────────────────────────────────────
+     CONCEPT C — "Bold Split"
+     Hero สองฝั่ง: ซ้าย copy / ขวา visual
+     ให้ feel เหมือน international template site
+  ───────────────────────────────────────────── */
+  #conceptC {
+    background: #fff;
+    color: #1A1A1A;
+    font-family: 'SukhumvitSet', 'Sukhumvit Set', 'Noto Sans Thai', sans-serif;
+  }
+
+  .c-hero {
+    background: #fff;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .c-topbar {
+    background: #D93D1A;
+    color: #fff;
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+  }
+  .c-topbar span { text-decoration: underline; }
+  .c-hero-visual {
+    width: 100%;
+    height: 260px;
+    background: linear-gradient(160deg, #1A1A2E 0%, #D93D1A 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .c-hero-visual::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(transparent, #fff);
+  }
+  .c-slides-mosaic {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 80px);
+    gap: 6px;
+    padding: 16px;
+    width: 100%;
+  }
+  .c-mosaic-item {
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.9);
+  }
+  .c-mosaic-item.m1 { background: linear-gradient(135deg,#FF6B35,#D93D1A); grid-column: span 2; }
+  .c-mosaic-item.m2 { background: linear-gradient(135deg,#1A1A2E,#333); }
+  .c-mosaic-item.m3 { background: linear-gradient(135deg,#0F3460,#533483); }
+  .c-mosaic-item.m4 { background: linear-gradient(135deg,#D93D1A,#E84393); grid-column: span 2; }
+
+  .c-content {
+    padding: 28px 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .c-kicker {
+    font-size: 13px;
+    font-weight: 700;
+    color: #D93D1A;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .c-headline {
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: #1A1A1A;
+    margin-bottom: 14px;
+  }
+  .c-sub {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.65;
+    margin-bottom: 24px;
+    font-weight: 400;
+  }
+  .c-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .c-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A1A1A;
+  }
+  .c-feature-dot {
+    width: 8px; height: 8px;
+    background: #D93D1A;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .c-price-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .c-price-new {
+    font-size: 40px;
+    font-weight: 800;
+    color: #D93D1A;
+    line-height: 1;
+  }
+  .c-price-old {
+    font-size: 18px;
+    color: #bbb;
+    text-decoration: line-through;
+    font-weight: 500;
+  }
+  .c-price-badge {
+    background: #FFF0EB;
+    color: #D93D1A;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+  .c-bonus {
+    background: linear-gradient(135deg, #FFF8E6, #FFEDCC);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #7A4000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.4;
+  }
+  .c-cta {
+    background: #D93D1A;
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: inherit;
+    width: 100%;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(217,61,26,0.3);
+    margin-bottom: 10px;
+  }
+  .c-trust {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 16px 24px;
+    border-top: 1px solid #F0F0F0;
+  }
+  .c-trust-item {
+    text-align: center;
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+  }
+  .c-trust-item span {
+    display: block;
+    font-size: 18px;
+    font-weight: 800;
+    color: #D93D1A;
+    margin-bottom: 2px;
+  }
+
+  /* ─── Shared ─── */
+  .spacer { height: 80px; }
+  .note-bar {
+    background: #222;
+    color: #888;
+    text-align: center;
+    padding: 14px;
+    font-size: 12px;
+    font-weight: 500;
+    border-top: 1px solid #333;
+    font-family: 'SukhumvitSet', 'Noto Sans Thai', sans-serif;
+  }
+  .note-bar strong { color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="active" onclick="switchTab('A', this)">A · Warm Coach</button>
+  <button onclick="switchTab('B', this)">B · Premium Dark</button>
+  <button onclick="switchTab('C', this)">C · Bold Split</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     CONCEPT A — Warm Coach
+══════════════════════════════════════ -->
+<div id="conceptA" class="concept active">
+
+  <!-- Hero -->
+  <div class="a-hero">
+    <div class="a-badge">✦ จ่ายครั้งเดียว ใช้ได้ตลอดชีพ</div>
+    <div class="a-headline">
+      ทำสไลด์ทุกครั้ง<br>
+      <span>เสียเวลา</span> แต่ออกมา<br>ก็ยังไม่สวยอยู่ดี?
+    </div>
+    <div class="a-sub">
+      6,500+ template PowerPoint สำเร็จรูป<br>
+      เปิดปุ๊บใช้ได้เลย — ไม่ต้องออกแบบเอง
+    </div>
+    <div class="a-price-row">
+      <div>
+        <div class="a-price-old">ปกติ 999฿</div>
+        <div class="a-price-new">499฿</div>
+      </div>
+      <div class="a-price-unit">จ่ายครั้งเดียว<br>ได้ทุก template</div>
+    </div>
+    <div class="a-bonus">
+      <span class="icon">🎁</span>
+      <span>สั่งวันนี้ รับ <strong>โฟลเดอร์ Bonus Slides</strong><br>เพิ่มอีก 1 ชุด มูลค่า 299฿ ฟรี!</span>
+    </div>
+    <button class="a-cta">รับ 6,500+ สไลด์ — 499฿ เลย</button>
+    <div class="a-cta-sub">🔒 ชำระผ่านการโอนเงิน · ได้รับทันทีหลังชำระ</div>
+    <div class="a-coach-img">
+      <div class="placeholder-icon">👩‍💼</div>
+      <p>รูป Coach Tarn (ใส่ภาพจริงตรงนี้)</p>
+    </div>
+  </div>
+
+  <!-- Pain -->
+  <div class="a-pain-section">
+    <div class="a-section-label">คุณเคยเจอแบบนี้ไหม?</div>
+    <div class="a-section-title">ปัญหาที่คนทำสไลด์<br>เจอซ้ำๆ</div>
+    <br>
+    <div class="a-pain-card">😤 นั่งทำสไลด์ทั้งคืน แต่ดูไม่โปรเลย</div>
+    <div class="a-pain-card">⏰ งานพรุ่งนี้เช้า ยังไม่รู้จะเริ่มตรงไหน</div>
+    <div class="a-pain-card">😔 อยากให้สไลด์ดูน่าเชื่อถือ แต่ทำไม่เป็น</div>
+  </div>
+
+  <!-- Slides -->
+  <div class="a-slides-section">
+    <div class="a-section-label">ตัวอย่าง Template</div>
+    <div class="a-section-title">6,500+ สไลด์<br>ครบทุกสไตล์</div>
+    <div class="a-section-sub">เลือกใช้ตามงานที่ต้องการ แก้ไขได้ง่าย</div>
+    <div class="a-slides-grid">
+      <div class="a-slide-card">
+        <div class="a-slide-thumb t1">BUSINESS</div>
+        <div class="a-slide-info">
+          <div class="a-slide-name">Business Report</div>
+          <div class="a-slide-count">120+ สไลด์</div>
+        </div>
+      </div>
+      <div class="a-slide-card">
+        <div class="a-slide-thumb t2">PITCH</div>
+        <div class="a-slide-info">
+          <div class="a-slide-name">Pitch Deck</div>
+          <div class="a-slide-count">80+ สไลด์</div>
+        </div>
+      </div>
+      <div class="a-slide-card">
+        <div class="a-slide-thumb t3">INFOGRAPHIC</div>
+        <div class="a-slide-info">
+          <div class="a-slide-name">Infographic</div>
+          <div class="a-slide-count">200+ สไลด์</div>
+        </div>
+      </div>
+      <div class="a-slide-card">
+        <div class="a-slide-thumb t4">TRAINING</div>
+        <div class="a-slide-info">
+          <div class="a-slide-name">Training / สอน</div>
+          <div class="a-slide-count">150+ สไลด์</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="note-bar">Concept A · <strong>Warm Coach</strong> · พื้นขาว, ส้มแดง, Coach Tarn เป็น hero</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     CONCEPT B — Premium Dark
+══════════════════════════════════════ -->
+<div id="conceptB" class="concept">
+
+  <!-- Hero -->
+  <div class="b-hero">
+    <div class="b-badge">✦ 6,500+ สไลด์ · จ่ายครั้งเดียว</div>
+    <div class="b-eyebrow">PowerPoint Template</div>
+    <div class="b-headline">
+      สไลด์ที่ดูโปร<br>
+      ไม่ต้องเสียเวลา<br>
+      <span class="accent">ออกแบบเอง</span>
+    </div>
+    <div class="b-sub">
+      template สำเร็จรูปกว่า 6,500 สไลด์<br>
+      โดย Coach Tarn — เปิดปุ๊บใช้งานได้เลย
+    </div>
+    <div class="b-stats">
+      <div class="b-stat">
+        <span class="b-stat-num">6,500+</span>
+        <div class="b-stat-label">สไลด์</div>
+      </div>
+      <div class="b-stat">
+        <span class="b-stat-num">∞</span>
+        <div class="b-stat-label">ใช้ได้ตลอด</div>
+      </div>
+      <div class="b-stat">
+        <span class="b-stat-num">1 ครั้ง</span>
+        <div class="b-stat-label">จ่ายแค่ครั้งเดียว</div>
+      </div>
+    </div>
+    <div class="b-price-block">
+      <div class="b-price-new">499฿</div>
+      <div>
+        <div class="b-price-old">999฿</div>
+        <div class="b-price-save">ลด 50%</div>
+      </div>
+    </div>
+    <div class="b-bonus">
+      🎁
+      <span>สั่งวันนี้ รับ <strong>Bonus Slides</strong> เพิ่มอีก 1 ชุด<br><span style="font-weight:400;color:#CC8A00">มูลค่า 299฿ — ไม่มีค่าใช้จ่ายเพิ่ม</span></span>
+    </div>
+    <button class="b-cta">สั่งซื้อเลย — 499฿</button>
+    <div class="b-cta-sub">🔒 ชำระผ่านโอนเงิน · ได้รับ code ทันทีทางอีเมล</div>
+  </div>
+
+  <!-- Pain -->
+  <div class="b-pain-section">
+    <div class="b-section-label">เสียงจากคนที่เคยเจอ</div>
+    <div class="b-section-title">ปัญหาที่ทุกคน<br>เจอซ้ำๆ</div>
+    <br>
+    <div class="b-pain-card">
+      <div class="b-pain-check">✗</div>
+      <span>นั่งทำสไลด์ทั้งคืน แต่ดูไม่โปร ไม่น่าเชื่อถือ</span>
+    </div>
+    <div class="b-pain-card">
+      <div class="b-pain-check">✗</div>
+      <span>งานด่วน ไม่มีเวลา ไม่รู้จะเริ่มตรงไหน</span>
+    </div>
+    <div class="b-pain-card">
+      <div class="b-pain-check">✗</div>
+      <span>ทำเองออกมาดูไม่สวย แต่จ้างคนทำก็แพง</span>
+    </div>
+  </div>
+
+  <!-- Slides -->
+  <div class="b-slides-section">
+    <div class="b-section-label">Template Collection</div>
+    <div class="b-section-title">เลื่อนดูตัวอย่าง →</div>
+    <div class="b-section-sub">ครบทุกสไตล์ แก้ไขได้ง่าย ใช้ได้ทันที</div>
+    <div class="b-slides-scroll">
+      <div class="b-slide-card">
+        <div class="b-slide-thumb t1">BUSINESS</div>
+        <div class="b-slide-info">
+          <div class="b-slide-name">Business Report</div>
+          <div class="b-slide-count">120+ สไลด์</div>
+        </div>
+      </div>
+      <div class="b-slide-card">
+        <div class="b-slide-thumb t2">PITCH DECK</div>
+        <div class="b-slide-info">
+          <div class="b-slide-name">Pitch Deck</div>
+          <div class="b-slide-count">80+ สไลด์</div>
+        </div>
+      </div>
+      <div class="b-slide-card">
+        <div class="b-slide-thumb t3">INFOGRAPHIC</div>
+        <div class="b-slide-info">
+          <div class="b-slide-name">Infographic</div>
+          <div class="b-slide-count">200+ สไลด์</div>
+        </div>
+      </div>
+      <div class="b-slide-card">
+        <div class="b-slide-thumb t4">TRAINING</div>
+        <div class="b-slide-info">
+          <div class="b-slide-name">Training</div>
+          <div class="b-slide-count">150+ สไลด์</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <div class="note-bar">Concept B · <strong>Premium Dark</strong> · พื้นดำ, gradient ส้มแดง, ดูพรีเมียม</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     CONCEPT C — Bold Split
+══════════════════════════════════════ -->
+<div id="conceptC" class="concept">
+  <div class="c-hero">
+
+    <!-- Top urgency bar -->
+    <div class="c-topbar">
+      🎁 สั่งวันนี้รับ Bonus Slides ฟรี! มูลค่า 299฿ — <span>ดูรายละเอียด</span>
+    </div>
+
+    <!-- Visual mosaic -->
+    <div class="c-hero-visual">
+      <div class="c-slides-mosaic">
+        <div class="c-mosaic-item m1">BUSINESS REPORT</div>
+        <div class="c-mosaic-item m2">PITCH</div>
+        <div class="c-mosaic-item m3">INFOGRAPHIC</div>
+        <div class="c-mosaic-item m4">TRAINING & EDUCATION</div>
+      </div>
+    </div>
+
+    <!-- Copy -->
+    <div class="c-content">
+      <div class="c-kicker">PowerPoint Template by Coach Tarn</div>
+      <div class="c-headline">
+        6,500+ สไลด์โปร<br>
+        จ่ายครั้งเดียว<br>
+        ใช้ได้ตลอดชีพ
+      </div>
+      <div class="c-sub">
+        ไม่ต้องออกแบบเอง เปิดปุ๊บใช้งานได้ทันที
+        เหมาะสำหรับคนทำงาน ครู และนักธุรกิจ
+      </div>
+      <div class="c-features">
+        <div class="c-feature"><div class="c-feature-dot"></div>6,500+ สไลด์ครบทุกสไตล์</div>
+        <div class="c-feature"><div class="c-feature-dot"></div>แก้ไขง่าย ใช้ได้ทันที</div>
+        <div class="c-feature"><div class="c-feature-dot"></div>รับ template ใหม่จาก Coach Tarn ไม่มีค่าเพิ่ม</div>
+        <div class="c-feature"><div class="c-feature-dot"></div>โหลดได้ทันทีหลังชำระเงิน</div>
+      </div>
+
+      <div class="c-price-row">
+        <div class="c-price-new">499฿</div>
+        <div class="c-price-old">999฿</div>
+        <div class="c-price-badge">ลด 50%</div>
+      </div>
+
+      <div class="c-bonus">
+        🎁
+        <span>สั่งวันนี้ รับ <strong>Bonus Slides</strong> เพิ่มอีก 1 ชุด<br>
+        <span style="font-weight:500;color:#996600">มูลค่า 299฿ ไม่มีค่าใช้จ่ายเพิ่ม</span></span>
+      </div>
+
+      <button class="c-cta">สั่งซื้อเลย 499฿ →</button>
+      <div style="text-align:center;font-size:13px;color:#888;margin-top:8px;margin-bottom:16px;">
+        🔒 ชำระผ่านโอนเงิน · รับ code ทางอีเมลทันที
+      </div>
+    </div>
+
+    <!-- Trust bar -->
+    <div class="c-trust">
+      <div class="c-trust-item"><span>6,500+</span>สไลด์</div>
+      <div class="c-trust-item"><span>1 ครั้ง</span>จ่ายครั้งเดียว</div>
+      <div class="c-trust-item"><span>∞</span>ใช้ตลอดชีพ</div>
+    </div>
+
+  </div>
+  <div class="note-bar">Concept C · <strong>Bold Split</strong> · Visual mosaic ด้านบน + urgency bar + trust bar</div>
+</div>
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.concept').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-bar button').forEach(el => el.classList.remove('active'));
+    document.getElementById('concept' + id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>

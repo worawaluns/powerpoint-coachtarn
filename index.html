@@ -15,7 +15,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
   --grad-end:#D34724;
   --btn-grad-start:#F5A623;
   --btn-grad-end:#D4880E;
-  --btn-shadow:0 6px 20px rgba(212,136,14,0.35);
+  --btn-shadow:0 6px 20px rgba(211,71,36,0.35);
   --orange:#EB7D4A;
   --red:#D34724;
   --text:#0A0A0A;
@@ -54,14 +54,14 @@ body{
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   box-shadow:0 1px 0 rgba(0,0,0,0.08);
 }
-.nav-logo{display:flex;align-items:center;height:38px}
+.nav-logo{display:flex;align-items:center;height:38px;text-decoration:none;cursor:pointer}
 .nav-logo svg{height:38px;width:auto;display:block}
 
 /* Nav right group */
 .nav-right{display:flex;align-items:center;gap:8px}
 .nav-cta{
-  background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
-  box-shadow:0 3px 12px rgba(212,136,14,0.28);
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  box-shadow:0 3px 12px rgba(211,71,36,0.28);
   color:#fff;border:none;border-radius:100px;
   padding:9px 18px;font-size:13px;font-weight:700;
   font-family:inherit;cursor:pointer;white-space:nowrap;
@@ -134,9 +134,9 @@ body{
 .drawer-footer{padding:16px 20px 32px;border-top:1px solid var(--border)}
 .drawer-cta-btn{
   display:block;width:100%;
-  background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
   box-shadow:var(--btn-shadow);
-  color:#fff;border:none;border-radius:14px;padding:16px;
+  color:#fff;border:none;border-radius:100px;padding:16px;
   text-align:center;font-size:16px;font-weight:800;
   font-family:inherit;cursor:pointer;text-decoration:none;
   transition:opacity .15s;
@@ -157,7 +157,7 @@ body{
    HERO
 ══════════════════════════════════════ */
 .hero{
-  padding:80px 0 0;
+  padding:25px 0 0;
   background:#fff;
   position:relative;overflow:hidden;
   text-align:center;
@@ -252,37 +252,217 @@ body{
 }
 
 /* Price */
-.hero-price{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px}
-.price-big{font-size:44px;font-weight:900;color:var(--red);line-height:1;letter-spacing:-2px}
-.price-old{font-size:18px;color:#bbb;text-decoration:line-through;font-weight:500;align-self:flex-end;padding-bottom:4px}
+.hero-price{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px}
+.price-big{font-size:30px;font-weight:900;color:var(--red);line-height:1;letter-spacing:-1px}
+.price-old{font-size:13px;color:#bbb;text-decoration:line-through;font-weight:500;align-self:flex-end;padding-bottom:2px}
 .price-save{
-  background:var(--red);color:#fff;font-size:11px;font-weight:700;
-  padding:3px 8px;border-radius:6px;align-self:flex-end;margin-bottom:5px;
+  background:var(--red);color:#fff;font-size:10px;font-weight:700;
+  padding:2px 7px;border-radius:5px;align-self:flex-end;margin-bottom:2px;
 }
-.price-note{font-size:13px;color:var(--text-sub);margin-bottom:18px}
+.price-note{font-size:13px;color:var(--text-sub);margin-bottom:12px}
 
-/* Bonus */
-.bonus-box{
-  background:#FFFBEB;border:1.5px dashed #F59E0B;
-  border-radius:var(--radius-md);padding:13px 16px;
-  display:flex;align-items:flex-start;gap:12px;
-  margin-bottom:20px;text-align:left;
+/* Hero Stats Card */
+.hero-stats{
+  background:transparent;
+  border:1px solid rgba(211,71,36,0.15);
+  border-radius:12px;
+  display:flex;overflow:hidden;
+  width:70%;margin:0 auto 18px;
 }
-.bonus-icon-wrap{
-  width:34px;height:34px;background:#FEF3C7;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+.hero-stat{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  text-align:center;padding:7px 4px;position:relative;
 }
-.bonus-icon-wrap svg{width:18px;height:18px}
-.bonus-copy{font-size:13.5px;font-weight:700;color:#92400E;line-height:1.45}
-.bonus-copy span{font-weight:400;color:#B45309}
+.hero-stat+.hero-stat::before{
+  content:'';position:absolute;left:0;top:14%;height:72%;
+  width:1px;background:rgba(211,71,36,0.15);
+}
+.hero-stat-num{
+  font-size:18px;font-weight:900;color:var(--red);
+  letter-spacing:-0.5px;line-height:1.1;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-stat-num .inf-svg{
+  display:block;width:28px;height:14px;
+  stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+}
+.hero-stat-label{
+  font-size:10px;color:var(--text-sub);
+  font-weight:500;margin-top:2px;line-height:1.4;
+}
+
+/* ══════════════════════════════════════
+   DEMO PHONE — email flow animation
+══════════════════════════════════════ */
+.flow-section{background:#fff;padding:48px 24px;border-top:1px solid var(--border)}
+.demo-wrap{display:flex;flex-direction:column;align-items:center;margin-top:32px}
+.demo-phone{
+  width:230px;
+  background:#fff;
+  border-radius:38px;
+  box-shadow:0 0 0 10px #C2C2C2, 0 0 0 12px rgba(0,0,0,0.07), 0 28px 72px rgba(0,0,0,0.18);
+  overflow:hidden;
+  position:relative;
+}
+.demo-sb{
+  background:#fff;padding:9px 18px 7px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:9px;font-weight:700;color:#bbb;
+  border-bottom:1px solid #f2f2f2;
+}
+.demo-sb-right{display:flex;gap:4px;align-items:center}
+.demo-sb-bar{width:14px;height:6px;border-radius:2px;border:1.5px solid #ccc;position:relative;overflow:hidden}
+.demo-sb-bar::after{content:'';position:absolute;left:0;top:0;bottom:0;width:70%;background:#ccc;border-radius:1px}
+.demo-screen{aspect-ratio:1/1;background:#F6F7F9;position:relative;overflow:hidden}
+
+/* Scene transitions */
+.demo-scene{
+  position:absolute;inset:0;padding:14px 14px;
+  display:flex;flex-direction:column;gap:8px;
+  opacity:0;transform:translateX(32px) scale(0.96);
+  transition:opacity .5s var(--ease),transform .5s var(--ease);
+  pointer-events:none;
+}
+.demo-scene.ds-active{opacity:1;transform:translateX(0) scale(1)}
+.demo-scene.ds-exit{opacity:0;transform:translateX(-32px) scale(0.96)}
+
+/* Progress dots */
+.demo-dots{display:flex;gap:5px;margin-top:16px}
+.demo-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#E5E7EB;
+  transition:all .4s var(--ease);
+}
+.demo-dot.dd-on{width:22px;border-radius:4px;background:var(--orange)}
+
+/* Scene label below dots */
+.demo-caption{
+  font-size:12px;font-weight:700;color:var(--text-sub);
+  margin-top:8px;text-align:center;min-height:18px;
+  transition:opacity .3s;
+}
+
+/* ─── Scene 1: Payment Success ─── */
+.ns1-wrap{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;gap:6px;text-align:center;
+}
+.ns1-ring{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(34,197,94,0.12);border:2px solid rgba(34,197,94,0.25);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(0.4);
+}
+.ds-active .ns1-ring{animation:popIn 0.5s var(--ease) 0.2s forwards}
+.ns1-ring svg{width:24px;height:24px}
+.ns1-title{font-size:13px;font-weight:900;color:#16A34A;opacity:0}
+.ds-active .ns1-title{animation:fadeInUp 0.4s ease 0.8s forwards}
+.ns1-price{font-size:26px;font-weight:900;color:var(--text);letter-spacing:-1px;opacity:0}
+.ds-active .ns1-price{animation:fadeInUp 0.4s ease 1s forwards}
+.ns1-hint{font-size:10px;color:var(--text-sub);font-weight:600;opacity:0}
+.ds-active .ns1-hint{animation:fadeInUp 0.4s ease 1.3s forwards}
+
+/* ─── Scene 2: Open email → tap button ─── */
+.ns2-header{font-size:10px;font-weight:700;color:var(--text-sub)}
+.ns2-row{
+  display:flex;align-items:center;gap:8px;
+  background:#FFFBF8;border-radius:10px;padding:8px 10px;
+  border-left:3px solid var(--orange);
+  box-shadow:0 1px 6px rgba(0,0,0,0.06);
+}
+.ns2-av{
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--red),var(--orange));
+  display:flex;align-items:center;justify-content:center;
+  font-size:8.5px;font-weight:800;color:#fff;
+}
+.ns2-info{flex:1;min-width:0}
+.ns2-from{font-size:9px;font-weight:800;color:var(--text)}
+.ns2-subj{font-size:8.5px;color:var(--text-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.ns2-unread{width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0}
+.ns2-btn{
+  width:100%;
+  background:linear-gradient(90deg,var(--orange),var(--red));
+  border-radius:10px;padding:11px 12px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:11.5px;font-weight:800;color:#fff;
+  opacity:0;transform:translateY(6px);
+}
+.ds-active .ns2-btn{animation:fadeInUp 0.4s var(--ease) 0.5s forwards}
+.ns2-btn svg{width:12px;height:12px;flex-shrink:0}
+
+/* ─── Scene 3: Download → Slides Ready ─── */
+.ns3-dl-btn{
+  width:100%;
+  background:linear-gradient(90deg,var(--orange),var(--red));
+  border-radius:10px;padding:11px 12px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:11.5px;font-weight:800;color:#fff;
+}
+.ns3-dl-btn svg{width:12px;height:12px;flex-shrink:0}
+.ns3-tiles{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
+.ns3-tile{
+  border-radius:8px;aspect-ratio:16/10;
+  display:flex;align-items:flex-end;padding:5px 6px;
+  opacity:0;transform:scale(0.82);
+}
+.ns3-tile span{font-size:8px;font-weight:700;color:rgba(255,255,255,0.88)}
+.ds-active .ns3-tile:nth-child(1){animation:tileIn .38s var(--ease) 2.3s forwards}
+.ds-active .ns3-tile:nth-child(2){animation:tileIn .38s var(--ease) 2.55s forwards}
+@keyframes tileIn{to{opacity:1;transform:scale(1)}}
+.ns3-done{
+  display:flex;align-items:center;justify-content:center;gap:5px;
+  font-size:11px;font-weight:800;color:#16A34A;
+  opacity:0;
+}
+.ds-active .ns3-done{animation:fadeInUp 0.4s ease 3s forwards}
+.ns3-done svg{width:13px;height:13px}
+
+/* ─── Animated finger cursor ─── */
+.demo-finger{
+  position:absolute;
+  left:calc(50% - 23px);
+  width:46px;height:46px;
+  pointer-events:none;z-index:20;opacity:0;
+}
+.demo-finger svg{width:100%;height:100%;filter:drop-shadow(0 3px 10px rgba(0,0,0,0.28)) drop-shadow(0 2px 20px rgba(251,114,57,0.45))}
+.ns2-finger{top:78px;bottom:auto}
+.ns3-finger{top:0px;bottom:auto}
+.ds-active .ns2-finger{animation:fingerSlide2 3.0s var(--ease) 0.8s infinite}
+.ds-active .ns3-finger{animation:fingerSlide3 3.0s var(--ease) 0.6s infinite}
+
+/* Scene 2: cursor slides in from right → hovers over button → taps → slides out */
+@keyframes fingerSlide2{
+  0%  {opacity:0;transform:translate(120px,0)}
+  16% {opacity:1;transform:translate(120px,0)}
+  40% {opacity:1;transform:translate(0,0)}
+  52% {opacity:1;transform:translate(0,10px) scale(0.88)}
+  64% {opacity:1;transform:translate(0,0) scale(1)}
+  83% {opacity:0;transform:translate(120px,0)}
+  100%{opacity:0;transform:translate(120px,0)}
+}
+/* Scene 3: cursor slides in from left → hovers over button → taps → slides out */
+@keyframes fingerSlide3{
+  0%  {opacity:0;transform:translate(-130px,0)}
+  16% {opacity:1;transform:translate(-130px,0)}
+  40% {opacity:1;transform:translate(0,0)}
+  52% {opacity:1;transform:translate(0,10px) scale(0.88)}
+  64% {opacity:1;transform:translate(0,0) scale(1)}
+  83% {opacity:0;transform:translate(-130px,0)}
+  100%{opacity:0;transform:translate(-130px,0)}
+}
+
+/* shared scene utility */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn{from{opacity:0;transform:scale(0.4)}to{opacity:1;transform:scale(1)}}
 
 /* CTA Button */
 .btn-main{
   display:flex;align-items:center;justify-content:center;gap:10px;
   width:100%;
-  background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
   box-shadow:var(--btn-shadow);
-  color:#fff;border:none;border-radius:var(--radius-md);
+  color:#fff;border:none;border-radius:100px;
   padding:18px 20px;font-size:17px;font-weight:800;
   font-family:inherit;cursor:pointer;
   text-decoration:none;
@@ -297,6 +477,27 @@ body{
 @keyframes shimmer{0%{left:-100%}100%{left:200%}}
 .btn-main:active{transform:scale(0.98)}
 .btn-main svg{width:20px;height:20px;flex-shrink:0}
+
+/* Hero dual buttons */
+.hero-btn-row{display:flex;gap:16px;align-items:center;justify-content:center;margin-bottom:14px}
+.btn-hero-out{
+  flex:none;
+  border:none;background:transparent;color:var(--orange);
+  font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;
+  text-decoration:underline;text-underline-offset:4px;
+  text-decoration-thickness:2px;padding:0;
+}
+.btn-hero-out:active{opacity:.7}
+.btn-hero-fill{
+  flex:none;
+  background:transparent;
+  border:2px solid var(--orange);color:var(--orange);
+  border-radius:100px;
+  padding:11px 28px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;
+  text-decoration:none;display:inline-flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s;
+}
+.btn-hero-fill:active{background:rgba(235,125,74,0.1)}
 
 .trust-line{
   text-align:center;font-size:12px;color:var(--text-sub);
@@ -352,14 +553,17 @@ body{
 ══════════════════════════════════════ */
 .compat-section{
   background:var(--bg-soft);
-  padding:24px;
-  display:flex;flex-direction:column;align-items:center;gap:16px;
+  padding:10px 24px;
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+  gap:8px 16px;
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
 }
-.compat-label{font-size:12px;font-weight:600;color:var(--text-sub);letter-spacing:1px;text-transform:uppercase}
-.compat-icons{display:flex;align-items:center;gap:20px}
-.compat-item{display:flex;flex-direction:column;align-items:center;gap:6px}
-.compat-icon-img{width:36px;height:36px;object-fit:contain}
-.compat-name{font-size:11px;font-weight:600;color:var(--text-mid)}
+.compat-label{font-size:11px;font-weight:600;color:var(--text-sub);letter-spacing:0.6px;text-transform:uppercase;flex-shrink:0}
+.compat-sep{width:1px;height:14px;background:var(--border);flex-shrink:0}
+.compat-icons{display:flex;align-items:center;gap:14px}
+.compat-item{display:flex;align-items:center;gap:5px}
+.compat-icon-img{width:18px;height:18px;object-fit:contain}
+.compat-name{font-size:11.5px;font-weight:600;color:var(--text-mid)}
 
 /* ══════════════════════════════════════
    SECTION BASE
@@ -385,27 +589,7 @@ body{
 .reveal-delay-4{transition-delay:.34s}
 .reveal-delay-5{transition-delay:.42s}
 
-/* ══════════════════════════════════════
-   STATS BAR
-══════════════════════════════════════ */
-.stats-bar{
-  display:flex;background:#fff;
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  padding:20px 0;
-}
-.stat-box{
-  flex:1;display:flex;flex-direction:column;align-items:center;
-  text-align:center;padding:0 8px;position:relative;
-}
-.stat-box+.stat-box::before{
-  content:'';position:absolute;left:0;top:15%;height:70%;
-  width:1px;background:var(--border);
-}
-.stat-num{
-  font-size:22px;font-weight:900;color:var(--red);letter-spacing:-0.5px;line-height:1.15;
-}
-.stat-unit{font-size:14px;font-weight:800;color:var(--red)}
-.stat-label{font-size:11px;color:var(--text-sub);font-weight:500;margin-top:3px;line-height:1.4}
+
 
 /* ══════════════════════════════════════
    SOCIAL PROOF BAR
@@ -770,7 +954,7 @@ body{
 .final-price-old{font-size:20px;color:rgba(255,255,255,0.45);text-decoration:line-through;font-weight:500;align-self:flex-end;padding-bottom:4px}
 .btn-white{
   width:100%;background:#fff;color:var(--red);border:none;
-  border-radius:var(--radius-md);padding:18px;
+  border-radius:100px;padding:18px;
   font-size:17px;font-weight:800;font-family:inherit;cursor:pointer;
   box-shadow:0 6px 20px rgba(0,0,0,0.2);
   position:relative;z-index:1;
@@ -788,13 +972,14 @@ body{
 /* ══════════════════════════════════════
    FOOTER
 ══════════════════════════════════════ */
-.footer{background:#F3F4F6;border-top:1px solid var(--border);padding:24px 24px 20px;text-align:center}
+.footer{background:#3A3A3A;border-top:none;padding:24px 24px 96px;text-align:center}
 .footer-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;margin-bottom:16px}
-.footer-nav a{font-size:12.5px;color:var(--text-mid);text-decoration:none;font-weight:600;transition:color .15s}
-.footer-nav a:active{color:var(--red)}
-.footer-divider{width:32px;height:1px;background:var(--border);margin:0 auto 14px}
-.footer-copy{font-size:11.5px;color:var(--text-sub);line-height:1.8}
-.footer-copy strong{color:var(--text-mid)}
+.footer-nav a{font-size:12.5px;color:rgba(255,255,255,0.65);text-decoration:none;font-weight:600;transition:color .15s}
+.footer-nav a:active{color:#fff}
+.footer-divider{width:32px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 14px}
+.footer-copy{font-size:11.5px;color:rgba(255,255,255,0.45);line-height:1.8}
+.footer-copy strong{color:rgba(255,255,255,0.7)}
+.footer-copy a{color:rgba(255,255,255,0.65)}
 
 /* ══════════════════════════════════════
    STICKY BOTTOM BAR
@@ -827,9 +1012,9 @@ body{
 }
 .btn-sticky{
   flex:1;
-  background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
   box-shadow:var(--btn-shadow);
-  color:#fff;border:none;border-radius:12px;
+  color:#fff;border:none;border-radius:100px;
   padding:13px 16px;
   font-family:inherit;cursor:pointer;
   display:flex;align-items:center;justify-content:center;gap:8px;
@@ -839,7 +1024,7 @@ body{
 .btn-sticky:active{transform:scale(0.98)}
 .btn-sticky svg{width:18px;height:18px;flex-shrink:0}
 
-.sticky-spacer{height:72px;background:#F5F5F5}
+.sticky-spacer{display:none}
 .nav-spacer{height:60px}
 
 /* ══════════════════════════════════════
@@ -1060,9 +1245,8 @@ body{
 
 <!-- ① NAV -->
 <nav class="nav" id="mainNav">
-  <div class="nav-logo"><svg id="ct-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214.66" height="38" aria-label="Coach Tarn"><style>#ct-logo .st0{fill:#DB490E}#ct-logo .st1{fill:#DB480E}#ct-logo .st2{fill:#DA490D}#ct-logo .st3{fill:#3F3633}#ct-logo .st4{fill:#D9470D}#ct-logo .st5{fill:#DA480C}#ct-logo .st6{fill:#3D3531}#ct-logo .st7{fill:#3C3330}#ct-logo .st8{fill:#D9470C}#ct-logo .st9{fill:#3E3532}</style><g><path class="st0" d="M103.79,71.86c0-9.77-0.04-19.53,0.01-29.3c0.03-5.2,2.12-7.31,7.3-7.32c17.8-0.05,35.6-0.06,53.4-0.04c4.83,0.01,7.32,2.59,7.32,7.49c0.01,19.42,0,38.85-0.04,58.27c-0.01,5.22-2.56,7.86-7.73,7.89c-17.36,0.09-34.73,0.15-52.09,0.16c-5.58,0-8.1-2.61-8.11-8.18c-0.02-9.66,0-19.31,0-28.97C103.83,71.86,103.81,71.86,103.79,71.86z"/><path class="st1" d="M103.76,152.7c0-9.77-0.02-19.54,0.01-29.3c0.02-5.44,2.27-7.86,7.68-7.79c12.8,0.18,25.63-0.84,38.39,0.5c11.64,1.22,21.69,12.15,21.91,23.86c0.28,14.43,0.11,28.87,0.07,43.3c-0.01,3.54-2.71,5.84-6.74,5.85c-14,0.03-28.01,0.02-42.01,0.02c-4.23,0-8.47,0.03-12.7-0.03c-4.08-0.06-6.47-2.4-6.48-6.46c-0.04-9.98-0.01-19.97-0.01-29.95C103.83,152.7,103.79,152.7,103.76,152.7z"/><path class="st2" d="M96.85,152.55c0,9.66,0,19.32,0,28.98c0,5.48-2.14,7.62-7.69,7.62c-10.75,0-21.49,0.05-32.24-0.05c-15.9-0.16-27.19-11.47-27.3-27.32c-0.09-12.7-0.06-25.4-0.06-38.09c0-5.53,2.62-8.18,8.17-8.19c16.72-0.01,33.43,0,50.15,0.07c6.87,0.03,8.95,2.18,8.96,8.99C96.85,133.88,96.85,143.21,96.85,152.55z"/><path class="st0" d="M63.24,108.99c-8.36,0-16.73,0.02-25.09,0c-6.19-0.02-8.64-2.51-8.63-8.68c0.01-9.02,0-18.03,0.04-27.05c0.02-4.93,2.69-7.7,7.62-7.71c16.95-0.05,33.89-0.07,50.84,0c6.15,0.03,8.65,2.66,8.69,8.81c0.06,8.91,0.09,17.81,0.07,26.72c-0.01,5.24-2.54,7.84-7.8,7.88C80.41,109.04,71.82,108.99,63.24,108.99z"/><path class="st3" d="M436.86,60.72c5.58-6.35,12-7.23,18.84-6.41c8.46,1.02,13.94,7.01,14.62,16.12c0.85,11.38,0.37,22.8,0.47,34.2c0.02,2.85-1.61,4.27-4.55,4.36c-9.93,0.31-9.91,0.34-9.96-9.56c-0.04-8.25,0.11-16.52-0.32-24.75c-0.4-7.7-8.28-11.22-14.5-6.7c-3.38,2.46-4.27,6.19-4.33,10.1c-0.12,8.36-0.07,16.73-0.11,25.09c-0.02,4.64-1.12,5.72-5.78,5.75c-8.64,0.06-8.62,0.06-8.62-8.56c-0.01-19.77-0.07-39.54-0.07-59.31c0-5.37,0.61-5.92,6.06-5.94c8.16-0.03,8.26,0.06,8.26,8.13C436.86,48.74,436.86,54.24,436.86,60.72z"/><path class="st4" d="M358.86,138.46c4.9-6.38,11.48-7.86,18.69-7.09c8.71,0.92,13.95,5.71,15.01,14.39c1.47,12.09,0.54,24.27,0.53,36.41c0,0.53-0.07,1.17-0.37,1.56c-3,3.93-7.17,1.78-10.85,1.91c-2.6,0.1-3.33-2.04-3.34-4.31c-0.05-8.25-0.06-16.49-0.09-24.74c-0.01-1.52,0.05-3.05-0.09-4.55c-0.49-4.91-2.52-7.25-6.68-7.87c-4.85-0.72-9.03,1.3-10.85,5.27c-0.87,1.89-1.34,3.86-1.34,5.97c0,8.35-0.06,16.71-0.12,25.06c-0.03,4.34-1.01,5.28-5.39,5.4c-9.28,0.25-9.3,0.25-9.29-9.14c0.01-12.59-0.01-25.17,0.1-37.76c0.02-2.25-0.79-5.2,2.05-6.31c3.3-1.29,6.86-1.16,10.14,0.22C359.11,133.81,357.87,136.24,358.86,138.46z"/><path class="st5" d="M63.26,58.89c-8.68,0-17.36,0.01-26.03-0.01c-5.46-0.01-7.57-2.16-7.62-7.71c-0.03-3.25-0.06-6.51,0.01-9.76c0.09-4.01,2.28-6.27,6.29-6.28c18.11-0.03,36.23,0,54.34,0.07c3.76,0.01,6.33,2.54,6.47,6.3c0.14,3.57,0.13,7.16,0.03,10.73c-0.12,4.16-2.6,6.63-6.8,6.66c-8.89,0.07-17.79,0.02-26.68,0.02C63.26,58.91,63.26,58.9,63.26,58.89z"/><path class="st6" d="M368.61,83.38c0.03-5.51,0.43-10.13,1.88-14.63c2.49-7.71,7.66-12.47,15.61-14c6.5-1.25,12.99-1.13,19.18,1.52c6.05,2.6,9.69,7.16,10.47,13.79c0.42,3.59-0.66,4.85-4.2,5.01c-1.41,0.06-2.83-0.1-4.23,0.04c-2.85,0.29-4.35-0.89-5.17-3.67c-1.15-3.92-3.91-5.8-7.93-5.99c-4.23-0.2-8,1.66-9.35,5.17c-2.83,7.35-2.76,14.91-0.4,22.33c1.3,4.09,5.04,5.92,9.94,5.75c4.56-0.16,7.16-1.84,8.43-6.24c0.84-2.91,2.54-3.8,5.24-3.66c0.32,0.02,0.65,0.02,0.98-0.01c7.85-0.55,8.38,2.13,5.87,8.75c-2.83,7.48-8.83,10.92-16.41,12.09c-4.01,0.62-8,0.55-12-0.07c-9.23-1.44-15.57-8.16-17.25-18.28C368.8,88.4,368.52,85.49,368.61,83.38z"/><path class="st7" d="M207.4,82.48c0.04-5.36,0.57-10.61,2.81-15.57c3.02-6.7,7.97-11.02,15.32-12.22c7.42-1.2,14.72-1.18,21.42,2.95c4.51,2.79,7.13,6.88,8.03,12.07c0.59,3.38-0.86,5.17-4.32,5.37c-1.52,0.09-3.05-0.06-4.56,0.06c-2.5,0.2-3.85-0.94-4.43-3.3c-1.04-4.24-4.14-5.94-8.15-6.19c-4.19-0.26-8,0.91-9.69,5.07c-2.97,7.3-2.98,14.88-0.45,22.27c1.47,4.29,5.23,5.77,9.67,5.67c4.22-0.1,7.25-1.82,8.89-5.83c1.49-3.66,8.62-5.6,12.02-3.37c1.58,1.03,1.53,2.55,1.28,4.06c-1.04,6.33-4.37,11.13-10.24,13.73c-7.64,3.39-15.72,3.7-23.52,1.02c-9.2-3.16-12.73-10.85-13.81-19.92C207.45,86.4,207.48,84.43,207.4,82.48z"/><path class="st5" d="M216.47,159.73c0-4.34-0.05-8.69,0.02-13.03c0.04-2-0.48-3.1-2.76-2.76c-1.06,0.16-2.17,0.01-3.25-0.05c-1.91-0.1-3.02-1.02-3.04-3.04c-0.01-0.98-0.07-1.95-0.06-2.93c0.05-5.12,0.49-5.72,5.59-5.54c2.89,0.1,3.84-0.74,3.52-3.64c-0.3-2.79-0.14-5.64-0.14-8.46c0-2.67,0.99-4.37,4.04-4.23c2.17,0.1,4.35,0.07,6.51-0.05c2.85-0.15,3.94,1.42,3.98,3.95c0.06,3.15,0.09,6.3-0.08,9.44c-0.12,2.23,0.5,3.19,2.9,2.98c2.26-0.2,4.56-0.07,6.83,0.02c2.31,0.1,3.44,1.34,3.67,3.7c0.7,7.06-0.05,7.93-7.15,7.8c-6.01-0.11-6.01-0.11-6.01,5.89c0,5.97-0.09,11.95,0.02,17.92c0.1,5.37,1.6,6.72,6.89,6.62c5.86-0.11,8.58,4.5,5.79,9.74c-0.72,1.35-1.91,1.72-3.23,1.81c-4.55,0.29-9.13,0.55-13.66-0.05c-6.04-0.81-9.79-5.34-10.18-12.4c-0.25-4.55-0.05-9.12-0.05-13.68C216.59,159.73,216.53,159.73,216.47,159.73z"/><path class="st5" d="M318.22,139.69c3.87-6.54,9.38-8.47,16.05-7.98c2.81,0.2,4.34,1.24,4.38,4.37c0.11,9.13,0.2,9.13-8.91,9.46c-7.37,0.27-10.97,3.78-11.23,11.48c-0.26,7.7-0.19,15.42-0.23,23.13c-0.03,4.86-0.78,5.63-5.67,5.71c-8.8,0.14-8.9,0.04-8.91-8.75c-0.01-12.49-0.09-24.98,0.04-37.46c0.02-2.32-0.97-5.42,1.86-6.76c3.22-1.53,6.83-1.42,10.16-0.2C318.68,133.76,317.41,136.79,318.22,139.69z"/><path class="st8" d="M294.33,145.96c-0.08-6.04-3.87-11.09-9.62-12.96c-8.3-2.7-16.7-2.51-24.93,0.21c-4.01,1.33-7.2,3.94-8.52,8.28c-1.92,6.28-0.2,8.63,6.33,8.26c2.15-0.12,4.58,0.35,5.93-2.33c2.66-5.28,9.22-7.09,14.18-4.02c2.61,1.62,3.39,4.18,3.03,7.02c-0.35,2.79-2.86,2.57-4.81,2.87c-4.7,0.74-9.47,0.75-14.19,1.72c-11.95,2.46-15.82,11.65-11.93,23.64c1.17,3.6,3.9,6.04,7.57,6.99c8.24,2.13,16.12,1.7,23.38-4.51c0.22,4.41,2.8,4.97,5.95,4.77c1.3-0.08,2.61,0.04,3.9-0.05c2.53-0.18,3.91-1.35,3.89-4.12C294.39,169.83,294.48,157.89,294.33,145.96z M269.69,176.34c-4.57-0.06-6.79-1.64-7.35-5.22c-0.58-3.69,1.13-6.37,5.47-7.46c3.64-0.92,7.45-1.22,11.18-1.76c0.85-0.12,1.45,0.15,1.5,1.19C280.76,169.91,278.34,176.65,269.69,176.34z"/><path class="st6" d="M361.56,70.68c-0.33-8.6-5.32-13.97-13.76-15.77c-5.93-1.26-11.89-1.15-17.76,0.21c-5.4,1.26-9.82,3.99-11.81,9.59c-2.2,6.17-0.51,8.64,5.9,8.59c0.98-0.01,1.95-0.11,2.93-0.1c1.64,0.02,2.49-0.83,3.13-2.3c2.44-5.58,10.84-7.69,15.64-3.94c2.16,1.68,2.88,4.07,2.52,6.68c-0.35,2.53-2.57,2.6-4.47,2.93c-1.39,0.24-2.79,0.38-4.19,0.53c-5.39,0.58-10.81,1.02-15.84,3.31c-6.22,2.83-8.78,8.09-8.09,16.52c0.51,6.16,4.22,10.71,10.47,12.13c7.99,1.81,15.55,1.02,21.88-5.04c0.23,0.49,0.38,0.77,0.49,1.06c1.53,3.9,9.2,5.55,12.28,2.65c0.85-0.8,1.22-1.73,1.2-2.89C361.92,93.46,362,82.06,361.56,70.68z M336.79,99.86c-4.17,0.01-6.77-1.95-7.24-5.47c-0.46-3.5,1.46-6.54,5.27-7.44c3.98-0.93,8.09-1.36,12.14-2.03c1.06-0.17,1.29,0.36,1.34,1.27C348.81,94.79,344.28,99.79,336.79,99.86z"/><path class="st9" d="M310.08,72.56c-2.13-10.42-8.58-16.71-19.03-18.11c-3.2-0.43-6.52-0.38-9.75-0.12c-10.28,0.82-17.26,6.89-19.75,16.89c-0.87,3.5-1.2,7.05-1.07,10.64c0,1.52-0.08,3.04,0.01,4.56c0.87,14.83,8.44,22.53,23.2,23.64c14.27,1.08,24.18-6.29,26.71-20.02C311.47,84.21,311.26,78.36,310.08,72.56z M295.32,92.69c-1.48,4.34-4.97,6.19-10.1,6c-4.9-0.18-7.84-2.27-9.32-6.68c-1.08-3.24-1.19-6.6-1.11-9.6c-0.02-3.75,0.08-7.11,1.24-10.34c1.52-4.21,4.66-6.36,9.51-6.51c4.79-0.15,8.32,1.83,9.78,6.04C297.74,78.58,297.7,85.71,295.32,92.69z"/></g></svg></div>
+  <a href="index.html" class="nav-logo"><svg id="ct-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214.66" height="38" aria-label="Coach Tarn"><style>#ct-logo .st0{fill:#DB490E}#ct-logo .st1{fill:#DB480E}#ct-logo .st2{fill:#DA490D}#ct-logo .st3{fill:#3F3633}#ct-logo .st4{fill:#D9470D}#ct-logo .st5{fill:#DA480C}#ct-logo .st6{fill:#3D3531}#ct-logo .st7{fill:#3C3330}#ct-logo .st8{fill:#D9470C}#ct-logo .st9{fill:#3E3532}</style><g><path class="st0" d="M103.79,71.86c0-9.77-0.04-19.53,0.01-29.3c0.03-5.2,2.12-7.31,7.3-7.32c17.8-0.05,35.6-0.06,53.4-0.04c4.83,0.01,7.32,2.59,7.32,7.49c0.01,19.42,0,38.85-0.04,58.27c-0.01,5.22-2.56,7.86-7.73,7.89c-17.36,0.09-34.73,0.15-52.09,0.16c-5.58,0-8.1-2.61-8.11-8.18c-0.02-9.66,0-19.31,0-28.97C103.83,71.86,103.81,71.86,103.79,71.86z"/><path class="st1" d="M103.76,152.7c0-9.77-0.02-19.54,0.01-29.3c0.02-5.44,2.27-7.86,7.68-7.79c12.8,0.18,25.63-0.84,38.39,0.5c11.64,1.22,21.69,12.15,21.91,23.86c0.28,14.43,0.11,28.87,0.07,43.3c-0.01,3.54-2.71,5.84-6.74,5.85c-14,0.03-28.01,0.02-42.01,0.02c-4.23,0-8.47,0.03-12.7-0.03c-4.08-0.06-6.47-2.4-6.48-6.46c-0.04-9.98-0.01-19.97-0.01-29.95C103.83,152.7,103.79,152.7,103.76,152.7z"/><path class="st2" d="M96.85,152.55c0,9.66,0,19.32,0,28.98c0,5.48-2.14,7.62-7.69,7.62c-10.75,0-21.49,0.05-32.24-0.05c-15.9-0.16-27.19-11.47-27.3-27.32c-0.09-12.7-0.06-25.4-0.06-38.09c0-5.53,2.62-8.18,8.17-8.19c16.72-0.01,33.43,0,50.15,0.07c6.87,0.03,8.95,2.18,8.96,8.99C96.85,133.88,96.85,143.21,96.85,152.55z"/><path class="st0" d="M63.24,108.99c-8.36,0-16.73,0.02-25.09,0c-6.19-0.02-8.64-2.51-8.63-8.68c0.01-9.02,0-18.03,0.04-27.05c0.02-4.93,2.69-7.7,7.62-7.71c16.95-0.05,33.89-0.07,50.84,0c6.15,0.03,8.65,2.66,8.69,8.81c0.06,8.91,0.09,17.81,0.07,26.72c-0.01,5.24-2.54,7.84-7.8,7.88C80.41,109.04,71.82,108.99,63.24,108.99z"/><path class="st3" d="M436.86,60.72c5.58-6.35,12-7.23,18.84-6.41c8.46,1.02,13.94,7.01,14.62,16.12c0.85,11.38,0.37,22.8,0.47,34.2c0.02,2.85-1.61,4.27-4.55,4.36c-9.93,0.31-9.91,0.34-9.96-9.56c-0.04-8.25,0.11-16.52-0.32-24.75c-0.4-7.7-8.28-11.22-14.5-6.7c-3.38,2.46-4.27,6.19-4.33,10.1c-0.12,8.36-0.07,16.73-0.11,25.09c-0.02,4.64-1.12,5.72-5.78,5.75c-8.64,0.06-8.62,0.06-8.62-8.56c-0.01-19.77-0.07-39.54-0.07-59.31c0-5.37,0.61-5.92,6.06-5.94c8.16-0.03,8.26,0.06,8.26,8.13C436.86,48.74,436.86,54.24,436.86,60.72z"/><path class="st4" d="M358.86,138.46c4.9-6.38,11.48-7.86,18.69-7.09c8.71,0.92,13.95,5.71,15.01,14.39c1.47,12.09,0.54,24.27,0.53,36.41c0,0.53-0.07,1.17-0.37,1.56c-3,3.93-7.17,1.78-10.85,1.91c-2.6,0.1-3.33-2.04-3.34-4.31c-0.05-8.25-0.06-16.49-0.09-24.74c-0.01-1.52,0.05-3.05-0.09-4.55c-0.49-4.91-2.52-7.25-6.68-7.87c-4.85-0.72-9.03,1.3-10.85,5.27c-0.87,1.89-1.34,3.86-1.34,5.97c0,8.35-0.06,16.71-0.12,25.06c-0.03,4.34-1.01,5.28-5.39,5.4c-9.28,0.25-9.3,0.25-9.29-9.14c0.01-12.59-0.01-25.17,0.1-37.76c0.02-2.25-0.79-5.2,2.05-6.31c3.3-1.29,6.86-1.16,10.14,0.22C359.11,133.81,357.87,136.24,358.86,138.46z"/><path class="st5" d="M63.26,58.89c-8.68,0-17.36,0.01-26.03-0.01c-5.46-0.01-7.57-2.16-7.62-7.71c-0.03-3.25-0.06-6.51,0.01-9.76c0.09-4.01,2.28-6.27,6.29-6.28c18.11-0.03,36.23,0,54.34,0.07c3.76,0.01,6.33,2.54,6.47,6.3c0.14,3.57,0.13,7.16,0.03,10.73c-0.12,4.16-2.6,6.63-6.8,6.66c-8.89,0.07-17.79,0.02-26.68,0.02C63.26,58.91,63.26,58.9,63.26,58.89z"/><path class="st6" d="M368.61,83.38c0.03-5.51,0.43-10.13,1.88-14.63c2.49-7.71,7.66-12.47,15.61-14c6.5-1.25,12.99-1.13,19.18,1.52c6.05,2.6,9.69,7.16,10.47,13.79c0.42,3.59-0.66,4.85-4.2,5.01c-1.41,0.06-2.83-0.1-4.23,0.04c-2.85,0.29-4.35-0.89-5.17-3.67c-1.15-3.92-3.91-5.8-7.93-5.99c-4.23-0.2-8,1.66-9.35,5.17c-2.83,7.35-2.76,14.91-0.4,22.33c1.3,4.09,5.04,5.92,9.94,5.75c4.56-0.16,7.16-1.84,8.43-6.24c0.84-2.91,2.54-3.8,5.24-3.66c0.32,0.02,0.65,0.02,0.98-0.01c7.85-0.55,8.38,2.13,5.87,8.75c-2.83,7.48-8.83,10.92-16.41,12.09c-4.01,0.62-8,0.55-12-0.07c-9.23-1.44-15.57-8.16-17.25-18.28C368.8,88.4,368.52,85.49,368.61,83.38z"/><path class="st7" d="M207.4,82.48c0.04-5.36,0.57-10.61,2.81-15.57c3.02-6.7,7.97-11.02,15.32-12.22c7.42-1.2,14.72-1.18,21.42,2.95c4.51,2.79,7.13,6.88,8.03,12.07c0.59,3.38-0.86,5.17-4.32,5.37c-1.52,0.09-3.05-0.06-4.56,0.06c-2.5,0.2-3.85-0.94-4.43-3.3c-1.04-4.24-4.14-5.94-8.15-6.19c-4.19-0.26-8,0.91-9.69,5.07c-2.97,7.3-2.98,14.88-0.45,22.27c1.47,4.29,5.23,5.77,9.67,5.67c4.22-0.1,7.25-1.82,8.89-5.83c1.49-3.66,8.62-5.6,12.02-3.37c1.58,1.03,1.53,2.55,1.28,4.06c-1.04,6.33-4.37,11.13-10.24,13.73c-7.64,3.39-15.72,3.7-23.52,1.02c-9.2-3.16-12.73-10.85-13.81-19.92C207.45,86.4,207.48,84.43,207.4,82.48z"/><path class="st5" d="M216.47,159.73c0-4.34-0.05-8.69,0.02-13.03c0.04-2-0.48-3.1-2.76-2.76c-1.06,0.16-2.17,0.01-3.25-0.05c-1.91-0.1-3.02-1.02-3.04-3.04c-0.01-0.98-0.07-1.95-0.06-2.93c0.05-5.12,0.49-5.72,5.59-5.54c2.89,0.1,3.84-0.74,3.52-3.64c-0.3-2.79-0.14-5.64-0.14-8.46c0-2.67,0.99-4.37,4.04-4.23c2.17,0.1,4.35,0.07,6.51-0.05c2.85-0.15,3.94,1.42,3.98,3.95c0.06,3.15,0.09,6.3-0.08,9.44c-0.12,2.23,0.5,3.19,2.9,2.98c2.26-0.2,4.56-0.07,6.83,0.02c2.31,0.1,3.44,1.34,3.67,3.7c0.7,7.06-0.05,7.93-7.15,7.8c-6.01-0.11-6.01-0.11-6.01,5.89c0,5.97-0.09,11.95,0.02,17.92c0.1,5.37,1.6,6.72,6.89,6.62c5.86-0.11,8.58,4.5,5.79,9.74c-0.72,1.35-1.91,1.72-3.23,1.81c-4.55,0.29-9.13,0.55-13.66-0.05c-6.04-0.81-9.79-5.34-10.18-12.4c-0.25-4.55-0.05-9.12-0.05-13.68C216.59,159.73,216.53,159.73,216.47,159.73z"/><path class="st5" d="M318.22,139.69c3.87-6.54,9.38-8.47,16.05-7.98c2.81,0.2,4.34,1.24,4.38,4.37c0.11,9.13,0.2,9.13-8.91,9.46c-7.37,0.27-10.97,3.78-11.23,11.48c-0.26,7.7-0.19,15.42-0.23,23.13c-0.03,4.86-0.78,5.63-5.67,5.71c-8.8,0.14-8.9,0.04-8.91-8.75c-0.01-12.49-0.09-24.98,0.04-37.46c0.02-2.32-0.97-5.42,1.86-6.76c3.22-1.53,6.83-1.42,10.16-0.2C318.68,133.76,317.41,136.79,318.22,139.69z"/><path class="st8" d="M294.33,145.96c-0.08-6.04-3.87-11.09-9.62-12.96c-8.3-2.7-16.7-2.51-24.93,0.21c-4.01,1.33-7.2,3.94-8.52,8.28c-1.92,6.28-0.2,8.63,6.33,8.26c2.15-0.12,4.58,0.35,5.93-2.33c2.66-5.28,9.22-7.09,14.18-4.02c2.61,1.62,3.39,4.18,3.03,7.02c-0.35,2.79-2.86,2.57-4.81,2.87c-4.7,0.74-9.47,0.75-14.19,1.72c-11.95,2.46-15.82,11.65-11.93,23.64c1.17,3.6,3.9,6.04,7.57,6.99c8.24,2.13,16.12,1.7,23.38-4.51c0.22,4.41,2.8,4.97,5.95,4.77c1.3-0.08,2.61,0.04,3.9-0.05c2.53-0.18,3.91-1.35,3.89-4.12C294.39,169.83,294.48,157.89,294.33,145.96z M269.69,176.34c-4.57-0.06-6.79-1.64-7.35-5.22c-0.58-3.69,1.13-6.37,5.47-7.46c3.64-0.92,7.45-1.22,11.18-1.76c0.85-0.12,1.45,0.15,1.5,1.19C280.76,169.91,278.34,176.65,269.69,176.34z"/><path class="st6" d="M361.56,70.68c-0.33-8.6-5.32-13.97-13.76-15.77c-5.93-1.26-11.89-1.15-17.76,0.21c-5.4,1.26-9.82,3.99-11.81,9.59c-2.2,6.17-0.51,8.64,5.9,8.59c0.98-0.01,1.95-0.11,2.93-0.1c1.64,0.02,2.49-0.83,3.13-2.3c2.44-5.58,10.84-7.69,15.64-3.94c2.16,1.68,2.88,4.07,2.52,6.68c-0.35,2.53-2.57,2.6-4.47,2.93c-1.39,0.24-2.79,0.38-4.19,0.53c-5.39,0.58-10.81,1.02-15.84,3.31c-6.22,2.83-8.78,8.09-8.09,16.52c0.51,6.16,4.22,10.71,10.47,12.13c7.99,1.81,15.55,1.02,21.88-5.04c0.23,0.49,0.38,0.77,0.49,1.06c1.53,3.9,9.2,5.55,12.28,2.65c0.85-0.8,1.22-1.73,1.2-2.89C361.92,93.46,362,82.06,361.56,70.68z M336.79,99.86c-4.17,0.01-6.77-1.95-7.24-5.47c-0.46-3.5,1.46-6.54,5.27-7.44c3.98-0.93,8.09-1.36,12.14-2.03c1.06-0.17,1.29,0.36,1.34,1.27C348.81,94.79,344.28,99.79,336.79,99.86z"/><path class="st9" d="M310.08,72.56c-2.13-10.42-8.58-16.71-19.03-18.11c-3.2-0.43-6.52-0.38-9.75-0.12c-10.28,0.82-17.26,6.89-19.75,16.89c-0.87,3.5-1.2,7.05-1.07,10.64c0,1.52-0.08,3.04,0.01,4.56c0.87,14.83,8.44,22.53,23.2,23.64c14.27,1.08,24.18-6.29,26.71-20.02C311.47,84.21,311.26,78.36,310.08,72.56z M295.32,92.69c-1.48,4.34-4.97,6.19-10.1,6c-4.9-0.18-7.84-2.27-9.32-6.68c-1.08-3.24-1.19-6.6-1.11-9.6c-0.02-3.75,0.08-7.11,1.24-10.34c1.52-4.21,4.66-6.36,9.51-6.51c4.79-0.15,8.32,1.83,9.78,6.04C297.74,78.58,297.7,85.71,295.32,92.69z"/></g></svg></a>
   <div class="nav-right">
-    <a href="order.html" class="nav-cta">สั่งซื้อ 499฿</a>
     <button class="hamburger" id="menuBtn" onclick="openDrawer()" aria-label="เมนู">
       <span></span><span></span><span></span>
     </button>
@@ -1110,8 +1294,7 @@ body{
 
 <!-- ② ANNOUNCE BAR -->
 <div class="announce">
-  <svg style="display:inline;vertical-align:-2px;margin-right:5px" width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.09 6.26L20 10l-5.91 1.74L12 18l-2.09-6.26L4 10l5.91-1.74L12 2z" fill="#fff"/></svg>
-  สั่งวันนี้ รับ <em>Bonus Slides</em> เพิ่มอีก 1 ชุด ฟรี — มูลค่า 299฿
+  ✨ สั่งวันนี้ รับ Bonus Slides เพิ่มอีก 1 ชุด ฟรี — มูลค่า 299฿
 </div>
 
 <!-- ③ HERO -->
@@ -1128,38 +1311,42 @@ body{
   <div class="hero-inner reveal">
     <div class="hero-eyebrow">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12h8M12 8v8"/></svg>
-      6,500+ สไลด์ · จ่ายครั้งเดียว
+      PowerPoint Templates
     </div>
     <h1 class="hero-h1">
       สไลด์ PowerPoint<br>
       <span class="line2">โหลดไม่จำกัด</span>
     </h1>
-    <p class="hero-sub">template สำเร็จรูปกว่า 6,500 สไลด์<br>โดย Coach Tarn — เปิดปุ๊บใช้งานได้เลย</p>
-
     <div class="hero-price">
       <span class="price-big">499฿</span>
       <span class="price-old">999฿</span>
       <span class="price-save">ลด 50%</span>
     </div>
-    <p class="price-note">จ่ายครั้งเดียว · ใช้ได้ตลอดชีพ · รับไฟล์ทางอีเมลทันที</p>
 
-    <div class="bonus-box">
-      <div class="bonus-icon-wrap">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><path d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
-      </div>
-      <div class="bonus-copy">
-        สั่งวันนี้รับ <strong>Bonus Slides</strong> ฟรีเพิ่มอีก 1 ชุด<br>
-        <span>มูลค่า 299฿ — ไม่มีค่าใช้จ่ายเพิ่ม</span>
-      </div>
+    <div class="hero-btn-row">
+      <a href="#strip" class="btn-hero-out">ดูเพิ่มเติม</a>
+      <a href="order.html" class="btn-hero-fill">ซื้อ</a>
     </div>
-
-    <a href="order.html" class="btn-main">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      สั่งซื้อ — รับสไลด์ทันที 499 บาท
-    </a>
     <div class="trust-line">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       โอนเงิน · ได้ไฟล์ทางอีเมลทันที · ใช้ง่าย ไม่ต้องเป็นผู้เชี่ยวชาญ
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">6,500+</div>
+        <div class="hero-stat-label">สไลด์<br>พร้อมใช้</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">
+          <svg class="inf-svg" viewBox="0 0 24 12" xmlns="http://www.w3.org/2000/svg"><path d="M12,6 C12,3 15,1 18,3 C21,5 21,7 18,9 C15,11 12,9 12,6 C12,3 9,1 6,3 C3,5 3,7 6,9 C9,11 12,9 12,6"/></svg>
+        </div>
+        <div class="hero-stat-label">โหลดได้<br>ตลอดชีพ</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">1 ครั้ง</div>
+        <div class="hero-stat-label">จ่ายครั้งเดียว<br>ไม่มีรายเดือน</div>
+      </div>
     </div>
   </div>
 
@@ -1187,7 +1374,8 @@ body{
 
 <!-- ④ COMPATIBLE WITH -->
 <div class="compat-section reveal">
-  <div class="compat-label">ใช้ได้กับ</div>
+  <span class="compat-label">ใช้ได้กับ</span>
+  <span class="compat-sep"></span>
   <div class="compat-icons">
     <div class="compat-item">
       <img src="img/icon-powerpoint.png" alt="PowerPoint" class="compat-icon-img">
@@ -1216,21 +1404,6 @@ body{
   </div>
 </div>
 
-<!-- ⑤b STATS BAR -->
-<div class="stats-bar reveal">
-  <div class="stat-box">
-    <div class="stat-num">6,500<span class="stat-unit">+</span></div>
-    <div class="stat-label">สไลด์พร้อมใช้งาน</div>
-  </div>
-  <div class="stat-box">
-    <div class="stat-num">∞</div>
-    <div class="stat-label">โหลดได้ไม่จำกัด<br>ตลอดชีพ</div>
-  </div>
-  <div class="stat-box">
-    <div class="stat-num">1<span class="stat-unit"> ครั้ง</span></div>
-    <div class="stat-label">จ่ายแค่ครั้งเดียว<br>ไม่มีรายเดือน</div>
-  </div>
-</div>
 
 <!-- ⑥ PAIN -->
 <section class="section pain-section">
@@ -1370,67 +1543,83 @@ body{
   <div class="reveal" style="text-align:center">
     <div class="section-pill">รับไฟล์ทันที</div>
     <h2 class="section-h2">สั่งซื้อแล้ว<br>รับทางอีเมลทันที</h2>
-    <p class="section-sub">ระบบอัตโนมัติ ไม่ต้องรอแอดมิน ไม่ต้องทักแชท — ทำเองได้เลยทุกขั้นตอน</p>
+    <p class="section-sub" style="margin-bottom:0">ดูว่าเกิดอะไรขึ้นหลังกดสั่งซื้อ ทีละขั้นตอน</p>
   </div>
-  <div class="flow-steps">
 
-    <div class="flow-row reveal reveal-delay-1">
-      <div class="flow-left">
-        <div class="flow-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+  <!-- Phone demo -->
+  <div class="demo-wrap reveal">
+    <div class="demo-phone">
+      <!-- Status bar -->
+      <div class="demo-sb">
+        <span>9:41</span>
+        <div class="demo-sb-right">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="#bbb"><path d="M1 6l11 11L23 6"/></svg>
+          <div class="demo-sb-bar"></div>
         </div>
-        <div class="flow-line"></div>
       </div>
-      <div class="flow-content">
-        <div class="flow-step-num">ขั้นที่ 1</div>
-        <div class="flow-title">กรอกฟอร์มสั่งซื้อ — อัปโหลดสลิป</div>
-        <div class="flow-desc">ใส่ชื่อ อีเมล แล้วถ่ายรูปสลิปโอนเงินอัปขึ้นไป ใช้เวลาไม่ถึง 2 นาที</div>
-      </div>
-    </div>
+      <div class="demo-screen">
 
-    <div class="flow-row reveal reveal-delay-2">
-      <div class="flow-left">
-        <div class="flow-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <!-- Scene 1: ชำระเงินสำเร็จ -->
+        <div class="demo-scene ds-active" data-scene="0">
+          <div class="ns1-wrap">
+            <div class="ns1-ring">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="ns1-title">ชำระเงินสำเร็จ!</div>
+            <div class="ns1-price">499฿</div>
+            <div class="ns1-hint">ระบบกำลังส่งอีเมลให้คุณ...</div>
+          </div>
         </div>
-        <div class="flow-line"></div>
-      </div>
-      <div class="flow-content">
-        <div class="flow-step-num">ขั้นที่ 2</div>
-        <div class="flow-title">ระบบตรวจสลิปอัตโนมัติ</div>
-        <div class="flow-desc">ตรวจสอบและส่ง Redeem Code ทางอีเมลภายใน 1–2 นาที ตลอด 24 ชั่วโมง</div>
-      </div>
-    </div>
 
-    <div class="flow-row reveal reveal-delay-3">
-      <div class="flow-left">
-        <div class="flow-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <!-- Scene 2: เปิดเมล กดปุ่มรับสไลด์ -->
+        <div class="demo-scene" data-scene="1">
+          <div class="ns2-header">กล่องจดหมาย</div>
+          <div class="ns2-row">
+            <div class="ns2-av">CT</div>
+            <div class="ns2-info">
+              <div class="ns2-from">Coach Tarn Template</div>
+              <div class="ns2-subj">รับสไลด์ของคุณได้แล้ว!</div>
+            </div>
+            <div class="ns2-unread"></div>
+          </div>
+          <div class="ns2-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            กดปุ่มรับสไลด์ทันที
+          </div>
+          <!-- นิ้วมือกดปุ่ม -->
+          <div class="demo-finger ns2-finger" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="168" y="353" width="245" height="118" fill="#F6F7F9"/><path d="M402.613 283.093V359.947H191.947L171.413 338.987L103.36 269.547C89.1201 255.307 88.0534 231.947 101.28 216.693C108.853 208 119.84 203.573 130.4 203.573C140.053 203.573 149.973 207.2 157.387 214.613L183.52 246.08C186.613 249.12 186.453 246.933 186.453 242.613V69.7067C186.453 48.8001 205.44 31.7867 226.4 31.7867C236.853 31.7867 244 36.0534 250.827 42.9334C257.707 49.7601 263.2 59.2534 263.2 69.7067V194.827L370.72 238.347C388.853 245.813 402.613 263.467 402.613 283.093Z" fill="#F6F7F9"/><path d="M374.613 228.64L273.653 187.787V69.7067C273.653 57.4934 268.16 45.3867 258.293 35.5734C251.68 28.9067 242.133 21.3334 226.4 21.3334C199.093 21.3334 176 43.4667 176 69.7067V220.64L165.44 207.947C165.227 207.68 165.013 207.467 164.8 207.2C155.84 198.24 143.253 193.12 130.4 193.12C116.107 193.12 102.613 199.2 93.3868 209.867C76.5868 229.227 77.7068 258.667 95.8934 276.853L157.76 340L177.28 359.947H409.6V369.12C411.787 366.667 413.067 363.413 413.067 359.947V283.093C413.067 259.947 397.653 238.08 374.613 228.64ZM392.16 353.067L201.547 354.827L186.027 338.987L110.773 262.133C100.373 251.787 99.6801 234.507 109.173 223.573C114.347 217.6 122.293 214.027 130.4 214.027C137.6 214.027 144.64 216.8 149.707 221.707L175.52 252.747C175.733 253.013 175.947 253.227 176.16 253.493C181.867 259.2 187.2 258.24 189.813 257.12C196.96 254.187 196.96 246.933 196.96 243.093V69.7067C196.96 55.0934 210.72 42.24 226.4 42.24C232.907 42.24 237.707 44.48 243.467 50.3467C249.333 56.16 252.747 63.2534 252.747 69.7067V194.827C252.747 199.093 255.307 202.933 259.253 204.533L366.72 248C381.707 254.187 392.165 268.587 392.165 283.093L392.16 353.067Z" fill="#FB7239"/><path d="M420.053 338.987H162.08C160.533 338.987 159.04 339.307 157.76 340C154.133 341.6 151.627 345.227 151.627 349.493V445.333C151.627 470.347 171.947 490.667 196.96 490.667H385.227C410.187 490.667 430.507 470.347 430.507 445.333V349.493C430.507 343.68 425.867 338.987 420.053 338.987ZM409.6 445.333C409.6 458.773 398.667 469.76 385.227 469.76H196.96C183.467 469.76 172.533 458.773 172.533 445.333V359.947H409.6V445.333Z" fill="#FB7239"/></svg></div>
         </div>
-        <div class="flow-line"></div>
-      </div>
-      <div class="flow-content">
-        <div class="flow-step-num">ขั้นที่ 3</div>
-        <div class="flow-title">เปิดอีเมล — รับ Redeem Code</div>
-        <div class="flow-desc">อีเมลจะมีลิงก์ดาวน์โหลดและ Code พร้อม Bonus Slides ฟรีในอีเมลเดียวกัน</div>
-      </div>
-    </div>
 
-    <div class="flow-row reveal reveal-delay-4">
-      <div class="flow-left">
-        <div class="flow-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <!-- Scene 3: กดดาวน์โหลด → เปิดแก้ไขได้เลย -->
+        <div class="demo-scene" data-scene="2">
+          <div class="ns3-dl-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+            ดาวน์โหลดไฟล์ PowerPoint
+          </div>
+          <div class="ns3-tiles">
+            <div class="ns3-tile" style="background:linear-gradient(135deg,#EB7D4A,#D34724)"><span>Business</span></div>
+            <div class="ns3-tile" style="background:linear-gradient(135deg,#F5A623,#EB7D4A)"><span>Pitch Deck</span></div>
+          </div>
+          <div class="ns3-done">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            เปิดแก้ไขได้ทันที!
+          </div>
+          <!-- นิ้วมือกดปุ่ม -->
+          <div class="demo-finger ns3-finger" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="168" y="353" width="245" height="118" fill="#F6F7F9"/><path d="M402.613 283.093V359.947H191.947L171.413 338.987L103.36 269.547C89.1201 255.307 88.0534 231.947 101.28 216.693C108.853 208 119.84 203.573 130.4 203.573C140.053 203.573 149.973 207.2 157.387 214.613L183.52 246.08C186.613 249.12 186.453 246.933 186.453 242.613V69.7067C186.453 48.8001 205.44 31.7867 226.4 31.7867C236.853 31.7867 244 36.0534 250.827 42.9334C257.707 49.7601 263.2 59.2534 263.2 69.7067V194.827L370.72 238.347C388.853 245.813 402.613 263.467 402.613 283.093Z" fill="#F6F7F9"/><path d="M374.613 228.64L273.653 187.787V69.7067C273.653 57.4934 268.16 45.3867 258.293 35.5734C251.68 28.9067 242.133 21.3334 226.4 21.3334C199.093 21.3334 176 43.4667 176 69.7067V220.64L165.44 207.947C165.227 207.68 165.013 207.467 164.8 207.2C155.84 198.24 143.253 193.12 130.4 193.12C116.107 193.12 102.613 199.2 93.3868 209.867C76.5868 229.227 77.7068 258.667 95.8934 276.853L157.76 340L177.28 359.947H409.6V369.12C411.787 366.667 413.067 363.413 413.067 359.947V283.093C413.067 259.947 397.653 238.08 374.613 228.64ZM392.16 353.067L201.547 354.827L186.027 338.987L110.773 262.133C100.373 251.787 99.6801 234.507 109.173 223.573C114.347 217.6 122.293 214.027 130.4 214.027C137.6 214.027 144.64 216.8 149.707 221.707L175.52 252.747C175.733 253.013 175.947 253.227 176.16 253.493C181.867 259.2 187.2 258.24 189.813 257.12C196.96 254.187 196.96 246.933 196.96 243.093V69.7067C196.96 55.0934 210.72 42.24 226.4 42.24C232.907 42.24 237.707 44.48 243.467 50.3467C249.333 56.16 252.747 63.2534 252.747 69.7067V194.827C252.747 199.093 255.307 202.933 259.253 204.533L366.72 248C381.707 254.187 392.165 268.587 392.165 283.093L392.16 353.067Z" fill="#FB7239"/><path d="M420.053 338.987H162.08C160.533 338.987 159.04 339.307 157.76 340C154.133 341.6 151.627 345.227 151.627 349.493V445.333C151.627 470.347 171.947 490.667 196.96 490.667H385.227C410.187 490.667 430.507 470.347 430.507 445.333V349.493C430.507 343.68 425.867 338.987 420.053 338.987ZM409.6 445.333C409.6 458.773 398.667 469.76 385.227 469.76H196.96C183.467 469.76 172.533 458.773 172.533 445.333V359.947H409.6V445.333Z" fill="#FB7239"/></svg></div>
         </div>
-        <div class="flow-line"></div>
-      </div>
-      <div class="flow-content">
-        <div class="flow-step-num">ขั้นที่ 4</div>
-        <div class="flow-title">คลิกลิงก์ — กรอก Code — โหลดสไลด์</div>
-        <div class="flow-desc">เลือกสไลด์ที่ต้องการและดาวน์โหลดได้เลย เก็บอีเมลไว้ กลับมาโหลดได้ตลอดชีพ</div>
-      </div>
-    </div>
 
-  </div>
+      </div><!-- /demo-screen -->
+    </div><!-- /demo-phone -->
+
+    <!-- Progress dots -->
+    <div class="demo-dots" id="demoDots">
+      <div class="demo-dot dd-on"></div>
+      <div class="demo-dot"></div>
+      <div class="demo-dot"></div>
+    </div>
+    <!-- Caption -->
+    <div class="demo-caption" id="demoCaption">ชำระเงินสำเร็จ</div>
+  </div><!-- /demo-wrap -->
 </section>
 
 <!-- ⑨a FEATURE: แก้ไขง่าย ไม่ต้องเชี่ยวชาญ -->
@@ -1749,7 +1938,7 @@ body{
     <span class="star-text">4.9/5 · ลูกค้าพึงพอใจกว่า 2,000 คน</span>
   </div>
   <a href="order.html" class="btn-main reveal">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
     สั่งซื้อ — รับสไลด์ทันที 499 บาท
   </a>
   <div class="trust-line reveal" style="margin-top:10px">
@@ -1867,7 +2056,7 @@ body{
       <div class="sticky-price-old">ปกติ 999฿</div>
     </div>
     <a href="order.html" class="btn-sticky">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
       รับสไลด์ทันที — สั่งเลย
     </a>
   </div>
@@ -1942,6 +2131,56 @@ function switchTab(id, btn) {
   btn.classList.add('active');
   document.getElementById('tab-' + id).classList.add('active');
 }
+
+/* ── Demo Phone: auto-cycle 3 scenes ── */
+(function(){
+  const scenes   = document.querySelectorAll('.demo-scene');
+  const dots     = document.querySelectorAll('#demoDots .demo-dot');
+  const caption  = document.getElementById('demoCaption');
+  const captions = ['ชำระเงินสำเร็จ','เปิดเมล กดรับสไลด์','ดาวน์โหลด — เปิดใช้งาน'];
+  const DURATION = 4200; // ms per scene
+  let cur = 0, timer;
+
+  function resetAnimations(scene){
+    /* Force CSS animation restart by reflowing */
+    scene.querySelectorAll('[class*="ns1-"],[class*="ns2-"],[class*="ns3-"],[class*="demo-finger"]')
+      .forEach(el => {
+        el.style.animationName = 'none';
+        void el.offsetWidth; // reflow
+        el.style.animationName = '';
+      });
+  }
+
+  function goTo(next){
+    const prev = cur;
+    scenes[prev].classList.remove('ds-active');
+    scenes[prev].classList.add('ds-exit');
+    setTimeout(() => scenes[prev].classList.remove('ds-exit'), 500);
+
+    cur = next;
+    resetAnimations(scenes[cur]);
+    scenes[cur].classList.add('ds-active');
+
+    dots.forEach((d,i) => d.classList.toggle('dd-on', i === cur));
+    if(caption){ caption.style.opacity='0'; setTimeout(()=>{ caption.textContent=captions[cur]; caption.style.opacity='1'; },200); }
+  }
+
+  function next(){ goTo((cur + 1) % scenes.length); }
+
+  /* Only start cycling when section scrolls into view */
+  const phoneWrap = document.querySelector('.demo-wrap');
+  if(phoneWrap){
+    const obs = new IntersectionObserver(entries => {
+      if(entries[0].isIntersecting){
+        clearInterval(timer);
+        timer = setInterval(next, DURATION);
+      } else {
+        clearInterval(timer);
+      }
+    }, {threshold:0.4});
+    obs.observe(phoneWrap);
+  }
+})();
 </script>
 </body>
 </html>
