@@ -867,6 +867,176 @@ body{
 .cta-star-row .star-text{font-size:13px;color:var(--text-mid);font-weight:600}
 
 /* ══════════════════════════════════════
+   PAIN SECTION — VISUAL REDESIGN
+══════════════════════════════════════ */
+.pain-card{
+  display:flex;flex-direction:column;gap:0;
+  background:var(--bg-soft);border-radius:var(--radius-lg);
+  overflow:hidden;border:1px solid rgba(211,71,36,0.08);
+}
+.pain-slide-preview{
+  width:100%;height:90px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 16px;
+}
+.pain-slide-preview.ps-chaos{background:linear-gradient(135deg,#fdf2ef,#fce8e2)}
+.pain-slide-preview.ps-blank{background:linear-gradient(135deg,#f0f4ff,#e8eeff)}
+.pain-slide-preview.ps-dollar{background:linear-gradient(135deg,#f0fdf4,#dcfce7)}
+.ps-mini{
+  height:62px;border-radius:8px;background:#fff;
+  box-shadow:0 3px 12px rgba(0,0,0,0.12);flex-shrink:0;
+  display:flex;flex-direction:column;padding:7px 8px;gap:4px;overflow:hidden;
+}
+.ps-mini.w1{width:90px}.ps-mini.w2{width:78px;margin-top:8px}
+.ps-mini-line{height:5px;border-radius:3px;background:#e5e7eb}
+.ps-mini-line.accent{background:rgba(211,71,36,0.25);width:60%}
+.ps-mini-block{height:24px;border-radius:4px;background:#f3f4f6;margin-top:2px}
+.ps-mini-jumble{display:flex;flex-direction:column;gap:3px;margin-top:4px}
+.ps-mini-jumble span{height:4px;border-radius:2px;background:#d1d5db}
+.ps-mini-jumble span:nth-child(2){width:70%;background:#9ca3af}
+.ps-mini-jumble span:nth-child(3){width:40%}
+.ps-chaos-badge{
+  position:absolute;top:8px;right:10px;
+  background:#FEE2E2;color:#DC2626;
+  font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;letter-spacing:0.3px;
+}
+.ps-blank-screen{
+  width:100px;height:60px;border-radius:8px;background:#fff;
+  box-shadow:0 3px 12px rgba(0,0,0,0.10);
+  display:flex;align-items:center;justify-content:center;
+}
+.ps-blank-screen svg{width:28px;height:28px;opacity:0.2}
+.ps-blank-label{font-size:10px;color:#9ca3af;font-weight:600;margin-left:10px}
+.ps-price-row{display:flex;align-items:center;gap:10px}
+.ps-price-box{
+  padding:10px 14px;border-radius:8px;text-align:center;flex:1;
+}
+.ps-price-box.bad{background:#FEE2E2;border:1.5px solid #FECACA}
+.ps-price-box.good{background:#DCFCE7;border:1.5px solid #BBF7D0}
+.ps-price-val{font-size:15px;font-weight:900;line-height:1}
+.ps-price-box.bad .ps-price-val{color:#DC2626}
+.ps-price-box.good .ps-price-val{color:#16A34A}
+.ps-price-label{font-size:9px;font-weight:600;margin-top:2px;opacity:.75}
+.ps-price-vs{font-size:11px;font-weight:700;color:var(--text-sub)}
+.pain-card-body{padding:14px 18px 16px;display:flex;align-items:flex-start;gap:12px}
+.pain-icon-box{
+  width:38px;height:38px;border-radius:11px;
+  background:rgba(211,71,36,0.10);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.pain-icon-box svg{width:20px;height:20px}
+
+/* ══════════════════════════════════════
+   EMAIL FLOW — 4-STEP
+══════════════════════════════════════ */
+.flow-section{padding:48px 24px;background:#fff;border-top:1px solid var(--border)}
+.flow-steps{display:flex;flex-direction:column;gap:0;margin-top:28px}
+.flow-row{display:flex;gap:16px;padding-bottom:20px}
+.flow-row:last-child{padding-bottom:0}
+.flow-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.flow-icon{
+  width:46px;height:46px;border-radius:14px;
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  box-shadow:0 4px 14px rgba(211,71,36,0.25);
+  display:flex;align-items:center;justify-content:center;
+}
+.flow-icon svg{width:22px;height:22px}
+.flow-line{width:2px;flex:1;background:linear-gradient(var(--orange),rgba(235,125,74,0.1));margin-top:6px;min-height:8px}
+.flow-row:last-child .flow-line{display:none}
+.flow-content{padding-top:8px}
+.flow-step-num{font-size:10px;font-weight:700;color:var(--red);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:1px}
+.flow-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.flow-desc{font-size:13px;color:var(--text-mid);line-height:1.55}
+
+/* ══════════════════════════════════════
+   FEATURE SECTIONS — 2-COL BENEFIT
+══════════════════════════════════════ */
+.feat-section{padding:48px 24px;border-top:1px solid var(--border)}
+.feat-section.feat-alt{background:var(--bg-soft)}
+.feat-visual{
+  border-radius:var(--radius-lg);overflow:hidden;
+  margin-bottom:24px;background:var(--bg-soft);
+  border:1px solid var(--border);
+  padding:20px;display:flex;flex-direction:column;gap:10px;
+}
+.feat-visual.feat-vis-dark{background:linear-gradient(135deg,#1e2433,#111827);border:none}
+.feat-slide-row{display:flex;gap:8px}
+.feat-slide-a{
+  flex:1;border-radius:10px;padding:14px;
+  background:linear-gradient(135deg,#D34724,#EB7D4A);
+  display:flex;flex-direction:column;gap:5px;
+}
+.feat-slide-b{
+  width:42%;border-radius:10px;padding:14px;
+  background:linear-gradient(135deg,#1e3a5f,#2563eb);
+  display:flex;flex-direction:column;gap:5px;
+}
+.feat-slide-line{height:4px;border-radius:2px;background:rgba(255,255,255,0.35)}
+.feat-slide-line.w70{width:70%}.feat-slide-line.w50{width:50%}.feat-slide-line.w40{width:40%}
+.feat-slide-block{height:22px;border-radius:6px;background:rgba(255,255,255,0.15);margin-top:4px}
+.feat-edit-row{
+  display:flex;gap:8px;
+}
+.feat-edit-box{
+  flex:1;border-radius:8px;background:#fff;
+  padding:10px 12px;display:flex;align-items:center;gap:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+.feat-edit-cursor{
+  width:2px;height:16px;background:var(--red);border-radius:1px;
+  animation:blink .9s ease-in-out infinite;flex-shrink:0;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.feat-edit-text{font-size:11px;color:var(--text-mid);font-weight:500}
+.feat-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:0}
+.feat-grid-item{
+  background:#fff;border-radius:14px;padding:14px 12px;
+  border:1px solid var(--border);
+  display:flex;flex-direction:column;gap:6px;
+}
+.feat-alt .feat-grid-item{background:rgba(255,255,255,0.7)}
+.feat-grid-icon{
+  width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 3px 8px rgba(211,71,36,0.2);
+}
+.feat-grid-icon svg{width:16px;height:16px}
+.feat-grid-title{font-size:13px;font-weight:800;color:var(--text);line-height:1.3}
+.feat-grid-sub{font-size:11px;color:var(--text-sub);line-height:1.35}
+
+/* ══════════════════════════════════════
+   VALUE GRID — 2-COL WITH GRADIENT ICONS
+══════════════════════════════════════ */
+.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.vg-item{
+  background:var(--bg-soft);border-radius:18px;
+  padding:18px 14px;border:1px solid var(--border);
+}
+.vg-icon{
+  width:44px;height:44px;border-radius:14px;
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:12px;
+  box-shadow:0 4px 12px rgba(211,71,36,0.22);
+}
+.vg-icon svg{width:22px;height:22px}
+.vg-title{font-size:13.5px;font-weight:800;color:var(--text);line-height:1.3;margin-bottom:4px}
+.vg-sub{font-size:11.5px;color:var(--text-sub);line-height:1.4}
+.vg-item.vg-bonus{
+  grid-column:1/-1;
+  background:linear-gradient(135deg,#FFFBEB,#FEF3C7);
+  border-color:rgba(245,158,11,0.3);
+  display:flex;align-items:center;gap:14px;padding:16px 18px;
+}
+.vg-item.vg-bonus .vg-icon{
+  background:linear-gradient(-135deg,#F59E0B,#B45309);
+  margin-bottom:0;flex-shrink:0;
+}
+.vg-item.vg-bonus .vg-title{color:#92400E;font-size:14px}
+.vg-item.vg-bonus .vg-sub{color:#B45309}
+
+/* ══════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════ */
 @media(min-width:768px){
@@ -1056,36 +1226,82 @@ body{
 <section class="section pain-section">
   <div class="reveal" style="text-align:center">
     <div class="section-pill">คุณเคยเจอแบบนี้ไหม?</div>
-    <h2 class="section-h2">ปัญหาที่คนทำสไลด์<br>เจอซ้ำๆ ทุกครั้ง</h2>
+    <h2 class="section-h2">รู้สึกแบบนี้บ้างไหม<br>ตอนต้องทำสไลด์?</h2>
   </div>
   <div class="pain-cards">
+
     <div class="pain-card reveal reveal-delay-1">
-      <div class="pain-icon-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+      <div class="pain-slide-preview ps-chaos">
+        <div class="ps-mini w1">
+          <div class="ps-mini-line accent"></div>
+          <div class="ps-mini-block"></div>
+          <div class="ps-mini-jumble">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+        <div class="ps-mini w2">
+          <div class="ps-mini-line"></div>
+          <div class="ps-mini-block"></div>
+          <div class="ps-mini-jumble">
+            <span></span><span></span>
+          </div>
+        </div>
+        <div class="ps-chaos-badge">ดูไม่โปร</div>
       </div>
-      <div>
-        <div class="pain-card-title">ทำสไลด์ทั้งคืน แต่ดูไม่โปร</div>
-        <div class="pain-card-sub">ใช้เวลานาน แต่ผลลัพธ์ไม่น่าพอใจ ดูไม่น่าเชื่อถือ</div>
+      <div class="pain-card-body">
+        <div class="pain-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        </div>
+        <div>
+          <div class="pain-card-title">ทำทั้งคืน แต่ดูไม่โปรเลย</div>
+          <div class="pain-card-sub">ใส่ข้อมูลครบแล้ว แต่ดูไม่สวย ไม่น่าเชื่อถือ ไม่รู้จะแก้ยังไง</div>
+        </div>
       </div>
     </div>
+
     <div class="pain-card reveal reveal-delay-2">
-      <div class="pain-icon-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <div class="pain-slide-preview ps-blank">
+        <div class="ps-blank-screen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="ps-blank-label">หน้าว่าง...<br>เริ่มตรงไหนดี?</div>
       </div>
-      <div>
-        <div class="pain-card-title">งานด่วน ไม่รู้จะเริ่มตรงไหน</div>
-        <div class="pain-card-sub">กดดัน เวลาน้อย แต่ต้องนำเสนอพรุ่งนี้</div>
+      <div class="pain-card-body">
+        <div class="pain-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="pain-card-title">เปิดโปรแกรมขึ้นมา แล้วค้าง</div>
+          <div class="pain-card-sub">ไม่รู้จะออกแบบยังไง นั่งเบิ่งหน้าว่างนาน แต่งานต้องเสร็จพรุ่งนี้</div>
+        </div>
       </div>
     </div>
+
     <div class="pain-card reveal reveal-delay-3">
-      <div class="pain-icon-box">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      <div class="pain-slide-preview ps-dollar">
+        <div class="ps-price-row">
+          <div class="ps-price-box bad">
+            <div class="ps-price-val">3,000฿</div>
+            <div class="ps-price-label">จ้างนักออกแบบ</div>
+          </div>
+          <div class="ps-price-vs">vs</div>
+          <div class="ps-price-box good">
+            <div class="ps-price-val">499฿</div>
+            <div class="ps-price-label">ใช้ template</div>
+          </div>
+        </div>
       </div>
-      <div>
-        <div class="pain-card-title">อยากดูมืออาชีพ แต่ทำเองไม่เป็น</div>
-        <div class="pain-card-sub">จ้างคนออกแบบก็แพง ทำเองก็ไม่สวย</div>
+      <div class="pain-card-body">
+        <div class="pain-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div>
+          <div class="pain-card-title">จ้างคนทำก็แพง ทำเองก็ไม่สวย</div>
+          <div class="pain-card-sub">อยากได้สไลด์สวย แต่ไม่มีงบจ้าง Designer และไม่มีเวลาเรียน</div>
+        </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -1139,28 +1355,154 @@ body{
   </div>
 </section>
 
-<!-- ⑧ FEATURE: รับไฟล์ทางอีเมล -->
-<section class="section">
-  <div class="feature-card reveal">
-    <div class="email-mockup">
-      <div class="email-mockup-header">
-        <div class="email-app-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        </div>
-        <div>
-          <div class="email-subject">ขอบคุณที่สั่งซื้อ — รับสไลด์ได้เลย!</div>
-          <div class="email-from">จาก: noreply@coachtarn-template.com</div>
-        </div>
-      </div>
-      <div class="email-body">สวัสดีครับ คุณสั่งซื้อ PowerPoint Template สำเร็จแล้ว<br>นี่คือ Redeem Code ของคุณ:</div>
-      <div class="email-code-box">
-        <div class="email-code-label">REDEEM CODE</div>
-        <div class="email-code-val">PPT-XXXXX</div>
-      </div>
-    </div>
+<!-- ⑧ EMAIL FLOW SECTION -->
+<section class="flow-section">
+  <div class="reveal" style="text-align:center">
     <div class="section-pill">รับไฟล์ทันที</div>
     <h2 class="section-h2">สั่งซื้อแล้ว<br>รับทางอีเมลทันที</h2>
-    <p class="section-sub">ระบบตรวจสลิปอัตโนมัติ ไม่ต้องรอแอดมิน รับ Redeem Code ในอีเมลภายใน 1-2 นาที นำไปโหลดสไลด์ได้เลย</p>
+    <p class="section-sub">ระบบอัตโนมัติ ไม่ต้องรอแอดมิน ไม่ต้องทักแชท — ทำเองได้เลยทุกขั้นตอน</p>
+  </div>
+  <div class="flow-steps">
+
+    <div class="flow-row reveal reveal-delay-1">
+      <div class="flow-left">
+        <div class="flow-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="flow-line"></div>
+      </div>
+      <div class="flow-content">
+        <div class="flow-step-num">ขั้นที่ 1</div>
+        <div class="flow-title">กรอกฟอร์มสั่งซื้อ — อัปโหลดสลิป</div>
+        <div class="flow-desc">ใส่ชื่อ อีเมล แล้วถ่ายรูปสลิปโอนเงินอัปขึ้นไป ใช้เวลาไม่ถึง 2 นาที</div>
+      </div>
+    </div>
+
+    <div class="flow-row reveal reveal-delay-2">
+      <div class="flow-left">
+        <div class="flow-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div class="flow-line"></div>
+      </div>
+      <div class="flow-content">
+        <div class="flow-step-num">ขั้นที่ 2</div>
+        <div class="flow-title">ระบบตรวจสลิปอัตโนมัติ</div>
+        <div class="flow-desc">ตรวจสอบและส่ง Redeem Code ทางอีเมลภายใน 1–2 นาที ตลอด 24 ชั่วโมง</div>
+      </div>
+    </div>
+
+    <div class="flow-row reveal reveal-delay-3">
+      <div class="flow-left">
+        <div class="flow-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="flow-line"></div>
+      </div>
+      <div class="flow-content">
+        <div class="flow-step-num">ขั้นที่ 3</div>
+        <div class="flow-title">เปิดอีเมล — รับ Redeem Code</div>
+        <div class="flow-desc">อีเมลจะมีลิงก์ดาวน์โหลดและ Code พร้อม Bonus Slides ฟรีในอีเมลเดียวกัน</div>
+      </div>
+    </div>
+
+    <div class="flow-row reveal reveal-delay-4">
+      <div class="flow-left">
+        <div class="flow-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        <div class="flow-line"></div>
+      </div>
+      <div class="flow-content">
+        <div class="flow-step-num">ขั้นที่ 4</div>
+        <div class="flow-title">คลิกลิงก์ — กรอก Code — โหลดสไลด์</div>
+        <div class="flow-desc">เลือกสไลด์ที่ต้องการและดาวน์โหลดได้เลย เก็บอีเมลไว้ กลับมาโหลดได้ตลอดชีพ</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ⑨a FEATURE: แก้ไขง่าย ไม่ต้องเชี่ยวชาญ -->
+<section class="feat-section">
+  <div class="feat-visual reveal">
+    <div class="feat-slide-row">
+      <div class="feat-slide-a">
+        <div class="feat-slide-line w70"></div>
+        <div class="feat-slide-line w50"></div>
+        <div class="feat-slide-block"></div>
+        <div class="feat-slide-line w40" style="margin-top:6px"></div>
+      </div>
+      <div class="feat-slide-b">
+        <div class="feat-slide-line w70"></div>
+        <div class="feat-slide-line w50"></div>
+        <div class="feat-slide-block"></div>
+      </div>
+    </div>
+    <div class="feat-edit-row">
+      <div class="feat-edit-box">
+        <div class="feat-edit-cursor"></div>
+        <div class="feat-edit-text">พิมพ์ข้อความของคุณลงไปได้เลย...</div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <div class="section-pill">ใช้งานง่าย</div>
+    <h2 class="section-h2">เปิดปุ๊บ<br>แก้ไขได้เลยทันที</h2>
+    <p class="section-sub" style="margin-bottom:20px">ไม่ต้องเรียนออกแบบ ไม่ต้องมีโปรแกรมพิเศษ — เพียงแค่พิมพ์ข้อความแทนที่</p>
+    <div class="feat-grid-2">
+      <div class="feat-grid-item">
+        <div class="feat-grid-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="feat-grid-title">เปลี่ยนข้อความได้ทันที</div>
+        <div class="feat-grid-sub">คลิกตรงไหนก็แก้ได้ ง่ายเหมือนพิมพ์ Word</div>
+      </div>
+      <div class="feat-grid-item">
+        <div class="feat-grid-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+        <div class="feat-grid-title">ประหยัดเวลามาก</div>
+        <div class="feat-grid-sub">จากชั่วโมง เหลือแค่ 15–20 นาทีต่อสไลด์</div>
+      </div>
+      <div class="feat-grid-item">
+        <div class="feat-grid-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="feat-grid-title">ดีไซน์สวยให้แล้ว</div>
+        <div class="feat-grid-sub">Coach Tarn คัดมาแล้วว่าสวย ใช้ได้จริง</div>
+      </div>
+      <div class="feat-grid-item">
+        <div class="feat-grid-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <div class="feat-grid-title">ใช้ได้ทุกเวอร์ชัน</div>
+        <div class="feat-grid-sub">PowerPoint, Google Slides, Keynote</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑨b FEATURE: ครบทุกอาชีพ -->
+<section class="feat-section feat-alt">
+  <div class="reveal">
+    <div class="section-pill">6,500+ สไลด์</div>
+    <h2 class="section-h2">ครบทุกหมวด<br>ไม่ว่าคุณทำงานอะไร</h2>
+    <p class="section-sub" style="margin-bottom:20px">ไม่ต้องหาเอง ไม่ต้องออกแบบเอง — มีทุกแบบที่คุณต้องการอยู่แล้ว</p>
+    <div class="feat-grid-2">
+      <div class="feat-grid-item">
+        <div class="feat-grid-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="feat-grid-title">ครู / วิทยากร</div>
+        <div class="feat-grid-sub">สไลด์สอน Workshop Course</div>
+      </div>
+      <div class="feat-grid-item">
+        <div class="feat-grid-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
+        <div class="feat-grid-title">คนทำงานออฟฟิศ</div>
+        <div class="feat-grid-sub">Report KPI Annual Review</div>
+      </div>
+      <div class="feat-grid-item">
+        <div class="feat-grid-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <div class="feat-grid-title">ตัวแทนขาย</div>
+        <div class="feat-grid-sub">Sales Deck ประกัน Proposal</div>
+      </div>
+      <div class="feat-grid-item">
+        <div class="feat-grid-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+        <div class="feat-grid-title">เจ้าของธุรกิจ</div>
+        <div class="feat-grid-sub">Pitch Deck Strategy Finance</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1357,26 +1699,33 @@ body{
     <div class="section-pill">สิ่งที่คุณได้รับ</div>
     <h2 class="section-h2">จ่าย 499฿ ครั้งเดียว<br>ได้ทั้งหมดนี้</h2>
   </div>
-  <div class="value-list">
-    <div class="value-row reveal reveal-delay-1">
-      <div class="v-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div><div class="v-title">6,500+ สไลด์ PowerPoint สำเร็จรูป</div><div class="v-sub">ครบทุกหมวด พร้อมใช้งานได้ทันที</div></div>
+  <div class="value-grid reveal">
+    <div class="vg-item">
+      <div class="vg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+      <div class="vg-title">6,500+ สไลด์สำเร็จรูป</div>
+      <div class="vg-sub">ครบทุกหมวด พร้อมใช้งานได้ทันที</div>
     </div>
-    <div class="value-row reveal reveal-delay-2">
-      <div class="v-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div><div class="v-title">เข้าถึงได้ตลอดชีพ — จ่ายแค่ครั้งเดียว</div><div class="v-sub">ไม่มี subscription รายเดือน</div></div>
+    <div class="vg-item">
+      <div class="vg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="vg-title">ใช้งานตลอดชีพ</div>
+      <div class="vg-sub">จ่ายครั้งเดียว ไม่มี subscription รายเดือน</div>
     </div>
-    <div class="value-row reveal reveal-delay-3">
-      <div class="v-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div><div class="v-title">Template ใหม่จาก Coach Tarn</div><div class="v-sub">รับทุกชิ้นที่เพิ่มในอนาคต ไม่มีค่าเพิ่ม</div></div>
+    <div class="vg-item">
+      <div class="vg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="vg-title">Template ใหม่ฟรีเสมอ</div>
+      <div class="vg-sub">Coach Tarn เพิ่มให้ตลอด ไม่มีค่าเพิ่ม</div>
     </div>
-    <div class="value-row reveal reveal-delay-4">
-      <div class="v-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div><div class="v-title">รับไฟล์ดาวน์โหลดทางอีเมลทันที</div><div class="v-sub">ระบบอัตโนมัติ ไม่ต้องรอแอดมิน</div></div>
+    <div class="vg-item">
+      <div class="vg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+      <div class="vg-title">รับไฟล์ทางอีเมลทันที</div>
+      <div class="vg-sub">ระบบอัตโนมัติ ไม่ต้องรอแอดมิน</div>
     </div>
-    <div class="value-row reveal reveal-delay-5">
-      <div class="v-check"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div><div class="v-title" style="color:var(--red)">Bonus Slides เพิ่มอีก 1 ชุด (มูลค่า 299฿)</div><div class="v-sub">สำหรับผู้ที่สั่งซื้อในช่วงนี้เท่านั้น</div></div>
+    <div class="vg-item vg-bonus">
+      <div class="vg-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div>
+      <div>
+        <div class="vg-title">+ Bonus Slides ฟรีอีก 1 ชุด</div>
+        <div class="vg-sub">มูลค่า 299฿ สำหรับผู้สั่งซื้อในช่วงนี้เท่านั้น</div>
+      </div>
     </div>
   </div>
   <div class="price-focus reveal">
