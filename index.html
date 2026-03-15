@@ -718,11 +718,17 @@ body{
 .faq-item.open .faq-caret{background:var(--red);transform:rotate(180deg)}
 .faq-item.open .faq-caret svg path{stroke:#fff}
 .faq-a{
-  display:none;padding:12px 18px 16px;
-  font-size:14px;color:var(--text-mid);line-height:1.65;
-  font-weight:400;border-top:1px solid var(--border);
+  max-height:0;overflow:hidden;
+  padding:0 18px;
+  font-size:14px;color:var(--text-mid);line-height:1.65;font-weight:400;
+  border-top:0px solid var(--border);
+  transition:max-height .38s var(--ease),padding .28s var(--ease),border-top-width .05s;
 }
-.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-a{
+  max-height:300px;
+  padding:12px 18px 16px;
+  border-top-width:1px;
+}
 
 /* ══════════════════════════════════════
    FINAL CTA
@@ -782,9 +788,13 @@ body{
 /* ══════════════════════════════════════
    FOOTER
 ══════════════════════════════════════ */
-.footer{background:#F5F5F5;border-top:1px solid var(--border);padding:20px 24px;text-align:center}
-.footer-text{font-size:12px;color:var(--text-sub);line-height:1.7}
-.footer-text strong{color:var(--text-mid)}
+.footer{background:#F3F4F6;border-top:1px solid var(--border);padding:24px 24px 20px;text-align:center}
+.footer-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;margin-bottom:16px}
+.footer-nav a{font-size:12.5px;color:var(--text-mid);text-decoration:none;font-weight:600;transition:color .15s}
+.footer-nav a:active{color:var(--red)}
+.footer-divider{width:32px;height:1px;background:var(--border);margin:0 auto 14px}
+.footer-copy{font-size:11.5px;color:var(--text-sub);line-height:1.8}
+.footer-copy strong{color:var(--text-mid)}
 
 /* ══════════════════════════════════════
    STICKY BOTTOM BAR
@@ -1758,24 +1768,28 @@ body{
     <div class="step-row reveal reveal-delay-1">
       <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
       <div class="step-content">
-        <div class="step-title">กดสั่งซื้อ — โอนเงิน 499฿</div>
-        <div class="step-desc">กรอกชื่อ อีเมล และอัปโหลดสลิปโอนเงิน ระบบตรวจสอบให้อัตโนมัติ</div>
+        <div class="step-title">กดสั่งซื้อ — กรอกฟอร์ม — โอนเงิน 499฿</div>
+        <div class="step-desc">ใส่ชื่อและอีเมลของคุณ แล้วถ่ายรูปสลิปอัปขึ้นไป ทำได้จากมือถือเลย ไม่ยุ่งยาก</div>
       </div>
     </div>
     <div class="step-row reveal reveal-delay-2">
       <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
       <div class="step-content">
-        <div class="step-title">รับ Redeem Code ทางอีเมล</div>
-        <div class="step-desc">ได้รับ code ภายใน 1-2 นาที พร้อม Bonus Slides ฟรี และลิงก์ดาวน์โหลด</div>
+        <div class="step-title">เช็คอีเมล — รับ Code และลิงก์ดาวน์โหลด</div>
+        <div class="step-desc">อีเมลจะมาใน 1–2 นาที มีลิงก์หน้าดาวน์โหลดและ Redeem Code ชัดเจน เก็บอีเมลนี้ไว้ — จะได้กลับมาโหลดเพิ่มได้ตลอด</div>
       </div>
     </div>
     <div class="step-row reveal reveal-delay-3">
       <div class="step-left"><div class="step-num">3</div></div>
       <div class="step-content">
-        <div class="step-title">กรอก Code — โหลดได้เลย</div>
-        <div class="step-desc">เลือกโหลดสไลด์ที่ต้องการได้ทันที ทุกวัน ตลอดชีพ ผ่าน Google Drive</div>
+        <div class="step-title">คลิกลิงก์ในอีเมล — กรอก Code — โหลดสไลด์</div>
+        <div class="step-desc">คลิกลิงก์ในอีเมล กรอก Code แล้วเลือกสไลด์ที่ต้องการโหลดได้เลย ถ้าวันไหนอยากโหลดเพิ่ม กลับไปหาอีเมลเดิมแล้วคลิกลิงก์ได้ตลอดชีพ</div>
       </div>
     </div>
+  </div>
+  <div class="reveal" style="margin-top:20px;background:rgba(235,125,74,0.07);border-radius:14px;padding:14px 18px;border:1px solid rgba(235,125,74,0.18);display:flex;align-items:flex-start;gap:10px">
+    <svg style="flex-shrink:0;margin-top:2px" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <div style="font-size:13px;color:var(--text-mid);line-height:1.6"><strong style="color:var(--text)">ไม่ต้องกังวลว่าจะหาไฟล์ไม่เจอ</strong> — อีเมลที่ได้รับจะอยู่ในกล่องจดหมายของคุณเสมอ กลับมาโหลดเพิ่มได้ทุกวัน ไม่มีวันหมดอายุ</div>
   </div>
 </section>
 
@@ -1829,13 +1843,21 @@ body{
 </section>
 
 <!-- Footer -->
-<div class="footer">
-  <div class="footer-text">
+<footer class="footer">
+  <nav class="footer-nav">
+    <a href="#strip">ดูตัวอย่างสไลด์</a>
+    <a href="#reviews">รีวิว</a>
+    <a href="#how">วิธีสั่งซื้อ</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener">ติดต่อ Messenger</a>
+  </nav>
+  <div class="footer-divider"></div>
+  <div class="footer-copy">
     <strong>PowerPoint Template by Coach Tarn</strong><br>
-    สอบถาม Line: <strong>@coachtarn</strong><br>
-    <span style="font-size:11px">© 2026 บจก. ดับเบิ้ลคราฟ · All rights reserved</span>
+    ติดต่อสอบถาม: <a href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener" style="color:var(--red);font-weight:600;text-decoration:none">Facebook Messenger</a><br>
+    © 2026 บริษัท ดับเบิ้ลคราฟ์ จำกัด · All rights reserved
   </div>
-</div>
+</footer>
 
 <!-- STICKY BAR -->
 <div class="sticky-bar" id="stickyBar">
