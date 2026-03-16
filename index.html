@@ -283,8 +283,8 @@ body{
   display:flex;align-items:center;justify-content:center;
 }
 .hero-stat-num .inf-svg{
-  display:block;width:28px;height:14px;
-  stroke:var(--red);fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;
+  display:block;width:26px;height:26px;
+  fill:var(--red);
 }
 .hero-stat-label{
   font-size:10px;color:var(--text-sub);
@@ -294,10 +294,10 @@ body{
 /* ══════════════════════════════════════
    DEMO PHONE — email flow animation
 ══════════════════════════════════════ */
-.flow-section{background:#fff;padding:48px 24px;border-top:1px solid var(--border)}
+.flow-section{background:#fff;padding:48px 24px}
 .demo-wrap{display:flex;flex-direction:column;align-items:center;margin-top:32px}
 .demo-phone{
-  width:230px;
+  width:260px;
   background:#fff;
   border-radius:38px;
   box-shadow:0 0 0 10px #C2C2C2, 0 0 0 12px rgba(0,0,0,0.07), 0 28px 72px rgba(0,0,0,0.18);
@@ -362,34 +362,98 @@ body{
 .ns1-hint{font-size:10px;color:var(--text-sub);font-weight:600;opacity:0}
 .ds-active .ns1-hint{animation:fadeInUp 0.4s ease 1.3s forwards}
 
-/* ─── Scene 2: Open email → tap button ─── */
-.ns2-header{font-size:10px;font-weight:700;color:var(--text-sub)}
-.ns2-row{
-  display:flex;align-items:center;gap:8px;
-  background:#FFFBF8;border-radius:10px;padding:8px 10px;
-  border-left:3px solid var(--orange);
-  box-shadow:0 1px 6px rgba(0,0,0,0.06);
+/* ─── Scene 2: Gmail-style Email ─── */
+.ns2-wrap{position:relative;width:100%;height:100%}
+
+/* INBOX PANEL */
+.ns2-inbox{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0}
+.ds-active .ns2-inbox{animation:ns2InboxLife 5.5s ease forwards}
+@keyframes ns2InboxLife{
+  0%  {opacity:0;transform:translateX(0)}
+  8%  {opacity:1;transform:translateX(0)}
+  46% {opacity:1;transform:translateX(0)}
+  58% {opacity:0;transform:translateX(-14px)}
+  100%{opacity:0;transform:translateX(-14px)}
 }
-.ns2-av{
-  width:28px;height:28px;border-radius:50%;flex-shrink:0;
-  background:linear-gradient(135deg,var(--red),var(--orange));
+/* Gmail search bar */
+.ns2-gbar{
+  display:flex;align-items:center;gap:6px;
+  background:#F1F3F4;border-radius:20px;padding:6px 10px;margin-bottom:7px;
+}
+.ns2-gbar svg{width:11px;height:11px;flex-shrink:0}
+.ns2-gbar-text{font-size:9.5px;color:#5F6368;flex:1}
+.ns2-gbar-av{width:20px;height:20px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--red),var(--orange))}
+/* inbox label */
+.ns2-lbl{font-size:9px;font-weight:700;color:#5F6368;margin-bottom:4px;padding:0 1px}
+/* email rows */
+.ns2-erow{
+  display:flex;align-items:flex-start;gap:7px;
+  padding:6px 2px;border-bottom:0.5px solid rgba(0,0,0,0.07);
+}
+.ns2-erow.ns2-ct{background:rgba(235,125,74,0.08);margin:0 -4px;padding:6px 6px;border-radius:7px;border-bottom:none}
+.ns2-eav{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:8.5px;font-weight:800;color:#fff;
+  font-size:8.5px;font-weight:800;color:#fff;margin-top:1px;
 }
-.ns2-info{flex:1;min-width:0}
-.ns2-from{font-size:9px;font-weight:800;color:var(--text)}
-.ns2-subj{font-size:8.5px;color:var(--text-sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
-.ns2-unread{width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0}
-.ns2-btn{
+.ns2-emeta{flex:1;min-width:0}
+.ns2-efrom{font-size:10px;font-weight:700;color:#1a1a1a}
+.ns2-efrom.ns2-read{font-weight:400}
+.ns2-esubj{font-size:9px;color:#5F6368;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.ns2-etime{font-size:8.5px;color:#5F6368;flex-shrink:0;margin-top:1px}
+.ns2-udot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:5px}
+
+/* OPENED EMAIL PANEL */
+.ns2-opened{
+  position:absolute;inset:0;display:flex;flex-direction:column;gap:6px;
+  opacity:0;transform:translateX(18px);
+}
+.ds-active .ns2-opened{animation:ns2OpenedLife 5.5s ease forwards}
+@keyframes ns2OpenedLife{
+  0%  {opacity:0;transform:translateX(18px)}
+  55% {opacity:0;transform:translateX(18px)}
+  67% {opacity:1;transform:translateX(0)}
+  100%{opacity:1;transform:translateX(0)}
+}
+/* email top bar */
+.ns2-ehead{
+  display:flex;align-items:center;gap:6px;
+  padding-bottom:6px;border-bottom:0.5px solid rgba(0,0,0,0.09);
+}
+.ns2-eback svg{width:12px;height:12px;flex-shrink:0}
+.ns2-eavatar{
+  width:24px;height:24px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;font-weight:800;color:#fff;
+  background:linear-gradient(135deg,var(--red),var(--orange));
+}
+.ns2-einfo{flex:1;min-width:0}
+.ns2-ename{font-size:10px;font-weight:700;color:#1a1a1a}
+.ns2-edate{font-size:8px;color:#5F6368}
+/* subject */
+.ns2-esubject{font-size:11.5px;font-weight:800;color:var(--text);line-height:1.3}
+/* greeting */
+.ns2-egreet{font-size:9px;color:#555;line-height:1.55}
+/* Redeem code box */
+.ns2-code{
+  background:#FFF8F5;border:1.5px dashed var(--orange);
+  border-radius:9px;padding:8px 10px;
+  opacity:0;transform:translateY(4px);
+}
+.ds-active .ns2-code{animation:fadeInUp 0.35s ease 3.6s forwards}
+.ns2-code-lbl{font-size:8.5px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px}
+.ns2-code-val{font-size:15px;font-weight:900;color:var(--text);letter-spacing:2px;font-variant-numeric:tabular-nums}
+/* download button */
+.ns2-dlbtn{
   width:100%;
   background:linear-gradient(90deg,var(--orange),var(--red));
-  border-radius:10px;padding:11px 12px;
+  border-radius:10px;padding:10px;
   display:flex;align-items:center;justify-content:center;gap:6px;
-  font-size:11.5px;font-weight:800;color:#fff;
-  opacity:0;transform:translateY(6px);
+  font-size:11px;font-weight:800;color:#fff;
+  opacity:0;transform:translateY(4px);
 }
-.ds-active .ns2-btn{animation:fadeInUp 0.4s var(--ease) 0.5s forwards}
-.ns2-btn svg{width:12px;height:12px;flex-shrink:0}
+.ds-active .ns2-dlbtn{animation:fadeInUp 0.35s ease 4.0s forwards}
+.ns2-dlbtn svg{width:12px;height:12px;flex-shrink:0}
 
 /* ─── Scene 3: Download → Slides Ready ─── */
 .ns3-dl-btn{
@@ -426,20 +490,29 @@ body{
   pointer-events:none;z-index:20;opacity:0;
 }
 .demo-finger svg{width:100%;height:100%;filter:drop-shadow(0 3px 10px rgba(0,0,0,0.28)) drop-shadow(0 2px 20px rgba(251,114,57,0.45))}
-.ns2-finger{top:78px;bottom:auto}
+/* Scene 2 fingers: A = taps inbox row, B = taps download button */
+.ns2-finga{top:64px;bottom:auto}
+.ns2-fingb{top:128px;bottom:auto}
 .ns3-finger{top:0px;bottom:auto}
-.ds-active .ns2-finger{animation:fingerSlide2 3.0s var(--ease) 0.8s infinite}
+.ds-active .ns2-finga{animation:fingA 5.5s ease 0.5s forwards}
+.ds-active .ns2-fingb{animation:fingB 5.5s ease 4.0s forwards}
 .ds-active .ns3-finger{animation:fingerSlide3 3.0s var(--ease) 0.6s infinite}
 
-/* Scene 2: cursor slides in from right → hovers over button → taps → slides out */
-@keyframes fingerSlide2{
-  0%  {opacity:0;transform:translate(120px,0)}
-  16% {opacity:1;transform:translate(120px,0)}
-  40% {opacity:1;transform:translate(0,0)}
-  52% {opacity:1;transform:translate(0,10px) scale(0.88)}
-  64% {opacity:1;transform:translate(0,0) scale(1)}
-  83% {opacity:0;transform:translate(120px,0)}
-  100%{opacity:0;transform:translate(120px,0)}
+/* Finger A: slides to Coach Tarn row and taps */
+@keyframes fingA{
+  0%  {opacity:0;transform:translate(70px,0)}
+  14% {opacity:1;transform:translate(0,0)}
+  22% {opacity:1;transform:translate(0,8px) scale(0.88)}
+  32% {opacity:0;transform:translate(0,0) scale(1)}
+  100%{opacity:0}
+}
+/* Finger B: taps download button inside email */
+@keyframes fingB{
+  0%  {opacity:0;transform:translate(70px,0)}
+  15% {opacity:1;transform:translate(0,0)}
+  28% {opacity:1;transform:translate(0,8px) scale(0.88)}
+  40% {opacity:0;transform:translate(0,0) scale(1)}
+  100%{opacity:0}
 }
 /* Scene 3: cursor slides in from left → hovers over button → taps → slides out */
 @keyframes fingerSlide3{
@@ -556,7 +629,6 @@ body{
   padding:10px 24px;
   display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
   gap:8px 16px;
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
 }
 .compat-label{font-size:11px;font-weight:600;color:var(--text-sub);letter-spacing:0.6px;text-transform:uppercase;flex-shrink:0}
 .compat-sep{width:1px;height:14px;background:var(--border);flex-shrink:0}
@@ -568,17 +640,20 @@ body{
 /* ══════════════════════════════════════
    SECTION BASE
 ══════════════════════════════════════ */
-.section{padding:56px 24px}
+.section{padding:40px 24px}
 .section-pill{
-  display:inline-block;background:rgba(211,71,36,0.09);
+  display:block;text-align:center;
+  background:rgba(211,71,36,0.09);
   color:var(--red);font-size:12px;font-weight:700;
   padding:5px 12px;border-radius:100px;margin-bottom:12px;letter-spacing:0.3px;
+  width:fit-content;margin-left:auto;margin-right:auto;
 }
 .section-h2{
   font-size:26px;font-weight:900;line-height:1.2;
   color:var(--text);margin-bottom:8px;letter-spacing:-0.5px;
+  text-align:center;
 }
-.section-sub{font-size:15px;color:var(--text-mid);line-height:1.65;margin-bottom:28px;font-weight:400}
+.section-sub{font-size:15px;color:var(--text-mid);line-height:1.6;margin-bottom:20px;font-weight:400;text-align:center}
 
 /* Reveal animation */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
@@ -595,7 +670,7 @@ body{
    SOCIAL PROOF BAR
 ══════════════════════════════════════ */
 .social-bar{
-  background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:#fff;
   padding:18px 24px;display:flex;align-items:center;gap:14px;
 }
 .avatars{display:flex}
@@ -612,6 +687,15 @@ body{
 .social-text{font-size:14px;color:var(--text-mid);font-weight:500;line-height:1.45}
 .social-text strong{color:var(--text);font-weight:800}
 .stars-inline{color:#F59E0B;font-size:13px;letter-spacing:1px}
+.social-review-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:12px;font-weight:600;color:var(--red);
+  text-decoration:none;margin-top:4px;
+  opacity:.85;transition:opacity .2s;
+}
+.social-review-link:active{opacity:1}
+.social-review-link svg{width:11px;height:11px;stroke:var(--red);fill:none;stroke-width:2.5;flex-shrink:0}
+.social-count-link{color:inherit;text-decoration:none}
 
 /* ══════════════════════════════════════
    PAIN SECTION
@@ -638,12 +722,12 @@ body{
 .reels-section{background:var(--bg-soft)}
 .reels-head{text-align:center;margin-bottom:24px}
 .reels-eyebrow{
-  font-size:12px;font-weight:600;letter-spacing:0.08em;
+  font-size:12px;font-weight:600;letter-spacing:0.06em;
   text-transform:uppercase;color:var(--red);
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 .reels-h2{
-  font-size:26px;font-weight:700;
+  font-size:24px;font-weight:700;
   color:var(--text);line-height:1.25;
   letter-spacing:-0.02em;margin:0;
 }
@@ -651,16 +735,17 @@ body{
 .reels-scroll-wrap{
   overflow-x:auto;-webkit-overflow-scrolling:touch;
   padding:0 0 16px;scrollbar-width:none;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 56px,#000 calc(100% - 56px),transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0%,#000 56px,#000 calc(100% - 56px),transparent 100%);
+  margin-left:-24px;margin-right:-24px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%);
 }
 .reels-scroll-wrap::-webkit-scrollbar{display:none}
 .reels-grid{
-  display:flex;gap:10px;padding:0 56px;
+  display:flex;gap:8px;padding:0 24px;
 }
 .reel-thumb{
-  flex-shrink:0;width:155px;
-  position:relative;border-radius:12px;overflow:hidden;
+  flex-shrink:0;width:92px;
+  position:relative;border-radius:10px;overflow:hidden;
   cursor:pointer;aspect-ratio:9/16;background:#111;
   box-shadow:0 4px 16px rgba(0,0,0,0.15);
 }
@@ -674,8 +759,8 @@ body{
   display:flex;align-items:center;justify-content:center;
 }
 .reel-play-btn{
-  width:48px;height:48px;border-radius:50%;
-  background:rgba(255,255,255,0.18);
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,0.2);
   backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
   border:1.5px solid rgba(255,255,255,0.45);
   display:flex;align-items:center;justify-content:center;
@@ -683,8 +768,8 @@ body{
 }
 .reel-thumb:active .reel-play-btn{transform:scale(0.9)}
 .reel-play-btn svg{
-  width:18px;height:18px;fill:#fff;
-  margin-left:3px; /* optical center for play triangle */
+  width:12px;height:12px;fill:#fff;
+  margin-left:2px;
 }
 /* Modal */
 .reel-modal{
@@ -738,8 +823,7 @@ body{
    PARALLAX TEMPLATE STRIP
 ══════════════════════════════════════ */
 .strip-section{
-  background:var(--bg-soft);padding:48px 0;
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:var(--bg-soft);padding:36px 0;
   overflow:hidden;
 }
 .strip-header{padding:0 24px;margin-bottom:24px}
@@ -831,7 +915,7 @@ body{
 /* ══════════════════════════════════════
    REVIEWS CAROUSEL
 ══════════════════════════════════════ */
-.reviews-section{background:var(--bg-soft);border-top:1px solid var(--border);padding-bottom:40px}
+.reviews-section{background:var(--bg-soft);padding-bottom:28px}
 .reviews-head{text-align:center;margin-bottom:8px}
 .reviews-rating-bar{
   display:flex;align-items:center;justify-content:center;
@@ -840,21 +924,28 @@ body{
 .reviews-stars{display:flex;gap:3px}
 .reviews-stars svg{width:16px;height:16px}
 .reviews-rating-text{font-size:13px;color:var(--text-sub);font-weight:500}
-/* peek carousel */
-.rv-outer{overflow:hidden;padding:4px 0 8px}
+/* peek carousel — breakout จาก section padding 24px */
+.rv-outer{
+  overflow:hidden;padding:4px 0 8px;
+  margin-left:-24px;margin-right:-24px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 44px,#000 calc(100% - 44px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 44px,#000 calc(100% - 44px),transparent 100%);
+}
 .rv-track{
   display:flex;gap:12px;
-  padding-left:10%;
+  padding-left:24px;
   transition:transform 0.42s cubic-bezier(0.4,0,0.2,1);
   will-change:transform;
   user-select:none;-webkit-user-select:none;
 }
 .rv-card{
-  flex-shrink:0;width:80%;
+  flex-shrink:0;width:82%;
   background:#fff;border-radius:18px;overflow:hidden;
   box-shadow:0 2px 16px rgba(0,0,0,0.09);
-  transition:box-shadow .3s;
+  opacity:0.9;
+  transition:opacity .4s,box-shadow .3s;
 }
+.rv-card.rv-active{opacity:1}
 .rv-card img{width:100%;display:block}
 .rv-card-foot{
   display:flex;align-items:center;gap:10px;
@@ -888,7 +979,7 @@ body{
 /* ══════════════════════════════════════
    WHO IS THIS FOR — TAB VERSION
 ══════════════════════════════════════ */
-.for-section{background:var(--bg-soft);border-top:1px solid var(--border)}
+.for-section{background:var(--bg-soft)}
 /* Tab buttons */
 .tab-btns{
   display:flex;gap:8px;overflow-x:auto;
@@ -979,7 +1070,7 @@ body{
 /* ══════════════════════════════════════
    HOW IT WORKS
 ══════════════════════════════════════ */
-.how-section{background:var(--bg-soft);border-top:1px solid var(--border)}
+.how-section{background:var(--bg-soft)}
 .steps{display:flex;flex-direction:column;gap:0;margin-top:24px}
 .step-row{display:flex;gap:16px;padding-bottom:24px}
 .step-row:last-child{padding-bottom:0}
@@ -1000,7 +1091,7 @@ body{
 /* ══════════════════════════════════════
    FAQ
 ══════════════════════════════════════ */
-.faq-section{background:#fff;border-top:1px solid var(--border)}
+.faq-section{background:#fff}
 .faq-list{display:flex;flex-direction:column;gap:8px;margin-top:20px}
 .faq-item{background:var(--bg-soft);border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border)}
 .faq-q{
@@ -1034,7 +1125,7 @@ body{
 ══════════════════════════════════════ */
 .final-cta{
   background:linear-gradient(160deg,var(--red) 0%,#A02D12 100%);
-  padding:48px 24px;text-align:center;
+  padding:36px 24px;text-align:center;
   position:relative;overflow:hidden;
 }
 .final-cta::before{
@@ -1134,7 +1225,12 @@ body{
   font-family:inherit;cursor:pointer;
   display:flex;align-items:center;justify-content:center;gap:8px;
   text-decoration:none;font-size:15px;font-weight:800;letter-spacing:-0.2px;
-  transition:transform .15s;overflow:hidden;
+  transition:transform .15s;overflow:hidden;position:relative;
+}
+.btn-sticky::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);
+  animation:shimmer 2.4s ease-in-out infinite;
 }
 .btn-sticky:active{transform:scale(0.98)}
 .btn-sticky svg{width:18px;height:18px;flex-shrink:0}
@@ -1148,7 +1244,6 @@ body{
 .coach-strip{
   display:flex;align-items:center;gap:14px;
   background:var(--bg-soft);
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
   padding:16px 24px;
 }
 .cs-img{
@@ -1239,7 +1334,76 @@ body{
 /* ══════════════════════════════════════
    EMAIL FLOW — 4-STEP
 ══════════════════════════════════════ */
-.flow-section{padding:48px 24px;background:#fff;border-top:1px solid var(--border)}
+.flow-section{padding:36px 24px;background:#fff}
+/* merged steps */
+.flow-steps{display:flex;flex-direction:column;gap:0;margin-top:28px}
+.flow-step-row{display:flex;gap:14px;padding-bottom:20px;transition:opacity .35s}
+.flow-step-row:last-child{padding-bottom:0}
+.flow-step-row:not(.fs-active){opacity:.38}
+.flow-step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.flow-step-num{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  background:var(--bg-soft);border:2px solid var(--border);
+  font-size:13px;font-weight:800;color:var(--text-sub);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .35s,border-color .35s,color .35s;
+}
+.flow-step-row.fs-active .flow-step-num{
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  border-color:transparent;color:#fff;
+}
+.flow-step-line{width:2px;flex:1;background:linear-gradient(var(--orange),rgba(235,125,74,0.1));margin-top:4px;min-height:16px}
+.flow-step-row:last-child .flow-step-line{display:none}
+.flow-step-body{padding-top:5px}
+.flow-step-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:3px}
+.flow-step-desc{font-size:13px;color:var(--text-mid);line-height:1.55}
+.flow-note{
+  margin-top:20px;background:rgba(235,125,74,0.07);
+  border-radius:14px;padding:13px 16px;
+  border:1px solid rgba(235,125,74,0.18);
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--text-mid);line-height:1.6;
+}
+.flow-note strong{color:var(--text)}
+
+/* ── Tab switcher ── */
+.flow-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:20px}
+.flow-tab-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 13px 7px 7px;border-radius:24px;
+  border:1.5px solid var(--border);background:#fff;cursor:pointer;
+  font-family:'Noto Sans Thai',sans-serif;
+  font-size:12px;font-weight:700;color:var(--text-mid);
+  transition:border-color .25s,color .25s;
+}
+.flow-tab-btn .ft-num{
+  width:22px;height:22px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;
+  background:var(--bg-soft);color:var(--text-sub);
+  transition:background .25s,color .25s;
+}
+.flow-tab-btn.ft-active{border-color:var(--orange);color:var(--red)}
+.flow-tab-btn.ft-active .ft-num{
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));color:#fff;
+}
+
+/* ── Step detail panel ── */
+.flow-detail{margin-top:20px;position:relative;min-height:80px}
+.flow-detail-item{
+  position:absolute;inset:0;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .32s,transform .32s;
+  pointer-events:none;
+}
+.flow-detail-item.fd-active{
+  opacity:1;transform:translateY(0);
+  pointer-events:auto;position:relative;
+}
+.flow-detail-num{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:0.4px;margin-bottom:4px}
+.flow-detail-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:5px;line-height:1.4}
+.flow-detail-desc{font-size:13px;color:var(--text-mid);line-height:1.6}
+
 .flow-steps{display:flex;flex-direction:column;gap:0;margin-top:28px}
 .flow-row{display:flex;gap:16px;padding-bottom:20px}
 .flow-row:last-child{padding-bottom:0}
@@ -1261,7 +1425,7 @@ body{
 /* ══════════════════════════════════════
    FEATURE SECTIONS — 2-COL BENEFIT
 ══════════════════════════════════════ */
-.feat-section{padding:48px 24px;border-top:1px solid var(--border)}
+.feat-section{padding:36px 24px}
 .feat-section.feat-alt{background:var(--bg-soft)}
 .feat-visual{
   border-radius:var(--radius-lg);overflow:hidden;
@@ -1454,13 +1618,13 @@ body{
       </div>
       <div class="hero-stat">
         <div class="hero-stat-num">
-          <svg class="inf-svg" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg"><path d="M50,25 C55,8 95,8 95,25 C95,42 55,42 50,25 C45,8 5,8 5,25 C5,42 45,42 50,25"/></svg>
+          <svg class="inf-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.007 512.007"><path d="M399.237 256.004c0-78.979-64.254-143.233-143.233-143.233S112.77 177.025 112.77 256.004s64.254 143.233 143.233 143.233 143.234-64.254 143.234-143.233zm-100.568 42.665c-2.929 2.929-6.768 4.394-10.606 4.394s-7.678-1.464-10.606-4.394l-32.059-32.059a15 15 0 0 1-4.394-10.606v-64.117c0-8.284 6.716-15 15-15s15 6.716 15 15v57.903l27.665 27.666c5.858 5.858 5.858 15.355 0 21.213z"/><path d="M472.981 154.826C446.535 98.111 400.017 54.81 341.726 32.485l8.333-3.886c7.509-3.501 10.757-12.426 7.256-19.934-3.501-7.508-12.429-10.757-19.934-7.255l-41.09 19.16a15 15 0 0 0-7.256 19.934l19.161 41.09c2.545 5.458 7.955 8.664 13.604 8.664 2.122 0 4.279-.453 6.33-1.409 7.508-3.501 10.756-12.426 7.255-19.934l-3.824-8.201c105.915 40.946 160.232 159.729 121.221 266.912-25.347 69.639-83.955 119.719-156.778 133.965-8.13 1.59-13.432 9.47-11.841 17.601 1.4 7.158 7.675 12.123 14.704 12.123.955 0 1.924-.092 2.896-.282 39.791-7.784 77.236-25.668 108.29-51.718 32.022-26.863 56.546-61.936 70.92-101.428 21.872-60.093 19.034-125.105-7.992-183.061zM203.81 430.414c-3.501-7.509-12.426-10.757-19.935-7.255-7.508 3.501-10.756 12.426-7.255 19.934l3.824 8.201C74.53 410.348 20.213 291.564 59.224 184.382c25.347-69.639 83.955-119.719 156.778-133.965 8.13-1.59 13.432-9.47 11.841-17.601-1.59-8.131-9.469-13.43-17.601-11.841-39.791 7.784-77.236 25.668-108.29 51.718-32.022 26.863-56.546 61.936-70.92 101.428C9.161 234.213 12 299.226 39.025 357.182c26.446 56.714 72.964 100.015 131.255 122.341l-8.333 3.886c-7.509 3.501-10.757 12.426-7.256 19.934 2.545 5.458 7.955 8.665 13.604 8.664 2.122 0 4.279-.453 6.329-1.409l41.09-19.16a15 15 0 0 0 7.256-19.934z"/></svg>
         </div>
-        <div class="hero-stat-label">โหลดได้<br>ตลอดชีพ</div>
+        <div class="hero-stat-label">โหลดได้<br>ไม่จำกัด</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">1 ครั้ง</div>
-        <div class="hero-stat-label">จ่ายครั้งเดียว<br>ไม่มีรายเดือน</div>
+        <div class="hero-stat-num">1×</div>
+        <div class="hero-stat-label">จ่ายครั้งเดียว<br>ใช้ได้ตลอดไป</div>
       </div>
     </div>
   </div>
@@ -1514,20 +1678,12 @@ body{
     <div class="av av3">ป</div><div class="av av4">น</div>
   </div>
   <div class="social-text">
-    <strong>2,000+ คน</strong> ใช้งานแล้ว<br>
-    <span class="stars-inline">★★★★★</span> รีวิวเฉลี่ย 4.9/5
+    <a href="#reviews" class="social-count-link"><strong>7,000+ คน</strong></a> ใช้งานแล้ว<br>
+    <span class="stars-inline">★★★★★</span> รีวิวเฉลี่ย 4.9/5<br>
+    <a href="#reviews" class="social-review-link">อ่านรีวิวเพิ่มเติม <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
   </div>
 </div>
 
-
-<!-- Coach Tarn Authority -->
-<div class="coach-strip reveal">
-  <img src="img/coach-tarn.png" alt="Coach Tarn" class="cs-img">
-  <div>
-    <div class="cs-name">Coach Tarn — วิทยากรด้านการนำเสนอ</div>
-    <div class="cs-role">คัดเลือกและออกแบบ template ทุกชิ้นด้วยตัวเอง<br>Speaker &amp; Trainer ประสบการณ์ 10+ ปี</div>
-  </div>
-</div>
 
 <!-- ⑦ PARALLAX TEMPLATE STRIP -->
 <section class="strip-section" id="strip">
@@ -1573,8 +1729,8 @@ body{
 <!-- ⑥b REELS -->
 <section class="section reels-section">
   <div class="reels-head reveal">
-    <p class="reels-eyebrow">Reels · Coach Tarn</p>
-    <h2 class="reels-h2">รู้สึกแบบนี้บ้างไหม<br><span>ตอนต้องทำสไลด์?</span></h2>
+    <p class="reels-eyebrow">เข้าใจปัญหาของคุณ</p>
+    <h2 class="reels-h2">เคยรู้สึก<br><span>แบบนี้บ้างไหม</span></h2>
   </div>
   <div class="reels-scroll-wrap">
     <div class="reels-grid">
@@ -1622,12 +1778,19 @@ body{
   <video id="rv3" src="videos/reel-pain-04.mp4" preload="auto" playsinline></video>
 </div>
 
-<!-- ⑧ EMAIL FLOW SECTION -->
+<!-- ⑧ EMAIL FLOW SECTION (merged with how-it-works) -->
 <section class="flow-section">
   <div class="reveal" style="text-align:center">
-    <div class="section-pill">รับไฟล์ทันที</div>
-    <h2 class="section-h2">สั่งซื้อแล้ว<br>รับทางอีเมลทันที</h2>
+    <div class="section-pill">ขั้นตอนสั่งซื้อ</div>
+    <h2 class="section-h2">ง่าย 3 ขั้นตอน<br>เริ่มใช้งานได้ทันที</h2>
     <p class="section-sub" style="margin-bottom:0">ดูว่าเกิดอะไรขึ้นหลังกดสั่งซื้อ ทีละขั้นตอน</p>
+  </div>
+
+  <!-- Tab buttons -->
+  <div class="flow-tabs" id="flowTabs">
+    <button class="flow-tab-btn ft-active" data-step="0"><span class="ft-num">1</span>สั่งซื้อ</button>
+    <button class="flow-tab-btn" data-step="1"><span class="ft-num">2</span>เช็คอีเมล</button>
+    <button class="flow-tab-btn" data-step="2"><span class="ft-num">3</span>โหลดไฟล์</button>
   </div>
 
   <!-- Phone demo -->
@@ -1655,23 +1818,79 @@ body{
           </div>
         </div>
 
-        <!-- Scene 2: เปิดเมล กดปุ่มรับสไลด์ -->
+        <!-- Scene 2: Gmail → เปิดเมล → Redeem Code + Download -->
         <div class="demo-scene" data-scene="1">
-          <div class="ns2-header">กล่องจดหมาย</div>
-          <div class="ns2-row">
-            <div class="ns2-av">CT</div>
-            <div class="ns2-info">
-              <div class="ns2-from">Coach Tarn Template</div>
-              <div class="ns2-subj">รับสไลด์ของคุณได้แล้ว!</div>
+          <div class="ns2-wrap">
+
+            <!-- INBOX VIEW (fades out after tap) -->
+            <div class="ns2-inbox">
+              <!-- Gmail search bar -->
+              <div class="ns2-gbar">
+                <svg viewBox="0 0 24 24" fill="#5F6368"><path d="M3 8h18v1.5H3zm3 4h12v1.5H6zm3 4h6v1.5H9z"/></svg>
+                <span class="ns2-gbar-text">Search in mail</span>
+                <div class="ns2-gbar-av"></div>
+              </div>
+              <div class="ns2-lbl">All inboxes</div>
+              <!-- Row 1 -->
+              <div class="ns2-erow">
+                <div class="ns2-eav" style="background:#1E7E34">K</div>
+                <div class="ns2-emeta">
+                  <div class="ns2-efrom ns2-read">K BIZ</div>
+                  <div class="ns2-esubj">Status of Account Fund Transfer</div>
+                </div>
+                <div class="ns2-etime">21:41</div>
+              </div>
+              <!-- Row 2: Coach Tarn (unread + highlighted) -->
+              <div class="ns2-erow ns2-ct">
+                <div class="ns2-eav" style="background:linear-gradient(135deg,var(--red),var(--orange))">CT</div>
+                <div class="ns2-emeta">
+                  <div class="ns2-efrom">Coach Tarn Template</div>
+                  <div class="ns2-esubj">รับสไลด์ของคุณได้แล้ว!</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
+                  <div class="ns2-etime">21:40</div>
+                  <div class="ns2-udot"></div>
+                </div>
+              </div>
+              <!-- Row 3 -->
+              <div class="ns2-erow">
+                <div class="ns2-eav" style="background:#6B21A8">M</div>
+                <div class="ns2-emeta">
+                  <div class="ns2-efrom ns2-read">Make</div>
+                  <div class="ns2-esubj">Watch us break an AI agent...</div>
+                </div>
+                <div class="ns2-etime">21:37</div>
+              </div>
             </div>
-            <div class="ns2-unread"></div>
-          </div>
-          <div class="ns2-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-            กดปุ่มรับสไลด์ทันที
-          </div>
-          <!-- นิ้วมือกดปุ่ม -->
-          <div class="demo-finger ns2-finger" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="168" y="353" width="245" height="118" fill="#F6F7F9"/><path d="M402.613 283.093V359.947H191.947L171.413 338.987L103.36 269.547C89.1201 255.307 88.0534 231.947 101.28 216.693C108.853 208 119.84 203.573 130.4 203.573C140.053 203.573 149.973 207.2 157.387 214.613L183.52 246.08C186.613 249.12 186.453 246.933 186.453 242.613V69.7067C186.453 48.8001 205.44 31.7867 226.4 31.7867C236.853 31.7867 244 36.0534 250.827 42.9334C257.707 49.7601 263.2 59.2534 263.2 69.7067V194.827L370.72 238.347C388.853 245.813 402.613 263.467 402.613 283.093Z" fill="#F6F7F9"/><path d="M374.613 228.64L273.653 187.787V69.7067C273.653 57.4934 268.16 45.3867 258.293 35.5734C251.68 28.9067 242.133 21.3334 226.4 21.3334C199.093 21.3334 176 43.4667 176 69.7067V220.64L165.44 207.947C165.227 207.68 165.013 207.467 164.8 207.2C155.84 198.24 143.253 193.12 130.4 193.12C116.107 193.12 102.613 199.2 93.3868 209.867C76.5868 229.227 77.7068 258.667 95.8934 276.853L157.76 340L177.28 359.947H409.6V369.12C411.787 366.667 413.067 363.413 413.067 359.947V283.093C413.067 259.947 397.653 238.08 374.613 228.64ZM392.16 353.067L201.547 354.827L186.027 338.987L110.773 262.133C100.373 251.787 99.6801 234.507 109.173 223.573C114.347 217.6 122.293 214.027 130.4 214.027C137.6 214.027 144.64 216.8 149.707 221.707L175.52 252.747C175.733 253.013 175.947 253.227 176.16 253.493C181.867 259.2 187.2 258.24 189.813 257.12C196.96 254.187 196.96 246.933 196.96 243.093V69.7067C196.96 55.0934 210.72 42.24 226.4 42.24C232.907 42.24 237.707 44.48 243.467 50.3467C249.333 56.16 252.747 63.2534 252.747 69.7067V194.827C252.747 199.093 255.307 202.933 259.253 204.533L366.72 248C381.707 254.187 392.165 268.587 392.165 283.093L392.16 353.067Z" fill="#FB7239"/><path d="M420.053 338.987H162.08C160.533 338.987 159.04 339.307 157.76 340C154.133 341.6 151.627 345.227 151.627 349.493V445.333C151.627 470.347 171.947 490.667 196.96 490.667H385.227C410.187 490.667 430.507 470.347 430.507 445.333V349.493C430.507 343.68 425.867 338.987 420.053 338.987ZM409.6 445.333C409.6 458.773 398.667 469.76 385.227 469.76H196.96C183.467 469.76 172.533 458.773 172.533 445.333V359.947H409.6V445.333Z" fill="#FB7239"/></svg></div>
+
+            <!-- OPENED EMAIL VIEW (slides in from right) -->
+            <div class="ns2-opened">
+              <div class="ns2-ehead">
+                <div class="ns2-eback"><svg viewBox="0 0 24 24" fill="none" stroke="#5F6368" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></div>
+                <div class="ns2-eavatar">CT</div>
+                <div class="ns2-einfo">
+                  <div class="ns2-ename">Coach Tarn Template</div>
+                  <div class="ns2-edate">วันนี้ 21:40</div>
+                </div>
+              </div>
+              <div class="ns2-esubject">รับสไลด์ของคุณได้แล้ว!</div>
+              <div class="ns2-egreet">สวัสดีค่ะ คุณลูกค้า<br>Redeem Code ของคุณ:</div>
+              <div class="ns2-code">
+                <div class="ns2-code-lbl">Redeem Code</div>
+                <div class="ns2-code-val">CT-2024-A7K9</div>
+              </div>
+              <div class="ns2-dlbtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                ดาวน์โหลดสไลด์ทันที
+              </div>
+            </div>
+
+            <!-- Finger A: taps Coach Tarn inbox row -->
+            <div class="demo-finger ns2-finga" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="168" y="353" width="245" height="118" fill="#F6F7F9"/><path d="M402.613 283.093V359.947H191.947L171.413 338.987L103.36 269.547C89.1201 255.307 88.0534 231.947 101.28 216.693C108.853 208 119.84 203.573 130.4 203.573C140.053 203.573 149.973 207.2 157.387 214.613L183.52 246.08C186.613 249.12 186.453 246.933 186.453 242.613V69.7067C186.453 48.8001 205.44 31.7867 226.4 31.7867C236.853 31.7867 244 36.0534 250.827 42.9334C257.707 49.7601 263.2 59.2534 263.2 69.7067V194.827L370.72 238.347C388.853 245.813 402.613 263.467 402.613 283.093Z" fill="#F6F7F9"/><path d="M374.613 228.64L273.653 187.787V69.7067C273.653 57.4934 268.16 45.3867 258.293 35.5734C251.68 28.9067 242.133 21.3334 226.4 21.3334C199.093 21.3334 176 43.4667 176 69.7067V220.64L165.44 207.947C165.227 207.68 165.013 207.467 164.8 207.2C155.84 198.24 143.253 193.12 130.4 193.12C116.107 193.12 102.613 199.2 93.3868 209.867C76.5868 229.227 77.7068 258.667 95.8934 276.853L157.76 340L177.28 359.947H409.6V369.12C411.787 366.667 413.067 363.413 413.067 359.947V283.093C413.067 259.947 397.653 238.08 374.613 228.64ZM392.16 353.067L201.547 354.827L186.027 338.987L110.773 262.133C100.373 251.787 99.6801 234.507 109.173 223.573C114.347 217.6 122.293 214.027 130.4 214.027C137.6 214.027 144.64 216.8 149.707 221.707L175.52 252.747C175.733 253.013 175.947 253.227 176.16 253.493C181.867 259.2 187.2 258.24 189.813 257.12C196.96 254.187 196.96 246.933 196.96 243.093V69.7067C196.96 55.0934 210.72 42.24 226.4 42.24C232.907 42.24 237.707 44.48 243.467 50.3467C249.333 56.16 252.747 63.2534 252.747 69.7067V194.827C252.747 199.093 255.307 202.933 259.253 204.533L366.72 248C381.707 254.187 392.165 268.587 392.165 283.093L392.16 353.067Z" fill="#FB7239"/><path d="M420.053 338.987H162.08C160.533 338.987 159.04 339.307 157.76 340C154.133 341.6 151.627 345.227 151.627 349.493V445.333C151.627 470.347 171.947 490.667 196.96 490.667H385.227C410.187 490.667 430.507 470.347 430.507 445.333V349.493C430.507 343.68 425.867 338.987 420.053 338.987ZM409.6 445.333C409.6 458.773 398.667 469.76 385.227 469.76H196.96C183.467 469.76 172.533 458.773 172.533 445.333V359.947H409.6V445.333Z" fill="#FB7239"/></svg></div>
+            <!-- Finger B: taps download button -->
+            <div class="demo-finger ns2-fingb" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="168" y="353" width="245" height="118" fill="#F6F7F9"/><path d="M402.613 283.093V359.947H191.947L171.413 338.987L103.36 269.547C89.1201 255.307 88.0534 231.947 101.28 216.693C108.853 208 119.84 203.573 130.4 203.573C140.053 203.573 149.973 207.2 157.387 214.613L183.52 246.08C186.613 249.12 186.453 246.933 186.453 242.613V69.7067C186.453 48.8001 205.44 31.7867 226.4 31.7867C236.853 31.7867 244 36.0534 250.827 42.9334C257.707 49.7601 263.2 59.2534 263.2 69.7067V194.827L370.72 238.347C388.853 245.813 402.613 263.467 402.613 283.093Z" fill="#F6F7F9"/><path d="M374.613 228.64L273.653 187.787V69.7067C273.653 57.4934 268.16 45.3867 258.293 35.5734C251.68 28.9067 242.133 21.3334 226.4 21.3334C199.093 21.3334 176 43.4667 176 69.7067V220.64L165.44 207.947C165.227 207.68 165.013 207.467 164.8 207.2C155.84 198.24 143.253 193.12 130.4 193.12C116.107 193.12 102.613 199.2 93.3868 209.867C76.5868 229.227 77.7068 258.667 95.8934 276.853L157.76 340L177.28 359.947H409.6V369.12C411.787 366.667 413.067 363.413 413.067 359.947V283.093C413.067 259.947 397.653 238.08 374.613 228.64ZM392.16 353.067L201.547 354.827L186.027 338.987L110.773 262.133C100.373 251.787 99.6801 234.507 109.173 223.573C114.347 217.6 122.293 214.027 130.4 214.027C137.6 214.027 144.64 216.8 149.707 221.707L175.52 252.747C175.733 253.013 175.947 253.227 176.16 253.493C181.867 259.2 187.2 258.24 189.813 257.12C196.96 254.187 196.96 246.933 196.96 243.093V69.7067C196.96 55.0134 210.72 42.24 226.4 42.24C232.907 42.24 237.707 44.48 243.467 50.3467C249.333 56.16 252.747 63.2534 252.747 69.7067V194.827C252.747 199.093 255.307 202.933 259.253 204.533L366.72 248C381.707 254.187 392.165 268.587 392.165 283.093L392.16 353.067Z" fill="#FB7239"/><path d="M420.053 338.987H162.08C160.533 338.987 159.04 339.307 157.76 340C154.133 341.6 151.627 345.227 151.627 349.493V445.333C151.627 470.347 171.947 490.667 196.96 490.667H385.227C410.187 490.667 430.507 470.347 430.507 445.333V349.493C430.507 343.68 425.867 338.987 420.053 338.987ZM409.6 445.333C409.6 458.773 398.667 469.76 385.227 469.76H196.96C183.467 469.76 172.533 458.773 172.533 445.333V359.947H409.6V445.333Z" fill="#FB7239"/></svg></div>
+
+          </div><!-- /ns2-wrap -->
         </div>
 
         <!-- Scene 3: กดดาวน์โหลด → เปิดแก้ไขได้เลย -->
@@ -1704,6 +1923,31 @@ body{
     <!-- Caption -->
     <div class="demo-caption" id="demoCaption">ชำระเงินสำเร็จ</div>
   </div><!-- /demo-wrap -->
+
+  <!-- Step detail panel (syncs with animation) -->
+  <div class="flow-detail" id="flowDetail">
+    <div class="flow-detail-item fd-active" id="flowStep0">
+      <div class="flow-detail-num">ขั้นตอนที่ 1</div>
+      <div class="flow-detail-title">กดสั่งซื้อ — กรอกฟอร์ม — โอนเงิน 499฿</div>
+      <div class="flow-detail-desc">ใส่ชื่อ อีเมล แล้วถ่ายรูปสลิปอัปขึ้นไป ทำได้จากมือถือเลย ไม่ยุ่งยาก</div>
+    </div>
+    <div class="flow-detail-item" id="flowStep1">
+      <div class="flow-detail-num">ขั้นตอนที่ 2</div>
+      <div class="flow-detail-title">เช็คอีเมล — รับ Code และลิงก์ดาวน์โหลด</div>
+      <div class="flow-detail-desc">อีเมลมาใน 1 นาที มีลิงก์และ Redeem Code ชัดเจน เก็บไว้กลับมาโหลดเพิ่มได้ตลอด</div>
+    </div>
+    <div class="flow-detail-item" id="flowStep2">
+      <div class="flow-detail-num">ขั้นตอนที่ 3</div>
+      <div class="flow-detail-title">คลิกลิงก์ — กรอก Code — โหลดสไลด์</div>
+      <div class="flow-detail-desc">เลือกสไลด์แล้วโหลดได้เลย อยากโหลดเพิ่มวันไหน กลับมาที่อีเมลเดิมได้ตลอดชีพ</div>
+    </div>
+  </div>
+
+  <div class="reveal flow-note">
+    <svg style="flex-shrink:0;margin-top:2px" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <div><strong>ไม่ต้องกังวลว่าจะหาไฟล์ไม่เจอ</strong> — อีเมลที่ได้รับจะอยู่ในกล่องจดหมายของคุณเสมอ ไม่มีวันหมดอายุ</div>
+  </div>
+
 </section>
 
 <!-- ⑨a FEATURE: แก้ไขง่าย ไม่ต้องเชี่ยวชาญ -->
@@ -2067,7 +2311,7 @@ body{
   </div>
   <div class="cta-star-row reveal">
     <span class="stars">★★★★★</span>
-    <span class="star-text">4.9/5 · ลูกค้าพึงพอใจกว่า 2,000 คน</span>
+    <span class="star-text">4.9/5 · ลูกค้าพึงพอใจกว่า 7,000 คน</span>
   </div>
   <a href="order.html" class="btn-main reveal">
     <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
@@ -2076,41 +2320,6 @@ body{
   <div class="trust-line reveal" style="margin-top:10px">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
     ปลอดภัย · ได้ไฟล์ทางอีเมล · มีคู่มือการดาวน์โหลดให้
-  </div>
-</section>
-
-<!-- ⑬ HOW IT WORKS -->
-<section class="section how-section" id="how">
-  <div class="reveal" style="text-align:center">
-    <div class="section-pill">ขั้นตอนสั่งซื้อ</div>
-    <h2 class="section-h2">ง่าย 3 ขั้นตอน<br>เริ่มใช้งานได้ทันที</h2>
-  </div>
-  <div class="steps">
-    <div class="step-row reveal reveal-delay-1">
-      <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">กดสั่งซื้อ — กรอกฟอร์ม — โอนเงิน 499฿</div>
-        <div class="step-desc">ใส่ชื่อและอีเมลของคุณ แล้วถ่ายรูปสลิปอัปขึ้นไป ทำได้จากมือถือเลย ไม่ยุ่งยาก</div>
-      </div>
-    </div>
-    <div class="step-row reveal reveal-delay-2">
-      <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
-      <div class="step-content">
-        <div class="step-title">เช็คอีเมล — รับ Code และลิงก์ดาวน์โหลด</div>
-        <div class="step-desc">อีเมลจะมาใน 1–2 นาที มีลิงก์หน้าดาวน์โหลดและ Redeem Code ชัดเจน เก็บอีเมลนี้ไว้ — จะได้กลับมาโหลดเพิ่มได้ตลอด</div>
-      </div>
-    </div>
-    <div class="step-row reveal reveal-delay-3">
-      <div class="step-left"><div class="step-num">3</div></div>
-      <div class="step-content">
-        <div class="step-title">คลิกลิงก์ในอีเมล — กรอก Code — โหลดสไลด์</div>
-        <div class="step-desc">คลิกลิงก์ในอีเมล กรอก Code แล้วเลือกสไลด์ที่ต้องการโหลดได้เลย ถ้าวันไหนอยากโหลดเพิ่ม กลับไปหาอีเมลเดิมแล้วคลิกลิงก์ได้ตลอดชีพ</div>
-      </div>
-    </div>
-  </div>
-  <div class="reveal" style="margin-top:20px;background:rgba(235,125,74,0.07);border-radius:14px;padding:14px 18px;border:1px solid rgba(235,125,74,0.18);display:flex;align-items:flex-start;gap:10px">
-    <svg style="flex-shrink:0;margin-top:2px" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-    <div style="font-size:13px;color:var(--text-mid);line-height:1.6"><strong style="color:var(--text)">ไม่ต้องกังวลว่าจะหาไฟล์ไม่เจอ</strong> — อีเมลที่ได้รับจะอยู่ในกล่องจดหมายของคุณเสมอ กลับมาโหลดเพิ่มได้ทุกวัน ไม่มีวันหมดอายุ</div>
   </div>
 </section>
 
@@ -2123,23 +2332,23 @@ body{
   <div class="faq-list">
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">ใช้ได้กับ PowerPoint เวอร์ชันไหนบ้าง?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
-      <div class="faq-a">ใช้ได้กับ Microsoft PowerPoint ทุกเวอร์ชัน (2016 ขึ้นไป), Office 365, Google Slides (นำเข้าได้) และ Keynote บน Mac</div>
+      <div class="faq-a">รองรับ PowerPoint ทุกเวอร์ชันตั้งแต่ 2016 จนถึง Microsoft 365 ทั้ง Windows และ Mac นำเข้าใน Google Slides ได้เช่นกัน</div>
     </div>
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">หลังโอนเงินต้องรอนานไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
-      <div class="faq-a">ระบบตรวจสลิปอัตโนมัติ ส่ง Redeem Code ทางอีเมลภายใน 1-2 นาที ไม่ต้องรอแอดมิน ตลอด 24 ชั่วโมง</div>
+      <div class="faq-a">ภายใน 1 นาทีหลังชำระ ระบบส่ง Redeem Code ทางอีเมลอัตโนมัติ ไม่ต้องรอแอดมิน พร้อมใช้งานได้ทันที ตลอด 24 ชั่วโมง</div>
     </div>
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">Template ใหม่ที่จะเพิ่มในอนาคต ได้ฟรีจริงไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
-      <div class="faq-a">จริงครับ ทุก template ที่ Coach Tarn เพิ่มในอนาคต คุณได้รับทันทีโดยไม่มีค่าใช้จ่ายเพิ่ม เพราะเป็นการซื้อ Lifetime Access</div>
+      <div class="faq-a">Lifetime Access คือซื้อครั้งเดียว ได้ทุกอัน ตลอดไป Template ใหม่ที่ Coach Tarn เพิ่มในอนาคตจะปรากฏในโฟลเดอร์ของคุณอัตโนมัติ ไม่มีค่าใช้จ่ายเพิ่ม</div>
     </div>
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">โหลดไฟล์ได้กี่ครั้ง? มีหมดอายุไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
-      <div class="faq-a">โหลดได้ไม่จำกัดครั้ง ตลอดชีพ ไม่มีวันหมดอายุ ไฟล์เก็บบน Google Drive ของ Coach Tarn</div>
+      <div class="faq-a">ไม่จำกัดครั้ง ไม่มีวันหมดอายุ ไฟล์เก็บบน Google Drive ของ Coach Tarn พร้อมให้ดาวน์โหลดได้ตลอดเวลา</div>
     </div>
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">Bonus Slides คืออะไร ได้รับตอนไหน?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
-      <div class="faq-a">โฟลเดอร์ template พิเศษที่ไม่ได้อยู่ในชุดหลัก มูลค่า 299฿ จะส่งลิงก์มาพร้อมกับ Redeem Code ในอีเมลเดียวกันทันที</div>
+      <div class="faq-a">Bonus Slides คือ template ชุดพิเศษที่ไม่ได้อยู่ในชุดหลัก มูลค่า 299฿ ระบบส่งลิงก์มาพร้อมกับ Redeem Code ในอีเมลเดียวกันอัตโนมัติ ไม่ต้องร้องขอ</div>
     </div>
   </div>
 </section>
@@ -2273,8 +2482,8 @@ function switchTab(id, btn) {
   const scenes   = document.querySelectorAll('.demo-scene');
   const dots     = document.querySelectorAll('#demoDots .demo-dot');
   const caption  = document.getElementById('demoCaption');
-  const captions = ['ชำระเงินสำเร็จ','เปิดเมล กดรับสไลด์','ดาวน์โหลด — เปิดใช้งาน'];
-  const DURATION = 4200; // ms per scene
+  const captions = ['ชำระเงินสำเร็จ','เปิดเมล — รับ Redeem Code + ดาวน์โหลด','ดาวน์โหลด — เปิดใช้งาน'];
+  const DURATION = 5500; // ms per scene
   let cur = 0, timer;
 
   function resetAnimations(scene){
@@ -2299,9 +2508,25 @@ function switchTab(id, btn) {
 
     dots.forEach((d,i) => d.classList.toggle('dd-on', i === cur));
     if(caption){ caption.style.opacity='0'; setTimeout(()=>{ caption.textContent=captions[cur]; caption.style.opacity='1'; },200); }
+    /* sync tab buttons */
+    document.querySelectorAll('.flow-tab-btn').forEach((b,i) => b.classList.toggle('ft-active', i === cur));
+    /* sync detail panels */
+    [0,1,2].forEach(i => {
+      const s = document.getElementById('flowStep'+i);
+      if(s) s.classList.toggle('fd-active', i === cur);
+    });
   }
 
   function next(){ goTo((cur + 1) % scenes.length); }
+
+  /* Tab button click → jump to scene + restart timer */
+  document.querySelectorAll('.flow-tab-btn').forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      goTo(i);
+      clearInterval(timer);
+      timer = setInterval(next, DURATION);
+    });
+  });
 
   /* Only start cycling when section scrolls into view */
   const phoneWrap = document.querySelector('.demo-wrap');
@@ -2405,8 +2630,11 @@ function switchTab(id, btn) {
     cur = (idx + total) % total;
     track.style.transform = `translateX(-${cur * getStep()}px)`;
     dots.forEach((d,i) => d.classList.toggle('active', i===cur));
+    cards.forEach((c,i) => c.classList.toggle('rv-active', i===cur));
     if(manual){ clearInterval(autoTimer); startAuto(); }
   }
+  /* set initial active */
+  cards[0].classList.add('rv-active');
 
   function startAuto(){
     autoTimer = setInterval(() => goTo(cur + 1, false), 6000);
@@ -2434,6 +2662,9 @@ function switchTab(id, btn) {
   outer.addEventListener('pointercancel', () => {
     dragging = false; track.style.transition = ''; goTo(cur, false);
   });
+
+  /* recalculate on resize (desktop window resize) */
+  window.addEventListener('resize', () => goTo(cur, false));
 
   startAuto();
 })();
