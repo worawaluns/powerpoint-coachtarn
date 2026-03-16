@@ -829,36 +829,60 @@ body{
 .dl-btn svg{width:12px;height:12px}
 
 /* ══════════════════════════════════════
-   REVIEWS
+   REVIEWS CAROUSEL
 ══════════════════════════════════════ */
-.reviews-section{background:#fff;border-top:1px solid var(--border);padding-bottom:40px}
-.reviews-head{text-align:center;margin-bottom:20px}
+.reviews-section{background:var(--bg-soft);border-top:1px solid var(--border);padding-bottom:40px}
+.reviews-head{text-align:center;margin-bottom:8px}
 .reviews-rating-bar{
   display:flex;align-items:center;justify-content:center;
-  gap:8px;margin-bottom:28px;
+  gap:8px;margin-bottom:24px;
 }
 .reviews-stars{display:flex;gap:3px}
 .reviews-stars svg{width:16px;height:16px}
 .reviews-rating-text{font-size:13px;color:var(--text-sub);font-weight:500}
-/* marquee */
-.rv-marquee-wrap{
-  overflow:hidden;display:flex;flex-direction:column;gap:10px;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 40px,#000 calc(100% - 40px),transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0%,#000 40px,#000 calc(100% - 40px),transparent 100%);
-}
-.rv-row{display:flex;overflow:hidden}
+/* peek carousel */
+.rv-outer{overflow:hidden;padding:4px 0 8px}
 .rv-track{
-  display:flex;gap:10px;flex-shrink:0;
-  animation:rv-scroll 30s linear infinite;
+  display:flex;gap:12px;
+  padding-left:10%;
+  transition:transform 0.42s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+  user-select:none;-webkit-user-select:none;
 }
-.rv-row-r .rv-track{animation-direction:reverse}
-@keyframes rv-scroll{
-  from{transform:translateX(0)}
-  to{transform:translateX(-50%)}
+.rv-card{
+  flex-shrink:0;width:80%;
+  background:#fff;border-radius:18px;overflow:hidden;
+  box-shadow:0 2px 16px rgba(0,0,0,0.09);
+  transition:box-shadow .3s;
 }
-.rv-track img{
-  width:150px;flex-shrink:0;display:block;
-  border-radius:12px;border:1px solid rgba(0,0,0,0.07);
+.rv-card img{width:100%;display:block}
+.rv-card-foot{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 14px 13px;
+}
+.rv-avatar{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;
+}
+.rv-info{}
+.rv-name{font-size:13px;font-weight:700;color:var(--text);line-height:1.3}
+.rv-sub{font-size:11px;color:var(--text-sub);margin-top:1px}
+/* dots */
+.rv-dots{
+  display:flex;justify-content:center;gap:5px;
+  margin-top:16px;
+}
+.rv-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(0,0,0,0.15);
+  transition:all .35s cubic-bezier(0.4,0,0.2,1);
+  cursor:pointer;
+}
+.rv-dot.active{
+  width:20px;border-radius:3px;
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
 }
 
 /* ══════════════════════════════════════
@@ -1769,7 +1793,7 @@ body{
 <section class="section reviews-section" id="reviews">
   <div class="reviews-head reveal">
     <div class="section-pill">รีวิวจากผู้ใช้จริง</div>
-    <h2 class="section-h2">เสียงจากลูกค้า<br>ที่ใช้งานแล้ว</h2>
+    <h2 class="section-h2">ลูกค้าพูดถึง<br>Coach Tarn ว่าไง</h2>
   </div>
   <div class="reviews-rating-bar reveal">
     <div class="reviews-stars">
@@ -1782,41 +1806,126 @@ body{
     <span class="reviews-rating-text">รีวิวจากลูกค้าจริงทาง Messenger</span>
   </div>
 
-  <!-- 2-row infinite marquee — all 10 reviews, image-only -->
-  <div class="rv-marquee-wrap">
-    <!-- Row 1: reviews 01–05 (duplicated for seamless loop) -->
-    <div class="rv-row">
-      <div class="rv-track">
-        <img src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว 01" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว 02" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว 03" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว 04" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-05.png" alt="รีวิว 05" loading="eager">
-        <!-- duplicate for seamless -->
-        <img src="img/review/Coach-Tarn-Review-01.png" alt="" aria-hidden="true" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-02.png" alt="" aria-hidden="true" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-03.png" alt="" aria-hidden="true" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-04.png" alt="" aria-hidden="true" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-05.png" alt="" aria-hidden="true" loading="eager">
+  <!-- peek carousel -->
+  <div class="rv-outer" id="rvOuter">
+    <div class="rv-track" id="rvTrack">
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว Sucheera" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ส</div>
+          <div class="rv-info">
+            <div class="rv-name">Sucheera S.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
       </div>
-    </div>
-    <!-- Row 2: reviews 06–10 (reverse direction, duplicated) -->
-    <div class="rv-row rv-row-r">
-      <div class="rv-track">
-        <img src="img/review/Coach-Tarn-Review-06.png" alt="รีวิว 06" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-07.png" alt="รีวิว 07" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-08.png" alt="รีวิว 08" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-09.png" alt="รีวิว 09" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-10.png" alt="รีวิว 10" loading="eager">
-        <!-- duplicate for seamless -->
-        <img src="img/review/Coach-Tarn-Review-06.png" alt="" aria-hidden="true" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-07.png" alt="" aria-hidden="true" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-08.png" alt="" aria-hidden="true" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-09.png" alt="" aria-hidden="true" loading="eager">
-        <img src="img/review/Coach-Tarn-Review-10.png" alt="" aria-hidden="true" loading="eager">
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว ชอ" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ช</div>
+          <div class="rv-info">
+            <div class="rv-name">ชอ ศ.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว Arm" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">A</div>
+          <div class="rv-info">
+            <div class="rv-name">Arm S.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว Ornkanya" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">O</div>
+          <div class="rv-info">
+            <div class="rv-name">Ornkanya N.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-05.png" alt="รีวิว Wutti" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">W</div>
+          <div class="rv-info">
+            <div class="rv-name">Wutti R.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-06.png" alt="รีวิว ณกร" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ณ</div>
+          <div class="rv-info">
+            <div class="rv-name">ณกร ไ.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-07.png" alt="รีวิว Puiipuii" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">P</div>
+          <div class="rv-info">
+            <div class="rv-name">Puiipuii J.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-08.png" alt="รีวิว ITuit" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">I</div>
+          <div class="rv-info">
+            <div class="rv-name">ITuit T.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-09.png" alt="รีวิว Nantaporn" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">N</div>
+          <div class="rv-info">
+            <div class="rv-name">Nantaporn P.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-10.png" alt="รีวิว Nattawut" loading="lazy">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">N</div>
+          <div class="rv-info">
+            <div class="rv-name">Nattawut W.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /rv-track -->
+  </div><!-- /rv-outer -->
+
+  <!-- dots -->
+  <div class="rv-dots" id="rvDots"></div>
+
 </section>
 
 <!-- ⑪ WHO IS THIS FOR — TABS -->
@@ -2263,6 +2372,70 @@ function switchTab(id, btn) {
 
   // close on Escape
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+})();
+
+/* ── Reviews Carousel ── */
+(function(){
+  const outer  = document.getElementById('rvOuter');
+  const track  = document.getElementById('rvTrack');
+  const dotsEl = document.getElementById('rvDots');
+  if(!outer || !track) return;
+
+  const cards  = Array.from(track.querySelectorAll('.rv-card'));
+  const total  = cards.length;
+  let cur      = 0;
+  let autoTimer;
+
+  /* build dots */
+  cards.forEach((_,i) => {
+    const d = document.createElement('button');
+    d.className = 'rv-dot' + (i===0?' active':'');
+    d.setAttribute('aria-label','รีวิว '+(i+1));
+    d.addEventListener('click', () => goTo(i, true));
+    dotsEl.appendChild(d);
+  });
+  const dots = Array.from(dotsEl.querySelectorAll('.rv-dot'));
+
+  function getStep(){
+    /* card width + gap (12px) */
+    return cards[0].offsetWidth + 12;
+  }
+
+  function goTo(idx, manual){
+    cur = (idx + total) % total;
+    track.style.transform = `translateX(-${cur * getStep()}px)`;
+    dots.forEach((d,i) => d.classList.toggle('active', i===cur));
+    if(manual){ clearInterval(autoTimer); startAuto(); }
+  }
+
+  function startAuto(){
+    autoTimer = setInterval(() => goTo(cur + 1, false), 6000);
+  }
+
+  /* touch/swipe */
+  let startX = 0, dragging = false, dragDelta = 0;
+  outer.addEventListener('pointerdown', e => {
+    startX = e.clientX; dragging = true; dragDelta = 0;
+    track.style.transition = 'none';
+  });
+  outer.addEventListener('pointermove', e => {
+    if(!dragging) return;
+    dragDelta = e.clientX - startX;
+    track.style.transform = `translateX(${-cur * getStep() + dragDelta}px)`;
+  });
+  outer.addEventListener('pointerup', () => {
+    if(!dragging) return;
+    dragging = false;
+    track.style.transition = '';
+    if(dragDelta < -40)       goTo(cur + 1, true);
+    else if(dragDelta > 40)   goTo(cur - 1, true);
+    else                      goTo(cur, false);
+  });
+  outer.addEventListener('pointercancel', () => {
+    dragging = false; track.style.transition = ''; goTo(cur, false);
+  });
+
+  startAuto();
 })();
 </script>
 </body>
