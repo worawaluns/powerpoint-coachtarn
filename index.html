@@ -284,7 +284,7 @@ body{
 }
 .hero-stat-num .inf-svg{
   display:block;width:28px;height:14px;
-  stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  stroke:var(--red);fill:none;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;
 }
 .hero-stat-label{
   font-size:10px;color:var(--text-sub);
@@ -633,6 +633,106 @@ body{
 .pain-card-sub{font-size:13px;color:var(--text-sub);line-height:1.5}
 
 /* ══════════════════════════════════════
+   REELS SECTION
+══════════════════════════════════════ */
+.reels-section{background:var(--bg-soft)}
+.reels-head{text-align:center;margin-bottom:24px}
+.reels-eyebrow{
+  font-size:12px;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--red);
+  margin-bottom:10px;
+}
+.reels-h2{
+  font-size:28px;font-weight:800;
+  color:var(--text);line-height:1.15;
+  letter-spacing:-0.025em;margin:0;
+}
+.reels-h2 span{color:var(--red)}
+.reels-scroll-wrap{
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  padding:0 20px 16px;scrollbar-width:none;
+}
+.reels-scroll-wrap::-webkit-scrollbar{display:none}
+.reels-grid{
+  display:flex;gap:10px;
+}
+.reel-thumb{
+  flex-shrink:0;width:155px;
+  position:relative;border-radius:12px;overflow:hidden;
+  cursor:pointer;aspect-ratio:9/16;background:#111;
+  box-shadow:0 4px 16px rgba(0,0,0,0.15);
+}
+.reel-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 0.2s;
+}
+.reel-thumb:active img{transform:scale(0.97)}
+.reel-play-wrap{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.reel-play-btn{
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,0.45);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.15s,background 0.15s;
+}
+.reel-thumb:active .reel-play-btn{transform:scale(0.9)}
+.reel-play-btn svg{
+  width:18px;height:18px;fill:#fff;
+  margin-left:3px; /* optical center for play triangle */
+}
+/* Modal */
+.reel-modal{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,0.88);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.25s;
+}
+.reel-modal.open{opacity:1;pointer-events:all}
+.reel-modal-card{
+  position:relative;
+  width:min(82vw,320px);
+  border-radius:16px;overflow:hidden;
+  transform:scale(0.92);
+  transition:transform 0.25s;
+}
+.reel-modal.open .reel-modal-card{transform:scale(1)}
+#reelVideo{
+  width:100%;aspect-ratio:9/16;
+  object-fit:cover;display:block;
+}
+.reel-modal-close{
+  position:absolute;top:10px;right:10px;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,0.25);
+  color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  z-index:1;
+}
+.reel-modal-close svg{width:16px;height:16px;stroke:#fff;fill:none}
+.reel-modal-prev,.reel-modal-next{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,0.3);
+  color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.reel-modal-prev{left:-48px}
+.reel-modal-next{right:-48px}
+.reel-modal-prev svg,.reel-modal-next svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.5}
+/* hidden preload pool */
+.reel-preload{display:none}
+
+/* ══════════════════════════════════════
    PARALLAX TEMPLATE STRIP
 ══════════════════════════════════════ */
 .strip-section{
@@ -729,45 +829,30 @@ body{
 /* ══════════════════════════════════════
    REVIEWS
 ══════════════════════════════════════ */
-.reviews-section{background:#fff;padding:56px 0 56px 24px;border-top:1px solid var(--border)}
-.reviews-head{padding-right:24px;margin-bottom:24px}
-.reviews-scroll{
-  display:flex;gap:14px;overflow-x:auto;
-  padding-right:24px;padding-bottom:8px;
-  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+.reviews-section{background:#fff;border-top:1px solid var(--border)}
+.reviews-head{text-align:center;margin-bottom:20px}
+.reviews-rating-bar{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;margin-bottom:24px;
 }
-.reviews-scroll::-webkit-scrollbar{display:none}
+.reviews-stars{display:flex;gap:3px}
+.reviews-stars svg{width:16px;height:16px}
+.reviews-rating-text{font-size:13px;color:var(--text-sub);font-weight:500}
+.reviews-grid{
+  columns:2;column-gap:10px;
+  padding:0 16px;
+}
 .review-card{
-  min-width:260px;background:var(--bg-soft);border-radius:var(--radius-lg);
-  padding:0;border:1px solid rgba(0,0,0,0.04);flex-shrink:0;
-  overflow:hidden;
+  break-inside:avoid;margin-bottom:10px;
+  background:var(--bg-soft);border-radius:12px;
+  overflow:hidden;border:1px solid rgba(0,0,0,0.05);
 }
-/* screenshot area inside review card */
-.r-screenshot{
-  width:100%;aspect-ratio:4/3;background:#f0ebe8;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;
+.rc-quote{
+  padding:10px 12px 8px;
+  font-size:12.5px;font-weight:700;
+  color:var(--red);line-height:1.45;
 }
-.r-screenshot img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-.r-screenshot-placeholder{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  color:#ccc;font-size:11px;font-weight:500;
-}
-.r-screenshot-placeholder svg{width:28px;height:28px;opacity:.4}
-.r-body{padding:16px 18px 18px}
-.r-stars{display:flex;gap:3px;margin-bottom:10px}
-.r-stars svg{width:14px;height:14px}
-.r-text{font-size:14px;line-height:1.6;color:var(--text-mid);margin-bottom:14px;font-weight:400}
-.r-author{display:flex;align-items:center;gap:10px}
-.r-av{
-  width:32px;height:32px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;flex-shrink:0;
-}
-.r-name{font-size:13px;font-weight:700;color:var(--text)}
-.r-role{font-size:11px;color:var(--text-sub);margin-top:1px}
+.rc-img{width:100%;display:block;}
 
 /* ══════════════════════════════════════
    WHO IS THIS FOR — TAB VERSION
@@ -1338,7 +1423,7 @@ body{
       </div>
       <div class="hero-stat">
         <div class="hero-stat-num">
-          <svg class="inf-svg" viewBox="0 0 24 12" xmlns="http://www.w3.org/2000/svg"><path d="M12,6 C12,3 15,1 18,3 C21,5 21,7 18,9 C15,11 12,9 12,6 C12,3 9,1 6,3 C3,5 3,7 6,9 C9,11 12,9 12,6"/></svg>
+          <svg class="inf-svg" viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg"><path d="M50,25 C55,8 95,8 95,25 C95,42 55,42 50,25 C45,8 5,8 5,25 C5,42 45,42 50,25"/></svg>
         </div>
         <div class="hero-stat-label">โหลดได้<br>ตลอดชีพ</div>
       </div>
@@ -1486,6 +1571,74 @@ body{
 
   </div>
 </section>
+
+<!-- ⑥b REELS -->
+<section class="section reels-section">
+  <div class="reels-head reveal">
+    <p class="reels-eyebrow">Reels · Coach Tarn</p>
+    <h2 class="reels-h2">ดูแล้ว<span>รู้เลย</span></h2>
+  </div>
+  <div class="reels-scroll-wrap">
+  <div class="reels-grid">
+    <div class="reel-thumb" data-reel="0">
+      <img src="img/poster-01.jpg" alt="Reel 1" loading="eager">
+      <div class="reel-play-wrap">
+        <div class="reel-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="reel-thumb" data-reel="1">
+      <img src="img/poster-02.jpg" alt="Reel 2" loading="eager">
+      <div class="reel-play-wrap">
+        <div class="reel-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="reel-thumb" data-reel="2">
+      <img src="img/poster-03.jpg" alt="Reel 3" loading="eager">
+      <div class="reel-play-wrap">
+        <div class="reel-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+    <div class="reel-thumb" data-reel="3">
+      <img src="img/poster-04.jpg" alt="Reel 4" loading="eager">
+      <div class="reel-play-wrap">
+        <div class="reel-play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /reels-scroll-wrap -->
+</section>
+
+<!-- Reels Modal -->
+<div class="reel-modal" id="reelModal" role="dialog" aria-modal="true">
+  <div class="reel-modal-card">
+    <button class="reel-modal-close" id="reelClose" aria-label="ปิด">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
+    <video id="reelVideo" playsinline controls preload="none"></video>
+  </div>
+  <button class="reel-modal-prev" id="reelPrev" aria-label="ก่อนหน้า">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+  </button>
+  <button class="reel-modal-next" id="reelNext" aria-label="ถัดไป">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,6 15,12 9,18"/></svg>
+  </button>
+</div>
+
+<!-- Preload pool (hidden) -->
+<div class="reel-preload" aria-hidden="true">
+  <video id="rv0" src="videos/reel-pain-01.mp4" preload="auto" playsinline></video>
+  <video id="rv1" src="videos/reel-pain-02.mp4" preload="auto" playsinline></video>
+  <video id="rv2" src="videos/reel-pain-03.mp4" preload="auto" playsinline></video>
+  <video id="rv3" src="videos/reel-pain-04.mp4" preload="auto" playsinline></video>
+</div>
 
 <!-- Coach Tarn Authority -->
 <div class="coach-strip reveal">
@@ -1705,91 +1858,42 @@ body{
 </section>
 
 <!-- ⑩ REVIEWS -->
-<section class="reviews-section" id="reviews">
-  <div class="reviews-head reveal" style="text-align:center">
+<section class="section reviews-section" id="reviews">
+  <div class="reviews-head reveal">
     <div class="section-pill">รีวิวจากผู้ใช้จริง</div>
     <h2 class="section-h2">เสียงจากลูกค้า<br>ที่ใช้งานแล้ว</h2>
   </div>
-  <div class="reviews-scroll">
+  <div class="reviews-rating-bar reveal">
+    <div class="reviews-stars">
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <span class="reviews-rating-text">รีวิวจากลูกค้าจริงทาง Messenger</span>
+  </div>
+
+  <div class="reviews-grid">
 
     <div class="review-card reveal">
-      <div class="r-screenshot">
-        <img src="img/review-1.jpg" alt="รีวิวลูกค้า 1" onerror="this.closest('.r-screenshot').style.display='none'">
-      </div>
-      <div class="r-body">
-        <div class="r-stars">
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-        <div class="r-text">"ประหยัดเวลาไปมากเลยค่ะ แต่ก่อนทำสไลด์ทีนึงใช้เวลาเป็นชั่วโมง ตอนนี้แค่ 15 นาทีก็เสร็จแล้ว"</div>
-        <div class="r-author">
-          <div class="r-av av1">ก</div>
-          <div><div class="r-name">กนกวรรณ ส.</div><div class="r-role">วิทยากร / Trainer</div></div>
-        </div>
-      </div>
+      <div class="rc-quote">คุ้มมาก ขอบคุณมากค่ะ</div>
+      <img class="rc-img" src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว 01" loading="lazy">
     </div>
 
-    <div class="review-card reveal reveal-delay-1">
-      <div class="r-screenshot">
-        <img src="img/review-2.jpg" alt="รีวิวลูกค้า 2" onerror="this.closest('.r-screenshot').style.display='none'">
-      </div>
-      <div class="r-body">
-        <div class="r-stars">
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-        <div class="r-text">"คุ้มมากครับ สไลด์สวยกว่าที่คิด ลูกค้าถามตลอดว่าใครทำ Presentation ให้"</div>
-        <div class="r-author">
-          <div class="r-av av2">ส</div>
-          <div><div class="r-name">สมชาย ว.</div><div class="r-role">ตัวแทนประกัน</div></div>
-        </div>
-      </div>
+    <div class="review-card reveal">
+      <div class="rc-quote">เยอะมากๆ เกินคุ้ม</div>
+      <img class="rc-img" src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว 02" loading="lazy">
     </div>
 
-    <div class="review-card reveal reveal-delay-2">
-      <div class="r-screenshot">
-        <img src="img/review-3.jpg" alt="รีวิวลูกค้า 3" onerror="this.closest('.r-screenshot').style.display='none'">
-      </div>
-      <div class="r-body">
-        <div class="r-stars">
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-        <div class="r-text">"แนะนำเพื่อนทุกคนเลยค่ะ ราคาแค่นี้ได้สไลด์ตั้งหลายพัน คุ้มค่ามากๆ"</div>
-        <div class="r-author">
-          <div class="r-av av3">ป</div>
-          <div><div class="r-name">ประภาภรณ์ ร.</div><div class="r-role">อาจารย์มหาวิทยาลัย</div></div>
-        </div>
-      </div>
+    <div class="review-card reveal">
+      <div class="rc-quote">เยอะมากกกก 👍</div>
+      <img class="rc-img" src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว 03" loading="lazy">
     </div>
 
-    <div class="review-card reveal reveal-delay-3">
-      <div class="r-screenshot">
-        <img src="img/review-4.jpg" alt="รีวิวลูกค้า 4" onerror="this.closest('.r-screenshot').style.display='none'">
-      </div>
-      <div class="r-body">
-        <div class="r-stars">
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </div>
-        <div class="r-text">"Presentation ดูโปรขึ้นมากเลย ผู้บริหารชมด้วย ขอบคุณมากครับ Coach Tarn"</div>
-        <div class="r-author">
-          <div class="r-av av4">น</div>
-          <div><div class="r-name">นพดล ม.</div><div class="r-role">ผู้จัดการฝ่ายขาย</div></div>
-        </div>
-      </div>
+    <div class="review-card reveal">
+      <div class="rc-quote">เยอะจนเลือกไม่ถูกเลยค่ะ</div>
+      <img class="rc-img" src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว 04" loading="lazy">
     </div>
 
   </div>
@@ -2183,6 +2287,62 @@ function switchTab(id, btn) {
     }, {threshold:0.4});
     obs.observe(phoneWrap);
   }
+})();
+
+/* ── Reels Modal ── */
+(function(){
+  const POSTERS = ['img/poster-01.jpg','img/poster-02.jpg','img/poster-03.jpg','img/poster-04.jpg'];
+  const modal   = document.getElementById('reelModal');
+  const modalVid= document.getElementById('reelVideo');
+  const btnClose= document.getElementById('reelClose');
+  const btnPrev = document.getElementById('reelPrev');
+  const btnNext = document.getElementById('reelNext');
+  const pool    = [
+    document.getElementById('rv0'),
+    document.getElementById('rv1'),
+    document.getElementById('rv2'),
+    document.getElementById('rv3'),
+  ];
+  let cur = 0;
+
+  function loadReel(i){
+    // pause current preloaded video if different
+    if(pool[cur] && cur !== i) pool[cur].pause();
+    cur = i;
+    // swap src from preloaded pool → instant play
+    const pv = pool[i];
+    modalVid.src   = pv.src;
+    modalVid.poster= POSTERS[i];
+    modalVid.currentTime = 0;
+    modalVid.play().catch(()=>{});
+  }
+
+  function openModal(i){
+    loadReel(i);
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    modalVid.pause();
+    modalVid.src = '';
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.reel-thumb').forEach(el => {
+    el.addEventListener('click', () => openModal(+el.dataset.reel));
+  });
+
+  btnClose.addEventListener('click', closeModal);
+  btnPrev.addEventListener('click', () => loadReel((cur - 1 + pool.length) % pool.length));
+  btnNext.addEventListener('click', () => loadReel((cur + 1) % pool.length));
+
+  // close on backdrop click
+  modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+
+  // close on Escape
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 })();
 </script>
 </body>
