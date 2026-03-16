@@ -643,18 +643,20 @@ body{
   margin-bottom:10px;
 }
 .reels-h2{
-  font-size:28px;font-weight:800;
-  color:var(--text);line-height:1.15;
-  letter-spacing:-0.025em;margin:0;
+  font-size:26px;font-weight:700;
+  color:var(--text);line-height:1.25;
+  letter-spacing:-0.02em;margin:0;
 }
 .reels-h2 span{color:var(--red)}
 .reels-scroll-wrap{
   overflow-x:auto;-webkit-overflow-scrolling:touch;
-  padding:0 20px 16px;scrollbar-width:none;
+  padding:0 0 16px;scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 56px,#000 calc(100% - 56px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,#000 56px,#000 calc(100% - 56px),transparent 100%);
 }
 .reels-scroll-wrap::-webkit-scrollbar{display:none}
 .reels-grid{
-  display:flex;gap:10px;
+  display:flex;gap:10px;padding:0 56px;
 }
 .reel-thumb{
   flex-shrink:0;width:155px;
@@ -719,15 +721,15 @@ body{
 .reel-modal-close svg{width:16px;height:16px;stroke:#fff;fill:none}
 .reel-modal-prev,.reel-modal-next{
   position:absolute;top:50%;transform:translateY(-50%);
-  width:36px;height:36px;border-radius:50%;
-  background:rgba(255,255,255,0.15);
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(0,0,0,0.42);
   backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
-  border:1px solid rgba(255,255,255,0.3);
-  color:#fff;cursor:pointer;
+  border:1px solid rgba(255,255,255,0.2);
+  color:#fff;cursor:pointer;z-index:2;
   display:flex;align-items:center;justify-content:center;
 }
-.reel-modal-prev{left:-48px}
-.reel-modal-next{right:-48px}
+.reel-modal-prev{left:10px}
+.reel-modal-next{right:10px}
 .reel-modal-prev svg,.reel-modal-next svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.5}
 /* hidden preload pool */
 .reel-preload{display:none}
@@ -829,30 +831,35 @@ body{
 /* ══════════════════════════════════════
    REVIEWS
 ══════════════════════════════════════ */
-.reviews-section{background:#fff;border-top:1px solid var(--border)}
+.reviews-section{background:#fff;border-top:1px solid var(--border);padding-bottom:40px}
 .reviews-head{text-align:center;margin-bottom:20px}
 .reviews-rating-bar{
   display:flex;align-items:center;justify-content:center;
-  gap:8px;margin-bottom:24px;
+  gap:8px;margin-bottom:28px;
 }
 .reviews-stars{display:flex;gap:3px}
 .reviews-stars svg{width:16px;height:16px}
 .reviews-rating-text{font-size:13px;color:var(--text-sub);font-weight:500}
-.reviews-grid{
-  columns:2;column-gap:10px;
-  padding:0 16px;
+/* marquee */
+.rv-marquee-wrap{
+  overflow:hidden;display:flex;flex-direction:column;gap:10px;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 40px,#000 calc(100% - 40px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,#000 40px,#000 calc(100% - 40px),transparent 100%);
 }
-.review-card{
-  break-inside:avoid;margin-bottom:10px;
-  background:var(--bg-soft);border-radius:12px;
-  overflow:hidden;border:1px solid rgba(0,0,0,0.05);
+.rv-row{display:flex;overflow:hidden}
+.rv-track{
+  display:flex;gap:10px;flex-shrink:0;
+  animation:rv-scroll 30s linear infinite;
 }
-.rc-quote{
-  padding:10px 12px 8px;
-  font-size:12.5px;font-weight:700;
-  color:var(--red);line-height:1.45;
+.rv-row-r .rv-track{animation-direction:reverse}
+@keyframes rv-scroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
 }
-.rc-img{width:100%;display:block;}
+.rv-track img{
+  width:150px;flex-shrink:0;display:block;
+  border-radius:12px;border:1px solid rgba(0,0,0,0.07);
+}
 
 /* ══════════════════════════════════════
    WHO IS THIS FOR — TAB VERSION
@@ -1489,157 +1496,6 @@ body{
 </div>
 
 
-<!-- ⑥ PAIN -->
-<section class="section pain-section">
-  <div class="reveal" style="text-align:center">
-    <div class="section-pill">คุณเคยเจอแบบนี้ไหม?</div>
-    <h2 class="section-h2">รู้สึกแบบนี้บ้างไหม<br>ตอนต้องทำสไลด์?</h2>
-  </div>
-  <div class="pain-cards">
-
-    <div class="pain-card reveal reveal-delay-1">
-      <div class="pain-slide-preview ps-chaos">
-        <div class="ps-mini w1">
-          <div class="ps-mini-line accent"></div>
-          <div class="ps-mini-block"></div>
-          <div class="ps-mini-jumble">
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-        <div class="ps-mini w2">
-          <div class="ps-mini-line"></div>
-          <div class="ps-mini-block"></div>
-          <div class="ps-mini-jumble">
-            <span></span><span></span>
-          </div>
-        </div>
-        <div class="ps-chaos-badge">ดูไม่โปร</div>
-      </div>
-      <div class="pain-card-body">
-        <div class="pain-icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-        </div>
-        <div>
-          <div class="pain-card-title">ทำทั้งคืน แต่ดูไม่โปรเลย</div>
-          <div class="pain-card-sub">ใส่ข้อมูลครบแล้ว แต่ดูไม่สวย ไม่น่าเชื่อถือ ไม่รู้จะแก้ยังไง</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pain-card reveal reveal-delay-2">
-      <div class="pain-slide-preview ps-blank">
-        <div class="ps-blank-screen">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-        </div>
-        <div class="ps-blank-label">หน้าว่าง...<br>เริ่มตรงไหนดี?</div>
-      </div>
-      <div class="pain-card-body">
-        <div class="pain-icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div>
-          <div class="pain-card-title">เปิดโปรแกรมขึ้นมา แล้วค้าง</div>
-          <div class="pain-card-sub">ไม่รู้จะออกแบบยังไง นั่งเบิ่งหน้าว่างนาน แต่งานต้องเสร็จพรุ่งนี้</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pain-card reveal reveal-delay-3">
-      <div class="pain-slide-preview ps-dollar">
-        <div class="ps-price-row">
-          <div class="ps-price-box bad">
-            <div class="ps-price-val">3,000฿</div>
-            <div class="ps-price-label">จ้างนักออกแบบ</div>
-          </div>
-          <div class="ps-price-vs">vs</div>
-          <div class="ps-price-box good">
-            <div class="ps-price-val">499฿</div>
-            <div class="ps-price-label">ใช้ template</div>
-          </div>
-        </div>
-      </div>
-      <div class="pain-card-body">
-        <div class="pain-icon-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        </div>
-        <div>
-          <div class="pain-card-title">จ้างคนทำก็แพง ทำเองก็ไม่สวย</div>
-          <div class="pain-card-sub">อยากได้สไลด์สวย แต่ไม่มีงบจ้าง Designer และไม่มีเวลาเรียน</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ⑥b REELS -->
-<section class="section reels-section">
-  <div class="reels-head reveal">
-    <p class="reels-eyebrow">Reels · Coach Tarn</p>
-    <h2 class="reels-h2">ดูแล้ว<span>รู้เลย</span></h2>
-  </div>
-  <div class="reels-scroll-wrap">
-  <div class="reels-grid">
-    <div class="reel-thumb" data-reel="0">
-      <img src="img/poster-01.jpg" alt="Reel 1" loading="eager">
-      <div class="reel-play-wrap">
-        <div class="reel-play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-        </div>
-      </div>
-    </div>
-    <div class="reel-thumb" data-reel="1">
-      <img src="img/poster-02.jpg" alt="Reel 2" loading="eager">
-      <div class="reel-play-wrap">
-        <div class="reel-play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-        </div>
-      </div>
-    </div>
-    <div class="reel-thumb" data-reel="2">
-      <img src="img/poster-03.jpg" alt="Reel 3" loading="eager">
-      <div class="reel-play-wrap">
-        <div class="reel-play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-        </div>
-      </div>
-    </div>
-    <div class="reel-thumb" data-reel="3">
-      <img src="img/poster-04.jpg" alt="Reel 4" loading="eager">
-      <div class="reel-play-wrap">
-        <div class="reel-play-btn">
-          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div><!-- /reels-scroll-wrap -->
-</section>
-
-<!-- Reels Modal -->
-<div class="reel-modal" id="reelModal" role="dialog" aria-modal="true">
-  <div class="reel-modal-card">
-    <button class="reel-modal-close" id="reelClose" aria-label="ปิด">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
-    </button>
-    <video id="reelVideo" playsinline controls preload="none"></video>
-  </div>
-  <button class="reel-modal-prev" id="reelPrev" aria-label="ก่อนหน้า">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
-  </button>
-  <button class="reel-modal-next" id="reelNext" aria-label="ถัดไป">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,6 15,12 9,18"/></svg>
-  </button>
-</div>
-
-<!-- Preload pool (hidden) -->
-<div class="reel-preload" aria-hidden="true">
-  <video id="rv0" src="videos/reel-pain-01.mp4" preload="auto" playsinline></video>
-  <video id="rv1" src="videos/reel-pain-02.mp4" preload="auto" playsinline></video>
-  <video id="rv2" src="videos/reel-pain-03.mp4" preload="auto" playsinline></video>
-  <video id="rv3" src="videos/reel-pain-04.mp4" preload="auto" playsinline></video>
-</div>
-
 <!-- Coach Tarn Authority -->
 <div class="coach-strip reveal">
   <img src="img/coach-tarn.png" alt="Coach Tarn" class="cs-img">
@@ -1689,6 +1545,58 @@ body{
     </div>
   </div>
 </section>
+
+<!-- ⑥b REELS -->
+<section class="section reels-section">
+  <div class="reels-head reveal">
+    <p class="reels-eyebrow">Reels · Coach Tarn</p>
+    <h2 class="reels-h2">รู้สึกแบบนี้บ้างไหม<br><span>ตอนต้องทำสไลด์?</span></h2>
+  </div>
+  <div class="reels-scroll-wrap">
+    <div class="reels-grid">
+      <div class="reel-thumb" data-reel="0">
+        <img src="img/poster-01.jpg" alt="Reel 1" loading="eager">
+        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="reel-thumb" data-reel="1">
+        <img src="img/poster-02.jpg" alt="Reel 2" loading="eager">
+        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="reel-thumb" data-reel="2">
+        <img src="img/poster-03.jpg" alt="Reel 3" loading="eager">
+        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="reel-thumb" data-reel="3">
+        <img src="img/poster-04.jpg" alt="Reel 4" loading="eager">
+        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+    </div>
+  </div><!-- /reels-scroll-wrap -->
+</section>
+
+<!-- Reels Modal -->
+<div class="reel-modal" id="reelModal" role="dialog" aria-modal="true">
+  <div class="reel-modal-card">
+    <button class="reel-modal-close" id="reelClose" aria-label="ปิด">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <button class="reel-modal-prev" id="reelPrev" aria-label="ก่อนหน้า">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+    </button>
+    <button class="reel-modal-next" id="reelNext" aria-label="ถัดไป">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,6 15,12 9,18"/></svg>
+    </button>
+    <video id="reelVideo" playsinline controls preload="none"></video>
+  </div>
+</div>
+
+<!-- Preload pool (hidden) -->
+<div class="reel-preload" aria-hidden="true">
+  <video id="rv0" src="videos/reel-pain-01.mp4" preload="auto" playsinline></video>
+  <video id="rv1" src="videos/reel-pain-02.mp4" preload="auto" playsinline></video>
+  <video id="rv2" src="videos/reel-pain-03.mp4" preload="auto" playsinline></video>
+  <video id="rv3" src="videos/reel-pain-04.mp4" preload="auto" playsinline></video>
+</div>
 
 <!-- ⑧ EMAIL FLOW SECTION -->
 <section class="flow-section">
@@ -1874,28 +1782,40 @@ body{
     <span class="reviews-rating-text">รีวิวจากลูกค้าจริงทาง Messenger</span>
   </div>
 
-  <div class="reviews-grid">
-
-    <div class="review-card reveal">
-      <div class="rc-quote">คุ้มมาก ขอบคุณมากค่ะ</div>
-      <img class="rc-img" src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว 01" loading="lazy">
+  <!-- 2-row infinite marquee — all 10 reviews, image-only -->
+  <div class="rv-marquee-wrap">
+    <!-- Row 1: reviews 01–05 (duplicated for seamless loop) -->
+    <div class="rv-row">
+      <div class="rv-track">
+        <img src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว 01" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว 02" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว 03" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว 04" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-05.png" alt="รีวิว 05" loading="eager">
+        <!-- duplicate for seamless -->
+        <img src="img/review/Coach-Tarn-Review-01.png" alt="" aria-hidden="true" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-02.png" alt="" aria-hidden="true" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-03.png" alt="" aria-hidden="true" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-04.png" alt="" aria-hidden="true" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-05.png" alt="" aria-hidden="true" loading="eager">
+      </div>
     </div>
-
-    <div class="review-card reveal">
-      <div class="rc-quote">เยอะมากๆ เกินคุ้ม</div>
-      <img class="rc-img" src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว 02" loading="lazy">
+    <!-- Row 2: reviews 06–10 (reverse direction, duplicated) -->
+    <div class="rv-row rv-row-r">
+      <div class="rv-track">
+        <img src="img/review/Coach-Tarn-Review-06.png" alt="รีวิว 06" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-07.png" alt="รีวิว 07" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-08.png" alt="รีวิว 08" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-09.png" alt="รีวิว 09" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-10.png" alt="รีวิว 10" loading="eager">
+        <!-- duplicate for seamless -->
+        <img src="img/review/Coach-Tarn-Review-06.png" alt="" aria-hidden="true" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-07.png" alt="" aria-hidden="true" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-08.png" alt="" aria-hidden="true" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-09.png" alt="" aria-hidden="true" loading="eager">
+        <img src="img/review/Coach-Tarn-Review-10.png" alt="" aria-hidden="true" loading="eager">
+      </div>
     </div>
-
-    <div class="review-card reveal">
-      <div class="rc-quote">เยอะมากกกก 👍</div>
-      <img class="rc-img" src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว 03" loading="lazy">
-    </div>
-
-    <div class="review-card reveal">
-      <div class="rc-quote">เยอะจนเลือกไม่ถูกเลยค่ะ</div>
-      <img class="rc-img" src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว 04" loading="lazy">
-    </div>
-
   </div>
 </section>
 
@@ -2213,7 +2133,7 @@ new IntersectionObserver(entries => {
     stickyAfterHero = false; /* เลื่อนกลับขึ้นไปเหนือ pain-section */
   }
   updateSticky();
-}, {threshold:0}).observe(document.querySelector('.pain-section'));
+}, {threshold:0}).observe(document.querySelector('.strip-section'));
 new IntersectionObserver(entries => {
   stickyAtFinal = entries[0].isIntersecting;
   updateSticky();
