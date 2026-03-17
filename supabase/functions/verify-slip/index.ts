@@ -194,45 +194,53 @@ serve(async (req) => {
         }
       )
       const text = await slip2goRes.text()
+      console.log('[verify-slip] Slip2Go HTTP status:', slip2goRes.status)
+      console.log('[verify-slip] Slip2Go raw response:', text.slice(0, 2000))
       slip = JSON.parse(text)
-    } catch {
+    } catch (e) {
+      console.error('[verify-slip] Slip2Go fetch/parse error:', e)
       await supabase.from('orders').update({ status: 'rejected', reject_reason: 'invalid_slip' }).eq('id', order_id)
       return Response.json({ status: 'rejected', reason: 'invalid_slip' }, { headers: CORS })
     }
 
-    const s2gCode      = slip?.code?.toString()
-    const isPass       = slip?.data?.checkCondition?.isPass
-    const transRef     = slip?.data?.transRef
-    const amountPass   = slip?.data?.checkCondition?.checkAmount?.isPass
-    const receiverPass = slip?.data?.checkCondition?.checkReceiver?.[0]?.isPass ?? slip?.data?.checkCondition?.checkReceiver?.isPass
-    const actualAmount = slip?.data?.amount ?? slip?.data?.checkCondition?.checkAmount?.amount
+    const s2gCode     = slip?.code?.toString()
+    const transRef    = slip?.data?.transRef
+    const actualAmount = slip?.data?.amount ?? null
 
-    // ── 5. สลิปซ้ำ (Slip2Go layer) ──────────────────────────────────────────
+    console.log('[verify-slip] slip.code:', s2gCode, '| transRef:', transRef, '| amount:', actualAmount)
+
+    // ── Slip2Go response codes (ดู doc: https://app.slip2go.com/shop/api-connect/response)
+    // 200200 = Slip is Valid (ผ่านทุก checkCondition) ✅
+    // 200000 = Slip found (ไม่ได้ส่ง checkCondition)
+    // 200401 = Recipient Account Not Match
+    // 200402 = Transfer Amount Not Match
+    // 200403 = Transfer Date Not Match
+    // 200404 = Slip Not Found
+    // 200500 = Slip is Fraud
+    // 200501 = Slip is Duplicated
+
+    // ── 5. สลิปซ้ำ ───────────────────────────────────────────────────────────
     if (s2gCode === '200501') {
       await supabase.from('orders').update({ status: 'rejected', reject_reason: 'duplicate_slip' }).eq('id', order_id)
       return Response.json({ status: 'rejected', reason: 'duplicate' }, { headers: CORS })
     }
 
-    // ── 6. ไม่ผ่าน — วิเคราะห์ reason ──────────────────────────────────────
-    if (!isPass) {
+    // ── 6. ผ่านทุก condition → SUCCESS ───────────────────────────────────────
+    if (s2gCode === '200200') {
+      // ✅ ถูกต้อง — ดำเนินการต่อด้านล่าง
+    } else {
+      // ── ไม่ผ่าน — วิเคราะห์ reason จาก code ───────────────────────────────
       let reason = 'invalid_slip'
-
-      if (amountPass === false && receiverPass === false) {
-        reason = 'wrong_amount_and_account'
-      } else if (amountPass === false) {
-        reason = 'wrong_amount'
-      } else if (receiverPass === false) {
-        reason = 'wrong_account'
-      } else if (s2gCode && s2gCode !== '200000') {
-        reason = 'invalid_slip'
-      }
+      if      (s2gCode === '200401') reason = 'wrong_account'
+      else if (s2gCode === '200402') reason = 'wrong_amount'
+      else if (s2gCode === '200404') reason = 'invalid_slip'
+      else if (s2gCode === '200500') reason = 'invalid_slip'
 
       await supabase.from('orders').update({ status: 'rejected', reject_reason: reason }).eq('id', order_id)
       return Response.json({
-        status      : 'rejected',
+        status       : 'rejected',
         reason,
-        actual_amount: actualAmount ?? null,
-        expected_amount: PRICE,
+        actual_amount: actualAmount,
       }, { headers: CORS })
     }
 
