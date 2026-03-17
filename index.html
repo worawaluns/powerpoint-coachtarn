@@ -391,6 +391,7 @@ body{
   padding:6px 2px;border-bottom:0.5px solid rgba(0,0,0,0.07);
 }
 .ns2-erow.ns2-ct{background:rgba(235,125,74,0.08);margin:0 -4px;padding:6px 6px;border-radius:7px;border-bottom:none}
+.ns2-erow.ns2-dim{opacity:0.45}
 .ns2-eav{
   width:26px;height:26px;border-radius:50%;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
@@ -399,7 +400,8 @@ body{
 .ns2-emeta{flex:1;min-width:0}
 .ns2-efrom{font-size:10px;font-weight:700;color:#1a1a1a}
 .ns2-efrom.ns2-read{font-weight:400}
-.ns2-esubj{font-size:9px;color:#5F6368;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.ns2-esubj{font-size:9px;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;font-weight:600}
+.ns2-epreview{font-size:8px;color:#9AA0A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;font-weight:400}
 .ns2-etime{font-size:8.5px;color:#5F6368;flex-shrink:0;margin-top:1px}
 .ns2-udot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex-shrink:0;margin-top:5px}
 
@@ -490,8 +492,8 @@ body{
   pointer-events:none;z-index:20;opacity:0;
 }
 .demo-finger svg{width:100%;height:100%;filter:drop-shadow(0 3px 10px rgba(0,0,0,0.28)) drop-shadow(0 2px 20px rgba(251,114,57,0.45))}
-/* Scene 2 fingers: A = taps inbox row, B = taps download button */
-.ns2-finga{top:64px;bottom:auto}
+/* Scene 2 fingers: A = taps inbox row 1 (Coach Tarn), B = taps download button */
+.ns2-finga{top:36px;bottom:auto}
 .ns2-fingb{top:128px;bottom:auto}
 .ns3-finger{top:0px;bottom:auto}
 .ds-active .ns2-finga{animation:fingA 5.5s ease 0.5s forwards}
@@ -649,11 +651,11 @@ body{
   width:fit-content;margin-left:auto;margin-right:auto;
 }
 .section-h2{
-  font-size:26px;font-weight:900;line-height:1.2;
+  font-size:28px;font-weight:900;line-height:1.2;
   color:var(--text);margin-bottom:8px;letter-spacing:-0.5px;
   text-align:center;
 }
-.section-sub{font-size:15px;color:var(--text-mid);line-height:1.6;margin-bottom:20px;font-weight:400;text-align:center}
+.section-sub{font-size:16px;color:var(--text-mid);line-height:1.65;margin-bottom:20px;font-weight:400;text-align:center}
 
 /* Reveal animation */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
@@ -897,9 +899,8 @@ body{
 }
 .dl-row{
   display:flex;align-items:center;gap:12px;
-  padding:13px 16px;border-bottom:1px solid var(--border);
+  padding:10px 16px;
 }
-.dl-row:last-child{border-bottom:none}
 .dl-thumb{width:44px;height:32px;border-radius:6px;flex-shrink:0}
 .dl-info{flex:1;min-width:0}
 .dl-name{font-size:12.5px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1045,9 +1046,8 @@ body{
 .value-list{margin-bottom:28px;display:flex;flex-direction:column;gap:1px}
 .value-row{
   display:flex;align-items:flex-start;gap:14px;
-  padding:14px 0;border-bottom:1px solid var(--border);
+  padding:14px 0;
 }
-.value-row:last-child{border-bottom:none}
 .v-check{
   width:24px;height:24px;border-radius:50%;
   background:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
@@ -1093,10 +1093,10 @@ body{
 ══════════════════════════════════════ */
 .faq-section{background:#fff}
 .faq-list{display:flex;flex-direction:column;gap:8px;margin-top:20px}
-.faq-item{background:var(--bg-soft);border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--border)}
+.faq-item{background:var(--bg-soft);border-radius:var(--radius-md);overflow:hidden}
 .faq-q{
   width:100%;background:none;border:none;
-  padding:16px 18px;font-family:inherit;font-size:15px;font-weight:700;
+  padding:16px 18px;font-family:inherit;font-size:16px;font-weight:700;
   color:var(--text);text-align:left;cursor:pointer;
   display:flex;justify-content:space-between;align-items:center;gap:10px;
 }
@@ -1110,7 +1110,7 @@ body{
 .faq-a{
   max-height:0;overflow:hidden;
   padding:0 18px;
-  font-size:14px;color:var(--text-mid);line-height:1.65;font-weight:400;
+  font-size:15.5px;color:var(--text-mid);line-height:1.7;font-weight:400;
   border-top:0px solid var(--border);
   transition:max-height .38s var(--ease),padding .28s var(--ease),border-top-width .05s;
 }
@@ -1485,7 +1485,7 @@ body{
 .value-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
 .vg-item{
   background:var(--bg-soft);border-radius:18px;
-  padding:18px 14px;border:1px solid var(--border);
+  padding:18px 14px;
 }
 .vg-icon{
   width:44px;height:44px;border-radius:14px;
@@ -1831,35 +1831,38 @@ body{
                 <div class="ns2-gbar-av"></div>
               </div>
               <div class="ns2-lbl">All inboxes</div>
-              <!-- Row 1 -->
-              <div class="ns2-erow">
-                <div class="ns2-eav" style="background:#1E7E34">K</div>
-                <div class="ns2-emeta">
-                  <div class="ns2-efrom ns2-read">K BIZ</div>
-                  <div class="ns2-esubj">Status of Account Fund Transfer</div>
-                </div>
-                <div class="ns2-etime">21:41</div>
-              </div>
-              <!-- Row 2: Coach Tarn (unread + highlighted) -->
+              <!-- Row 1: Coach Tarn (unread + highlighted) — most recent -->
               <div class="ns2-erow ns2-ct">
                 <div class="ns2-eav" style="background:linear-gradient(135deg,var(--red),var(--orange))">CT</div>
                 <div class="ns2-emeta">
                   <div class="ns2-efrom">Coach Tarn Template</div>
-                  <div class="ns2-esubj">รับสไลด์ของคุณได้แล้ว!</div>
+                  <div class="ns2-esubj">รับสไลด์ของคุณได้แล้ว! 🎉</div>
+                  <div class="ns2-epreview">Redeem Code CT-2024-A7K9 — กดลิงก์...</div>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
                   <div class="ns2-etime">21:40</div>
                   <div class="ns2-udot"></div>
                 </div>
               </div>
-              <!-- Row 3 -->
-              <div class="ns2-erow">
-                <div class="ns2-eav" style="background:#6B21A8">M</div>
+              <!-- Row 2: Shopee (dimmed — background emails) -->
+              <div class="ns2-erow ns2-dim">
+                <div class="ns2-eav" style="background:#EE4D2D;font-size:7px;font-weight:700;letter-spacing:0;opacity:.55">Shopee</div>
                 <div class="ns2-emeta">
-                  <div class="ns2-efrom ns2-read">Make</div>
-                  <div class="ns2-esubj">Watch us break an AI agent...</div>
+                  <div class="ns2-efrom ns2-read">Shopee</div>
+                  <div class="ns2-esubj">คำสั่งซื้อ #240517HWWH9FWX</div>
+                  <div class="ns2-epreview">ถูกจัดส่งแล้ว — คาดว่าจะถึงวันที่...</div>
                 </div>
-                <div class="ns2-etime">21:37</div>
+                <div class="ns2-etime">21:38</div>
+              </div>
+              <!-- Row 3: KTC (dimmed) -->
+              <div class="ns2-erow ns2-dim">
+                <div class="ns2-eav" style="background:#003B8E;font-size:7px;font-weight:700;letter-spacing:0;opacity:.55">KTC</div>
+                <div class="ns2-emeta">
+                  <div class="ns2-efrom ns2-read">Onlineservice</div>
+                  <div class="ns2-esubj">แจ้งยืนยันรายการใช้จ่าย KTC</div>
+                  <div class="ns2-epreview">ออนไลน์ผ่านบัตรเครดิต (สำเร็จ) —...</div>
+                </div>
+                <div class="ns2-etime">19:32</div>
               </div>
             </div>
 
