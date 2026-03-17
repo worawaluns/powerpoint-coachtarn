@@ -731,39 +731,133 @@ function updateProgress() {
 });
 
 // Validation + submit
-function handleSubmit() {
+// ── Supabase config (TODO: ใส่ค่าจาก Supabase project) ─────────────────────
+const SUPA_URL      = 'https://YOUR_PROJECT_ID.supabase.co';
+const SUPA_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+async function handleSubmit() {
   let valid = true;
-  const name = document.getElementById('inputName').value.trim();
-  const email = document.getElementById('inputEmail').value.trim();
+  const name   = document.getElementById('inputName').value.trim();
+  const email  = document.getElementById('inputEmail').value.trim();
   const emailC = document.getElementById('inputEmailConfirm').value.trim();
-  const slip = document.getElementById('slipInput').files[0];
+  const slip   = document.getElementById('slipInput').files[0];
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  // Reset errors
-  ['inputName','inputEmail','inputEmailConfirm'].forEach(id=>{
-    document.getElementById(id).classList.remove('error');
-  });
-  ['errName','errEmail','errEmailConfirm','errSlip'].forEach(id=>{
-    document.getElementById(id).classList.remove('show');
-  });
+  // ── Reset errors ──────────────────────────────────────────────────────────
+  ['inputName','inputEmail','inputEmailConfirm'].forEach(id =>
+    document.getElementById(id).classList.remove('error')
+  );
+  ['errName','errEmail','errEmailConfirm','errSlip'].forEach(id =>
+    document.getElementById(id).classList.remove('show')
+  );
 
-  if(!name){ setErr('inputName','errName'); valid=false; }
-  if(!emailRe.test(email)){ setErr('inputEmail','errEmail'); valid=false; }
-  if(email !== emailC){ setErr('inputEmailConfirm','errEmailConfirm'); valid=false; }
-  if(!slip){ document.getElementById('errSlip').classList.add('show'); valid=false; }
-  if(!valid){ document.querySelector('.error-msg.show').scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  if (!name)                  { setErr('inputName','errName');               valid = false; }
+  if (!emailRe.test(email))   { setErr('inputEmail','errEmail');             valid = false; }
+  if (email !== emailC)       { setErr('inputEmailConfirm','errEmailConfirm'); valid = false; }
+  if (!slip)                  { document.getElementById('errSlip').classList.add('show'); valid = false; }
+  if (!valid) {
+    document.querySelector('.error-msg.show')?.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
 
-  // Show loading
+  // ── Loading ───────────────────────────────────────────────────────────────
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
   document.getElementById('loadingOverlay').classList.add('show');
-  document.getElementById('progressBar').style.width='85%';
+  document.getElementById('progressBar').style.width = '30%';
 
-  // Simulate API call (replace with real Supabase edge function call)
-  setTimeout(() => {
+  try {
+    // ── 1. สร้าง order_id ──────────────────────────────────────────────────
+    const orderId  = crypto.randomUUID();
+    const slipPath = `${orderId}/${slip.name}`;
+
+    document.getElementById('progressBar').style.width = '45%';
+
+    // ── 2. Upload สลิปไป Supabase Storage ─────────────────────────────────
+    const uploadRes = await fetch(
+      `${SUPA_URL}/storage/v1/object/slips/${slipPath}`,
+      {
+        method : 'POST',
+        headers: {
+          'Authorization': `Bearer ${SUPA_ANON_KEY}`,
+          'Content-Type' : slip.type || 'application/octet-stream',
+        },
+        body: slip,
+      }
+    );
+    if (!uploadRes.ok) throw new Error('upload_failed');
+
+    document.getElementById('progressBar').style.width = '60%';
+
+    // ── 3. INSERT order ────────────────────────────────────────────────────
+    const insertRes = await fetch(`${SUPA_URL}/rest/v1/orders`, {
+      method : 'POST',
+      headers: {
+        'Authorization': `Bearer ${SUPA_ANON_KEY}`,
+        'apikey'       : SUPA_ANON_KEY,
+        'Content-Type' : 'application/json',
+        'Prefer'       : 'return=minimal',
+      },
+      body: JSON.stringify({
+        id        : orderId,
+        name,
+        email,
+        slip_url  : slipPath,
+        status    : 'pending',
+        ref_source: new URLSearchParams(location.search).get('ref') ?? 'direct',
+      }),
+    });
+    if (!insertRes.ok) throw new Error('insert_failed');
+
+    document.getElementById('progressBar').style.width = '75%';
+
+    // ── 4. เรียก verify-slip Edge Function ────────────────────────────────
+    const verifyRes = await fetch(`${SUPA_URL}/functions/v1/verify-slip`, {
+      method : 'POST',
+      headers: {
+        'Authorization': `Bearer ${SUPA_ANON_KEY}`,
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({ order_id: orderId }),
+    });
+
+    const result = await verifyRes.json();
+    document.getElementById('progressBar').style.width = '100%';
+
+    await new Promise(r => setTimeout(r, 400)); // รอ progress bar เสร็จ
+
     document.getElementById('loadingOverlay').classList.remove('show');
-    document.getElementById('progressBar').style.width='100%';
-    document.getElementById('successEmail').textContent = email;
-    document.getElementById('successOverlay').classList.add('show');
-  }, 2500);
+
+    if (result.status === 'verified') {
+      // ── สำเร็จ ────────────────────────────────────────────────────────────
+      document.getElementById('successEmail').textContent = email;
+      document.getElementById('successOverlay').classList.add('show');
+
+    } else if (result.reason === 'duplicate_slip') {
+      // ── สลิปซ้ำ ───────────────────────────────────────────────────────────
+      document.getElementById('rejectedTitle').textContent = 'สลิปนี้เคยใช้แล้ว';
+      document.getElementById('rejectedMsg').textContent   =
+        'สลิปนี้เคยถูกใช้ในการสั่งซื้อแล้วค่ะ ถ้ากรอกอีเมลผิด ติดต่อ Line @coachtarn ได้เลยนะคะ';
+      document.getElementById('rejectedOverlay').classList.add('show');
+
+    } else {
+      // ── ไม่ผ่านการตรวจ ────────────────────────────────────────────────────
+      document.getElementById('rejectedTitle').textContent = 'ตรวจสลิปไม่ผ่าน';
+      document.getElementById('rejectedMsg').textContent   =
+        'ไม่สามารถยืนยันการชำระเงินได้ค่ะ กรุณาตรวจสอบว่าโอนครบ 499 บาท และแนบสลิปถูกต้อง หรือติดต่อ Line @coachtarn ได้เลยค่ะ';
+      document.getElementById('rejectedOverlay').classList.add('show');
+    }
+
+  } catch (err) {
+    console.error('submit error:', err);
+    document.getElementById('loadingOverlay').classList.remove('show');
+    document.getElementById('rejectedTitle').textContent = 'เกิดข้อผิดพลาด';
+    document.getElementById('rejectedMsg').textContent   =
+      'เกิดปัญหาในการเชื่อมต่อค่ะ กรุณาลองใหม่ หรือติดต่อ Line @coachtarn';
+    document.getElementById('rejectedOverlay').classList.add('show');
+  } finally {
+    btn.disabled = false;
+  }
 }
 
 function setErr(inputId, errId) {
