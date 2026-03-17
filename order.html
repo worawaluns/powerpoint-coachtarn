@@ -6,6 +6,7 @@
 <title>สั่งซื้อ — PowerPoint Template by Coach Tarn</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -332,7 +333,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 }
 .rejected-icon svg{width:36px;height:36px}
 .rejected-h{font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px}
-.rejected-p{font-size:15px;color:var(--text-mid);line-height:1.6;margin-bottom:24px}
+.rejected-p{font-size:15px;color:var(--text-mid);line-height:1.6;margin-bottom:24px;white-space:pre-line}
 .btn-retry{
   width:100%;background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
   box-shadow:var(--btn-shadow);
@@ -605,6 +606,13 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
         </div>
       </div>
 
+      <!-- Cloudflare Turnstile invisible widget -->
+      <div id="cf-turnstile" class="cf-turnstile"
+           data-sitekey="0x4AAAAAACsD8RZ-057dj9gQ"
+           data-theme="light"
+           data-callback="onTurnstileSuccess"
+           style="display:none"></div>
+
       <div class="submit-area">
         <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">
           <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -818,7 +826,7 @@ async function handleSubmit() {
         'Authorization': `Bearer ${SUPA_ANON_KEY}`,
         'Content-Type' : 'application/json',
       },
-      body: JSON.stringify({ order_id: orderId }),
+      body: JSON.stringify({ order_id: orderId, turnstile_token: cfToken }),
     });
 
     const result = await verifyRes.json();
@@ -828,33 +836,24 @@ async function handleSubmit() {
 
     document.getElementById('loadingOverlay').classList.remove('show');
 
+    // ── รีเซ็ต Turnstile token ────────────────────────────────────────────
+    cfToken = '';
+    if (typeof turnstile !== 'undefined') turnstile.reset('#cf-turnstile');
+
     if (result.status === 'verified') {
       // ── สำเร็จ ────────────────────────────────────────────────────────────
       document.getElementById('successEmail').textContent = email;
       document.getElementById('successOverlay').classList.add('show');
-
-    } else if (result.reason === 'duplicate_slip') {
-      // ── สลิปซ้ำ ───────────────────────────────────────────────────────────
-      document.getElementById('rejectedTitle').textContent = 'สลิปนี้เคยใช้แล้ว';
-      document.getElementById('rejectedMsg').textContent   =
-        'สลิปนี้เคยถูกใช้ในการสั่งซื้อแล้วค่ะ ถ้ากรอกอีเมลผิด ติดต่อ Line @coachtarn ได้เลยนะคะ';
-      document.getElementById('rejectedOverlay').classList.add('show');
-
     } else {
-      // ── ไม่ผ่านการตรวจ ────────────────────────────────────────────────────
-      document.getElementById('rejectedTitle').textContent = 'ตรวจสลิปไม่ผ่าน';
-      document.getElementById('rejectedMsg').textContent   =
-        'ไม่สามารถยืนยันการชำระเงินได้ค่ะ กรุณาตรวจสอบว่าโอนครบ 499 บาท และแนบสลิปถูกต้อง หรือติดต่อ Line @coachtarn ได้เลยค่ะ';
-      document.getElementById('rejectedOverlay').classList.add('show');
+      showRejected(result);
     }
 
   } catch (err) {
     console.error('submit error:', err);
     document.getElementById('loadingOverlay').classList.remove('show');
-    document.getElementById('rejectedTitle').textContent = 'เกิดข้อผิดพลาด';
-    document.getElementById('rejectedMsg').textContent   =
-      'เกิดปัญหาในการเชื่อมต่อค่ะ กรุณาลองใหม่ หรือติดต่อ Line @coachtarn';
-    document.getElementById('rejectedOverlay').classList.add('show');
+    cfToken = '';
+    if (typeof turnstile !== 'undefined') turnstile.reset('#cf-turnstile');
+    showRejected({ reason: 'error' });
   } finally {
     btn.disabled = false;
   }
@@ -864,7 +863,76 @@ function setErr(inputId, errId) {
   document.getElementById(inputId).classList.add('error');
   document.getElementById(errId).classList.add('show');
 }
-function hideRejected(){ document.getElementById('rejectedOverlay').classList.remove('show'); }
+
+// ── Turnstile ────────────────────────────────────────────────────────────────
+let cfToken = '';
+function onTurnstileSuccess(token) { cfToken = token; }
+
+// ── 6-state rejected overlay ─────────────────────────────────────────────────
+function showRejected(result) {
+  const reason = result.reason || 'error';
+  const actual = result.actual_amount;
+
+  const ICONS = {
+    warn:   { bg:'#FEF3C7', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" width="36" height="36"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
+    error:  { bg:'#FEE2E2', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" width="36" height="36"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>' },
+    info:   { bg:'#DBEAFE', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" width="36" height="36"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' },
+    shield: { bg:'#FEE2E2', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" width="36" height="36"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
+  };
+
+  const CONFIGS = {
+    wrong_amount: {
+      icon: 'warn',
+      title: 'ยอดเงินไม่ถูกต้อง',
+      msg: `ระบบตรวจพบว่าโอนมา ${actual ?? '?'} บาท แต่ต้องชำระ 499 บาท\nกรุณาโอนเพิ่มหรือแนบสลิปใหม่ที่มียอดครบ 499 บาท`,
+    },
+    wrong_account: {
+      icon: 'error',
+      title: 'โอนไปผิดบัญชี',
+      msg: 'สลิปนี้ไม่ได้โอนมาที่บัญชีของ Coach Tarn\nกรุณาโอนมาที่เลขบัญชี 157-8-14776-0 (KBANK) เท่านั้น',
+    },
+    wrong_amount_and_account: {
+      icon: 'error',
+      title: 'ยอดเงินและบัญชีไม่ถูกต้อง',
+      msg: 'สลิปนี้โอนไปผิดบัญชีและยอดเงินไม่ถูกต้อง\nกรุณาโอน 499 บาท มาที่เลขบัญชี 157-8-14776-0 (KBANK)',
+    },
+    duplicate: {
+      icon: 'info',
+      title: 'สลิปนี้เคยใช้แล้ว',
+      msg: 'สลิปนี้เคยถูกใช้ในการสั่งซื้อแล้ว\nถ้ากรอกอีเมลผิด ติดต่อ Line @coachtarn ได้เลยนะคะ',
+    },
+    invalid_slip: {
+      icon: 'warn',
+      title: 'อ่านสลิปไม่ได้',
+      msg: 'ระบบไม่สามารถอ่านข้อมูลจากสลิปนี้ได้\nกรุณาแนบสลิปจากแอปธนาคารโดยตรง (ไม่ใช่ภาพถ่ายที่ถูกครอปหรือแก้ไข)',
+    },
+    bot_detected: {
+      icon: 'shield',
+      title: 'ตรวจพบการเข้าถึงผิดปกติ',
+      msg: 'ระบบตรวจพบการเข้าถึงที่ผิดปกติ\nกรุณาโหลดหน้าใหม่แล้วลองอีกครั้ง',
+    },
+    error: {
+      icon: 'warn',
+      title: 'เกิดข้อผิดพลาด',
+      msg: 'เกิดปัญหาในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง\nหรือติดต่อ Line @coachtarn ได้เลยค่ะ',
+    },
+  };
+
+  const cfg = CONFIGS[reason] ?? CONFIGS.error;
+  const iconDef = ICONS[cfg.icon];
+
+  const iconEl = document.querySelector('.rejected-icon');
+  iconEl.style.background = iconDef.bg;
+  iconEl.innerHTML = iconDef.svg;
+
+  document.getElementById('rejectedTitle').textContent = cfg.title;
+  document.getElementById('rejectedMsg').textContent   = cfg.msg;
+  document.getElementById('rejectedOverlay').classList.add('show');
+}
+
+function hideRejected() {
+  document.getElementById('rejectedOverlay').classList.remove('show');
+}
 function contactLine(){ window.open('https://line.me/ti/p/@coachtarn','_blank'); }
 
 // Drawer
