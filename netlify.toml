@@ -1,0 +1,52 @@
+[build]
+  publish = "."
+
+# ── Clean URLs: ให้เรียก /order แทน /order.html ──────────────────────────────
+[[redirects]]
+  from   = "/order"
+  to     = "/order.html"
+  status = 200
+
+[[redirects]]
+  from   = "/download"
+  to     = "/download.html"
+  status = 200
+
+[[redirects]]
+  from   = "/flow-options"
+  to     = "/flow-options.html"
+  status = 200
+
+[[redirects]]
+  from   = "/design-preview"
+  to     = "/design-preview.html"
+  status = 200
+
+# ── Redirect เก่า (.html) → clean URL (301 SEO-friendly) ────────────────────
+[[redirects]]
+  from   = "/order.html"
+  to     = "/order"
+  status = 301
+
+[[redirects]]
+  from   = "/download.html"
+  to     = "/download"
+  status = 301
+
+[[redirects]]
+  from   = "/flow-options.html"
+  to     = "/flow-options"
+  status = 301
+
+[[redirects]]
+  from   = "/design-preview.html"
+  to     = "/design-preview"
+  status = 301
+
+# ── Security headers ─────────────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
