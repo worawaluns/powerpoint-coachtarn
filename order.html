@@ -320,29 +320,30 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   text-decoration:none;display:block;text-align:center;
 }
 
-/* Rejected state */
-.rejected-overlay{
-  display:none;position:fixed;inset:0;background:#fff;z-index:200;
-  flex-direction:column;align-items:center;justify-content:center;
-  padding:40px 32px;text-align:center;
+/* ── Rejected section (inline — ไม่ใช่ overlay) ── */
+#rejectedSection{display:none;padding-bottom:8px}
+#rejectedSection.show{display:block}
+.rej-card{background:#fff;border-radius:20px;border:1px solid var(--border);overflow:hidden;margin:12px 16px 14px}
+.rej-strip{height:4px}
+.rej-body{padding:32px 22px 28px;text-align:center}
+.rej-icon-wrap{
+  width:68px;height:68px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
 }
-.rejected-overlay.show{display:flex}
-.rejected-icon{
-  width:72px;height:72px;background:#FEF3C7;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;margin-bottom:20px;
-}
-.rejected-icon svg{width:36px;height:36px}
-.rejected-h{font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px}
-.rejected-p{font-size:15px;color:var(--text-mid);line-height:1.6;margin-bottom:24px;white-space:pre-line}
+.rej-icon-wrap svg{width:32px;height:32px}
+.rej-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px}
+.rej-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:10px;line-height:1.35;letter-spacing:-0.3px}
+.rej-msg{font-size:14px;color:var(--text-mid);line-height:1.75;margin-bottom:28px;white-space:pre-line}
+.rej-divider{height:1px;background:var(--border);margin:0 -22px 24px}
 .btn-retry{
   width:100%;background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
   box-shadow:var(--btn-shadow);
   color:#fff;border:none;border-radius:100px;padding:16px;
-  font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;margin-bottom:12px;
+  font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;margin-bottom:10px;
 }
 .btn-line{
-  width:100%;background:#06C755;color:#fff;border:none;border-radius:100px;padding:16px;
-  font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;
+  width:100%;background:#06C755;color:#fff;border:none;border-radius:100px;padding:15px;
+  font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
 
@@ -410,6 +411,30 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   </div>
 
   <div class="page-inner">
+
+  <!-- ── Rejected section (แสดงใน page flow ปกติ มี header อยู่เสมอ) ── -->
+  <div id="rejectedSection">
+    <div class="rej-card">
+      <div class="rej-strip" id="rejStrip"></div>
+      <div class="rej-body">
+        <div class="rej-icon-wrap" id="rejIconWrap">
+          <!-- icon injected by JS -->
+        </div>
+        <div class="rej-label" id="rejLabel"></div>
+        <h2 class="rej-title" id="rejectedTitle"></h2>
+        <p class="rej-msg" id="rejectedMsg"></p>
+        <div class="rej-divider"></div>
+        <button class="btn-retry" onclick="hideRejected()">ลองใหม่อีกครั้ง</button>
+        <button class="btn-line" onclick="contactLine()">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M12 2C6.48 2 2 5.92 2 10.76c0 2.96 1.56 5.58 4 7.3V22l3.79-2.08c.71.19 1.46.3 2.21.3 5.52 0 10-3.92 10-8.76S17.52 2 12 2z"/></svg>
+          ติดต่อแอดมิน Line
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main content (ซ่อนเมื่อ rejected) ── -->
+  <div id="mainContent">
 
     <!-- ① Order summary -->
     <div class="card">
@@ -625,6 +650,8 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
       </div>
     </div>
 
+  </div><!-- /mainContent -->
+
   </div><!-- /page-inner -->
 
   <footer class="footer">
@@ -666,20 +693,6 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   <a href="download" class="btn-success">ดูวิธีดาวน์โหลดสไลด์ →</a>
   <div style="height:16px"></div>
   <p style="font-size:13px;color:var(--text-sub);line-height:1.6;text-align:center">ไม่เห็นอีเมล? รอสักครู่แล้วรีเฟรช<br>หรือตรวจสอบโฟลเดอร์ Spam/Junk</p>
-</div>
-
-<!-- Rejected overlay -->
-<div class="rejected-overlay" id="rejectedOverlay">
-  <div class="rejected-icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-  </div>
-  <h2 class="rejected-h" id="rejectedTitle">ไม่สามารถยืนยันสลิปได้</h2>
-  <p class="rejected-p" id="rejectedMsg">ระบบไม่สามารถตรวจสอบสลิปได้ กรุณาลองใหม่อีกครั้ง หรือติดต่อแอดมิน</p>
-  <button class="btn-retry" onclick="hideRejected()">ลองใหม่อีกครั้ง</button>
-  <button class="btn-line" onclick="contactLine()">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.02 2 11c0 3.08 1.56 5.78 3.97 7.47L5 21l2.65-1.38C8.97 20.17 10.46 20.5 12 20.5c5.52 0 10-4.02 10-9s-4.48-9-10-9z"/></svg>
-    ติดต่อแอดมิน Line
-  </button>
 </div>
 
 <script>
@@ -868,70 +881,71 @@ function setErr(inputId, errId) {
 let cfToken = '';
 function onTurnstileSuccess(token) { cfToken = token; }
 
-// ── 6-state rejected overlay ─────────────────────────────────────────────────
+// ── 6-state rejected section (inline — มี header ปกติ) ──────────────────────
 function showRejected(result) {
   const reason = result.reason || 'error';
   const actual = result.actual_amount;
 
+  // icon type → color + SVG + strip color
   const ICONS = {
-    warn:   { bg:'#FEF3C7', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" width="36" height="36"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
-    error:  { bg:'#FEE2E2', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" width="36" height="36"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>' },
-    info:   { bg:'#DBEAFE', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" width="36" height="36"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' },
-    shield: { bg:'#FEE2E2', svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" width="36" height="36"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
+    warn:   { strip:'#F59E0B', bg:'#FEF3C7', color:'#F59E0B', label:'แจ้งเตือน',
+              svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
+    error:  { strip:'#EF4444', bg:'#FEE2E2', color:'#DC2626', label:'ไม่สำเร็จ',
+              svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>' },
+    info:   { strip:'#3B82F6', bg:'#DBEAFE', color:'#2563EB', label:'ข้อมูล',
+              svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' },
+    shield: { strip:'#EF4444', bg:'#FEE2E2', color:'#DC2626', label:'ความปลอดภัย',
+              svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
   };
 
   const CONFIGS = {
-    wrong_amount: {
-      icon: 'warn',
-      title: 'ยอดเงินไม่ถูกต้อง',
-      msg: `ระบบตรวจพบว่าโอนมา ${actual ?? '?'} บาท แต่ต้องชำระ 499 บาท\nกรุณาโอนเพิ่มหรือแนบสลิปใหม่ที่มียอดครบ 499 บาท`,
-    },
-    wrong_account: {
-      icon: 'error',
-      title: 'โอนไปผิดบัญชี',
-      msg: 'สลิปนี้ไม่ได้โอนมาที่บัญชีของ Coach Tarn\nกรุณาโอนมาที่เลขบัญชี 157-8-14776-0 (KBANK) เท่านั้น',
-    },
-    wrong_amount_and_account: {
-      icon: 'error',
-      title: 'ยอดเงินและบัญชีไม่ถูกต้อง',
-      msg: 'สลิปนี้โอนไปผิดบัญชีและยอดเงินไม่ถูกต้อง\nกรุณาโอน 499 บาท มาที่เลขบัญชี 157-8-14776-0 (KBANK)',
-    },
-    duplicate: {
-      icon: 'info',
-      title: 'สลิปนี้เคยใช้แล้ว',
-      msg: 'สลิปนี้เคยถูกใช้ในการสั่งซื้อแล้ว\nถ้ากรอกอีเมลผิด ติดต่อ Line @coachtarn ได้เลยนะคะ',
-    },
-    invalid_slip: {
-      icon: 'warn',
-      title: 'อ่านสลิปไม่ได้',
-      msg: 'ระบบไม่สามารถอ่านข้อมูลจากสลิปนี้ได้\nกรุณาแนบสลิปจากแอปธนาคารโดยตรง (ไม่ใช่ภาพถ่ายที่ถูกครอปหรือแก้ไข)',
-    },
-    bot_detected: {
-      icon: 'shield',
-      title: 'ตรวจพบการเข้าถึงผิดปกติ',
-      msg: 'ระบบตรวจพบการเข้าถึงที่ผิดปกติ\nกรุณาโหลดหน้าใหม่แล้วลองอีกครั้ง',
-    },
-    error: {
-      icon: 'warn',
-      title: 'เกิดข้อผิดพลาด',
-      msg: 'เกิดปัญหาในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง\nหรือติดต่อ Line @coachtarn ได้เลยค่ะ',
-    },
+    wrong_amount:             { icon:'warn',   title:'ยอดเงินไม่ถูกต้อง',
+      msg:`ระบบตรวจพบว่าโอนมา ${actual ?? '?'} บาท แต่ต้องชำระ 499 บาท\nกรุณาโอนเพิ่มหรือแนบสลิปใหม่ที่มียอดครบ 499 บาท` },
+    wrong_account:            { icon:'error',  title:'โอนไปผิดบัญชี',
+      msg:'สลิปนี้ไม่ได้โอนมาที่บัญชีของ Coach Tarn\nกรุณาโอนมาที่เลขบัญชี 157-8-14776-0 (KBANK) เท่านั้น' },
+    wrong_amount_and_account: { icon:'error',  title:'ยอดเงินและบัญชีไม่ถูกต้อง',
+      msg:'สลิปนี้โอนไปผิดบัญชีและยอดเงินไม่ถูกต้อง\nกรุณาโอน 499 บาท มาที่เลขบัญชี 157-8-14776-0 (KBANK)' },
+    duplicate:                { icon:'info',   title:'สลิปนี้เคยใช้แล้ว',
+      msg:'สลิปนี้เคยถูกใช้ในการสั่งซื้อแล้ว\nถ้ากรอกอีเมลผิด ติดต่อ Line @coachtarn ได้เลยนะคะ' },
+    invalid_slip:             { icon:'warn',   title:'อ่านสลิปไม่ได้',
+      msg:'ระบบไม่สามารถอ่านข้อมูลจากสลิปนี้ได้\nกรุณาแนบสลิปจากแอปธนาคารโดยตรง (ไม่ใช่ภาพถ่ายที่ถูกครอปหรือแก้ไข)' },
+    bot_detected:             { icon:'shield', title:'ตรวจพบการเข้าถึงผิดปกติ',
+      msg:'ระบบตรวจพบการเข้าถึงที่ผิดปกติ\nกรุณาโหลดหน้าใหม่แล้วลองอีกครั้ง' },
+    error:                    { icon:'warn',   title:'เกิดข้อผิดพลาด',
+      msg:'เกิดปัญหาในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง\nหรือติดต่อ Line @coachtarn ได้เลยค่ะ' },
   };
 
-  const cfg = CONFIGS[reason] ?? CONFIGS.error;
+  const cfg     = CONFIGS[reason] ?? CONFIGS.error;
   const iconDef = ICONS[cfg.icon];
 
-  const iconEl = document.querySelector('.rejected-icon');
-  iconEl.style.background = iconDef.bg;
-  iconEl.innerHTML = iconDef.svg;
-
+  // set strip color
+  document.getElementById('rejStrip').style.background = iconDef.strip;
+  // set icon circle
+  const wrap = document.getElementById('rejIconWrap');
+  wrap.style.background = iconDef.bg;
+  wrap.innerHTML = iconDef.svg;
+  // set label
+  const labelEl = document.getElementById('rejLabel');
+  labelEl.textContent  = iconDef.label;
+  labelEl.style.color  = iconDef.color;
+  // set texts
   document.getElementById('rejectedTitle').textContent = cfg.title;
   document.getElementById('rejectedMsg').textContent   = cfg.msg;
-  document.getElementById('rejectedOverlay').classList.add('show');
+
+  // swap visibility
+  document.getElementById('mainContent').style.display  = 'none';
+  document.getElementById('rejectedSection').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function hideRejected() {
-  document.getElementById('rejectedOverlay').classList.remove('show');
+  document.getElementById('rejectedSection').style.display = 'none';
+  document.getElementById('mainContent').style.display     = '';
+  // reset file upload so user can pick a new slip
+  document.getElementById('slipInput').value = '';
+  document.getElementById('uploadPreview').style.display = 'none';
+  document.getElementById('uploadArea').style.display    = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function contactLine(){ window.open('https://line.me/ti/p/@coachtarn','_blank'); }
 
