@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flow Section — 3 Options</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f0f0f0;font-family:'Noto Sans Thai',sans-serif;padding:20px}
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800;900&display=swap');
+
+  :root{
+    --red:#D34724;--orange:#EB7D4A;
+    --text:#1a1a1a;--text-mid:#555;--text-sub:#888;
+    --border:#ebebeb;--bg-soft:#f8f6f3;
+    --radius:16px;
+  }
+
+  h1{text-align:center;font-size:14px;color:#888;margin-bottom:24px;letter-spacing:1px;text-transform:uppercase}
+
+  .options{display:flex;flex-wrap:wrap;gap:24px;justify-content:center}
+  .opt-wrap{
+    background:#e5e5e5;border-radius:20px;padding:12px;
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .opt-label{
+    text-align:center;font-size:12px;font-weight:700;
+    color:#555;letter-spacing:0.5px;
+  }
+  .phone-frame{
+    width:320px;background:#fff;border-radius:28px;
+    overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,0.15);
+  }
+
+  /* ── shared section styles ── */
+  .sec{padding:32px 22px;background:#fff}
+  .pill{
+    display:inline-block;background:rgba(211,71,36,0.09);
+    color:var(--red);font-size:11px;font-weight:700;
+    padding:4px 10px;border-radius:100px;margin-bottom:8px;
+  }
+  .h2{font-size:22px;font-weight:900;color:var(--text);line-height:1.2;letter-spacing:-0.5px}
+  .sub{font-size:13px;color:var(--text-mid);margin-top:6px;line-height:1.55}
+  .note{
+    margin-top:16px;background:rgba(235,125,74,0.07);
+    border-radius:12px;padding:12px 14px;
+    border:1px solid rgba(235,125,74,0.18);
+    display:flex;align-items:flex-start;gap:8px;
+    font-size:12px;color:var(--text-mid);line-height:1.55;
+  }
+  .note strong{color:var(--text)}
+
+  /* ══ OPTION A — Tab Switcher ══ */
+  .tab-row{display:flex;gap:6px;margin:20px 0 18px}
+  .tab-btn{
+    flex:1;padding:10px 0;border-radius:12px;border:1.5px solid var(--border);
+    background:var(--bg-soft);cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    transition:all .2s;font-family:inherit;
+  }
+  .tab-btn.active{background:linear-gradient(-135deg,#EB7D4A,#D34724);border-color:transparent}
+  .tab-btn .tnum{font-size:16px;font-weight:900;color:var(--text-sub)}
+  .tab-btn.active .tnum{color:#fff}
+  .tab-btn .tlabel{font-size:9px;font-weight:600;color:var(--text-sub);text-align:center;line-height:1.3}
+  .tab-btn.active .tlabel{color:rgba(255,255,255,0.85)}
+
+  .tab-phone{
+    width:110px;height:190px;background:#111;border-radius:16px;
+    margin:0 auto 16px;display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+  }
+  .tab-scene{
+    position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:6px;
+    opacity:0;transition:opacity .3s;padding:12px;
+  }
+  .tab-scene.act{opacity:1}
+  .scene-icon{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center}
+  .scene-icon svg{width:18px;height:18px}
+  .scene-title{font-size:9px;font-weight:700;color:#fff;text-align:center;line-height:1.3}
+  .scene-sub{font-size:8px;color:rgba(255,255,255,0.6);text-align:center}
+
+  .step-detail{background:var(--bg-soft);border-radius:14px;padding:14px 16px;min-height:80px}
+  .step-detail .sd-num{font-size:10px;font-weight:700;color:var(--red);letter-spacing:0.5px;margin-bottom:3px}
+  .step-detail .sd-title{font-size:14px;font-weight:800;color:var(--text);margin-bottom:4px}
+  .step-detail .sd-desc{font-size:12px;color:var(--text-mid);line-height:1.5}
+
+  /* ══ OPTION B — Horizontal Card Scroll ══ */
+  .hscroll-wrap{
+    overflow-x:auto;margin:20px -22px 0;padding:0 22px 14px;
+    scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(to right,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%);
+    mask-image:linear-gradient(to right,transparent 0,#000 20px,#000 calc(100% - 20px),transparent 100%);
+  }
+  .hscroll-wrap::-webkit-scrollbar{display:none}
+  .hscroll-track{display:flex;gap:10px;padding:4px 0}
+  .hcard{
+    flex-shrink:0;width:200px;border-radius:18px;overflow:hidden;
+    box-shadow:0 3px 16px rgba(0,0,0,0.1);background:#fff;
+    border:1px solid var(--border);
+  }
+  .hcard-phone{
+    height:220px;background:#111;display:flex;align-items:center;
+    justify-content:center;position:relative;
+  }
+  .hcard-phone-inner{
+    width:80px;height:145px;border-radius:12px;background:#1a1a1a;
+    border:2px solid #333;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:4px;padding:8px;
+  }
+  .hcard-phone-inner .pi-icon{width:28px;height:28px;border-radius:50%;background:rgba(235,125,74,0.15);display:flex;align-items:center;justify-content:center}
+  .hcard-phone-inner svg{width:14px;height:14px}
+  .hcard-phone-inner .pi-text{font-size:7px;color:rgba(255,255,255,0.7);text-align:center;line-height:1.3;font-weight:600}
+  .hcard-num{
+    position:absolute;top:10px;left:10px;
+    width:24px;height:24px;border-radius:50%;
+    background:linear-gradient(-135deg,#EB7D4A,#D34724);
+    font-size:12px;font-weight:900;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hcard-body{padding:12px 14px 14px}
+  .hcard-title{font-size:13px;font-weight:800;color:var(--text);margin-bottom:4px;line-height:1.3}
+  .hcard-desc{font-size:11px;color:var(--text-mid);line-height:1.5}
+  .hdots{display:flex;justify-content:center;gap:4px;margin-top:12px}
+  .hdot{width:5px;height:5px;border-radius:50%;background:rgba(0,0,0,0.15)}
+  .hdot.on{width:16px;border-radius:3px;background:var(--red)}
+
+  /* ══ OPTION C — Accordion Steps + Mini strip ══ */
+  .mini-strip{
+    display:flex;align-items:center;justify-content:center;
+    gap:8px;margin:20px 0;
+    background:var(--bg-soft);border-radius:14px;padding:14px;
+    border:1px solid var(--border);
+  }
+  .ms-step{
+    display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;
+  }
+  .ms-icon{
+    width:40px;height:40px;border-radius:12px;
+    background:linear-gradient(-135deg,#EB7D4A,#D34724);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ms-icon svg{width:18px;height:18px}
+  .ms-label{font-size:9px;font-weight:700;color:var(--text-sub);text-align:center;line-height:1.3}
+  .ms-arrow{color:#ccc;font-size:14px;flex-shrink:0}
+
+  .acc-list{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .acc-item{
+    border-radius:14px;overflow:hidden;
+    border:1px solid var(--border);background:#fff;
+  }
+  .acc-head{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 14px;cursor:pointer;
+    background:#fff;border:none;width:100%;font-family:inherit;text-align:left;
+  }
+  .acc-num{
+    width:28px;height:28px;border-radius:50%;flex-shrink:0;
+    background:linear-gradient(-135deg,#EB7D4A,#D34724);
+    font-size:13px;font-weight:900;color:#fff;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .acc-title{font-size:13px;font-weight:800;color:var(--text);flex:1;line-height:1.3}
+  .acc-caret{color:#bbb;font-size:14px;transition:transform .25s;flex-shrink:0}
+  .acc-item.open .acc-caret{transform:rotate(180deg)}
+  .acc-body{
+    max-height:0;overflow:hidden;
+    transition:max-height .3s ease,padding .3s;
+    padding:0 14px;
+    font-size:12px;color:var(--text-mid);line-height:1.55;
+  }
+  .acc-item.open .acc-body{max-height:120px;padding:0 14px 14px}
+</style>
+</head>
+<body>
+<h1>Flow Section — 3 UI Options</h1>
+<div class="options">
+
+  <!-- ── OPTION A ── -->
+  <div class="opt-wrap">
+    <div class="opt-label">Option A — Tab Switcher</div>
+    <div class="phone-frame">
+      <div class="sec">
+        <div class="pill">ขั้นตอนสั่งซื้อ</div>
+        <div class="h2">ง่าย 3 ขั้นตอน<br>เริ่มใช้งานได้ทันที</div>
+
+        <!-- tabs -->
+        <div class="tab-row">
+          <button class="tab-btn active" onclick="switchTab(0)">
+            <span class="tnum">1</span>
+            <span class="tlabel">สั่งซื้อ</span>
+          </button>
+          <button class="tab-btn" onclick="switchTab(1)">
+            <span class="tnum">2</span>
+            <span class="tlabel">เช็คเมล</span>
+          </button>
+          <button class="tab-btn" onclick="switchTab(2)">
+            <span class="tnum">3</span>
+            <span class="tlabel">โหลดสไลด์</span>
+          </button>
+        </div>
+
+        <!-- phone -->
+        <div class="tab-phone">
+          <div class="tab-scene act" id="ts0">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#EB7D4A" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="scene-title">ชำระเงินสำเร็จ!</div>
+            <div class="scene-sub" style="color:#4ade80;font-weight:700;font-size:10px">✓ 499฿</div>
+            <div class="scene-sub">ระบบส่งอีเมล...</div>
+          </div>
+          <div class="tab-scene" id="ts1">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#EB7D4A" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="scene-title">อีเมลจาก Coach Tarn</div>
+            <div class="scene-sub">มาแล้ว! ใน 1 นาที</div>
+          </div>
+          <div class="tab-scene" id="ts2">
+            <div class="scene-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#EB7D4A" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </div>
+            <div class="scene-title">ดาวน์โหลดสไลด์</div>
+            <div class="scene-sub" style="color:#4ade80;font-weight:700;font-size:10px">✓ พร้อมใช้งาน!</div>
+          </div>
+        </div>
+
+        <!-- detail -->
+        <div class="step-detail" id="sdDetail">
+          <div class="sd-num">ขั้นตอนที่ 1</div>
+          <div class="sd-title">กดสั่งซื้อ — กรอกฟอร์ม — โอนเงิน</div>
+          <div class="sd-desc">ใส่ชื่อและอีเมล ถ่ายรูปสลิปอัปขึ้นไป ทำได้จากมือถือเลย ไม่ยุ่งยาก</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OPTION B ── -->
+  <div class="opt-wrap">
+    <div class="opt-label">Option B — Horizontal Cards</div>
+    <div class="phone-frame">
+      <div class="sec">
+        <div class="pill">ขั้นตอนสั่งซื้อ</div>
+        <div class="h2">ง่าย 3 ขั้นตอน<br>เริ่มใช้งานได้ทันที</div>
+
+        <div class="hscroll-wrap">
+          <div class="hscroll-track">
+
+            <div class="hcard">
+              <div class="hcard-phone">
+                <div class="hcard-num">1</div>
+                <div class="hcard-phone-inner">
+                  <div class="pi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#EB7D4A" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                  <div class="pi-text">ชำระเงิน<br>สำเร็จ ✓<br><span style="color:#4ade80;font-size:9px">499฿</span></div>
+                </div>
+              </div>
+              <div class="hcard-body">
+                <div class="hcard-title">กดสั่งซื้อ<br>โอนเงิน 499฿</div>
+                <div class="hcard-desc">ใส่ชื่อ อีเมล ถ่ายสลิป ทำได้จากมือถือ</div>
+              </div>
+            </div>
+
+            <div class="hcard">
+              <div class="hcard-phone">
+                <div class="hcard-num">2</div>
+                <div class="hcard-phone-inner">
+                  <div class="pi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#EB7D4A" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+                  <div class="pi-text">Coach Tarn<br>ส่งอีเมลแล้ว<br><span style="color:#60a5fa;font-size:9px">1 นาที</span></div>
+                </div>
+              </div>
+              <div class="hcard-body">
+                <div class="hcard-title">เช็คอีเมล<br>รับ Code</div>
+                <div class="hcard-desc">มีลิงก์และ Redeem Code ชัดเจน เก็บไว้ได้ตลอด</div>
+              </div>
+            </div>
+
+            <div class="hcard">
+              <div class="hcard-phone">
+                <div class="hcard-num">3</div>
+                <div class="hcard-phone-inner">
+                  <div class="pi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#EB7D4A" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+                  <div class="pi-text">โหลดสไลด์<br>ได้เลย!<br><span style="color:#4ade80;font-size:9px">✓ พร้อมใช้</span></div>
+                </div>
+              </div>
+              <div class="hcard-body">
+                <div class="hcard-title">คลิกลิงก์<br>โหลดสไลด์</div>
+                <div class="hcard-desc">เลือกสไลด์แล้วโหลดได้เลย กลับมาโหลดเพิ่มได้ตลอดชีพ</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="hdots">
+          <div class="hdot on"></div>
+          <div class="hdot"></div>
+          <div class="hdot"></div>
+        </div>
+
+        <div class="note" style="margin-top:14px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          <div><strong>อีเมลไม่หมดอายุ</strong> — กลับมาโหลดเพิ่มได้ทุกวัน</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── OPTION C ── -->
+  <div class="opt-wrap">
+    <div class="opt-label">Option C — Icon Strip + Accordion</div>
+    <div class="phone-frame">
+      <div class="sec">
+        <div class="pill">ขั้นตอนสั่งซื้อ</div>
+        <div class="h2">ง่าย 3 ขั้นตอน<br>เริ่มใช้งานได้ทันที</div>
+
+        <!-- mini strip -->
+        <div class="mini-strip">
+          <div class="ms-step">
+            <div class="ms-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="ms-label">สั่งซื้อ<br>& โอน</div>
+          </div>
+          <div class="ms-arrow">›</div>
+          <div class="ms-step">
+            <div class="ms-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="ms-label">รับ Code<br>ทางเมล</div>
+          </div>
+          <div class="ms-arrow">›</div>
+          <div class="ms-step">
+            <div class="ms-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+            <div class="ms-label">โหลด<br>สไลด์</div>
+          </div>
+        </div>
+
+        <!-- accordion -->
+        <div class="acc-list">
+          <div class="acc-item open" onclick="toggleAcc(this)">
+            <button class="acc-head">
+              <div class="acc-num">1</div>
+              <div class="acc-title">กดสั่งซื้อ — กรอกฟอร์ม — โอนเงิน 499฿</div>
+              <span class="acc-caret">▾</span>
+            </button>
+            <div class="acc-body">ใส่ชื่อและอีเมลของคุณ แล้วถ่ายรูปสลิปอัปขึ้นไป ทำได้จากมือถือเลย ไม่ยุ่งยาก</div>
+          </div>
+          <div class="acc-item" onclick="toggleAcc(this)">
+            <button class="acc-head">
+              <div class="acc-num">2</div>
+              <div class="acc-title">เช็คอีเมล — รับ Code และลิงก์ดาวน์โหลด</div>
+              <span class="acc-caret">▾</span>
+            </button>
+            <div class="acc-body">อีเมลมาใน 1 นาที มีลิงก์และ Redeem Code ชัดเจน เก็บไว้กลับมาโหลดเพิ่มได้ตลอด</div>
+          </div>
+          <div class="acc-item" onclick="toggleAcc(this)">
+            <button class="acc-head">
+              <div class="acc-num">3</div>
+              <div class="acc-title">คลิกลิงก์ — กรอก Code — โหลดสไลด์</div>
+              <span class="acc-caret">▾</span>
+            </button>
+            <div class="acc-body">เลือกสไลด์แล้วโหลดได้เลย อยากโหลดเพิ่มวันไหน กลับมาที่อีเมลเดิมได้ตลอดชีพ</div>
+          </div>
+        </div>
+
+        <div class="note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2" style="flex-shrink:0;margin-top:1px"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          <div><strong>ไม่ต้องกังวลว่าจะหาไฟล์ไม่เจอ</strong> — อีเมลอยู่ในกล่องจดหมายเสมอ ไม่มีวันหมดอายุ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Option A — Tab
+const sdTitles = [
+  {num:'ขั้นตอนที่ 1', title:'กดสั่งซื้อ — กรอกฟอร์ม — โอนเงิน', desc:'ใส่ชื่อและอีเมล ถ่ายรูปสลิปอัปขึ้นไป ทำได้จากมือถือเลย ไม่ยุ่งยาก'},
+  {num:'ขั้นตอนที่ 2', title:'เช็คอีเมล — รับ Code และลิงก์', desc:'อีเมลมาใน 1 นาที มีลิงก์และ Redeem Code ชัดเจน เก็บไว้กลับมาโหลดเพิ่มได้ตลอด'},
+  {num:'ขั้นตอนที่ 3', title:'คลิกลิงก์ — กรอก Code — โหลดสไลด์', desc:'เลือกสไลด์แล้วโหลดได้เลย อยากโหลดเพิ่มวันไหน กลับมาที่อีเมลเดิมได้ตลอดชีพ'},
+];
+function switchTab(i){
+  document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+  document.querySelectorAll('.tab-scene').forEach((s,j)=>s.classList.toggle('act',j===i));
+  const d = document.getElementById('sdDetail');
+  d.querySelector('.sd-num').textContent = sdTitles[i].num;
+  d.querySelector('.sd-title').textContent = sdTitles[i].title;
+  d.querySelector('.sd-desc').textContent = sdTitles[i].desc;
+}
+
+// Option C — Accordion
+function toggleAcc(item){
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>
