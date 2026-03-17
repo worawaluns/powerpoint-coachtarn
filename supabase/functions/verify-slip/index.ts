@@ -134,15 +134,14 @@ serve(async (req) => {
     const { order_id, turnstile_token } = await req.json()
     if (!order_id) return Response.json({ error: 'missing order_id' }, { status: 400, headers: CORS })
 
-    // ── 1. Turnstile bot check ───────────────────────────────────────────────
+    // ── 1. Turnstile bot check (soft — Slip2Go คือ security จริง) ────────────
     if (turnstile_token) {
-      const ip = req.headers.get('CF-Connecting-IP') ?? ''
-      const ok = await verifyTurnstile(turnstile_token, ip)
-      if (!ok) {
-        return Response.json(
-          { status: 'rejected', reason: 'bot_detected' },
-          { status: 403, headers: CORS }
-        )
+      try {
+        const ip = req.headers.get('CF-Connecting-IP') ?? ''
+        const ok = await verifyTurnstile(turnstile_token, ip)
+        if (!ok) console.warn(`[verify-slip] Turnstile failed for order ${order_id}`)
+      } catch (e) {
+        console.warn('[verify-slip] Turnstile check error:', e)
       }
     }
 
