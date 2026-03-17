@@ -457,32 +457,116 @@ body{
 .ds-active .ns2-dlbtn{animation:fadeInUp 0.35s ease 4.0s forwards}
 .ns2-dlbtn svg{width:12px;height:12px;flex-shrink:0}
 
-/* ─── Scene 3: Download → Slides Ready ─── */
-.ns3-dl-btn{
-  width:100%;
-  background:linear-gradient(90deg,var(--orange),var(--red));
-  border-radius:10px;padding:11px 12px;
-  display:flex;align-items:center;justify-content:center;gap:6px;
-  font-size:11.5px;font-weight:800;color:#fff;
+/* ─── Scene 3: Download Flow — 4 Phases ─── */
+.ns3-phase{
+  position:absolute;inset:14px;
+  display:flex;flex-direction:column;
+  opacity:0;pointer-events:none;
 }
-.ns3-dl-btn svg{width:12px;height:12px;flex-shrink:0}
-.ns3-tiles{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
-.ns3-tile{
-  border-radius:8px;aspect-ratio:16/10;
-  display:flex;align-items:flex-end;padding:5px 6px;
-  opacity:0;transform:scale(0.82);
+/* Phase 1: visible from start, fades out at 1.6s */
+.ds-active .ns3-p1{opacity:1;animation:ns3Out 0.25s ease 1.6s forwards}
+/* Phases 2 & 3: fade in then out */
+.ds-active .ns3-p2{animation:ns3InOut 1.6s ease 1.6s both}
+.ds-active .ns3-p3{animation:ns3InOut 1.8s ease 3.2s both}
+/* Phase 4: fades in and stays */
+.ds-active .ns3-p4{animation:ns3In 0.35s ease 5.0s both}
+@keyframes ns3Out{0%{opacity:1}100%{opacity:0}}
+@keyframes ns3In{0%{opacity:0}100%{opacity:1}}
+@keyframes ns3InOut{
+  0%{opacity:0}10%{opacity:1}82%{opacity:1}100%{opacity:0}
 }
-.ns3-tile span{font-size:8px;font-weight:700;color:rgba(255,255,255,0.88)}
-.ds-active .ns3-tile:nth-child(1){animation:tileIn .38s var(--ease) 2.3s forwards}
-.ds-active .ns3-tile:nth-child(2){animation:tileIn .38s var(--ease) 2.55s forwards}
-@keyframes tileIn{to{opacity:1;transform:scale(1)}}
-.ns3-done{
+
+/* URL bar */
+.ns3-urlbar{
+  background:#fff;border-radius:6px;padding:4px 8px;
+  font-size:8px;color:#5F6368;
+  display:flex;align-items:center;gap:4px;
+  margin-bottom:10px;flex-shrink:0;
+}
+.ns3-urlbar svg{width:9px;height:9px;flex-shrink:0}
+
+/* Phase 1 — Redeem Code form */
+.ns3-form-lbl{font-size:10px;font-weight:800;color:var(--text);text-align:center;margin-bottom:6px}
+.ns3-code-box{
+  background:#fff;border-radius:8px;padding:8px 10px;
+  font-size:11px;font-weight:800;color:var(--red);letter-spacing:1px;
+  text-align:center;border:1.5px solid var(--grad-start);margin-bottom:8px;flex-shrink:0;
+}
+.ns3-verify-btn{
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  border-radius:8px;padding:9px 10px;
+  font-size:10.5px;font-weight:800;color:#fff;text-align:center;flex-shrink:0;
+}
+
+/* Phase 2 — Download ready */
+.ns3-check-ring{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(-135deg,#16A34A,#15803d);
+  display:flex;align-items:center;justify-content:center;
+  margin:6px auto 6px;flex-shrink:0;
+}
+.ns3-check-ring svg{width:17px;height:17px}
+.ns3-ready-title{font-size:11px;font-weight:800;color:var(--text);text-align:center;margin-bottom:3px}
+.ns3-ready-size{font-size:8px;color:#9AA0A6;text-align:center;margin-bottom:10px;flex-shrink:0}
+.ns3-dl-btn2{
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  border-radius:8px;padding:9px 10px;
+  font-size:10.5px;font-weight:800;color:#fff;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;gap:5px;
-  font-size:11px;font-weight:800;color:#16A34A;
-  opacity:0;
 }
-.ds-active .ns3-done{animation:fadeInUp 0.4s ease 3s forwards}
-.ns3-done svg{width:13px;height:13px}
+.ns3-dl-btn2 svg{width:11px;height:11px}
+
+/* Phase 3 — Browser download bar */
+.ns3-p3-spacer{flex:1}
+.ns3-browser-bar{
+  background:#2A2A2A;border-radius:9px;padding:9px 10px;
+  flex-shrink:0;display:flex;align-items:center;gap:8px;
+}
+.ns3-bb-icon{
+  width:24px;height:24px;background:rgba(255,255,255,0.12);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.ns3-bb-icon svg{width:12px;height:12px}
+.ns3-bb-mid{flex:1;min-width:0}
+.ns3-bb-name{font-size:8px;font-weight:700;color:#fff;margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ns3-bb-track{height:3px;background:rgba(255,255,255,0.15);border-radius:2px;margin-bottom:2px}
+.ns3-bb-fill{height:100%;width:0%;background:var(--grad-start);border-radius:2px}
+.ds-active .ns3-bb-fill{animation:ns3Prog 1.4s ease 3.4s both}
+@keyframes ns3Prog{0%{width:0%}80%{width:100%}100%{width:100%}}
+.ns3-bb-size{font-size:7px;color:rgba(255,255,255,0.45)}
+.ns3-bb-done{font-size:9px;font-weight:800;color:#4ADE80;flex-shrink:0;opacity:0}
+.ds-active .ns3-bb-done{animation:ns3In 0.3s ease 4.8s both}
+
+/* Phase 4 — Folder view */
+.ns3-fv-header{
+  display:flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:800;color:var(--text);
+  padding-bottom:5px;margin-bottom:3px;flex-shrink:0;
+  border-bottom:1px solid rgba(0,0,0,0.08);
+}
+.ns3-fv-header svg{width:14px;height:14px;flex-shrink:0}
+.ns3-fv-row{
+  display:flex;align-items:center;gap:5px;
+  padding:4px 0;font-size:8.5px;color:var(--text);font-weight:500;
+  border-bottom:0.5px solid rgba(0,0,0,0.06);
+}
+.ns3-fv-row svg{width:11px;height:11px;flex-shrink:0}
+.ns3-fv-more{margin-top:6px;font-size:8px;color:var(--red);font-weight:700;text-align:center}
+
+/* Scene 3 fingers */
+.ns3-f1{top:108px;bottom:auto}
+.ns3-f2{top:115px;bottom:auto}
+.ds-active .ns3-f1{animation:ns3Tap 1.6s ease 0.6s both}
+.ds-active .ns3-f2{animation:ns3Tap 1.6s ease 2.2s both}
+@keyframes ns3Tap{
+  0%  {opacity:0;transform:translate(60px,20px)}
+  22% {opacity:1;transform:translate(0,0)}
+  38% {opacity:1;transform:translate(0,9px) scale(0.88)}
+  55% {opacity:1;transform:translate(0,0)}
+  82% {opacity:1;transform:translate(0,0)}
+  100%{opacity:0}
+}
 
 /* ─── Animated finger cursor ─── */
 .demo-finger{
@@ -495,10 +579,8 @@ body{
 /* Scene 2 fingers: A = taps inbox row 1 (Coach Tarn), B = taps download button */
 .ns2-finga{top:36px;bottom:auto}
 .ns2-fingb{top:128px;bottom:auto}
-.ns3-finger{top:0px;bottom:auto}
 .ds-active .ns2-finga{animation:fingA 5.5s ease 0.5s forwards}
 .ds-active .ns2-fingb{animation:fingB 5.5s ease 4.0s forwards}
-.ds-active .ns3-finger{animation:fingerSlide3 3.0s var(--ease) 0.6s infinite}
 
 /* Finger A: slides to Coach Tarn row and taps */
 @keyframes fingA{
@@ -515,16 +597,6 @@ body{
   28% {opacity:1;transform:translate(0,8px) scale(0.88)}
   40% {opacity:0;transform:translate(0,0) scale(1)}
   100%{opacity:0}
-}
-/* Scene 3: cursor slides in from left → hovers over button → taps → slides out */
-@keyframes fingerSlide3{
-  0%  {opacity:0;transform:translate(-130px,0)}
-  16% {opacity:1;transform:translate(-130px,0)}
-  40% {opacity:1;transform:translate(0,0)}
-  52% {opacity:1;transform:translate(0,10px) scale(0.88)}
-  64% {opacity:1;transform:translate(0,0) scale(1)}
-  83% {opacity:0;transform:translate(-130px,0)}
-  100%{opacity:0;transform:translate(-130px,0)}
 }
 
 /* shared scene utility */
@@ -1897,21 +1969,75 @@ body{
         </div>
 
         <!-- Scene 3: กดดาวน์โหลด → เปิดแก้ไขได้เลย -->
+        <!-- Scene 3: Download Flow — 4 phases -->
         <div class="demo-scene" data-scene="2">
-          <div class="ns3-dl-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-            ดาวน์โหลดไฟล์ PowerPoint
+
+          <!-- Phase 1: กรอก Redeem Code -->
+          <div class="ns3-phase ns3-p1">
+            <div class="ns3-urlbar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              doublecraft.co/download
+            </div>
+            <div class="ns3-form-lbl">กรอก Redeem Code</div>
+            <div class="ns3-code-box">CT-2024-A7K9</div>
+            <div class="ns3-verify-btn">ยืนยัน — รับไฟล์เลย</div>
           </div>
-          <div class="ns3-tiles">
-            <div class="ns3-tile" style="background:linear-gradient(135deg,#EB7D4A,#D34724)"><span>Business</span></div>
-            <div class="ns3-tile" style="background:linear-gradient(135deg,#F5A623,#EB7D4A)"><span>Pitch Deck</span></div>
+
+          <!-- Phase 2: Download ready -->
+          <div class="ns3-phase ns3-p2">
+            <div class="ns3-urlbar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              doublecraft.co/download
+            </div>
+            <div class="ns3-check-ring">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="ns3-ready-title">พร้อมดาวน์โหลดแล้ว</div>
+            <div class="ns3-ready-size">PowerPoint-Templates.zip · 9.5 MB</div>
+            <div class="ns3-dl-btn2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              โหลดไฟล์ทั้งหมด (ZIP)
+            </div>
           </div>
-          <div class="ns3-done">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-            เปิดแก้ไขได้ทันที!
+
+          <!-- Phase 3: Browser download progress bar -->
+          <div class="ns3-phase ns3-p3">
+            <div class="ns3-urlbar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              doublecraft.co/download
+            </div>
+            <div class="ns3-p3-spacer"></div>
+            <div class="ns3-browser-bar">
+              <div class="ns3-bb-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <div class="ns3-bb-mid">
+                <div class="ns3-bb-name">PowerPoint-Templates.zip</div>
+                <div class="ns3-bb-track"><div class="ns3-bb-fill"></div></div>
+                <div class="ns3-bb-size">9.5 MB</div>
+              </div>
+              <div class="ns3-bb-done">Done ✓</div>
+            </div>
           </div>
-          <!-- นิ้วมือกดปุ่ม -->
-          <div class="demo-finger ns3-finger" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="168" y="353" width="245" height="118" fill="#F6F7F9"/><path d="M402.613 283.093V359.947H191.947L171.413 338.987L103.36 269.547C89.1201 255.307 88.0534 231.947 101.28 216.693C108.853 208 119.84 203.573 130.4 203.573C140.053 203.573 149.973 207.2 157.387 214.613L183.52 246.08C186.613 249.12 186.453 246.933 186.453 242.613V69.7067C186.453 48.8001 205.44 31.7867 226.4 31.7867C236.853 31.7867 244 36.0534 250.827 42.9334C257.707 49.7601 263.2 59.2534 263.2 69.7067V194.827L370.72 238.347C388.853 245.813 402.613 263.467 402.613 283.093Z" fill="#F6F7F9"/><path d="M374.613 228.64L273.653 187.787V69.7067C273.653 57.4934 268.16 45.3867 258.293 35.5734C251.68 28.9067 242.133 21.3334 226.4 21.3334C199.093 21.3334 176 43.4667 176 69.7067V220.64L165.44 207.947C165.227 207.68 165.013 207.467 164.8 207.2C155.84 198.24 143.253 193.12 130.4 193.12C116.107 193.12 102.613 199.2 93.3868 209.867C76.5868 229.227 77.7068 258.667 95.8934 276.853L157.76 340L177.28 359.947H409.6V369.12C411.787 366.667 413.067 363.413 413.067 359.947V283.093C413.067 259.947 397.653 238.08 374.613 228.64ZM392.16 353.067L201.547 354.827L186.027 338.987L110.773 262.133C100.373 251.787 99.6801 234.507 109.173 223.573C114.347 217.6 122.293 214.027 130.4 214.027C137.6 214.027 144.64 216.8 149.707 221.707L175.52 252.747C175.733 253.013 175.947 253.227 176.16 253.493C181.867 259.2 187.2 258.24 189.813 257.12C196.96 254.187 196.96 246.933 196.96 243.093V69.7067C196.96 55.0934 210.72 42.24 226.4 42.24C232.907 42.24 237.707 44.48 243.467 50.3467C249.333 56.16 252.747 63.2534 252.747 69.7067V194.827C252.747 199.093 255.307 202.933 259.253 204.533L366.72 248C381.707 254.187 392.165 268.587 392.165 283.093L392.16 353.067Z" fill="#FB7239"/><path d="M420.053 338.987H162.08C160.533 338.987 159.04 339.307 157.76 340C154.133 341.6 151.627 345.227 151.627 349.493V445.333C151.627 470.347 171.947 490.667 196.96 490.667H385.227C410.187 490.667 430.507 470.347 430.507 445.333V349.493C430.507 343.68 425.867 338.987 420.053 338.987ZM409.6 445.333C409.6 458.773 398.667 469.76 385.227 469.76H196.96C183.467 469.76 172.533 458.773 172.533 445.333V359.947H409.6V445.333Z" fill="#FB7239"/></svg></div>
+
+          <!-- Phase 4: Folder view -->
+          <div class="ns3-phase ns3-p4">
+            <div class="ns3-fv-header">
+              <svg viewBox="0 0 24 24" fill="#EB7D4A"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
+              PowerPoint-Templates
+            </div>
+            <div class="ns3-fv-row"><svg viewBox="0 0 24 24" fill="#9AA0A6"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>5G Slides</div>
+            <div class="ns3-fv-row"><svg viewBox="0 0 24 24" fill="#9AA0A6"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Agenda Slides</div>
+            <div class="ns3-fv-row"><svg viewBox="0 0 24 24" fill="#9AA0A6"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Business Plan Slides</div>
+            <div class="ns3-fv-row"><svg viewBox="0 0 24 24" fill="#9AA0A6"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Pitch Deck Slides</div>
+            <div class="ns3-fv-row"><svg viewBox="0 0 24 24" fill="#9AA0A6"><path d="M10 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Marketing Slides</div>
+            <div class="ns3-fv-more">+ 6,500+ สไลด์ ครบทุกหมวด</div>
+          </div>
+
+          <!-- Finger 1: taps verify button -->
+          <div class="demo-finger ns3-f1" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="168" y="353" width="245" height="118" fill="#F6F7F9"/><path d="M402.613 283.093V359.947H191.947L171.413 338.987L103.36 269.547C89.1201 255.307 88.0534 231.947 101.28 216.693C108.853 208 119.84 203.573 130.4 203.573C140.053 203.573 149.973 207.2 157.387 214.613L183.52 246.08C186.613 249.12 186.453 246.933 186.453 242.613V69.7067C186.453 48.8001 205.44 31.7867 226.4 31.7867C236.853 31.7867 244 36.0534 250.827 42.9334C257.707 49.7601 263.2 59.2534 263.2 69.7067V194.827L370.72 238.347C388.853 245.813 402.613 263.467 402.613 283.093Z" fill="#F6F7F9"/><path d="M374.613 228.64L273.653 187.787V69.7067C273.653 57.4934 268.16 45.3867 258.293 35.5734C251.68 28.9067 242.133 21.3334 226.4 21.3334C199.093 21.3334 176 43.4667 176 69.7067V220.64L165.44 207.947C165.227 207.68 165.013 207.467 164.8 207.2C155.84 198.24 143.253 193.12 130.4 193.12C116.107 193.12 102.613 199.2 93.3868 209.867C76.5868 229.227 77.7068 258.667 95.8934 276.853L157.76 340L177.28 359.947H409.6V369.12C411.787 366.667 413.067 363.413 413.067 359.947V283.093C413.067 259.947 397.653 238.08 374.613 228.64ZM392.16 353.067L201.547 354.827L186.027 338.987L110.773 262.133C100.373 251.787 99.6801 234.507 109.173 223.573C114.347 217.6 122.293 214.027 130.4 214.027C137.6 214.027 144.64 216.8 149.707 221.707L175.52 252.747C175.733 253.013 175.947 253.227 176.16 253.493C181.867 259.2 187.2 258.24 189.813 257.12C196.96 254.187 196.96 246.933 196.96 243.093V69.7067C196.96 55.0934 210.72 42.24 226.4 42.24C232.907 42.24 237.707 44.48 243.467 50.3467C249.333 56.16 252.747 63.2534 252.747 69.7067V194.827C252.747 199.093 255.307 202.933 259.253 204.533L366.72 248C381.707 254.187 392.165 268.587 392.165 283.093L392.16 353.067Z" fill="#FB7239"/><path d="M420.053 338.987H162.08C160.533 338.987 159.04 339.307 157.76 340C154.133 341.6 151.627 345.227 151.627 349.493V445.333C151.627 470.347 171.947 490.667 196.96 490.667H385.227C410.187 490.667 430.507 470.347 430.507 445.333V349.493C430.507 343.68 425.867 338.987 420.053 338.987ZM409.6 445.333C409.6 458.773 398.667 469.76 385.227 469.76H196.96C183.467 469.76 172.533 458.773 172.533 445.333V359.947H409.6V445.333Z" fill="#FB7239"/></svg></div>
+          <!-- Finger 2: taps download button -->
+          <div class="demo-finger ns3-f2" aria-hidden="true"><svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="168" y="353" width="245" height="118" fill="#F6F7F9"/><path d="M402.613 283.093V359.947H191.947L171.413 338.987L103.36 269.547C89.1201 255.307 88.0534 231.947 101.28 216.693C108.853 208 119.84 203.573 130.4 203.573C140.053 203.573 149.973 207.2 157.387 214.613L183.52 246.08C186.613 249.12 186.453 246.933 186.453 242.613V69.7067C186.453 48.8001 205.44 31.7867 226.4 31.7867C236.853 31.7867 244 36.0534 250.827 42.9334C257.707 49.7601 263.2 59.2534 263.2 69.7067V194.827L370.72 238.347C388.853 245.813 402.613 263.467 402.613 283.093Z" fill="#F6F7F9"/><path d="M374.613 228.64L273.653 187.787V69.7067C273.653 57.4934 268.16 45.3867 258.293 35.5734C251.68 28.9067 242.133 21.3334 226.4 21.3334C199.093 21.3334 176 43.4667 176 69.7067V220.64L165.44 207.947C165.227 207.68 165.013 207.467 164.8 207.2C155.84 198.24 143.253 193.12 130.4 193.12C116.107 193.12 102.613 199.2 93.3868 209.867C76.5868 229.227 77.7068 258.667 95.8934 276.853L157.76 340L177.28 359.947H409.6V369.12C411.787 366.667 413.067 363.413 413.067 359.947V283.093C413.067 259.947 397.653 238.08 374.613 228.64ZM392.16 353.067L201.547 354.827L186.027 338.987L110.773 262.133C100.373 251.787 99.6801 234.507 109.173 223.573C114.347 217.6 122.293 214.027 130.4 214.027C137.6 214.027 144.64 216.8 149.707 221.707L175.52 252.747C175.733 253.013 175.947 253.227 176.16 253.493C181.867 259.2 187.2 258.24 189.813 257.12C196.96 254.187 196.96 246.933 196.96 243.093V69.7067C196.96 55.0934 210.72 42.24 226.4 42.24C232.907 42.24 237.707 44.48 243.467 50.3467C249.333 56.16 252.747 63.2534 252.747 69.7067V194.827C252.747 199.093 255.307 202.933 259.253 204.533L366.72 248C381.707 254.187 392.165 268.587 392.165 283.093L392.16 353.067Z" fill="#FB7239"/><path d="M420.053 338.987H162.08C160.533 338.987 159.04 339.307 157.76 340C154.133 341.6 151.627 345.227 151.627 349.493V445.333C151.627 470.347 171.947 490.667 196.96 490.667H385.227C410.187 490.667 430.507 470.347 430.507 445.333V349.493C430.507 343.68 425.867 338.987 420.053 338.987ZM409.6 445.333C409.6 458.773 398.667 469.76 385.227 469.76H196.96C183.467 469.76 172.533 458.773 172.533 445.333V359.947H409.6V445.333Z" fill="#FB7239"/></svg></div>
         </div>
 
       </div><!-- /demo-screen -->
@@ -2486,7 +2612,7 @@ function switchTab(id, btn) {
   const dots     = document.querySelectorAll('#demoDots .demo-dot');
   const caption  = document.getElementById('demoCaption');
   const captions = ['ชำระเงินสำเร็จ','เปิดเมล — รับ Redeem Code + ดาวน์โหลด','ดาวน์โหลด — เปิดใช้งาน'];
-  const DURATION = 5500; // ms per scene
+  const DURATIONS = [5500, 6000, 8000]; // ms per scene (scene 3 longer for 4-phase animation)
   let cur = 0, timer;
 
   function resetAnimations(scene){
@@ -2520,14 +2646,17 @@ function switchTab(id, btn) {
     });
   }
 
-  function next(){ goTo((cur + 1) % scenes.length); }
+  function scheduleNext(){
+    clearTimeout(timer);
+    timer = setTimeout(() => { goTo((cur + 1) % scenes.length); scheduleNext(); }, DURATIONS[cur]);
+  }
+  function next(){ goTo((cur + 1) % scenes.length); scheduleNext(); }
 
   /* Tab button click → jump to scene + restart timer */
   document.querySelectorAll('.flow-tab-btn').forEach((btn, i) => {
     btn.addEventListener('click', () => {
       goTo(i);
-      clearInterval(timer);
-      timer = setInterval(next, DURATION);
+      scheduleNext();
     });
   });
 
@@ -2536,10 +2665,10 @@ function switchTab(id, btn) {
   if(phoneWrap){
     const obs = new IntersectionObserver(entries => {
       if(entries[0].isIntersecting){
-        clearInterval(timer);
-        timer = setInterval(next, DURATION);
+        clearTimeout(timer);
+        scheduleNext();
       } else {
-        clearInterval(timer);
+        clearTimeout(timer);
       }
     }, {threshold:0.4});
     obs.observe(phoneWrap);
