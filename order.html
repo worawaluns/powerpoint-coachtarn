@@ -289,36 +289,37 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .loading-text{font-size:16px;font-weight:700;color:var(--text)}
 .loading-sub{font-size:14px;color:var(--text-sub)}
 
-/* ── Success overlay ── */
-.success-overlay{
-  display:none;position:fixed;inset:0;background:#fff;z-index:200;
-  flex-direction:column;align-items:center;justify-content:center;
-  padding:40px 32px;text-align:center;
-}
-.success-overlay.show{display:flex}
-.success-icon-wrap{
-  width:80px;height:80px;
+/* ── Success section (inline — มี header ปกติ) ── */
+#successSection{display:none;padding-bottom:8px}
+.suc-card{background:#fff;border-radius:20px;border:1px solid var(--border);overflow:hidden;margin:12px 16px 14px}
+.suc-strip{height:4px;background:linear-gradient(90deg,var(--grad-start),var(--grad-end))}
+.suc-body{padding:36px 22px 28px;text-align:center}
+.suc-icon-wrap{
+  width:76px;height:76px;
   background:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
   border-radius:50%;display:flex;align-items:center;justify-content:center;
-  margin-bottom:24px;
-  box-shadow:0 12px 32px rgba(211,71,36,0.3);
+  margin:0 auto 20px;
+  box-shadow:0 10px 28px rgba(211,71,36,0.28);
 }
-.success-icon-wrap svg{width:40px;height:40px}
-.success-h{font-size:26px;font-weight:900;color:var(--text);margin-bottom:10px;letter-spacing:-0.5px}
-.success-p{font-size:15px;color:var(--text-mid);line-height:1.65;margin-bottom:28px}
-.success-email-box{
-  width:100%;background:var(--bg-soft);border:1.5px solid rgba(211,71,36,0.15);
-  border-radius:16px;padding:16px 18px;margin-bottom:24px;text-align:left;
+.suc-icon-wrap svg{width:36px;height:36px}
+.suc-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+.suc-h{font-size:22px;font-weight:900;color:var(--text);margin-bottom:10px;letter-spacing:-0.4px}
+.suc-p{font-size:14px;color:var(--text-mid);line-height:1.75;margin-bottom:24px}
+.suc-divider{height:1px;background:var(--border);margin:0 -22px 22px}
+.suc-email-box{
+  background:var(--bg-soft);border:1.5px solid rgba(211,71,36,0.15);
+  border-radius:14px;padding:14px 16px;margin-bottom:20px;text-align:left;
 }
 .se-label{font-size:11px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
-.se-val{font-size:16px;font-weight:700;color:var(--text)}
+.se-val{font-size:15px;font-weight:700;color:var(--text)}
 .btn-success{
   width:100%;background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
   box-shadow:var(--btn-shadow);
   color:#fff;border:none;border-radius:100px;padding:16px;
   font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;
-  text-decoration:none;display:block;text-align:center;
+  text-decoration:none;display:block;text-align:center;margin-bottom:14px;
 }
+.suc-note{font-size:12px;color:var(--text-sub);line-height:1.7;text-align:center}
 
 /* ── Rejected section (inline — ไม่ใช่ overlay) ── */
 #rejectedSection{display:none;padding-bottom:8px}
@@ -411,6 +412,28 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   </div>
 
   <div class="page-inner">
+
+  <!-- ── Success section (inline — มี header ปกติ) ── -->
+  <div id="successSection">
+    <div class="suc-card">
+      <div class="suc-strip"></div>
+      <div class="suc-body">
+        <div class="suc-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="suc-label">ชำระเงินสำเร็จ</div>
+        <h2 class="suc-h">ขอบคุณที่สั่งซื้อ!</h2>
+        <p class="suc-p">ระบบส่ง Redeem Code ไปที่อีเมลแล้ว<br>กรุณาตรวจสอบ Inbox (หรือโฟลเดอร์ Spam)</p>
+        <div class="suc-divider"></div>
+        <div class="suc-email-box">
+          <div class="se-label">ส่ง code ไปที่</div>
+          <div class="se-val" id="successEmail">—</div>
+        </div>
+        <a href="download" class="btn-success">ดูวิธีดาวน์โหลดสไลด์ →</a>
+        <p class="suc-note">ไม่เห็นอีเมล? รอสักครู่แล้วรีเฟรช<br>หรือตรวจสอบโฟลเดอร์ Spam / Junk</p>
+      </div>
+    </div>
+  </div>
 
   <!-- ── Rejected section (แสดงใน page flow ปกติ มี header อยู่เสมอ) ── -->
   <div id="rejectedSection">
@@ -679,21 +702,6 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   <div class="loading-sub">ระบบอัตโนมัติ ใช้เวลาไม่ถึง 1 นาที</div>
 </div>
 
-<!-- Success overlay -->
-<div class="success-overlay" id="successOverlay">
-  <div class="success-icon-wrap">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-  </div>
-  <h2 class="success-h">ชำระเงินสำเร็จ!</h2>
-  <p class="success-p">ขอบคุณที่สั่งซื้อนะครับ<br>ระบบส่ง Redeem Code ไปที่อีเมลแล้ว<br>กรุณาตรวจสอบ inbox (หรือ spam)</p>
-  <div class="success-email-box">
-    <div class="se-label">ส่ง code ไปที่</div>
-    <div class="se-val" id="successEmail">—</div>
-  </div>
-  <a href="download" class="btn-success">ดูวิธีดาวน์โหลดสไลด์ →</a>
-  <div style="height:16px"></div>
-  <p style="font-size:13px;color:var(--text-sub);line-height:1.6;text-align:center">ไม่เห็นอีเมล? รอสักครู่แล้วรีเฟรช<br>หรือตรวจสอบโฟลเดอร์ Spam/Junk</p>
-</div>
 
 <script>
 // Copy account number
@@ -855,8 +863,7 @@ async function handleSubmit() {
 
     if (result.status === 'verified') {
       // ── สำเร็จ ────────────────────────────────────────────────────────────
-      document.getElementById('successEmail').textContent = email;
-      document.getElementById('successOverlay').classList.add('show');
+      showSuccess(email);
     } else {
       showRejected(result);
     }
@@ -947,6 +954,16 @@ function hideRejected() {
   document.getElementById('uploadArea').style.display    = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// ── Success section (inline — มี header ปกติ) ────────────────────────────────
+function showSuccess(email) {
+  document.getElementById('successEmail').textContent = email;
+  document.getElementById('mainContent').style.display    = 'none';
+  document.getElementById('rejectedSection').style.display = 'none';
+  document.getElementById('successSection').style.display  = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function contactLine(){ window.open('https://line.me/ti/p/@coachtarn','_blank'); }
 
 // Drawer
