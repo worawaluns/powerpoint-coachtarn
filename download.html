@@ -374,9 +374,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
         <span style="font-size:14px;font-weight:700;color:var(--text)">กรอก Redeem Code ที่ได้รับทางอีเมล</span>
       </div>
-      <p style="font-size:13px;color:var(--text-sub);line-height:1.5">Code อยู่ในอีเมลที่ส่งหลังจากชำระเงิน รูปแบบ <strong>CT-XXXXXXXX</strong></p>
+      <p style="font-size:13px;color:var(--text-sub);line-height:1.5">Code อยู่ในอีเมลที่ส่งหลังจากชำระเงิน รูปแบบ <strong>TARN-XXXXXXXX</strong></p>
       <div class="redeem-input-row">
-        <input type="text" class="redeem-input" id="redeemInput" placeholder="CT-XXXXXXXX" maxlength="11" oninput="onRedeemInput(this)">
+        <input type="text" class="redeem-input" id="redeemInput" placeholder="TARN-XXXXXXXX" maxlength="13" oninput="onRedeemInput(this)">
         <button class="redeem-btn" id="redeemBtn" onclick="verifyCode()" disabled>ยืนยัน</button>
       </div>
       <div class="redeem-err" id="redeemErr">
@@ -768,16 +768,16 @@ function closeDrawer(){
 const SUPABASE_URL     = 'https://uyubtzyhuqalmjpjhmap.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
 
-const VALID_PATTERN = /^CT-[A-Z0-9]{8}$/i;
+const VALID_PATTERN = /^TARN-[A-Z0-9]{8}$/i;
 
 function onRedeemInput(input) {
   let v = input.value.toUpperCase().replace(/[^A-Z0-9-]/g, '');
-  // auto-insert dash after "CT" (2 chars)
-  if (v.length >= 2 && !v.includes('-')) v = v.slice(0,2) + '-' + v.slice(2);
-  // cap at CT-XXXXXXXX (11 chars)
-  if (v.length > 11) v = v.slice(0, 11);
+  // auto-insert dash after "TARN" (4 chars)
+  if (v.length >= 4 && !v.includes('-')) v = v.slice(0,4) + '-' + v.slice(4);
+  // cap at TARN-XXXXXXXX (13 chars)
+  if (v.length > 13) v = v.slice(0, 13);
   input.value = v;
-  document.getElementById('redeemBtn').disabled = v.length < 11;
+  document.getElementById('redeemBtn').disabled = v.length < 13;
   setRedeemError('');
 }
 
@@ -800,7 +800,7 @@ async function verifyCode() {
   const code  = input.value.trim().toUpperCase();
 
   if (!VALID_PATTERN.test(code)) {
-    setRedeemError('รูปแบบ Code ไม่ถูกต้อง ตัวอย่าง: CT-A3K9P2MX');
+    setRedeemError('รูปแบบ Code ไม่ถูกต้อง ตัวอย่าง: TARN-A3K9P2MX');
     return;
   }
 

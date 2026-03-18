@@ -16,7 +16,7 @@ serve(async (req) => {
     const { code } = await req.json()
 
     // ── Validate format ────────────────────────────────────────────────────
-    if (!code || !/^CT-[A-Z0-9]{8}$/i.test(code)) {
+    if (!code || !/^TARN-[A-Z0-9]{8}$/i.test(code)) {
       return Response.json(
         { valid: false, reason: 'invalid_format' },
         { headers: CORS }
