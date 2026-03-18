@@ -132,9 +132,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .os-content.active{display:block}
 
 /* Cards */
-.card{background:#fff;border-radius:20px;border:1px solid var(--border);overflow:hidden;margin-bottom:12px}
+.card{background:#fff;border-radius:20px;border:1px solid var(--border);overflow:hidden;margin-bottom:16px}
 .card-header{
-  padding:16px 18px;border-bottom:1px solid var(--border);
+  padding:18px 20px;border-bottom:1px solid var(--border);
   display:flex;align-items:center;gap:12px;
 }
 .card-icon{
@@ -146,7 +146,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .card-sub{font-size:12px;color:var(--text-sub);margin-top:2px}
 
 /* Step list */
-.step-list{padding:18px}
+.step-list{padding:18px 20px}
 .step-item{display:flex;gap:14px;padding-bottom:20px;position:relative}
 .step-item:last-child{padding-bottom:0}
 .step-left{display:flex;flex-direction:column;align-items:center}
@@ -211,14 +211,11 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .mock-content{padding:16px;text-align:center;font-size:13px;color:rgba(255,255,255,0.6);min-height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
 
 /* Compatible row */
-.compat-row{
-  display:flex;align-items:center;justify-content:space-around;
-  padding:18px;
-}
-.compat-item{display:flex;flex-direction:column;align-items:center;gap:8px}
-.compat-icon-img{width:40px;height:40px;object-fit:contain}
+.compat-row{display:flex;align-items:center;gap:6px;padding:12px 18px;flex-wrap:wrap}
+.compat-item{display:flex;align-items:center;gap:7px;background:var(--bg-soft);border-radius:100px;padding:5px 10px 5px 5px}
+.compat-icon-img{width:22px;height:22px;object-fit:contain;border-radius:5px}
 .compat-name{font-size:12px;font-weight:700;color:var(--text-mid)}
-.compat-badge{font-size:10px;color:var(--red);font-weight:600;background:rgba(211,71,36,0.08);padding:2px 7px;border-radius:100px}
+.compat-badge{font-size:10px;color:var(--red);font-weight:600;background:rgba(211,71,36,0.08);padding:2px 7px;border-radius:100px;margin-left:2px}
 
 /* CTA */
 .dl-cta{
@@ -302,6 +299,27 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .step-img{width:100%;border-radius:20px;margin-top:12px;display:block;border:1px solid var(--border)}
 .step-img[src=""]{display:none}
 .inline-icon{width:18px;height:18px;vertical-align:-4px;display:inline-block;margin:0 2px}
+
+/* ── Tutorial Video Player ── */
+.tut-outer{padding:14px 20px 4px}
+.tut-wrap{position:relative;width:100%;background:#f0f0f0;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.10)}
+.tut-wrap video{width:100%;display:block;aspect-ratio:1606/1080}
+/* Pre-play overlay — transparent, just play icon */
+.tut-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:opacity .15s}
+.tut-overlay.gone{opacity:0;pointer-events:none}
+.tut-play-btn{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.22),0 1px 4px rgba(0,0,0,0.12);transition:transform .15s,box-shadow .15s}
+.tut-overlay:hover .tut-play-btn{transform:scale(1.08);box-shadow:0 6px 28px rgba(0,0,0,0.28)}
+/* Info rows (Apple-style tips) */
+.info-row{display:flex;align-items:flex-start;gap:13px;padding:15px 20px;background:#fff;border-radius:16px;border:1px solid var(--border);margin-bottom:10px}
+.info-row-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-row-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px}
+.info-row-desc{font-size:13px;color:var(--text-mid);line-height:1.55}
+
+/* End screen — replay button only, no overlay */
+.tut-end{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:3;opacity:0;pointer-events:none;transition:opacity .25s}
+.tut-end.show{opacity:1;pointer-events:all}
+.tut-replay-btn{display:flex;align-items:center;gap:7px;background:#fff;color:var(--red);border:none;border-radius:100px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 2px 16px rgba(0,0,0,0.2);white-space:nowrap;transition:transform .12s,box-shadow .12s}
+.tut-replay-btn:hover{transform:scale(1.04);box-shadow:0 4px 20px rgba(0,0,0,0.24)}
 @keyframes spin{to{transform:rotate(360deg)}}
 .redeem-btn.loading{opacity:.75;cursor:not-allowed}
 .dls-name{font-size:15px;color:rgba(255,255,255,0.9);font-weight:600;margin-top:4px;min-height:22px}
@@ -423,11 +441,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   <div class="page-inner">
 
     <!-- Compatible with -->
-    <div class="card" style="margin-bottom:12px">
-      <div style="padding:14px 18px 10px;border-bottom:1px solid var(--border)">
-        <div style="font-size:12px;font-weight:700;color:var(--text-sub);letter-spacing:1px;text-transform:uppercase">ใช้ได้กับแอปพลิเคชัน</div>
-      </div>
-      <div class="compat-row">
+    <div style="padding:0 0 4px">
+      <div style="font-size:11.5px;font-weight:600;color:var(--text-sub);letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">ใช้ได้กับ</div>
+      <div class="compat-row" style="padding:0">
         <div class="compat-item">
           <img src="img/icon-powerpoint.png" alt="PowerPoint" class="compat-icon-img">
           <span class="compat-name">PowerPoint</span>
@@ -436,12 +452,10 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
         <div class="compat-item">
           <img src="img/icon-google-slide.png" alt="Google Slides" class="compat-icon-img">
           <span class="compat-name">Google Slides</span>
-          <span class="compat-badge">รองรับ</span>
         </div>
         <div class="compat-item">
           <img src="img/icon-keynote.png" alt="Keynote" class="compat-icon-img">
           <span class="compat-name">Keynote</span>
-          <span class="compat-badge">Mac เท่านั้น</span>
         </div>
       </div>
     </div>
@@ -449,93 +463,164 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     <!-- ══ WINDOWS ══ -->
     <div id="os-windows" class="os-content active">
 
-      <div class="alert info">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <div class="alert-text">สำหรับ <strong>Windows 10/11</strong> สามารถแตกไฟล์ .zip ได้เลย โดยไม่ต้องติดตั้งโปรแกรมเพิ่ม</div>
+      <!-- Step 1 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div>
+            <div class="card-title">กรอก Code และเปิด Google Drive</div>
+            <div class="card-sub">ขั้นตอนที่ 1 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/win-step1.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)">
+            <div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div>
+          </div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.85-4.36L1 10"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div><!-- /tut-wrap /tut-outer -->
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">พิมพ์ Code จากอีเมล</div>
+              <div class="step-desc">กรอก Code รูปแบบ <strong>TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">กดปุ่ม "โหลดไฟล์ทั้งหมด"</div>
+              <div class="step-desc">กดปุ่มสีส้ม — Google Drive จะเปิดขึ้นในแท็บใหม่ พร้อมไฟล์สไลด์ทั้งหมดของคุณ</div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Step 1: Download from Google Drive (Windows) -->
+      <!-- Step 2 -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           </div>
           <div>
-            <div class="card-title">ดาวน์โหลดจาก Google Drive</div>
-            <div class="card-sub">ขั้นตอนที่ 1 — รับไฟล์สไลด์</div>
+            <div class="card-title">ดาวน์โหลดไฟล์สไลด์</div>
+            <div class="card-sub">ขั้นตอนที่ 2 จาก 3</div>
           </div>
         </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/win-step2.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)">
+            <div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div>
+          </div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.85-4.36L1 10"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div><!-- /tut-wrap /tut-outer -->
         <div class="step-list">
           <div class="step-item">
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">กดปุ่ม "โหลดไฟล์ทั้งหมด" ด้านบน</div>
-              <div class="step-desc">Google Drive จะเปิดขึ้นในแท็บใหม่ของเบราว์เซอร์ จะเห็นโฟลเดอร์ไฟล์สไลด์ทั้งหมด</div>
-              <img src="img/steps/step-00.png" alt="ปุ่มโหลดไฟล์ทั้งหมด" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">คลิกขวาที่โฟลเดอร์ "01-Powerpoint-Slides"</div>
+              <div class="step-desc">เมนูจะเด้งขึ้นมา ให้มองหาคำว่า <strong>"ดาวน์โหลด"</strong> แล้วกด</div>
             </div>
           </div>
           <div class="step-item">
-            <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+            <div class="step-left"><div class="step-num">2</div></div>
             <div class="step-body">
-              <div class="step-title">คลิกขวาที่โฟลเดอร์ "01-Powerpoint-Slides" → เลือก ดาวน์โหลด</div>
-              <div class="step-desc">คลิกขวาที่ชื่อโฟลเดอร์ → เมนูจะเด้งขึ้นมา → เลือก <strong>ดาวน์โหลด <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M8.5 11.5l3.5 3.5 3.5-3.5"/><path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/></svg></strong> (อยู่ด้านล่างๆ ของเมนู)</div>
-              <div class="step-tip"><strong>ขึ้นว่า "ไฟล์ใหญ่เกินไป"?</strong> กด <strong>"ดาวน์โหลดต่อไป"</strong> ได้เลย ไฟล์ปลอดภัย 100%</div>
-              <img src="img/steps/win-step2.jpg" alt="Google Drive download button" class="step-img" onerror="this.style.display='none';">
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="step-left"><div class="step-num">3</div></div>
-            <div class="step-body">
-              <div class="step-title">รอดาวน์โหลดเสร็จ</div>
-              <div class="step-desc">ไฟล์ .zip จะถูกบันทึกไว้ที่โฟลเดอร์ <strong>Downloads (ดาวน์โหลด)</strong> ของคอมพิวเตอร์</div>
-              <img src="img/steps/win-step3.jpg" alt="Download progress bar" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">รอสักครู่ ไฟล์กำลังโหลด</div>
+              <div class="step-desc">แถบโหลดจะแสดงความคืบหน้า รอจนเสร็จ — ไฟล์ .zip จะบันทึกไว้ที่ <strong>Downloads</strong> โดยอัตโนมัติ</div>
+              <div class="step-tip"><strong>ขึ้นว่า "ไฟล์ใหญ่เกินไป"?</strong> กด <strong>"ดาวน์โหลดต่อไป"</strong> ได้เลย ปลอดภัย 100%</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Step 2: Extract (Windows) -->
+      <!-- Step 3 -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
           </div>
           <div>
-            <div class="card-title">แตกไฟล์ ZIP</div>
-            <div class="card-sub">ขั้นตอนที่ 2 — เปิดไฟล์ที่ดาวน์โหลดมา</div>
+            <div class="card-title">แตกไฟล์และเปิดสไลด์</div>
+            <div class="card-sub">ขั้นตอนที่ 3 จาก 3</div>
           </div>
         </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/win-step3.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)">
+            <div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div>
+          </div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.85-4.36L1 10"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div><!-- /tut-wrap /tut-outer -->
         <div class="step-list">
           <div class="step-item">
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">หาไฟล์ .zip ที่เพิ่งดาวน์โหลด</div>
-              <div class="step-desc">ดูที่ <strong>แถบดาวน์โหลดด้านล่างเบราว์เซอร์</strong> จะเห็นชื่อไฟล์ .zip อยู่<br>หาไม่เจอ? คลิกไอคอน <svg class="inline-icon" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h4l2 2h10a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" fill="#FFB900"/><path d="M3 9h18" stroke="#E6A800" stroke-width="0.5" fill="none"/></svg> โฟลเดอร์สีเหลืองที่แถบด้านล่างจอ → เลือก <strong>Downloads</strong></div>
+              <div class="step-title">เปิดไฟล์จากแถบดาวน์โหลด</div>
+              <div class="step-desc">กดที่ไอคอน <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> มุมบนขวาของ Chrome → เลือก <strong>"Show in folder"</strong> หรือ <strong>"เปิดโฟลเดอร์"</strong></div>
             </div>
           </div>
           <div class="step-item">
             <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">แตกไฟล์ .zip ออกมา</div>
-              <div class="step-desc"><strong>วิธีที่ 1 (ไม่ต้องติดตั้งโปรแกรม):</strong><br>คลิกขวาที่ไฟล์ .zip → เลือก <strong>"Extract All"</strong> หรือ "แตกไฟล์ทั้งหมด" → กด <strong>Extract</strong></div>
-              <div class="step-tip"><strong>ถ้ามีโปรแกรม WinRAR:</strong> ดับเบิ้ลคลิกไฟล์ .zip → กดปุ่ม <strong>Extract To</strong> ที่แถบเครื่องมือด้านบน → กด <strong>OK</strong></div>
-              <img src="img/steps/win-step4.jpg" alt="WinRAR Extract To" class="step-img" onerror="this.style.display='none';">
-              <img src="img/steps/win-step5.jpg" alt="WinRAR extraction dialog" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">แตกไฟล์ .zip</div>
+              <div class="step-desc">คลิกขวาที่ไฟล์ .zip → เลือก <strong>"Extract All"</strong> หรือ <strong>"แตกไฟล์ทั้งหมด"</strong> → กด <strong>Extract</strong> ได้เลย</div>
             </div>
           </div>
           <div class="step-item">
-            <div class="step-left"><div class="step-num">3</div></div>
+            <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">ดับเบิ้ลคลิกไฟล์ .pptx เพื่อเปิด!</div>
-              <div class="step-desc">เปิดโฟลเดอร์ที่แตกออกมา แล้วดับเบิ้ลคลิกไฟล์ .pptx จะเปิดใน PowerPoint ทันที</div>
+              <div class="step-title">เปิดโฟลเดอร์ "01-Powerpoint-Slides"</div>
+              <div class="step-desc">ในโฟลเดอร์มี 4 รายการ — <strong>สำหรับ Windows ใช้แค่ 01-Powerpoint-Slides</strong><br><span style="font-size:12.5px;color:var(--text-sub)">02 Keynote · 03 Google Slides · 04 Font ลายมือ</span></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">4</div></div>
+            <div class="step-body">
+              <div class="step-title">ดับเบิ้ลคลิกไฟล์สไลด์ที่ต้องการ</div>
+              <div class="step-desc">เลือกไฟล์ .pptx แล้วดับเบิ้ลคลิก — PowerPoint จะเปิดสไลด์ให้ทันที พร้อมใช้งานได้เลย</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="alert warning">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <div class="alert-text">ไม่มี PowerPoint? ใช้ <strong>Google Slides</strong> ได้เลย ดูวิธีได้ที่แท็บ "Google Slides" ด้านบน</div>
+      <!-- Note: ZIP for older Windows -->
+      <div class="info-row">
+        <div class="info-row-icon" style="background:#FEF3C7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="info-row-body">
+          <div class="info-row-title">ใช้ Windows รุ่นเก่า?</div>
+          <div class="info-row-desc">ถ้าคลิกขวาแล้วไม่เห็น "Extract All" — โหลด <strong>7-Zip</strong> ฟรีได้ที่ <strong>7-zip.org</strong> แล้วลองใหม่</div>
+        </div>
+      </div>
+
+      <!-- Note: No PowerPoint -->
+      <div class="info-row">
+        <div class="info-row-icon" style="background:#EFF6FF">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="info-row-body">
+          <div class="info-row-title">ไม่มี PowerPoint?</div>
+          <div class="info-row-desc">ใช้ <strong>Google Slides</strong> ได้เลย ฟรี — ดูวิธีได้ที่แท็บ "Google Slides" ด้านบน</div>
+        </div>
       </div>
 
     </div>
@@ -871,6 +956,35 @@ function resetRedeem() {
 // Enter key submit
 document.getElementById('redeemInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !document.getElementById('redeemBtn').disabled) verifyCode();
+});
+
+// ── Tutorial Video Player ────────────────────────────────────────────────────
+function tutPlay(overlay) {
+  const wrap = overlay.closest('.tut-wrap');
+  const vid  = wrap.querySelector('video');
+  overlay.classList.add('gone');
+  vid.play();
+}
+function tutReplay(btn) {
+  const wrap = btn.closest('.tut-wrap');
+  const vid  = wrap.querySelector('video');
+  wrap.querySelector('.tut-end').classList.remove('show');
+  vid.currentTime = 0;
+  vid.play();
+  wrap.querySelector('.tut-overlay').classList.add('gone');
+}
+// Init: tap video → pause/resume (show/hide overlay), ended → replay screen
+document.querySelectorAll('.tut-wrap').forEach(function(wrap) {
+  var vid     = wrap.querySelector('video');
+  var overlay = wrap.querySelector('.tut-overlay');
+  vid.addEventListener('click', function() {
+    if (vid.ended) return;
+    if (vid.paused) { vid.play(); overlay.classList.add('gone'); }
+    else            { vid.pause(); overlay.classList.remove('gone'); }
+  });
+  vid.addEventListener('ended', function() {
+    wrap.querySelector('.tut-end').classList.add('show');
+  });
 });
 </script>
 </body>
