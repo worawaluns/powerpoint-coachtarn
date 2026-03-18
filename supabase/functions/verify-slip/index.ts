@@ -18,12 +18,12 @@ const ACCOUNT_NUMBER = '1578147760'
 const ACCOUNT_NAME   = 'บจก. ดับเบิ้ลคราฟ์'
 const ACCOUNT_TYPE   = '01004'  // KBANK
 
-// ── Generate TARN-XXXXXXXX ───────────────────────────────────────────────────
+// ── Generate CT-XXXXXXXX (CT- + 8 random chars, 1.1T combinations) ───────────
 function generateCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
   let suffix = ''
   for (let i = 0; i < 8; i++) suffix += chars[Math.floor(Math.random() * chars.length)]
-  return `TARN-${suffix}`
+  return `CT-${suffix}`
 }
 
 // ── Verify Turnstile token ───────────────────────────────────────────────────
