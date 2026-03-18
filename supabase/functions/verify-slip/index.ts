@@ -40,89 +40,203 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
 // ── Email HTML ───────────────────────────────────────────────────────────────
 function buildEmailHtml(name: string, code: string): string {
   const downloadUrl = `${DOWNLOAD_URL}?code=${encodeURIComponent(code)}`
+  const fbUrl = 'https://www.facebook.com/ThePowerpointTemplate'
   return `<!DOCTYPE html>
 <html lang="th">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#F5F5F7;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F5F5F7;padding:40px 16px 48px;">
-<tr><td align="center">
-<table width="100%" cellpadding="0" cellspacing="0" border="0"
-  style="max-width:560px;background:#ffffff;border-radius:20px;overflow:hidden;
-         box-shadow:0 1px 3px rgba(0,0,0,0.06),0 8px 32px rgba(0,0,0,0.06);">
-  <tr><td style="height:4px;background:#D34724;font-size:0;">&nbsp;</td></tr>
-  <tr><td align="center" style="padding:48px 48px 36px;border-bottom:1px solid #F0F0F0;">
-    <div style="width:64px;height:64px;background:#FFF3EF;border-radius:18px;margin:0 auto 20px;text-align:center;line-height:64px;">
-      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M22 11.08V12a10 10 0 1 1-5.93-9.14' stroke='%23D34724' stroke-width='2' stroke-linecap='round'/%3E%3Cpolyline points='22 4 12 14.01 9 11.01' stroke='%23D34724' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" width="32" height="32" alt="">
-    </div>
-    <p style="margin:0 0 6px;font-size:11px;font-weight:600;letter-spacing:1.5px;color:#D34724;text-transform:uppercase;">คำสั่งซื้อสำเร็จ</p>
-    <h1 style="margin:0 0 10px;font-size:26px;font-weight:700;color:#1D1D1F;line-height:1.2;">ขอบคุณที่สั่งซื้อนะคะ</h1>
-    <p style="margin:0;font-size:15px;color:#6E6E73;line-height:1.5;">
-      สวัสดีคุณ <strong style="color:#1D1D1F;">${name}</strong> · PowerPoint Template by Coach Tarn พร้อมให้คุณแล้วค่ะ
-    </p>
-  </td></tr>
-  <tr><td style="padding:36px 48px;border-bottom:1px solid #F0F0F0;">
-    <p style="margin:0 0 14px;font-size:13px;font-weight:600;color:#6E6E73;">Redeem Code ของคุณ</p>
-    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr><td style="background:#F5F5F7;border-radius:12px;padding:20px 24px;">
-        <span style="font-family:'SF Mono','Fira Code','Courier New',monospace;font-size:26px;font-weight:700;color:#1D1D1F;letter-spacing:4px;display:block;">${code}</span>
-        <span style="font-size:12px;color:#8E8E93;margin-top:4px;display:block;">ใช้ได้ตลอด · ไม่มีวันหมดอายุ</span>
-      </td></tr>
-    </table>
-  </td></tr>
-  <tr><td style="padding:32px 48px;border-bottom:1px solid #F0F0F0;">
-    <p style="margin:0 0 20px;font-size:13px;font-weight:600;color:#6E6E73;">วิธีรับไฟล์สไลด์</p>
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:14px;">
-      <tr>
-        <td width="36" valign="top"><div style="width:26px;height:26px;background:#F5F5F7;border-radius:8px;text-align:center;line-height:26px;font-size:13px;font-weight:700;color:#D34724;">1</div></td>
-        <td style="padding-left:12px;padding-top:3px;font-size:15px;color:#1D1D1F;">กดปุ่ม <strong>"รับไฟล์สไลด์"</strong> ด้านล่าง</td>
-      </tr>
-    </table>
-    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:14px;">
-      <tr>
-        <td width="36" valign="top"><div style="width:26px;height:26px;background:#F5F5F7;border-radius:8px;text-align:center;line-height:26px;font-size:13px;font-weight:700;color:#D34724;">2</div></td>
-        <td style="padding-left:12px;padding-top:3px;font-size:15px;color:#1D1D1F;">วาง Code <code style="background:#F5F5F7;border-radius:6px;padding:2px 8px;font-size:13px;color:#D34724;font-weight:700;">${code}</code> ในช่องที่กำหนด</td>
-      </tr>
-    </table>
-    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr>
-        <td width="36" valign="top"><div style="width:26px;height:26px;background:#F5F5F7;border-radius:8px;text-align:center;line-height:26px;font-size:13px;font-weight:700;color:#D34724;">3</div></td>
-        <td style="padding-left:12px;padding-top:3px;font-size:15px;color:#1D1D1F;">เลือกโฟลเดอร์ที่ต้องการแล้วดาวน์โหลดได้เลย</td>
-      </tr>
-    </table>
-  </td></tr>
-  <tr><td align="center" style="padding:32px 48px;border-bottom:1px solid #F0F0F0;">
-    <a href="${downloadUrl}" target="_blank"
-       style="display:inline-block;background:#D34724;color:#ffffff;text-decoration:none;
-              font-size:16px;font-weight:600;padding:15px 40px;border-radius:100px;">
-      รับไฟล์สไลด์ →
-    </a>
-  </td></tr>
-  <tr><td style="padding:24px 48px;border-bottom:1px solid #F0F0F0;">
-    <p style="margin:0 0 12px;font-size:13px;font-weight:600;color:#1D1D1F;">รายละเอียดคำสั่งซื้อ</p>
-    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr>
-        <td style="font-size:13px;color:#6E6E73;padding-bottom:6px;">สินค้า</td>
-        <td align="right" style="font-size:13px;color:#1D1D1F;font-weight:500;padding-bottom:6px;">PowerPoint Template by Coach Tarn</td>
-      </tr>
-      <tr>
-        <td style="font-size:13px;color:#6E6E73;padding-bottom:6px;">รายละเอียด</td>
-        <td align="right" style="font-size:13px;color:#1D1D1F;padding-bottom:6px;">6,500+ สไลด์ · 3 ฟอร์แมต</td>
-      </tr>
-      <tr>
-        <td style="font-size:13px;color:#6E6E73;border-top:1px solid #F0F0F0;padding-top:10px;">ยอดชำระ</td>
-        <td align="right" style="font-size:15px;color:#1D1D1F;font-weight:700;border-top:1px solid #F0F0F0;padding-top:10px;">฿499</td>
-      </tr>
-    </table>
-  </td></tr>
-  <tr><td align="center" style="padding:28px 48px;">
-    <p style="margin:0 0 6px;font-size:13px;color:#8E8E93;line-height:1.6;">
-      เก็บอีเมลนี้ไว้นะคะ — Code ใช้ได้ตลอด ไม่มีวันหมดอายุ<br>
-      มีปัญหาติดต่อได้ที่ Line <a href="https://line.me/ti/p/@coachtarn" style="color:#D34724;text-decoration:none;">@coachtarn</a>
-    </p>
-    <p style="margin:16px 0 0;font-size:11px;color:#AEAEB2;">© 2025 DoubleCraft Co., Ltd.</p>
-  </td></tr>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Redeem Code ของคุณพร้อมแล้ว</title>
+</head>
+<body style="margin:0;padding:0;background:#F2F2F7;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F2F2F7;">
+<tr><td style="padding:40px 16px 56px;" align="center">
+
+  <!-- Card -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+    style="max-width:580px;background:#ffffff;border-radius:24px;overflow:hidden;
+           box-shadow:0 2px 8px rgba(0,0,0,0.05),0 12px 40px rgba(0,0,0,0.08);">
+
+    <!-- ── Gradient top bar ── -->
+    <tr><td style="height:5px;background:linear-gradient(90deg,#EB7D4A 0%,#D34724 100%);font-size:0;line-height:0;">&nbsp;</td></tr>
+
+    <!-- ── Hero section ── -->
+    <tr><td align="center" style="padding:52px 48px 40px;border-bottom:1px solid #F0F0F0;">
+
+      <!-- Icon circle: table-based for email client compat -->
+      <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 24px;">
+        <tr>
+          <td align="center" valign="middle"
+            style="width:80px;height:80px;border-radius:50%;
+                   background:linear-gradient(135deg,#EB7D4A 0%,#D34724 100%);
+                   box-shadow:0 8px 24px rgba(211,71,36,0.30);">
+            <div style="width:80px;height:80px;border-radius:50%;
+                        background:linear-gradient(135deg,#EB7D4A 0%,#D34724 100%);
+                        display:flex;align-items:center;justify-content:center;">
+              <span style="color:#ffffff;font-size:36px;font-weight:900;line-height:80px;display:block;text-align:center;">&#10003;</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+      <p style="margin:0 0 8px;font-size:11px;font-weight:700;letter-spacing:2px;color:#D34724;text-transform:uppercase;">คำสั่งซื้อสำเร็จ</p>
+      <h1 style="margin:0 0 14px;font-size:28px;font-weight:800;color:#1D1D1F;line-height:1.25;letter-spacing:-0.5px;">ขอบคุณที่สั่งซื้อนะคะ &#128522;</h1>
+      <p style="margin:0;font-size:15px;color:#6E6E73;line-height:1.65;">
+        สวัสดีคุณ <strong style="color:#1D1D1F;font-weight:700;">${name}</strong><br>
+        PowerPoint Template by Coach Tarn พร้อมให้คุณแล้วค่ะ
+      </p>
+    </td></tr>
+
+    <!-- ── Redeem Code ── -->
+    <tr><td style="padding:36px 48px 32px;border-bottom:1px solid #F0F0F0;">
+      <p style="margin:0 0 14px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;text-transform:uppercase;">Redeem Code ของคุณ</p>
+
+      <!-- Code box -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="background:linear-gradient(135deg,#FFF3EF 0%,#FFF8F5 100%);
+                     border:2px solid rgba(211,71,36,0.15);
+                     border-radius:16px;padding:24px 28px;">
+            <p style="margin:0 0 4px;font-size:11px;font-weight:600;color:#D34724;letter-spacing:1px;text-transform:uppercase;">รหัสรับสไลด์</p>
+            <span style="font-family:'Courier New',Courier,monospace;
+                         font-size:30px;font-weight:900;color:#1D1D1F;
+                         letter-spacing:5px;display:block;margin-bottom:8px;">${code}</span>
+            <!-- Progress dots for visual flair -->
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="width:6px;height:6px;background:#D34724;border-radius:50%;"></td>
+                <td style="width:4px;"></td>
+                <td style="width:6px;height:6px;background:#EB7D4A;border-radius:50%;"></td>
+                <td style="width:4px;"></td>
+                <td style="width:6px;height:6px;background:#F5A97A;border-radius:50%;"></td>
+                <td style="padding-left:10px;font-size:12px;color:#8E8E93;vertical-align:middle;">ใช้ได้ตลอด &middot; ไม่มีวันหมดอายุ</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- ── How to redeem ── -->
+    <tr><td style="padding:32px 48px 28px;border-bottom:1px solid #F0F0F0;">
+      <p style="margin:0 0 22px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;text-transform:uppercase;">วิธีรับไฟล์สไลด์</p>
+
+      <!-- Step 1 -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;">
+        <tr>
+          <td width="40" valign="top">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tr><td align="center" valign="middle"
+                style="width:32px;height:32px;border-radius:10px;
+                       background:linear-gradient(135deg,#EB7D4A,#D34724);
+                       font-size:14px;font-weight:800;color:#fff;
+                       line-height:32px;text-align:center;">
+                <span style="display:block;line-height:32px;color:#fff;font-weight:800;font-size:14px;">1</span>
+              </td></tr>
+            </table>
+          </td>
+          <td style="padding-left:14px;padding-top:5px;font-size:15px;color:#1D1D1F;line-height:1.5;">
+            กดปุ่ม <strong style="color:#D34724;">"รับไฟล์สไลด์"</strong> ด้านล่าง
+          </td>
+        </tr>
+      </table>
+
+      <!-- Step 2 -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;">
+        <tr>
+          <td width="40" valign="top">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tr><td align="center" valign="middle"
+                style="width:32px;height:32px;border-radius:10px;
+                       background:linear-gradient(135deg,#EB7D4A,#D34724);">
+                <span style="display:block;line-height:32px;color:#fff;font-weight:800;font-size:14px;">2</span>
+              </td></tr>
+            </table>
+          </td>
+          <td style="padding-left:14px;padding-top:5px;font-size:15px;color:#1D1D1F;line-height:1.5;">
+            วาง Code&nbsp;<span style="background:#FFF3EF;border-radius:6px;padding:3px 10px;font-family:'Courier New',monospace;font-size:13px;color:#D34724;font-weight:700;letter-spacing:2px;">${code}</span>&nbsp;ในช่องที่กำหนด
+          </td>
+        </tr>
+      </table>
+
+      <!-- Step 3 -->
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td width="40" valign="top">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tr><td align="center" valign="middle"
+                style="width:32px;height:32px;border-radius:10px;
+                       background:linear-gradient(135deg,#EB7D4A,#D34724);">
+                <span style="display:block;line-height:32px;color:#fff;font-weight:800;font-size:14px;">3</span>
+              </td></tr>
+            </table>
+          </td>
+          <td style="padding-left:14px;padding-top:5px;font-size:15px;color:#1D1D1F;line-height:1.5;">
+            เลือกโฟลเดอร์ที่ต้องการแล้วดาวน์โหลดได้เลย
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- ── CTA button ── -->
+    <tr><td align="center" style="padding:36px 48px;border-bottom:1px solid #F0F0F0;background:#FAFAFA;">
+      <a href="${downloadUrl}" target="_blank"
+         style="display:inline-block;
+                background:linear-gradient(135deg,#EB7D4A 0%,#D34724 100%);
+                color:#ffffff;text-decoration:none;
+                font-size:17px;font-weight:800;
+                padding:18px 52px;border-radius:100px;
+                letter-spacing:-0.2px;
+                box-shadow:0 6px 20px rgba(211,71,36,0.35);">
+        รับไฟล์สไลด์ &rarr;
+      </a>
+      <p style="margin:16px 0 0;font-size:13px;color:#AEAEB2;">กดปุ่มด้านบนเพื่อไปยังหน้าดาวน์โหลด</p>
+    </td></tr>
+
+    <!-- ── Order details ── -->
+    <tr><td style="padding:28px 48px;border-bottom:1px solid #F0F0F0;">
+      <p style="margin:0 0 16px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;text-transform:uppercase;">รายละเอียดคำสั่งซื้อ</p>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="font-size:13px;color:#8E8E93;padding-bottom:10px;">สินค้า</td>
+          <td align="right" style="font-size:13px;color:#1D1D1F;font-weight:600;padding-bottom:10px;">PowerPoint Template by Coach Tarn</td>
+        </tr>
+        <tr>
+          <td style="font-size:13px;color:#8E8E93;padding-bottom:10px;">รายละเอียด</td>
+          <td align="right" style="font-size:13px;color:#1D1D1F;padding-bottom:10px;">6,500+ สไลด์ &middot; 3 ฟอร์แมต</td>
+        </tr>
+        <tr>
+          <td style="font-size:13px;color:#8E8E93;border-top:1px solid #F0F0F0;padding-top:14px;">ยอดชำระ</td>
+          <td align="right" style="font-size:18px;color:#D34724;font-weight:800;border-top:1px solid #F0F0F0;padding-top:14px;">&#3647;499</td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- ── Footer ── -->
+    <tr><td align="center" style="padding:32px 48px 40px;background:#FAFAFA;">
+      <p style="margin:0 0 10px;font-size:13px;color:#8E8E93;line-height:1.7;">
+        เก็บอีเมลนี้ไว้นะคะ — Code ใช้ได้ตลอด ไม่มีวันหมดอายุ
+      </p>
+      <p style="margin:0 0 20px;font-size:13px;color:#8E8E93;line-height:1.7;">
+        มีปัญหาติดต่อได้ที่
+        <a href="${fbUrl}" style="color:#D34724;text-decoration:none;font-weight:700;">Facebook: PowerPoint Template by Coach Tarn</a>
+      </p>
+      <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 20px;">
+        <tr>
+          <td style="width:40px;height:1px;background:#E5E5EA;"></td>
+          <td style="padding:0 12px;font-size:11px;color:#C7C7CC;">&#9670;</td>
+          <td style="width:40px;height:1px;background:#E5E5EA;"></td>
+        </tr>
+      </table>
+      <p style="margin:0;font-size:11px;color:#C7C7CC;">&#169; 2026 DoubleCraft Co., Ltd. &middot; All rights reserved</p>
+    </td></tr>
+
+  </table><!-- /Card -->
+
+</td></tr>
 </table>
-</td></tr></table>
+
 </body></html>`
 }
 

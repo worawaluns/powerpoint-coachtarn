@@ -1,0 +1,2 @@
+# Netlify _redirects — ตัด .html ออกจาก URL
+/*.html  /:splat  301!
