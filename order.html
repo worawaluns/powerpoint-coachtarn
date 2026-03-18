@@ -289,56 +289,141 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .loading-text{font-size:16px;font-weight:700;color:var(--text)}
 .loading-sub{font-size:14px;color:var(--text-sub)}
 
-/* ── Success section (inline — มี header ปกติ) ── */
+/* ── Shared keyframes ── */
+@keyframes fadeInUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes popIn{0%{transform:scale(0);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes drawCheck{to{stroke-dashoffset:0}}
+@keyframes dotBlink{0%,100%{opacity:1}50%{opacity:0.25}}
+@keyframes ringPulse{0%{opacity:0.8;transform:scale(0.9)}100%{opacity:0;transform:scale(1.6)}}
+@keyframes cardSlideIn{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
+
+/* ── Success section ── */
 #successSection{display:none;padding-bottom:8px}
-.suc-card{background:#fff;border-radius:20px;border:1px solid var(--border);overflow:hidden;margin:12px 16px 14px}
-.suc-strip{height:4px;background:linear-gradient(90deg,var(--grad-start),var(--grad-end))}
-.suc-body{padding:36px 22px 28px;text-align:center}
-.suc-icon-wrap{
-  width:76px;height:76px;
-  background:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;
-  margin:0 auto 20px;
-  box-shadow:0 10px 28px rgba(211,71,36,0.28);
+.suc-card{
+  background:#fff;border-radius:24px;border:1px solid var(--border);
+  overflow:hidden;margin:12px 16px 14px;
+  box-shadow:0 4px 32px rgba(22,163,74,0.08);
 }
-.suc-icon-wrap svg{width:36px;height:36px}
-.suc-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--red);margin-bottom:8px}
-.suc-h{font-size:22px;font-weight:900;color:var(--text);margin-bottom:10px;letter-spacing:-0.4px}
-.suc-p{font-size:14px;color:var(--text-mid);line-height:1.75;margin-bottom:24px}
-.suc-divider{height:1px;background:var(--border);margin:0 -22px 22px}
-.suc-email-box{
-  background:var(--bg-soft);border:1.5px solid rgba(211,71,36,0.15);
-  border-radius:14px;padding:14px 16px;margin-bottom:20px;text-align:left;
+.suc-strip{height:5px;background:linear-gradient(90deg,#22C55E,#16A34A)}
+.suc-hero{
+  padding:32px 24px 22px;text-align:center;
+  background:linear-gradient(180deg,rgba(34,197,94,0.06) 0%,#fff 65%);
 }
-.se-label{font-size:11px;font-weight:700;color:var(--red);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
-.se-val{font-size:15px;font-weight:700;color:var(--text)}
-.btn-success{
-  width:100%;background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
-  box-shadow:var(--btn-shadow);
-  color:#fff;border:none;border-radius:100px;padding:16px;
+/* Pulse ring + icon — matching landing page ns1 style */
+.suc-pulse-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.suc-pulse{
+  position:absolute;width:104px;height:104px;border-radius:50%;
+  border:2px solid rgba(34,197,94,0.45);opacity:0;
+}
+#successSection.play .suc-pulse{animation:ringPulse 2.2s ease 0.7s infinite}
+.suc-ring{
+  width:84px;height:84px;border-radius:50%;
+  background:rgba(34,197,94,0.1);border:2px solid rgba(34,197,94,0.28);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;transform:scale(0);opacity:0;
+}
+#successSection.play .suc-ring{animation:popIn 0.5s cubic-bezier(0.16,1,0.3,1) 0.1s forwards}
+.suc-ring svg{width:40px;height:40px}
+.chk-path{stroke-dasharray:50;stroke-dashoffset:50}
+#successSection.play .chk-path{animation:drawCheck 0.4s ease 0.5s forwards}
+/* Badge */
+.suc-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(22,163,74,0.1);border-radius:100px;
+  padding:4px 12px;margin-bottom:10px;
+  font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#16A34A;
+  opacity:0;
+}
+#successSection.play .suc-badge{animation:fadeInUp 0.35s ease 0.65s forwards}
+.suc-badge-dot{width:6px;height:6px;background:#16A34A;border-radius:50%;animation:dotBlink 1.4s ease-in-out infinite}
+.suc-h{font-size:24px;font-weight:900;color:var(--text);letter-spacing:-0.5px;margin-bottom:6px;opacity:0}
+#successSection.play .suc-h{animation:fadeInUp 0.35s ease 0.75s forwards}
+.suc-p{font-size:14px;color:var(--text-mid);line-height:1.7;opacity:0}
+#successSection.play .suc-p{animation:fadeInUp 0.35s ease 0.85s forwards}
+/* Email chip */
+.suc-email{
+  margin:18px 24px 0;background:rgba(34,197,94,0.06);
+  border:1.5px solid rgba(22,163,74,0.2);border-radius:14px;
+  padding:12px 16px;display:flex;align-items:center;gap:12px;opacity:0;
+}
+#successSection.play .suc-email{animation:fadeInUp 0.35s ease 0.95s forwards}
+.suc-email-icon{
+  width:36px;height:36px;background:linear-gradient(135deg,#22C55E,#16A34A);
+  border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.suc-email-icon svg{width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none}
+.se-label{font-size:10px;font-weight:700;color:#16A34A;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+.se-val{font-size:14px;font-weight:700;color:var(--text)}
+/* Steps */
+.suc-steps{padding:20px 24px 4px;opacity:0}
+#successSection.play .suc-steps{animation:fadeInUp 0.35s ease 1.05s forwards}
+.suc-steps-title{font-size:11px;font-weight:700;color:var(--text-sub);letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.suc-step-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.suc-step-row:last-child{margin-bottom:0}
+.suc-step-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.suc-step-num{
+  width:30px;height:30px;
+  background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+  border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:900;color:#fff;
+}
+.suc-step-line{width:2px;height:24px;background:linear-gradient(180deg,rgba(211,71,36,0.3),transparent);margin-top:4px}
+.suc-step-row:last-child .suc-step-line{display:none}
+.suc-step-body{padding-top:3px}
+.suc-step-t{font-size:14px;font-weight:700;color:var(--text);line-height:1.4}
+.suc-step-s{font-size:12.5px;color:var(--text-mid);line-height:1.5;margin-top:2px}
+.suc-step-code{
+  display:inline-block;background:linear-gradient(135deg,#FFF8F5,#FFF0E8);
+  border:1.5px solid rgba(211,71,36,0.2);border-radius:8px;
+  padding:3px 10px;margin-top:4px;
+  font-size:13px;font-weight:800;color:var(--red);letter-spacing:0.5px;font-family:monospace;
+}
+/* CTA */
+.suc-cta{padding:20px 24px 28px;opacity:0}
+#successSection.play .suc-cta{animation:fadeInUp 0.35s ease 1.15s forwards}
+.suc-divider{height:1px;background:var(--border);margin:0 -24px 22px}
+.btn-download{
+  width:100%;
+  background:linear-gradient(135deg,var(--grad-start),var(--grad-end));
+  box-shadow:0 8px 24px rgba(211,71,36,0.28);
+  color:#fff;border:none;border-radius:100px;padding:17px;
   font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;
-  text-decoration:none;display:block;text-align:center;margin-bottom:14px;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  text-decoration:none;margin-bottom:14px;
 }
+.btn-download svg{width:20px;height:20px;flex-shrink:0}
 .suc-note{font-size:12px;color:var(--text-sub);line-height:1.7;text-align:center}
 
 /* ── Rejected section (inline — ไม่ใช่ overlay) ── */
 #rejectedSection{display:none;padding-bottom:8px}
-#rejectedSection.show{display:block}
-.rej-card{background:#fff;border-radius:20px;border:1px solid var(--border);overflow:hidden;margin:12px 16px 14px}
-.rej-strip{height:4px}
-.rej-body{padding:32px 22px 28px;text-align:center}
-.rej-icon-wrap{
-  width:68px;height:68px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+.rej-card{
+  background:#fff;border-radius:24px;border:1px solid var(--border);
+  overflow:hidden;margin:12px 16px 14px;
+  animation:cardSlideIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
 }
-.rej-icon-wrap svg{width:32px;height:32px}
+.rej-strip{height:5px}
+.rej-body{padding:32px 22px 28px;text-align:center}
+/* Icon ring matching landing page style — tint set via JS */
+.rej-pulse-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;width:84px;height:84px}
+.rej-pulse{
+  position:absolute;inset:-10px;border-radius:50%;
+  border:2px solid var(--rej-color, #F59E0B);opacity:0;
+  animation:ringPulse 2.5s ease 0.5s infinite;
+  filter:opacity(0.5);
+}
+.rej-icon-wrap{
+  width:84px;height:84px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;position:relative;z-index:1;
+  border:2px solid transparent;
+}
+.rej-icon-wrap svg{width:36px;height:36px}
 .rej-label{font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px}
 .rej-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:10px;line-height:1.35;letter-spacing:-0.3px}
 .rej-msg{font-size:14px;color:var(--text-mid);line-height:1.75;margin-bottom:28px;white-space:pre-line}
 .rej-divider{height:1px;background:var(--border);margin:0 -22px 24px}
 .btn-retry{
-  width:100%;background-image:linear-gradient(-190deg,var(--btn-grad-start) 0%,var(--btn-grad-end) 99%);
-  box-shadow:var(--btn-shadow);
+  width:100%;background-image:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
+  box-shadow:0 6px 20px rgba(211,71,36,0.28);
   color:#fff;border:none;border-radius:100px;padding:16px;
   font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;margin-bottom:10px;
 }
@@ -414,22 +499,85 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   <div class="page-inner">
 
   <!-- ── Success section (inline — มี header ปกติ) ── -->
+  <canvas id="confettiCanvas" style="position:fixed;inset:0;pointer-events:none;z-index:200;display:none"></canvas>
   <div id="successSection">
     <div class="suc-card">
       <div class="suc-strip"></div>
-      <div class="suc-body">
-        <div class="suc-icon-wrap">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+
+      <!-- Hero: green icon matching landing page scene 1 -->
+      <div class="suc-hero">
+        <div class="suc-pulse-wrap">
+          <div class="suc-pulse"></div>
+          <div class="suc-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline class="chk-path" points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
         </div>
-        <div class="suc-label">ชำระเงินสำเร็จ</div>
+        <div class="suc-badge"><span class="suc-badge-dot"></span>ชำระเงินสำเร็จ</div>
         <h2 class="suc-h">ขอบคุณที่สั่งซื้อ!</h2>
         <p class="suc-p">ระบบส่ง Redeem Code ไปที่อีเมลแล้ว<br>กรุณาตรวจสอบ Inbox (หรือโฟลเดอร์ Spam)</p>
-        <div class="suc-divider"></div>
-        <div class="suc-email-box">
-          <div class="se-label">ส่ง code ไปที่</div>
+      </div>
+
+      <!-- Email chip -->
+      <div class="suc-email">
+        <div class="suc-email-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="3"/><polyline points="2,4 12,13 22,4"/></svg>
+        </div>
+        <div>
+          <div class="se-label">ส่ง Code ไปที่</div>
           <div class="se-val" id="successEmail">—</div>
         </div>
-        <a href="download" class="btn-success">ดูวิธีดาวน์โหลดสไลด์ →</a>
+      </div>
+
+      <!-- Steps -->
+      <div class="suc-steps">
+        <div class="suc-steps-title">ขั้นตอนถัดไป</div>
+
+        <div class="suc-step-row">
+          <div class="suc-step-left">
+            <div class="suc-step-num">1</div>
+            <div class="suc-step-line"></div>
+          </div>
+          <div class="suc-step-body">
+            <div class="suc-step-t">เปิดอีเมลของคุณ</div>
+            <div class="suc-step-s">ค้นหา Code ที่เราส่งให้ใน Inbox<br>หรือโฟลเดอร์ Spam</div>
+          </div>
+        </div>
+
+        <div class="suc-step-row">
+          <div class="suc-step-left">
+            <div class="suc-step-num">2</div>
+            <div class="suc-step-line"></div>
+          </div>
+          <div class="suc-step-body">
+            <div class="suc-step-t">คัดลอก Redeem Code</div>
+            <div class="suc-step-code">TARN-XXXXXXXX</div>
+          </div>
+        </div>
+
+        <div class="suc-step-row">
+          <div class="suc-step-left">
+            <div class="suc-step-num">3</div>
+          </div>
+          <div class="suc-step-body">
+            <div class="suc-step-t">กดปุ่มด้านล่าง แล้วกรอก Code</div>
+            <div class="suc-step-s">เลือกโฟลเดอร์แล้วดาวน์โหลดได้เลย</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="suc-cta">
+        <div class="suc-divider"></div>
+        <a href="download" class="btn-download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          รับไฟล์สไลด์
+        </a>
         <p class="suc-note">ไม่เห็นอีเมล? รอสักครู่แล้วรีเฟรช<br>หรือตรวจสอบโฟลเดอร์ Spam / Junk</p>
       </div>
     </div>
@@ -437,11 +585,12 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
   <!-- ── Rejected section (แสดงใน page flow ปกติ มี header อยู่เสมอ) ── -->
   <div id="rejectedSection">
-    <div class="rej-card">
+    <div class="rej-card" id="rejCard">
       <div class="rej-strip" id="rejStrip"></div>
       <div class="rej-body">
-        <div class="rej-icon-wrap" id="rejIconWrap">
-          <!-- icon injected by JS -->
+        <div class="rej-pulse-wrap">
+          <div class="rej-pulse" id="rejPulse"></div>
+          <div class="rej-icon-wrap" id="rejIconWrap"><!-- icon injected by JS --></div>
         </div>
         <div class="rej-label" id="rejLabel"></div>
         <h2 class="rej-title" id="rejectedTitle"></h2>
@@ -888,21 +1037,33 @@ function setErr(inputId, errId) {
 let cfToken = '';
 function onTurnstileSuccess(token) { cfToken = token; }
 
-// ── 6-state rejected section (inline — มี header ปกติ) ──────────────────────
+// ── 6-state rejected section ──────────────────────────────────────────────────
 function showRejected(result) {
   const reason = result.reason || 'error';
   const actual = result.actual_amount;
 
-  // icon type → color + SVG + strip color
+  // icon type → strip / bg (rgba) / border (rgba) / icon color / label / SVG
   const ICONS = {
-    warn:   { strip:'#F59E0B', bg:'#FEF3C7', color:'#F59E0B', label:'แจ้งเตือน',
-              svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
-    error:  { strip:'#EF4444', bg:'#FEE2E2', color:'#DC2626', label:'ไม่สำเร็จ',
-              svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>' },
-    info:   { strip:'#3B82F6', bg:'#DBEAFE', color:'#2563EB', label:'ข้อมูล',
-              svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' },
-    shield: { strip:'#EF4444', bg:'#FEE2E2', color:'#DC2626', label:'ความปลอดภัย',
-              svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
+    warn: {
+      strip:'#F59E0B', bg:'rgba(251,191,36,0.1)', border:'rgba(245,158,11,0.28)',
+      color:'#D97706', pulse:'rgba(245,158,11,0.45)', label:'แจ้งเตือน',
+      svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#D97706"/></svg>'
+    },
+    error: {
+      strip:'#EF4444', bg:'rgba(239,68,68,0.08)', border:'rgba(239,68,68,0.28)',
+      color:'#DC2626', pulse:'rgba(239,68,68,0.4)', label:'ไม่สำเร็จ',
+      svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>'
+    },
+    info: {
+      strip:'#3B82F6', bg:'rgba(59,130,246,0.08)', border:'rgba(59,130,246,0.28)',
+      color:'#2563EB', pulse:'rgba(59,130,246,0.4)', label:'ข้อมูล',
+      svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="0.5" fill="#2563EB"/></svg>'
+    },
+    shield: {
+      strip:'#EF4444', bg:'rgba(239,68,68,0.08)', border:'rgba(239,68,68,0.28)',
+      color:'#DC2626', pulse:'rgba(239,68,68,0.4)', label:'ความปลอดภัย',
+      svg:'<svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="#DC2626"/></svg>'
+    },
   };
 
   const CONFIGS = {
@@ -925,22 +1086,30 @@ function showRejected(result) {
   const cfg     = CONFIGS[reason] ?? CONFIGS.error;
   const iconDef = ICONS[cfg.icon];
 
-  // set strip color
+  // strip
   document.getElementById('rejStrip').style.background = iconDef.strip;
-  // set icon circle
+  // icon ring — matching landing page style with rgba bg + border
   const wrap = document.getElementById('rejIconWrap');
-  wrap.style.background = iconDef.bg;
-  wrap.innerHTML = iconDef.svg;
-  // set label
+  wrap.style.background  = iconDef.bg;
+  wrap.style.border      = `2px solid ${iconDef.border}`;
+  wrap.innerHTML         = iconDef.svg;
+  // pulse ring color
+  document.getElementById('rejPulse').style.borderColor = iconDef.pulse;
+  // label
   const labelEl = document.getElementById('rejLabel');
-  labelEl.textContent  = iconDef.label;
-  labelEl.style.color  = iconDef.color;
-  // set texts
+  labelEl.textContent = iconDef.label;
+  labelEl.style.color = iconDef.color;
+  // texts
   document.getElementById('rejectedTitle').textContent = cfg.title;
   document.getElementById('rejectedMsg').textContent   = cfg.msg;
 
-  // swap visibility
-  document.getElementById('mainContent').style.display  = 'none';
+  // reset card animation so it plays fresh each time
+  const card = document.getElementById('rejCard');
+  card.style.animation = 'none';
+  card.offsetHeight; // reflow
+  card.style.animation = '';
+
+  document.getElementById('mainContent').style.display     = 'none';
   document.getElementById('rejectedSection').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -948,20 +1117,65 @@ function showRejected(result) {
 function hideRejected() {
   document.getElementById('rejectedSection').style.display = 'none';
   document.getElementById('mainContent').style.display     = '';
-  // reset file upload so user can pick a new slip
   document.getElementById('slipInput').value = '';
   document.getElementById('uploadPreview').style.display = 'none';
   document.getElementById('uploadArea').style.display    = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── Success section (inline — มี header ปกติ) ────────────────────────────────
+// ── Success section ────────────────────────────────────────────────────────────
 function showSuccess(email) {
-  document.getElementById('successEmail').textContent = email;
+  document.getElementById('successEmail').textContent      = email;
   document.getElementById('mainContent').style.display    = 'none';
   document.getElementById('rejectedSection').style.display = 'none';
-  document.getElementById('successSection').style.display  = 'block';
+  const sec = document.getElementById('successSection');
+  sec.style.display = 'block';
+  // trigger animations
+  requestAnimationFrame(() => sec.classList.add('play'));
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // confetti
+  startConfetti();
+}
+
+function startConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  canvas.style.display = 'block';
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  const cols = ['#22C55E','#16A34A','#86EFAC','#EB7D4A','#fff','#D34724','#BBF7D0'];
+  const pieces = Array.from({length:100}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height - canvas.height,
+    w: Math.random() * 8 + 3,
+    h: Math.random() * 5 + 2,
+    color: cols[Math.floor(Math.random() * cols.length)],
+    rot: Math.random() * 360,
+    vx: (Math.random() - 0.5) * 2.5,
+    vy: Math.random() * 4 + 2,
+    vr: (Math.random() - 0.5) * 6,
+    opacity: 1,
+  }));
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      if (frame > 100) p.opacity = Math.max(0, p.opacity - 0.01);
+      ctx.save();
+      ctx.globalAlpha = p.opacity;
+      ctx.translate(p.x + p.w / 2, p.y + p.h / 2);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      ctx.restore();
+      if (p.y > canvas.height) { p.y = -10; p.opacity = 1; }
+    });
+    frame++;
+    if (frame < 280) requestAnimationFrame(draw);
+    else { ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.style.display = 'none'; }
+  }
+  draw();
 }
 
 function contactFacebook(){ window.open('https://www.facebook.com/ThePowerpointTemplate','_blank'); }
