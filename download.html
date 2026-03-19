@@ -210,12 +210,11 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 }
 .mock-content{padding:16px;text-align:center;font-size:13px;color:rgba(255,255,255,0.6);min-height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
 
-/* Compatible row */
-.compat-row{display:flex;align-items:center;gap:6px;padding:12px 18px;flex-wrap:wrap}
-.compat-item{display:flex;align-items:center;gap:7px;background:var(--bg-soft);border-radius:100px;padding:5px 10px 5px 5px}
-.compat-icon-img{width:22px;height:22px;object-fit:contain;border-radius:5px}
-.compat-name{font-size:12px;font-weight:700;color:var(--text-mid)}
-.compat-badge{font-size:10px;color:var(--red);font-weight:600;background:rgba(211,71,36,0.08);padding:2px 7px;border-radius:100px;margin-left:2px}
+/* App recommendation banner */
+.app-for{display:flex;align-items:center;gap:9px;background:#F6F7F9;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.app-for img{width:24px;height:24px;border-radius:6px;flex-shrink:0}
+.app-for-main{font-size:13px;font-weight:700;color:var(--text)}
+.app-for-alt{font-size:11.5px;color:var(--text-sub);margin-top:1px}
 
 /* CTA */
 .dl-cta{
@@ -302,8 +301,8 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
 /* ── Tutorial Video Player ── */
 .tut-outer{padding:14px 20px 4px}
-.tut-wrap{position:relative;width:100%;background:#f0f0f0;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.10)}
-.tut-wrap video{width:100%;display:block;aspect-ratio:1606/1080}
+.tut-wrap{position:relative;width:100%;background:#f0f0f0;border-radius:14px;overflow:hidden}
+.tut-wrap video{width:100%;display:block}
 /* Pre-play overlay — transparent, just play icon */
 .tut-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:opacity .15s}
 .tut-overlay.gone{opacity:0;pointer-events:none}
@@ -440,28 +439,15 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
   <div class="page-inner">
 
-    <!-- Compatible with -->
-    <div style="padding:0 0 4px">
-      <div style="font-size:11.5px;font-weight:600;color:var(--text-sub);letter-spacing:.6px;text-transform:uppercase;margin-bottom:8px">ใช้ได้กับ</div>
-      <div class="compat-row" style="padding:0">
-        <div class="compat-item">
-          <img src="img/icon-powerpoint.png" alt="PowerPoint" class="compat-icon-img">
-          <span class="compat-name">PowerPoint</span>
-          <span class="compat-badge">แนะนำ</span>
-        </div>
-        <div class="compat-item">
-          <img src="img/icon-google-slide.png" alt="Google Slides" class="compat-icon-img">
-          <span class="compat-name">Google Slides</span>
-        </div>
-        <div class="compat-item">
-          <img src="img/icon-keynote.png" alt="Keynote" class="compat-icon-img">
-          <span class="compat-name">Keynote</span>
-        </div>
-      </div>
-    </div>
-
     <!-- ══ WINDOWS ══ -->
     <div id="os-windows" class="os-content active">
+      <div class="app-for">
+        <img src="img/icon-powerpoint.png" alt="PowerPoint">
+        <div>
+          <div class="app-for-main">เปิดด้วย Microsoft PowerPoint</div>
+          <div class="app-for-alt">ทางเลือก: Google Slides</div>
+        </div>
+      </div>
 
       <!-- Step 1 -->
       <div class="card">
@@ -481,7 +467,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
           </div>
           <div class="tut-end">
             <button class="tut-replay-btn" onclick="tutReplay(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.85-4.36L1 10"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
               เล่นซ้ำ
             </button>
           </div>
@@ -498,7 +484,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
             <div class="step-left"><div class="step-num">2</div></div>
             <div class="step-body">
               <div class="step-title">กดปุ่ม "โหลดไฟล์ทั้งหมด"</div>
-              <div class="step-desc">กดปุ่มสีส้ม — Google Drive จะเปิดขึ้นในแท็บใหม่ พร้อมไฟล์สไลด์ทั้งหมดของคุณ</div>
+              <div class="step-desc">กดปุ่มสีขาว — Google Drive จะเปิดขึ้นในแท็บใหม่ พร้อมไฟล์สไลด์ทั้งหมดของคุณ</div>
             </div>
           </div>
         </div>
@@ -522,7 +508,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
           </div>
           <div class="tut-end">
             <button class="tut-replay-btn" onclick="tutReplay(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.85-4.36L1 10"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
               เล่นซ้ำ
             </button>
           </div>
@@ -531,7 +517,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
           <div class="step-item">
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">คลิกขวาที่โฟลเดอร์ "01-Powerpoint-Slides"</div>
+              <div class="step-title">คลิกที่โฟลเดอร์ "01-Powerpoint-Slides"</div>
               <div class="step-desc">เมนูจะเด้งขึ้นมา ให้มองหาคำว่า <strong>"ดาวน์โหลด"</strong> แล้วกด</div>
             </div>
           </div>
@@ -540,7 +526,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
             <div class="step-body">
               <div class="step-title">รอสักครู่ ไฟล์กำลังโหลด</div>
               <div class="step-desc">แถบโหลดจะแสดงความคืบหน้า รอจนเสร็จ — ไฟล์ .zip จะบันทึกไว้ที่ <strong>Downloads</strong> โดยอัตโนมัติ</div>
-              <div class="step-tip"><strong>ขึ้นว่า "ไฟล์ใหญ่เกินไป"?</strong> กด <strong>"ดาวน์โหลดต่อไป"</strong> ได้เลย ปลอดภัย 100%</div>
+              <div class="step-tip"><strong>ขึ้นว่า "ไฟล์ใหญ่เกินไป"?</strong> กด <strong>"ดาวน์โหลดต่อไป"</strong> ได้เลย</div>
             </div>
           </div>
         </div>
@@ -564,7 +550,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
           </div>
           <div class="tut-end">
             <button class="tut-replay-btn" onclick="tutReplay(this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 101.85-4.36L1 10"/></svg>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
               เล่นซ้ำ
             </button>
           </div>
@@ -580,8 +566,8 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
           <div class="step-item">
             <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">แตกไฟล์ .zip</div>
-              <div class="step-desc">คลิกขวาที่ไฟล์ .zip → เลือก <strong>"Extract All"</strong> หรือ <strong>"แตกไฟล์ทั้งหมด"</strong> → กด <strong>Extract</strong> ได้เลย</div>
+              <div class="step-title">เปิดไฟล์ .zip</div>
+              <div class="step-desc"><strong>ดับเบิ้ลคลิก</strong>ที่ไฟล์ .zip — Windows จะแสดงไฟล์ข้างในได้เลย ไม่ต้องติดตั้งโปรแกรมเพิ่ม</div>
             </div>
           </div>
           <div class="step-item">
@@ -628,12 +614,54 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     <!-- ══ MAC ══ -->
     <div id="os-mac" class="os-content">
 
-      <div class="alert info">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <div class="alert-text">สำหรับ <strong>macOS</strong> ใช้ได้กับ PowerPoint for Mac, Keynote หรือ Google Slides</div>
+      <div class="app-for">
+        <img src="img/icon-powerpoint.png" alt="PowerPoint for Mac">
+        <div>
+          <div class="app-for-main">เปิดด้วย PowerPoint for Mac</div>
+          <div class="app-for-alt">ทางเลือก: Keynote · Google Slides</div>
+        </div>
       </div>
 
-      <!-- Download (macOS) -->
+      <!-- Mac Card 1 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <div>
+            <div class="card-title">กรอก Code และเปิด Google Drive</div>
+            <div class="card-sub">ขั้นตอนที่ 1 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/mac-step1.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">พิมพ์ Code จากอีเมล</div>
+              <div class="step-desc">กรอก Code รูปแบบ <strong>TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">กดปุ่ม "โหลดไฟล์ทั้งหมด"</div>
+              <div class="step-desc">Google Drive จะเปิดขึ้นในแท็บใหม่ พร้อมโฟลเดอร์ไฟล์สไลด์ทั้งหมด</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mac Card 2 -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
@@ -641,74 +669,82 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
           </div>
           <div>
             <div class="card-title">ดาวน์โหลดจาก Google Drive</div>
-            <div class="card-sub">ขั้นตอนที่ 1</div>
+            <div class="card-sub">ขั้นตอนที่ 2 จาก 3</div>
           </div>
         </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/mac-step2.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
         <div class="step-list">
           <div class="step-item">
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">กดปุ่ม "โหลดไฟล์ทั้งหมด" ด้านบน</div>
-              <div class="step-desc">Google Drive จะเปิดในแท็บใหม่ใน Safari หรือ Chrome จะเห็นโฟลเดอร์สไลด์ทั้งหมด</div>
-              <img src="img/steps/step-00.png" alt="ปุ่มโหลดไฟล์ทั้งหมด" class="step-img" onerror="this.style.display='none';">
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
-            <div class="step-body">
-              <div class="step-title">เลือกโฟลเดอร์ที่ต้องการ</div>
-              <div class="step-desc">
-                • <strong>PowerPoint for Mac</strong> → เปิดโฟลเดอร์ <strong>01-Powerpoint-Slides</strong><br>
-                • <strong>Keynote</strong> → เปิดโฟลเดอร์ <strong>02-Keynote-Slides-MAC-Users-Only</strong>
+              <div class="step-title">เลือกโฟลเดอร์ตามแอปที่ใช้</div>
+              <div class="step-desc">จะเห็น 4 โฟลเดอร์ — เลือกตามนี้<br>
+                • ใช้ <strong>PowerPoint</strong> → <strong>01-Powerpoint-Slides</strong><br>
+                • ใช้ <strong>Keynote</strong> → <strong>02-Keynote-Slides-MAC-Users-Only</strong>
               </div>
             </div>
           </div>
           <div class="step-item">
-            <div class="step-left"><div class="step-num">3</div></div>
+            <div class="step-left"><div class="step-num">2</div></div>
             <div class="step-body">
-              <div class="step-title">คลิกขวาที่โฟลเดอร์ที่เลือก → เลือก ดาวน์โหลด</div>
-              <div class="step-desc">คลิกขวาที่ชื่อโฟลเดอร์ → เมนูจะเด้งขึ้นมา → เลือก <strong>ดาวน์โหลด <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="M8.5 11.5l3.5 3.5 3.5-3.5"/><path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2"/></svg></strong> แล้วรอสักครู่ ไฟล์ .zip จะบันทึกไว้ที่ <strong>Downloads</strong> ของ Mac</div>
-              <div class="step-tip"><strong>ขึ้นว่า "ไฟล์ใหญ่เกินไป"?</strong> กด <strong>"ดาวน์โหลดต่อไป"</strong> ได้เลย ไฟล์ปลอดภัย 100%</div>
-              <img src="img/steps/mac-step2.jpg" alt="Download in progress" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">คลิกขวาที่โฟลเดอร์ → เลือก "ดาวน์โหลด"</div>
+              <div class="step-desc">เมนูจะเด้งขึ้นมา มองหาคำว่า <strong>"ดาวน์โหลด"</strong> แล้วกด รอจนแถบโหลดเสร็จ</div>
+              <div class="step-tip"><strong>ขึ้นว่า "ไฟล์ใหญ่เกินไป"?</strong> กด <strong>"ดาวน์โหลดต่อไป"</strong> ได้เลย</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Extract on Mac -->
+      <!-- Mac Card 3 -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
           </div>
           <div>
-            <div class="card-title">แตกไฟล์ ZIP บน Mac</div>
-            <div class="card-sub">ขั้นตอนที่ 2 — ง่ายมาก ดับเบิ้ลคลิกได้เลย</div>
+            <div class="card-title">เปิดไฟล์สไลด์</div>
+            <div class="card-sub">ขั้นตอนที่ 3 จาก 3</div>
           </div>
         </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/mac-step3.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
         <div class="step-list">
           <div class="step-item">
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">เปิด Finder → คลิก Downloads</div>
-              <div class="step-desc">คลิกไอคอน <svg class="inline-icon" viewBox="0 0 40 40" style="border-radius:6px"><rect width="40" height="40" fill="#1A8CFF"/><rect y="20" width="40" height="20" fill="#7BC8F6"/><ellipse cx="14" cy="17" rx="4" ry="4.5" fill="white"/><ellipse cx="26" cy="17" rx="4" ry="4.5" fill="white"/><ellipse cx="14" cy="17" rx="2" ry="2.5" fill="#1A8CFF"/><ellipse cx="26" cy="17" rx="2" ry="2.5" fill="#1A8CFF"/><path d="M10 30 Q20 35 30 30" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg> <strong>Finder</strong> (หน้ายิ้มสองสี) ที่แถบ Dock ด้านล่างจอ → คลิก <strong>Downloads</strong> ในแถบซ้ายมือ</div>
-              <img src="img/steps/mac-step3.jpg" alt="Finder Downloads folder" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">เปิดไฟล์จาก Chrome</div>
+              <div class="step-desc">กดไอคอน ดาวน์โหลด ที่มุมบนขวาของ Chrome → กดไอคอนโฟลเดอร์ข้างชื่อไฟล์ → Finder จะเปิดขึ้น</div>
             </div>
           </div>
           <div class="step-item">
             <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
             <div class="step-body">
               <div class="step-title">ดับเบิ้ลคลิกไฟล์ .zip</div>
-              <div class="step-desc">Mac จะแตกไฟล์ให้อัตโนมัติ โฟลเดอร์ใหม่จะปรากฏขึ้นในที่เดียวกัน ไม่ต้องติดตั้งโปรแกรมเพิ่มเลย</div>
+              <div class="step-desc">Mac จะแตกไฟล์ให้อัตโนมัติ ไม่ต้องติดตั้งโปรแกรมเพิ่ม โฟลเดอร์ใหม่จะปรากฏขึ้นทันที</div>
             </div>
           </div>
           <div class="step-item">
             <div class="step-left"><div class="step-num">3</div></div>
             <div class="step-body">
-              <div class="step-title">เปิดโฟลเดอร์ → ดับเบิ้ลคลิกไฟล์</div>
-              <div class="step-desc">ดับเบิ้ลคลิกไฟล์ .pptx จะเปิดใน <strong>PowerPoint for Mac</strong> หรือ .key ใน <strong>Keynote</strong> ทันที</div>
-              <div class="step-tip">ต้องการเปลี่ยนแอปที่เปิด: คลิกขวาที่ไฟล์ → <strong>เปิดด้วย</strong> → เลือกแอปที่ต้องการ</div>
-              <img src="img/steps/mac-step4.jpg" alt="Extracted folder in Finder" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">เปิดโฟลเดอร์ → ดับเบิ้ลคลิกไฟล์สไลด์</div>
+              <div class="step-desc">เลือกโฟลเดอร์ที่ต้องการ → ดับเบิ้ลคลิกไฟล์ .pptx หรือ .key ได้เลย</div>
             </div>
           </div>
         </div>
@@ -716,7 +752,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
       <div class="alert warning">
         <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <div class="alert-text"><strong>บน Keynote:</strong> บางฟอนต์หรือเอฟเฟกต์อาจแสดงผลต่างกัน แนะนำใช้ <strong>PowerPoint for Mac</strong> เพื่อผลลัพธ์ที่ดีที่สุด</div>
+        <div class="alert-text"><strong>ใช้ Keynote?</strong> บางฟอนต์อาจแสดงผลต่างกันเล็กน้อย แนะนำ <strong>PowerPoint for Mac</strong> เพื่อผลลัพธ์ที่ดีที่สุด</div>
       </div>
 
     </div>
@@ -724,76 +760,124 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     <!-- ══ GOOGLE SLIDES ══ -->
     <div id="os-gslides" class="os-content">
 
-      <div class="alert info">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <div class="alert-text">สำหรับผู้ที่ไม่มี PowerPoint ใช้ <strong>Google Slides</strong> แก้ไขสไลด์ได้เลยบนเว็บ ไม่ต้องติดตั้งอะไรเพิ่ม</div>
+      <div class="app-for">
+        <img src="img/icon-google-slide.png" alt="Google Slides">
+        <div>
+          <div class="app-for-main">เปิดด้วย Google Slides</div>
+          <div class="app-for-alt">ใช้งานบนเว็บ ไม่ต้องติดตั้งโปรแกรม</div>
+        </div>
       </div>
 
-      <!-- Step 1: Open Google Drive -->
+      <!-- GSlides Card 1 -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
           </div>
           <div>
-            <div class="card-title">เข้าถึงไฟล์ Google Slides</div>
-            <div class="card-sub">ขั้นตอนที่ 1 — เลือกไฟล์สไลด์</div>
+            <div class="card-title">กรอก Code และเปิด Google Drive</div>
+            <div class="card-sub">ขั้นตอนที่ 1 จาก 3</div>
           </div>
         </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/mac-step1.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
         <div class="step-list">
           <div class="step-item">
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">กดปุ่ม "โหลดไฟล์ทั้งหมด" ด้านบน</div>
-              <div class="step-desc">Google Drive จะเปิดขึ้นในแท็บใหม่ จะเห็นโฟลเดอร์สไลด์ทั้งหมด</div>
-              <img src="img/steps/step-00.png" alt="ปุ่มโหลดไฟล์ทั้งหมด" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">พิมพ์ Code จากอีเมล</div>
+              <div class="step-desc">กรอก Code รูปแบบ <strong>TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
             </div>
           </div>
           <div class="step-item">
-            <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+            <div class="step-left"><div class="step-num">2</div></div>
             <div class="step-body">
-              <div class="step-title">เปิดเว็บ slides.google.com</div>
-              <div class="step-desc">เปิดเบราว์เซอร์ แล้วพิมพ์ <strong>slides.google.com</strong> จะเห็นหน้าหลักของ Google Slides</div>
-              <img src="img/steps/gs-step2.jpg" alt="Google Slides homepage" class="step-img" onerror="this.style.display='none';">
-            </div>
-          </div>
-          <div class="step-item">
-            <div class="step-left"><div class="step-num">3</div></div>
-            <div class="step-body">
-              <div class="step-title">กด "เปิดไฟล์" → แท็บ "อัปโหลด" → BROWSE</div>
-              <div class="step-desc">คลิกไอคอนโฟลเดอร์ที่มุมบนขวา → เลือกแท็บ <strong>อัปโหลด</strong> → กดปุ่ม <strong>BROWSE</strong> → เลือกไฟล์ .pptx ที่ดาวน์โหลดมา</div>
-              <img src="img/steps/gs-step3.jpg" alt="Upload file to Google Slides" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">กดปุ่ม "โหลดไฟล์ทั้งหมด"</div>
+              <div class="step-desc">Google Drive จะเปิดขึ้นในแท็บใหม่ พร้อมโฟลเดอร์ไฟล์สไลด์ทั้งหมด</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Step 2: Edit in Google Slides -->
+      <!-- GSlides Card 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">เลือกโฟลเดอร์ 03-Google-Slides</div>
+            <div class="card-sub">ขั้นตอนที่ 2 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/ggslide-01.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div></div>
+            <div class="step-body">
+              <div class="step-title">คลิกเข้าโฟลเดอร์ "03-Google-Slides" เท่านั้น</div>
+              <div class="step-desc">จะเห็น 4 โฟลเดอร์ — ให้เลือก <strong>03-Google-Slides เท่านั้น</strong> ไฟล์ในโฟลเดอร์นี้ออกแบบมาเพื่อ Google Slides โดยเฉพาะ</div>
+              <div class="step-tip"><strong>ห้ามใช้โฟลเดอร์อื่น</strong> — ถ้านำไฟล์จาก 01 หรือ 02 มาเปิดใน Google Slides สไลด์จะผิดปกติ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GSlides Card 3 -->
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </div>
           <div>
-            <div class="card-title">แก้ไขข้อความและรูปภาพ</div>
-            <div class="card-sub">ขั้นตอนที่ 2 — ปรับแต่งสไลด์ของคุณ</div>
+            <div class="card-title">เปิดและแก้ไขสไลด์</div>
+            <div class="card-sub">ขั้นตอนที่ 3 จาก 3</div>
           </div>
         </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/ggslide-03.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
         <div class="step-list">
           <div class="step-item">
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
-              <div class="step-title">คลิกที่กล่องข้อความเพื่อแก้ไข</div>
-              <div class="step-desc">ดับเบิ้ลคลิกที่ข้อความใดก็ได้ในสไลด์ แล้วพิมพ์ข้อความของคุณแทนได้เลย</div>
-              <img src="img/steps/gs-step4.jpg" alt="Edit text in Google Slides" class="step-img" onerror="this.style.display='none';">
+              <div class="step-title">ดับเบิ้ลคลิกไฟล์สไลด์ที่ต้องการ</div>
+              <div class="step-desc">ไฟล์จะเปิดใน Google Slides ได้เลย ไม่ต้องดาวน์โหลดหรืออัปโหลดอะไรเพิ่ม</div>
+              <a href="https://slides.google.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:#F6F7F9;border-radius:100px;padding:8px 14px;font-size:12.5px;font-weight:700;color:#1a73e8;text-decoration:none">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                เปิด Google Slides
+              </a>
             </div>
           </div>
           <div class="step-item">
             <div class="step-left"><div class="step-num">2</div></div>
             <div class="step-body">
-              <div class="step-title">บันทึกอัตโนมัติ ไม่ต้องกดบันทึก!</div>
-              <div class="step-desc">Google Slides บันทึกงานให้อัตโนมัติทุกครั้งที่แก้ไข ไฟล์จะอยู่ใน Google Drive ของคุณ</div>
-              <div class="step-tip">ต้องการดาวน์โหลด: เมนู <strong>ไฟล์</strong> → <strong>ดาวน์โหลด</strong> → เลือกรูปแบบที่ต้องการ</div>
+              <div class="step-title">แก้ไขและบันทึกอัตโนมัติ</div>
+              <div class="step-desc">ดับเบิ้ลคลิกที่ข้อความหรือรูปภาพเพื่อแก้ไขได้เลย Google Slides บันทึกให้อัตโนมัติทุกครั้ง</div>
             </div>
           </div>
         </div>
@@ -801,7 +885,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
       <div class="alert success">
         <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        <div class="alert-text"><strong>ข้อดี:</strong> ใช้ได้ทุกที่ทุกอุปกรณ์ที่มีอินเทอร์เน็ต ไม่ต้องติดตั้งโปรแกรมเพิ่มเลย</div>
+        <div class="alert-text"><strong>ข้อดี:</strong> ใช้ได้ทุกที่ทุกอุปกรณ์ที่มีอินเทอร์เน็ต ไม่ต้องติดตั้งโปรแกรมเลย</div>
       </div>
 
     </div>
