@@ -3449,6 +3449,16 @@ function closeDrawer() {
 
   startAuto();
 })();
+
+/* ── Ref tracking — propagate ?ref= param to all order links ── */
+(function(){
+  var ref = new URLSearchParams(location.search).get('ref');
+  if(!ref) return;
+  sessionStorage.setItem('ct_ref', ref);
+  document.querySelectorAll('a[href="order"], a[href="order.html"]').forEach(function(a){
+    a.href = 'order?ref=' + encodeURIComponent(ref);
+  });
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>วิธีดาวน์โหลดสไลด์ — Coach Tarn</title>
+<link rel="icon" type="image/x-icon" href="img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+:root{
+  --grad-start:#EB7D4A;--grad-end:#D34724;
+  --btn-shadow:0 12px 14px 0 #DB4B1B,inset 0 1px 13px 0 rgba(255,255,255,0.50);
+  --red:#D34724;--orange:#EB7D4A;
+  --text:#0A0A0A;--text-mid:#444;--text-sub:#888;
+  --border:#EBEBEB;--bg-soft:#FFF8F5;--white:#fff;
+  --max:430px;--ease:cubic-bezier(0.16,1,0.3,1);
+}
+body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text);-webkit-font-smoothing:antialiased}
+.page{max-width:var(--max);margin:0 auto;background:#F5F5F7;min-height:100vh}
+
+/* ── Nav ── */
+.order-header{
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:12px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  position:sticky;top:0;z-index:100;
+}
+.nav-logo{display:flex;align-items:center;height:38px;text-decoration:none;flex-shrink:0}
+.nav-logo svg{height:38px;width:auto;display:block}
+.order-header-center{position:absolute;left:50%;transform:translateX(-50%);text-align:center;pointer-events:none}
+.header-title{font-size:15px;font-weight:800;color:var(--text);letter-spacing:-0.3px}
+/* Hamburger */
+.hamburger{
+  width:36px;height:36px;border:none;background:rgba(0,0,0,0.04);
+  border-radius:10px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  padding:0;flex-shrink:0;
+}
+.hamburger span{display:block;width:18px;height:2px;background:var(--text);border-radius:2px}
+/* Drawer */
+.drawer-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.45);
+  z-index:300;opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.drawer-overlay.open{opacity:1;pointer-events:all}
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;
+  width:280px;max-width:85vw;background:#fff;z-index:301;
+  transform:translateX(100%);
+  transition:transform .35s cubic-bezier(0.16,1,0.3,1);
+  display:flex;flex-direction:column;overflow-y:auto;
+}
+.drawer.open{transform:translateX(0)}
+.drawer-header{
+  padding:20px 20px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.drawer-brand{font-size:16px;font-weight:800;color:var(--text)}
+.drawer-brand span{color:var(--red)}
+.drawer-close{
+  width:34px;height:34px;border:none;background:rgba(0,0,0,0.05);
+  border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.drawer-close svg{width:16px;height:16px}
+.drawer-nav{padding:8px;flex:1}
+.drawer-item{
+  display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:12px;
+  font-size:15px;font-weight:600;color:var(--text);text-decoration:none;transition:background .15s;
+}
+.drawer-item:active{background:var(--bg-soft)}
+.drawer-item svg{width:18px;height:18px;flex-shrink:0;color:var(--red)}
+.drawer-footer{padding:16px 20px 32px;border-top:1px solid var(--border)}
+.drawer-cta-btn{
+  display:block;width:100%;
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  color:#fff;border:none;border-radius:100px;padding:14px;
+  text-align:center;font-size:15px;font-weight:800;font-family:inherit;
+  cursor:pointer;text-decoration:none;
+}
+
+/* ── Hero strip ── */
+.dl-hero{
+  background:#fff;border-bottom:1px solid var(--border);
+  padding:28px 20px 32px;text-align:center;
+}
+.dl-hero-icon{
+  width:64px;height:64px;
+  background:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
+  border-radius:18px;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
+  box-shadow:0 8px 20px rgba(211,71,36,0.28);
+}
+.dl-hero-icon svg{width:34px;height:34px}
+.dl-hero-h{font-size:22px;font-weight:900;color:var(--text);margin-bottom:6px;letter-spacing:-0.5px}
+.dl-hero-sub{font-size:14px;color:var(--text-mid);line-height:1.5;margin-bottom:22px}
+
+/* ── Direct Download CTA ── */
+.dl-cta-wrap{padding:0 0 4px}
+.dl-cta{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  width:100%;background-image:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
+  box-shadow:var(--btn-shadow);
+  color:#fff;border:none;border-radius:100px;padding:17px 20px;
+  font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;
+  text-decoration:none;
+  transition:transform .15s;
+}
+.dl-cta:active{transform:scale(0.99)}
+.dl-cta svg{width:18px;height:18px}
+.dl-cta-note{font-size:12px;color:var(--text-sub);text-align:center;margin-top:10px}
+
+/* OS Tabs */
+.os-tabs-wrap{
+  background:#fff;border-bottom:1px solid var(--border);
+  position:sticky;top:62px;z-index:50;
+  box-shadow:0 1px 0 var(--border);
+}
+.os-tabs{display:flex}
+.os-tab{
+  flex:1;padding:14px 10px;border:none;background:none;
+  font-family:inherit;font-size:14px;font-weight:600;color:var(--text-sub);
+  cursor:pointer;border-bottom:3px solid transparent;
+  transition:color .2s,border-color .2s;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.os-tab.active{color:var(--red);border-bottom-color:var(--red)}
+.os-tab svg{width:18px;height:18px}
+
+/* Content */
+.page-inner{padding:16px 16px 48px}
+.os-content{display:none}
+.os-content.active{display:block}
+
+/* Cards */
+.card{background:#fff;border-radius:20px;border:1px solid var(--border);overflow:hidden;margin-bottom:16px}
+.card-header{
+  padding:18px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;
+}
+.card-icon{
+  width:40px;height:40px;border-radius:12px;background:var(--bg-soft);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.card-icon svg{width:22px;height:22px}
+.card-title{font-size:15px;font-weight:800;color:var(--text)}
+.card-sub{font-size:12px;color:var(--text-sub);margin-top:2px}
+
+/* Step list */
+.step-list{padding:18px 20px}
+.step-item{display:flex;gap:14px;padding-bottom:20px;position:relative}
+.step-item:last-child{padding-bottom:0}
+.step-left{display:flex;flex-direction:column;align-items:center}
+.step-num{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
+  color:#fff;font-size:14px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;
+}
+.step-line{width:2px;flex:1;background:linear-gradient(var(--orange),transparent);margin-top:3px;min-height:12px}
+.step-item:last-child .step-line{display:none}
+.step-body{padding-top:5px}
+.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:5px}
+.step-desc{font-size:14px;color:var(--text-mid);line-height:1.6}
+.step-tip{
+  background:var(--bg-soft);border-radius:10px;border-left:3px solid var(--orange);
+  padding:10px 12px;margin-top:10px;
+  font-size:13px;color:var(--text-mid);line-height:1.5;
+}
+.step-tip strong{color:var(--red)}
+
+/* Alert box */
+.alert{
+  display:flex;align-items:flex-start;gap:12px;
+  border-radius:14px;padding:14px 16px;margin-bottom:12px;
+}
+.alert.warning{background:#FFFBEB;border:1px solid #FDE68A}
+.alert.info{background:#EFF6FF;border:1px solid #BFDBFE}
+.alert.success{background:#F0FDF4;border:1px solid #BBF7D0}
+.alert svg{width:20px;height:20px;flex-shrink:0;margin-top:1px}
+.alert-text{font-size:14px;line-height:1.6;font-weight:500}
+.alert.warning .alert-text{color:#92400E}
+.alert.info .alert-text{color:#1E40AF}
+.alert.success .alert-text{color:#166534}
+
+/* App recommendation banner */
+.app-for{display:flex;align-items:center;gap:9px;background:#F6F7F9;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.app-for img{width:24px;height:24px;border-radius:6px;flex-shrink:0}
+.app-for-main{font-size:13px;font-weight:700;color:var(--text)}
+.app-for-alt{font-size:11.5px;color:var(--text-sub);margin-top:1px}
+
+/* Step images */
+.step-img{width:100%;border-radius:20px;margin-top:12px;display:block;border:1px solid var(--border)}
+.step-img[src=""]{display:none}
+.inline-icon{width:18px;height:18px;vertical-align:-4px;display:inline-block;margin:0 2px}
+
+/* ── Tutorial Video Player ── */
+.tut-outer{padding:14px 20px 4px}
+.tut-wrap{position:relative;width:100%;background:#f0f0f0;border-radius:14px;overflow:hidden}
+.tut-wrap video{width:100%;display:block}
+.tut-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:2;transition:opacity .15s}
+.tut-overlay.gone{opacity:0;pointer-events:none}
+.tut-play-btn{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 24px rgba(0,0,0,0.22),0 1px 4px rgba(0,0,0,0.12);transition:transform .15s,box-shadow .15s}
+.tut-overlay:hover .tut-play-btn{transform:scale(1.08);box-shadow:0 6px 28px rgba(0,0,0,0.28)}
+/* Info rows */
+.info-row{display:flex;align-items:flex-start;gap:13px;padding:15px 20px;background:#fff;border-radius:16px;border:1px solid var(--border);margin-bottom:10px}
+.info-row-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.info-row-title{font-size:13.5px;font-weight:700;color:var(--text);margin-bottom:2px}
+.info-row-desc{font-size:13px;color:var(--text-mid);line-height:1.55}
+
+/* End screen */
+.tut-end{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:3;opacity:0;pointer-events:none;transition:opacity .25s}
+.tut-end.show{opacity:1;pointer-events:all}
+.tut-replay-btn{display:flex;align-items:center;gap:7px;background:#fff;color:var(--red);border:none;border-radius:100px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 2px 16px rgba(0,0,0,0.2);white-space:nowrap;transition:transform .12s,box-shadow .12s}
+.tut-replay-btn:hover{transform:scale(1.04);box-shadow:0 4px 20px rgba(0,0,0,0.24)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── Footer ── */
+.footer{background:#3A3A3A;padding:24px 24px 28px;text-align:center}
+.footer-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 20px;margin-bottom:16px}
+.footer-nav a{font-size:12.5px;color:rgba(255,255,255,0.65);text-decoration:none;font-weight:600;transition:color .15s}
+.footer-nav a:active{color:#fff}
+.footer-divider{width:32px;height:1px;background:rgba(255,255,255,0.15);margin:0 auto 14px}
+.footer-copy{font-size:11.5px;color:rgba(255,255,255,0.45);line-height:1.8}
+.footer-copy strong{color:rgba(255,255,255,0.7)}
+.footer-copy a{color:rgba(255,255,255,0.65)}
+
+/* ══ NAV LINKS ══ */
+.nav-links{display:none;align-items:center;gap:4px}
+.nav-link{font-size:13px;font-weight:600;color:var(--text-mid);text-decoration:none;padding:7px 12px;border-radius:8px;transition:color .15s,background .15s;white-space:nowrap;}
+.nav-link:hover{color:var(--red);background:rgba(211,71,36,0.06)}
+
+@media(min-width:768px){
+  body{background:#F0F0F5}
+  .page{max-width:680px;box-shadow:0 0 80px rgba(0,0,0,0.10)}
+  .order-header{max-width:680px;left:50%;transform:translateX(-50%);width:100%;position:fixed;padding:12px 32px}
+  .order-header-center{display:none}
+  .nav-links{display:flex}
+  .hamburger{display:none}
+  .page-inner{padding-top:70px;padding-left:0;padding-right:0}
+  .card{margin:0 0 14px}
+}
+
+@media(min-width:1024px){
+  .page{max-width:760px}
+  .order-header{max-width:760px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Nav -->
+  <div class="order-header">
+    <a href="/" class="nav-logo"><svg id="ct-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214.66" height="38" aria-label="Coach Tarn"><style>#ct-logo .st0{fill:#DB490E}#ct-logo .st1{fill:#DB480E}#ct-logo .st2{fill:#DA490D}#ct-logo .st3{fill:#3F3633}#ct-logo .st4{fill:#D9470D}#ct-logo .st5{fill:#DA480C}#ct-logo .st6{fill:#3D3531}#ct-logo .st7{fill:#3C3330}#ct-logo .st8{fill:#D9470C}#ct-logo .st9{fill:#3E3532}</style><g><path class="st0" d="M103.79,71.86c0-9.77-0.04-19.53,0.01-29.3c0.03-5.2,2.12-7.31,7.3-7.32c17.8-0.05,35.6-0.06,53.4-0.04c4.83,0.01,7.32,2.59,7.32,7.49c0.01,19.42,0,38.85-0.04,58.27c-0.01,5.22-2.56,7.86-7.73,7.89c-17.36,0.09-34.73,0.15-52.09,0.16c-5.58,0-8.1-2.61-8.11-8.18c-0.02-9.66,0-19.31,0-28.97C103.83,71.86,103.81,71.86,103.79,71.86z"/><path class="st1" d="M103.76,152.7c0-9.77-0.02-19.54,0.01-29.3c0.02-5.44,2.27-7.86,7.68-7.79c12.8,0.18,25.63-0.84,38.39,0.5c11.64,1.22,21.69,12.15,21.91,23.86c0.28,14.43,0.11,28.87,0.07,43.3c-0.01,3.54-2.71,5.84-6.74,5.85c-14,0.03-28.01,0.02-42.01,0.02c-4.23,0-8.47,0.03-12.7-0.03c-4.08-0.06-6.47-2.4-6.48-6.46c-0.04-9.98-0.01-19.97-0.01-29.95C103.83,152.7,103.79,152.7,103.76,152.7z"/><path class="st2" d="M96.85,152.55c0,9.66,0,19.32,0,28.98c0,5.48-2.14,7.62-7.69,7.62c-10.75,0-21.49,0.05-32.24-0.05c-15.9-0.16-27.19-11.47-27.3-27.32c-0.09-12.7-0.06-25.4-0.06-38.09c0-5.53,2.62-8.18,8.17-8.19c16.72-0.01,33.43,0,50.15,0.07c6.87,0.03,8.95,2.18,8.96,8.99C96.85,133.88,96.85,143.21,96.85,152.55z"/><path class="st0" d="M63.24,108.99c-8.36,0-16.73,0.02-25.09,0c-6.19-0.02-8.64-2.51-8.63-8.68c0.01-9.02,0-18.03,0.04-27.05c0.02-4.93,2.69-7.7,7.62-7.71c16.95-0.05,33.89-0.07,50.84,0c6.15,0.03,8.65,2.66,8.69,8.81c0.06,8.91,0.09,17.81,0.07,26.72c-0.01,5.24-2.54,7.84-7.8,7.88C80.41,109.04,71.82,108.99,63.24,108.99z"/><path class="st3" d="M436.86,60.72c5.58-6.35,12-7.23,18.84-6.41c8.46,1.02,13.94,7.01,14.62,16.12c0.85,11.38,0.37,22.8,0.47,34.2c0.02,2.85-1.61,4.27-4.55,4.36c-9.93,0.31-9.91,0.34-9.96-9.56c-0.04-8.25,0.11-16.52-0.32-24.75c-0.4-7.7-8.28-11.22-14.5-6.7c-3.38,2.46-4.27,6.19-4.33,10.1c-0.12,8.36-0.07,16.73-0.11,25.09c-0.02,4.64-1.12,5.72-5.78,5.75c-8.64,0.06-8.62,0.06-8.62-8.56c-0.01-19.77-0.07-39.54-0.07-59.31c0-5.37,0.61-5.92,6.06-5.94c8.16-0.03,8.26,0.06,8.26,8.13C436.86,48.74,436.86,54.24,436.86,60.72z"/><path class="st4" d="M358.86,138.46c4.9-6.38,11.48-7.86,18.69-7.09c8.71,0.92,13.95,5.71,15.01,14.39c1.47,12.09,0.54,24.27,0.53,36.41c0,0.53-0.07,1.17-0.37,1.56c-3,3.93-7.17,1.78-10.85,1.91c-2.6,0.1-3.33-2.04-3.34-4.31c-0.05-8.25-0.06-16.49-0.09-24.74c-0.01-1.52,0.05-3.05-0.09-4.55c-0.49-4.91-2.52-7.25-6.68-7.87c-4.85-0.72-9.03,1.3-10.85,5.27c-0.87,1.89-1.34,3.86-1.34,5.97c0,8.35-0.06,16.71-0.12,25.06c-0.03,4.34-1.01,5.28-5.39,5.4c-9.28,0.25-9.3,0.25-9.29-9.14c0.01-12.59-0.01-25.17,0.1-37.76c0.02-2.25-0.79-5.2,2.05-6.31c3.3-1.29,6.86-1.16,10.14,0.22C359.11,133.81,357.87,136.24,358.86,138.46z"/><path class="st5" d="M63.26,58.89c-8.68,0-17.36,0.01-26.03-0.01c-5.46-0.01-7.57-2.16-7.62-7.71c-0.03-3.25-0.06-6.51,0.01-9.76c0.09-4.01,2.28-6.27,6.29-6.28c18.11-0.03,36.23,0,54.34,0.07c3.76,0.01,6.33,2.54,6.47,6.3c0.14,3.57,0.13,7.16,0.03,10.73c-0.12,4.16-2.6,6.63-6.8,6.66c-8.89,0.07-17.79,0.02-26.68,0.02C63.26,58.91,63.26,58.9,63.26,58.89z"/><path class="st6" d="M368.61,83.38c0.03-5.51,0.43-10.13,1.88-14.63c2.49-7.71,7.66-12.47,15.61-14c6.5-1.25,12.99-1.13,19.18,1.52c6.05,2.6,9.69,7.16,10.47,13.79c0.42,3.59-0.66,4.85-4.2,5.01c-1.41,0.06-2.83-0.1-4.23,0.04c-2.85,0.29-4.35-0.89-5.17-3.67c-1.15-3.92-3.91-5.8-7.93-5.99c-4.23-0.2-8,1.66-9.35,5.17c-2.83,7.35-2.76,14.91-0.4,22.33c1.3,4.09,5.04,5.92,9.94,5.75c4.56-0.16,7.16-1.84,8.43-6.24c0.84-2.91,2.54-3.8,5.24-3.66c0.32,0.02,0.65,0.02,0.98-0.01c7.85-0.55,8.38,2.13,5.87,8.75c-2.83,7.48-8.83,10.92-16.41,12.09c-4.01,0.62-8,0.55-12-0.07c-9.23-1.44-15.57-8.16-17.25-18.28C368.8,88.4,368.52,85.49,368.61,83.38z"/><path class="st7" d="M207.4,82.48c0.04-5.36,0.57-10.61,2.81-15.57c3.02-6.7,7.97-11.02,15.32-12.22c7.42-1.2,14.72-1.18,21.42,2.95c4.51,2.79,7.13,6.88,8.03,12.07c0.59,3.38-0.86,5.17-4.32,5.37c-1.52,0.09-3.05-0.06-4.56,0.06c-2.5,0.2-3.85-0.94-4.43-3.3c-1.04-4.24-4.14-5.94-8.15-6.19c-4.19-0.26-8,0.91-9.69,5.07c-2.97,7.3-2.98,14.88-0.45,22.27c1.47,4.29,5.23,5.77,9.67,5.67c4.22-0.1,7.25-1.82,8.89-5.83c1.49-3.66,8.62-5.6,12.02-3.37c1.58,1.03,1.53,2.55,1.28,4.06c-1.04,6.33-4.37,11.13-10.24,13.73c-7.64,3.39-15.72,3.7-23.52,1.02c-9.2-3.16-12.73-10.85-13.81-19.92C207.45,86.4,207.48,84.43,207.4,82.48z"/><path class="st5" d="M216.47,159.73c0-4.34-0.05-8.69,0.02-13.03c0.04-2-0.48-3.1-2.76-2.76c-1.06,0.16-2.17,0.01-3.25-0.05c-1.91-0.1-3.02-1.02-3.04-3.04c-0.01-0.98-0.07-1.95-0.06-2.93c0.05-5.12,0.49-5.72,5.59-5.54c2.89,0.1,3.84-0.74,3.52-3.64c-0.3-2.79-0.14-5.64-0.14-8.46c0-2.67,0.99-4.37,4.04-4.23c2.17,0.1,4.35,0.07,6.51-0.05c2.85-0.15,3.94,1.42,3.98,3.95c0.06,3.15,0.09,6.3-0.08,9.44c-0.12,2.23,0.5,3.19,2.9,2.98c2.26-0.2,4.56-0.07,6.83,0.02c2.31,0.1,3.44,1.34,3.67,3.7c0.7,7.06-0.05,7.93-7.15,7.8c-6.01-0.11-6.01-0.11-6.01,5.89c0,5.97-0.09,11.95,0.02,17.92c0.1,5.37,1.6,6.72,6.89,6.62c5.86-0.11,8.58,4.5,5.79,9.74c-0.72,1.35-1.91,1.72-3.23,1.81c-4.55,0.29-9.13,0.55-13.66-0.05c-6.04-0.81-9.79-5.34-10.18-12.4c-0.25-4.55-0.05-9.12-0.05-13.68C216.59,159.73,216.53,159.73,216.47,159.73z"/><path class="st5" d="M318.22,139.69c3.87-6.54,9.38-8.47,16.05-7.98c2.81,0.2,4.34,1.24,4.38,4.37c0.11,9.13,0.2,9.13-8.91,9.46c-7.37,0.27-10.97,3.78-11.23,11.48c-0.26,7.7-0.19,15.42-0.23,23.13c-0.03,4.86-0.78,5.63-5.67,5.71c-8.8,0.14-8.9,0.04-8.91-8.75c-0.01-12.49-0.09-24.98,0.04-37.46c0.02-2.32-0.97-5.42,1.86-6.76c3.22-1.53,6.83-1.42,10.16-0.2C318.68,133.76,317.41,136.79,318.22,139.69z"/><path class="st8" d="M294.33,145.96c-0.08-6.04-3.87-11.09-9.62-12.96c-8.3-2.7-16.7-2.51-24.93,0.21c-4.01,1.33-7.2,3.94-8.52,8.28c-1.92,6.28-0.2,8.63,6.33,8.26c2.15-0.12,4.58,0.35,5.93-2.33c2.66-5.28,9.22-7.09,14.18-4.02c2.61,1.62,3.39,4.18,3.03,7.02c-0.35,2.79-2.86,2.57-4.81,2.87c-4.7,0.74-9.47,0.75-14.19,1.72c-11.95,2.46-15.82,11.65-11.93,23.64c1.17,3.6,3.9,6.04,7.57,6.99c8.24,2.13,16.12,1.7,23.38-4.51c0.22,4.41,2.8,4.97,5.95,4.77c1.3-0.08,2.61,0.04,3.9-0.05c2.53-0.18,3.91-1.35,3.89-4.12C294.39,169.83,294.48,157.89,294.33,145.96z M269.69,176.34c-4.57-0.06-6.79-1.64-7.35-5.22c-0.58-3.69,1.13-6.37,5.47-7.46c3.64-0.92,7.45-1.22,11.18-1.76c0.85-0.12,1.45,0.15,1.5,1.19C280.76,169.91,278.34,176.65,269.69,176.34z"/><path class="st6" d="M361.56,70.68c-0.33-8.6-5.32-13.97-13.76-15.77c-5.93-1.26-11.89-1.15-17.76,0.21c-5.4,1.26-9.82,3.99-11.81,9.59c-2.2,6.17-0.51,8.64,5.9,8.59c0.98-0.01,1.95-0.11,2.93-0.1c1.64,0.02,2.49-0.83,3.13-2.3c2.44-5.58,10.84-7.69,15.64-3.94c2.16,1.68,2.88,4.07,2.52,6.68c-0.35,2.53-2.57,2.6-4.47,2.93c-1.39,0.24-2.79,0.38-4.19,0.53c-5.39,0.58-10.81,1.02-15.84,3.31c-6.22,2.83-8.78,8.09-8.09,16.52c0.51,6.16,4.22,10.71,10.47,12.13c7.99,1.81,15.55,1.02,21.88-5.04c0.23,0.49,0.38,0.77,0.49,1.06c1.53,3.9,9.2,5.55,12.28,2.65c0.85-0.8,1.22-1.73,1.2-2.89C361.92,93.46,362,82.06,361.56,70.68z M336.79,99.86c-4.17,0.01-6.77-1.95-7.24-5.47c-0.46-3.5,1.46-6.54,5.27-7.44c3.98-0.93,8.09-1.36,12.14-2.03c1.06-0.17,1.29,0.36,1.34,1.27C348.81,94.79,344.28,99.79,336.79,99.86z"/><path class="st9" d="M310.08,72.56c-2.13-10.42-8.58-16.71-19.03-18.11c-3.2-0.43-6.52-0.38-9.75-0.12c-10.28,0.82-17.26,6.89-19.75,16.89c-0.87,3.5-1.2,7.05-1.07,10.64c0,1.52-0.08,3.04,0.01,4.56c0.87,14.83,8.44,22.53,23.2,23.64c14.27,1.08,24.18-6.29,26.71-20.02C311.47,84.21,311.26,78.36,310.08,72.56z M295.32,92.69c-1.48,4.34-4.97,6.19-10.1,6c-4.9-0.18-7.84-2.27-9.32-6.68c-1.08-3.24-1.19-6.6-1.11-9.6c-0.02-3.75,0.08-7.11,1.24-10.34c1.52-4.21,4.66-6.36,9.51-6.51c4.79-0.15,8.32,1.83,9.78,6.04C297.74,78.58,297.7,85.71,295.32,92.69z"/></g></svg></a>
+    <div class="order-header-center">
+      <div class="header-title">วิธีดาวน์โหลดสไลด์</div>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="/" class="nav-link">หน้าหลัก</a>
+      <a href="order" class="nav-link">สั่งซื้อ</a>
+      <a href="/#faq" class="nav-link">FAQ</a>
+    </div>
+    <button class="hamburger" id="menuBtn" onclick="openDrawer()" aria-label="เมนู">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Drawer overlay -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+  <!-- Drawer panel -->
+  <div class="drawer" id="drawer">
+    <div class="drawer-header">
+      <div class="drawer-brand">Coach<span>Tarn</span></div>
+      <button class="drawer-close" onclick="closeDrawer()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <nav class="drawer-nav">
+      <a href="/#strip" class="drawer-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+        ดูตัวอย่างสไลด์
+      </a>
+      <a href="/#reviews" class="drawer-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        รีวิวจากลูกค้า
+      </a>
+      <a href="/#faq" class="drawer-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        คำถามที่พบบ่อย
+      </a>
+      <a href="order" class="drawer-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        สั่งซื้อสไลด์
+      </a>
+    </nav>
+    <div class="drawer-footer">
+      <a href="order" class="drawer-cta-btn">รับสไลด์ทันที — 499 บาท</a>
+    </div>
+  </div>
+
+  <!-- Hero strip + Download CTA -->
+  <div class="dl-hero">
+    <div class="dl-hero-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    </div>
+    <h1 class="dl-hero-h">ดาวน์โหลดสไลด์ของคุณ</h1>
+    <p class="dl-hero-sub">กดปุ่มด้านล่างเพื่อเปิด Google Drive แล้วทำตามขั้นตอนได้เลยค่ะ</p>
+    <div class="dl-cta-wrap">
+      <a href="https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing"
+         target="_blank" rel="noopener" class="dl-cta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        โหลดไฟล์ทั้งหมด (Google Drive)
+      </a>
+      <p class="dl-cta-note">6,500+ สไลด์ · 3 ฟอร์แมต · ใช้ได้ตลอด ไม่มีวันหมดอายุ</p>
+    </div>
+  </div>
+
+  <!-- OS Tabs -->
+  <div class="os-tabs-wrap">
+    <div class="os-tabs">
+      <button class="os-tab active" onclick="switchOS('windows', this)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.45L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+        Windows
+      </button>
+      <button class="os-tab" onclick="switchOS('mac', this)">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+        macOS
+      </button>
+      <button class="os-tab" onclick="switchOS('gslides', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+        Google Slides
+      </button>
+    </div>
+  </div>
+
+  <div class="page-inner">
+
+    <!-- ══ WINDOWS ══ -->
+    <div id="os-windows" class="os-content active">
+      <div class="app-for">
+        <img src="img/icon-powerpoint.png" alt="PowerPoint">
+        <div>
+          <div class="app-for-main">เปิดด้วย Microsoft PowerPoint</div>
+          <div class="app-for-alt">ทางเลือก: Google Slides</div>
+        </div>
+      </div>
+
+      <!-- Step 1 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">เปิด Google Drive และเลือกโฟลเดอร์</div>
+            <div class="card-sub">ขั้นตอนที่ 1 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/win-step1.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)">
+            <div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div>
+          </div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">กดปุ่ม "โหลดไฟล์" ด้านบน</div>
+              <div class="step-desc">Google Drive จะเปิดในแท็บใหม่ พร้อมโฟลเดอร์ไฟล์สไลด์ทั้งหมด</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">คลิกขวาที่โฟลเดอร์ "01-Powerpoint-Slides"</div>
+              <div class="step-desc">เมนูจะเด้งขึ้นมา ให้มองหาคำว่า <strong>"ดาวน์โหลด"</strong> แล้วกด</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div>
+            <div class="card-title">ดาวน์โหลดไฟล์</div>
+            <div class="card-sub">ขั้นตอนที่ 2 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/win-step2.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)">
+            <div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div>
+          </div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">คลิกที่โฟลเดอร์ "01-Powerpoint-Slides"</div>
+              <div class="step-desc">เมนูจะเด้งขึ้นมา ให้มองหาคำว่า <strong>"ดาวน์โหลด"</strong> แล้วกด</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">รอสักครู่ ไฟล์กำลังโหลด</div>
+              <div class="step-desc">แถบโหลดจะแสดงความคืบหน้า รอจนเสร็จ — ไฟล์ .zip จะบันทึกไว้ที่ <strong>Downloads</strong> โดยอัตโนมัติ</div>
+              <div class="step-tip"><strong>ขึ้นว่า "ไฟล์ใหญ่เกินไป"?</strong> กด <strong>"ดาวน์โหลดต่อไป"</strong> ได้เลย</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">แตกไฟล์และเปิดสไลด์</div>
+            <div class="card-sub">ขั้นตอนที่ 3 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/win-step3.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)">
+            <div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div>
+          </div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">เปิดไฟล์จากแถบดาวน์โหลด</div>
+              <div class="step-desc">กดที่ไอคอน <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> มุมบนขวาของ Chrome → เลือก <strong>"Show in folder"</strong> หรือ <strong>"เปิดโฟลเดอร์"</strong></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">เปิดไฟล์ .zip</div>
+              <div class="step-desc"><strong>ดับเบิ้ลคลิก</strong>ที่ไฟล์ .zip — Windows จะแสดงไฟล์ข้างในได้เลย ไม่ต้องติดตั้งโปรแกรมเพิ่ม</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">เปิดโฟลเดอร์ "01-Powerpoint-Slides"</div>
+              <div class="step-desc">ในโฟลเดอร์มี 4 รายการ — <strong>สำหรับ Windows ใช้แค่ 01-Powerpoint-Slides</strong><br><span style="font-size:12.5px;color:var(--text-sub)">02 Keynote · 03 Google Slides · 04 Font ลายมือ</span></div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">4</div></div>
+            <div class="step-body">
+              <div class="step-title">ดับเบิ้ลคลิกไฟล์สไลด์ที่ต้องการ</div>
+              <div class="step-desc">เลือกไฟล์ .pptx แล้วดับเบิ้ลคลิก — PowerPoint จะเปิดสไลด์ให้ทันที พร้อมใช้งานได้เลย</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-row-icon" style="background:#FEF3C7">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D97706" stroke-width="2.2"><path d="M12 2L2 19h20L12 2z"/><line x1="12" y1="10" x2="12" y2="14"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="info-row-body">
+          <div class="info-row-title">ใช้ Windows รุ่นเก่า?</div>
+          <div class="info-row-desc">ถ้าคลิกขวาแล้วไม่เห็น "Extract All" — โหลด <strong>7-Zip</strong> ฟรีได้ที่ <strong>7-zip.org</strong> แล้วลองใหม่</div>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-row-icon" style="background:#EFF6FF">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <div class="info-row-body">
+          <div class="info-row-title">ไม่มี PowerPoint?</div>
+          <div class="info-row-desc">ใช้ <strong>Google Slides</strong> ได้เลย ฟรี — ดูวิธีได้ที่แท็บ "Google Slides" ด้านบน</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ MAC ══ -->
+    <div id="os-mac" class="os-content">
+
+      <div class="app-for">
+        <img src="img/icon-powerpoint.png" alt="PowerPoint for Mac">
+        <div>
+          <div class="app-for-main">เปิดด้วย PowerPoint for Mac</div>
+          <div class="app-for-alt">ทางเลือก: Keynote · Google Slides</div>
+        </div>
+      </div>
+
+      <!-- Mac Card 1 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">เปิด Google Drive และเลือกโฟลเดอร์</div>
+            <div class="card-sub">ขั้นตอนที่ 1 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/mac-step1.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">กดปุ่ม "โหลดไฟล์" ด้านบน</div>
+              <div class="step-desc">Google Drive จะเปิดในแท็บใหม่ พร้อมโฟลเดอร์ไฟล์สไลด์ทั้งหมด</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">เลือกโฟลเดอร์ตามแอปที่ใช้</div>
+              <div class="step-desc">จะเห็น 4 โฟลเดอร์ — เลือกตามนี้<br>
+                • ใช้ <strong>PowerPoint</strong> → <strong>01-Powerpoint-Slides</strong><br>
+                • ใช้ <strong>Keynote</strong> → <strong>02-Keynote-Slides-MAC-Users-Only</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mac Card 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div>
+            <div class="card-title">ดาวน์โหลดโฟลเดอร์</div>
+            <div class="card-sub">ขั้นตอนที่ 2 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/mac-step2.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">คลิกขวาที่โฟลเดอร์ → เลือก "ดาวน์โหลด"</div>
+              <div class="step-desc">เมนูจะเด้งขึ้นมา มองหาคำว่า <strong>"ดาวน์โหลด"</strong> แล้วกด รอจนแถบโหลดเสร็จ</div>
+              <div class="step-tip"><strong>ขึ้นว่า "ไฟล์ใหญ่เกินไป"?</strong> กด <strong>"ดาวน์โหลดต่อไป"</strong> ได้เลย</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mac Card 3 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">เปิดไฟล์สไลด์</div>
+            <div class="card-sub">ขั้นตอนที่ 3 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/mac-step3.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">เปิดไฟล์จาก Chrome</div>
+              <div class="step-desc">กดไอคอน ดาวน์โหลด ที่มุมบนขวาของ Chrome → กดไอคอนโฟลเดอร์ข้างชื่อไฟล์ → Finder จะเปิดขึ้น</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">ดับเบิ้ลคลิกไฟล์ .zip</div>
+              <div class="step-desc">Mac จะแตกไฟล์ให้อัตโนมัติ ไม่ต้องติดตั้งโปรแกรมเพิ่ม โฟลเดอร์ใหม่จะปรากฏขึ้นทันที</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">3</div></div>
+            <div class="step-body">
+              <div class="step-title">เปิดโฟลเดอร์ → ดับเบิ้ลคลิกไฟล์สไลด์</div>
+              <div class="step-desc">เลือกโฟลเดอร์ที่ต้องการ → ดับเบิ้ลคลิกไฟล์ .pptx หรือ .key ได้เลย</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert warning">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <div class="alert-text"><strong>ใช้ Keynote?</strong> บางฟอนต์อาจแสดงผลต่างกันเล็กน้อย แนะนำ <strong>PowerPoint for Mac</strong> เพื่อผลลัพธ์ที่ดีที่สุด</div>
+      </div>
+
+    </div>
+
+    <!-- ══ GOOGLE SLIDES ══ -->
+    <div id="os-gslides" class="os-content">
+
+      <div class="app-for">
+        <img src="img/icon-google-slide.png" alt="Google Slides">
+        <div>
+          <div class="app-for-main">เปิดด้วย Google Slides</div>
+          <div class="app-for-alt">ใช้งานบนเว็บ ไม่ต้องติดตั้งโปรแกรม</div>
+        </div>
+      </div>
+
+      <!-- GSlides Card 1 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">เปิด Google Drive</div>
+            <div class="card-sub">ขั้นตอนที่ 1 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/mac-step1.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">กดปุ่ม "โหลดไฟล์" ด้านบน</div>
+              <div class="step-desc">Google Drive จะเปิดในแท็บใหม่ พร้อมโฟลเดอร์ไฟล์สไลด์ทั้งหมด</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">เลือกโฟลเดอร์ "03-Google-Slides"</div>
+              <div class="step-desc">จะเห็น 4 โฟลเดอร์ — ให้เลือก <strong>03-Google-Slides เท่านั้น</strong> ไฟล์ในโฟลเดอร์นี้ออกแบบมาเพื่อ Google Slides โดยเฉพาะ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GSlides Card 2 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">เลือกโฟลเดอร์ 03-Google-Slides</div>
+            <div class="card-sub">ขั้นตอนที่ 2 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/ggslide-01.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div></div>
+            <div class="step-body">
+              <div class="step-title">คลิกเข้าโฟลเดอร์ "03-Google-Slides" เท่านั้น</div>
+              <div class="step-desc">ไฟล์ในโฟลเดอร์นี้ออกแบบมาเพื่อ Google Slides โดยเฉพาะ</div>
+              <div class="step-tip"><strong>ห้ามใช้โฟลเดอร์อื่น</strong> — ถ้านำไฟล์จาก 01 หรือ 02 มาเปิดใน Google Slides สไลด์จะผิดปกติ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GSlides Card 3 -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </div>
+          <div>
+            <div class="card-title">เปิดและแก้ไขสไลด์</div>
+            <div class="card-sub">ขั้นตอนที่ 3 จาก 3</div>
+          </div>
+        </div>
+        <div class="tut-outer"><div class="tut-wrap">
+          <video preload="metadata" playsinline src="showcase/ggslide-03.mp4"></video>
+          <div class="tut-overlay" onclick="tutPlay(this)"><div class="tut-play-btn"><svg width="20" height="20" viewBox="0 0 24 24" fill="#D34724"><polygon points="6 3 20 12 6 21 6 3"/></svg></div></div>
+          <div class="tut-end">
+            <button class="tut-replay-btn" onclick="tutReplay(this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9"/><polyline points="3 3 3 9 9 9"/></svg>
+              เล่นซ้ำ
+            </button>
+          </div>
+        </div></div>
+        <div class="step-list">
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+            <div class="step-body">
+              <div class="step-title">ดับเบิ้ลคลิกไฟล์สไลด์ที่ต้องการ</div>
+              <div class="step-desc">ไฟล์จะเปิดใน Google Slides ได้เลย ไม่ต้องดาวน์โหลดหรืออัปโหลดอะไรเพิ่ม</div>
+              <a href="https://slides.google.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:10px;background:#F6F7F9;border-radius:100px;padding:8px 14px;font-size:12.5px;font-weight:700;color:#1a73e8;text-decoration:none">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                เปิด Google Slides
+              </a>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-left"><div class="step-num">2</div></div>
+            <div class="step-body">
+              <div class="step-title">แก้ไขและบันทึกอัตโนมัติ</div>
+              <div class="step-desc">ดับเบิ้ลคลิกที่ข้อความหรือรูปภาพเพื่อแก้ไขได้เลย Google Slides บันทึกให้อัตโนมัติทุกครั้ง</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert success">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div class="alert-text"><strong>ข้อดี:</strong> ใช้ได้ทุกที่ทุกอุปกรณ์ที่มีอินเทอร์เน็ต ไม่ต้องติดตั้งโปรแกรมเลย</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <nav class="footer-nav">
+      <a href="/#strip">ดูตัวอย่างสไลด์</a>
+      <a href="/#reviews">รีวิว</a>
+      <a href="/#how">วิธีสั่งซื้อ</a>
+      <a href="/#faq">FAQ</a>
+      <a href="order">สั่งซื้อสไลด์</a>
+    </nav>
+    <div class="footer-divider"></div>
+    <div class="footer-copy">
+      <strong>PowerPoint Template by Coach Tarn</strong><br>
+      ติดต่อสอบถาม: <a href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener" style="color:var(--orange);font-weight:600;text-decoration:none">Facebook Messenger</a><br>
+      © 2026 บริษัท ดับเบิ้ลคราฟ์ จำกัด · All rights reserved
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// ── OS tabs ──
+function switchOS(os, btn) {
+  document.querySelectorAll('.os-content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('os-' + os).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ── Drawer ──
+function openDrawer(){
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ── Tutorial video ──
+function tutPlay(overlay) {
+  const video = overlay.closest('.tut-wrap').querySelector('video');
+  overlay.classList.add('gone');
+  video.play();
+  video.addEventListener('ended', () => {
+    const endEl = overlay.closest('.tut-wrap').querySelector('.tut-end');
+    if (endEl) endEl.classList.add('show');
+  }, {once: true});
+}
+function tutReplay(btn) {
+  const wrap = btn.closest('.tut-wrap');
+  const video = wrap.querySelector('video');
+  const endEl = wrap.querySelector('.tut-end');
+  if (endEl) endEl.classList.remove('show');
+  video.currentTime = 0;
+  video.play();
+}
+</script>
+</body>
+</html>

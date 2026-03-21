@@ -52,15 +52,34 @@ serve(async () => {
       weekday : 'long', year: 'numeric', month: 'long', day: 'numeric',
     })
 
+    // แปลง ref code เป็น label อ่านง่าย
+    function refLabel(ref: string | null): string {
+      const map: Record<string, string> = {
+        'fbbio'   : 'FB bio',
+        'fbpost'  : 'FB post',
+        'fbad'    : 'FB Ads',
+        'ig'      : 'Instagram',
+        'igbio'   : 'IG bio',
+        'line'    : 'LINE',
+        'tiktok'  : 'TikTok',
+        'google'  : 'Google',
+        'direct'  : 'direct',
+      }
+      if (!ref) return 'direct'
+      return map[ref.toLowerCase()] ?? ref
+    }
+
     const orderRows = verified.map(o => {
       const time = new Date(o.created_at).toLocaleTimeString('th-TH', {
         timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit',
       })
+      const ref = refLabel(o.ref_source)
+      const isFbbio = (o.ref_source ?? '').toLowerCase() === 'fbbio'
       return `<tr>
         <td style="padding:8px 12px;font-size:13px;color:#1D1D1F;border-bottom:1px solid #F0F0F0;">${time}</td>
         <td style="padding:8px 12px;font-size:13px;color:#1D1D1F;border-bottom:1px solid #F0F0F0;">${o.name}</td>
         <td style="padding:8px 12px;font-size:13px;color:#6E6E73;border-bottom:1px solid #F0F0F0;">${o.email}</td>
-        <td style="padding:8px 12px;font-size:13px;color:#6E6E73;border-bottom:1px solid #F0F0F0;">${o.ref_source ?? 'direct'}</td>
+        <td style="padding:8px 12px;font-size:13px;border-bottom:1px solid #F0F0F0;${isFbbio ? 'color:#D34724;font-weight:700;' : 'color:#6E6E73;'}">${ref}</td>
       </tr>`
     }).join('')
 

@@ -1048,7 +1048,7 @@ async function handleSubmit() {
         email,
         slip_url  : slipPath,
         status    : 'pending',
-        ref_source: new URLSearchParams(location.search).get('ref') ?? 'direct',
+        ref_source: new URLSearchParams(location.search).get('ref') ?? sessionStorage.getItem('ct_ref') ?? 'direct',
       }),
     });
     if (!insertRes.ok) throw new Error('insert_failed');
