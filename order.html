@@ -446,6 +446,45 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
 /* spacing helper */
 .page-inner{padding-top:12px;padding-bottom:40px}
+
+/* ══════════════════════════════════════
+   NAV LINKS
+══════════════════════════════════════ */
+.nav-links{display:none;align-items:center;gap:4px}
+.nav-link{font-size:13px;font-weight:600;color:var(--text-mid);text-decoration:none;padding:7px 12px;border-radius:8px;transition:color .15s,background .15s;white-space:nowrap;}
+.nav-link:hover{color:var(--red);background:rgba(211,71,36,0.06)}
+
+/* ══════════════════════════════════════
+   RESPONSIVE — Tablet 768px+
+══════════════════════════════════════ */
+@media(min-width:768px){
+  body{background:#F0F0F5}
+  .page{max-width:800px;box-shadow:0 0 80px rgba(0,0,0,0.10)}
+  .order-header{max-width:800px;left:50%;transform:translateX(-50%);width:100%;position:fixed;padding:12px 32px}
+  .nav-links{display:flex}
+  .page-inner{padding-top:70px}
+  .card{margin:0 0 14px}
+  .page-inner{padding-left:24px;padding-right:24px}
+  .trust-chips{padding:10px 0}
+  .submit-area{padding:0 0 24px}
+}
+
+@media(min-width:1024px){
+  .page{max-width:960px}
+  .order-header{max-width:960px}
+  .page-inner{
+    display:grid;
+    grid-template-columns:380px 1fr;
+    gap:24px;
+    align-items:start;
+    padding:88px 32px 48px;
+  }
+  /* Order summary + trust chips in left column */
+  .page-inner > #mainContent > .card:first-child{grid-column:1;grid-row:1}
+  .trust-chips{grid-column:1;grid-row:2}
+  /* Success and rejected sections span full */
+  #successSection,#rejectedSection{grid-column:1/-1}
+}
 </style>
 </head>
 <body>
@@ -457,6 +496,11 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     <div class="order-header-center">
       <div class="header-title">สรุปคำสั่งซื้อ</div>
       <div class="header-sub">ขั้นตอน 1 จาก 2</div>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="/" class="nav-link">หน้าหลัก</a>
+      <a href="/#faq" class="nav-link">FAQ</a>
+      <a href="download" class="nav-link">รับสไลด์</a>
     </div>
     <button class="hamburger" id="menuBtn" onclick="openDrawer()" aria-label="เมนู">
       <span></span><span></span><span></span>
