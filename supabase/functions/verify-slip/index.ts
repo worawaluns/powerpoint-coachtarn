@@ -11,7 +11,7 @@ const SLIP2GO_KEY      = Deno.env.get('SLIP2GO_SECRET_KEY')!
 const GMAIL_USER       = Deno.env.get('GMAIL_USER')!
 const GMAIL_PASS       = Deno.env.get('GMAIL_APP_PASSWORD')!
 const TURNSTILE_SECRET = Deno.env.get('TURNSTILE_SECRET_KEY')!
-const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.netlify.app/download'
+const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
 
 const PRICE          = '499'
 const ACCOUNT_NUMBER = '1578147760'
@@ -64,18 +64,16 @@ function buildEmailHtml(name: string, code: string): string {
     <!-- ── Hero section ── -->
     <tr><td align="center" style="padding:52px 48px 40px;border-bottom:1px solid #F0F0F0;">
 
-      <!-- Icon circle: table-based for email client compat -->
+      <!-- Icon circle: table-based for email client compat (no flexbox) -->
       <table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto 24px;">
         <tr>
           <td align="center" valign="middle"
             style="width:80px;height:80px;border-radius:50%;
                    background:linear-gradient(135deg,#EB7D4A 0%,#D34724 100%);
-                   box-shadow:0 8px 24px rgba(211,71,36,0.30);">
-            <div style="width:80px;height:80px;border-radius:50%;
-                        background:linear-gradient(135deg,#EB7D4A 0%,#D34724 100%);
-                        display:flex;align-items:center;justify-content:center;">
-              <span style="color:#ffffff;font-size:36px;font-weight:900;line-height:80px;display:block;text-align:center;">&#10003;</span>
-            </div>
+                   box-shadow:0 8px 24px rgba(211,71,36,0.30);
+                   font-size:42px;font-weight:900;color:#ffffff;
+                   line-height:80px;text-align:center;">
+            &#10003;
           </td>
         </tr>
       </table>
@@ -129,10 +127,10 @@ function buildEmailHtml(name: string, code: string): string {
             <table cellpadding="0" cellspacing="0" border="0">
               <tr><td align="center" valign="middle"
                 style="width:32px;height:32px;border-radius:10px;
-                       background:linear-gradient(135deg,#EB7D4A,#D34724);
-                       font-size:14px;font-weight:800;color:#fff;
+                       background:#D34724;
+                       font-size:14px;font-weight:800;color:#ffffff;
                        line-height:32px;text-align:center;">
-                <span style="display:block;line-height:32px;color:#fff;font-weight:800;font-size:14px;">1</span>
+                1
               </td></tr>
             </table>
           </td>
@@ -149,8 +147,10 @@ function buildEmailHtml(name: string, code: string): string {
             <table cellpadding="0" cellspacing="0" border="0">
               <tr><td align="center" valign="middle"
                 style="width:32px;height:32px;border-radius:10px;
-                       background:linear-gradient(135deg,#EB7D4A,#D34724);">
-                <span style="display:block;line-height:32px;color:#fff;font-weight:800;font-size:14px;">2</span>
+                       background:#D34724;
+                       font-size:14px;font-weight:800;color:#ffffff;
+                       line-height:32px;text-align:center;">
+                2
               </td></tr>
             </table>
           </td>
@@ -167,8 +167,10 @@ function buildEmailHtml(name: string, code: string): string {
             <table cellpadding="0" cellspacing="0" border="0">
               <tr><td align="center" valign="middle"
                 style="width:32px;height:32px;border-radius:10px;
-                       background:linear-gradient(135deg,#EB7D4A,#D34724);">
-                <span style="display:block;line-height:32px;color:#fff;font-weight:800;font-size:14px;">3</span>
+                       background:#D34724;
+                       font-size:14px;font-weight:800;color:#ffffff;
+                       line-height:32px;text-align:center;">
+                3
               </td></tr>
             </table>
           </td>
