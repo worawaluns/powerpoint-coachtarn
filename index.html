@@ -1973,10 +1973,10 @@ body{
    RESPONSIVE — Desktop 1024px+
 ══════════════════════════════════════ */
 @media(min-width:1024px){
-  :root{--max:1120px}
-  .page{max-width:1120px;box-shadow:0 0 120px rgba(0,0,0,0.08)}
-  .nav{max-width:1120px;padding:14px 48px}
-  .sticky-bar{max-width:1120px}
+  :root{--max:100%}
+  .page{max-width:100%;box-shadow:none}
+  .nav{max-width:100%;padding:14px 64px}
+  .sticky-bar{max-width:100%}
 
   /* Hide hamburger on desktop */
   .hamburger{display:none}
@@ -1986,25 +1986,35 @@ body{
   /* ── HERO 2-column ── */
   .hero{
     display:grid;
-    grid-template-columns:1fr 480px;
+    grid-template-columns:1fr 500px;
     align-items:center;
     gap:0;
     padding-top:0;
     text-align:left;
-    min-height:560px;
+    min-height:600px;
+    max-width:1400px;
+    margin:0 auto;
   }
   .hero-bg{grid-column:1/-1;grid-row:1}
   .hero-inner{
     grid-column:1;grid-row:1;
-    padding:100px 48px 80px;
+    padding:110px 48px 80px 64px;
     z-index:1;
   }
   .hero-visual{
     grid-column:2;grid-row:1;
     position:relative;
-    height:520px;
+    height:580px;
+    overflow:visible;
     z-index:1;
   }
+  /* Floating cards — ลงมาใกล้ตัวคน */
+  .float-card.fc1{width:150px;top:auto;bottom:270px;left:-30px}
+  .float-card.fc2{width:140px;top:60px;right:20px;bottom:auto}
+  .float-card.fc3{width:130px;top:auto;bottom:130px;left:-10px}
+  .float-card.fc4{width:135px;top:auto;bottom:100px;right:10px}
+  .coach-img{height:420px;left:50%;transform:translateX(-50%)}
+
   .hero-eyebrow{justify-content:flex-start}
   .hero-h1{font-size:52px;letter-spacing:-1.5px}
   .hero-price{justify-content:flex-start}
