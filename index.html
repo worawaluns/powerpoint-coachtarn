@@ -1967,6 +1967,24 @@ body{
 
   /* Footer */
   .footer{padding:32px 32px 40px}
+
+  /* Sticky bar — horizontal on tablet */
+  .sticky-bar{display:flex;flex-direction:row;align-items:center;padding:10px 20px;gap:14px}
+  .sticky-urgency{margin-bottom:0;background:none;padding:0;border-radius:0;justify-content:flex-start;flex:1;font-size:12px}
+  .sticky-inner{flex:none;gap:10px}
+  .btn-sticky{flex:none;width:auto;padding:11px 28px;font-size:14px}
+
+  /* Social bar — center */
+  .social-bar{justify-content:center;gap:20px;padding:18px 32px}
+
+  /* Reels head — center */
+  .reels-head{text-align:center}
+
+  /* Strip header — center */
+  .strip-header{text-align:center}
+
+  /* Tab section — center tabs */
+  .tab-btns{justify-content:center;overflow-x:visible;padding:0 24px 2px;flex-wrap:wrap}
 }
 
 /* ══════════════════════════════════════
@@ -2079,6 +2097,43 @@ body{
   /* ── FOOTER ── */
   .footer{padding:40px 80px 48px}
   .footer-nav{gap:32px;margin-bottom:20px}
+
+  /* ══ DESKTOP CONTENT CENTERING ══ */
+
+  /* Sticky bar — horizontal row on desktop */
+  .sticky-bar{display:flex;flex-direction:row;align-items:center;padding:10px 64px;gap:24px}
+  .sticky-urgency{flex:1;margin-bottom:0;background:none;padding:0;border-radius:0;justify-content:flex-start;font-size:13px}
+  .sticky-inner{flex:none;gap:20px}
+  .btn-sticky{flex:none;width:auto;padding:12px 52px}
+
+  /* Reels — remove scroll/mask, center grid */
+  .reels-head{text-align:center;max-width:960px;margin:0 auto;padding:0 80px 24px}
+  .reels-scroll-wrap{margin-left:0;margin-right:0;overflow-x:visible;mask-image:none;-webkit-mask-image:none;padding-bottom:0}
+  .reels-grid{justify-content:center;max-width:1200px;margin:0 auto;flex-wrap:wrap;padding:0 80px;gap:20px}
+
+  /* Social bar — center content */
+  .social-bar{justify-content:center;gap:24px;padding:22px 80px}
+
+  /* Strip header — center */
+  .strip-header{max-width:960px;margin:0 auto;padding:0 80px 28px;text-align:center}
+
+  /* For section tabs — center + wrap */
+  .tab-btns{max-width:960px;margin:0 auto;padding:0 64px 2px;overflow-x:visible;flex-wrap:wrap;justify-content:center}
+  .tab-panel{max-width:1200px;margin:0 auto;padding:0 64px 0}
+  .tab-desc{max-width:900px;margin-left:auto;margin-right:auto}
+
+  /* Reviews section — center carousel */
+  .rv-outer{max-width:1400px;margin:0 auto;padding:0 64px}
+
+  /* Deal section — constrain inner */
+  .deal-inner{max-width:1100px;margin:0 auto}
+
+  /* FAQ — constrain width */
+  .faq-section{max-width:960px;margin:0 auto}
+
+  /* Section generic text headings */
+  .section-h2{max-width:800px;margin-left:auto;margin-right:auto}
+  .section-sub{max-width:700px;margin-left:auto;margin-right:auto}
 }
 </style>
 </head>
@@ -2094,6 +2149,7 @@ body{
       <a href="#reviews" class="nav-link">รีวิว</a>
       <a href="#faq" class="nav-link">FAQ</a>
       <a href="#how" class="nav-link">ขั้นตอนการซื้อ</a>
+      <a href="download" class="nav-link">วิธีดาวน์โหลด</a>
     </div>
     <a href="order" class="nav-cta">รับสไลด์เลย</a>
     <button class="hamburger" id="menuBtn" onclick="openDrawer()" aria-label="เมนู">
