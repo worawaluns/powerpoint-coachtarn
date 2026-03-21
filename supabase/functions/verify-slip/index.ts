@@ -69,8 +69,8 @@ function buildEmailHtml(name: string, code: string): string {
         <tr>
           <td align="center" valign="middle"
             style="width:80px;height:80px;border-radius:50%;
-                   background:linear-gradient(135deg,#EB7D4A 0%,#D34724 100%);
-                   box-shadow:0 8px 24px rgba(211,71,36,0.30);
+                   background:linear-gradient(135deg,#34C759 0%,#28A745 100%);
+                   box-shadow:0 8px 24px rgba(40,167,69,0.30);
                    font-size:42px;font-weight:900;color:#ffffff;
                    line-height:80px;text-align:center;">
             &#10003;
