@@ -125,6 +125,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .footer-col-link--email{font-size:12px;word-break:break-all}
 .footer-divider{height:1px;background:rgba(255,255,255,0.07)}
 .footer-bottom{padding:16px 24px 28px;text-align:center;font-size:11px;color:rgba(255,255,255,0.22);line-height:1.8}
+.os-sidebar-label{display:none}
 .os-tabs{display:flex}
 .os-tab{
   flex:1;padding:14px 10px;border:none;background:none;
@@ -346,7 +347,8 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   .order-header-center{display:none}
   .nav-links{display:flex}
   .hamburger{display:none}
-  .page-inner{max-width:720px;margin:0 auto;padding-top:80px;padding-left:24px;padding-right:24px;padding-bottom:48px}
+  .dl-body{padding-top:62px}
+  .page-inner{max-width:720px;margin:0 auto;padding-top:16px;padding-left:24px;padding-right:24px;padding-bottom:48px}
   .card{margin:0 0 14px}
   .os-tabs-wrap{position:sticky;top:62px}
   .dl-hero{padding:28px 40px 32px}
@@ -360,8 +362,66 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 @media(min-width:1024px){
   .page{max-width:100%}
   .order-header{max-width:100%;padding:12px 80px}
-  .page-inner{max-width:800px}
-  .dl-hero{padding:32px 80px 36px}
+
+  /* ── Desktop 2-column layout ── */
+  .dl-body{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    max-width:1200px;
+    margin:62px auto 0;
+    align-items:start;
+  }
+
+  /* LEFT: OS tabs as vertical sidebar */
+  .os-sidebar-label{
+    display:block;
+    font-size:10px;font-weight:800;color:rgba(0,0,0,0.28);
+    text-transform:uppercase;letter-spacing:1.2px;
+    padding:20px 20px 4px;
+  }
+  .os-tabs-wrap{
+    grid-column:1;
+    grid-row:1 / 10;
+    position:sticky;
+    top:62px;
+    align-self:start;
+    height:calc(100vh - 62px);
+    border-bottom:none;
+    border-right:1px solid var(--border);
+    box-shadow:none;
+    background:#fff;
+    z-index:10;
+  }
+  .os-tabs{flex-direction:column;padding:12px 0}
+  .os-tab{
+    flex:none;
+    justify-content:flex-start;
+    border-bottom:none;
+    border-left:3px solid transparent;
+    padding:13px 20px;
+    font-size:13.5px;
+    text-align:left;
+    border-radius:0;
+  }
+  .os-tab.active{
+    border-left-color:var(--red);
+    border-bottom-color:transparent;
+    background:rgba(211,71,36,0.05);
+    color:var(--red);
+  }
+
+  /* RIGHT: hero / redeem / content */
+  .dl-hero{grid-column:2;grid-row:1;padding:36px 52px 40px;border-bottom:1px solid var(--border)}
+  .redeem-wrap{grid-column:2;grid-row:2;padding:20px 52px 24px}
+  .dl-success-zone{grid-column:2;grid-row:1 / 3}
+  .page-inner{
+    grid-column:2;
+    grid-row:3;
+    max-width:none;
+    padding:28px 52px 52px;
+    margin:0;
+  }
+
   .footer-inner{grid-template-columns:2fr 1fr 1.3fr;gap:56px;padding:0 80px 52px}
   .footer-bottom{padding:20px 80px 36px}
 }
@@ -418,6 +478,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     </div>
   </div>
 
+  <!-- Desktop 2-col body wrapper -->
+  <div class="dl-body">
+
   <!-- Hero strip -->
   <div class="dl-hero" id="dlHero">
     <div class="dl-hero-icon">
@@ -464,6 +527,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
   <!-- OS Tabs -->
   <div class="os-tabs-wrap">
+    <div class="os-sidebar-label">เลือกแอปของคุณ</div>
     <div class="os-tabs">
       <button class="os-tab active" onclick="switchOS('windows', this)">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.45L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
@@ -934,6 +998,8 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     </div>
 
   </div>
+
+  </div><!-- /dl-body -->
 
   <footer class="footer">
     <div class="footer-inner">
