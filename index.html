@@ -1113,7 +1113,7 @@ body{
 .strip-row.row2{margin-top:12px}
 .strip-row.row3{margin-top:12px}
 .slide-tile{
-  flex-shrink:0;width:150px;
+  flex-shrink:0;width:170px;
   border-radius:12px;
   overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.09);
   border:1px solid rgba(0,0,0,0.04);
@@ -3374,6 +3374,7 @@ window.addEventListener('scroll', () => {
 
 /* ── Parallax strip ── */
 const row1 = document.getElementById('row1');
+const row3 = document.getElementById('row3');
 const row2 = document.getElementById('row2');
 const stripWrap = document.getElementById('stripWrap');
 window.addEventListener('scroll', () => {
@@ -3383,6 +3384,7 @@ window.addEventListener('scroll', () => {
   const off = (progress - 0.5) * 160;
   row1.style.transform = `translateX(${-off}px)`;
   row2.style.transform = `translateX(${off}px)`;
+  if(row3) row3.style.transform = `translateX(${-off}px)`;
 }, {passive:true});
 
 /* ── FAQ ── */
