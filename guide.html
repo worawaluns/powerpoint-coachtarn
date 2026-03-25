@@ -236,20 +236,23 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .footer-divider{height:1px;background:rgba(255,255,255,0.07)}
 .footer-bottom{padding:16px 24px 28px;text-align:center;font-size:11px;color:rgba(255,255,255,0.22);line-height:1.8}
 
+.guide-body{}
+.os-sidebar-label{display:none}
 /* ══ NAV LINKS ══ */
 .nav-right{display:flex;align-items:center;gap:8px}
 .nav-links{display:none;align-items:center;gap:4px}
 .nav-link{font-size:15px;font-weight:600;color:var(--text-mid);text-decoration:none;padding:7px 12px;border-radius:8px;white-space:nowrap;cursor:default;user-select:none}
-.nav-link--active{color:var(--red)}
+.nav-link--active{color:var(--red);background:rgba(211,71,36,0.08);font-weight:700}
 
 @media(min-width:768px){
   body{background:#F0F0F5}
   .page{max-width:680px;box-shadow:0 0 80px rgba(0,0,0,0.10)}
-  .order-header{max-width:680px;left:50%;transform:translateX(-50%);width:100%;position:fixed;padding:12px 32px}
+  .order-header{max-width:680px;left:50%;transform:translateX(-50%);width:100%;position:fixed;padding:16px 32px}
   .order-header-center{display:none}
-  .nav-links{display:flex}
+  .nav-links{display:flex;gap:8px}
   .hamburger{display:none}
-  .page-inner{padding-top:70px;padding-left:0;padding-right:0}
+  .page-inner{padding-top:79px;padding-left:0;padding-right:0}
+  .os-tabs-wrap{top:79px}
   .card{margin:0 0 14px}
   /* Footer 3-col at tablet+ */
   .footer{padding:52px 0 0}
@@ -257,14 +260,96 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   .footer-col--brand{align-items:flex-start}
   .footer-col-text{justify-content:flex-start}
   .footer-bottom{padding:16px 48px 32px;text-align:center}
+  /* ── TYPOGRAPHY — Tablet ── */
+  .dl-hero-h{font-size:26px}
+  .dl-hero-sub{font-size:17px}
+  .card-title{font-size:18px}
+  .card-sub{font-size:15px}
+  .step-title{font-size:18px}
+  .step-desc{font-size:17px}
+  .alert-text{font-size:17px}
+  .app-for-main{font-size:16px}
+  .app-for-alt{font-size:14px}
+  .info-row-title{font-size:16px}
+  .info-row-desc{font-size:15px}
+  .nav-link{font-size:16px}
+  .nav-logo svg{height:46px}
+  .footer-logo-link svg{height:40px}
+  .footer-tagline{font-size:14px}
+  .footer-guarantee{font-size:13px}
+  .footer-col-label{font-size:11px}
+  .footer-col-text{font-size:14px}
+  .footer-col-text--email{font-size:13px}
+  .footer-bottom{font-size:12px}
 }
 
 @media(min-width:1024px){
-  .page{max-width:760px}
-  .order-header{max-width:760px}
+  /* ── Full-width layout ── */
+  .page{max-width:100%;box-shadow:none}
+  .order-header{max-width:none;left:0;right:0;transform:none;padding:14px 64px}
+  /* ── 2-column grid body ── */
+  .guide-body{
+    display:grid;
+    grid-template-columns:220px 1fr;
+    max-width:1200px;
+    margin:92px auto 0;
+    align-items:start;
+  }
+  .os-sidebar-label{
+    display:block;
+    font-size:10px;font-weight:800;color:rgba(0,0,0,0.28);
+    text-transform:uppercase;letter-spacing:1.2px;
+    padding:20px 20px 4px;
+  }
+  .os-tabs-wrap{
+    grid-column:1;grid-row:1 / 10;
+    position:sticky;top:92px;align-self:start;
+    height:calc(100vh - 92px);
+    border-bottom:none;border-right:1px solid var(--border);
+    box-shadow:none;background:#fff;overflow-y:auto;
+  }
+  .os-tabs{flex-direction:column}
+  .os-tab{
+    flex:none;justify-content:flex-start;
+    padding:14px 20px;border-radius:0;
+    border-bottom:none;border-left:3px solid transparent;
+  }
+  .os-tab.active{
+    border-left-color:var(--red);border-bottom-color:transparent;
+    background:rgba(211,71,36,0.05);color:var(--red);
+  }
+  .page-inner{
+    grid-column:2;grid-row:1;
+    padding:28px 52px 52px;
+    margin:0;
+  }
+  /* ── Footer ── */
   .footer{padding:64px 0 0}
   .footer-inner{grid-template-columns:2fr 1fr 1.3fr;gap:56px;padding:0 80px 52px}
   .footer-bottom{padding:20px 80px 36px}
+  /* ── TYPOGRAPHY — Desktop ── */
+  .dl-hero-h{font-size:30px}
+  .dl-hero-sub{font-size:19px}
+  .card-title{font-size:20px}
+  .card-sub{font-size:16px}
+  .step-title{font-size:20px}
+  .step-desc{font-size:18px}
+  .alert-text{font-size:18px}
+  .app-for-main{font-size:17px}
+  .app-for-alt{font-size:15px}
+  .info-row-title{font-size:18px}
+  .info-row-desc{font-size:16px}
+  .nav-link{font-size:17px}
+  .nav-logo svg{height:52px}
+  .footer-logo-link svg{height:46px}
+  .footer-tagline{font-size:16px}
+  .footer-guarantee{font-size:14px}
+  .footer-col-label{font-size:12px;letter-spacing:1.4px}
+  .footer-col-text{font-size:16px}
+  .footer-col-text svg{width:16px;height:16px}
+  .footer-col-text--email{font-size:14px}
+  .footer-bottom{font-size:13px}
+  body{line-height:1.65}
 }
 </style>
 </head>
@@ -292,8 +377,11 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     </div>
   </div>
 
+  <div class="guide-body">
+
   <!-- OS Tabs -->
   <div class="os-tabs-wrap">
+    <div class="os-sidebar-label">เลือกระบบของคุณ</div>
     <div class="os-tabs">
       <button class="os-tab active" onclick="switchOS('windows', this)">
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.45L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
@@ -632,7 +720,8 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
     </div>
 
-  </div>
+  </div><!-- /page-inner -->
+  </div><!-- /guide-body -->
 
   <footer class="footer">
   <div class="footer-inner">

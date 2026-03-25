@@ -842,7 +842,7 @@ body{
   border-radius:100px;
   padding:11px 28px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;
   text-decoration:none;display:inline-flex;align-items:center;justify-content:center;
-  transition:background .15s,color .15s;
+  transition:background .15s,color .15s,opacity .15s,transform .15s;
 }
 .btn-hero-fill:active{background:rgba(235,125,74,0.1)}
 
@@ -1951,16 +1951,50 @@ body{
 .nav-link:hover{color:var(--red);background:rgba(211,71,36,0.06)}
 
 /* ══════════════════════════════════════
+   HOVER STATES — desktop UX
+══════════════════════════════════════ */
+@media(hover:hover){
+  /* CTA buttons */
+  .nav-cta:hover{opacity:.88;transform:translateY(-1px)}
+  .btn-main:hover{opacity:.92;transform:translateY(-2px);box-shadow:0 10px 28px rgba(211,71,36,0.38)}
+  .btn-hero-fill:hover{opacity:.88;transform:translateY(-1px)}
+  .btn-sticky:hover{opacity:.9;transform:translateY(-1px)}
+  .drawer-cta-btn:hover{opacity:.88}
+  /* Template strip tiles */
+  .slide-tile:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,0.16)}
+  .slide-tile{transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+  /* Reel thumbnails */
+  .reel-thumb:hover{transform:scale(1.04);z-index:2}
+  .reel-thumb{transition:transform .2s var(--ease)}
+  /* Value grid items */
+  .vg-item:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.07)}
+  .vg-item{transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+  /* FAQ items */
+  .faq-q:hover{background:rgba(0,0,0,0.02)}
+  /* Announce bar */
+  .announce:hover{opacity:.92}
+  .announce{transition:opacity .15s}
+  /* Review cards */
+  .rv-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,0.10)}
+  .rv-card{transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
+  /* Tab buttons */
+  .tab-btn:not(.tab-active):hover{background:rgba(0,0,0,0.03);color:var(--text)}
+}
+
+/* ══════════════════════════════════════
    RESPONSIVE — Tablet 768px+
 ══════════════════════════════════════ */
 @media(min-width:768px){
   :root{--max:800px}
   .page{max-width:100%;box-shadow:none}
-  .nav{max-width:100%;padding:12px 28px}
+  .nav{max-width:100%;padding:16px 28px}
   .sticky-bar{max-width:100%}
 
   /* Show nav links on tablet */
-  .nav-links{display:flex}
+  .nav-links{display:flex;gap:8px}
+  .nav-link{font-size:16px}
+  /* Fix nav-spacer — nav is taller at tablet (16+16+46px logo = 78px) */
+  .nav-spacer{height:78px}
 
   /* HERO */
   .hero-inner{padding:40px 32px 20px}
@@ -1996,7 +2030,7 @@ body{
   .tab-slides-grid{grid-template-columns:repeat(2,1fr)}
 
   /* Sections */
-  .section{padding:52px 0}
+  .section{padding:72px 0}
 
   /* FEATURES — auto-slider: text left | demo right */
   .excel-feat-section{padding:48px 32px;max-width:800px;margin:0 auto}
@@ -2053,6 +2087,13 @@ body{
   .footer-col--brand{align-items:flex-start}
   .footer-col-link{justify-content:flex-start}
   .footer-bottom{padding:16px 48px 32px;text-align:center}
+  /* Footer font sizes — tablet */
+  .footer-tagline{font-size:14px}
+  .footer-guarantee{font-size:13px}
+  .footer-col-label{font-size:11px}
+  .footer-col-link{font-size:14px}
+  .footer-col-link--email{font-size:13px}
+  .footer-bottom{font-size:12px}
 
   /* Sticky bar — horizontal on tablet */
   .sticky-bar{display:flex;flex-direction:row;align-items:center;padding:10px 20px;gap:14px}
@@ -2071,6 +2112,83 @@ body{
 
   /* Tab section — center tabs */
   .tab-btns{justify-content:center;overflow-x:visible;padding:0 24px 2px;flex-wrap:wrap}
+
+  /* ── TYPOGRAPHY SCALE — Tablet ── */
+  .section-h2{font-size:34px}
+  .section-sub{font-size:18px}
+  .reels-h2{font-size:28px}
+  .hero-sub{font-size:17px}
+  .price-big{font-size:36px}
+  .feat-item-h{font-size:23px}
+  .feat-item-p{font-size:15px}
+  .vg-title{font-size:15px}
+  .vg-sub{font-size:13px}
+  .pain-card-title{font-size:17px}
+  .pain-card-sub{font-size:14px}
+  .v-title{font-size:16px}
+  .v-sub{font-size:14px}
+  .rv-name{font-size:14px}
+  .rv-sub{font-size:12px}
+  .flow-title,.flow-step-title,.flow-detail-title{font-size:17px}
+  .flow-desc,.flow-step-desc,.flow-detail-desc{font-size:15px}
+  .tab-btn{font-size:14px;padding:9px 18px}
+  .tab-desc-text{font-size:15px}
+  .faq-q{font-size:17px}
+  .faq-a{font-size:16px}
+  .social-text{font-size:16px}
+  .bonus-h{font-size:22px}
+  .bonus-sub{font-size:14px}
+  .deal-h2{font-size:32px}
+  .pf-note{font-size:14px}
+  .feat-grid-title{font-size:14px}
+  .feat-grid-sub{font-size:12px}
+  .compat-name{font-size:13px}
+  .reviews-rating-text{font-size:14px}
+  /* Logo */
+  .nav-logo svg{height:46px}
+  .footer-logo-link svg{height:40px}
+  /* Nav */
+  .nav{padding:16px 28px}
+  .nav-cta{padding:11px 22px;font-size:16px}
+  /* Section labels & badges */
+  .section-pill{font-size:14px;padding:6px 16px}
+  .hero-eyebrow{font-size:14px;padding:7px 16px}
+  .hero-eyebrow svg{width:16px;height:16px}
+  .feat-item-num{font-size:13px;padding:4px 12px}
+  .compat-label{font-size:13px}
+  .trust-line{font-size:14px}
+  .trust-line svg{width:16px;height:16px}
+  /* Hero stats */
+  .hero-stat-num{font-size:22px}
+  .hero-stat-label{font-size:12px}
+  .hero-stat{padding:10px 8px}
+  /* Section heading weight */
+  .section-h2{font-weight:800}
+
+  /* ── SIZING SCALE — Tablet ── */
+  .excel-feat-section{padding:60px 32px}
+  .pain-card{padding:20px 22px;gap:16px}
+  .pain-icon-box{width:48px;height:48px;border-radius:14px}
+  .pain-icon-box svg{width:26px;height:26px}
+  .pain-cards{gap:14px}
+  .vg-item{padding:24px 20px}
+  .vg-icon{width:52px;height:52px;border-radius:16px}
+  .vg-icon svg{width:26px;height:26px}
+  .value-grid{gap:16px}
+  .faq-q{padding:20px 22px}
+  .faq-item.open .faq-a{padding:14px 22px 20px}
+  .faq-list{gap:10px}
+  .v-check{width:28px;height:28px}
+  .v-check svg{width:15px;height:15px}
+  .rv-card-foot{padding:14px 18px 16px}
+  .rv-avatar{width:42px;height:42px;font-size:16px}
+  .section-h2{margin-bottom:12px}
+  .section-sub{margin-bottom:28px}
+  .btn-main{padding:20px 24px;font-size:18px}
+  .btn-main svg{width:22px;height:22px}
+  .btn-hero-fill{padding:13px 32px;font-size:16px}
+  .flow-icon{width:52px;height:52px}
+  .flow-icon svg{width:24px;height:24px}
 }
 
 /* ══════════════════════════════════════
@@ -2084,7 +2202,7 @@ body{
 
   /* Hide hamburger on desktop */
   .hamburger{display:none}
-  .nav-links{display:flex;gap:2px}
+  .nav-links{display:flex;gap:8px}
   .nav-right{gap:12px}
 
   /* ── HERO 2-column ── */
@@ -2234,6 +2352,119 @@ body{
   /* Section generic text headings */
   .section-h2{max-width:800px;margin-left:auto;margin-right:auto}
   .section-sub{max-width:700px;margin-left:auto;margin-right:auto}
+
+  /* ── TYPOGRAPHY SCALE — Desktop ── */
+  .section-h2{font-size:42px}
+  .section-sub{font-size:20px}
+  .reels-h2{font-size:34px}
+  .hero-sub{font-size:18px}
+  .price-big{font-size:42px}
+  .feat-item-h{font-size:27px}
+  .feat-item-p{font-size:16px}
+  .feature-card .section-h2{font-size:26px}
+  .vg-title{font-size:16px}
+  .vg-sub{font-size:14px}
+  .pain-card-title{font-size:18px}
+  .pain-card-sub{font-size:16px}
+  .v-title{font-size:18px}
+  .v-sub{font-size:15px}
+  .rv-name{font-size:15px}
+  .rv-sub{font-size:13px}
+  .flow-title,.flow-step-title,.flow-detail-title{font-size:19px}
+  .flow-desc,.flow-step-desc,.flow-detail-desc{font-size:16px}
+  .tab-btn{font-size:15px;padding:10px 20px}
+  .tab-desc-text{font-size:16px}
+  .faq-q{font-size:18px}
+  .faq-a{font-size:17px}
+  .social-text{font-size:17px}
+  .bonus-h{font-size:25px}
+  .bonus-sub{font-size:16px}
+  .deal-h2{font-size:36px}
+  .pf-note{font-size:15px}
+  .pf-old{font-size:18px}
+  .feat-grid-title{font-size:15px}
+  .feat-grid-sub{font-size:13px}
+  .compat-name{font-size:14px}
+  .reviews-rating-text{font-size:15px}
+  /* Logo */
+  .nav-logo svg{height:52px}
+  .footer-logo-link svg{height:46px}
+  /* Nav — taller, bigger CTA */
+  .nav{padding:14px 64px}
+  .nav-link{font-size:17px}
+  .nav-cta{padding:13px 28px;font-size:17px}
+  /* Fix nav-spacer — gives 12px breathing room below nav (14+14+52=80px nav, 92px spacer) */
+  .nav-spacer{height:92px}
+  /* Announce bar — bigger at desktop */
+  .announce{font-size:16px;padding:14px 20px}
+  /* Body readability */
+  body{line-height:1.65}
+  /* Footer font sizes — desktop */
+  .footer-tagline{font-size:16px}
+  .footer-guarantee{font-size:14px}
+  .footer-col-label{font-size:12px;letter-spacing:1.4px}
+  .footer-col-link{font-size:16px}
+  .footer-col-link svg{width:16px;height:16px}
+  .footer-col-link--email{font-size:14px}
+  .footer-bottom{font-size:13px}
+  /* Section labels & badges */
+  .section-pill{font-size:15px;padding:7px 18px}
+  .hero-eyebrow{font-size:15px;padding:8px 18px}
+  .hero-eyebrow svg{width:17px;height:17px}
+  .feat-item-num{font-size:13px;padding:5px 14px}
+  .compat-label{font-size:14px}
+  .trust-line{font-size:15px}
+  .trust-line svg{width:17px;height:17px}
+  /* Hero stats */
+  .hero-stat-num{font-size:26px}
+  .hero-stat-label{font-size:13px}
+  .hero-stat{padding:14px 10px}
+  /* Section heading weight */
+  .section-h2{font-weight:800}
+
+  /* ── SIZING SCALE — Desktop ── */
+  /* Section padding */
+  .reels-section{padding:96px 0}
+  .for-section{padding:96px 0}
+  .excel-feat-section{padding:96px 80px;max-width:1400px}
+  .feat-items-wrap{gap:56px}
+  .flow-section{padding:96px 80px}
+  .reviews-section{padding-bottom:48px}
+  .deal-section{padding:96px 80px}
+  .faq-section{padding:96px 80px}
+  /* Section heading rhythm */
+  .section-h2{margin-bottom:16px;letter-spacing:-1px;line-height:1.1}
+  .section-sub{margin-bottom:36px}
+  /* Cards */
+  .pain-card{padding:24px 28px;gap:18px}
+  .pain-icon-box{width:54px;height:54px;border-radius:16px}
+  .pain-icon-box svg{width:28px;height:28px}
+  .pain-cards{gap:16px}
+  .vg-item{padding:32px 28px}
+  .vg-icon{width:60px;height:60px;border-radius:18px}
+  .vg-icon svg{width:30px;height:30px}
+  .vg-item.vg-bonus{padding:24px 28px}
+  .value-grid{gap:20px}
+  /* FAQ */
+  .faq-q{padding:22px 28px}
+  .faq-caret{width:32px;height:32px}
+  .faq-caret svg{width:16px;height:16px}
+  .faq-item.open .faq-a{padding:16px 28px 24px}
+  .faq-list{gap:12px}
+  /* Value list */
+  .v-check{width:32px;height:32px}
+  .v-check svg{width:16px;height:16px}
+  /* Reviews */
+  .rv-card-foot{padding:16px 22px 20px}
+  .rv-avatar{width:48px;height:48px;font-size:18px}
+  /* Flow */
+  .flow-icon{width:60px;height:60px;border-radius:18px}
+  .flow-icon svg{width:28px;height:28px}
+  /* Buttons */
+  .btn-main{padding:22px 28px;font-size:19px}
+  .btn-main svg{width:24px;height:24px}
+  .btn-hero-fill{padding:15px 36px;font-size:17px}
+  .hero-btn-row{gap:20px}
 }
 </style>
 </head>

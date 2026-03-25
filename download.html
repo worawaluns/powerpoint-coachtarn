@@ -276,7 +276,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   background-image:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
   color:#fff;border:none;border-radius:100px;padding:0 20px;
   font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;white-space:nowrap;
-  box-shadow:0 4px 12px rgba(211,71,36,0.3);transition:opacity .15s;
+  box-shadow:0 4px 12px rgba(211,71,36,0.3);transition:opacity .15s,transform .15s;
 }
 .redeem-btn:disabled{opacity:.45;cursor:not-allowed}
 /* Error state */
@@ -356,22 +356,55 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .nav-links{display:none;align-items:center;gap:4px}
 .nav-link{font-size:15px;font-weight:600;color:var(--text-mid);text-decoration:none;padding:7px 12px;border-radius:8px;transition:color .15s,background .15s;white-space:nowrap;}
 .nav-link:hover{color:var(--red);background:rgba(211,71,36,0.06)}
+.nav-link--active{color:var(--red);background:rgba(211,71,36,0.08);font-weight:700}
+@media(hover:hover){
+  .nav-cta:hover{opacity:.88;transform:translateY(-1px)}
+  .redeem-btn:hover:not(.loading){opacity:.9;transform:translateY(-1px)}
+  .dls-item:hover{background:rgba(255,255,255,0.08)}
+  .os-tab:not(.active):hover{color:var(--text);background:rgba(0,0,0,0.02)}
+}
 
 @media(min-width:768px){
   .page{max-width:100%;box-shadow:none}
   .nav{padding:12px 28px}
-  .nav-links{display:flex}
+  .nav-links{display:flex;gap:8px}
   .hamburger{display:none}
-  .dl-body{padding-top:62px}
+  .dl-body{padding-top:78px}
   .page-inner{max-width:720px;margin:0 auto;padding-top:16px;padding-left:24px;padding-right:24px;padding-bottom:48px}
   .card{margin:0 0 14px}
-  .os-tabs-wrap{position:sticky;top:62px}
+  .os-tabs-wrap{position:sticky;top:78px}
   .dl-hero{padding:28px 40px 32px}
   .footer{padding:52px 0 0}
   .footer-inner{display:grid;grid-template-columns:1.8fr 1fr 1.2fr;align-items:start;text-align:left;gap:40px;padding:0 48px 44px}
   .footer-col--brand{align-items:flex-start}
   .footer-col-link{justify-content:flex-start}
   .footer-bottom{padding:16px 48px 32px;text-align:center}
+  /* ── TYPOGRAPHY — Tablet ── */
+  .dl-hero-h{font-size:26px}
+  .dl-hero-sub{font-size:16px}
+  .card-title{font-size:17px}
+  .card-sub{font-size:14px}
+  .step-title{font-size:17px}
+  .step-desc{font-size:16px}
+  .app-for-main{font-size:15px}
+  .app-for-alt{font-size:13px}
+  .info-row-title{font-size:16px}
+  .info-row-desc{font-size:15px}
+  .alert-text{font-size:16px}
+  .dls-title{font-size:26px}
+  .dls-sub{font-size:16px}
+  .dls-name{font-size:17px}
+  .nav-link,.nav-cta{font-size:16px}
+  .nav{padding:16px 28px}
+  .nav-cta{padding:11px 22px}
+  .nav-logo svg{height:46px}
+  .footer-logo-link svg{height:40px}
+  .footer-tagline{font-size:14px}
+  .footer-guarantee{font-size:13px}
+  .footer-col-label{font-size:11px}
+  .footer-col-link{font-size:14px}
+  .footer-col-link--email{font-size:13px}
+  .footer-bottom{font-size:12px}
 }
 
 @media(min-width:1024px){
@@ -383,7 +416,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     display:grid;
     grid-template-columns:220px 1fr;
     max-width:1200px;
-    margin:62px auto 0;
+    margin:92px auto 0;
     align-items:start;
   }
 
@@ -398,9 +431,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     grid-column:1;
     grid-row:1 / 10;
     position:sticky;
-    top:62px;
+    top:92px;
     align-self:start;
-    height:calc(100vh - 62px);
+    height:calc(100vh - 92px);
     border-bottom:none;
     border-right:1px solid var(--border);
     box-shadow:none;
@@ -439,6 +472,34 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
   .footer-inner{grid-template-columns:2fr 1fr 1.3fr;gap:56px;padding:0 80px 52px}
   .footer-bottom{padding:20px 80px 36px}
+  /* ── TYPOGRAPHY — Desktop ── */
+  .dl-hero-h{font-size:30px}
+  .dl-hero-sub{font-size:18px}
+  .card-title{font-size:19px}
+  .card-sub{font-size:15px}
+  .step-title{font-size:19px}
+  .step-desc{font-size:17px}
+  .app-for-main{font-size:16px}
+  .app-for-alt{font-size:14px}
+  .info-row-title{font-size:17px}
+  .info-row-desc{font-size:16px}
+  .alert-text{font-size:17px}
+  .dls-title{font-size:30px}
+  .dls-sub{font-size:18px}
+  .dls-name{font-size:19px}
+  .nav-link,.nav-cta{font-size:17px}
+  .nav{padding:20px 64px}
+  .nav-cta{padding:13px 28px}
+  .nav-logo svg{height:52px}
+  .footer-logo-link svg{height:46px}
+  .footer-tagline{font-size:16px}
+  .footer-guarantee{font-size:14px}
+  .footer-col-label{font-size:12px;letter-spacing:1.4px}
+  .footer-col-link{font-size:16px}
+  .footer-col-link svg{width:16px;height:16px}
+  .footer-col-link--email{font-size:14px}
+  .footer-bottom{font-size:13px}
+  body{line-height:1.65}
 }
 </style>
 </head>
