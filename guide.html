@@ -226,14 +226,15 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .footer-col{display:flex;flex-direction:column;gap:10px}
 .footer-col--brand{align-items:center;gap:12px}
 .footer-logo-static{display:block;opacity:0.88}
-.footer-tagline{font-size:15px;color:rgba(255,255,255,0.78);line-height:1.5}
-.footer-guarantee{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.65;margin-top:2px}
-.footer-guarantee strong{color:rgba(255,255,255,0.85);font-weight:700}
-.footer-col-label{font-size:12px;font-weight:800;color:rgba(255,255,255,0.50);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:2px}
-.footer-col-text{font-size:15px;font-weight:500;color:rgba(255,255,255,0.78);display:flex;align-items:center;gap:7px}
-.footer-col-text svg{width:15px;height:15px;flex-shrink:0;opacity:0.75}
-.footer-divider{height:1px;background:rgba(255,255,255,0.10)}
-.footer-bottom{padding:16px 24px 28px;text-align:center;font-size:13px;color:rgba(255,255,255,0.58);line-height:1.8}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,0.38);line-height:1.5}
+.footer-guarantee{font-size:12px;color:rgba(255,255,255,0.28);line-height:1.65;margin-top:2px}
+.footer-guarantee strong{color:rgba(255,255,255,0.52);font-weight:700}
+.footer-col-label{font-size:10px;font-weight:800;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:2px}
+.footer-col-text{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.45);padding:3px 0;cursor:default;user-select:none}
+.footer-col-text svg{width:14px;height:14px;flex-shrink:0;opacity:0.65}
+.footer-col-text--email{font-size:12px;word-break:break-all}
+.footer-divider{height:1px;background:rgba(255,255,255,0.07)}
+.footer-bottom{padding:16px 24px 28px;text-align:center;font-size:11px;color:rgba(255,255,255,0.22);line-height:1.8}
 
 /* ══ NAV LINKS ══ */
 .nav-right{display:flex;align-items:center;gap:8px}
@@ -251,15 +252,19 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   .page-inner{padding-top:70px;padding-left:0;padding-right:0}
   .card{margin:0 0 14px}
   /* Footer 3-col at tablet+ */
-  .footer-inner{flex-direction:row;align-items:flex-start;text-align:left;gap:0}
-  .footer-col{flex:1;padding:0 20px}
-  .footer-col--brand{align-items:flex-start;padding-left:0}
+  .footer{padding:52px 0 0}
+  .footer-inner{display:grid;grid-template-columns:1.8fr 1fr 1.2fr;align-items:start;text-align:left;gap:40px;padding:0 48px 44px}
+  .footer-col--brand{align-items:flex-start}
   .footer-col-text{justify-content:flex-start}
+  .footer-bottom{padding:16px 48px 32px;text-align:center}
 }
 
 @media(min-width:1024px){
   .page{max-width:760px}
   .order-header{max-width:760px}
+  .footer{padding:64px 0 0}
+  .footer-inner{grid-template-columns:2fr 1fr 1.3fr;gap:56px;padding:0 80px 52px}
+  .footer-bottom{padding:20px 80px 36px}
 }
 </style>
 </head>
@@ -659,7 +664,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         Messenger
       </span>
-      <span class="footer-col-text" style="font-size:13px;word-break:break-all">
+      <span class="footer-col-text footer-col-text--email">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
         powerpoint.officialth@gmail.com
       </span>

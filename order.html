@@ -456,8 +456,11 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .footer-guarantee{font-size:12px;color:rgba(255,255,255,0.28);line-height:1.65;margin-top:2px}
 .footer-guarantee strong{color:rgba(255,255,255,0.52);font-weight:700}
 .footer-col-label{font-size:10px;font-weight:800;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:2px}
-.footer-col-link{font-size:13.5px;font-weight:500;color:rgba(255,255,255,0.55);text-decoration:none;transition:color .15s;display:flex;align-items:center;gap:7px}
-.footer-col-link:hover{color:rgba(255,255,255,0.9)}
+.footer-col-link{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,0.45);
+  text-decoration:none;padding:3px 0;transition:color .15s;
+}
 .footer-col-link:active{color:rgba(255,255,255,0.9)}
 .footer-col-link svg{width:14px;height:14px;flex-shrink:0;opacity:0.65}
 .footer-col-link--email{font-size:12px;word-break:break-all}
@@ -488,7 +491,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   .trust-chips{padding:10px 0}
   .submit-area{padding:0 0 4px}
   .footer{padding:52px 0 0}
-  .footer-inner{flex-direction:row;align-items:flex-start;text-align:left;padding:0 48px 48px;gap:40px}
+  .footer-inner{display:grid;grid-template-columns:1.8fr 1fr 1.2fr;align-items:start;text-align:left;gap:40px;padding:0 48px 44px}
   .footer-col--brand{align-items:flex-start}
   .footer-col-link{justify-content:flex-start}
   .footer-bottom{padding:16px 48px 32px;text-align:center}
@@ -921,9 +924,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
       <!-- Col 2: Menu -->
       <div class="footer-col">
         <div class="footer-col-label">เมนู</div>
-        <a href="/" class="footer-col-link">หน้าหลัก</a>
         <a href="/#strip" class="footer-col-link">ตัวอย่างสไลด์</a>
         <a href="/#reviews" class="footer-col-link">รีวิวจากลูกค้า</a>
+        <a href="/#how" class="footer-col-link">วิธีสั่งซื้อ</a>
         <a href="download" class="footer-col-link">วิธีดาวน์โหลด</a>
       </div>
       <!-- Col 3: Contact -->
