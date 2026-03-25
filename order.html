@@ -21,7 +21,7 @@ html{scroll-behavior:smooth}
   --white:#fff;--ease:cubic-bezier(0.16,1,0.3,1);
   --max:430px;
 }
-body{font-family:'Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text);-webkit-font-smoothing:antialiased}
+body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text);-webkit-font-smoothing:antialiased}
 .page{max-width:var(--max);margin:0 auto;background:#F5F5F7;min-height:100vh}
 
 /* ── Nav ── */
@@ -479,7 +479,7 @@ body{font-family:'Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text
 /* ── Tablet 768px+ ── */
 @media(min-width:768px){
   .page{max-width:100%;box-shadow:none}
-  .nav{padding:12px 40px}
+  .nav{padding:12px 28px}
   .nav-links{display:flex}
   .hamburger{display:none}
   .page-inner{padding:78px 24px 48px;max-width:900px;margin:0 auto}
@@ -496,7 +496,7 @@ body{font-family:'Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text
 /* ── Desktop 1024px+ ── */
 @media(min-width:1024px){
   .page{max-width:100%}
-  .nav{padding:12px 80px}
+  .nav{padding:14px 64px}
   .page-inner{max-width:1060px;padding-left:40px;padding-right:40px}
 
   /* 2-column layout */
@@ -529,7 +529,7 @@ body{font-family:'Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text
         <a href="/#strip" class="nav-link">ตัวอย่าง</a>
         <a href="/#reviews" class="nav-link">รีวิว</a>
         <a href="/#how" class="nav-link">ขั้นตอนการซื้อ</a>
-        <a href="guide" class="nav-link">วิธีดาวน์โหลด</a>
+        <a href="download" class="nav-link">วิธีดาวน์โหลด</a>
       </div>
       <a href="order" class="nav-cta">รับสไลด์เลย</a>
       <button class="hamburger" id="menuBtn" onclick="openDrawer()" aria-label="เมนู">
@@ -721,7 +721,7 @@ body{font-family:'Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text
       <div class="total-row">
         <div>
           <div class="total-label">ยอดรวมทั้งหมด</div>
-          <div class="total-note">รวม VAT 7% แล้ว</div>
+          <div class="total-note">รวม VAT 7% แล้ว (฿32.64)</div>
         </div>
         <div style="text-align:right">
           <div class="total-price">499฿</div>
@@ -819,7 +819,7 @@ body{font-family:'Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
             ชื่อ-นามสกุล <span class="req">*</span>
           </label>
-          <input type="text" class="form-input" id="inputName" placeholder="เช่น สมหญิง ใจดี" autocomplete="name">
+          <input type="text" class="form-input" id="inputName" placeholder="เช่น ชื่อ-นามสกุล" autocomplete="name">
           <div class="error-msg" id="errName">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             กรุณากรอกชื่อ-นามสกุล
@@ -829,7 +829,7 @@ body{font-family:'Noto Sans Thai',sans-serif;background:#F5F5F7;color:var(--text
         <div class="form-group">
           <label class="form-label">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            อีเมล <span class="req">*</span>
+            อีเมล <span style="font-weight:400;font-size:13px;color:var(--text-sub)">(จะส่งไฟล์ไปที่นี่)</span> <span class="req">*</span>
           </label>
           <input type="email" class="form-input" id="inputEmail" placeholder="example@email.com" autocomplete="email" inputmode="email">
           <div class="error-msg" id="errEmail">
