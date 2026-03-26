@@ -585,6 +585,15 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   .footer-bottom{font-size:13px}
 }
 </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1266196328254901');
+fbq('track','PageView');
+fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',content_ids:['pptx-coachtarn'],content_type:'product',value:499,currency:'THB'});
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 </head>
 <body>
 <div class="page">
@@ -1112,6 +1121,9 @@ async function handleSubmit() {
     return;
   }
 
+  // ── Meta Pixel: InitiateCheckout ──────────────────────────────────────────
+  if (typeof fbq !== 'undefined') fbq('track','InitiateCheckout',{value:499,currency:'THB',num_items:1,content_ids:['pptx-coachtarn']});
+
   // ── Loading ───────────────────────────────────────────────────────────────
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
@@ -1299,6 +1311,9 @@ function hideRejected() {
 
 // ── Success section ────────────────────────────────────────────────────────────
 function showSuccess(email) {
+  // ── Meta Pixel: Purchase ──────────────────────────────────────────────────
+  if (typeof fbq !== 'undefined') fbq('track','Purchase',{value:499,currency:'THB',content_name:'PowerPoint Template by Coach Tarn',content_ids:['pptx-coachtarn'],content_type:'product'});
+
   document.getElementById('successEmail').textContent      = email;
   document.getElementById('mainContent').style.display    = 'none';
   document.getElementById('rejectedSection').style.display = 'none';
