@@ -467,6 +467,26 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .footer-divider{height:1px;background:rgba(255,255,255,0.07)}
 .footer-bottom{padding:16px 24px 28px;text-align:center;font-size:11px;color:rgba(255,255,255,0.22);line-height:1.8}
 
+/* ── Use Case Cards ── */
+.use-case-group{margin-top:0;padding:20px 18px 20px;border-top:1px solid var(--border)}
+.use-case-heading{font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:8px}
+.use-case-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.use-case-card{
+  border:1.5px solid var(--border);border-radius:12px;
+  padding:12px 10px;font-size:13px;font-weight:600;
+  font-family:inherit;color:var(--text-mid);
+  background:#fff;cursor:pointer;text-align:center;
+  transition:border-color .15s,background .15s,color .15s,transform .1s;
+  line-height:1.4;
+}
+.use-case-card:active{transform:scale(0.97)}
+.use-case-card.selected{
+  border-color:var(--red);
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  color:#fff;
+}
+.use-case-card--wide{grid-column:1/-1}
+
 /* spacing helper — top offset for fixed nav */
 .page-inner{padding-top:74px;padding-bottom:40px}
 
@@ -962,6 +982,18 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
         </div>
       </div>
 
+      <!-- Use Case selector -->
+      <div class="use-case-group">
+        <div class="use-case-heading">คุณใช้งานในด้านไหน</div>
+        <div class="use-case-cards">
+          <button type="button" class="use-case-card" data-value="employee" onclick="selectUseCase(this)">พนักงาน / คนทำงาน</button>
+          <button type="button" class="use-case-card" data-value="teacher" onclick="selectUseCase(this)">ครู / วิทยากร</button>
+          <button type="button" class="use-case-card" data-value="business" onclick="selectUseCase(this)">เจ้าของธุรกิจ</button>
+          <button type="button" class="use-case-card" data-value="sales" onclick="selectUseCase(this)">งานขาย / Pitching</button>
+          <button type="button" class="use-case-card use-case-card--wide" data-value="other" onclick="selectUseCase(this)">อื่นๆ</button>
+        </div>
+      </div>
+
       <!-- Cloudflare Turnstile invisible widget -->
       <div id="cf-turnstile" class="cf-turnstile"
            data-sitekey="0x4AAAAAACsD8RZ-057dj9gQ"
@@ -1048,6 +1080,14 @@ function copyAcc() {
       btn.style.background='';btn.style.color='';btn.style.borderColor='';
     }, 2000);
   });
+}
+
+// Use Case selection
+let selectedUseCase = null;
+function selectUseCase(el) {
+  document.querySelectorAll('.use-case-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedUseCase = el.dataset.value;
 }
 
 // File upload
@@ -1169,6 +1209,7 @@ async function handleSubmit() {
         slip_url  : slipPath,
         status    : 'pending',
         ref_source: new URLSearchParams(location.search).get('ref') ?? sessionStorage.getItem('ct_ref') ?? 'direct',
+        use_case  : selectedUseCase,
       }),
     });
     if (!insertRes.ok) throw new Error('insert_failed');

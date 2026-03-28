@@ -9,17 +9,29 @@ const GMAIL_USER  = Deno.env.get('GMAIL_USER')!
 const GMAIL_PASS  = Deno.env.get('GMAIL_APP_PASSWORD')!
 const OWNER_EMAIL = Deno.env.get('OWNER_EMAIL')!
 
-serve(async () => {
+serve(async (req) => {
   try {
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     )
 
-    // ── เดือนที่แล้ว ────────────────────────────────────────────────────────
-    const now       = new Date()
-    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-    const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59)
+    // ── optional override_month สำหรับ test (YYYY-MM) ───────────────────────
+    let body: any = {}
+    try { body = await req.json() } catch { /* cron has no body */ }
+    const overrideMonth: string | undefined = body?.override_month
+
+    // ── เดือนที่แล้ว (หรือ override) ───────────────────────────────────────
+    const now = new Date()
+    let lastMonth: Date, lastMonthEnd: Date
+    if (overrideMonth) {
+      const [oy, om] = overrideMonth.split('-').map(Number)
+      lastMonth    = new Date(oy, om - 1, 1)
+      lastMonthEnd = new Date(oy, om, 0, 23, 59, 59)
+    } else {
+      lastMonth    = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+      lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59)
+    }
 
     const monthStr = lastMonth.toLocaleDateString('th-TH', {
       timeZone: 'Asia/Bangkok', year: 'numeric', month: 'long',
