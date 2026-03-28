@@ -486,6 +486,16 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   color:#fff;
 }
 .use-case-card--wide{grid-column:1/-1}
+.use-case-other-input{
+  display:none;margin-top:8px;
+  width:100%;padding:11px 14px;
+  border:1.5px solid var(--border);border-radius:12px;
+  font-size:13px;font-family:inherit;color:var(--text);
+  background:#fff;outline:none;
+  transition:border-color .15s;
+}
+.use-case-other-input:focus{border-color:var(--red)}
+.use-case-other-input.show{display:block}
 
 /* spacing helper — top offset for fixed nav */
 .page-inner{padding-top:74px;padding-bottom:40px}
@@ -992,6 +1002,7 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
           <button type="button" class="use-case-card" data-value="sales" onclick="selectUseCase(this)">งานขาย / Pitching</button>
           <button type="button" class="use-case-card use-case-card--wide" data-value="other" onclick="selectUseCase(this)">อื่นๆ</button>
         </div>
+        <input type="text" id="useCaseOther" class="use-case-other-input" placeholder="ระบุเพิ่มเติม..." maxlength="80" oninput="selectedUseCase='other:'+this.value.trim()">
       </div>
 
       <!-- Cloudflare Turnstile invisible widget -->
@@ -1087,7 +1098,15 @@ let selectedUseCase = null;
 function selectUseCase(el) {
   document.querySelectorAll('.use-case-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
-  selectedUseCase = el.dataset.value;
+  const otherInput = document.getElementById('useCaseOther');
+  if (el.dataset.value === 'other') {
+    otherInput.classList.add('show');
+    otherInput.focus();
+    selectedUseCase = 'other:' + otherInput.value.trim();
+  } else {
+    otherInput.classList.remove('show');
+    selectedUseCase = el.dataset.value;
+  }
 }
 
 // File upload

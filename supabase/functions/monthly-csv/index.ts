@@ -40,7 +40,7 @@ serve(async (req) => {
     const { data: orders } = await supabase
       .from('orders')
       .select(`
-        id, name, email, status, ref_source, created_at,
+        id, name, email, status, ref_source, use_case, created_at,
         redeem_codes ( code, last_used_at )
       `)
       .eq('status', 'verified')
@@ -52,7 +52,20 @@ serve(async (req) => {
     const revenue = rows.length * 499
 
     // ── สร้าง CSV ───────────────────────────────────────────────────────────
-    const csvHeader = 'ลำดับ,วันที่,เวลา,ชื่อ,อีเมล,Redeem Code,ใช้งานล่าสุด,ช่องทาง,ยอด (฿)\n'
+    function useCaseLabel(val: string | null): string {
+      if (!val) return '-'
+      const map: Record<string, string> = {
+        'employee': 'พนักงาน / คนทำงาน',
+        'teacher' : 'ครู / วิทยากร',
+        'business': 'เจ้าของธุรกิจ',
+        'sales'   : 'งานขาย / Pitching',
+        'other'   : 'อื่นๆ',
+      }
+      if (val.startsWith('other:')) return `อื่นๆ (${val.slice(6) || '-'})`
+      return map[val] ?? val
+    }
+
+    const csvHeader = 'ลำดับ,วันที่,เวลา,ชื่อ,อีเมล,Redeem Code,ใช้งานล่าสุด,ช่องทาง,ด้านการใช้งาน,ยอด (฿)\n'
     const csvRows = rows.map((o, i) => {
       const date = new Date(o.created_at).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok' })
       const time = new Date(o.created_at).toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit' })
@@ -61,10 +74,11 @@ serve(async (req) => {
         ? new Date((o.redeem_codes as any)[0].last_used_at).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok' })
         : 'ยังไม่ได้ใช้'
       const src = o.ref_source ?? 'direct'
+      const uc  = `"${useCaseLabel(o.use_case).replace(/"/g, '""')}"`
       // escape commas in name/email
       const safeName  = `"${o.name.replace(/"/g, '""')}"`
       const safeEmail = `"${o.email.replace(/"/g, '""')}"`
-      return `${i + 1},${date},${time},${safeName},${safeEmail},${code},${lastUsed},${src},499`
+      return `${i + 1},${date},${time},${safeName},${safeEmail},${code},${lastUsed},${src},${uc},499`
     }).join('\n')
 
     const csv = '\uFEFF' + csvHeader + csvRows  // BOM สำหรับ Excel ภาษาไทย

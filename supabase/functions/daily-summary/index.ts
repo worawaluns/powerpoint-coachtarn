@@ -31,7 +31,7 @@ serve(async (req) => {
 
     const { data: orders } = await supabase
       .from('orders')
-      .select('id, name, email, status, ref_source, slip_url, created_at')
+      .select('id, name, email, status, ref_source, use_case, slip_url, created_at')
       .gte('created_at', startUTC.toISOString())
       .lte('created_at', endUTC.toISOString())
       .order('created_at', { ascending: false })
@@ -50,6 +50,19 @@ serve(async (req) => {
 
     // ── แปลง ref code เป็น label อ่านง่าย ──────────────────────────────────
     // ถ้าไม่มี ref หรือเป็น 'direct' = เข้ามาจาก URL ปกติ → FB Ads
+    function useCaseLabel(val: string | null): string {
+      if (!val) return '-'
+      const map: Record<string, string> = {
+        'employee': 'พนักงาน / คนทำงาน',
+        'teacher' : 'ครู / วิทยากร',
+        'business': 'เจ้าของธุรกิจ',
+        'sales'   : 'งานขาย / Pitching',
+        'other'   : 'อื่นๆ',
+      }
+      if (val.startsWith('other:')) return `อื่นๆ (${val.slice(6) || '-'})`
+      return map[val] ?? val
+    }
+
     function refLabel(ref: string | null): string {
       const map: Record<string, string> = {
         'fbbio'  : 'FB bio',
@@ -106,6 +119,7 @@ serve(async (req) => {
         <td style="padding:8px 12px;font-size:13px;color:#6E6E73;border-bottom:1px solid #F0F0F0;">${o.email}</td>
         <td style="padding:8px 12px;font-size:13px;color:#6E6E73;border-bottom:1px solid #F0F0F0;">${time}</td>
         <td style="padding:8px 12px;font-size:13px;color:#D34724;font-weight:600;border-bottom:1px solid #F0F0F0;">${refLabel(o.ref_source)}</td>
+        <td style="padding:8px 12px;font-size:13px;color:#6E6E73;border-bottom:1px solid #F0F0F0;">${useCaseLabel(o.use_case)}</td>
       </tr>`
     }).join('')
 
@@ -177,6 +191,7 @@ serve(async (req) => {
         <th style="padding:10px 12px;font-size:11px;font-weight:600;color:#6E6E73;text-align:left;">อีเมล</th>
         <th style="padding:10px 12px;font-size:11px;font-weight:600;color:#6E6E73;text-align:left;">เวลา</th>
         <th style="padding:10px 12px;font-size:11px;font-weight:600;color:#6E6E73;text-align:left;">ช่องทาง</th>
+        <th style="padding:10px 12px;font-size:11px;font-weight:600;color:#6E6E73;text-align:left;">ด้านการใช้งาน</th>
       </tr>
       ${orderRows}
     </table>
