@@ -247,7 +247,7 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS })
 
   try {
-    const { order_id, turnstile_token } = await req.json()
+    const { order_id, turnstile_token, is_retry } = await req.json()
     if (!order_id) return Response.json({ error: 'missing order_id' }, { status: 400, headers: CORS })
 
     // ── 1. Turnstile bot check (soft — Slip2Go คือ security จริง) ────────────
@@ -301,7 +301,7 @@ serve(async (req) => {
             payload: {
               imageUrl: signedData.signedUrl,
               checkCondition: {
-                checkDuplicate: true,
+                checkDuplicate: is_retry ? false : true,
                 checkReceiver: [{ accountType: ACCOUNT_TYPE, accountNameTH: ACCOUNT_NAME, accountNumber: ACCOUNT_NUMBER }],
                 checkAmount: { type: 'eq', amount: PRICE },
               },
@@ -349,7 +349,10 @@ serve(async (req) => {
       let reason = 'invalid_slip'
       if      (s2gCode === '200401') reason = 'wrong_account'
       else if (s2gCode === '200402') reason = 'wrong_amount'
-      else if (s2gCode === '200404') reason = 'invalid_slip'
+      else if (s2gCode === '200404') {
+        // Slip not found yet — could be BBL delay. Return pending, do NOT reject.
+        return Response.json({ status: 'bbl_pending' }, { headers: CORS })
+      }
       else if (s2gCode === '200500') reason = 'invalid_slip'
 
       await supabase.from('orders').update({ status: 'rejected', reject_reason: reason }).eq('id', order_id)

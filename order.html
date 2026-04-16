@@ -300,6 +300,13 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:16px;font-weight:700;color:var(--text)}
 .loading-sub{font-size:14px;color:var(--text-sub)}
+/* ── BBL wait state ── */
+.bbl-wait{display:none;text-align:center;width:100%;max-width:280px;padding:0 24px}
+.bbl-countdown{font-size:56px;font-weight:900;color:var(--text);letter-spacing:-3px;line-height:1;margin-bottom:10px;font-variant-numeric:tabular-nums}
+.bbl-label{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px}
+.bbl-sub{font-size:13px;color:var(--text-sub);margin-bottom:20px}
+.bbl-bar-wrap{background:var(--border);border-radius:100px;height:5px;overflow:hidden}
+.bbl-bar{height:100%;background:linear-gradient(90deg,var(--orange),var(--red));border-radius:100px;width:0%;transition:width 1s linear}
 
 /* ── Shared keyframes ── */
 @keyframes fadeInUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
@@ -1072,9 +1079,18 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
 
 <!-- Loading overlay -->
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner"></div>
-  <div class="loading-text">กำลังตรวจสอบสลิป...</div>
-  <div class="loading-sub">ระบบอัตโนมัติ ใช้เวลาไม่ถึง 1 นาที</div>
+  <div class="spinner" id="loadingSpinner"></div>
+  <div class="loading-text" id="loadingText">กำลังตรวจสอบสลิป...</div>
+  <div class="loading-sub" id="loadingSub">ระบบอัตโนมัติ ใช้เวลาไม่ถึง 1 นาที</div>
+  <!-- BBL wait state (hidden by default) -->
+  <div class="bbl-wait" id="bblWait">
+    <div class="bbl-countdown" id="bblCountdown">3:30</div>
+    <div class="bbl-label">กำลังตรวจสอบกับธนาคาร</div>
+    <div class="bbl-sub">กรุณาอย่าปิดหน้านี้</div>
+    <div class="bbl-bar-wrap">
+      <div class="bbl-bar" id="bblBar"></div>
+    </div>
+  </div>
 </div>
 
 
@@ -1248,13 +1264,18 @@ async function handleSubmit() {
     const result = await verifyRes.json();
     document.getElementById('progressBar').style.width = '100%';
 
-    await new Promise(r => setTimeout(r, 400)); // รอ progress bar เสร็จ
-
-    document.getElementById('loadingOverlay').classList.remove('show');
-
     // ── รีเซ็ต Turnstile token ────────────────────────────────────────────
     cfToken = '';
     if (typeof turnstile !== 'undefined') turnstile.reset('#cf-turnstile');
+
+    // ── BBL delay: สลิปยังไม่พบ รอแล้ว retry ────────────────────────────
+    if (result.status === 'bbl_pending') {
+      await startBBLWait(orderId, email);
+      return;
+    }
+
+    await new Promise(r => setTimeout(r, 400)); // รอ progress bar เสร็จ
+    document.getElementById('loadingOverlay').classList.remove('show');
 
     if (result.status === 'verified') {
       // ── สำเร็จ ────────────────────────────────────────────────────────────
@@ -1277,6 +1298,100 @@ async function handleSubmit() {
 function setErr(inputId, errId) {
   document.getElementById(inputId).classList.add('error');
   document.getElementById(errId).classList.add('show');
+}
+
+// ── BBL delay: switch overlay to wait mode ────────────────────────────────────
+function switchToBBLMode() {
+  document.getElementById('loadingSpinner').style.display = 'none';
+  document.getElementById('loadingText').style.display    = 'none';
+  document.getElementById('loadingSub').style.display     = 'none';
+  document.getElementById('bblWait').style.display        = 'block';
+}
+function resetLoadingMode() {
+  document.getElementById('loadingSpinner').style.display = '';
+  document.getElementById('loadingText').style.display    = '';
+  document.getElementById('loadingSub').style.display     = '';
+  document.getElementById('bblWait').style.display        = 'none';
+  document.getElementById('bblBar').style.width           = '0%';
+  document.getElementById('bblCountdown').textContent     = '3:30';
+}
+
+async function startBBLWait(orderId, email) {
+  const TOTAL_SEC = 210;                        // 3:30 total
+  const RETRY_AT  = [45, 90, 150, 210];         // retry at these seconds from start
+  const startTime = Date.now();
+  let   finished  = false;
+
+  switchToBBLMode();
+
+  // ── countdown + progress ticker ──────────────────────────────────────────
+  const ticker = setInterval(() => {
+    if (finished) return;
+    const elapsed   = (Date.now() - startTime) / 1000;
+    const remaining = Math.max(0, TOTAL_SEC - elapsed);
+    const m = Math.floor(remaining / 60);
+    const s = Math.floor(remaining % 60);
+    document.getElementById('bblCountdown').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+    document.getElementById('bblBar').style.width = Math.min(100, (elapsed / TOTAL_SEC) * 100) + '%';
+  }, 1000);
+
+  // ── retry loop ───────────────────────────────────────────────────────────
+  try {
+    for (const sec of RETRY_AT) {
+      // รอจนถึงเวลา retry นั้น
+      const waitMs = Math.max(0, sec * 1000 - (Date.now() - startTime));
+      await new Promise(r => setTimeout(r, waitMs));
+      if (finished) break;
+
+      let result;
+      try {
+        const res = await fetch(`${SUPA_URL}/functions/v1/verify-slip`, {
+          method : 'POST',
+          headers: { 'Authorization': `Bearer ${SUPA_ANON_KEY}`, 'Content-Type': 'application/json' },
+          body   : JSON.stringify({ order_id: orderId, is_retry: true }),
+        });
+        result = await res.json();
+      } catch (_) {
+        continue; // network error → ลอง retry ถัดไป
+      }
+
+      if (result.status === 'verified') {
+        finished = true;
+        clearInterval(ticker);
+        document.getElementById('bblBar').style.width = '100%';
+        await new Promise(r => setTimeout(r, 500));
+        document.getElementById('loadingOverlay').classList.remove('show');
+        resetLoadingMode();
+        showSuccess(email);
+        return;
+      }
+
+      if (result.status !== 'bbl_pending') {
+        // rejected จริงๆ (wrong account / duplicate ฯลฯ)
+        finished = true;
+        clearInterval(ticker);
+        document.getElementById('loadingOverlay').classList.remove('show');
+        resetLoadingMode();
+        showRejected(result);
+        return;
+      }
+      // ยังเป็น bbl_pending → รอ retry ถัดไป
+    }
+
+    // ── retry หมดแล้วยังไม่พบ ────────────────────────────────────────────
+    finished = true;
+    clearInterval(ticker);
+    document.getElementById('loadingOverlay').classList.remove('show');
+    resetLoadingMode();
+    showRejected({ reason: 'invalid_slip' });
+
+  } catch (err) {
+    finished = true;
+    clearInterval(ticker);
+    document.getElementById('loadingOverlay').classList.remove('show');
+    resetLoadingMode();
+    showRejected({ reason: 'error' });
+  }
 }
 
 // ── Turnstile ────────────────────────────────────────────────────────────────
