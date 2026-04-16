@@ -300,13 +300,63 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:16px;font-weight:700;color:var(--text)}
 .loading-sub{font-size:14px;color:var(--text-sub)}
-/* ── BBL wait state ── */
-.bbl-wait{display:none;text-align:center;width:100%;max-width:280px;padding:0 24px}
-.bbl-countdown{font-size:56px;font-weight:900;color:var(--text);letter-spacing:-3px;line-height:1;margin-bottom:10px;font-variant-numeric:tabular-nums}
-.bbl-label{font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px}
-.bbl-sub{font-size:13px;color:var(--text-sub);margin-bottom:20px}
+/* ── BBL Section (card, nav stays visible) ── */
+#bblSection{display:none;padding-bottom:8px}
+.bbl-card{
+  background:#fff;border-radius:24px;border:1px solid var(--border);
+  overflow:hidden;margin:12px 16px 14px;
+  animation:cardSlideIn 0.4s var(--ease) forwards;
+}
+.bbl-strip{height:5px;background:linear-gradient(90deg,var(--orange),var(--red))}
+.bbl-hero{
+  padding:28px 24px 20px;text-align:center;
+  background:linear-gradient(180deg,rgba(235,125,74,0.06) 0%,#fff 65%);
+  border-bottom:1px solid var(--border);
+}
+.bbl-icon-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.bbl-pulse{
+  position:absolute;width:100px;height:100px;border-radius:50%;
+  border:2px solid rgba(211,71,36,0.35);
+  animation:ringPulse 2s ease infinite;
+}
+.bbl-ring{
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(235,125,74,0.1);border:2px solid rgba(211,71,36,0.2);
+  display:flex;align-items:center;justify-content:center;position:relative;z-index:1;
+}
+.bbl-ring svg{width:38px;height:38px}
+.bbl-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(211,71,36,0.08);border-radius:100px;
+  padding:4px 12px;margin-bottom:10px;
+  font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--red);
+}
+.bbl-badge-dot{width:6px;height:6px;background:var(--red);border-radius:50%;animation:dotBlink 1.4s ease-in-out infinite}
+.bbl-h{font-size:22px;font-weight:900;color:var(--text);letter-spacing:-0.5px;margin-bottom:6px}
+.bbl-p{font-size:14px;color:var(--text-mid);line-height:1.6}
+/* Steps */
+.bbl-steps{padding:18px 24px;display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--border)}
+.bbl-step{display:flex;align-items:center;gap:10px;font-size:14px}
+.bbl-step-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bbl-step-icon svg{width:14px;height:14px}
+.bbl-step.done .bbl-step-icon{background:rgba(34,197,94,0.12)}
+.bbl-step.done .bbl-step-icon svg{stroke:#16A34A}
+.bbl-step.done .bbl-step-label{color:var(--text-mid)}
+.bbl-step.active .bbl-step-icon{background:rgba(211,71,36,0.1)}
+.bbl-step.active .bbl-step-icon svg{stroke:var(--red)}
+.bbl-step.active .bbl-step-label{color:var(--text);font-weight:700}
+/* Timer */
+.bbl-timer-area{padding:20px 24px;text-align:center;border-bottom:1px solid var(--border)}
+.bbl-countdown-num{font-size:52px;font-weight:900;color:var(--text);letter-spacing:-3px;line-height:1;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.bbl-countdown-label{font-size:12px;color:var(--text-sub);margin-bottom:14px}
 .bbl-bar-wrap{background:var(--border);border-radius:100px;height:5px;overflow:hidden}
 .bbl-bar{height:100%;background:linear-gradient(90deg,var(--orange),var(--red));border-radius:100px;width:0%;transition:width 1s linear}
+/* Order row */
+.bbl-order{padding:14px 24px;background:#FAFAFA;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.bbl-order-amount{font-size:18px;font-weight:800;color:var(--red)}
+.bbl-order-email{font-size:12px;color:var(--text-sub);margin-top:2px}
+/* Notice */
+.bbl-notice{padding:14px 24px;text-align:center;font-size:13px;color:var(--text-sub);display:flex;align-items:center;justify-content:center;gap:5px}
 
 /* ── Shared keyframes ── */
 @keyframes fadeInUp{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
@@ -795,6 +845,59 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
     </div>
   </div>
 
+  <!-- ── BBL wait section (แสดงแทน mainContent ขณะรอธนาคาร, nav ยังอยู่) ── -->
+  <div id="bblSection">
+    <div class="bbl-card">
+      <div class="bbl-strip"></div>
+      <!-- Hero -->
+      <div class="bbl-hero">
+        <div class="bbl-icon-wrap">
+          <div class="bbl-pulse"></div>
+          <div class="bbl-ring">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        </div>
+        <div class="bbl-badge"><span class="bbl-badge-dot"></span>กำลังตรวจสอบ</div>
+        <h2 class="bbl-h">รอสักครู่นะคะ</h2>
+        <p class="bbl-p">ระบบกำลังยืนยันการโอนเงินกับธนาคาร<br>จะแจ้งผลโดยอัตโนมัติ</p>
+      </div>
+      <!-- Steps -->
+      <div class="bbl-steps">
+        <div class="bbl-step done">
+          <div class="bbl-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span class="bbl-step-label">ได้รับสลิปเรียบร้อยแล้ว</span>
+        </div>
+        <div class="bbl-step done">
+          <div class="bbl-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <span class="bbl-step-label">บันทึกข้อมูลเรียบร้อยแล้ว</span>
+        </div>
+        <div class="bbl-step active">
+          <div class="bbl-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <span class="bbl-step-label">กำลังยืนยันกับธนาคาร...</span>
+        </div>
+      </div>
+      <!-- Countdown + progress -->
+      <div class="bbl-timer-area">
+        <div class="bbl-countdown-num" id="bblCountdown">3:30</div>
+        <div class="bbl-countdown-label">เวลาโดยประมาณที่เหลือ</div>
+        <div class="bbl-bar-wrap"><div class="bbl-bar" id="bblBar"></div></div>
+      </div>
+      <!-- Order summary -->
+      <div class="bbl-order">
+        <div>
+          <div class="bbl-order-amount">฿499</div>
+          <div class="bbl-order-email" id="bblEmail"></div>
+        </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#AEAEB2" stroke-width="1.5" width="22" height="22"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <!-- Notice -->
+      <div class="bbl-notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        กรุณาอย่าปิดหน้านี้ระหว่างรอ
+      </div>
+    </div>
+  </div>
+
   <!-- ── Main content (ซ่อนเมื่อ rejected) ── -->
   <div id="mainContent">
     <div class="order-left">
@@ -1079,18 +1182,9 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
 
 <!-- Loading overlay -->
 <div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner" id="loadingSpinner"></div>
-  <div class="loading-text" id="loadingText">กำลังตรวจสอบสลิป...</div>
-  <div class="loading-sub" id="loadingSub">ระบบอัตโนมัติ ใช้เวลาไม่ถึง 1 นาที</div>
-  <!-- BBL wait state (hidden by default) -->
-  <div class="bbl-wait" id="bblWait">
-    <div class="bbl-countdown" id="bblCountdown">3:30</div>
-    <div class="bbl-label">กำลังตรวจสอบกับธนาคาร</div>
-    <div class="bbl-sub">กรุณาอย่าปิดหน้านี้</div>
-    <div class="bbl-bar-wrap">
-      <div class="bbl-bar" id="bblBar"></div>
-    </div>
-  </div>
+  <div class="spinner"></div>
+  <div class="loading-text">กำลังตรวจสอบสลิป...</div>
+  <div class="loading-sub">ระบบอัตโนมัติ ใช้เวลาไม่ถึง 1 นาที</div>
 </div>
 
 
@@ -1300,29 +1394,22 @@ function setErr(inputId, errId) {
   document.getElementById(errId).classList.add('show');
 }
 
-// ── BBL delay: switch overlay to wait mode ────────────────────────────────────
-function switchToBBLMode() {
-  document.getElementById('loadingSpinner').style.display = 'none';
-  document.getElementById('loadingText').style.display    = 'none';
-  document.getElementById('loadingSub').style.display     = 'none';
-  document.getElementById('bblWait').style.display        = 'block';
-}
-function resetLoadingMode() {
-  document.getElementById('loadingSpinner').style.display = '';
-  document.getElementById('loadingText').style.display    = '';
-  document.getElementById('loadingSub').style.display     = '';
-  document.getElementById('bblWait').style.display        = 'none';
-  document.getElementById('bblBar').style.width           = '0%';
-  document.getElementById('bblCountdown').textContent     = '3:30';
-}
-
+// ── BBL delay: show card section (nav stays visible) ─────────────────────────
 async function startBBLWait(orderId, email) {
-  const TOTAL_SEC = 210;                        // 3:30 total
-  const RETRY_AT  = [45, 90, 150, 210];         // retry at these seconds from start
+  const TOTAL_SEC = 210;
+  const RETRY_AT  = [45, 90, 150, 210];
   const startTime = Date.now();
   let   finished  = false;
 
-  switchToBBLMode();
+  // ซ่อน overlay + mainContent แสดง bblSection
+  document.getElementById('loadingOverlay').classList.remove('show');
+  document.getElementById('progressBar').style.width = '0%';
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('bblEmail').textContent = email;
+  document.getElementById('bblCountdown').textContent = '3:30';
+  document.getElementById('bblBar').style.width = '0%';
+  document.getElementById('bblSection').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
   // ── countdown + progress ticker ──────────────────────────────────────────
   const ticker = setInterval(() => {
@@ -1335,10 +1422,14 @@ async function startBBLWait(orderId, email) {
     document.getElementById('bblBar').style.width = Math.min(100, (elapsed / TOTAL_SEC) * 100) + '%';
   }, 1000);
 
+  function hideBBL() {
+    document.getElementById('bblSection').style.display = 'none';
+    document.getElementById('mainContent').style.display = '';
+  }
+
   // ── retry loop ───────────────────────────────────────────────────────────
   try {
     for (const sec of RETRY_AT) {
-      // รอจนถึงเวลา retry นั้น
       const waitMs = Math.max(0, sec * 1000 - (Date.now() - startTime));
       await new Promise(r => setTimeout(r, waitMs));
       if (finished) break;
@@ -1351,46 +1442,26 @@ async function startBBLWait(orderId, email) {
           body   : JSON.stringify({ order_id: orderId, is_retry: true }),
         });
         result = await res.json();
-      } catch (_) {
-        continue; // network error → ลอง retry ถัดไป
-      }
+      } catch (_) { continue; }
 
       if (result.status === 'verified') {
-        finished = true;
-        clearInterval(ticker);
+        finished = true; clearInterval(ticker);
         document.getElementById('bblBar').style.width = '100%';
-        await new Promise(r => setTimeout(r, 500));
-        document.getElementById('loadingOverlay').classList.remove('show');
-        resetLoadingMode();
-        showSuccess(email);
-        return;
+        await new Promise(r => setTimeout(r, 400));
+        hideBBL(); showSuccess(email); return;
       }
-
       if (result.status !== 'bbl_pending') {
-        // rejected จริงๆ (wrong account / duplicate ฯลฯ)
-        finished = true;
-        clearInterval(ticker);
-        document.getElementById('loadingOverlay').classList.remove('show');
-        resetLoadingMode();
-        showRejected(result);
-        return;
+        finished = true; clearInterval(ticker);
+        hideBBL(); showRejected(result); return;
       }
-      // ยังเป็น bbl_pending → รอ retry ถัดไป
     }
-
-    // ── retry หมดแล้วยังไม่พบ ────────────────────────────────────────────
-    finished = true;
-    clearInterval(ticker);
-    document.getElementById('loadingOverlay').classList.remove('show');
-    resetLoadingMode();
-    showRejected({ reason: 'invalid_slip' });
+    // retry หมดแล้วยังไม่พบ
+    finished = true; clearInterval(ticker);
+    hideBBL(); showRejected({ reason: 'invalid_slip' });
 
   } catch (err) {
-    finished = true;
-    clearInterval(ticker);
-    document.getElementById('loadingOverlay').classList.remove('show');
-    resetLoadingMode();
-    showRejected({ reason: 'error' });
+    finished = true; clearInterval(ticker);
+    hideBBL(); showRejected({ reason: 'error' });
   }
 }
 
