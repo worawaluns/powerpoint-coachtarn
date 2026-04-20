@@ -269,7 +269,7 @@ serve(async (req) => {
     // ── 2. ดึง order ─────────────────────────────────────────────────────────
     const { data: order, error: orderErr } = await supabase
       .from('orders')
-      .select('id, name, email, slip_url, status, trans_ref')
+      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id')
       .eq('id', order_id)
       .single()
 
@@ -400,6 +400,31 @@ serve(async (req) => {
       subject: `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
       html   : buildEmailHtml(order.name, redeemCode),
     })
+
+    // ── 11. ManyChat tag (additive, non-critical — only for Messenger-referred users) ────
+    try {
+      const mcId = order.manychat_subscriber_id
+      if (mcId) {
+        const mcRes = await fetch('https://api.manychat.com/fb/subscriber/addTagByName', {
+          method : 'POST',
+          headers: {
+            'Authorization': `Bearer ${Deno.env.get('MANYCHAT_API_TOKEN')}`,
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify({
+            subscriber_id: Number(mcId),
+            tag_name     : 'website_purchased',
+          }),
+        })
+        if (!mcRes.ok) {
+          const errorBody = await mcRes.text()
+          console.error('[verify-slip] ManyChat API non-200:', mcRes.status, errorBody)
+        }
+      }
+    } catch (error) {
+      console.error('[verify-slip] ManyChat tag call failed (non-critical):', error)
+      // Must NOT throw — order is already verified and email sent
+    }
 
     return Response.json({ status: 'verified', code: redeemCode }, { headers: CORS })
 
