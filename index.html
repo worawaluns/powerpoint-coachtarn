@@ -3919,6 +3919,19 @@ function closeDrawer() {
     a.href = 'order?ref=' + encodeURIComponent(ref);
   });
 })();
+
+/* ── ManyChat subscriber tracking — capture mc_id + ref to localStorage (persists across sessions) ── */
+(function(){
+  var params = new URLSearchParams(location.search);
+  var mcId = params.get('mc_id');
+  var ref  = params.get('ref');
+  if (mcId) {
+    localStorage.setItem('manychat_subscriber_id', mcId);
+  }
+  if (ref) {
+    localStorage.setItem('traffic_ref', ref);
+  }
+})();
 </script>
 </body>
 </html>
