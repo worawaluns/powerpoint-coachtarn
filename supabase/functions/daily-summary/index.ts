@@ -109,6 +109,7 @@ serve(async (req) => {
       timeZone: 'Asia/Bangkok',
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
     })
+    const dateISO = `${y}-${String(m + 1).padStart(2,'0')}-${String(d).padStart(2,'0')}`
 
     const orderRows = verifiedWithSlip.map(o => {
       const time = new Date(o.created_at).toLocaleTimeString('th-TH', {
@@ -221,7 +222,7 @@ serve(async (req) => {
     await transporter.sendMail({
       from   : `"Coach Tarn Slide · Report" <${GMAIL_USER}>`,
       to     : OWNER_EMAIL,
-      subject: `📊 สรุปยอดขาย ${dateStr}: ${verified.length} ออเดอร์ · ฿${revenue.toLocaleString()}`,
+      subject: `📊 สรุปยอดขายวันที่ ${dateISO} — ${verified.length} คำสั่งซื้อสำเร็จ (฿${revenue.toLocaleString()})`,
       html,
     })
 
