@@ -1352,6 +1352,14 @@ async function handleSubmit() {
 
     document.getElementById('progressBar').style.width = '60%';
 
+    // ── ManyChat subscriber ID — captured by index.html IIFE (null = web/direct) ──
+    let manychatSubscriberId = null;
+    try {
+      manychatSubscriberId = localStorage.getItem('manychat_subscriber_id');
+    } catch (e) {
+      // localStorage blocked (private mode / strict cookie policy) → keep null
+    }
+
     // ── 3. INSERT order ────────────────────────────────────────────────────
     const insertRes = await fetch(`${SUPA_URL}/rest/v1/orders`, {
       method : 'POST',
@@ -1369,6 +1377,7 @@ async function handleSubmit() {
         status    : 'pending',
         ref_source: new URLSearchParams(location.search).get('ref') ?? sessionStorage.getItem('ct_ref') ?? 'direct',
         use_case  : selectedUseCase,
+        manychat_subscriber_id: manychatSubscriberId,
       }),
     });
     if (!insertRes.ok) throw new Error('insert_failed');
