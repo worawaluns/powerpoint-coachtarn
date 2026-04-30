@@ -9,16 +9,19 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 -- ── TABLE: orders ────────────────────────────────────────────────────
 -- เก็บทุก order ที่ลูกค้า submit (ทั้ง pending และ verified)
 CREATE TABLE public.orders (
-  id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  name         TEXT        NOT NULL,                          -- ชื่อลูกค้า
-  email        TEXT        NOT NULL,                          -- อีเมลลูกค้า
-  slip_url     TEXT,                                          -- path ของสลิปใน Storage
-  status       TEXT        NOT NULL DEFAULT 'pending',        -- pending | verified | rejected
-  trans_ref    TEXT,                                          -- รหัสอ้างอิงจาก Slip2Go (ป้องกันซ้ำ)
-  ref_source   TEXT        DEFAULT 'direct',                  -- ช่องทางที่มา
-  reject_reason TEXT,                                         -- เหตุผลที่ reject
-  created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
+  id                     UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  name                   TEXT        NOT NULL,                          -- ชื่อลูกค้า
+  email                  TEXT        NOT NULL,                          -- อีเมลลูกค้า
+  slip_url               TEXT,                                          -- path ของสลิปใน Storage
+  status                 TEXT        NOT NULL DEFAULT 'pending',        -- pending | verified | rejected
+  trans_ref              TEXT,                                          -- รหัสอ้างอิงจาก Slip2Go (ป้องกันซ้ำ)
+  ref_source             TEXT        DEFAULT 'direct',                  -- ช่องทางที่มา
+  reject_reason          TEXT,                                          -- เหตุผลที่ reject
+  manychat_subscriber_id TEXT,                                          -- ManyChat subscriber ID (ถ้ามาจาก Messenger ad)
+  recheck_count          INT         NOT NULL DEFAULT 0,                -- จำนวนครั้งที่ background recheck เรียก (max 3)
+  last_recheck_at        TIMESTAMPTZ,                                   -- เวลาที่ background recheck รันครั้งล่าสุด
+  created_at             TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at             TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 -- ป้องกันสลิปซ้ำ (trans_ref unique เฉพาะแถวที่ไม่ NULL)
@@ -32,6 +35,11 @@ CREATE INDEX idx_orders_status_date
 
 CREATE INDEX idx_orders_email
   ON public.orders(email);
+
+-- Index สำหรับ background recheck cron query (เร็วเฉพาะ rejected orders)
+CREATE INDEX idx_orders_recheck_candidates
+  ON public.orders(reject_reason, created_at, recheck_count, last_recheck_at)
+  WHERE status = 'rejected';
 
 -- ── TABLE: redeem_codes ──────────────────────────────────────────────
 -- เก็บ code ที่สร้างให้ลูกค้าแต่ละคน (1 order = 1 code)
@@ -118,4 +126,41 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER orders_updated_at
   BEFORE UPDATE ON public.orders
   FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+-- ═══════════════════════════════════════════════════════════════════
+--  Background Recheck Setup (Phase 2 — เม.ย. 2026)
+--  รันแยกต่างหากหลัง deploy `recheck-slips` Edge Function แล้ว
+--  แทนที่ <RECHECK_TOKEN> และ <PROJECT_REF> ด้วยค่าจริงก่อนรัน
+-- ═══════════════════════════════════════════════════════════════════
+/*
+-- Enable extensions
+CREATE EXTENSION IF NOT EXISTS pg_cron;
+CREATE EXTENSION IF NOT EXISTS pg_net;
+
+-- Schedule cron ทุก 15 นาที
+SELECT cron.schedule(
+  'recheck-slips',
+  '*/15 * * * *',
+  $$
+  SELECT net.http_post(
+    url     := 'https://<PROJECT_REF>.supabase.co/functions/v1/recheck-slips',
+    headers := jsonb_build_object(
+      'x-recheck-token', '<RECHECK_TOKEN>',
+      'Content-Type'   , 'application/json'
+    ),
+    body    := '{}'::jsonb,
+    timeout_milliseconds := 60000
+  );
+  $$
+);
+
+-- ดู cron jobs ทั้งหมด
+SELECT * FROM cron.job;
+
+-- ดู history การรันล่าสุด
+SELECT * FROM cron.job_run_details ORDER BY start_time DESC LIMIT 20;
+
+-- ลบ cron (ถ้าต้องการ)
+-- SELECT cron.unschedule('recheck-slips');
+*/
 
