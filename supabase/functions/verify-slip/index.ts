@@ -337,6 +337,14 @@ serve(async (req) => {
 
     // ── 5. สลิปซ้ำ ───────────────────────────────────────────────────────────
     if (s2gCode === '200501') {
+      // First call — could be the propagation trap (Slip2Go remembers our own previous
+      // failed call from a few minutes ago). Return pending to trigger frontend retry
+      // with checkDuplicate=false, which bypasses Slip2Go's memory and re-processes.
+      if (!is_retry) {
+        return Response.json({ status: 'bbl_pending' }, { headers: CORS })
+      }
+      // After retry with checkDuplicate=false: still duplicate → genuine duplicate.
+      // (DB trans_ref check at section 7 also catches replay attacks as a second layer.)
       await supabase.from('orders').update({ status: 'rejected', reject_reason: 'duplicate_slip' }).eq('id', order_id)
       return Response.json({ status: 'rejected', reason: 'duplicate' }, { headers: CORS })
     }
@@ -346,6 +354,15 @@ serve(async (req) => {
       // ✅ ถูกต้อง — ดำเนินการต่อด้านล่าง
     } else {
       // ── ไม่ผ่าน — วิเคราะห์ reason จาก code ───────────────────────────────
+
+      // ── First-call propagation safeguard ─────────────────────────────────
+      // 200401 (wrong_account) on first call could be bank propagation delay
+      // (recipient account info not yet synced). Return pending to trigger retry
+      // with checkDuplicate=false. After retry: if still 200401 → genuine reject.
+      if (s2gCode === '200401' && !is_retry) {
+        return Response.json({ status: 'bbl_pending' }, { headers: CORS })
+      }
+
       let reason = 'invalid_slip'
       if      (s2gCode === '200401') reason = 'wrong_account'
       else if (s2gCode === '200402') reason = 'wrong_amount'
