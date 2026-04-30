@@ -522,6 +522,23 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;
   display:flex;align-items:center;justify-content:center;gap:8px;
 }
+/* ── Rejected actions: swap visual hierarchy when FB is primary ── */
+.rej-actions{display:flex;flex-direction:column}
+.rej-actions.fb-primary .btn-fb{
+  order:1;padding:18px;font-size:16px;font-weight:800;
+  box-shadow:0 6px 20px rgba(24,119,242,0.32);margin-bottom:6px;
+}
+.rej-actions.fb-primary .rej-fb-note{order:2}
+.rej-actions.fb-primary .btn-retry{
+  order:3;background-image:none;background:#fff;color:var(--text-mid);
+  box-shadow:none;border:1.5px solid var(--border);
+  font-size:14px;font-weight:600;padding:13px;margin-bottom:0;margin-top:8px;
+}
+.rej-fb-note{
+  text-align:center;font-size:12px;color:var(--text-sub);
+  margin:0 0 4px;display:none;
+}
+.rej-actions.fb-primary .rej-fb-note{display:block}
 
 /* ── Footer ── */
 .footer{background:#111;padding:40px 24px 0}
@@ -872,11 +889,14 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
         <h2 class="rej-title" id="rejectedTitle"></h2>
         <p class="rej-msg" id="rejectedMsg"></p>
         <div class="rej-divider"></div>
-        <button class="btn-retry" onclick="hideRejected()">ลองใหม่อีกครั้ง</button>
-        <button class="btn-fb" onclick="contactFacebook()">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          ติดต่อแอดมิน Facebook
-        </button>
+        <div class="rej-actions" id="rejActions">
+          <button class="btn-retry" id="rejBtnRetry" onclick="hideRejected()">ลองใหม่อีกครั้ง</button>
+          <button class="btn-fb" id="rejBtnFb" onclick="contactFacebook()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            <span id="rejBtnFbText">ติดต่อแอดมิน Facebook</span>
+          </button>
+          <p class="rej-fb-note">ตอบไวภายใน 10 นาที</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1559,19 +1579,26 @@ function showRejected(result) {
 
   const CONFIGS = {
     wrong_amount:             { icon:'warn',   title:'ยอดเงินไม่ถูกต้อง',
-      msg:`ระบบตรวจพบว่าโอนมา ${actual ?? '?'} บาท แต่ต้องชำระ 499 บาท\nกรุณาโอนเพิ่มหรือแนบสลิปใหม่ที่มียอดครบ 499 บาท` },
-    wrong_account:            { icon:'error',  title:'โอนไปผิดบัญชี',
-      msg:'สลิปนี้ไม่ได้โอนมาที่บัญชีของ Coach Tarn\nกรุณาโอนมาที่เลขบัญชี 157-8-14776-0 (KBANK) เท่านั้น' },
+      msg:`ระบบตรวจพบว่าโอนมา ${actual ?? '?'} บาท แต่ต้องชำระ 499 บาท\nกรุณาโอนเพิ่มหรือแนบสลิปใหม่ที่มียอดครบ 499 บาท`,
+      fbPrimary:false },
+    wrong_account:            { icon:'warn',   title:'ระบบยังยืนยันสลิปไม่ได้',
+      msg:'ระบบตรวจสอบสลิปไม่สำเร็จ — เกิดได้ 2 สาเหตุ:\n\n• ธนาคารกำลังประมวลผลข้อมูล (ใช้เวลา 5-15 นาที)\n  รอสักครู่แล้วลองใหม่ได้เลย\n\n• โอนไปผิดบัญชี\n  กรุณาโอนมาที่ 157-8-14776-0 (KBANK)\n\nถ้าโอนเงินแล้วจริงๆ ทักแอดมินช่วยตรวจสอบทันที',
+      fbPrimary:true },
     wrong_amount_and_account: { icon:'error',  title:'ยอดเงินและบัญชีไม่ถูกต้อง',
-      msg:'สลิปนี้โอนไปผิดบัญชีและยอดเงินไม่ถูกต้อง\nกรุณาโอน 499 บาท มาที่เลขบัญชี 157-8-14776-0 (KBANK)' },
+      msg:'สลิปนี้โอนไปผิดบัญชีและยอดเงินไม่ถูกต้อง\nกรุณาโอน 499 บาท มาที่เลขบัญชี 157-8-14776-0 (KBANK)',
+      fbPrimary:false },
     duplicate:                { icon:'info',   title:'สลิปนี้เคยใช้แล้ว',
-      msg:'สลิปนี้เคยถูกใช้ในการสั่งซื้อแล้ว\nถ้ากรอกอีเมลผิด ติดต่อแอดมินผ่าน Facebook ได้เลยนะคะ' },
+      msg:'สลิปนี้ถูกใช้สั่งซื้อในระบบแล้ว ถ้าเป็นสลิปที่คุณเพิ่งโอน อาจเป็นเพราะ:\n\n• ระบบกำลังประมวลผล\n  รอสัก 5-10 นาที แล้วลองใหม่\n\n• กรอกอีเมลผิดในรอบก่อน\n  ทักแอดมินช่วยส่ง code ใหม่ได้',
+      fbPrimary:true },
     invalid_slip:             { icon:'warn',   title:'อ่านสลิปไม่ได้',
-      msg:'ระบบไม่สามารถอ่านข้อมูลจากสลิปนี้ได้\nกรุณาแนบสลิปจากแอปธนาคารโดยตรง (ไม่ใช่ภาพถ่ายที่ถูกครอปหรือแก้ไข)' },
+      msg:'ระบบไม่สามารถอ่านข้อมูลจากสลิปนี้ได้\nกรุณาแนบสลิปจากแอปธนาคารโดยตรง (ไม่ใช่ภาพถ่ายที่ถูกครอปหรือแก้ไข)',
+      fbPrimary:false },
     bot_detected:             { icon:'shield', title:'ตรวจพบการเข้าถึงผิดปกติ',
-      msg:'ระบบตรวจพบการเข้าถึงที่ผิดปกติ\nกรุณาโหลดหน้าใหม่แล้วลองอีกครั้ง' },
+      msg:'ระบบตรวจพบการเข้าถึงที่ผิดปกติ\nกรุณาโหลดหน้าใหม่แล้วลองอีกครั้ง',
+      fbPrimary:false },
     error:                    { icon:'warn',   title:'เกิดข้อผิดพลาด',
-      msg:'เกิดปัญหาในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง\nหรือติดต่อแอดมินผ่าน Facebook ได้เลยค่ะ' },
+      msg:'เกิดปัญหาในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง\nหรือติดต่อแอดมินผ่าน Facebook ได้เลยค่ะ',
+      fbPrimary:false },
   };
 
   const cfg     = CONFIGS[reason] ?? CONFIGS.error;
@@ -1593,6 +1620,13 @@ function showRejected(result) {
   // texts
   document.getElementById('rejectedTitle').textContent = cfg.title;
   document.getElementById('rejectedMsg').textContent   = cfg.msg;
+
+  // ── Toggle FB-primary mode (when admin contact is the recommended action) ──
+  const fbPrimary = cfg.fbPrimary === true;
+  document.getElementById('rejActions').classList.toggle('fb-primary', fbPrimary);
+  document.getElementById('rejBtnFbText').textContent = fbPrimary
+    ? 'ทักแอดมินช่วยตรวจสอบให้'
+    : 'ติดต่อแอดมิน Facebook';
 
   // reset card animation so it plays fresh each time
   const card = document.getElementById('rejCard');
