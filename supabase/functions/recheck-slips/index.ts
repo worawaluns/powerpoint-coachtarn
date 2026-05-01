@@ -39,19 +39,51 @@ serve(async (req) => {
 
   const supabase = createClient(SUPABASE_URL, SERVICE_KEY)
 
-  // ── Find candidates ───────────────────────────────────────────────────────
-  const now           = Date.now()
-  const windowStart   = new Date(now - WINDOW_MINUTES   * 60 * 1000).toISOString()
-  const cooldownStart = new Date(now - COOLDOWN_MINUTES * 60 * 1000).toISOString()
+  // ── Optional body: ad-hoc mode for manual recovery (bypass time filters) ──
+  // Usage: POST { "order_ids": ["uuid1", "uuid2", ...] }
+  // ใช้สำหรับ recover ลูกค้าที่ตกหล่นนอก window 90 นาที (เช่น order เก่ากว่า 24 ชม.)
+  let explicitOrderIds: string[] | null = null
+  try {
+    const body = await req.json()
+    if (Array.isArray(body?.order_ids) && body.order_ids.length > 0) {
+      explicitOrderIds = body.order_ids.filter((x: unknown) => typeof x === 'string')
+    }
+  } catch (_) {
+    // No body or invalid JSON — fall through to cron mode (default)
+  }
 
-  const { data: candidates, error: queryErr } = await supabase
-    .from('orders')
-    .select('id, recheck_count, reject_reason, created_at')
-    .eq('status', 'rejected')
-    .in('reject_reason', RECHECK_REASONS)
-    .gte('created_at', windowStart)
-    .lt('recheck_count', MAX_RECHECKS)
-    .or(`last_recheck_at.is.null,last_recheck_at.lt.${cooldownStart}`)
+  // ── Find candidates ───────────────────────────────────────────────────────
+  let candidates: Array<{ id: string; recheck_count: number; reject_reason: string; created_at: string }> | null = null
+  let queryErr: { message: string } | null = null
+
+  if (explicitOrderIds) {
+    // ── Ad-hoc mode: bypass window/cooldown/MAX_RECHECKS filters ────────────
+    // Safety: ยังคง enforce status='rejected' (ไม่ให้ override verified order)
+    console.log(`[recheck-slips] ad-hoc mode: ${explicitOrderIds.length} order(s)`)
+    const { data, error } = await supabase
+      .from('orders')
+      .select('id, recheck_count, reject_reason, created_at')
+      .in('id', explicitOrderIds)
+      .eq('status', 'rejected')
+    candidates = data
+    queryErr   = error
+  } else {
+    // ── Cron mode (default): scan recent rejected candidates ────────────────
+    const now           = Date.now()
+    const windowStart   = new Date(now - WINDOW_MINUTES   * 60 * 1000).toISOString()
+    const cooldownStart = new Date(now - COOLDOWN_MINUTES * 60 * 1000).toISOString()
+
+    const { data, error } = await supabase
+      .from('orders')
+      .select('id, recheck_count, reject_reason, created_at')
+      .eq('status', 'rejected')
+      .in('reject_reason', RECHECK_REASONS)
+      .gte('created_at', windowStart)
+      .lt('recheck_count', MAX_RECHECKS)
+      .or(`last_recheck_at.is.null,last_recheck_at.lt.${cooldownStart}`)
+    candidates = data
+    queryErr   = error
+  }
 
   if (queryErr) {
     console.error('[recheck-slips] DB query error:', queryErr)
