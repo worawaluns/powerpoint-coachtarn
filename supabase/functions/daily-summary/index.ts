@@ -31,7 +31,7 @@ serve(async (req) => {
 
     const { data: orders } = await supabase
       .from('orders')
-      .select('id, name, email, status, ref_source, use_case, slip_url, created_at')
+      .select('id, name, email, status, ref_source, use_case, slip_url, created_at, recheck_count, last_recheck_at, reject_reason')
       .gte('created_at', startUTC.toISOString())
       .lte('created_at', endUTC.toISOString())
       .order('created_at', { ascending: false })
@@ -42,8 +42,22 @@ serve(async (req) => {
     const rejected = all.filter(o => o.status === 'rejected')
     const revenue  = verified.length * 499
 
-    // ── ถ้าวันนี้ไม่มีออเดอร์เลย ไม่ส่ง ────────────────────────────────────
-    if (all.length === 0) {
+    // ── Phase 3: เคสที่ verified ภายหลัง (filter โดย last_recheck_at) ─────
+    // catch ทั้ง order ของวันนี้ + ของวันก่อนที่ recover วันนี้ (edge case Order ข้ามวัน)
+    const { data: verifiedLaterRaw } = await supabase
+      .from('orders')
+      .select('id, name, email, recheck_count, reject_reason, created_at, last_recheck_at, ref_source, use_case')
+      .eq('status', 'verified')
+      .gt('recheck_count', 0)
+      .gte('last_recheck_at', startUTC.toISOString())
+      .lte('last_recheck_at', endUTC.toISOString())
+      .order('last_recheck_at', { ascending: false })
+
+    const verifiedLater = verifiedLaterRaw ?? []
+    const verifiedLaterIds = new Set(verifiedLater.map(o => o.id))
+
+    // ── ถ้าวันนี้ไม่มีออเดอร์ + ไม่มี verified ภายหลัง → ไม่ส่ง ──────────
+    if (all.length === 0 && verifiedLater.length === 0) {
       console.log('No orders today, skipping email')
       return new Response('no orders', { status: 200 })
     }
@@ -115,13 +129,55 @@ serve(async (req) => {
       const time = new Date(o.created_at).toLocaleTimeString('th-TH', {
         timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit',
       })
+      // Phase 3: dot indicator for "verified ภายหลัง" (ระบบตรวจซ้ำให้)
+      const isLater = verifiedLaterIds.has(o.id)
+      const namePrefix = isLater
+        ? `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#2563EB;margin-right:6px;vertical-align:middle;" title="verified ภายหลัง"></span>`
+        : ''
       return `<tr>
-        <td style="padding:8px 12px;font-size:13px;color:#1D1D1F;border-bottom:1px solid #F0F0F0;">${o.name}</td>
+        <td style="padding:8px 12px;font-size:13px;color:#1D1D1F;border-bottom:1px solid #F0F0F0;">${namePrefix}${o.name}</td>
         <td style="padding:8px 12px;font-size:13px;color:#6E6E73;border-bottom:1px solid #F0F0F0;">${o.email}</td>
         <td style="padding:8px 12px;font-size:13px;color:#6E6E73;border-bottom:1px solid #F0F0F0;">${time}</td>
         <td style="padding:8px 12px;font-size:13px;color:#D34724;font-weight:600;border-bottom:1px solid #F0F0F0;">${refLabel(o.ref_source)}</td>
         <td style="padding:8px 12px;font-size:13px;color:#6E6E73;border-bottom:1px solid #F0F0F0;">${useCaseLabel(o.use_case)}</td>
       </tr>`
+    }).join('')
+
+    // ── Phase 3: blocks สำหรับ section "🔄 เคสที่ verified ภายหลัง" ────────
+    function rejectReasonLabel(r: string | null): string {
+      const map: Record<string, string> = {
+        'wrong_account' : 'ขึ้น wrong_account',
+        'duplicate_slip': 'ขึ้น duplicate',
+        'wrong_amount'  : 'ยอดไม่ตรง',
+        'invalid_slip'  : 'สลิปไม่ valid',
+      }
+      return r ? (map[r] ?? r) : '-'
+    }
+    const verifiedLaterBlocks = verifiedLater.map((o, i) => {
+      const createdTime = new Date(o.created_at).toLocaleString('th-TH', {
+        timeZone: 'Asia/Bangkok', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit',
+      })
+      const recoveredTime = o.last_recheck_at
+        ? new Date(o.last_recheck_at).toLocaleString('th-TH', {
+            timeZone: 'Asia/Bangkok', day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit',
+          })
+        : '-'
+      // Cross-day note: ถ้า created_at < startUTC (วันนี้) → เป็น order ของวันก่อน
+      const isCrossDay = new Date(o.created_at) < startUTC
+      const crossDayNote = isCrossDay
+        ? `<p style="margin:0 0 8px;padding:6px 10px;background:#FEF3C7;border-radius:6px;font-size:12px;color:#92400E;">⚠️ Order จากวันก่อน — recover วันนี้</p>`
+        : ''
+      return `<div style="margin-bottom:16px;background:#EFF6FF;border-left:3px solid #2563EB;border-radius:8px;padding:14px 16px;">
+        <p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#1D1D1F;">${i + 1}. ${o.name}</p>
+        <p style="margin:0 0 10px;font-size:12px;color:#6E6E73;">${o.email}</p>
+        ${crossDayNote}
+        <ul style="margin:0;padding-left:18px;font-size:12px;color:#1D1D1F;line-height:1.7;">
+          <li>ส่งสลิปครั้งแรก: <strong>${createdTime}</strong> — ${rejectReasonLabel(o.reject_reason)}</li>
+          <li>ระบบตรวจซ้ำ <strong>${o.recheck_count} รอบ</strong> → ผ่านรอบที่ ${o.recheck_count} เวลา <strong>${recoveredTime}</strong></li>
+          <li>ส่ง email + redeem code ให้ลูกค้าแล้ว</li>
+        </ul>
+        <p style="margin:8px 0 0;font-size:11px;color:#8E8E93;font-family:monospace;">Order ID: ${o.id}</p>
+      </div>`
     }).join('')
 
     const slipBlocks = verifiedWithSlip
@@ -151,23 +207,28 @@ serve(async (req) => {
     <h1 style="margin:0;font-size:22px;font-weight:700;color:#1D1D1F;">${dateStr}</h1>
   </td></tr>
 
-  <!-- Stats -->
+  <!-- Stats: 4 cards (Phase 3 — เพิ่ม "verified ภายหลัง") -->
   <tr><td style="padding:28px 40px;border-bottom:1px solid #F0F0F0;">
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
       <tr>
-        <td align="center" style="background:#F0FDF4;border-radius:12px;padding:20px;width:30%;">
-          <div style="font-size:28px;font-weight:700;color:#166534;">฿${revenue.toLocaleString()}</div>
-          <div style="font-size:12px;color:#16A34A;margin-top:4px;">รายได้วันนี้</div>
+        <td align="center" style="background:#F0FDF4;border-radius:10px;padding:16px 8px;width:23%;">
+          <div style="font-size:22px;font-weight:700;color:#166534;">฿${revenue.toLocaleString()}</div>
+          <div style="font-size:11px;color:#16A34A;margin-top:4px;">รายได้วันนี้</div>
         </td>
-        <td width="12">&nbsp;</td>
-        <td align="center" style="background:#F5F5F7;border-radius:12px;padding:20px;width:30%;">
-          <div style="font-size:28px;font-weight:700;color:#1D1D1F;">${verified.length}</div>
-          <div style="font-size:12px;color:#6E6E73;margin-top:4px;">สลิปผ่าน (verified)</div>
+        <td width="8">&nbsp;</td>
+        <td align="center" style="background:#F5F5F7;border-radius:10px;padding:16px 8px;width:23%;">
+          <div style="font-size:22px;font-weight:700;color:#1D1D1F;">${verified.length}</div>
+          <div style="font-size:11px;color:#6E6E73;margin-top:4px;">สลิปผ่าน</div>
         </td>
-        <td width="12">&nbsp;</td>
-        <td align="center" style="background:#FFF5F5;border-radius:12px;padding:20px;width:30%;">
-          <div style="font-size:28px;font-weight:700;color:#DC2626;">${pending.length + rejected.length}</div>
-          <div style="font-size:12px;color:#DC2626;margin-top:4px;">สลิปไม่ผ่าน (rejected)</div>
+        <td width="8">&nbsp;</td>
+        <td align="center" style="background:#EFF6FF;border-radius:10px;padding:16px 8px;width:23%;">
+          <div style="font-size:22px;font-weight:700;color:#2563EB;">${verifiedLater.length}</div>
+          <div style="font-size:11px;color:#2563EB;margin-top:4px;">verified ภายหลัง</div>
+        </td>
+        <td width="8">&nbsp;</td>
+        <td align="center" style="background:#FFF5F5;border-radius:10px;padding:16px 8px;width:23%;">
+          <div style="font-size:22px;font-weight:700;color:#DC2626;">${pending.length + rejected.length}</div>
+          <div style="font-size:11px;color:#DC2626;margin-top:4px;">สลิปไม่ผ่าน</div>
         </td>
       </tr>
     </table>
@@ -198,6 +259,13 @@ serve(async (req) => {
     </table>
   </td></tr>` : ''}
 
+  ${verifiedLater.length > 0 ? `
+  <!-- Phase 3: Verified ภายหลัง section -->
+  <tr><td style="padding:24px 40px;border-bottom:1px solid #F0F0F0;">
+    <p style="margin:0 0 16px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;text-transform:uppercase;">🔄 เคสที่ verified ภายหลัง</p>
+    ${verifiedLaterBlocks}
+  </td></tr>` : ''}
+
   ${slipBlocks ? `
   <!-- Slip images -->
   <tr><td style="padding:24px 40px;border-bottom:1px solid #F0F0F0;">
@@ -219,14 +287,18 @@ serve(async (req) => {
       auth: { user: GMAIL_USER, pass: GMAIL_PASS },
     })
 
+    const subjectSuffix = verifiedLater.length > 0
+      ? ` · 🔄 verified ภายหลัง ${verifiedLater.length} เคส`
+      : ''
+
     await transporter.sendMail({
       from   : `"Coach Tarn Slide · Report" <${GMAIL_USER}>`,
       to     : OWNER_EMAIL,
-      subject: `📊 สรุปยอดขายวันที่ ${dateISO} — ${verified.length} คำสั่งซื้อสำเร็จ (฿${revenue.toLocaleString()})`,
+      subject: `📊 สรุปยอดขายวันที่ ${dateISO} — ${verified.length} คำสั่งซื้อสำเร็จ (฿${revenue.toLocaleString()})${subjectSuffix}`,
       html,
     })
 
-    console.log(`Daily summary sent: ${verified.length} orders, ฿${revenue}`)
+    console.log(`Daily summary sent: ${verified.length} orders, ฿${revenue}, ${verifiedLater.length} verified-later`)
     return new Response('ok', { status: 200 })
 
   } catch (err) {
