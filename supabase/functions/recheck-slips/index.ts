@@ -14,7 +14,6 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const SUPABASE_URL    = Deno.env.get('SUPABASE_URL')!
 const SERVICE_KEY     = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-const ANON_KEY        = Deno.env.get('SUPABASE_ANON_KEY')!
 const RECHECK_TOKEN   = Deno.env.get('RECHECK_TOKEN')!
 
 // ── Tunables (ตัด/เพิ่มได้ตาม cost / quota) ─────────────────────────────────
@@ -120,16 +119,30 @@ serve(async (req) => {
     }
 
     // 2) เรียก verify-slip ให้ตรวจใหม่ (is_retry=true → checkDuplicate=false)
+    // ใช้ SERVICE_KEY เพราะเป็น internal-to-internal call (auto-injected เสมอ)
     try {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/verify-slip`, {
         method : 'POST',
         headers: {
-          'Authorization': `Bearer ${ANON_KEY}`,
+          'Authorization': `Bearer ${SERVICE_KEY}`,
           'Content-Type' : 'application/json',
         },
         body: JSON.stringify({ order_id: order.id, is_retry: true }),
       })
       const result = await res.json()
+
+      // Detect malformed response (HTTP error or missing status field)
+      if (!res.ok || !result.status) {
+        console.error(`[recheck-slips] verify-slip bad response for ${order.id}: HTTP ${res.status}`, result)
+        results.push({
+          order_id   : order.id,
+          attempt,
+          prev_reason: order.reject_reason,
+          error      : `verify_slip_bad_response_${res.status}`,
+          raw        : result,
+        })
+        continue
+      }
 
       if (result.status === 'verified') recoveredCount++
 
