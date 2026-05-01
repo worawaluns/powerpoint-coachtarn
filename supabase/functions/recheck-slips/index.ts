@@ -16,11 +16,12 @@ const SUPABASE_URL    = Deno.env.get('SUPABASE_URL')!
 const SERVICE_KEY     = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const RECHECK_TOKEN   = Deno.env.get('RECHECK_TOKEN')!
 
-// ── Tunables (ตัด/เพิ่มได้ตาม cost / quota) ─────────────────────────────────
+// ── Tunables (Phase 3: พ.ค. 2026 — ขยาย coverage ให้ครอบ delay หลักชั่วโมง) ─
 const RECHECK_REASONS  = ['wrong_account', 'duplicate_slip']
-const WINDOW_MINUTES   = 90   // ออเดอร์เก่ากว่านี้ไม่ recheck
-const COOLDOWN_MINUTES = 14   // เว้นช่วงระหว่าง recheck แต่ละครั้งของ order เดียว
-const MAX_RECHECKS     = 3    // recheck ครั้งสูงสุดต่อ order
+const WINDOW_MINUTES   = 1440 // ออเดอร์เก่ากว่า 24 ชม.ไม่ recheck (Phase 2: 90)
+const COOLDOWN_MINUTES = 30   // เว้นระหว่างรอบ ให้ธนาคาร sync นาน (Phase 2: 14)
+const MAX_RECHECKS     = 5    // recheck ครั้งสูงสุดต่อ order (Phase 2: 3)
+const CLEANUP_WINDOW_MINUTES = 60  // ±1 ชม.รอบ winner — กันลบ order คนละครั้งของลูกค้าเดียวกัน
 
 const CORS = {
   'Access-Control-Allow-Origin' : '*',
@@ -52,7 +53,8 @@ serve(async (req) => {
   }
 
   // ── Find candidates ───────────────────────────────────────────────────────
-  let candidates: Array<{ id: string; recheck_count: number; reject_reason: string; created_at: string }> | null = null
+  type Candidate = { id: string; email: string; recheck_count: number; reject_reason: string; created_at: string }
+  let candidates: Candidate[] | null = null
   let queryErr: { message: string } | null = null
 
   if (explicitOrderIds) {
@@ -61,7 +63,7 @@ serve(async (req) => {
     console.log(`[recheck-slips] ad-hoc mode: ${explicitOrderIds.length} order(s)`)
     const { data, error } = await supabase
       .from('orders')
-      .select('id, recheck_count, reject_reason, created_at')
+      .select('id, email, recheck_count, reject_reason, created_at')
       .in('id', explicitOrderIds)
       .eq('status', 'rejected')
     candidates = data
@@ -74,7 +76,7 @@ serve(async (req) => {
 
     const { data, error } = await supabase
       .from('orders')
-      .select('id, recheck_count, reject_reason, created_at')
+      .select('id, email, recheck_count, reject_reason, created_at')
       .eq('status', 'rejected')
       .in('reject_reason', RECHECK_REASONS)
       .gte('created_at', windowStart)
@@ -96,11 +98,46 @@ serve(async (req) => {
 
   console.log(`[recheck-slips] found ${candidates.length} candidate(s)`)
 
+  // ── Smart filter (Phase 3): group by email → ตรวจแค่ "winner" ต่อ email ──
+  // เคสลูกค้าส่งสลิปเดียวกันซ้ำ 2-3 ครั้ง:
+  //   row 1 = wrong_account (Slip2Go OCR ได้)
+  //   row 2-3 = duplicate_slip (Slip2Go จำว่าซ้ำ)
+  // ถ้าตรวจทุก row จะ waste quota เพราะ row 2-3 จะ fail ทุกครั้ง
+  // → เลือก 1 winner ต่อ email, siblings จะถูก cleanup เมื่อ winner verified
+  // ใน ad-hoc mode: bypass grouping เผื่อไอซ์อยากตรวจ row เฉพาะที่ระบุ
+  let workQueue: Candidate[]
+  if (explicitOrderIds) {
+    workQueue = candidates
+  } else {
+    const grouped = new Map<string, Candidate[]>()
+    for (const c of candidates) {
+      const list = grouped.get(c.email) ?? []
+      list.push(c)
+      grouped.set(c.email, list)
+    }
+    workQueue = []
+    for (const [, list] of grouped) {
+      // priority: wrong_account ก่อน (Slip2Go เคย OCR ได้), แล้วค่อย earliest created_at
+      const sorted = [...list].sort((a, b) => {
+        const aWrong = a.reject_reason === 'wrong_account'
+        const bWrong = b.reject_reason === 'wrong_account'
+        if (aWrong && !bWrong) return -1
+        if (!aWrong && bWrong) return 1
+        return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+      })
+      workQueue.push(sorted[0])
+    }
+    const skipped = candidates.length - workQueue.length
+    if (skipped > 0) {
+      console.log(`[recheck-slips] smart-filter: ${workQueue.length} winner(s), skipped ${skipped} sibling(s)`)
+    }
+  }
+
   // ── Process sequentially (ป้องกัน Slip2Go rate limit + ป้องกัน race) ────
   const results: Array<Record<string, unknown>> = []
   let recoveredCount = 0
 
-  for (const order of candidates) {
+  for (const order of workQueue) {
     const attempt = order.recheck_count + 1
 
     // 1) Increment counter FIRST — ป้องกัน double-process กรณี cron firing ซ้อน
@@ -120,6 +157,10 @@ serve(async (req) => {
 
     // 2) เรียก verify-slip ให้ตรวจใหม่ (is_retry=true → checkDuplicate=false)
     // ใช้ SERVICE_KEY เพราะเป็น internal-to-internal call (auto-injected เสมอ)
+    let logResult = 'error'
+    let logReason: string | null = null
+    let cleanedSiblings = 0
+
     try {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/verify-slip`, {
         method : 'POST',
@@ -134,28 +175,77 @@ serve(async (req) => {
       // Detect malformed response (HTTP error or missing status field)
       if (!res.ok || !result.status) {
         console.error(`[recheck-slips] verify-slip bad response for ${order.id}: HTTP ${res.status}`, result)
+        logReason = `verify_slip_bad_response_${res.status}`
         results.push({
           order_id   : order.id,
           attempt,
           prev_reason: order.reject_reason,
-          error      : `verify_slip_bad_response_${res.status}`,
+          error      : logReason,
           raw        : result,
         })
-        continue
+      } else {
+        logResult = result.status
+        logReason = result.reason ?? null
+
+        if (result.status === 'verified') {
+          recoveredCount++
+
+          // ── 3) Cleanup duplicate siblings — ลบ row ที่ลูกค้าส่งซ้ำ ──────
+          // window ±1 ชม. รอบ winner กันลบ order คนละครั้งของลูกค้าเดียวกัน
+          const winnerTime    = new Date(order.created_at).getTime()
+          const cleanupWindow = CLEANUP_WINDOW_MINUTES * 60 * 1000
+          const startWindow   = new Date(winnerTime - cleanupWindow).toISOString()
+          const endWindow     = new Date(winnerTime + cleanupWindow).toISOString()
+
+          const { data: deleted, error: delErr } = await supabase
+            .from('orders')
+            .delete()
+            .eq('email', order.email)
+            .eq('status', 'rejected')
+            .in('reject_reason', RECHECK_REASONS)
+            .neq('id', order.id)
+            .gte('created_at', startWindow)
+            .lte('created_at', endWindow)
+            .select('id')
+
+          if (delErr) {
+            console.error(`[recheck-slips] cleanup failed for ${order.id}:`, delErr.message)
+          } else {
+            cleanedSiblings = deleted?.length ?? 0
+            if (cleanedSiblings > 0) {
+              console.log(`[recheck-slips] cleaned ${cleanedSiblings} sibling(s) for winner ${order.id}`)
+            }
+          }
+        }
+
+        results.push({
+          order_id : order.id,
+          attempt,
+          prev_reason: order.reject_reason,
+          result   : result.status,
+          ...(result.reason ? { reason: result.reason } : {}),
+          ...(cleanedSiblings > 0 ? { cleaned_siblings: cleanedSiblings } : {}),
+        })
       }
-
-      if (result.status === 'verified') recoveredCount++
-
-      results.push({
-        order_id : order.id,
-        attempt,
-        prev_reason: order.reject_reason,
-        result   : result.status,
-        ...(result.reason ? { reason: result.reason } : {}),
-      })
     } catch (err) {
       console.error(`[recheck-slips] verify-slip call failed for ${order.id}:`, err)
-      results.push({ order_id: order.id, attempt, error: String(err) })
+      logReason = String(err)
+      results.push({ order_id: order.id, attempt, error: logReason })
+    }
+
+    // ── 4) Insert recheck_logs (Phase 3) — เก็บประวัติทุกรอบ ────────────
+    const { error: logErr } = await supabase
+      .from('recheck_logs')
+      .insert({
+        order_id      : order.id,
+        customer_email: order.email,
+        attempt,
+        prev_reason   : order.reject_reason,
+        result        : logResult,
+        reason        : logReason,
+      })
+    if (logErr) {
+      console.warn(`[recheck-slips] failed to insert log for ${order.id}:`, logErr.message)
     }
   }
 
