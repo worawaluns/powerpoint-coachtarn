@@ -163,9 +163,13 @@ serve(async (req) => {
           })
         : '-'
       // Cross-day note: ถ้า created_at < startUTC (วันนี้) → เป็น order ของวันก่อน
+      // แสดงแค่ original date — เวลา recover ดูใน bullet ด้านล่างได้
       const isCrossDay = new Date(o.created_at) < startUTC
+      const createdDateOnly = new Date(o.created_at).toLocaleDateString('th-TH', {
+        timeZone: 'Asia/Bangkok', day: '2-digit', month: 'short',
+      })
       const crossDayNote = isCrossDay
-        ? `<p style="margin:0 0 8px;padding:6px 10px;background:#FEF3C7;border-radius:6px;font-size:12px;color:#92400E;">⚠️ Order จากวันก่อน — recover วันนี้</p>`
+        ? `<p style="margin:0 0 8px;padding:6px 10px;background:#FEF3C7;border-radius:6px;font-size:12px;color:#92400E;">⚠️ Order จากวันที่ ${createdDateOnly}</p>`
         : ''
       return `<div style="margin-bottom:16px;background:#EFF6FF;border-left:3px solid #2563EB;border-radius:8px;padding:14px 16px;">
         <p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#1D1D1F;">${i + 1}. ${o.name}</p>
@@ -176,7 +180,6 @@ serve(async (req) => {
           <li>ระบบตรวจซ้ำ <strong>${o.recheck_count} รอบ</strong> → ผ่านรอบที่ ${o.recheck_count} เวลา <strong>${recoveredTime}</strong></li>
           <li>ส่ง email + redeem code ให้ลูกค้าแล้ว</li>
         </ul>
-        <p style="margin:8px 0 0;font-size:11px;color:#8E8E93;font-family:monospace;">Order ID: ${o.id}</p>
       </div>`
     }).join('')
 
