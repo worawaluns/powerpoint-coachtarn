@@ -1507,8 +1507,12 @@ async function startBBLWait(orderId, email) {
   }
 
   // ── retry loop ───────────────────────────────────────────────────────────
+  // defer_reject=true ในรอบ 1-3 → verify-slip คืน bbl_pending ไม่อัพเดต DB rejected
+  // defer_reject=false ในรอบสุดท้าย → ถ้ายังไม่ผ่าน update DB rejected + คืน reason จริง
   try {
-    for (const sec of RETRY_AT) {
+    for (let i = 0; i < RETRY_AT.length; i++) {
+      const sec = RETRY_AT[i];
+      const isLastRetry = i === RETRY_AT.length - 1;
       const waitMs = Math.max(0, sec * 1000 - (Date.now() - startTime));
       await new Promise(r => setTimeout(r, waitMs));
       if (finished) break;
@@ -1518,7 +1522,7 @@ async function startBBLWait(orderId, email) {
         const res = await fetch(`${SUPA_URL}/functions/v1/verify-slip`, {
           method : 'POST',
           headers: { 'Authorization': `Bearer ${SUPA_ANON_KEY}`, 'Content-Type': 'application/json' },
-          body   : JSON.stringify({ order_id: orderId, is_retry: true }),
+          body   : JSON.stringify({ order_id: orderId, is_retry: true, defer_reject: !isLastRetry }),
         });
         result = await res.json();
       } catch (_) { continue; }
@@ -1530,11 +1534,13 @@ async function startBBLWait(orderId, email) {
         hideBBL(); showSuccess(email); return;
       }
       if (result.status !== 'bbl_pending') {
+        // รอบสุดท้าย defer=false → reject ของจริง (DB อัพเดตแล้ว)
         finished = true; clearInterval(ticker);
         hideBBL(); showRejected(result); return;
       }
+      // bbl_pending — ลูปต่อจนครบ
     }
-    // retry หมดแล้วยังไม่พบ
+    // ครบ 4 รอบ ทุกรอบยัง bbl_pending (เช่น 200404 slip not found)
     finished = true; clearInterval(ticker);
     hideBBL(); showRejected({ reason: 'invalid_slip' });
 

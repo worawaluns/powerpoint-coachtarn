@@ -247,7 +247,7 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS })
 
   try {
-    const { order_id, turnstile_token, is_retry } = await req.json()
+    const { order_id, turnstile_token, is_retry, defer_reject } = await req.json()
     if (!order_id) return Response.json({ error: 'missing order_id' }, { status: 400, headers: CORS })
 
     // ── 1. Turnstile bot check (soft — Slip2Go คือ security จริง) ────────────
@@ -343,6 +343,11 @@ serve(async (req) => {
       if (!is_retry) {
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
       }
+      // ── Defer reject: ระหว่าง wait window 3:30 — รอบ 1-3 ของ retry ────────
+      // ไม่อัพเดต DB ให้รอบสุดท้าย (defer_reject=false) ตัดสินใจ
+      if (defer_reject) {
+        return Response.json({ status: 'bbl_pending', last_reason: 'duplicate' }, { headers: CORS })
+      }
       // After retry with checkDuplicate=false: still duplicate → genuine duplicate.
       // (DB trans_ref check at section 7 also catches replay attacks as a second layer.)
       await supabase.from('orders').update({ status: 'rejected', reject_reason: 'duplicate_slip' }).eq('id', order_id)
@@ -371,6 +376,17 @@ serve(async (req) => {
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
       }
       else if (s2gCode === '200500') reason = 'invalid_slip'
+
+      // ── Defer reject: ระหว่าง wait window 3:30 — รอบ 1-3 ของ retry ────────
+      // ไม่อัพเดต DB ให้รอบสุดท้าย (defer_reject=false) ตัดสินใจ
+      // ครอบคลุม wrong_account / wrong_amount / invalid_slip
+      if (defer_reject) {
+        return Response.json({
+          status       : 'bbl_pending',
+          last_reason  : reason,
+          actual_amount: actualAmount,
+        }, { headers: CORS })
+      }
 
       await supabase.from('orders').update({ status: 'rejected', reject_reason: reason }).eq('id', order_id)
       return Response.json({
