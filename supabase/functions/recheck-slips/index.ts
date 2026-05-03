@@ -16,6 +16,12 @@ const SUPABASE_URL    = Deno.env.get('SUPABASE_URL')!
 const SERVICE_KEY     = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
 const RECHECK_TOKEN   = Deno.env.get('RECHECK_TOKEN')!
 
+// Legacy JWT anon key (สำหรับ internal call ผ่าน gateway)
+// ระบบ Supabase ใหม่ SUPABASE_ANON_KEY env อาจเป็น sb_publishable_xxx
+// ไม่ใช่ JWT format — gateway reject 401 invalid JWT
+// Anon key เป็น public อยู่แล้ว (มีใน frontend) — hardcode ปลอดภัย
+const LEGACY_ANON_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ'
+
 // ── Tunables (Phase 3: พ.ค. 2026 — ขยาย coverage ให้ครอบ delay หลักชั่วโมง) ─
 const RECHECK_REASONS  = ['wrong_account', 'duplicate_slip']
 const WINDOW_MINUTES   = 1440 // ออเดอร์เก่ากว่า 24 ชม.ไม่ recheck (Phase 2: 90)
@@ -156,7 +162,8 @@ serve(async (req) => {
     }
 
     // 2) เรียก verify-slip ให้ตรวจใหม่ (is_retry=true → checkDuplicate=false)
-    // ใช้ SERVICE_KEY เพราะเป็น internal-to-internal call (auto-injected เสมอ)
+    // ใช้ legacy anon JWT (hardcoded) เพราะ Supabase ใหม่ env keys
+    // ไม่ใช่ JWT format อีก (publishable_xxx / secret_xxx) → gateway reject 401
     let logResult = 'error'
     let logReason: string | null = null
     let cleanedSiblings = 0
@@ -165,7 +172,7 @@ serve(async (req) => {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/verify-slip`, {
         method : 'POST',
         headers: {
-          'Authorization': `Bearer ${SERVICE_KEY}`,
+          'Authorization': `Bearer ${LEGACY_ANON_JWT}`,
           'Content-Type' : 'application/json',
         },
         body: JSON.stringify({ order_id: order.id, is_retry: true }),
