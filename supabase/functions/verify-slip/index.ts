@@ -15,8 +15,9 @@ const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarn
 
 const PRICE          = '499'
 const ACCOUNT_NUMBER = '1578147760'
-const ACCOUNT_NAME   = 'บจก. ดับเบิ้ลคราฟ์'
 const ACCOUNT_TYPE   = '01004'  // KBANK
+// KBANK ส่งชื่อมาพร้อม ์ ตัวอื่นบางที่ส่งไม่มี — รับทั้ง 2 รูปแบบ (Slip2Go match แบบ OR)
+const ACCOUNT_NAMES  = ['บจก. ดับเบิ้ลคราฟ', 'บจก. ดับเบิ้ลคราฟ์']
 
 // ── Generate CT-XXXXXXXX (CT- + 8 random chars, 1.1T combinations) ───────────
 function generateCode(): string {
@@ -302,7 +303,11 @@ serve(async (req) => {
               imageUrl: signedData.signedUrl,
               checkCondition: {
                 checkDuplicate: is_retry ? false : true,
-                checkReceiver: [{ accountType: ACCOUNT_TYPE, accountNameTH: ACCOUNT_NAME, accountNumber: ACCOUNT_NUMBER }],
+                checkReceiver: ACCOUNT_NAMES.map(name => ({
+                  accountType  : ACCOUNT_TYPE,
+                  accountNameTH: name,
+                  accountNumber: ACCOUNT_NUMBER,
+                })),
                 checkAmount: { type: 'eq', amount: PRICE },
               },
             },
