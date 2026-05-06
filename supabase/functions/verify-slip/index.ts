@@ -248,7 +248,7 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS })
 
   try {
-    const { order_id, turnstile_token, is_retry, defer_reject } = await req.json()
+    const { order_id, turnstile_token, is_retry } = await req.json()
     if (!order_id) return Response.json({ error: 'missing order_id' }, { status: 400, headers: CORS })
 
     // ── 1. Turnstile bot check (soft — Slip2Go คือ security จริง) ────────────
@@ -342,56 +342,49 @@ serve(async (req) => {
 
     // ── 5. สลิปซ้ำ ───────────────────────────────────────────────────────────
     if (s2gCode === '200501') {
-      // First call — could be the propagation trap (Slip2Go remembers our own previous
-      // failed call from a few minutes ago). Return pending to trigger frontend retry
-      // with checkDuplicate=false, which bypasses Slip2Go's memory and re-processes.
+      // First call — could be Slip2Go's own cache from previous failed call.
+      // Return pending to trigger frontend retry with checkDuplicate=false.
       if (!is_retry) {
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
       }
-      // ── Defer reject: ระหว่าง wait window 3:30 — รอบ 1-3 ของ retry ────────
-      // ไม่อัพเดต DB ให้รอบสุดท้าย (defer_reject=false) ตัดสินใจ
-      if (defer_reject) {
-        return Response.json({ status: 'bbl_pending', last_reason: 'duplicate' }, { headers: CORS })
-      }
       // After retry with checkDuplicate=false: still duplicate → genuine duplicate.
-      // (DB trans_ref check at section 7 also catches replay attacks as a second layer.)
       await supabase.from('orders').update({ status: 'rejected', reject_reason: 'duplicate_slip' }).eq('id', order_id)
       return Response.json({ status: 'rejected', reason: 'duplicate' }, { headers: CORS })
     }
 
-    // ── 6. ผ่านทุก condition → SUCCESS ───────────────────────────────────────
+    // ── 6. SUCCESS path with defensive manual validation ─────────────────────
+    // Slip2Go อาจคืน 200200 โดยไม่ echo `condition` กลับมา (โดยเฉพาะ KBANK)
+    // → manual validate amount + bank + receiverAccount last-4 digits เป็น safety net
     if (s2gCode === '200200') {
-      // ✅ ถูกต้อง — ดำเนินการต่อด้านล่าง
-    } else {
-      // ── ไม่ผ่าน — วิเคราะห์ reason จาก code ───────────────────────────────
+      const amountOk         = Number(actualAmount) === Number(PRICE)
+      const bankId           = slip?.data?.bank?.id ?? slip?.data?.receiver?.bank?.id
+      const bankOk           = bankId === '004'  // KBANK
+      const receiverAccount  = slip?.data?.receiver?.account?.bank?.account ?? ''
+      const accountDigits    = receiverAccount.replace(/\D/g, '').slice(-4)
+      const expectedDigits   = ACCOUNT_NUMBER.slice(-4)
+      const accountOk        = accountDigits === expectedDigits
 
-      // ── First-call propagation safeguard ─────────────────────────────────
-      // 200401 (wrong_account) on first call could be bank propagation delay
-      // (recipient account info not yet synced). Return pending to trigger retry
-      // with checkDuplicate=false. After retry: if still 200401 → genuine reject.
-      if (s2gCode === '200401' && !is_retry) {
+      console.log('[verify-slip] 200200 manual check:', {
+        amountOk, bankOk, accountOk, bankId, receiverAccount, accountDigits, expectedDigits,
+      })
+
+      if (!amountOk || !bankOk || !accountOk) {
+        await supabase.from('orders').update({ status: 'rejected', reject_reason: 'invalid_slip' }).eq('id', order_id)
+        return Response.json({ status: 'rejected', reason: 'invalid_slip', actual_amount: actualAmount }, { headers: CORS })
+      }
+      // ✅ Validated — continue to section 7
+    } else {
+      // ── ไม่ผ่าน — direct reject (ไม่แปลงเป็น bbl_pending ยกเว้น 200404) ────
+
+      // 200404 = slip ยังหาไม่เจอใน BBL/bank system → bbl_pending (real BBL delay)
+      if (s2gCode === '200404') {
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
       }
 
       let reason = 'invalid_slip'
       if      (s2gCode === '200401') reason = 'wrong_account'
       else if (s2gCode === '200402') reason = 'wrong_amount'
-      else if (s2gCode === '200404') {
-        // Slip not found yet — could be BBL delay. Return pending, do NOT reject.
-        return Response.json({ status: 'bbl_pending' }, { headers: CORS })
-      }
       else if (s2gCode === '200500') reason = 'invalid_slip'
-
-      // ── Defer reject: ระหว่าง wait window 3:30 — รอบ 1-3 ของ retry ────────
-      // ไม่อัพเดต DB ให้รอบสุดท้าย (defer_reject=false) ตัดสินใจ
-      // ครอบคลุม wrong_account / wrong_amount / invalid_slip
-      if (defer_reject) {
-        return Response.json({
-          status       : 'bbl_pending',
-          last_reason  : reason,
-          actual_amount: actualAmount,
-        }, { headers: CORS })
-      }
 
       await supabase.from('orders').update({ status: 'rejected', reject_reason: reason }).eq('id', order_id)
       return Response.json({
