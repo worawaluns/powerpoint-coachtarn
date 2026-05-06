@@ -320,12 +320,17 @@ serve(async (req) => {
       slip = JSON.parse(text)
     } catch (e) {
       console.error('[verify-slip] Slip2Go fetch/parse error:', e)
-      await supabase.from('orders').update({ status: 'rejected', reject_reason: 'invalid_slip' }).eq('id', order_id)
+      await supabase.from('orders').update({
+        status        : 'rejected',
+        reject_reason : 'invalid_slip',
+        verify_detail : { error: 'slip2go_fetch_failed', message: String(e) },
+      }).eq('id', order_id)
       return Response.json({ status: 'rejected', reason: 'invalid_slip' }, { headers: CORS })
     }
 
-    const s2gCode     = slip?.code?.toString()
-    const transRef    = slip?.data?.transRef
+    const s2gCode      = slip?.code?.toString()
+    const s2gMessage   = slip?.message ?? null
+    const transRef     = slip?.data?.transRef ?? null
     const actualAmount = slip?.data?.amount ?? null
 
     console.log('[verify-slip] slip.code:', s2gCode, '| transRef:', transRef, '| amount:', actualAmount)
@@ -348,28 +353,46 @@ serve(async (req) => {
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
       }
       // After retry with checkDuplicate=false: still duplicate → genuine duplicate.
-      await supabase.from('orders').update({ status: 'rejected', reject_reason: 'duplicate_slip' }).eq('id', order_id)
+      await supabase.from('orders').update({
+        status         : 'rejected',
+        reject_reason  : 'duplicate_slip',
+        slip2go_code   : s2gCode,
+        slip2go_message: s2gMessage,
+        verify_detail  : { transRef, actualAmount, isDuplicate: true },
+      }).eq('id', order_id)
       return Response.json({ status: 'rejected', reason: 'duplicate' }, { headers: CORS })
     }
 
     // ── 6. SUCCESS path with defensive manual validation ─────────────────────
     // Slip2Go อาจคืน 200200 โดยไม่ echo `condition` กลับมา (โดยเฉพาะ KBANK)
-    // → manual validate amount + bank + receiverAccount last-4 digits เป็น safety net
+    // → manual validate amount + bank + receiverAccount เป็น safety net
+    //
+    // หมายเหตุ accountOk: Slip2Go มาส์กเลขบัญชีเป็น `xxx-x-x4776-x` (โชว์กลาง 4 หลัก)
+    // ไม่ใช่ last-4 ของบัญชีจริง (1578147760 → "7760") เลยใช้ .includes() แทน
+    // — รองรับทั้ง mid-4 ปัจจุบัน และทุก format ที่ Slip2Go อาจเปลี่ยนในอนาคต
+    let amountOk = false, bankOk = false, accountOk = false
+    let bankId = '', receiverAccount = '', accountDigits = ''
+
     if (s2gCode === '200200') {
-      const amountOk         = Number(actualAmount) === Number(PRICE)
-      const bankId           = slip?.data?.bank?.id ?? slip?.data?.receiver?.bank?.id
-      const bankOk           = bankId === '004'  // KBANK
-      const receiverAccount  = slip?.data?.receiver?.account?.bank?.account ?? ''
-      const accountDigits    = receiverAccount.replace(/\D/g, '').slice(-4)
-      const expectedDigits   = ACCOUNT_NUMBER.slice(-4)
-      const accountOk        = accountDigits === expectedDigits
+      amountOk        = Number(actualAmount) === Number(PRICE)
+      bankId          = slip?.data?.receiver?.bank?.id ?? slip?.data?.bank?.id ?? ''
+      bankOk          = bankId === '004'  // KBANK
+      receiverAccount = slip?.data?.receiver?.account?.bank?.account ?? ''
+      accountDigits   = receiverAccount.replace(/\D/g, '')
+      accountOk       = accountDigits.length >= 4 && ACCOUNT_NUMBER.includes(accountDigits)
 
       console.log('[verify-slip] 200200 manual check:', {
-        amountOk, bankOk, accountOk, bankId, receiverAccount, accountDigits, expectedDigits,
+        amountOk, bankOk, accountOk, bankId, receiverAccount, accountDigits, actualAmount,
       })
 
       if (!amountOk || !bankOk || !accountOk) {
-        await supabase.from('orders').update({ status: 'rejected', reject_reason: 'invalid_slip' }).eq('id', order_id)
+        await supabase.from('orders').update({
+          status         : 'rejected',
+          reject_reason  : 'invalid_slip',
+          slip2go_code   : s2gCode,
+          slip2go_message: s2gMessage,
+          verify_detail  : { amountOk, bankOk, accountOk, bankId, receiverAccount, accountDigits, actualAmount, transRef },
+        }).eq('id', order_id)
         return Response.json({ status: 'rejected', reason: 'invalid_slip', actual_amount: actualAmount }, { headers: CORS })
       }
       // ✅ Validated — continue to section 7
@@ -386,7 +409,13 @@ serve(async (req) => {
       else if (s2gCode === '200402') reason = 'wrong_amount'
       else if (s2gCode === '200500') reason = 'invalid_slip'
 
-      await supabase.from('orders').update({ status: 'rejected', reject_reason: reason }).eq('id', order_id)
+      await supabase.from('orders').update({
+        status         : 'rejected',
+        reject_reason  : reason,
+        slip2go_code   : s2gCode,
+        slip2go_message: s2gMessage,
+        verify_detail  : { actualAmount, transRef },
+      }).eq('id', order_id)
       return Response.json({
         status       : 'rejected',
         reason,
@@ -399,7 +428,13 @@ serve(async (req) => {
       const { data: dupOrder } = await supabase
         .from('orders').select('id').eq('trans_ref', transRef).eq('status', 'verified').single()
       if (dupOrder && dupOrder.id !== order_id) {
-        await supabase.from('orders').update({ status: 'rejected', reject_reason: 'trans_ref_duplicate' }).eq('id', order_id)
+        await supabase.from('orders').update({
+          status         : 'rejected',
+          reject_reason  : 'trans_ref_duplicate',
+          slip2go_code   : s2gCode,
+          slip2go_message: s2gMessage,
+          verify_detail  : { transRef, conflictingOrderId: dupOrder.id },
+        }).eq('id', order_id)
         return Response.json({ status: 'rejected', reason: 'duplicate' }, { headers: CORS })
       }
     }
@@ -418,7 +453,13 @@ serve(async (req) => {
     }
 
     // ── 9. Update order → verified ───────────────────────────────────────────
-    await supabase.from('orders').update({ status: 'verified', trans_ref: transRef ?? null }).eq('id', order_id)
+    await supabase.from('orders').update({
+      status         : 'verified',
+      trans_ref      : transRef ?? null,
+      slip2go_code   : s2gCode,
+      slip2go_message: s2gMessage,
+      verify_detail  : { amountOk, bankOk, accountOk, bankId, accountDigits, actualAmount, transRef },
+    }).eq('id', order_id)
 
     // ── 10. ส่งอีเมล ─────────────────────────────────────────────────────────
     const transporter = nodemailer.createTransport({
