@@ -27,6 +27,20 @@ function generateCode(): string {
   return `TARN-${suffix}`
 }
 
+// ── Match visible (masked) account digits against full account number ────────
+//   ธนาคารแต่ละแห่งมาส์กเลขบัญชีคนละ format:
+//     KBANK: xxx-x-x4776-x   → digits "4776"   (mid-4)
+//     GSB:   15xxxx7760      → digits "157760" (first-2 + last-4)
+//   ใช้ subsequence check — ตัวเลขปรากฏตามลำดับใน ACCOUNT_NUMBER ไม่จำเป็นต้องติดกัน
+function digitsMatchAccount(visible: string, fullAccount: string): boolean {
+  if (visible.length < 4) return false
+  let j = 0
+  for (let i = 0; i < fullAccount.length && j < visible.length; i++) {
+    if (fullAccount[i] === visible[j]) j++
+  }
+  return j === visible.length
+}
+
 // ── Verify Turnstile token ───────────────────────────────────────────────────
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -367,9 +381,8 @@ serve(async (req) => {
     // Slip2Go อาจคืน 200200 โดยไม่ echo `condition` กลับมา (โดยเฉพาะ KBANK)
     // → manual validate amount + bank + receiverAccount เป็น safety net
     //
-    // หมายเหตุ accountOk: Slip2Go มาส์กเลขบัญชีเป็น `xxx-x-x4776-x` (โชว์กลาง 4 หลัก)
-    // ไม่ใช่ last-4 ของบัญชีจริง (1578147760 → "7760") เลยใช้ .includes() แทน
-    // — รองรับทั้ง mid-4 ปัจจุบัน และทุก format ที่ Slip2Go อาจเปลี่ยนในอนาคต
+    // accountOk: ใช้ digitsMatchAccount (subsequence check) เพราะธนาคารต้นทาง
+    // มาส์กเลขปลายทางคนละ format — KBANK โชว์กลาง 4, GSB โชว์ first-2+last-4
     let amountOk = false, bankOk = false, accountOk = false
     let bankId = '', receiverAccount = '', accountDigits = ''
 
@@ -379,7 +392,7 @@ serve(async (req) => {
       bankOk          = bankId === '004'  // KBANK
       receiverAccount = slip?.data?.receiver?.account?.bank?.account ?? ''
       accountDigits   = receiverAccount.replace(/\D/g, '')
-      accountOk       = accountDigits.length >= 4 && ACCOUNT_NUMBER.includes(accountDigits)
+      accountOk       = digitsMatchAccount(accountDigits, ACCOUNT_NUMBER)
 
       console.log('[verify-slip] 200200 manual check:', {
         amountOk, bankOk, accountOk, bankId, receiverAccount, accountDigits, actualAmount,
