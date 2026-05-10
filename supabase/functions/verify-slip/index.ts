@@ -27,20 +27,6 @@ function generateCode(): string {
   return `TARN-${suffix}`
 }
 
-// ── Match visible (masked) account digits against full account number ────────
-//   ธนาคารแต่ละแห่งมาส์กเลขบัญชีคนละ format:
-//     KBANK: xxx-x-x4776-x   → digits "4776"   (mid-4)
-//     GSB:   15xxxx7760      → digits "157760" (first-2 + last-4)
-//   ใช้ subsequence check — ตัวเลขปรากฏตามลำดับใน ACCOUNT_NUMBER ไม่จำเป็นต้องติดกัน
-function digitsMatchAccount(visible: string, fullAccount: string): boolean {
-  if (visible.length < 4) return false
-  let j = 0
-  for (let i = 0; i < fullAccount.length && j < visible.length; i++) {
-    if (fullAccount[i] === visible[j]) j++
-  }
-  return j === visible.length
-}
-
 // ── Verify Turnstile token ───────────────────────────────────────────────────
 async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
   const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
@@ -377,38 +363,35 @@ serve(async (req) => {
       return Response.json({ status: 'rejected', reason: 'duplicate' }, { headers: CORS })
     }
 
-    // ── 6. SUCCESS path with defensive manual validation ─────────────────────
-    // Slip2Go อาจคืน 200200 โดยไม่ echo `condition` กลับมา (โดยเฉพาะ KBANK)
-    // → manual validate amount + bank + receiverAccount เป็น safety net
-    //
-    // accountOk: ใช้ digitsMatchAccount (subsequence check) เพราะธนาคารต้นทาง
-    // มาส์กเลขปลายทางคนละ format — KBANK โชว์กลาง 4, GSB โชว์ first-2+last-4
-    let amountOk = false, bankOk = false, accountOk = false
+    // ── 6. SUCCESS path ──────────────────────────────────────────────────────
+    // Slip2Go คืน 200200 = "Slip is Valid" → ตรวจครบทุกเงื่อนไขที่เราส่งใน
+    // checkCondition แล้ว (account name + account number + amount + duplicate)
+    // เราเชื่อ Slip2Go เป็นหลัก เพราะถ้าไม่ตรง เขาคืน code อื่น (200401/200402/...)
+    // เก็บ amountOk เป็น sanity safety net เผื่อกรณีหายากที่ Slip2Go มี bug
+    let amountOk = false
     let bankId = '', receiverAccount = '', accountDigits = ''
 
     if (s2gCode === '200200') {
       amountOk        = Number(actualAmount) === Number(PRICE)
       bankId          = slip?.data?.receiver?.bank?.id ?? slip?.data?.bank?.id ?? ''
-      bankOk          = bankId === '004'  // KBANK
       receiverAccount = slip?.data?.receiver?.account?.bank?.account ?? ''
       accountDigits   = receiverAccount.replace(/\D/g, '')
-      accountOk       = digitsMatchAccount(accountDigits, ACCOUNT_NUMBER)
 
-      console.log('[verify-slip] 200200 manual check:', {
-        amountOk, bankOk, accountOk, bankId, receiverAccount, accountDigits, actualAmount,
+      console.log('[verify-slip] 200200 sanity check:', {
+        amountOk, bankId, receiverAccount, accountDigits, actualAmount,
       })
 
-      if (!amountOk || !bankOk || !accountOk) {
+      if (!amountOk) {
         await supabase.from('orders').update({
           status         : 'rejected',
-          reject_reason  : 'invalid_slip',
+          reject_reason  : 'wrong_amount',
           slip2go_code   : s2gCode,
           slip2go_message: s2gMessage,
-          verify_detail  : { amountOk, bankOk, accountOk, bankId, receiverAccount, accountDigits, actualAmount, transRef },
+          verify_detail  : { amountOk, bankId, receiverAccount, accountDigits, actualAmount, transRef },
         }).eq('id', order_id)
-        return Response.json({ status: 'rejected', reason: 'invalid_slip', actual_amount: actualAmount }, { headers: CORS })
+        return Response.json({ status: 'rejected', reason: 'wrong_amount', actual_amount: actualAmount }, { headers: CORS })
       }
-      // ✅ Validated — continue to section 7
+      // ✅ Slip2Go validated + amount sanity passed — continue to section 7
     } else {
       // ── ไม่ผ่าน — direct reject (ไม่แปลงเป็น bbl_pending ยกเว้น 200404) ────
 
@@ -471,7 +454,7 @@ serve(async (req) => {
       trans_ref      : transRef ?? null,
       slip2go_code   : s2gCode,
       slip2go_message: s2gMessage,
-      verify_detail  : { amountOk, bankOk, accountOk, bankId, accountDigits, actualAmount, transRef },
+      verify_detail  : { amountOk, bankId, accountDigits, actualAmount, transRef },
     }).eq('id', order_id)
 
     // ── 10. ส่งอีเมล ─────────────────────────────────────────────────────────
