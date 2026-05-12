@@ -34,7 +34,7 @@ serve(async (req) => {
       .select('id, name, email, status, ref_source, use_case, slip_url, created_at, recheck_count, last_recheck_at, reject_reason')
       .gte('created_at', startUTC.toISOString())
       .lte('created_at', endUTC.toISOString())
-      .order('created_at', { ascending: false })
+      .order('created_at', { ascending: true })  // เก่าก่อน → ใหม่ทีหลัง (chronological)
 
     const all      = orders ?? []
     const verified = all.filter(o => o.status === 'verified')
@@ -51,7 +51,7 @@ serve(async (req) => {
       .gt('recheck_count', 0)
       .gte('last_recheck_at', startUTC.toISOString())
       .lte('last_recheck_at', endUTC.toISOString())
-      .order('last_recheck_at', { ascending: false })
+      .order('last_recheck_at', { ascending: true })  // chronological (เก่าก่อน) ตรงกับ order list
 
     const verifiedLater = verifiedLaterRaw ?? []
     const verifiedLaterIds = new Set(verifiedLater.map(o => o.id))
