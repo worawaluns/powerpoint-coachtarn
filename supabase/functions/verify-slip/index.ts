@@ -14,7 +14,7 @@ const TURNSTILE_SECRET = Deno.env.get('TURNSTILE_SECRET_KEY')!
 const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
 
 const PRICE          = '499'
-const ACCOUNT_NUMBER = '1578147760'
+const ACCOUNT_NUMBER = '2293980961'
 const ACCOUNT_TYPE   = '01004'  // KBANK
 // KBANK ส่งชื่อมาพร้อม ์ ตัวอื่นบางที่ส่งไม่มี — รับทั้ง 2 รูปแบบ (Slip2Go match แบบ OR)
 const ACCOUNT_NAMES_TH = ['บจก. ดับเบิ้ลคราฟ', 'บจก. ดับเบิ้ลคราฟ์']
