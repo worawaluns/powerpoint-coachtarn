@@ -17,7 +17,10 @@ const PRICE          = '499'
 const ACCOUNT_NUMBER = '1578147760'
 const ACCOUNT_TYPE   = '01004'  // KBANK
 // KBANK ส่งชื่อมาพร้อม ์ ตัวอื่นบางที่ส่งไม่มี — รับทั้ง 2 รูปแบบ (Slip2Go match แบบ OR)
-const ACCOUNT_NAMES  = ['บจก. ดับเบิ้ลคราฟ', 'บจก. ดับเบิ้ลคราฟ์']
+const ACCOUNT_NAMES_TH = ['บจก. ดับเบิ้ลคราฟ', 'บจก. ดับเบิ้ลคราฟ์']
+// ธนาคารอื่น (SCB, BBL, BAY ฯลฯ) แสดงชื่อบัญชีปลายทางเป็นภาษาอังกฤษในสลิป
+// → ต้อง match EN ด้วย ไม่งั้น cross-bank transfer จะถูก Slip2Go ตอบ 200401 wrong_account
+const ACCOUNT_NAMES_EN = ['DOUBLE CRAFT CO.,LTD.', 'DOUBLE CRAFT CO., LTD.']
 
 // ── Generate CT-XXXXXXXX (CT- + 8 random chars, 1.1T combinations) ───────────
 function generateCode(): string {
@@ -303,11 +306,18 @@ serve(async (req) => {
               imageUrl: signedData.signedUrl,
               checkCondition: {
                 checkDuplicate: is_retry ? false : true,
-                checkReceiver: ACCOUNT_NAMES.map(name => ({
-                  accountType  : ACCOUNT_TYPE,
-                  accountNameTH: name,
-                  accountNumber: ACCOUNT_NUMBER,
-                })),
+                checkReceiver: [
+                  ...ACCOUNT_NAMES_TH.map(name => ({
+                    accountType  : ACCOUNT_TYPE,
+                    accountNameTH: name,
+                    accountNumber: ACCOUNT_NUMBER,
+                  })),
+                  ...ACCOUNT_NAMES_EN.map(name => ({
+                    accountType  : ACCOUNT_TYPE,
+                    accountNameEN: name,
+                    accountNumber: ACCOUNT_NUMBER,
+                  })),
+                ],
                 checkAmount: { type: 'eq', amount: PRICE },
               },
             },
