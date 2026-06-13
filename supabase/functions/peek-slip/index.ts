@@ -161,5 +161,51 @@ serve(async (req) => {
     }, { headers: CORS })
   }
 
-  return Response.json({ error: 'missing email_like or manual_verify_order_id' }, { status: 400, headers: CORS })
+  // ── Mode 3: resend email for already-verified order (ลูกค้าไม่เห็นเมลเดิม) ──
+  if (body.resend_email_order_id) {
+    const orderId = body.resend_email_order_id
+
+    const { data: order, error: orderErr } = await supabase
+      .from('orders')
+      .select('id, name, email, status')
+      .eq('id', orderId)
+      .single()
+    if (orderErr || !order) {
+      return Response.json({ error: 'order_not_found' }, { status: 404, headers: CORS })
+    }
+    if (order.status !== 'verified') {
+      return Response.json({ error: 'order_not_verified', status: order.status }, { headers: CORS })
+    }
+
+    // ดึง code ที่ผูกกับ order นี้ (อันแรก/อันล่าสุด)
+    const { data: codeRow } = await supabase
+      .from('redeem_codes')
+      .select('code')
+      .eq('order_id', orderId)
+      .order('id', { ascending: true })
+      .limit(1)
+      .single()
+    if (!codeRow?.code) {
+      return Response.json({ error: 'no_code_found' }, { status: 404, headers: CORS })
+    }
+
+    try {
+      await sendEmailViaResend(
+        order.email,
+        `✅ Redeem Code ของคุณพร้อมแล้ว — ${codeRow.code}`,
+        buildEmailHtml(order.name, codeRow.code),
+      )
+    } catch (e) {
+      console.error('[peek-slip] resend email failed:', e)
+      return Response.json({ error: 'email_failed', detail: String(e) }, { status: 500, headers: CORS })
+    }
+
+    return Response.json({
+      resent: true,
+      code: codeRow.code,
+      email_sent_to: order.email,
+    }, { headers: CORS })
+  }
+
+  return Response.json({ error: 'missing email_like, manual_verify_order_id, or resend_email_order_id' }, { status: 400, headers: CORS })
 })
