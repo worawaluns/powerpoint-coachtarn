@@ -1,6 +1,5 @@
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import nodemailer from 'npm:nodemailer@6.9.16'
 
 const CORS = {
   'Access-Control-Allow-Origin' : '*',
@@ -8,10 +7,28 @@ const CORS = {
 }
 
 const SLIP2GO_KEY      = Deno.env.get('SLIP2GO_SECRET_KEY')!
-const GMAIL_USER       = Deno.env.get('GMAIL_USER')!
-const GMAIL_PASS       = Deno.env.get('GMAIL_APP_PASSWORD')!
+const RESEND_API_KEY   = Deno.env.get('RESEND_API_KEY')!
 const TURNSTILE_SECRET = Deno.env.get('TURNSTILE_SECRET_KEY')!
 const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
+
+// Resend sender — DKIM อยู่ที่ resend._domainkey.coachtarnslide.com → ใช้ root domain
+const FROM_EMAIL = 'PowerPoint Template by Coach Tarn <noreply@coachtarnslide.com>'
+
+async function sendEmailViaResend(to: string, subject: string, html: string) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method : 'POST',
+    headers: {
+      'Authorization': `Bearer ${RESEND_API_KEY}`,
+      'Content-Type' : 'application/json',
+    },
+    body: JSON.stringify({ from: FROM_EMAIL, to: [to], subject, html }),
+  })
+  if (!res.ok) {
+    const err = await res.text()
+    throw new Error(`Resend ${res.status}: ${err}`)
+  }
+  return res.json()
+}
 
 const PRICE          = '499'
 const ACCOUNT_NUMBER = '2293980961'
@@ -467,17 +484,12 @@ serve(async (req) => {
       verify_detail  : { amountOk, bankId, accountDigits, actualAmount, transRef },
     }).eq('id', order_id)
 
-    // ── 10. ส่งอีเมล ─────────────────────────────────────────────────────────
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com', port: 465, secure: true,
-      auth: { user: GMAIL_USER, pass: GMAIL_PASS },
-    })
-    await transporter.sendMail({
-      from   : `"PowerPoint Template by Coach Tarn" <${GMAIL_USER}>`,
-      to     : order.email,
-      subject: `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
-      html   : buildEmailHtml(order.name, redeemCode),
-    })
+    // ── 10. ส่งอีเมล via Resend ──────────────────────────────────────────────
+    await sendEmailViaResend(
+      order.email,
+      `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
+      buildEmailHtml(order.name, redeemCode),
+    )
 
     // ── 11. ManyChat tag (additive, non-critical — only for Messenger-referred users) ────
     try {

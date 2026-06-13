@@ -1,18 +1,33 @@
-// One-off admin helper: peek slips + manual verify
-// ลบทิ้งหลังใช้เสร็จ
+// Admin helper: peek slips + manual verify (for Slip2Go-expired / cross-bank cases)
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import nodemailer from 'npm:nodemailer@6.9.16'
 
 const CORS = {
   'Access-Control-Allow-Origin' : '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-recheck-token',
 }
 
-const GMAIL_USER   = Deno.env.get('GMAIL_USER')!
-const GMAIL_PASS   = Deno.env.get('GMAIL_APP_PASSWORD')!
-const DOWNLOAD_URL = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
+const DOWNLOAD_URL   = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
+
+const FROM_EMAIL = 'PowerPoint Template by Coach Tarn <noreply@coachtarnslide.com>'
+
+async function sendEmailViaResend(to: string, subject: string, html: string) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method : 'POST',
+    headers: {
+      'Authorization': `Bearer ${RESEND_API_KEY}`,
+      'Content-Type' : 'application/json',
+    },
+    body: JSON.stringify({ from: FROM_EMAIL, to: [to], subject, html }),
+  })
+  if (!res.ok) {
+    const err = await res.text()
+    throw new Error(`Resend ${res.status}: ${err}`)
+  }
+  return res.json()
+}
 
 function generateCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
@@ -123,18 +138,13 @@ serve(async (req) => {
       .select('id')
     const cleanedSiblings = deleted?.length ?? 0
 
-    // 4) send email
+    // 4) send email via Resend
     try {
-      const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com', port: 465, secure: true,
-        auth: { user: GMAIL_USER, pass: GMAIL_PASS },
-      })
-      await transporter.sendMail({
-        from   : `"PowerPoint Template by Coach Tarn" <${GMAIL_USER}>`,
-        to     : order.email,
-        subject: `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
-        html   : buildEmailHtml(order.name, redeemCode),
-      })
+      await sendEmailViaResend(
+        order.email,
+        `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
+        buildEmailHtml(order.name, redeemCode),
+      )
     } catch (e) {
       console.error('[peek-slip] email failed:', e)
       return Response.json({

@@ -1,13 +1,14 @@
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import nodemailer from 'npm:nodemailer@6.9.16'
+import { encodeBase64 } from 'https://deno.land/std@0.208.0/encoding/base64.ts'
 
 // ── Cron: วันที่ 1 ของทุกเดือน 08:00 (Bangkok) = 01:00 UTC ─────────────────
 // ตั้งใน Supabase → Edge Functions → Schedule: "0 1 1 * *"
 
-const GMAIL_USER  = Deno.env.get('GMAIL_USER')!
-const GMAIL_PASS  = Deno.env.get('GMAIL_APP_PASSWORD')!
-const OWNER_EMAIL = Deno.env.get('OWNER_EMAIL')!
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
+const OWNER_EMAIL    = Deno.env.get('OWNER_EMAIL')!
+
+const FROM_EMAIL = 'Coach Tarn Slide · Report <noreply@coachtarnslide.com>'
 
 serve(async (req) => {
   try {
@@ -123,25 +124,28 @@ serve(async (req) => {
 </td></tr></table>
 </body></html>`
 
-    // ── ส่งอีเมลพร้อมแนบ CSV ───────────────────────────────────────────────
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com', port: 465, secure: true,
-      auth: { user: GMAIL_USER, pass: GMAIL_PASS },
-    })
-
+    // ── ส่งอีเมลพร้อมแนบ CSV via Resend ────────────────────────────────────
     const filename = `coachtarn-${lastMonth.getFullYear()}-${String(lastMonth.getMonth() + 1).padStart(2, '0')}.csv`
+    const csvBase64 = encodeBase64(new TextEncoder().encode(csv))
 
-    await transporter.sendMail({
-      from   : `"Coach Tarn Slide · Report" <${GMAIL_USER}>`,
-      to     : OWNER_EMAIL,
-      subject: `📁 สรุปลูกค้าเดือน${monthStr}: ${rows.length} ราย · ฿${revenue.toLocaleString()}`,
-      html,
-      attachments: [{
-        filename,
-        content : csv,
-        encoding: 'utf-8',
-      }],
+    const resendRes = await fetch('https://api.resend.com/emails', {
+      method : 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({
+        from: FROM_EMAIL,
+        to: [OWNER_EMAIL],
+        subject: `📁 สรุปลูกค้าเดือน${monthStr}: ${rows.length} ราย · ฿${revenue.toLocaleString()}`,
+        html,
+        attachments: [{ filename, content: csvBase64 }],
+      }),
     })
+    if (!resendRes.ok) {
+      const err = await resendRes.text()
+      throw new Error(`Resend ${resendRes.status}: ${err}`)
+    }
 
     console.log(`Monthly CSV sent: ${rows.length} orders, ฿${revenue}`)
     return new Response('ok', { status: 200 })

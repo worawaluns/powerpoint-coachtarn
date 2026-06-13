@@ -1,13 +1,13 @@
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
-import nodemailer from 'npm:nodemailer@6.9.16'
 
 // ── Cron: ทุกวัน 23:00 น. (Bangkok) = 16:00 UTC ─────────────────────────────
 // ตั้งใน Supabase → Edge Functions → Schedule: "0 16 * * *"
 
-const GMAIL_USER  = Deno.env.get('GMAIL_USER')!
-const GMAIL_PASS  = Deno.env.get('GMAIL_APP_PASSWORD')!
-const OWNER_EMAIL = Deno.env.get('OWNER_EMAIL')!
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
+const OWNER_EMAIL    = Deno.env.get('OWNER_EMAIL')!
+
+const FROM_EMAIL = 'Coach Tarn Slide · Report <noreply@coachtarnslide.com>'
 
 serve(async (req) => {
   try {
@@ -284,22 +284,24 @@ serve(async (req) => {
 </td></tr></table>
 </body></html>`
 
-    // ── ส่งอีเมล ────────────────────────────────────────────────────────────
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com', port: 465, secure: true,
-      auth: { user: GMAIL_USER, pass: GMAIL_PASS },
-    })
-
+    // ── ส่งอีเมล via Resend ────────────────────────────────────────────────
     const subjectSuffix = verifiedLater.length > 0
       ? ` · 🔄 verified ภายหลัง ${verifiedLater.length} เคส`
       : ''
+    const subject = `📊 สรุปยอดขายวันที่ ${dateISO} — ${verified.length} คำสั่งซื้อสำเร็จ (฿${revenue.toLocaleString()})${subjectSuffix}`
 
-    await transporter.sendMail({
-      from   : `"Coach Tarn Slide · Report" <${GMAIL_USER}>`,
-      to     : OWNER_EMAIL,
-      subject: `📊 สรุปยอดขายวันที่ ${dateISO} — ${verified.length} คำสั่งซื้อสำเร็จ (฿${revenue.toLocaleString()})${subjectSuffix}`,
-      html,
+    const resendRes = await fetch('https://api.resend.com/emails', {
+      method : 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type' : 'application/json',
+      },
+      body: JSON.stringify({ from: FROM_EMAIL, to: [OWNER_EMAIL], subject, html }),
     })
+    if (!resendRes.ok) {
+      const err = await resendRes.text()
+      throw new Error(`Resend ${resendRes.status}: ${err}`)
+    }
 
     console.log(`Daily summary sent: ${verified.length} orders, ฿${revenue}, ${verifiedLater.length} verified-later`)
     return new Response('ok', { status: 200 })
