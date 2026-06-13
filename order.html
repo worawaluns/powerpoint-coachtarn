@@ -444,6 +444,21 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .suc-email-icon svg{width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none}
 .se-label{font-size:10px;font-weight:700;color:#16A34A;letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
 .se-val{font-size:14px;font-weight:700;color:var(--text)}
+/* Spam folder alert — เน้นให้ลูกค้าเห็นชัดเจน */
+.suc-spam-alert{
+  margin:12px 24px 0;background:#FEF3C7;
+  border:1.5px solid #FCD34D;border-radius:14px;
+  padding:14px 16px;display:flex;align-items:flex-start;gap:12px;opacity:0;
+}
+#successSection.play .suc-spam-alert{animation:fadeInUp 0.35s ease 1.0s forwards}
+.suc-spam-icon{
+  width:32px;height:32px;background:#FCD34D;
+  border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.suc-spam-icon svg{width:18px;height:18px;stroke:#92400E;stroke-width:2.4;fill:none}
+.suc-spam-title{font-size:14px;font-weight:800;color:#92400E;margin-bottom:4px;line-height:1.3}
+.suc-spam-text{font-size:13px;color:#78350F;line-height:1.55}
+.suc-spam-text strong{color:#92400E;font-weight:800}
 /* Steps */
 .suc-steps{padding:20px 24px 4px;opacity:0}
 #successSection.play .suc-steps{animation:fadeInUp 0.35s ease 1.05s forwards}
@@ -809,7 +824,7 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
         </div>
         <div class="suc-badge"><span class="suc-badge-dot"></span>ชำระเงินสำเร็จ</div>
         <h2 class="suc-h">ขอบคุณที่สั่งซื้อ!</h2>
-        <p class="suc-p">ระบบส่ง Redeem Code ไปที่อีเมลแล้ว<br>กรุณาตรวจสอบ Inbox (หรือโฟลเดอร์ Spam)</p>
+        <p class="suc-p">ระบบส่ง Redeem Code ไปที่อีเมลของคุณแล้ว</p>
       </div>
 
       <!-- Email chip -->
@@ -820,6 +835,21 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
         <div>
           <div class="se-label">ส่ง Code ไปที่</div>
           <div class="se-val" id="successEmail">—</div>
+        </div>
+      </div>
+
+      <!-- Spam folder alert (สำคัญ — เน้นให้ลูกค้าเห็นชัดเจนสุด) -->
+      <div class="suc-spam-alert">
+        <div class="suc-spam-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <div>
+          <div class="suc-spam-title">ไม่เห็นอีเมลภายใน 2 นาที?</div>
+          <div class="suc-spam-text">ตรวจโฟลเดอร์ <strong>"Spam" / "อีเมลขยะ"</strong><br>ค้นหาคำว่า <strong>"TARN-"</strong> หรือ <strong>"Coach Tarn"</strong></div>
         </div>
       </div>
 
