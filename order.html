@@ -724,6 +724,24 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   .footer-col-link--email{font-size:14px}
   .footer-bottom{font-size:13px}
 }
+
+/* ── Help modal (No-email fallback) ── */
+.help-link{display:block;text-align:center;margin-top:14px;font-size:13px;color:var(--text-sub);text-decoration:none;padding:8px 12px;font-family:inherit}
+.help-link u{text-decoration:underline;text-decoration-color:#CBD5E1;text-underline-offset:3px}
+.help-link:hover{color:var(--red)}
+dialog.help-modal{border:none;border-radius:20px;padding:0;max-width:calc(100vw - 32px);width:400px;box-shadow:0 20px 60px rgba(0,0,0,0.2);position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);margin:0;font-family:inherit;color:var(--text)}
+dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.hm-head{padding:20px 24px 12px;display:flex;justify-content:space-between;align-items:center}
+.hm-title{font-size:18px;font-weight:800;color:var(--text)}
+.hm-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--text-sub);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1}
+.hm-close:hover{background:#F5F5F7}
+.hm-body{padding:0 24px 20px}
+.hm-lead{font-size:14px;color:var(--text-mid);line-height:1.6;margin:4px 0 8px}
+.hm-steps{list-style:none;padding:0;margin:8px 0 0;counter-reset:step}
+.hm-steps li{display:flex;gap:12px;padding:6px 0;font-size:14px;color:var(--text);line-height:1.5;counter-increment:step}
+.hm-steps li::before{content:counter(step);width:22px;height:22px;background:#F1F5F9;color:var(--text-mid);border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.hm-hours{font-size:13px;color:var(--text-sub);text-align:center;margin:16px 0 12px;padding:10px;background:#F5F5F7;border-radius:10px}
+.hm-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#0084FF,#0068D1);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;font-family:inherit}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -901,10 +919,31 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
           </svg>
           รับไฟล์สไลด์
         </a>
-        <p class="suc-note">ไม่เห็นอีเมล? รอสักครู่แล้วรีเฟรช<br>หรือตรวจสอบโฟลเดอร์ Spam / Junk</p>
+        <a href="#" class="help-link" onclick="document.getElementById('helpModal').showModal();return false">ไม่ได้รับอีเมล? <u>แจ้งแอดมิน</u></a>
       </div>
     </div>
   </div>
+
+  <!-- ── Help modal (No-email fallback) ── -->
+  <dialog id="helpModal" class="help-modal">
+    <div class="hm-head">
+      <div class="hm-title">ยังไม่ได้รับอีเมล?</div>
+      <button class="hm-close" aria-label="ปิด" onclick="document.getElementById('helpModal').close()">×</button>
+    </div>
+    <div class="hm-body">
+      <p class="hm-lead">กรุณาติดต่อแอดมินทาง Facebook Messenger<br>เพื่อขอรับไฟล์สไลด์</p>
+      <ol class="hm-steps">
+        <li>กดปุ่มด้านล่าง เพื่อเปิดแชท Facebook</li>
+        <li>แจ้งชื่อ-นามสกุล พร้อมส่งสลิปโอนเงิน</li>
+        <li>แอดมินจะตรวจสอบและส่งไฟล์ให้ทันทีในแชท</li>
+      </ol>
+      <div class="hm-hours">เวลาทำการของแอดมิน 10:00 – 24:00 น.</div>
+      <button class="hm-btn" onclick="window.open('https://m.me/ThePowerpointTemplate','_blank')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.14 2 11.24c0 2.9 1.44 5.49 3.68 7.19V22l3.37-1.85c.9.25 1.85.39 2.95.39 5.52 0 10-4.14 10-9.24C22 6.14 17.52 2 12 2zm.99 12.4l-2.53-2.7-4.93 2.7 5.42-5.75 2.6 2.7 4.86-2.7-5.42 5.75z"/></svg>
+        เปิดแชท Facebook
+      </button>
+    </div>
+  </dialog>
 
   <!-- ── Rejected section (แสดงใน page flow ปกติ มี header อยู่เสมอ) ── -->
   <div id="rejectedSection">
@@ -1130,6 +1169,7 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
             อีเมล <span style="font-weight:400;font-size:13px;color:var(--text-sub)">(จะส่งไฟล์ไปที่นี่)</span> <span class="req">*</span>
           </label>
           <input type="email" class="form-input" id="inputEmail" placeholder="example@email.com" autocomplete="email" inputmode="email">
+          <div id="emailSuggest" style="display:none;font-size:13px;color:#92400E;background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:10px 12px;margin-top:6px;cursor:pointer;line-height:1.5"></div>
           <div class="error-msg" id="errEmail">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             กรุณากรอกอีเมลให้ถูกต้อง
@@ -1754,6 +1794,56 @@ function closeDrawer(){
   document.getElementById('drawerOverlay').classList.remove('open');
   document.body.style.overflow='';
 }
+
+// ── Email typo suggestion (purely additive; never blocks submit) ──
+// ponytail: lookup table beats fuzzy matching for a fixed set of Thai typos
+(function(){
+  const TYPOS = {
+    'gmial.com':'gmail.com','gmai.com':'gmail.com','gnail.com':'gmail.com',
+    'gmil.com':'gmail.com','gamil.com':'gmail.com','gmail.co':'gmail.com',
+    'gmaill.com':'gmail.com','gmali.com':'gmail.com','gmaol.com':'gmail.com',
+    'gmial.co':'gmail.com',
+    'hotmial.com':'hotmail.com','hotmai.com':'hotmail.com','hotmall.com':'hotmail.com',
+    'hotmil.com':'hotmail.com','hormail.com':'hotmail.com','homtail.com':'hotmail.com',
+    'hotmail.co':'hotmail.com',
+    'yaho.com':'yahoo.com','yahho.com':'yahoo.com','yahooo.com':'yahoo.com',
+    'ymail.com':'yahoo.com','yhaoo.com':'yahoo.com','yahoo.co':'yahoo.com',
+    'outlok.com':'outlook.com','outllok.com':'outlook.com','outook.com':'outlook.com',
+    'outlook.co':'outlook.com','outlool.com':'outlook.com',
+    'iclod.com':'icloud.com','iclould.com':'icloud.com','icoud.com':'icloud.com',
+    'icould.com':'icloud.com','icloud.co':'icloud.com',
+  };
+  const input = document.getElementById('inputEmail');
+  const confirmInput = document.getElementById('inputEmailConfirm');
+  const hint = document.getElementById('emailSuggest');
+  if (!input || !hint) return;
+
+  function check(){
+    const v = input.value.trim().toLowerCase();
+    const at = v.lastIndexOf('@');
+    if (at < 1) { hint.style.display='none'; return; }
+    const domain = v.slice(at+1);
+    let fix = TYPOS[domain];
+    // ponytail: generic TLD typos (.con/.cm/.om → .com) — covers unknown providers too
+    if (!fix) {
+      if      (domain.endsWith('.con')) fix = domain.slice(0, -4) + '.com';
+      else if (domain.endsWith('.cm'))  fix = domain.slice(0, -3) + '.com';
+      else if (domain.endsWith('.om'))  fix = domain.slice(0, -3) + '.com';
+    }
+    if (!fix || fix === domain) { hint.style.display='none'; return; }
+    const suggested = v.slice(0, at+1) + fix;
+    hint.innerHTML = 'คุณอาจหมายถึง <strong>' + suggested + '</strong> — <span style="text-decoration:underline">คลิกเพื่อแก้ไข</span>';
+    hint.onclick = () => {
+      input.value = suggested;
+      if (confirmInput && confirmInput.value.trim()) confirmInput.value = suggested;
+      hint.style.display = 'none';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    };
+    hint.style.display = 'block';
+  }
+  input.addEventListener('blur', check);
+  input.addEventListener('input', () => { hint.style.display='none'; });
+})();
 </script>
 </body>
 </html>
