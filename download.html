@@ -1279,6 +1279,21 @@ document.getElementById('redeemInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !document.getElementById('redeemBtn').disabled) verifyCode();
 });
 
+// มาจากหน้าสั่งซื้อสำเร็จ → กรอก code ให้แล้วตรวจเลย (ใช้ครั้งเดียวแล้วลบ, หมดอายุ 10 นาที)
+(function () {
+  let code = null;
+  try {
+    const saved = JSON.parse(localStorage.getItem('ct_redeem') || 'null');
+    localStorage.removeItem('ct_redeem');
+    if (saved && Date.now() - saved.t < 10 * 60 * 1000) code = saved.code;
+  } catch (_) {}
+  if (!code || !VALID_PATTERN.test(code)) return;
+  const input = document.getElementById('redeemInput');
+  input.value = code;
+  onRedeemInput(input);
+  verifyCode();
+})();
+
 // ── Tutorial Video Player ────────────────────────────────────────────────────
 function tutPlay(overlay) {
   const wrap = overlay.closest('.tut-wrap');
