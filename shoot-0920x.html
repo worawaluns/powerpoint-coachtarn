@@ -167,6 +167,18 @@ button.card{cursor:pointer;font:inherit;color:inherit}
 .p-done h2{font-size:30px}
 .p-done p{color:#aab0bb;margin:0;font-size:16px}
 .p-done button{background:#1f8a5b;border:0;color:#fff;border-radius:12px;padding:16px 20px;font-weight:700;font-size:18px;cursor:pointer}
+
+/* slate: ถือไอแพดให้กล้องถ่ายก่อนเริ่มคลิป — เลขข้อใหญ่สุด อ่านออกจากไกล */
+.slate{flex:1;min-height:0;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;gap:10px;padding:16px clamp(16px,4vw,48px) 20px;text-align:center}
+.slate .s-top{font-size:clamp(14px,2.4vw,22px);font-weight:600;color:#aab0bb;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.slate .s-top b{color:#fff}
+.slate .s-mid{display:grid;place-content:center;gap:6px;min-height:0}
+.slate .s-num{font-family:var(--mono);font-size:min(34vh,30vw);font-weight:600;line-height:.92;letter-spacing:-.02em}
+.slate .s-numlbl{font-size:clamp(13px,2vw,20px);font-weight:700;color:#ff8a78;letter-spacing:.14em}
+.slate .s-say{font-size:clamp(15px,2.3vw,24px);color:#cdd2da;font-weight:500;max-width:34em;margin:0 auto;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.slate .s-foot{font-size:clamp(13px,2vw,20px);color:#9aa0ab;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.slate .s-done{color:#6fdca6;font-weight:700}
+.p-top button.viewbtn{background:#2a2a2a;border-color:#4a4a4a}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:#fff;color:#111;border-radius:999px;padding:8px 8px 8px 16px;font-weight:600;font-size:14px;display:flex;gap:10px;align-items:center;z-index:60;box-shadow:0 4px 18px rgba(0,0,0,.4)}
 .toast[hidden]{display:none}
 .toast button{background:#111;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer}
@@ -200,7 +212,8 @@ button.card{cursor:pointer;font:inherit;color:inherit}
     <button type="button" id="pSm" aria-label="ตัวเล็กลง">A−</button>
     <span class="pct" id="pPct"></span>
     <button type="button" id="pLg" aria-label="ตัวใหญ่ขึ้น">A+</button>
-    <button type="button" id="pClose" aria-label="ปิดหน้าจออ่านบท">✕</button>
+    <button type="button" id="pView" class="viewbtn" aria-label="สลับสเลท/บท">สเลท</button>
+  <button type="button" id="pClose" aria-label="ปิดหน้าจออ่านบท">✕</button>
   </div>
   <div class="p-body" id="pBody"></div>
   <div class="p-bar" id="pBar">
@@ -470,6 +483,11 @@ function render(){
 
 /* ---------- prompter ---------- */
 let pLoc=null, pList=[], pIdx=0, wake=null, lastPass=null;
+/* สเลท: ถือไอแพดถ่ายหน้าคลิป — แนวนอน = สเลท, แนวตั้ง = บท
+   iPad ที่ล็อกหมุนจอไว้จะไม่ส่ง event นี้เลย ปุ่ม "สเลท/บท" จึงต้องมีเสมอ */
+const mqLand = matchMedia('(orientation:landscape)');
+let slateOn = mqLand.matches, slateAuto = true;
+mqLand.addEventListener('change', e=>{ if(P.hidden||!slateAuto) return; slateOn = e.matches; drawP(); });
 const P=document.getElementById('prompter'), PB=document.getElementById('pBody'), PBar=document.getElementById('pBar');
 async function keepAwake(){try{if('wakeLock' in navigator) wake=await navigator.wakeLock.request('screen');}catch(e){wake=null;}}
 document.addEventListener('visibilitychange',()=>{if(!P.hidden&&document.visibilityState==='visible')keepAwake();});
@@ -477,7 +495,7 @@ function openPrompter(loc,n){
   pLoc=loc; pList=clipsFor(loc);
   pIdx = n!=null ? pList.findIndex(c=>c.n===n) : firstTodo();
   if(pIdx<0) pIdx=0;
-  P.hidden=false; document.body.style.overflow='hidden'; keepAwake(); drawP();
+  P.hidden=false; document.body.style.overflow='hidden'; slateAuto=true; slateOn=mqLand.matches; keepAwake(); drawP();
 }
 function firstTodo(){let i=pList.findIndex(c=>!isDone(c.n)&&!state.skip[c.n]); if(i<0) i=pList.findIndex(c=>!isDone(c.n)); return i;}
 function nextTodo(from){
@@ -500,6 +518,25 @@ function drawP(){
   PBar.hidden=false;
   const c=pList[pIdx];
   document.getElementById('pWhere').innerHTML=`<b>ข้อ ${c.n}</b> · ${esc(L.name)} · เหลือ ${left}${isDone(c.n)?' · <span style="color:#6fdca6">ถ่ายแล้ว</span>':''}`;
+  const vb=document.getElementById('pView'); if(vb){vb.textContent=slateOn?'บท':'สเลท'; vb.title=slateOn?'ดูบทที่ต้องพูด':'ดูสเลทสำหรับถ่ายหน้าคลิป';}
+  if(slateOn){
+    PB.innerHTML=`<div class="slate">
+      <div class="s-top"><b>${esc(L.name)}</b><span>${esc(L.outfit)}</span></div>
+      <div class="s-mid">
+        <div class="s-numlbl">ข้อ</div>
+        <div class="s-num">${c.n}</div>
+      </div>
+      <div>
+        <div class="s-say">${esc(c.o)}</div>
+        <div class="s-foot"><span>${esc(M[c.m]||c.m)}</span>${c.t?`<span>· ${esc(c.t)}</span>`:''}${isDone(c.n)?'<span class="s-done">· ถ่ายแล้ว</span>':''}</div>
+      </div>
+    </div>`;
+    PB.scrollTop=0;
+    document.getElementById('pPrev').disabled=pIdx===0;
+    document.getElementById('pSkip').disabled=left<=1&&!isDone(c.n);
+    document.getElementById('pPass').textContent=isDone(c.n)?'ถัดไป ›':'✓ ผ่าน ไปต่อ';
+    return;
+  }
   PB.innerHTML=`<div><div class="p-lbl">เปิด</div><div class="p-text">${esc(c.o)}</div></div>
     <div class="p-gap">· เว้น 2 วิ ·</div>
     <div><div class="p-lbl">ปิด</div><div class="p-text">${esc(c.c)}</div></div>
@@ -518,10 +555,11 @@ document.getElementById('toastUndo').onclick=()=>{if(lastPass){delete state.done
 document.getElementById('pPass').onclick=()=>{
   const c=pList[pIdx];
   if(!isDone(c.n)){state.done[c.n]=true;delete state.skip[c.n];save();lastPass={n:c.n,idx:pIdx};showToast(`ข้อ ${c.n} ผ่านแล้ว`);}
-  pIdx=nextTodo(pIdx); drawP();
+  pIdx=nextTodo(pIdx); slateAuto=true; slateOn=mqLand.matches; drawP();
 };
-document.getElementById('pSkip').onclick=()=>{const c=pList[pIdx]; state.skip[c.n]=true; save(); const n=nextTodo(pIdx); if(n>=0) pIdx=n; drawP();};
-document.getElementById('pPrev').onclick=()=>{if(pIdx>0){pIdx--;drawP();}};
+document.getElementById('pSkip').onclick=()=>{const c=pList[pIdx]; state.skip[c.n]=true; save(); const n=nextTodo(pIdx); if(n>=0) pIdx=n; slateAuto=true; slateOn=mqLand.matches; drawP();};
+document.getElementById('pPrev').onclick=()=>{if(pIdx>0){pIdx--;slateAuto=true;slateOn=mqLand.matches;drawP();}};
+document.getElementById('pView').onclick=()=>{slateOn=!slateOn; slateAuto=false; drawP();};
 document.getElementById('pSm').onclick=()=>{state.pf=Math.max(.6,+(state.pf-.1).toFixed(1));save();drawP();flash('ขนาด '+Math.round(state.pf*100)+'% · จำไว้แล้ว');};
 document.getElementById('pLg').onclick=()=>{state.pf=Math.min(1.8,+(state.pf+.1).toFixed(1));save();drawP();flash('ขนาด '+Math.round(state.pf*100)+'% · จำไว้แล้ว');};
 document.getElementById('pClose').onclick=closeP;
