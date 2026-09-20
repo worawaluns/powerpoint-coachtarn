@@ -195,6 +195,12 @@ button.card{cursor:pointer;font:inherit;color:inherit}
   .slate .s-say{font-size:min(clamp(18px,3.4vw,40px),4.6vh)}
 }
 .p-top button.viewbtn{background:#2a2a2a;border-color:#4a4a4a}
+/* ล้างสถานะ: ซ่อนไว้ท้ายหน้า ต้องยืนยันก่อน กันกดพลาดระหว่างถ่าย */
+.resetwrap{margin-top:26px;padding-top:14px;border-top:1px solid var(--line);text-align:center}
+.resetbtn{background:none;border:1px solid var(--line);border-radius:10px;padding:9px 16px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer}
+.resetbtn:hover{border-color:var(--accent);color:var(--accent)}
+.resetnote{font-size:12px;color:var(--muted);margin-top:6px}
+
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:#fff;color:#111;border-radius:999px;padding:8px 8px 8px 16px;font-weight:600;font-size:14px;display:flex;gap:10px;align-items:center;z-index:60;box-shadow:0 4px 18px rgba(0,0,0,.4)}
 .toast[hidden]{display:none}
 .toast button{background:#111;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer}
@@ -220,6 +226,10 @@ button.card{cursor:pointer;font:inherit;color:inherit}
     <nav class="tabs" role="tablist" id="tabs"></nav>
   </div>
   <main id="view"></main>
+  <div class="resetwrap">
+    <button type="button" class="resetbtn" id="resetBtn">ล้างสถานะที่ติ๊กไว้</button>
+    <div class="resetnote" id="resetNote"></div>
+  </div>
 </div>
 
 <div class="prompter" id="prompter" hidden role="dialog" aria-label="หน้าจออ่านบท">
@@ -490,6 +500,24 @@ function renderPrep(){
     return `<div class="panel"><div class="phead"><h3>${esc(g[0])}</h3><span class="c${d===n?' full':''}" id="pc-${gi}">${d===n?'✓ ครบ':d+'/'+n}</span></div>${checklist('prep-'+gi,g[1],'prep')}</div>`}).join('');
 }
 
+function doneCount(){
+  const clips=CLIPS.filter(c=>isDone(c.n)||state.skip[c.n]).length;
+  const checks=Object.values(state.prep).filter(Boolean).length+Object.values(state.mid).filter(Boolean).length;
+  return {clips,checks};
+}
+function drawReset(){
+  const {clips,checks}=doneCount();
+  const b=document.getElementById('resetBtn'), note=document.getElementById('resetNote');
+  b.disabled = !clips && !checks;
+  b.style.opacity = b.disabled ? .45 : 1;
+  note.textContent = clips||checks ? `ตอนนี้ติ๊กไว้ ${clips} ข้อ · เช็กลิสต์ ${checks} ช่อง` : 'ยังไม่มีอะไรติ๊กไว้';
+}
+document.getElementById('resetBtn').onclick=()=>{
+  const {clips,checks}=doneCount();
+  if(!confirm(`ล้างสถานะทั้งหมด?\n\nข้อที่ถ่ายแล้ว/ข้าม ${clips} ข้อ และเช็กลิสต์ ${checks} ช่อง จะถูกล้าง (ธีมกับขนาดตัวอักษรยังอยู่)`)) return;
+  state.done={}; state.skip={}; state.mid={}; state.prep={};
+  save(); render(); flash('ล้างสถานะแล้ว');
+};
 function render(){
   renderTop();
   const v=document.getElementById('view');
@@ -568,6 +596,7 @@ function drawP(){
   document.getElementById('pSkip').disabled=left<=1&&!isDone(c.n);
   document.getElementById('pPass').textContent=isDone(c.n)?'ถัดไป ›':'✓ ผ่าน ไปต่อ';
 }
+const _render=render; render=function(){_render.apply(this,arguments); drawReset();};
 function closeP(){P.hidden=true;document.body.style.overflow='';hideToast();try{wake&&wake.release();}catch(e){} wake=null;render();}
 let toastT=null;
 function flash(msg){showToast(msg,false);}
