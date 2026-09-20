@@ -168,16 +168,32 @@ button.card{cursor:pointer;font:inherit;color:inherit}
 .p-done p{color:#aab0bb;margin:0;font-size:16px}
 .p-done button{background:#1f8a5b;border:0;color:#fff;border-radius:12px;padding:16px 20px;font-weight:700;font-size:18px;cursor:pointer}
 
-/* slate: ถือไอแพดให้กล้องถ่ายก่อนเริ่มคลิป — เลขข้อใหญ่สุด อ่านออกจากไกล */
-.slate{flex:1;min-height:0;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;gap:10px;padding:16px clamp(16px,4vw,48px) 20px;text-align:center}
-.slate .s-top{font-size:clamp(14px,2.4vw,22px);font-weight:600;color:#aab0bb;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.slate .s-top b{color:#fff}
-.slate .s-mid{display:grid;place-content:center;gap:6px;min-height:0}
-.slate .s-num{font-family:var(--mono);font-size:min(34vh,30vw);font-weight:600;line-height:.92;letter-spacing:-.02em}
-.slate .s-numlbl{font-size:clamp(13px,2vw,20px);font-weight:700;color:#ff8a78;letter-spacing:.14em}
-.slate .s-say{font-size:clamp(15px,2.3vw,24px);color:#cdd2da;font-weight:500;max-width:34em;margin:0 auto;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.slate .s-foot{font-size:clamp(13px,2vw,20px);color:#9aa0ab;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.slate .s-done{color:#6fdca6;font-weight:700}
+/* slate: ถือไอแพดให้กล้องถ่ายก่อนเริ่มคลิป — หน้าตาแบบสเลทกองถ่าย
+   แนวนอน: เลขข้อเต็มคอลัมน์ซ้าย · ข้อมูลกับบทอยู่คอลัมน์ขวา */
+.slate{flex:1;min-height:0;overflow:hidden;display:grid;grid-template-rows:auto 1fr;gap:clamp(8px,1.6vh,16px);padding:0 clamp(12px,2.2vw,26px) clamp(10px,1.8vh,18px)}
+.slate .s-clap{height:clamp(18px,3.2vh,30px);margin-inline:calc(-1 * clamp(12px,2.2vw,26px));background:repeating-linear-gradient(115deg,#fff 0 34px,#111 34px 68px);border-bottom:2px solid #fff}
+.slate .s-body{display:grid;grid-template-columns:44% 1fr;gap:clamp(12px,2.2vw,26px);min-height:0}
+.slate .s-numbox{border:3px solid #fff;border-radius:16px;display:grid;place-content:center;justify-items:center;min-height:0;padding:6px}
+.slate .s-numlbl{font-size:min(clamp(13px,1.8vw,22px),3vh);font-weight:700;color:#ff8a78;letter-spacing:.2em}
+.slate .s-num{font-family:var(--mono);font-size:min(62vh,31vw);font-weight:600;line-height:.95;letter-spacing:-.02em}
+.slate .s-right{display:grid;grid-template-rows:auto 1fr;gap:clamp(8px,1.6vh,16px);min-height:0;min-width:0}
+.slate .s-meta{display:grid;gap:clamp(3px,.8vh,8px);align-content:start;min-width:0}
+.slate .s-row{display:grid;grid-template-columns:clamp(52px,6vw,80px) 1fr;gap:10px;align-items:baseline;border-bottom:1px solid #2a2a2a;padding-bottom:clamp(3px,.7vh,7px)}
+.slate .s-row:last-child{border-bottom:0}
+.slate .s-k{font-size:min(clamp(12px,1.4vw,19px),2.6vh);font-weight:700;color:#9aa0ab;letter-spacing:.12em}
+.slate .s-v{font-size:min(clamp(17px,2.2vw,34px),4vh);font-weight:700;min-width:0;overflow-wrap:anywhere}
+.slate .s-done{color:#6fdca6}
+.slate .s-lines{display:grid;gap:clamp(8px,1.6vh,16px);align-content:center;min-height:0}
+.slate .s-line{display:grid;gap:2px;border-left:4px solid var(--lc,#ff8a78);padding-left:clamp(8px,1.2vw,14px);min-width:0}
+.slate .s-line.close{--lc:#6fdca6}
+.slate .s-line .s-k{color:var(--lc,#ff8a78)}
+.slate .s-say{font-size:min(clamp(20px,3.1vw,46px),5.6vh);font-weight:600;line-height:1.3;margin:0;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+@media (orientation:portrait){
+  .slate .s-body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .slate .s-numbox{padding:8px clamp(18px,6vw,40px)}
+  .slate .s-num{font-size:min(30vh,42vw)}
+  .slate .s-say{font-size:min(clamp(18px,3.4vw,40px),4.6vh)}
+}
 .p-top button.viewbtn{background:#2a2a2a;border-color:#4a4a4a}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:#fff;color:#111;border-radius:999px;padding:8px 8px 8px 16px;font-weight:600;font-size:14px;display:flex;gap:10px;align-items:center;z-index:60;box-shadow:0 4px 18px rgba(0,0,0,.4)}
 .toast[hidden]{display:none}
@@ -521,14 +537,20 @@ function drawP(){
   const vb=document.getElementById('pView'); if(vb){vb.textContent=slateOn?'บท':'สเลท'; vb.title=slateOn?'ดูบทที่ต้องพูด':'ดูสเลทสำหรับถ่ายหน้าคลิป';}
   if(slateOn){
     PB.innerHTML=`<div class="slate">
-      <div class="s-top"><b>${esc(L.name)}</b><span>${esc(L.outfit)}</span></div>
-      <div class="s-mid">
-        <div class="s-numlbl">ข้อ</div>
-        <div class="s-num">${c.n}</div>
+      <div class="s-clap" aria-hidden="true"></div>
+      <div class="s-body">
+        <div class="s-numbox"><div class="s-numlbl">ข้อ</div><div class="s-num">${c.n}</div></div>
+        <div class="s-right">
+        <div class="s-meta">
+          <div class="s-row"><span class="s-k">สถานที่</span><span class="s-v">${esc(L.name)}</span></div>
+          <div class="s-row"><span class="s-k">ชุด</span><span class="s-v">${esc(L.outfit)}</span></div>
+          <div class="s-row"><span class="s-k">หมวด</span><span class="s-v">${esc(M[c.m]||c.m)}${c.t?' · '+esc(c.t):''}${isDone(c.n)?' <span class="s-done">· ถ่ายแล้ว</span>':''}</span></div>
+        </div>
+        <div class="s-lines">
+        <div class="s-line"><span class="s-k">ประโยคเปิด</span><p class="s-say">${esc(c.o)}</p></div>
+        <div class="s-line close"><span class="s-k">ประโยคปิด</span><p class="s-say">${esc(c.c)}</p></div>
+        </div>
       </div>
-      <div>
-        <div class="s-say">${esc(c.o)}</div>
-        <div class="s-foot"><span>${esc(M[c.m]||c.m)}</span>${c.t?`<span>· ${esc(c.t)}</span>`:''}${isDone(c.n)?'<span class="s-done">· ถ่ายแล้ว</span>':''}</div>
       </div>
     </div>`;
     PB.scrollTop=0;
