@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>:root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>คิวถ่าย CoachTarn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --bg:#f3f4f6; --surface:#ffffff; --ink:#1b2130; --muted:#5d6475; --line:#dfe2e8;
+  --accent:#d9412b; --accent-ink:#ffffff; --accent-soft:#fbe7e3;
+  --ok:#1f8a5b; --ok-soft:#e1f3ea; --warn:#9a6a00; --warn-soft:#fff3d6;
+  --m1:#2f5fd0; --m2:#8a3fc2; --m3:#0f8a8a; --m4:#c26a12;
+  --sans:"IBM Plex Sans Thai",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12151c; --surface:#1b2029; --ink:#eceef3; --muted:#a2a9b8; --line:#2c3340;
+    --accent:#ef5a43; --accent-soft:#3a1f1b; --ok:#46c28a; --ok-soft:#173026; --warn:#e2b340; --warn-soft:#342a12;
+    --m1:#7ea2ff; --m2:#c38af0; --m3:#4fd0cf; --m4:#f0a456;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12151c; --surface:#1b2029; --ink:#eceef3; --muted:#a2a9b8; --line:#2c3340;
+  --accent:#ef5a43; --accent-soft:#3a1f1b; --ok:#46c28a; --ok-soft:#173026; --warn:#e2b340; --warn-soft:#342a12;
+  --m1:#7ea2ff; --m2:#c38af0; --m3:#4fd0cf; --m4:#f0a456;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:calc(15px * var(--ui,1));line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:14px 80px}
+h2{font-size:19px;margin:0;text-wrap:balance}
+h3{font-size:16px;margin:0 0 6px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.small{font-size:13px;color:var(--muted)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* sticky top: title row + day progress + tabs */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px 6px;display:grid;gap:8px}
+.titlerow{display:flex;align-items:center;gap:10px}
+.titlerow h1{font-size:18px;margin:0;line-height:1.2;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pct{font-family:var(--mono);font-size:13px;color:#fff;min-width:44px;text-align:center}
+.themebtn{flex:0 0 auto;width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:16px;display:grid;place-items:center}
+:root[data-theme="dark"]{color-scheme:dark}
+:root[data-theme="light"]{color-scheme:light}
+.day{font-family:var(--mono);font-size:13px;font-weight:600;white-space:nowrap}
+.daybar{height:4px;background:var(--line);border-radius:4px;overflow:hidden}
+.daybar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.mode{display:inline-grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);padding:3px;border-radius:10px}
+.mbtn{border:0;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:600;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap}
+.mbtn[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);font-weight:600;font-size:14px;padding:6px 12px;border-radius:999px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.tab .o{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.tab .cnt{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.tab.full .cnt{color:var(--ok)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-selected="true"] .cnt,.tab[aria-selected="true"] .o{color:var(--bg);opacity:.75}
+
+details.how{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:6px}
+details.how summary{cursor:pointer;font-weight:600;font-size:14px}
+details.how ol{margin:8px 0 4px;padding-left:20px}
+
+/* location hero: the one thing to do next */
+.hero{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:grid;gap:10px}
+.hero-head{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.chipline{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:13px;font-weight:600;background:var(--bg);border-radius:8px;padding:3px 9px}
+.scene{font-size:14px;color:var(--muted);margin:0}
+.bar{height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+.go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:12px;padding:14px 16px;background:var(--accent);color:var(--accent-ink);font-size:17px;font-weight:700;cursor:pointer}
+.go small{font-weight:500;font-size:13px;opacity:.9}
+.go.ok{background:var(--ok)}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);font-size:13px;text-decoration:underline;cursor:pointer}
+
+.list{display:grid;gap:10px;margin-top:12px}
+.clip{background:var(--surface);border:1px solid var(--line);border-radius:12px;display:grid;grid-template-columns:1fr auto;align-items:stretch;overflow:hidden}
+.clip-main{border:0;background:none;text-align:left;padding:12px 14px;cursor:pointer;display:grid;gap:6px;min-width:0}
+.clip-main:hover{background:var(--bg)}
+.top{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.num{font-family:var(--mono);font-weight:600;font-size:14px;min-width:34px;text-align:center;border:1.5px solid var(--ink);border-radius:8px;padding:0 6px}
+.chip{font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.chip.M1{color:var(--m1)} .chip.M2{color:var(--m2)} .chip.M3{color:var(--m3)} .chip.M4{color:var(--m4)}
+.chip.pri{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+.chip.flag{color:var(--warn);background:var(--warn-soft);border-color:transparent}
+.chip.skip{color:var(--muted);background:var(--bg);border-color:transparent}
+.line{display:grid;grid-template-columns:50px 1fr;gap:8px;align-items:baseline}
+.lbl{font-size:12px;font-weight:600;color:var(--muted)}
+.tc{white-space:nowrap;font-family:var(--mono);font-size:11px;color:var(--muted);display:block;font-weight:500}
+.say{font-size:calc(16px * var(--ui,1));font-weight:500}
+.note{font-size:13px;color:var(--warn)}
+.tick{border:0;border-left:1px solid var(--line);background:none;width:64px;cursor:pointer;display:grid;place-items:center;align-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--muted)}
+.tick .box{width:26px;height:26px;border:2px solid var(--line);border-radius:8px;display:grid;place-items:center;font-size:16px;color:transparent}
+.clip.done .tick .box{background:var(--ok);border-color:var(--ok);color:#fff}
+.clip.done .num{background:var(--ok);color:#fff;border-color:var(--ok)}
+.clip.done .say{color:var(--muted)}
+details.donebox{margin-top:14px}
+details.donebox summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--muted);padding:6px 0}
+
+.mid{border-left:3px solid var(--mc,var(--line));background:var(--bg);border-radius:0 8px 8px 0;padding:8px 10px;display:grid;gap:4px;font-size:14px}
+.mid.M1{--mc:var(--m1)} .mid.M2{--mc:var(--m2)} .mid.M3{--mc:var(--m3)} .mid.M4{--mc:var(--m4)}
+.mid b{font-weight:600}
+.mid>span{display:block}
+.k{color:var(--muted);font-size:12px;font-weight:600}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-top:12px}
+.panel ul{margin:6px 0 0;padding-left:0;list-style:none;display:grid;gap:8px}
+.panel li label{display:flex;gap:10px;align-items:flex-start;cursor:pointer}
+.panel li input{width:20px;height:20px;margin-top:2px;accent-color:var(--ok);flex:0 0 auto}
+.vo{font-size:14px;background:var(--bg);border-radius:8px;padding:8px 10px;margin:6px 0}
+textarea.copybox{width:100%;min-height:160px;font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:8px;background:var(--bg);color:var(--ink)}
+
+/* schedule timeline */
+.sched{margin-top:12px;display:grid;gap:0}
+.slot{display:grid;grid-template-columns:62px 18px 1fr;gap:0 10px}
+.slot .tm{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:13px;font-weight:600;text-align:right;padding-top:12px;line-height:1.25}
+.slot .tm small{display:block;font-weight:500;color:var(--muted);font-size:11px}
+.rail{position:relative;display:flex;justify-content:center}
+.rail::before{content:"";position:absolute;top:0;bottom:0;width:2px;background:var(--line)}
+.slot:first-child .rail::before{top:18px}
+.slot:last-child .rail::before{bottom:calc(100% - 18px)}
+.dot{position:relative;margin-top:14px;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--line)}
+.slot.shoot .dot{border-color:var(--accent)}
+.slot.meal .dot{border-color:var(--warn)}
+.slot.fin .dot{border-color:var(--ok)}
+.slot.now .dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 5px var(--accent-soft)}
+.card{margin:6px 0;border-radius:12px;padding:10px 12px;border:1px solid var(--line);background:var(--surface);display:grid;gap:4px;text-align:left;width:100%}
+button.card{cursor:pointer;font:inherit;color:inherit}
+.slot.break .card,.slot.prep .card,.slot.fin .card{background:transparent;border-style:dashed}
+.slot.meal .card{background:var(--warn-soft);border-color:transparent}
+.slot.now .card{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.card .ttl{font-weight:700;font-size:15px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.card .dt{font-size:13px;color:var(--muted)}
+.card .prog{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.card .prog .bar{flex:1}
+.nowtag{font-size:11px;font-weight:700;color:var(--accent-ink);background:var(--accent);border-radius:999px;padding:1px 8px}
+.gohint{font-size:12px;font-weight:600;color:var(--accent)}
+.phead{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.phead .c{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.phead .c.full{color:var(--ok)}
+.panel li label span.done{color:var(--muted);text-decoration:line-through}
+
+/* prompter: deliberate single dark look, text pinned to the top edge near the lens */
+.prompter{position:fixed;inset:0;background:#000;color:#fff;z-index:50;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.prompter[hidden]{display:none}
+.p-top{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid #222;font-size:14px;color:#aab0bb}
+.p-top .where{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.p-top .where b{color:#fff}
+.p-top button{background:#1a1a1a;border:1px solid #3a3a3a;color:#fff;border-radius:8px;padding:6px 10px;font-weight:600;cursor:pointer}
+.p-body{flex:1;overflow-y:auto;padding:18px clamp(18px,4vw,48px) 24px;display:flex;flex-direction:column;gap:14px}
+.p-lbl{font-size:14px;font-weight:700;color:#ff8a78;letter-spacing:.06em}
+.p-text{font-size:calc(var(--pf,1) * clamp(30px,5.2vw,64px));line-height:1.32;font-weight:600;text-wrap:pretty;max-width:26em}
+.p-gap{font-size:14px;color:#7d838e}
+.p-hint{font-size:14px;color:#9aa0ab}
+.p-bar{display:grid;grid-template-columns:1fr 1fr 2fr;gap:8px;padding:10px 12px 12px;border-top:1px solid #222}
+.p-bar button{background:#1a1a1a;color:#fff;border:1px solid #3a3a3a;border-radius:12px;padding:14px 8px;font-weight:700;font-size:16px;cursor:pointer}
+.p-bar button.pass{background:#1f8a5b;border-color:#1f8a5b;font-size:17px}
+.p-bar button:disabled{opacity:.35}
+.p-done{flex:1;display:grid;place-content:center;gap:16px;text-align:center;padding:24px}
+.p-done h2{font-size:30px}
+.p-done p{color:#aab0bb;margin:0;font-size:16px}
+.p-done button{background:#1f8a5b;border:0;color:#fff;border-radius:12px;padding:16px 20px;font-weight:700;font-size:18px;cursor:pointer}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:#fff;color:#111;border-radius:999px;padding:8px 8px 8px 16px;font-weight:600;font-size:14px;display:flex;gap:10px;align-items:center;z-index:60;box-shadow:0 4px 18px rgba(0,0,0,.4)}
+.toast[hidden]{display:none}
+.toast button{background:#111;color:#fff;border:0;border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer}
+@media (prefers-reduced-motion: reduce){.bar i,.daybar i{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="titlerow">
+      <h1>คิวถ่าย CoachTarn</h1>
+      <span class="day" id="day"></span>
+      <button type="button" class="themebtn" id="uibtn" data-ui-cycle="1" aria-label="ขนาดตัวอักษร">Aa</button>
+      <button type="button" class="themebtn" id="themebtn" data-theme-cycle="1" aria-label="สลับธีม"></button>
+      <div class="mode" role="group" aria-label="โหมด">
+        <button type="button" class="mbtn" id="mode-coach" data-mode="coach">โค้ช</button>
+        <button type="button" class="mbtn" id="mode-ice" data-mode="ice">ไอซ์</button>
+      </div>
+    </div>
+    <div class="daybar" aria-hidden="true"><i id="daybar"></i></div>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+  </div>
+  <main id="view"></main>
+</div>
+
+<div class="prompter" id="prompter" hidden role="dialog" aria-label="หน้าจออ่านบท">
+  <div class="p-top">
+    <span class="where" id="pWhere"></span>
+    <button type="button" id="pSm" aria-label="ตัวเล็กลง">A−</button>
+    <span class="pct" id="pPct"></span>
+    <button type="button" id="pLg" aria-label="ตัวใหญ่ขึ้น">A+</button>
+    <button type="button" id="pClose" aria-label="ปิดหน้าจออ่านบท">✕</button>
+  </div>
+  <div class="p-body" id="pBody"></div>
+  <div class="p-bar" id="pBar">
+    <button type="button" id="pPrev">‹ ย้อน</button>
+    <button type="button" id="pSkip">ข้าม</button>
+    <button type="button" id="pPass" class="pass">✓ ผ่าน ไปต่อ</button>
+  </div>
+</div>
+<div class="toast" id="toast" hidden role="status"><span id="toastMsg"></span><button type="button" id="toastUndo">เลิกทำ</button></div>
+
+<script>
+const LOCS = [
+  {id:'common', name:'ส่วนกลาง', time:'13:15–14:00', outfit:'ชุด 1 · เชิ้ต + เบลเซอร์', scene:'มุมที่ดูเป็นออฟฟิศหรือ co-working · โค้ชยืนพูด'},
+  {id:'view', name:'วิวตึกสูง', time:'14:00–14:50', outfit:'ชุด 1 · ถอดเบลเซอร์', scene:'วิวอยู่ด้านหลังแบบเฉียงๆ · ใช้ไฟ LED ส่องหน้า ไม่อย่างนั้นหน้าจะมืด · ถือโน้ตบุ๊กหรือ iPad ที่เปิดสไลด์ค้างไว้'},
+  {id:'pool', name:'ริมสระ', time:'15:10–16:25', outfit:'ชุด 2 · โปโลหรือเชิ้ตลำลองสีสว่าง', scene:'นั่งในที่ร่ม คุยสบายๆ · ใช้ไมค์หนีบปก เพราะมีเสียงลม'},
+  {id:'room', name:'ห้อง', time:'16:50–18:00 · กลางคืน 18:40', outfit:'ชุด 3 · ชุดอยู่บ้านแบบดูดี', scene:'ห้อง double volume มุมโต๊ะทำงาน · 3 คลิปท้าย (11, 12, 30) ถ่ายหลังกินข้าวเย็น 18:40 เปิดโคมไฟโต๊ะ'},
+];
+const M = {M1:'ไม่ใช่แค่...ยังมี', M2:'ก่อน/หลัง', M3:'ใช้ได้ทุกงาน', M4:'แก้ง่าย'};
+const PRI = new Set([1,2,3,5,7,44,45,50,21,26,37,11,13,14,17,51,54]);
+const CLIPS = [
+ {n:1,loc:'common',m:'M3',o:'ใครต้องพรีเซนต์ให้หัวหน้าบ่อยๆ ไม่ต้องนั่งจัดหน้าสไลด์เองแล้วนะ',c:'หัวหน้าเรียกเมื่อไหร่ก็พร้อม สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:2,loc:'common',m:'M3',o:'เจ้าของกิจการที่ต้องเสนองานลูกค้า สไลด์ดูดี ลูกค้าก็เชื่อใจง่ายขึ้น',c:'อยากให้ลูกค้าเชื่อใจตั้งแต่หน้าแรก สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:3,loc:'common',m:'M1',t:'กราฟ',o:'ผู้จัดการที่ต้องสรุปยอดทุกเดือน ไม่ต้องทำกราฟใหม่ทุกรอบ แค่เปลี่ยนตัวเลข',c:'เดือนหน้าสรุปยอดเสร็จไวขึ้นแน่ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:4,loc:'common',m:'M3',o:'เพิ่งได้เลื่อนเป็นหัวหน้า ต่อไปต้องพรีเซนต์บ่อยขึ้นแน่ๆ',c:'เตรียมสไลด์ไว้ก่อน อุ่นใจกว่า สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:5,loc:'common',m:'M3',o:'ใครต้องรายงานผู้บริหารทุกไตรมาส สไลด์ที่ดูเป็นมืออาชีพช่วยได้เยอะ',c:'ไตรมาสนี้ขึ้นพรีเซนต์อย่างมั่นใจ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:6,loc:'common',m:'M3',o:'ฝ่ายขายที่ต้องไปเสนอลูกค้า ถ้าสไลด์ดูดี ลูกค้าจะตั้งใจฟังมากขึ้น',c:'เตรียมสไลด์ให้พร้อมก่อนเจอลูกค้า สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:7,loc:'common',m:'M3',o:'จะยื่นแผนธุรกิจให้นักลงทุนดู หน้าตาสไลด์ก็เป็นส่วนหนึ่งที่เขาใช้ตัดสิน',c:'ให้แผนธุรกิจของคุณดูน่าเชื่อถือ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:8,loc:'common',m:'M4',o:'ใครเป็นเลขาหรือแอดมินที่โดนสั่งทำสไลด์บ่อยๆ ไม่ต้องเริ่มจากหน้าเปล่าแล้ว',c:'ส่งงานหัวหน้าได้ไวขึ้น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:9,loc:'common',m:'M3',o:'ต้องพูดหน้าห้องแต่ไม่ถนัดทำสไลด์ ไม่ต้องเก่งดีไซน์ก็ได้สไลด์ดูดี',c:'ครั้งหน้าไม่ต้องกังวลเรื่องสไลด์แล้ว สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+  {n:10,loc:'common',m:'M1',t:'แผนที่',o:'ธุรกิจมีหลายสาขา ใส่แผนที่ไว้หน้าเดียว คนดูรู้ทันทีว่าเราอยู่ตรงไหนบ้าง',c:'อยากได้หน้าแผนที่แบบที่เห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+
+ {n:44,loc:'view',m:'M1',t:'กราฟ',o:'เวลาเทียบยอดปีนี้กับปีที่แล้ว ใช้กราฟหน้าเดียว ดีกว่าตารางเต็มหน้า',c:'เปลี่ยนตารางยาวๆ เป็นกราฟแบบที่เห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:45,loc:'view',m:'M1',t:'กราฟ',o:'สไลด์สรุปยอดขาย ทำครั้งเดียวใช้ได้ทุกเดือน แค่เปลี่ยนตัวเลข',c:'ซื้อครั้งเดียว ใช้ได้ทุกเดือน สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+  {n:46,loc:'view',m:'M1',t:'เปรียบเทียบ',o:'จะบอกลูกค้าว่าเราดีกว่าคู่แข่งยังไง ใช้ตารางเปรียบเทียบหน้าเดียวจบ',c:'อยากได้หน้าเปรียบเทียบแบบที่เห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:47,loc:'view',m:'M4',o:'หัวหน้าสั่งทำสไลด์ด่วน ต้องส่งภายในวันนี้ ไม่ต้องตกใจ',c:'งานด่วนครั้งหน้าส่งทันแน่ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:48,loc:'view',m:'M1',t:'ไทม์ไลน์',o:'แผนงานทั้งปี สรุปให้จบในหน้าเดียวได้ ถ้าใช้ไทม์ไลน์',c:'อยากได้ไทม์ไลน์แบบที่เห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:49,loc:'view',m:'M1',t:'ผังองค์กร',o:'มีพนักงานใหม่เข้ามา ผังองค์กรต้องแก้อีกแล้ว ถ้าใช้เทมเพลตก็แค่เปลี่ยนชื่อ',c:'อยากได้ผังองค์กรที่แก้ง่ายแบบที่เห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:50,loc:'view',m:'M1',t:'ผังองค์กร',o:'ผังองค์กรไม่ต้องนั่งวาดกล่องเอง ใส่ชื่อกับตำแหน่งก็เสร็จ',c:'ผังองค์กรบริษัทคุณ เสร็จได้ในวันนี้ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+
+ {n:21,loc:'pool',m:'M2',o:'สไลด์แบบไหนที่ผู้บริหารชอบ คำตอบคือหน้าเรียบ ข้อมูลน้อย แต่ชัด',c:'อยากได้สไลด์ที่ผู้บริหารชอบ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:22,loc:'pool',m:'M2',o:'ลูกค้าจะฟังเราต่อหรือไม่ ตัดสินกันตั้งแต่สไลด์หน้าแรก',c:'ให้หน้าแรกของคุณดึงลูกค้าไว้ได้ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:23,loc:'pool',m:'M1',t:'สรุปผล',o:'ผู้บริหารไม่มีเวลาอ่านรายงานยาวๆ สรุปตัวเลขสำคัญไว้หน้าเดียวพอ',c:'อยากได้หน้าสรุปแบบที่เห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:24,loc:'pool',m:'M2',o:'รายงานที่ส่งไป หัวหน้าอ่านจบไหม ถ้าไม่ อาจเป็นเพราะหน้ารกเกินไป',c:'จัดหน้าให้โล่งแบบที่เห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:25,loc:'pool',m:'M3',o:'ทำไมบางคนพรีเซนต์ทีเดียวผ่าน ส่วนหนึ่งเพราะสไลด์ดูพร้อมตั้งแต่หน้าแรก',c:'ให้ครั้งหน้าดูพร้อมตั้งแต่หน้าแรก สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:26,loc:'pool',m:'M1',t:'กราฟ',o:'สรุปยอดขายให้จบในหน้าเดียว ใส่แค่กราฟกับตัวเลขสำคัญก็พอ',c:'สรุปยอดเดือนนี้ให้จบในหน้าเดียว สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:27,loc:'pool',m:'M4',o:'ยังทำสไลด์เองทีละหน้าอยู่ไหม มีแบบที่จัดไว้แล้ว แค่เปลี่ยนข้อความ',c:'เลิกทำเองทีละหน้าได้แล้ว สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:28,loc:'pool',m:'M3',o:'จะเสนองานลูกค้ารายใหญ่ สไลด์ต้องเรียบ ดูแพง และอ่านง่าย',c:'เตรียมให้พร้อมก่อนเจอลูกค้ารายใหญ่ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:37,loc:'pool',m:'M2',o:'ใช้ AI ช่วยคิดเนื้อหาได้ แต่หน้าตาสไลด์ ใช้เทมเพลตที่ออกแบบมาจริงดีกว่า',c:'เอาเนื้อหาจาก AI มาใส่ในเทมเพลตดีๆ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:38,loc:'pool',m:'M2',o:'ใส่แอนิเมชันเยอะไม่ได้ช่วยให้ดูโปร หน้าที่อ่านง่ายต่างหากที่ช่วย',c:'เปลี่ยนเป็นหน้าที่อ่านง่ายแบบที่เห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:39,loc:'pool',m:'M2',o:'สไลด์ตัวหนังสือเล็กๆ คนนั่งหลังห้องอ่านไม่ออกนะ',c:'เปลี่ยนเป็นหน้าที่อ่านชัดทั้งห้อง สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:40,loc:'pool',m:'M2',o:'ยิ่งใส่ข้อมูลเยอะ หัวหน้ายิ่งจำไม่ได้ หน้าหนึ่งเอาแค่เรื่องเดียวพอ',c:'จัดหน้าให้หัวหน้าจำได้ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:41,loc:'pool',m:'M4',o:'ไม่ต้องเก่งดีไซน์ ก็ทำสไลด์ระดับผู้บริหารได้ ถ้าเริ่มจากเทมเพลตที่ดี',c:'เริ่มจากเทมเพลตที่ดีตั้งแต่วันนี้ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:42,loc:'pool',m:'M4',o:'สไลด์ประชุมดีๆ ไม่ต้องใช้เวลาทำนาน แค่อย่าเริ่มจากหน้าเปล่า',c:'ครั้งหน้าไม่ต้องเริ่มจากหน้าเปล่าแล้ว สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:43,loc:'pool',m:'M2',o:'ประชุมงานจริงจัง อย่าใช้เทมเพลตลายการ์ตูน มันลดความน่าเชื่อถือ',c:'เปลี่ยนเป็นแบบที่ดูเป็นทางการ สนใจกดปุ่มด้านล่างได้เลยค่ะ',note:'ถ้ามี ให้ใช้สไลด์ลายการ์ตูนเป็นภาพ "ก่อน"'},
+
+ {n:13,loc:'room',m:'M2',o:'เนื้อหาดี แต่สไลด์ดูไม่น่าเชื่อถือ ลูกค้าก็ลังเลที่จะซื้อ',c:'ให้สไลด์ช่วยให้ลูกค้ามั่นใจ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:14,loc:'room',m:'M2',o:'ใส่ข้อมูลเต็มหน้าแบบนี้ หัวหน้าไม่อ่านหรอก',c:'เปลี่ยนเป็นหน้าที่หัวหน้าอยากอ่าน สนใจกดปุ่มด้านล่างได้เลยค่ะ',note:'โค้ชถือกระดาษที่พิมพ์สไลด์รกๆ ขึ้นมาตั้งแต่เฟรมแรก'},
+ {n:15,loc:'room',m:'M2',o:'พรีเซนต์ไปแป๊บเดียว คนในห้องหยิบมือถือขึ้นมาดูแล้ว อาจเป็นเพราะสไลด์ดูน่าเบื่อ',c:'เปลี่ยนเป็นสไลด์ที่คนอยากดู สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:16,loc:'room',m:'M4',o:'เสียเวลาจัดสไลด์ มากกว่าเตรียมเนื้อหาอีก เรื่องจัดหน้าให้เทมเพลตช่วย',c:'เอาเวลาไปคิดเนื้อหาดีกว่า สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:17,loc:'room',m:'M1',t:'กราฟ',o:'ตัวเลขดี แต่กราฟดูไม่รู้เรื่อง หัวหน้าก็ไม่เห็นว่าเราทำได้ดี',c:'ให้ผลงานดีๆ ของคุณถูกมองเห็น สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+  {n:18,loc:'room',m:'M1',t:'ขั้นตอน',o:'ลูกค้าถามว่าเราทำงานยังไง ตอบด้วยหน้าขั้นตอนหน้าเดียว เข้าใจง่ายกว่าพูดยาวๆ',c:'ครั้งหน้าลูกค้าถาม เปิดให้ดูได้ทันที สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:19,loc:'room',m:'M2',o:'สไลด์ที่ได้จาก AI หน้าตาคล้ายกันไปหมด งานบริษัทควรดูเป็นตัวเอง',c:'ให้งานบริษัทคุณดูไม่ซ้ำใคร สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:20,loc:'room',m:'M2',o:'สไลด์ชุดเดิมใช้มาหลายปีแล้ว เปลี่ยนหน้าตาใหม่ งานเดิมก็ดูทันสมัยขึ้น',c:'ปีนี้ถึงเวลาเปลี่ยนแล้ว สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:29,loc:'room',m:'M2',o:'อยากให้งานดูแพงขึ้น ไม่ต้องแก้เนื้อหา เปลี่ยนแค่หน้าตาสไลด์',c:'ให้งานของคุณดูแพงขึ้นตั้งแต่วันนี้ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:31,loc:'room',m:'M2',o:'อยากให้หัวหน้าจำงานคุณได้ เริ่มจากสไลด์ที่ดูตั้งใจทำ',c:'ให้งานชิ้นต่อไปเป็นที่จดจำ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:32,loc:'room',m:'M4',o:'ทำสไลด์เองแป๊บเดียว แต่ได้งานที่ดูเหมือนจ้างดีไซเนอร์',c:'ได้งานระดับดีไซเนอร์โดยไม่ต้องจ้าง สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:33,loc:'room',m:'M2',o:'บริษัทเล็กก็พรีเซนต์ให้ดูใหญ่ได้ ถ้าสไลด์ดูเป็นมืออาชีพ',c:'ให้บริษัทคุณดูใหญ่ขึ้นในสายตาลูกค้า สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:34,loc:'room',m:'M1',t:'ไทม์ไลน์',o:'หัวหน้าถามว่าโปรเจกต์ไปถึงไหนแล้ว ตอบด้วยไทม์ไลน์หน้าเดียวจบ',c:'อัปเดตงานครั้งหน้าให้เข้าใจง่าย สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:35,loc:'room',m:'M3',o:'ทำธุรกิจคนเดียว ไม่มีทีมกราฟิก สไลด์ก็ต้องทำเองหมด',c:'ไม่มีทีมกราฟิกก็มีสไลด์ดีๆ ได้ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:36,loc:'room',m:'M2',o:'ส่งรายงานไปแล้ว หัวหน้าต้องถามกลับทุกรอบ แปลว่าหน้ารายงานยังอ่านยาก',c:'ให้หัวหน้าอ่านแล้วเข้าใจเลย ไม่ต้องถามกลับ สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:11,loc:'room',m:'M4',o:'พรุ่งนี้ประชุม แต่สไลด์ยังไม่ได้เริ่มเลยใช่ไหม ไม่ต้องเริ่มจากหน้าเปล่า',c:'พรุ่งนี้เข้าประชุมได้แบบไม่ต้องกังวล สนใจกดปุ่มด้านล่างได้เลยค่ะ',note:'ถ่ายหลังกินข้าวเย็น 18:40 เปิดโคมไฟโต๊ะ',night:true},
+ {n:12,loc:'room',m:'M4',o:'ทำสไลด์ถึงตีสอง แล้วยังโดนสั่งแก้อีก ลองเริ่มจากแบบที่จัดไว้แล้วดู',c:'คืนนี้จะได้นอนเร็วขึ้น สนใจกดปุ่มด้านล่างได้เลยค่ะ',note:'ถ่ายหลังกินข้าวเย็น 18:40 เปิดโคมไฟโต๊ะ',night:true},
+ {n:30,loc:'room',m:'M4',o:'พรีเซนต์พรุ่งนี้ เริ่มทำคืนนี้ก็ยังทัน ถ้าไม่ต้องจัดหน้าเอง',c:'พรุ่งนี้ขึ้นพรีเซนต์ได้สบายใจ สนใจกดปุ่มด้านล่างได้เลยค่ะ',note:'ถ่ายหลังกินข้าวเย็น 18:40 เปิดโคมไฟโต๊ะ',night:true},
+ {n:51,loc:'pool',m:'M4',o:'ราคาเท่ากาแฟไม่กี่แก้ว แต่ได้เวลาเลิกงานตรงเวลาคืนมา ทุกครั้งที่ต้องทำสไลด์',c:'499 บาท ได้เวลาเย็นของคุณคืนมา สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:52,loc:'pool',m:'M4',o:'ทำสไลด์เองเดือนละห้าชั่วโมง ปีหนึ่งคือหกสิบชั่วโมงที่เสียไป',c:'จ่าย 499 บาทครั้งเดียว เอาเวลาทั้งปีคืนมา สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:53,loc:'pool',m:'M2',o:'เลิกงานแล้วยังต้องนั่งทำสไลด์ต่อที่บ้าน เวลาส่วนตัวหายไปทุกสัปดาห์',c:'เอาเวลาเย็นของคุณคืนมา สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:54,loc:'view',m:'M3',o:'จ้างคนทำสไลด์ทีละงาน ก็ต้องจ่ายทุกครั้ง ชุดนี้จ่าย 499 บาทครั้งเดียว ใช้ได้ทุกงาน',c:'จ่ายครั้งเดียว ใช้ได้ทุกงาน สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:55,loc:'view',m:'M4',o:'ชั่วโมงทำงานของผู้จัดการมีราคา อย่าเอาไปหมดกับการนั่งจัดหน้าสไลด์',c:'499 บาท ซื้อเวลาทำงานสำคัญคืนมา สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+ {n:56,loc:'view',m:'M3',o:'499 บาทจ่ายครั้งเดียว ใช้ทำสไลด์ได้ทุกประชุมทั้งปี',c:'หารต่อครั้งแล้ว ถูกกว่าค่ากาแฟแก้วเดียว สนใจกดปุ่มด้านล่างได้เลยค่ะ'},
+];
+
+function clipsFor(loc){
+  const list = CLIPS.filter(c=>c.loc===loc);
+  const day = list.filter(c=>!c.night), night = list.filter(c=>c.night);
+  day.sort((a,b)=>(PRI.has(b.n)-PRI.has(a.n)));
+  return day.concat(night);
+}
+const KEY='ct-shoot-v2';
+let state={done:{},skip:{},mid:{},prep:{},tab:'sched',pf:1,mode:'coach',howSeen:false};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null'); if(s){state=Object.assign(state,s); if(typeof state.pf!=='number'||state.pf>3) state.pf=1; state.skip=state.skip||{};}}catch(e){}
+const THEMES=['auto','light','dark'], TICON={auto:'◐',light:'☀️',dark:'🌙'}, TNAME={auto:'ธีมตามเครื่อง',light:'ธีมสว่าง',dark:'ธีมมืด'};
+const UIS=[1,1.15,1.3], UINAME={1:'ตัวอักษรปกติ',1.15:'ตัวอักษรใหญ่',1.3:'ตัวอักษรใหญ่มาก'};
+function applyUI(){const u=UIS.includes(state.ui)?state.ui:1;document.documentElement.style.setProperty('--ui',u);
+  const b=document.getElementById('uibtn'); if(b){b.style.fontSize=(12+ (u-1)*20)+'px';b.title=UINAME[u];b.setAttribute('aria-label',UINAME[u]+' (แตะเพื่อสลับ)');}}
+function applyTheme(){const t=state.theme||'auto',r=document.documentElement; if(t==='auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme',t);
+  const b=document.getElementById('themebtn'); if(b){b.textContent=TICON[t];b.title=TNAME[t];b.setAttribute('aria-label',TNAME[t]+' (แตะเพื่อสลับ)');}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+const isDone=n=>!!state.done[n];
+
+/* middle-section content (ice mode only) */
+const VER={};{const count={};CLIPS.forEach(c=>{const i=count[c.m]||0;count[c.m]=i+1;VER[c.n]=i%3;});}
+const VNAME={
+  M1:['A · โน้ตบุ๊ก','B · iPad','C · ทีวี'],
+  M2:['คู่ที่ 1 · อัดหน้าจอ','คู่ที่ 2 · ปัดบนมือถือ','คู่ที่ 3 · iPad มุมบน'],
+  M3:['A · โน้ตบุ๊ก โต๊ะไม้','B · iPad แสงกลางวัน','C · ทีวี'],
+  M4:['A · สไลด์รายงาน','B · สไลด์เสนองาน','C · สไลด์ประชุม'],
+};
+function midFor(c){
+  const v=VNAME[c.m][VER[c.n]];
+  if(c.m==='M1') return {vo:`ไม่ใช่แค่หน้า${c.t} ในชุดยังมีอีกหลายแบบ ใช้ได้กับทุกงานในออฟฟิศ`,shot:`สไลด์${c.t}เต็มจอ 2 วิ → เลื่อนเร็วผ่านแบบอื่น 5–6 หน้า 4 วิ → ภาพหลายสไลด์เรียงเป็นตาราง 1.5 วิ`,file:`หัวข้อ "${c.t}" + เลื่อนผ่าน ${v}`};
+  if(c.m==='M2') return {vo:'จากหน้าที่อ่านยาก เปลี่ยนเป็นแบบนี้ เนื้อหาเดิม แค่ใส่ลงในเทมเพลต',shot:'สไลด์รกๆ ป้าย "ก่อน" 1.5 วิ → ปัดเป็นเทมเพลต ป้าย "หลัง" 2 วิ → เลื่อนดูหน้าสวยๆ 3–4 หน้า 4 วิ',file:`ก่อน/หลัง ${v}`};
+  if(c.m==='M3') return {vo:'จะประชุมทีม เสนอลูกค้า ทำรายงาน หรือวางแผนธุรกิจ มีแบบให้หยิบใช้ครบ',shot:'4 ช่วง ช่วงละ 1.8 วิ มีป้ายตัวใหญ่: ประชุมทีม → เสนอลูกค้า → รายงาน → แผนธุรกิจ',file:`4 หมวด ${v}`};
+  return {vo:'เปิดใน PowerPoint พิมพ์ทับ เปลี่ยนตัวเลข เสร็จแล้ว ไม่ต้องจัดหน้าเองสักหน้า',shot:'อัดหน้าจอ: พิมพ์หัวข้อทับ 2 วิ → แก้ตัวเลขในกราฟ 2 วิ → เลื่อนดูหน้าที่เสร็จ 3.5 วิ',file:`อัดหน้าจอ ${v}`};
+}
+function midBlock(c){const d=midFor(c);return `<span class="line"><span class="lbl">กลาง<span class="tc">3.5–11</span></span><span class="mid ${c.m}"><span><span class="k">เสียง AI</span><br>${esc(d.vo)}</span><span><span class="k">ภาพ</span><br>${esc(d.shot)}</span><span><span class="k">ไฟล์</span> <b>${esc(d.file)}</b></span></span></span>`;}
+
+/* tabs */
+function tabsList(){
+  const t=[{id:'sched',name:'🕐 ตาราง'},...LOCS.map((l,i)=>({id:l.id,name:l.name,o:i+1,loc:true}))];
+  if(state.mode==='ice') t.push({id:'prep',name:'เตรียมของ'},{id:'mid',name:'ช่วงกลาง'});
+  return t;
+}
+function renderTop(){
+  const total=CLIPS.length, d=CLIPS.filter(c=>isDone(c.n)).length;
+  document.getElementById('day').textContent=`${d}/${total}`;
+  document.getElementById('daybar').style.width=(d/total*100)+'%';
+  document.querySelectorAll('.mbtn').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===state.mode)));
+  if(!tabsList().some(t=>t.id===state.tab)) state.tab='sched';
+  document.getElementById('tabs').innerHTML=tabsList().map(t=>{
+    let cnt='',full='';
+    if(t.loc){const l=clipsFor(t.id),x=l.filter(c=>isDone(c.n)).length;cnt=`<span class="cnt">${x===l.length?'✓':x+'/'+l.length}</span>`;full=x===l.length?' full':'';}
+    return `<button class="tab${full}" role="tab" id="tab-${t.id}" aria-selected="${state.tab===t.id}" data-tab="${t.id}">${t.o?`<span class="o">${t.o}</span>`:''}${esc(t.name)}${cnt}</button>`;
+  }).join('');
+}
+
+function clipCard(c){
+  const ice=state.mode==='ice';
+  const chips=[];
+  if(ice) chips.push(`<span class="chip ${c.m}">${c.m} ${esc(M[c.m])}${c.t?' · '+esc(c.t):''}</span>`);
+  if(PRI.has(c.n)) chips.push('<span class="chip pri">ชุดแรก</span>');
+  if(state.skip[c.n]&&!isDone(c.n)) chips.push('<span class="chip skip">ข้ามไว้</span>');
+  if(c.flag) chips.push('<span class="chip flag">เช็กก่อน</span>');
+  return `<article class="clip ${isDone(c.n)?'done':''}">
+    <button type="button" class="clip-main" data-prompt="${c.n}" aria-label="เปิดบทข้อ ${c.n}">
+      <span class="top"><span class="num">${c.n}</span>${chips.join('')}</span>
+      <span class="line"><span class="lbl">เปิด${ice?'<span class="tc">0–3.5</span>':''}</span><span class="say">${esc(c.o)}</span></span>
+      ${ice?midBlock(c):''}
+      <span class="line"><span class="lbl">ปิด${ice?'<span class="tc">11–14.5</span>':''}</span><span class="say">${esc(c.c)}</span></span>
+      ${c.note?`<span class="note">📌 ${esc(c.note)}</span>`:''}
+      ${c.flag?`<span class="note">⚠ ${esc(c.flag)}</span>`:''}
+    </button>
+    <button type="button" class="tick" data-tick="${c.n}" aria-pressed="${isDone(c.n)}" aria-label="ข้อ ${c.n} ถ่ายแล้ว"><span class="box">✓</span>${isDone(c.n)?'เสร็จ':'ถ่าย'}</button>
+  </article>`;
+}
+
+function nextLoc(loc){const i=LOCS.findIndex(l=>l.id===loc);return LOCS.slice(i+1).find(l=>clipsFor(l.id).some(c=>!isDone(c.n)));}
+
+function renderLoc(loc){
+  const L=LOCS.find(l=>l.id===loc), list=clipsFor(loc);
+  const left=list.filter(c=>!isDone(c.n)), done=list.filter(c=>isDone(c.n));
+  const first=left.find(c=>!state.skip[c.n])||left[0];
+  const nx=nextLoc(loc);
+  const go = first
+    ? `<button type="button" class="go" data-start="${loc}">▶ ${done.length?'อ่านบทต่อ':'เริ่มอ่านบท'} <small>ข้อ ${first.n} · เหลือ ${left.length}</small></button>`
+    : `<button type="button" class="go ok" ${nx?`data-tab="${nx.id}"`:''}>✓ ครบรอบนี้แล้ว${nx?` <small>ไปต่อ: ${esc(nx.name)} →</small>`:''}</button>`;
+  return `<section class="hero">
+    <div class="hero-head"><h2>${esc(L.name)}</h2><span class="mono small">${esc(L.time)}</span></div>
+    <div class="chipline"><span class="tag">👕 ${esc(L.outfit)}</span></div>
+    <p class="scene">${esc(L.scene)}</p>
+    <div class="bar" aria-hidden="true"><i style="width:${done.length/list.length*100}%"></i></div>
+    ${go}
+    ${state.mode==='ice'?`<div><button type="button" class="linkbtn" data-copy="${loc}">คัดลอกบททั้งรอบไปวางในแอปอื่น</button><div id="copyfallback-${loc}"></div></div>`:''}
+  </section>
+  ${loc==='common'&&!state.howSeen?`<details class="how" open><summary>วิธีใช้ (อ่านครั้งเดียว)</summary><ol>
+    <li>มือถือเครื่องหลักถ่ายด้วยกล้องหลัง ตั้งบนขาตั้ง</li>
+    <li>เปิดหน้านี้บน iPad หรือมือถืออีกเครื่อง วางชิดเลนส์ ให้ขอบบนของจออยู่ใกล้กล้อง</li>
+    <li>กด ▶ เริ่มอ่านบท · ถ่ายผ่านกด ✓ ผ่าน ไปต่อ · ถ่ายไม่ผ่าน 2 เทคกด ข้าม แล้วระบบจะพากลับมาตอนท้ายรอบ</li>
+    <li>ปิดล็อกหน้าจออัตโนมัติของเครื่องที่ใช้อ่านบท จอจะได้ไม่ดับระหว่างถ่าย</li>
+  </ol><button type="button" class="linkbtn" data-howseen="1">เข้าใจแล้ว ซ่อนกล่องนี้</button></details>`:''}
+  <div class="list">${left.map(clipCard).join('')}</div>
+  ${done.length?`<details class="donebox"><summary>ถ่ายแล้ว ${done.length} คลิป</summary><div class="list">${done.map(clipCard).join('')}</div></details>`:''}`;
+}
+
+const MID=[
+ {m:'M1',vo:'ไม่ใช่แค่หน้า[หัวข้อ] ในชุดยังมีอีกหลายแบบ ใช้ได้กับทุกงานในออฟฟิศ',items:['กราฟ (Chart / Graph) 3 วิ · ข้อ 3, 17, 26, 44, 45','สรุปผล (KPI / Dashboard) 3 วิ · ข้อ 23','ไทม์ไลน์ (Timeline / Roadmap) 3 วิ · ข้อ 34, 48','ผังองค์กร (Org Chart / Team) 3 วิ · ข้อ 49, 50','แผนที่ (Map) 3 วิ · ข้อ 10','ขั้นตอน (Process / Steps) 3 วิ · ข้อ 18','เปรียบเทียบ (Comparison / Table) 3 วิ · ข้อ 46','เลื่อนผ่านหลายหน้า A · โน้ตบุ๊ก','เลื่อนผ่านหลายหน้า B · iPad','เลื่อนผ่านหลายหน้า C · ทีวี']},
+ {m:'M2',vo:'จากหน้าที่อ่านยาก เปลี่ยนเป็นแบบนี้ เนื้อหาเดิม แค่ใส่ลงในเทมเพลต',items:['ทำสไลด์ “ก่อน” 3 หน้า: พื้นขาว ตัวหนังสือล้วนอัดเต็มหน้า (ทำเองใน PowerPoint 10 นาที)','จับคู่ “หลัง” ด้วยเนื้อหาเดียวกันในเทมเพลต List / Summary / Chart','ก่อน/หลัง คู่ที่ 1 · อัดหน้าจอ','ก่อน/หลัง คู่ที่ 2 · ปัดบนมือถือ','ก่อน/หลัง คู่ที่ 3 · iPad มุมบน']},
+ {m:'M3',vo:'จะประชุมทีม เสนอลูกค้า ทำรายงาน หรือวางแผนธุรกิจ มีแบบให้หยิบใช้ครบ',items:['ประชุมทีม = Agenda / Timeline 2 หน้า','เสนอลูกค้า = Comparison / Process 2 หน้า','รายงาน = Chart / Dashboard 2 หน้า','แผนธุรกิจ = SWOT / Strategy 2 หน้า','4 หมวด A · โน้ตบุ๊ก โต๊ะไม้','4 หมวด B · iPad แสงกลางวัน','4 หมวด C · ทีวี']},
+ {m:'M4',vo:'เปิดใน PowerPoint พิมพ์ทับ เปลี่ยนตัวเลข เสร็จแล้ว ไม่ต้องจัดหน้าเองสักหน้า',items:['อัดหน้าจอ A · แก้หน้า Chart (พิมพ์หัวข้อ + เปลี่ยนตัวเลข)','อัดหน้าจอ B · แก้หน้า Process','อัดหน้าจอ C · แก้หน้า Timeline']},
+];
+function checklist(prefix,items,store){return `<ul>${items.map((it,i)=>{const id=`${prefix}-${i}`;return `<li><label for="${id}"><input type="checkbox" id="${id}" data-${store}="${id}" ${state[store][id]?'checked':''}><span class="${state[store][id]?'done':''}">${esc(it)}</span></label></li>`}).join('')}</ul>`;}
+function renderMid(){
+  return `<section class="hero"><h2>ช่วงกลาง · ไอซ์ถ่ายเองที่บ้าน</h2>
+    <p class="scene">ถ่ายใกล้ๆ ให้เห็นแค่จอหรือสไลด์ ติดมือได้ · ยาวราว 7–8 วิ · เสียง AI ตั้งความเร็ว 1.1 เท่า · เฟรมแรกต้องตรงกับเรื่องที่โค้ชพูดตอนเปิด</p></section>
+  ${MID.map(g=>`<div class="panel"><h3><span class="chip ${g.m}">${g.m} ${esc(M[g.m])}</span></h3><div class="vo"><span class="k">เสียง AI</span><br>${esc(g.vo)}</div>${checklist('mid-'+g.m,g.items,'mid')}</div>`).join('')}`;
+}
+const SCHED=[
+ {s:'ก่อน',e:'13:00',type:'meal',title:'🍚 กินข้าวเที่ยง + จัดของ',dt:'กินให้อิ่มก่อนเริ่ม · ชาร์จทุกเครื่อง · วางชุดทั้ง 3 ชุดไว้ในห้อง'},
+ {s:'13:00',e:'13:15',type:'prep',title:'เซ็ตกล้องและไมค์',dt:'ที่ส่วนกลาง · ถ่ายทดสอบเสียง 1 คลิป'},
+ {s:'13:15',e:'14:00',type:'shoot',loc:'common'},
+ {s:'14:00',e:'14:50',type:'shoot',loc:'view'},
+ {s:'14:50',e:'15:10',type:'break',title:'พัก + เปลี่ยนชุด 2',dt:'ดื่มน้ำ ซับหน้า · ย้ายไปริมสระ'},
+ {s:'15:10',e:'16:25',type:'shoot',loc:'pool'},
+ {s:'16:25',e:'16:50',type:'break',title:'พักกินของว่าง + เปลี่ยนชุด 3',dt:'เซ็ตมุมโต๊ะทำงานในห้อง'},
+ {s:'16:50',e:'18:00',type:'shoot',loc:'room',part:'day'},
+ {s:'18:00',e:'18:40',type:'meal',title:'🍚 กินข้าวเย็น',dt:'รอฟ้ามืด · ก่อนกลับมาถ่าย เปิดโคมไฟโต๊ะ ปิดไฟเพดาน'},
+ {s:'18:40',e:'19:00',type:'shoot',loc:'room',part:'night'},
+ {s:'19:00',e:'',type:'fin',title:'เสร็จ',dt:'เช็กในมือถือว่าไฟล์ครบก่อนเก็บของ'},
+];
+const SHOOT_DAY='2026-09-20';
+function toMin(t){const m=/^(\d\d):(\d\d)$/.exec(t);return m?(+m[1])*60+(+m[2]):null;}
+function nowIndex(){
+  const d=new Date(); const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  if(iso!==SHOOT_DAY) return -1;
+  const m=d.getHours()*60+d.getMinutes();
+  for(let i=SCHED.length-1;i>=0;i--){const st=toMin(SCHED[i].s); if(st!=null&&m>=st) return i;}
+  return 0;
+}
+function slotClips(x){let l=clipsFor(x.loc); if(x.part==='day') l=l.filter(c=>!c.night); if(x.part==='night') l=l.filter(c=>c.night); return l;}
+function renderSched(){
+  const ni=nowIndex();
+  const rows=SCHED.map((x,i)=>{
+    const now=i===ni?' now':'';
+    const tm=`<div class="tm">${esc(x.s)}${x.e?`<small>${x.s==='ก่อน'?'':'ถึง '}${esc(x.e)}</small>`:''}</div>`;
+    let card;
+    if(x.type==='shoot'){
+      const L=LOCS.find(l=>l.id===x.loc), cl=slotClips(x), d=cl.filter(c=>isDone(c.n)).length;
+      const name=L.name+(x.part==='day'?' · ช่วงกลางวัน':x.part==='night'?' · กลางคืน':'');
+      const sub=x.part==='night'?'ข้อ 11, 12, 30 · เปิดโคมไฟโต๊ะ':L.outfit;
+      card=`<button type="button" class="card" data-tab="${x.loc}">
+        <span class="ttl">🎬 ${esc(name)} ${i===ni?'<span class="nowtag">ตอนนี้</span>':''}</span>
+        <span class="dt">${esc(sub)}</span>
+        <span class="prog"><span class="bar"><i style="width:${d/cl.length*100}%"></i></span>${d===cl.length?'✓ ครบ':d+'/'+cl.length+' คลิป'}</span>
+        <span class="gohint">เปิดคิว ›</span></button>`;
+    } else {
+      card=`<div class="card"><span class="ttl">${esc(x.title)} ${i===ni?'<span class="nowtag">ตอนนี้</span>':''}</span><span class="dt">${esc(x.dt)}</span></div>`;
+    }
+    return `<div class="slot ${x.type}${now}">${tm}<div class="rail"><span class="dot"></span></div>${card}</div>`;
+  }).join('');
+  return `<section class="hero"><div class="hero-head"><h2>ตารางวันนี้</h2><span class="mono small">อา. 20 ก.ย. · 13:00–19:00</span></div>
+    <p class="scene">ถ้าช้ากว่าตารางเกิน 15 นาที ให้ข้ามคลิปที่ไม่มีป้าย "ชุดแรก" ในสถานที่นั้นแล้วไปต่อ · แตะการ์ด 🎬 เพื่อเปิดคิวของสถานที่นั้น</p></section>
+    <div class="sched">${rows}</div>`;
+}
+const PREP=[
+ ['📱 อุปกรณ์ถ่าย',['มือถือเครื่องหลัก · กล้องหลัง 4K แนวตั้ง · พื้นที่ว่างเกิน 20 GB','ขาตั้งมือถือ','ไมค์หนีบปก + แบตหรือสายสำรอง','ไฟ LED ดวงเล็ก (วิวตึกสูงกับในห้อง)','iPad หรือมือถือเครื่องที่ 2 เปิดหน้านี้ไว้อ่านบท · ปิดล็อกจออัตโนมัติ','พาวเวอร์แบงก์ 1–2 ก้อน + สายชาร์จ']],
+ ['🗂 ของประกอบฉาก',['กระดาษ A4 พิมพ์สไลด์รกๆ 2–3 แผ่น (ข้อ 14)','โน้ตบุ๊กหรือ iPad เปิดหน้า Chart / Map / Org Chart ค้างไว้ (วิวตึกสูง)','โคมไฟโต๊ะ (ข้อ 11, 12, 30)']],
+ ['👕 ชุดโค้ช',['ชุด 1 · เชิ้ต + เบลเซอร์ (ส่วนกลาง, วิวตึกสูง)','ชุด 2 · โปโลหรือเชิ้ตลำลองสีสว่าง (ริมสระ)','ชุด 3 · ชุดอยู่บ้านแบบดูดี (ห้อง)','เลี่ยงลายริ้วเล็กๆ เพราะจะกระพริบในวิดีโอ']],
+ ['💧 ของใช้ระหว่างวัน',['น้ำดื่มให้โค้ช','ทิชชูหรือแป้งซับหน้า','ข้าวเย็นหรือสั่งเดลิเวอรีไว้ก่อน 17:45']],
+ ['✅ ก่อน 13:00',['ชาร์จทุกเครื่องเต็ม','เปิดหน้านี้บน iPad ได้ (ถ้าคนละบัญชี ต้องแชร์ลิงก์ก่อน)','ทดสอบไมค์ อัดสั้นๆ แล้วฟังเสียง']],
+ ['🎥 ก่อนกดอัดทุกครั้ง',['หน้าโค้ชอยู่ช่วงบนค่อนกลางจอ เว้นด้านล่างราว 25%','นิ่ง 1 วิ แล้วพูดทันที ไม่ทักทาย','เว้น 2 วิระหว่างเปิดกับปิด','พูด "กดปุ่มด้านล่าง" แล้วชี้นิ้วลง','ไม่เกิน 2 เทคต่อคลิป','ทุก 5 คลิปสลับมุม ใกล้ ↔ ครึ่งตัว']],
+ ['✂️ ตอนตัดต่อ (วันหลัง)',['ตัดให้คลิปเริ่มที่คำแรกพอดี','ข้อความบนจอตรงกับที่โค้ชพูด','ปิดท้าย: 499 บาท จ่ายครั้งเดียว ออกใบกำกับภาษีได้ + ลูกศรชี้ลง','รวมไม่เกิน 15 วิ ถ้าเกินให้ย่นช่วงกลางก่อน','ชุดแรกที่ยิงแอด: 17 คลิปที่มีป้าย "ชุดแรก"']],
+];
+function renderPrep(){
+  let tot=0,don=0; PREP.forEach((g,gi)=>g[1].forEach((_,i)=>{tot++; if(state.prep[`prep-${gi}-${i}`]) don++;}));
+  return `<section class="hero"><div class="hero-head"><h2>ของที่ต้องเตรียม</h2><span class="mono small" id="prepcount">${don}/${tot}</span></div>
+    <div class="bar"><i id="prepbar" style="width:${don/tot*100}%"></i></div></section>`+
+  PREP.map((g,gi)=>{const n=g[1].length,d=g[1].filter((_,i)=>state.prep[`prep-${gi}-${i}`]).length;
+    return `<div class="panel"><div class="phead"><h3>${esc(g[0])}</h3><span class="c${d===n?' full':''}" id="pc-${gi}">${d===n?'✓ ครบ':d+'/'+n}</span></div>${checklist('prep-'+gi,g[1],'prep')}</div>`}).join('');
+}
+
+function render(){
+  renderTop();
+  const v=document.getElementById('view');
+  v.innerHTML = state.tab==='sched'?renderSched():state.tab==='mid'?renderMid():state.tab==='prep'?renderPrep():renderLoc(state.tab);
+  const t=document.getElementById('tab-'+state.tab); if(t) t.scrollIntoView({block:'nearest',inline:'nearest'});
+}
+
+/* ---------- prompter ---------- */
+let pLoc=null, pList=[], pIdx=0, wake=null, lastPass=null;
+const P=document.getElementById('prompter'), PB=document.getElementById('pBody'), PBar=document.getElementById('pBar');
+async function keepAwake(){try{if('wakeLock' in navigator) wake=await navigator.wakeLock.request('screen');}catch(e){wake=null;}}
+document.addEventListener('visibilitychange',()=>{if(!P.hidden&&document.visibilityState==='visible')keepAwake();});
+function openPrompter(loc,n){
+  pLoc=loc; pList=clipsFor(loc);
+  pIdx = n!=null ? pList.findIndex(c=>c.n===n) : firstTodo();
+  if(pIdx<0) pIdx=0;
+  P.hidden=false; document.body.style.overflow='hidden'; keepAwake(); drawP();
+}
+function firstTodo(){let i=pList.findIndex(c=>!isDone(c.n)&&!state.skip[c.n]); if(i<0) i=pList.findIndex(c=>!isDone(c.n)); return i;}
+function nextTodo(from){
+  const L=pList.length;
+  for(let k=1;k<=L;k++){const i=(from+k)%L,c=pList[i]; if(!isDone(c.n)&&!state.skip[c.n]) return i;}
+  for(let k=1;k<=L;k++){const i=(from+k)%L,c=pList[i]; if(!isDone(c.n)) return i;}
+  return -1;
+}
+function drawP(){
+  const L=LOCS.find(l=>l.id===pLoc), left=pList.filter(c=>!isDone(c.n)).length;
+  P.style.setProperty('--pf',state.pf); document.getElementById('pPct').textContent=Math.round(state.pf*100)+'%';
+  if(pIdx<0){
+    const nx=nextLoc(pLoc);
+    document.getElementById('pWhere').innerHTML=`<b>${esc(L.name)}</b> · ครบแล้ว`;
+    PB.innerHTML=`<div class="p-done"><h2>ครบรอบ${esc(L.name)} 🎉</h2>${nx?`<p>ต่อไป: <b style="color:#fff">${esc(nx.name)}</b> · ${esc(nx.outfit)}</p><button type="button" id="pNextLoc">เริ่ม${esc(nx.name)} ▶</button>`:'<p>ถ่ายครบทั้ง 50 คลิปแล้ว</p>'}</div>`;
+    PBar.hidden=true;
+    const b=document.getElementById('pNextLoc'); if(b) b.onclick=()=>{state.tab=nx.id;save();render();openPrompter(nx.id,null);};
+    return;
+  }
+  PBar.hidden=false;
+  const c=pList[pIdx];
+  document.getElementById('pWhere').innerHTML=`<b>ข้อ ${c.n}</b> · ${esc(L.name)} · เหลือ ${left}${isDone(c.n)?' · <span style="color:#6fdca6">ถ่ายแล้ว</span>':''}`;
+  PB.innerHTML=`<div><div class="p-lbl">เปิด</div><div class="p-text">${esc(c.o)}</div></div>
+    <div class="p-gap">· เว้น 2 วิ ·</div>
+    <div><div class="p-lbl">ปิด</div><div class="p-text">${esc(c.c)}</div></div>
+    <div class="p-hint">👇 ชี้นิ้วลงตอนพูด "กดปุ่มด้านล่าง"${c.note?' · 📌 '+esc(c.note):''}</div>`;
+  PB.scrollTop=0;
+  document.getElementById('pPrev').disabled=pIdx===0;
+  document.getElementById('pSkip').disabled=left<=1&&!isDone(c.n);
+  document.getElementById('pPass').textContent=isDone(c.n)?'ถัดไป ›':'✓ ผ่าน ไปต่อ';
+}
+function closeP(){P.hidden=true;document.body.style.overflow='';hideToast();try{wake&&wake.release();}catch(e){} wake=null;render();}
+let toastT=null;
+function flash(msg){showToast(msg,false);}
+function showToast(msg,undo=true){document.getElementById('toastUndo').hidden=!undo;document.getElementById('toastMsg').textContent=msg;document.getElementById('toast').hidden=false;clearTimeout(toastT);toastT=setTimeout(hideToast,4000);}
+function hideToast(){document.getElementById('toast').hidden=true;lastPass=null;}
+document.getElementById('toastUndo').onclick=()=>{if(lastPass){delete state.done[lastPass.n];save();pIdx=lastPass.idx;} hideToast();drawP();};
+document.getElementById('pPass').onclick=()=>{
+  const c=pList[pIdx];
+  if(!isDone(c.n)){state.done[c.n]=true;delete state.skip[c.n];save();lastPass={n:c.n,idx:pIdx};showToast(`ข้อ ${c.n} ผ่านแล้ว`);}
+  pIdx=nextTodo(pIdx); drawP();
+};
+document.getElementById('pSkip').onclick=()=>{const c=pList[pIdx]; state.skip[c.n]=true; save(); const n=nextTodo(pIdx); if(n>=0) pIdx=n; drawP();};
+document.getElementById('pPrev').onclick=()=>{if(pIdx>0){pIdx--;drawP();}};
+document.getElementById('pSm').onclick=()=>{state.pf=Math.max(.6,+(state.pf-.1).toFixed(1));save();drawP();flash('ขนาด '+Math.round(state.pf*100)+'% · จำไว้แล้ว');};
+document.getElementById('pLg').onclick=()=>{state.pf=Math.min(1.8,+(state.pf+.1).toFixed(1));save();drawP();flash('ขนาด '+Math.round(state.pf*100)+'% · จำไว้แล้ว');};
+document.getElementById('pClose').onclick=closeP;
+document.addEventListener('keydown',e=>{if(P.hidden)return;
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();if(!PBar.hidden)document.getElementById('pPass').click();}
+  if(e.key==='ArrowLeft')document.getElementById('pPrev').click();
+  if(e.key==='ArrowRight')document.getElementById('pSkip').click();
+  if(e.key==='Escape')closeP();});
+
+function scriptText(loc){const L=LOCS.find(l=>l.id===loc);return `${L.name} (${L.time})\n\n`+clipsFor(loc).map(c=>`ข้อ ${c.n}\n${c.o}\n\n(เว้น 2 วิ)\n\n${c.c}\n\n————\n`).join('\n');}
+
+document.addEventListener('click',async e=>{
+  const t=e.target.closest('[data-ui-cycle],[data-theme-cycle],[data-tab],[data-prompt],[data-start],[data-copy],[data-mode],[data-tick],[data-howseen]'); if(!t) return;
+  if(t.dataset.uiCycle){const i=UIS.indexOf(state.ui||1);state.ui=UIS[(i+1)%UIS.length];save();applyUI();flash(UINAME[state.ui]+' · จำไว้แล้ว');return;}
+  if(t.dataset.themeCycle){const i=THEMES.indexOf(state.theme||'auto');state.theme=THEMES[(i+1)%3];save();applyTheme();return;}
+  if(t.dataset.mode){state.mode=t.dataset.mode;save();render();return;}
+  if(t.dataset.howseen){state.howSeen=true;save();render();return;}
+  if(t.dataset.tab){state.tab=t.dataset.tab;save();render();window.scrollTo({top:0});return;}
+  if(t.dataset.tick){const n=+t.dataset.tick; if(isDone(n)) delete state.done[n]; else {state.done[n]=true;delete state.skip[n];} save(); render(); return;}
+  if(t.dataset.prompt){openPrompter(state.tab,+t.dataset.prompt);return;}
+  if(t.dataset.start){openPrompter(t.dataset.start,null);return;}
+  if(t.dataset.copy){
+    const txt=scriptText(t.dataset.copy);
+    try{await navigator.clipboard.writeText(txt);t.textContent='คัดลอกแล้ว ✓';}
+    catch(err){const box=document.getElementById('copyfallback-'+t.dataset.copy);box.innerHTML='<p class="small" style="margin:4px 0">กดค้างในกล่อง เลือกทั้งหมด แล้วคัดลอก</p><textarea class="copybox" id="copybox-'+t.dataset.copy+'" readonly></textarea>';const ta=box.querySelector('textarea');ta.value=txt;ta.focus();ta.select();}
+  }
+});
+document.addEventListener('change',e=>{const t=e.target;
+  if(t.dataset.mid){state.mid[t.dataset.mid]=t.checked;save();t.nextElementSibling.classList.toggle('done',t.checked);}
+  if(t.dataset.prep){state.prep[t.dataset.prep]=t.checked;save();render();}});
+
+applyUI();
+applyTheme();
+render();
+</script>
+
+</body>
+</html>
