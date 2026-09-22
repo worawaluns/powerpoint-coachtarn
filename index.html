@@ -2736,20 +2736,41 @@ fbq('track','PageView');
 .pick-more button{border:1.5px solid #15151A;background:#fff;color:#15151A;border-radius:100px;padding:12px 28px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;min-width:220px}
 .pick-more a.sub{background:none;color:#6B6B76;padding:4px;font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
 .pick-more a{background:#15151A;color:#fff;border-radius:100px;padding:13px 28px;font-weight:700;font-size:15px;text-decoration:none;text-align:center}
-.pick-pop{position:fixed;inset:0;z-index:9999;background:rgba(15,15,20,.93);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;-webkit-tap-highlight-color:transparent}
-.pick-pop.open{display:flex}
-.pick-pop figure{margin:0;width:100%;max-width:960px;animation:pickIn .2s ease}
-@keyframes pickIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
-.pick-pop img{width:100%;display:block;border-radius:12px;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.4)}
-.pick-pop figcaption{color:#fff;text-align:center;margin-top:14px}
-.pick-pop figcaption b{display:block;font-size:16px;font-weight:700}
-.pick-pop figcaption i{font-style:normal;font-size:13px;opacity:.7}
-.pick-pop .pp-link{display:inline-block;margin-top:14px;color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:100px;padding:9px 20px;font-size:14px;font-weight:600;text-decoration:none}
-.pick-pop .pp-x,.pick-pop .pp-nav{position:absolute;border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:100px;width:44px;height:44px;font-size:22px;line-height:44px;cursor:pointer;padding:0}
-.pick-pop .pp-x{top:16px;right:16px}
-.pick-pop .pp-nav{top:50%;margin-top:-22px}
-.pick-pop .pp-prev{left:10px}.pick-pop .pp-next{right:10px}
-@media(max-width:700px){.pick-pop .pp-nav{top:auto;bottom:22px;margin:0}.pick-pop .pp-prev{left:calc(50% - 56px)}.pick-pop .pp-next{right:calc(50% - 56px)}}
+.pick-pop{position:fixed;inset:0;z-index:9999;display:none;background:rgba(20,20,26,.55);-webkit-tap-highlight-color:transparent}
+.pick-pop.open{display:block}
+.pp-sheet{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow-y:auto;overscroll-behavior:contain;background:#fff;border-radius:22px 22px 0 0;padding-bottom:calc(16px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px rgba(0,0,0,.18);animation:ppUp .28s cubic-bezier(.2,.8,.2,1);transition:transform .22s ease}
+@keyframes ppUp{from{transform:translateY(100%)}to{transform:none}}
+.pp-head{position:sticky;top:0;z-index:2;background:#fff;display:flex;align-items:center;gap:10px;padding:22px 16px 12px;touch-action:none}
+.pp-grab{position:absolute;top:8px;left:50%;width:40px;height:5px;margin-left:-20px;border-radius:5px;background:#DDDCD8}
+.pp-tag{background:#F4F3F1;border-radius:100px;padding:5px 12px;font-size:13px;font-weight:600;color:#2A2A33;max-width:55%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pp-count{font-size:13px;color:#8A8A96;font-weight:600;font-variant-numeric:tabular-nums}
+.pp-x{margin-left:auto;flex:none;width:40px;height:40px;border:0;border-radius:100px;background:#F1F0EE;color:#15151A;display:grid;place-items:center;cursor:pointer}
+.pp-stage{position:relative}
+.pp-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 16px;scroll-padding:0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.pp-track::-webkit-scrollbar,.pp-thumbs::-webkit-scrollbar{display:none}
+.pp-item{flex:0 0 calc(100% - 32px);scroll-snap-align:start;scroll-snap-stop:always}
+.pp-item img{width:100%;display:block;border-radius:12px;background:#F4F3F1;box-shadow:0 0 0 1px #ECECF0}
+.pp-arrow{display:none;position:absolute;top:50%;margin-top:-22px;width:44px;height:44px;border:0;border-radius:100px;background:rgba(255,255,255,.95);box-shadow:0 4px 14px rgba(0,0,0,.15);cursor:pointer;font-size:24px;line-height:44px;color:#15151A}
+.pp-prev{left:24px}.pp-next{right:24px}
+.pp-info{padding:14px 16px 4px}
+.pp-info b{display:block;font-size:17px;font-weight:800;line-height:1.35}
+.pp-info span{font-size:13.5px;color:#6B6B76}
+.pp-more{padding:12px 0 4px}
+.pp-more p{font-size:13px;font-weight:700;color:#6B6B76;margin:0 16px 8px}
+.pp-thumbs{display:flex;gap:8px;overflow-x:auto;padding:0 16px 2px;scrollbar-width:none}
+.pp-thumbs button{flex:0 0 31%;padding:0;border:2px solid transparent;border-radius:9px;overflow:hidden;background:none;cursor:pointer}
+.pp-thumbs button.on{border-color:var(--red)}
+.pp-thumbs img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.pp-cta{display:flex;gap:10px;padding:14px 16px 0}
+.pp-cta a{flex:1;text-align:center;border-radius:100px;padding:13px 10px;font-weight:700;font-size:15px;text-decoration:none}
+.pp-buy{background:var(--red);color:#fff}
+.pp-link{background:#fff;color:#15151A;border:1.5px solid #DDDCD8}
+@media(min-width:760px){.pick-pop.open{display:flex;align-items:center;justify-content:center}
+ .pp-sheet{position:relative;width:min(880px,92vw);max-height:90vh;border-radius:22px;animation:ppIn .22s ease}
+ .pp-grab{display:none}.pp-head{padding:16px 20px 12px}.pp-arrow{display:block}
+ .pp-thumbs button{flex-basis:15%}
+ .pp-item img{height:min(52vh,470px);object-fit:contain;background:#fff}}
+@keyframes ppIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 @media(min-width:460px){.pick-seg{margin:0 auto 14px}}
 @media(min-width:760px){.pick-rail{grid-template-columns:repeat(3,1fr);gap:16px}.pick-chips{justify-content:center;flex-wrap:wrap}}
 </style>
@@ -2760,11 +2781,16 @@ fbq('track','PageView');
   <div class="pick-chips" id="pickChips"><a href="templates?g=office">พนักงานออฟฟิศ</a><a href="templates?g=teacher">ครู / อาจารย์</a><a href="templates?g=sales">ฝ่ายขาย</a><a href="templates">ดูทั้งหมด</a></div>
   <div class="pick-rail" id="pickRail"></div>
   <div class="pick-more"><button id="pickLoad" hidden>ดูเพิ่ม</button><a id="pickMore" href="templates">ดูคลังเทมเพลตทั้งหมด</a></div>
-  <div class="pick-pop" id="pickPop" role="dialog" aria-modal="true" aria-label="ดูสไลด์">
-    <button class="pp-x" aria-label="ปิด">&times;</button>
-    <button class="pp-nav pp-prev" aria-label="ก่อนหน้า">&#8249;</button>
-    <figure><img alt=""><figcaption><b></b><i></i><br><a class="pp-link" href="#">ดูรายละเอียดชุดนี้</a></figcaption></figure>
-    <button class="pp-nav pp-next" aria-label="ถัดไป">&#8250;</button>
+  <div class="pick-pop" id="pickPop" role="dialog" aria-modal="true" aria-label="ดูตัวอย่างสไลด์">
+    <div class="pp-sheet">
+      <div class="pp-head"><span class="pp-grab"></span><span class="pp-tag"></span><span class="pp-count"></span>
+        <button class="pp-x" aria-label="ปิด"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <div class="pp-stage"><div class="pp-track"></div>
+        <button class="pp-arrow pp-prev" aria-label="ก่อนหน้า">&#8249;</button><button class="pp-arrow pp-next" aria-label="ถัดไป">&#8250;</button></div>
+      <div class="pp-info"><b></b><span></span></div>
+      <div class="pp-more"><p>หน้าอื่นในชุดนี้</p><div class="pp-thumbs"></div></div>
+      <div class="pp-cta"><a class="pp-link" href="#">ดูรายละเอียดชุด</a><a class="pp-buy" href="order">สั่งซื้อ 499฿</a></div>
+    </div>
   </div>
 </section>
 <script>
@@ -2810,25 +2836,56 @@ fbq('track','PageView');
   function grid(){ $('pickRail').innerHTML = all.slice(0, shown).join(''); const more = shown < all.length;
     $('pickLoad').hidden = !more; $('pickMore').className = more ? 'sub' : ''; }
   $('pickLoad').onclick = () => { shown += 6; grid(); };
-  // tap a thumbnail -> popup; closing keeps the visitor exactly where they were
-  const pop = $('pickPop'); document.body.appendChild(pop); let cur = 0;  // out of .reveal so position:fixed isn't trapped by transforms
+  // tap a thumbnail -> bottom sheet (centered modal on desktop). Back button / swipe down / X / backdrop close it,
+  // and the visitor stays exactly where they were on the homepage.
+  const pop = $('pickPop'), sheet = pop.querySelector('.pp-sheet'), track = pop.querySelector('.pp-track');
+  document.body.appendChild(pop);  // out of .reveal so position:fixed isn't trapped by transforms
+  let list = [], cur = 0, y0 = 0, isOpen = false;
+  const pad = n => String(n).padStart(2, '0');
+  const parse = c => { const u = new URL(c.getAttribute('href'), location.href);
+    return { href: c.getAttribute('href'), slug: u.searchParams.get('id'), s: +(u.searchParams.get('s') || 0),
+      img: c.querySelector('img').getAttribute('src'), alt: c.querySelector('img').alt, title: c.querySelector('b').textContent, sub: c.querySelector('i').textContent }; };
+  function info(){ const it = list[cur]; if (!it) return;
+    pop.querySelector('.pp-tag').textContent = it.sub; pop.querySelector('.pp-count').textContent = `${cur + 1} / ${list.length}`;
+    pop.querySelector('.pp-info b').textContent = it.title;
+    pop.querySelector('.pp-info span').textContent = it.s ? 'แตะรูปเล็กด้านล่างเพื่อดูหน้าอื่นในชุดเดียวกัน' : 'ชุดสไลด์ 16:9 แก้ไขได้ทุกหน้าใน PowerPoint';
+    pop.querySelector('.pp-link').href = it.href;
+    const pages = [...new Set([it.s || 1, 1, 4, 7, 10, 13, 16, 19])].slice(0, 7);
+    pop.querySelector('.pp-thumbs').innerHTML = pages.map(n => `<button data-n="${n}"><img loading="lazy" src="library/slides/${it.slug}/${pad(n)}.jpg" alt=""></button>`).join('');
+    pop.querySelector('.pp-thumbs button').classList.add('on'); }
+  function go(i, smooth){ cur = Math.max(0, Math.min(list.length - 1, i)); const el = track.children[cur];
+    track.scrollTo({ left: el.offsetLeft - 16, behavior: smooth ? 'smooth' : 'auto' }); info(); }
+  function open(i){
+    list = cards().map(parse);
+    track.innerHTML = list.map(it => `<div class="pp-item"><img src="${it.img}" alt="${esc(it.alt)}"></div>`).join('');
+    y0 = scrollY; Object.assign(document.body.style, { position: 'fixed', top: `-${y0}px`, left: '0', right: '0' });
+    pop.classList.add('open'); sheet.style.transform = ''; isOpen = true;
+    history.pushState({ pickPop: 1 }, ''); requestAnimationFrame(() => go(i, false));
+    pop.querySelector('.pp-x').focus({ preventScroll: true }); }
+  function hide(){ if (!isOpen) return; isOpen = false; pop.classList.remove('open');
+    Object.assign(document.body.style, { position: '', top: '', left: '', right: '' });
+    const h = document.documentElement; h.style.scrollBehavior = 'auto'; scrollTo(0, y0); h.style.scrollBehavior = ''; }  // jump back, no smooth-scroll animation
+  function close(){ if (history.state && history.state.pickPop) history.back(); else hide(); }  // popstate -> hide
+  addEventListener('popstate', hide);
   const cards = () => [...$('pickRail').querySelectorAll('.pick-card')];
-  function show(i){ const cs = cards(); if (!cs.length) return; cur = (i + cs.length) % cs.length; const c = cs[cur];
-    pop.querySelector('img').src = c.querySelector('img').src; pop.querySelector('img').alt = c.querySelector('img').alt;
-    pop.querySelector('figcaption b').textContent = c.querySelector('b').textContent;
-    pop.querySelector('figcaption i').textContent = c.querySelector('i').textContent;
-    pop.querySelector('.pp-link').href = c.getAttribute('href'); }
-  function close(){ pop.classList.remove('open'); document.body.style.overflow = ''; }
-  $('pickRail').addEventListener('click', e => { const c = e.target.closest('.pick-card'); if (!c) return;
-    e.preventDefault(); show(cards().indexOf(c)); pop.classList.add('open'); document.body.style.overflow = 'hidden'; });
-  pop.addEventListener('click', e => { if (e.target === pop || e.target.classList.contains('pp-x')) close(); });
-  pop.querySelector('.pp-prev').onclick = () => show(cur - 1);
-  pop.querySelector('.pp-next').onclick = () => show(cur + 1);
-  document.addEventListener('keydown', e => { if (!pop.classList.contains('open')) return;
-    if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
-  let tx = null; pop.addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
-  pop.addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null;
-    if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); });
+  $('pickRail').addEventListener('click', e => { const c = e.target.closest('.pick-card'); if (!c) return; e.preventDefault(); open(cards().indexOf(c)); });
+  pop.addEventListener('click', e => { if (e.target === pop) close(); });
+  pop.querySelector('.pp-x').onclick = close;
+  pop.querySelector('.pp-prev').onclick = () => go(cur - 1, true);
+  pop.querySelector('.pp-next').onclick = () => go(cur + 1, true);
+  let st; track.addEventListener('scroll', () => { clearTimeout(st); st = setTimeout(() => {
+    const w = track.children[0] ? track.children[0].offsetWidth + 12 : 1, i = Math.round(track.scrollLeft / w);
+    if (i !== cur) { cur = i; info(); } }, 60); }, { passive: true });
+  pop.querySelector('.pp-thumbs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+    const it = list[cur]; track.children[cur].querySelector('img').src = `library/slides/${it.slug}/${pad(b.dataset.n)}.jpg`;
+    pop.querySelectorAll('.pp-thumbs button').forEach(x => x.classList.toggle('on', x === b)); });
+  document.addEventListener('keydown', e => { if (!isOpen) return;
+    if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') go(cur - 1, true); if (e.key === 'ArrowRight') go(cur + 1, true); });
+  // swipe the header down to dismiss (the X button stays as the visible alternative)
+  const head = pop.querySelector('.pp-head'); let sy = null, dy = 0;
+  head.addEventListener('touchstart', e => { sy = e.touches[0].clientY; dy = 0; sheet.style.transition = 'none'; }, { passive: true });
+  head.addEventListener('touchmove', e => { if (sy === null) return; dy = Math.max(0, e.touches[0].clientY - sy); sheet.style.transform = `translateY(${dy}px)`; }, { passive: true });
+  head.addEventListener('touchend', () => { sheet.style.transition = ''; if (dy > 90) close(); else sheet.style.transform = ''; sy = null; });
 })();
 </script>
 
