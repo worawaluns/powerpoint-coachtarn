@@ -2736,6 +2736,20 @@ fbq('track','PageView');
 .pick-more button{border:1.5px solid #15151A;background:#fff;color:#15151A;border-radius:100px;padding:12px 28px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;min-width:220px}
 .pick-more a.sub{background:none;color:#6B6B76;padding:4px;font-weight:600;font-size:14px;text-decoration:underline;text-underline-offset:3px}
 .pick-more a{background:#15151A;color:#fff;border-radius:100px;padding:13px 28px;font-weight:700;font-size:15px;text-decoration:none;text-align:center}
+.pick-pop{position:fixed;inset:0;z-index:9999;background:rgba(15,15,20,.93);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;-webkit-tap-highlight-color:transparent}
+.pick-pop.open{display:flex}
+.pick-pop figure{margin:0;width:100%;max-width:960px;animation:pickIn .2s ease}
+@keyframes pickIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.pick-pop img{width:100%;display:block;border-radius:12px;background:#fff;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+.pick-pop figcaption{color:#fff;text-align:center;margin-top:14px}
+.pick-pop figcaption b{display:block;font-size:16px;font-weight:700}
+.pick-pop figcaption i{font-style:normal;font-size:13px;opacity:.7}
+.pick-pop .pp-link{display:inline-block;margin-top:14px;color:#fff;border:1.5px solid rgba(255,255,255,.5);border-radius:100px;padding:9px 20px;font-size:14px;font-weight:600;text-decoration:none}
+.pick-pop .pp-x,.pick-pop .pp-nav{position:absolute;border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:100px;width:44px;height:44px;font-size:22px;line-height:44px;cursor:pointer;padding:0}
+.pick-pop .pp-x{top:16px;right:16px}
+.pick-pop .pp-nav{top:50%;margin-top:-22px}
+.pick-pop .pp-prev{left:10px}.pick-pop .pp-next{right:10px}
+@media(max-width:700px){.pick-pop .pp-nav{top:auto;bottom:22px;margin:0}.pick-pop .pp-prev{left:calc(50% - 56px)}.pick-pop .pp-next{right:calc(50% - 56px)}}
 @media(min-width:460px){.pick-seg{margin:0 auto 14px}}
 @media(min-width:760px){.pick-rail{grid-template-columns:repeat(3,1fr);gap:16px}.pick-chips{justify-content:center;flex-wrap:wrap}}
 </style>
@@ -2746,6 +2760,12 @@ fbq('track','PageView');
   <div class="pick-chips" id="pickChips"><a href="templates?g=office">พนักงานออฟฟิศ</a><a href="templates?g=teacher">ครู / อาจารย์</a><a href="templates?g=sales">ฝ่ายขาย</a><a href="templates">ดูทั้งหมด</a></div>
   <div class="pick-rail" id="pickRail"></div>
   <div class="pick-more"><button id="pickLoad" hidden>ดูเพิ่ม</button><a id="pickMore" href="templates">ดูคลังเทมเพลตทั้งหมด</a></div>
+  <div class="pick-pop" id="pickPop" role="dialog" aria-modal="true" aria-label="ดูสไลด์">
+    <button class="pp-x" aria-label="ปิด">&times;</button>
+    <button class="pp-nav pp-prev" aria-label="ก่อนหน้า">&#8249;</button>
+    <figure><img alt=""><figcaption><b></b><i></i><br><a class="pp-link" href="#">ดูรายละเอียดชุดนี้</a></figcaption></figure>
+    <button class="pp-nav pp-next" aria-label="ถัดไป">&#8250;</button>
+  </div>
 </section>
 <script>
 (function(){
@@ -2790,6 +2810,25 @@ fbq('track','PageView');
   function grid(){ $('pickRail').innerHTML = all.slice(0, shown).join(''); const more = shown < all.length;
     $('pickLoad').hidden = !more; $('pickMore').className = more ? 'sub' : ''; }
   $('pickLoad').onclick = () => { shown += 6; grid(); };
+  // tap a thumbnail -> popup; closing keeps the visitor exactly where they were
+  const pop = $('pickPop'); document.body.appendChild(pop); let cur = 0;  // out of .reveal so position:fixed isn't trapped by transforms
+  const cards = () => [...$('pickRail').querySelectorAll('.pick-card')];
+  function show(i){ const cs = cards(); if (!cs.length) return; cur = (i + cs.length) % cs.length; const c = cs[cur];
+    pop.querySelector('img').src = c.querySelector('img').src; pop.querySelector('img').alt = c.querySelector('img').alt;
+    pop.querySelector('figcaption b').textContent = c.querySelector('b').textContent;
+    pop.querySelector('figcaption i').textContent = c.querySelector('i').textContent;
+    pop.querySelector('.pp-link').href = c.getAttribute('href'); }
+  function close(){ pop.classList.remove('open'); document.body.style.overflow = ''; }
+  $('pickRail').addEventListener('click', e => { const c = e.target.closest('.pick-card'); if (!c) return;
+    e.preventDefault(); show(cards().indexOf(c)); pop.classList.add('open'); document.body.style.overflow = 'hidden'; });
+  pop.addEventListener('click', e => { if (e.target === pop || e.target.classList.contains('pp-x')) close(); });
+  pop.querySelector('.pp-prev').onclick = () => show(cur - 1);
+  pop.querySelector('.pp-next').onclick = () => show(cur + 1);
+  document.addEventListener('keydown', e => { if (!pop.classList.contains('open')) return;
+    if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') show(cur - 1); if (e.key === 'ArrowRight') show(cur + 1); });
+  let tx = null; pop.addEventListener('touchstart', e => tx = e.touches[0].clientX, { passive: true });
+  pop.addEventListener('touchend', e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; tx = null;
+    if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); });
 })();
 </script>
 
