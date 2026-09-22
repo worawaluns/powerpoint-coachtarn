@@ -2485,6 +2485,7 @@ fbq('track','PageView');
   <div class="nav-right">
     <div class="nav-links" id="navLinks">
       <a href="#strip" class="nav-link">ตัวอย่าง</a>
+      <a href="templates" class="nav-link">คลังเทมเพลต</a>
       <a href="#reviews" class="nav-link">รีวิว</a>
       <a href="#how" class="nav-link">ขั้นตอนการซื้อ</a>
       <a href="download" class="nav-link">วิธีดาวน์โหลด</a>
@@ -2512,6 +2513,10 @@ fbq('track','PageView');
     <a href="#strip" class="drawer-item" onclick="closeDrawer()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
       ดูตัวอย่าง
+    </a>
+    <a href="templates" class="drawer-item" onclick="closeDrawer()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      คลังเทมเพลตตามอาชีพ
     </a>
     <a href="#reviews" class="drawer-item" onclick="closeDrawer()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
@@ -2704,6 +2709,32 @@ fbq('track','PageView');
       <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Process Infographics.jpg" alt="Process Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Process Infographics</div></div></div>
     </div>
   </div>
+</section>
+
+<!-- ⑦c PICK BY JOB / BY SLIDE TYPE -> templates -->
+<style>
+.pick-section{padding:56px 20px;max-width:1100px;margin:0 auto}
+.pick-section h2{font-size:clamp(24px,4vw,34px);font-weight:800;text-align:center;line-height:1.25}
+.pick-section .pick-lead{text-align:center;color:#6B6B76;margin:8px auto 22px;font-size:15px}
+.pick-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:10px}
+.pick-row b{width:100%;text-align:center;font-size:13px;color:#8A8A96;font-weight:600;margin-top:6px}
+.pick-row a{border:1.5px solid #ECECF0;background:#fff;border-radius:100px;padding:8px 16px;font-size:14px;font-weight:600;color:#2A2A33;text-decoration:none;transition:border-color .2s,color .2s}
+.pick-row a:hover{border-color:var(--red);color:var(--red)}
+.pick-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.pick-tile{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 8px 22px rgba(20,20,40,.08);display:block}
+.pick-tile img{width:100%;aspect-ratio:16/9;display:block}
+.pick-tile span{position:absolute;left:8px;top:8px;background:rgba(21,21,26,.78);color:#fff;font-size:11.5px;font-weight:700;border-radius:100px;padding:3px 10px}
+.pick-more{display:flex;justify-content:center;margin-top:22px}
+.pick-more a{background:#15151A;color:#fff;border-radius:100px;padding:13px 26px;font-weight:700;font-size:15px;text-decoration:none}
+@media(max-width:700px){.pick-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+</style>
+<section class="pick-section reveal" id="library">
+  <h2>หาสไลด์ที่ตรงกับงานของคุณ</h2>
+  <p class="pick-lead">เลือกตามอาชีพ หรือเลือกตามสิ่งที่จะใช้ เช่น หากราฟ หาหน้าสารบัญ</p>
+  <div class="pick-row"><b>ตามอาชีพ</b><a href="templates?g=office">พนักงานออฟฟิศ</a><a href="templates?g=teacher">ครู / อาจารย์</a><a href="templates?g=sales">ฝ่ายขาย</a><a href="templates?g=owner">เจ้าของธุรกิจ</a><a href="templates?g=health">บุคลากรสุขภาพ</a><a href="templates?g=engineer">วิศวกร / QMS</a><a href="templates?g=gov">ข้าราชการ</a><a href="templates?g=trainer">วิทยากร / โค้ช</a><a href="templates?g=proposal">ใบเสนองาน</a></div>
+  <div class="pick-row"><b>ตามสิ่งที่จะใช้</b><a href="templates?view=slides&type=กราฟ">กราฟ</a><a href="templates?view=slides&type=ตาราง">ตาราง</a><a href="templates?view=slides&type=ตารางราคา">ตารางราคา</a><a href="templates?view=slides&type=ไทม์ไลน์ / ขั้นตอน">ไทม์ไลน์ / ขั้นตอน</a><a href="templates?view=slides&type=สารบัญ">สารบัญ</a><a href="templates?view=slides&type=ตัวเลข KPI">ตัวเลข KPI</a><a href="templates?view=slides&type=อินโฟกราฟิก">อินโฟกราฟิก</a><a href="templates?view=slides&type=เปรียบเทียบ">เปรียบเทียบ</a><a href="templates?view=slides&type=ทีม / องค์กร">ทีม / องค์กร</a></div>
+  <div class="pick-grid"><a class="pick-tile" href="template?id=kpi&s=10"><img src="library/slides/kpi/10.jpg" alt="กราฟ จากชุด KPI และ OKR" loading="lazy"><span>กราฟ</span></a><a class="pick-tile" href="template?id=sar&s=6"><img src="library/slides/sar/06.jpg" alt="ตาราง จากชุด รายงานประเมินตนเอง SAR" loading="lazy"><span>ตาราง</span></a><a class="pick-tile" href="template?id=finance&s=11"><img src="library/slides/finance/11.jpg" alt="ไทม์ไลน์ / ขั้นตอน จากชุด งบประมาณและการเงิน" loading="lazy"><span>ไทม์ไลน์ / ขั้นตอน</span></a><a class="pick-tile" href="template?id=project&s=2"><img src="library/slides/project/02.jpg" alt="สารบัญ จากชุด บริหารโครงการ" loading="lazy"><span>สารบัญ</span></a><a class="pick-tile" href="template?id=campaign&s=5"><img src="library/slides/campaign/05.jpg" alt="ตัวเลข KPI จากชุด สรุปแคมเปญการตลาด" loading="lazy"><span>ตัวเลข KPI</span></a><a class="pick-tile" href="template?id=weekly&s=11"><img src="library/slides/weekly/11.jpg" alt="อินโฟกราฟิก จากชุด รายงานประจำสัปดาห์" loading="lazy"><span>อินโฟกราฟิก</span></a><a class="pick-tile" href="template?id=plc&s=12"><img src="library/slides/plc/12.jpg" alt="เปรียบเทียบ จากชุด รายงานผล PLC" loading="lazy"><span>เปรียบเทียบ</span></a><a class="pick-tile" href="template?id=map&s=10"><img src="library/slides/map/10.jpg" alt="แผนที่ จากชุด แผนที่ประเทศไทย ยอดขายรายภาค" loading="lazy"><span>แผนที่</span></a></div>
+  <div class="pick-more"><a href="templates">ดูคลังเทมเพลตทั้งหมด</a></div>
 </section>
 
 <!-- ④ COMPATIBLE WITH -->

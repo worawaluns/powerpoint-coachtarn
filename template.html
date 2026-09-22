@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>เทมเพลต — Coach Tarn</title>
+<link rel="icon" type="image/x-icon" href="img/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--red:#D34724;--orange:#EB7D4A;--text:#15151A;--mid:#4A4A55;--sub:#8A8A96;--line:#ECECF0;--soft:#FFF6F2;--bg:#F6F6F8;--white:#fff;--ease:cubic-bezier(.16,1,.3,1)}
+body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;background:rgba(255,255,255,.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
+.nav-logo{display:flex;align-items:center;height:36px}.nav-logo svg{height:36px;width:auto}
+.nav-r{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:100px;font-family:inherit;font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .12s,opacity .15s}
+.btn:active{transform:scale(.97)}
+.btn-red{background:linear-gradient(-135deg,var(--orange),var(--red));color:#fff;box-shadow:0 6px 16px rgba(211,71,36,.28);padding:10px 20px;font-size:15px}
+.btn-ghost{background:#fff;color:var(--text);border:1.5px solid var(--line);padding:9px 18px;font-size:14px}
+.btn svg{width:18px;height:18px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700}
+
+:root{--c1:#2F6BFF;--c2:#14B8A6}
+/* ---------- hero: cover left, buy card right ---------- */
+.top{padding-top:18px;padding-bottom:48px}
+.crumb{font-size:13px;color:var(--sub);margin-bottom:16px}.crumb a{font-weight:700;color:var(--mid)}
+.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:32px;align-items:start}
+.main{position:relative;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 50px rgba(20,20,40,.1);aspect-ratio:3/2;cursor:zoom-in}
+.main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease}
+.main img.on{opacity:1}
+.main img+img{object-fit:contain;padding:4% 4% 9%;background:#EEF0F4}
+.main .pv{position:absolute;left:16px;bottom:16px;background:rgba(15,17,23,.78);color:#fff;border:none;border-radius:100px;padding:10px 18px;font:700 14px 'Noto Sans Thai',sans-serif;display:flex;gap:8px;align-items:center;cursor:pointer;backdrop-filter:blur(6px)}
+.main .pv svg{width:16px;height:16px}
+.thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}
+.thumbs button{border:2px solid transparent;padding:0;border-radius:10px;overflow:hidden;cursor:pointer;background:#fff;position:relative;transition:border-color .2s}
+.thumbs button.on{border-color:var(--text)}
+.thumbs img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
+.thumbs .more{position:absolute;inset:0;background:rgba(15,17,23,.62);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px}
+.side{position:sticky;top:76px;background:#fff;border-radius:22px;padding:26px;box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 50px rgba(20,20,40,.08)}
+.cat{display:inline-block;background:color-mix(in srgb,var(--c1) 12%,#fff);color:var(--c1);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:800}
+.side h1{font-size:clamp(26px,2.6vw,34px);font-weight:800;line-height:1.2;margin:12px 0 4px;text-wrap:balance}
+.side .en{letter-spacing:2px;font-size:12px;font-weight:700;color:var(--sub)}
+.rate{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--mid)}.rate .st{color:#F5A524;letter-spacing:1px;font-size:15px}.rate b{color:var(--text)}
+.side .sub{font-size:14px;color:var(--mid);margin-top:8px;line-height:1.5}
+.facts{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}.facts span{background:var(--bg);border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:600;color:var(--mid)}
+.val{margin-top:18px;border:1.5px dashed #F2C9BB;background:var(--soft);border-radius:14px;padding:14px 16px}
+.val b{display:block;font-size:13px;color:var(--red);margin-bottom:8px}
+.val li{list-style:none;display:flex;gap:8px;font-size:14px;line-height:1.5;padding:2px 0}.val li::before{content:'';flex-shrink:0;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center/11px no-repeat}
+.price{display:flex;align-items:baseline;gap:10px;margin-top:18px;flex-wrap:wrap}.price b{font-size:36px;font-weight:800;line-height:1}.price s{color:var(--sub);font-size:17px}.price em{font-style:normal;background:#FFE4DB;color:var(--red);font-size:12.5px;font-weight:800;border-radius:100px;padding:4px 10px}
+.bonus{margin-top:12px;display:none;align-items:center;gap:8px;font-size:13px;color:var(--mid)}.bonus.show{display:flex}.bonus svg{width:16px;height:16px;flex-shrink:0;color:var(--red)}.bonus b{font-variant-numeric:tabular-nums;color:var(--text);background:var(--bg);border-radius:6px;padding:2px 8px}
+.cta{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.cta .btn{width:100%;padding:15px 20px;font-size:17px}
+.cta .btn-red{animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 8px 20px rgba(211,71,36,.3)}50%{box-shadow:0 8px 20px rgba(211,71,36,.3),0 0 0 7px rgba(211,71,36,.12)}}
+.cta .btn-ghost{font-size:15px;padding:12px 18px}
+.trust{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--sub)}.trust span{display:flex;align-items:center;gap:5px}.trust svg{width:14px;height:14px}
+.have{display:block;text-align:center;margin-top:12px;font-size:13.5px;color:var(--mid)}.have a{color:var(--red);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+/* ---------- marquee ---------- */
+.mq{padding:46px 0 36px;background:#0f1117;overflow:hidden;position:relative}
+.mq h2{color:#fff;text-align:center;font-size:26px;font-weight:800;margin-bottom:6px}.mq p{color:#9aa0b4;text-align:center;font-size:14px;margin-bottom:26px}
+.row{display:flex;gap:18px;width:max-content;animation:mq 60s linear infinite;margin-bottom:18px}
+.row.r2{animation-direction:reverse;animation-duration:70s}
+.row img{width:300px;aspect-ratio:16/9;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:block}
+.mq:hover .row{animation-play-state:paused}
+.mq::before,.mq::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
+.mq::before{left:0;background:linear-gradient(90deg,#0f1117,transparent)}.mq::after{right:0;background:linear-gradient(-90deg,#0f1117,transparent)}
+@keyframes mq{to{transform:translateX(-50%)}}
+/* ---------- story ---------- */
+.sec{padding:60px 0}.sec h2{font-size:30px;font-weight:800;text-align:center}.sec .lead{text-align:center;color:var(--mid);margin:8px auto 30px;max-width:640px;line-height:1.6}
+.story{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;counter-reset:s}
+.story::before{content:'';position:absolute;left:10%;right:10%;top:30px;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:3px}
+.st{text-align:center;position:relative;padding:0 8px}
+.st i{display:grid;place-items:center;width:60px;height:60px;margin:0 auto 14px;border-radius:50%;background:#fff;border:3px solid var(--c1);font-style:normal;font-weight:800;font-size:20px;color:var(--c1);position:relative;box-shadow:0 8px 20px rgba(20,20,40,.1)}
+.st:nth-child(n+3) i{border-color:var(--c2);color:var(--c2)}
+.st b{display:block;font-size:16px}
+.flowtag{text-align:center;margin-top:26px}.flowtag span{display:inline-block;background:var(--soft);color:var(--red);border-radius:100px;padding:8px 18px;font-size:14px;font-weight:700}
+/* ---------- features ---------- */
+.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.ft{background:#fff;border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(20,20,40,.06)}
+.ft .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));margin-bottom:14px}
+.ft .ic svg{width:24px;height:24px}.ft b{font-size:17px;display:block}.ft p{font-size:14px;color:var(--mid);margin-top:6px;line-height:1.55}
+/* ---------- gallery ---------- */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gal button{border:none;padding:0;background:none;cursor:zoom-in;border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(20,20,40,.08);position:relative;transition:transform .35s var(--ease),box-shadow .35s}
+.gal button:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 18px 40px rgba(20,20,40,.18)}
+.gal img{width:100%;display:block;aspect-ratio:16/9}
+.gal .no{position:absolute;left:8px;top:8px;background:rgba(15,17,23,.72);color:#fff;font-size:11px;font-weight:700;border-radius:8px;padding:2px 8px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.in{opacity:1;transform:none}
+/* ---------- CTA band ---------- */
+.band{margin:10px 0 70px;border-radius:26px;padding:40px;color:#fff;background:linear-gradient(120deg,var(--red),var(--orange));display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden}
+.band::after{content:'';position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.12)}
+.band h3{font-size:28px;font-weight:800;line-height:1.3}.band p{opacity:.9;margin-top:6px}
+.band .btn{background:#fff;color:var(--red);padding:15px 28px;font-size:17px;position:relative;z-index:1}
+.rel{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding-bottom:90px}
+.rel a{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(20,20,40,.06);transition:transform .3s var(--ease)}.rel a:hover{transform:translateY(-4px)}
+.rel img{width:100%;display:block;aspect-ratio:3/2;object-fit:cover}.rel div{padding:12px 14px;font-weight:700;font-size:15px}
+/* ---------- presenter ---------- */
+.pr{position:fixed;inset:0;background:#07080c;z-index:200;display:none;flex-direction:column}
+.pr.show{display:flex}
+.pr .top{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;color:#cfd3e0;font-size:14px}
+.pr .top button{background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:10px;padding:8px 14px;font-family:inherit;font-weight:700;cursor:pointer}
+.pr .mid{flex:1;display:flex;align-items:center;justify-content:center;padding:0 70px;position:relative}
+.pr .slide{position:relative;width:min(100%,calc((100vh - 170px) * 16 / 9));aspect-ratio:16/9}
+.pr .slide img{position:absolute;inset:0;width:100%;height:100%;border-radius:8px;opacity:0;transform:scale(.97);transition:opacity .6s ease,transform .6s var(--ease);box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.pr .slide img.on{opacity:1;transform:none}
+.pr .arr{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;border:none;background:rgba(255,255,255,.1);color:#fff;font-size:24px;cursor:pointer}
+.pr .arr.l{left:14px}.pr .arr.r{right:14px}
+.pr .strip{display:flex;gap:8px;overflow-x:auto;padding:14px 22px 18px;scrollbar-width:none}.pr .strip::-webkit-scrollbar{display:none}
+.pr .strip img{height:60px;aspect-ratio:16/9;border-radius:6px;opacity:.45;cursor:pointer;border:2px solid transparent;transition:opacity .2s}
+.pr .strip img.on{opacity:1;border-color:#fff}
+.pr .prog{height:3px;background:rgba(255,255,255,.12)}.pr .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--c1),var(--c2));width:0;transition:width .4s}
+.mbar{display:none}
+@media(max-width:980px){.grid{grid-template-columns:1fr;gap:20px}.side{position:static}.feats{grid-template-columns:repeat(2,1fr)}.gal,.rel{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.story{grid-template-columns:1fr;gap:16px}.story::before{left:29px;right:auto;top:10px;bottom:10px;width:3px;height:auto}.st{display:flex;align-items:center;gap:14px;text-align:left}.st i{margin:0;flex-shrink:0}
+  .feats{grid-template-columns:1fr}.row img{width:220px}.pr .mid{padding:0 8px}.pr .arr{display:none}.band{padding:28px}.band h3{font-size:22px}.side{padding:20px}.thumbs{gap:6px}.main .pv{padding:8px 14px;font-size:13px}
+  .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 -1px 0 rgba(0,0,0,.08)}.mbar .btn{flex:1;padding:13px}}
+@media(prefers-reduced-motion:reduce){.cta .btn-red{animation:none}}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a href="index.html" class="nav-logo"><svg id="ct-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214.66" height="38" aria-label="Coach Tarn"><style>#ct-logo .st0{fill:#DB490E}#ct-logo .st1{fill:#DB480E}#ct-logo .st2{fill:#DA490D}#ct-logo .st3{fill:#3F3633}#ct-logo .st4{fill:#D9470D}#ct-logo .st5{fill:#DA480C}#ct-logo .st6{fill:#3D3531}#ct-logo .st7{fill:#3C3330}#ct-logo .st8{fill:#D9470C}#ct-logo .st9{fill:#3E3532}</style><g><path class="st0" d="M103.79,71.86c0-9.77-0.04-19.53,0.01-29.3c0.03-5.2,2.12-7.31,7.3-7.32c17.8-0.05,35.6-0.06,53.4-0.04c4.83,0.01,7.32,2.59,7.32,7.49c0.01,19.42,0,38.85-0.04,58.27c-0.01,5.22-2.56,7.86-7.73,7.89c-17.36,0.09-34.73,0.15-52.09,0.16c-5.58,0-8.1-2.61-8.11-8.18c-0.02-9.66,0-19.31,0-28.97C103.83,71.86,103.81,71.86,103.79,71.86z"/><path class="st1" d="M103.76,152.7c0-9.77-0.02-19.54,0.01-29.3c0.02-5.44,2.27-7.86,7.68-7.79c12.8,0.18,25.63-0.84,38.39,0.5c11.64,1.22,21.69,12.15,21.91,23.86c0.28,14.43,0.11,28.87,0.07,43.3c-0.01,3.54-2.71,5.84-6.74,5.85c-14,0.03-28.01,0.02-42.01,0.02c-4.23,0-8.47,0.03-12.7-0.03c-4.08-0.06-6.47-2.4-6.48-6.46c-0.04-9.98-0.01-19.97-0.01-29.95C103.83,152.7,103.79,152.7,103.76,152.7z"/><path class="st2" d="M96.85,152.55c0,9.66,0,19.32,0,28.98c0,5.48-2.14,7.62-7.69,7.62c-10.75,0-21.49,0.05-32.24-0.05c-15.9-0.16-27.19-11.47-27.3-27.32c-0.09-12.7-0.06-25.4-0.06-38.09c0-5.53,2.62-8.18,8.17-8.19c16.72-0.01,33.43,0,50.15,0.07c6.87,0.03,8.95,2.18,8.96,8.99C96.85,133.88,96.85,143.21,96.85,152.55z"/><path class="st0" d="M63.24,108.99c-8.36,0-16.73,0.02-25.09,0c-6.19-0.02-8.64-2.51-8.63-8.68c0.01-9.02,0-18.03,0.04-27.05c0.02-4.93,2.69-7.7,7.62-7.71c16.95-0.05,33.89-0.07,50.84,0c6.15,0.03,8.65,2.66,8.69,8.81c0.06,8.91,0.09,17.81,0.07,26.72c-0.01,5.24-2.54,7.84-7.8,7.88C80.41,109.04,71.82,108.99,63.24,108.99z"/><path class="st3" d="M436.86,60.72c5.58-6.35,12-7.23,18.84-6.41c8.46,1.02,13.94,7.01,14.62,16.12c0.85,11.38,0.37,22.8,0.47,34.2c0.02,2.85-1.61,4.27-4.55,4.36c-9.93,0.31-9.91,0.34-9.96-9.56c-0.04-8.25,0.11-16.52-0.32-24.75c-0.4-7.7-8.28-11.22-14.5-6.7c-3.38,2.46-4.27,6.19-4.33,10.1c-0.12,8.36-0.07,16.73-0.11,25.09c-0.02,4.64-1.12,5.72-5.78,5.75c-8.64,0.06-8.62,0.06-8.62-8.56c-0.01-19.77-0.07-39.54-0.07-59.31c0-5.37,0.61-5.92,6.06-5.94c8.16-0.03,8.26,0.06,8.26,8.13C436.86,48.74,436.86,54.24,436.86,60.72z"/><path class="st4" d="M358.86,138.46c4.9-6.38,11.48-7.86,18.69-7.09c8.71,0.92,13.95,5.71,15.01,14.39c1.47,12.09,0.54,24.27,0.53,36.41c0,0.53-0.07,1.17-0.37,1.56c-3,3.93-7.17,1.78-10.85,1.91c-2.6,0.1-3.33-2.04-3.34-4.31c-0.05-8.25-0.06-16.49-0.09-24.74c-0.01-1.52,0.05-3.05-0.09-4.55c-0.49-4.91-2.52-7.25-6.68-7.87c-4.85-0.72-9.03,1.3-10.85,5.27c-0.87,1.89-1.34,3.86-1.34,5.97c0,8.35-0.06,16.71-0.12,25.06c-0.03,4.34-1.01,5.28-5.39,5.4c-9.28,0.25-9.3,0.25-9.29-9.14c0.01-12.59-0.01-25.17,0.1-37.76c0.02-2.25-0.79-5.2,2.05-6.31c3.3-1.29,6.86-1.16,10.14,0.22C359.11,133.81,357.87,136.24,358.86,138.46z"/><path class="st5" d="M63.26,58.89c-8.68,0-17.36,0.01-26.03-0.01c-5.46-0.01-7.57-2.16-7.62-7.71c-0.03-3.25-0.06-6.51,0.01-9.76c0.09-4.01,2.28-6.27,6.29-6.28c18.11-0.03,36.23,0,54.34,0.07c3.76,0.01,6.33,2.54,6.47,6.3c0.14,3.57,0.13,7.16,0.03,10.73c-0.12,4.16-2.6,6.63-6.8,6.66c-8.89,0.07-17.79,0.02-26.68,0.02C63.26,58.91,63.26,58.9,63.26,58.89z"/><path class="st6" d="M368.61,83.38c0.03-5.51,0.43-10.13,1.88-14.63c2.49-7.71,7.66-12.47,15.61-14c6.5-1.25,12.99-1.13,19.18,1.52c6.05,2.6,9.69,7.16,10.47,13.79c0.42,3.59-0.66,4.85-4.2,5.01c-1.41,0.06-2.83-0.1-4.23,0.04c-2.85,0.29-4.35-0.89-5.17-3.67c-1.15-3.92-3.91-5.8-7.93-5.99c-4.23-0.2-8,1.66-9.35,5.17c-2.83,7.35-2.76,14.91-0.4,22.33c1.3,4.09,5.04,5.92,9.94,5.75c4.56-0.16,7.16-1.84,8.43-6.24c0.84-2.91,2.54-3.8,5.24-3.66c0.32,0.02,0.65,0.02,0.98-0.01c7.85-0.55,8.38,2.13,5.87,8.75c-2.83,7.48-8.83,10.92-16.41,12.09c-4.01,0.62-8,0.55-12-0.07c-9.23-1.44-15.57-8.16-17.25-18.28C368.8,88.4,368.52,85.49,368.61,83.38z"/><path class="st7" d="M207.4,82.48c0.04-5.36,0.57-10.61,2.81-15.57c3.02-6.7,7.97-11.02,15.32-12.22c7.42-1.2,14.72-1.18,21.42,2.95c4.51,2.79,7.13,6.88,8.03,12.07c0.59,3.38-0.86,5.17-4.32,5.37c-1.52,0.09-3.05-0.06-4.56,0.06c-2.5,0.2-3.85-0.94-4.43-3.3c-1.04-4.24-4.14-5.94-8.15-6.19c-4.19-0.26-8,0.91-9.69,5.07c-2.97,7.3-2.98,14.88-0.45,22.27c1.47,4.29,5.23,5.77,9.67,5.67c4.22-0.1,7.25-1.82,8.89-5.83c1.49-3.66,8.62-5.6,12.02-3.37c1.58,1.03,1.53,2.55,1.28,4.06c-1.04,6.33-4.37,11.13-10.24,13.73c-7.64,3.39-15.72,3.7-23.52,1.02c-9.2-3.16-12.73-10.85-13.81-19.92C207.45,86.4,207.48,84.43,207.4,82.48z"/><path class="st5" d="M216.47,159.73c0-4.34-0.05-8.69,0.02-13.03c0.04-2-0.48-3.1-2.76-2.76c-1.06,0.16-2.17,0.01-3.25-0.05c-1.91-0.1-3.02-1.02-3.04-3.04c-0.01-0.98-0.07-1.95-0.06-2.93c0.05-5.12,0.49-5.72,5.59-5.54c2.89,0.1,3.84-0.74,3.52-3.64c-0.3-2.79-0.14-5.64-0.14-8.46c0-2.67,0.99-4.37,4.04-4.23c2.17,0.1,4.35,0.07,6.51-0.05c2.85-0.15,3.94,1.42,3.98,3.95c0.06,3.15,0.09,6.3-0.08,9.44c-0.12,2.23,0.5,3.19,2.9,2.98c2.26-0.2,4.56-0.07,6.83,0.02c2.31,0.1,3.44,1.34,3.67,3.7c0.7,7.06-0.05,7.93-7.15,7.8c-6.01-0.11-6.01-0.11-6.01,5.89c0,5.97-0.09,11.95,0.02,17.92c0.1,5.37,1.6,6.72,6.89,6.62c5.86-0.11,8.58,4.5,5.79,9.74c-0.72,1.35-1.91,1.72-3.23,1.81c-4.55,0.29-9.13,0.55-13.66-0.05c-6.04-0.81-9.79-5.34-10.18-12.4c-0.25-4.55-0.05-9.12-0.05-13.68C216.59,159.73,216.53,159.73,216.47,159.73z"/><path class="st5" d="M318.22,139.69c3.87-6.54,9.38-8.47,16.05-7.98c2.81,0.2,4.34,1.24,4.38,4.37c0.11,9.13,0.2,9.13-8.91,9.46c-7.37,0.27-10.97,3.78-11.23,11.48c-0.26,7.7-0.19,15.42-0.23,23.13c-0.03,4.86-0.78,5.63-5.67,5.71c-8.8,0.14-8.9,0.04-8.91-8.75c-0.01-12.49-0.09-24.98,0.04-37.46c0.02-2.32-0.97-5.42,1.86-6.76c3.22-1.53,6.83-1.42,10.16-0.2C318.68,133.76,317.41,136.79,318.22,139.69z"/><path class="st8" d="M294.33,145.96c-0.08-6.04-3.87-11.09-9.62-12.96c-8.3-2.7-16.7-2.51-24.93,0.21c-4.01,1.33-7.2,3.94-8.52,8.28c-1.92,6.28-0.2,8.63,6.33,8.26c2.15-0.12,4.58,0.35,5.93-2.33c2.66-5.28,9.22-7.09,14.18-4.02c2.61,1.62,3.39,4.18,3.03,7.02c-0.35,2.79-2.86,2.57-4.81,2.87c-4.7,0.74-9.47,0.75-14.19,1.72c-11.95,2.46-15.82,11.65-11.93,23.64c1.17,3.6,3.9,6.04,7.57,6.99c8.24,2.13,16.12,1.7,23.38-4.51c0.22,4.41,2.8,4.97,5.95,4.77c1.3-0.08,2.61,0.04,3.9-0.05c2.53-0.18,3.91-1.35,3.89-4.12C294.39,169.83,294.48,157.89,294.33,145.96z M269.69,176.34c-4.57-0.06-6.79-1.64-7.35-5.22c-0.58-3.69,1.13-6.37,5.47-7.46c3.64-0.92,7.45-1.22,11.18-1.76c0.85-0.12,1.45,0.15,1.5,1.19C280.76,169.91,278.34,176.65,269.69,176.34z"/><path class="st6" d="M361.56,70.68c-0.33-8.6-5.32-13.97-13.76-15.77c-5.93-1.26-11.89-1.15-17.76,0.21c-5.4,1.26-9.82,3.99-11.81,9.59c-2.2,6.17-0.51,8.64,5.9,8.59c0.98-0.01,1.95-0.11,2.93-0.1c1.64,0.02,2.49-0.83,3.13-2.3c2.44-5.58,10.84-7.69,15.64-3.94c2.16,1.68,2.88,4.07,2.52,6.68c-0.35,2.53-2.57,2.6-4.47,2.93c-1.39,0.24-2.79,0.38-4.19,0.53c-5.39,0.58-10.81,1.02-15.84,3.31c-6.22,2.83-8.78,8.09-8.09,16.52c0.51,6.16,4.22,10.71,10.47,12.13c7.99,1.81,15.55,1.02,21.88-5.04c0.23,0.49,0.38,0.77,0.49,1.06c1.53,3.9,9.2,5.55,12.28,2.65c0.85-0.8,1.22-1.73,1.2-2.89C361.92,93.46,362,82.06,361.56,70.68z M336.79,99.86c-4.17,0.01-6.77-1.95-7.24-5.47c-0.46-3.5,1.46-6.54,5.27-7.44c3.98-0.93,8.09-1.36,12.14-2.03c1.06-0.17,1.29,0.36,1.34,1.27C348.81,94.79,344.28,99.79,336.79,99.86z"/><path class="st9" d="M310.08,72.56c-2.13-10.42-8.58-16.71-19.03-18.11c-3.2-0.43-6.52-0.38-9.75-0.12c-10.28,0.82-17.26,6.89-19.75,16.89c-0.87,3.5-1.2,7.05-1.07,10.64c0,1.52-0.08,3.04,0.01,4.56c0.87,14.83,8.44,22.53,23.2,23.64c14.27,1.08,24.18-6.29,26.71-20.02C311.47,84.21,311.26,78.36,310.08,72.56z M295.32,92.69c-1.48,4.34-4.97,6.19-10.1,6c-4.9-0.18-7.84-2.27-9.32-6.68c-1.08-3.24-1.19-6.6-1.11-9.6c-0.02-3.75,0.08-7.11,1.24-10.34c1.52-4.21,4.66-6.36,9.51-6.51c4.79-0.15,8.32,1.83,9.78,6.04C297.74,78.58,297.7,85.71,295.32,92.69z"/></g></svg></a>
+  <div class="nav-r"><a class="btn btn-ghost" href="templates.html">คลังเทมเพลต</a></div>
+</nav>
+<div id="app"></div>
+<div class="mbar" id="mbar"></div>
+<div class="pr" id="pr">
+  <div class="top"><span id="prT"></span><div style="display:flex;gap:8px"><button id="prPlay" onclick="togglePlay()">หยุดเล่นอัตโนมัติ</button><button onclick="closePr()">ปิด ✕</button></div></div>
+  <div class="prog"><i id="prBar"></i></div>
+  <div class="mid"><button class="arr l" onclick="go(-1)">‹</button><div class="slide" id="prS"></div><button class="arr r" onclick="go(1)">›</button></div>
+  <div class="strip" id="prStrip"></div>
+</div>
+<script>
+const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } } };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const I = {
+  dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>',
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  play:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 16v-5M12 16V8M17 16v-8"/></svg>',
+  font:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 20 10 4h1l6 16M6.5 14h8"/></svg>',
+  palette:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.3" fill="currentColor"/><circle cx="12" cy="7.5" r="1.3" fill="currentColor"/><circle cx="16" cy="10" r="1.3" fill="currentColor"/></svg>',
+  shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  story:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h10M4 18h13"/></svg>' };
+let D, cur = 1, timer = null, prCur = 1, prTimer = null, playing = true;
+const img = k => `library/slides/${D.slug}/${String(k).padStart(2, '0')}.jpg`;
+const range = n => Array.from({ length: n }, (_, i) => i + 1);
+
+// ponytail: slide total is the whole bundle (new sets + existing archive), same claim as the landing page
+const TOTAL = '6,500+';
+function cardHTML(){
+  const s = store.get();
+  const head = `<span class="cat">${esc(D.cat)}</span>
+      <h1>${esc(D.th)}</h1><div class="en">${esc(D.en).toUpperCase()}</div>
+      <div class="rate"><span class="st">★★★★★</span><b>4.9/5</b><span>· ใช้งานแล้ว 7,000+ คน</span></div>
+      <p class="sub">${esc(D.sub || '')}</p>
+      <div class="facts"><span>${D.slides} สไลด์</span><span>16:9</span><span>PowerPoint</span><span>กราฟแก้ใน Excel</span></div>`;
+  if (s) return head + `<div class="cta"><a class="btn btn-red" href="${D.file || 'download'}">${I.dl} ดาวน์โหลด .pptx</a>
+      <button class="btn btn-ghost" onclick="openPr()">${I.play} ดูแบบนำเสนอ</button></div>
+      <p class="have">ปลดล็อกแล้ว ดาวน์โหลดได้ทุกชุดใน <a href="templates.html">คลังเทมเพลต</a></p>`;
+  return head + `<div class="val"><b>ซื้อครั้งเดียว ได้ทั้งคลัง</b><ul>
+        <li>ชุดนี้ + อีก ${window.ALL.length - 1} ชุด ครบทุกอาชีพ</li>
+        <li>สไลด์รวม ${TOTAL} หน้า โหลดไม่จำกัด</li>
+        <li>จ่ายครั้งเดียว ไม่มีรายเดือน</li></ul></div>
+      <div class="price"><b>499฿</b><s>999฿</s><em>ประหยัด 500฿</em></div>
+      <div class="bonus" id="bonus">${I.clock}<span>สั่งวันนี้ รับ Bonus Slides ฟรี หมดใน</span><b id="bonusT"></b></div>
+      <div class="cta"><a class="btn btn-red" href="order.html">${I.lock} สั่งซื้อ ปลดล็อกทุกชุด</a>
+        <button class="btn btn-ghost" onclick="openPr()">${I.play} ดูตัวอย่างแบบนำเสนอ</button></div>
+      <div class="trust"><span>${I.shield} ตรวจสลิปอัตโนมัติ</span><span>${I.mail} ได้โค้ดทางอีเมล</span></div>
+      <p class="have">ซื้อแล้ว? <a href="templates.html">กรอก Redeem Code</a></p>`;
+}
+// bonus countdown: reads the landing page's 24h deadline (ct_bdl), never creates one here
+function bonusTick(){
+  let dl = 0; try { dl = parseInt(localStorage.getItem('ct_bdl')) || 0; } catch (e) {}
+  const el = document.getElementById('bonus'), rem = dl - Date.now();
+  if (!el) return;
+  if (rem <= 0) { el.classList.remove('show'); return; }
+  const p = n => String(n).padStart(2, '0');
+  document.getElementById('bonusT').textContent = `${p(Math.floor(rem / 3.6e6))}:${p(Math.floor(rem / 6e4) % 60)}:${p(Math.floor(rem / 1e3) % 60)}`;
+  el.classList.add('show');
+}
+function render(){
+  document.title = D.th + ' — Coach Tarn';
+  document.documentElement.style.setProperty('--c1', '#' + D.c1); document.documentElement.style.setProperty('--c2', '#' + D.c2);
+  const all = window.ALL, rel = all.filter(x => x.group === D.group && x.slug !== D.slug).concat(all.filter(x => x.group !== D.group)).slice(0, 4);
+  const shots = [`library/cover/${D.slug}.jpg`].concat(range(D.slides).map(img));
+  const pick = range(D.slides).filter(k => k > 2);
+  const r1 = pick.filter((_, i) => i % 2 === 0), r2 = pick.filter((_, i) => i % 2 === 1);
+  const row = a => a.concat(a).map(k => `<img loading="lazy" src="${img(k)}" alt="">`).join('');
+  document.getElementById('app').innerHTML = `
+  <section class="top wrap">
+    <div class="crumb"><a href="templates.html">คลังเทมเพลต</a> › ${esc(D.cat)}</div>
+    <div class="grid">
+      <div>
+        <div class="main" id="view" onclick="openPr(cur > 1 ? cur - 1 : 1)">${shots.map((u, i) => `<img src="${u}" alt="" ${i ? 'loading="lazy"' : 'class="on"'}>`).join('')}
+          <button class="pv" onclick="event.stopPropagation();openPr()">${I.play} ดูแบบนำเสนอ <span id="cap"></span></button></div>
+        <div class="thumbs" id="dots">${shots.slice(0, 6).map((u, i) => `<button aria-label="ภาพ ${i + 1}" onclick="show(${i + 1},true)"><img loading="lazy" src="${u}" alt="">${i === 5 ? `<span class="more">+${D.slides - 5}</span>` : ''}</button>`).join('')}</div>
+      </div>
+      <aside class="side">${cardHTML()}</aside>
+    </div>
+  </section>
+
+  <section class="mq"><h2>${D.slides} สไลด์ ออกแบบมาให้เล่าเรื่องต่อกัน</h2><p>ชี้เพื่อหยุด  |  คลิก "ดูแบบนำเสนอ" เพื่อดูเต็มจอ</p>
+    <div class="row">${row(r1)}</div><div class="row r2">${row(r2)}</div></section>
+
+  <section class="sec wrap reveal"><h2>โครงเรื่องพร้อมใช้ ตั้งแต่เปิดจนปิด</h2>
+    <p class="lead">ไม่ต้องคิดว่าจะเรียงหน้าอย่างไร แค่เปลี่ยนข้อมูลเป็นของคุณ</p>
+    <div class="story">${D.agenda.map((a, i) => `<div class="st"><i>0${i + 1}</i><b>${esc(a)}</b></div>`).join('')}</div>
+    <div class="flowtag"><span>เรียงตามหลัก ${esc(D.flow)}</span></div></section>
+
+  <section class="sec wrap reveal" style="padding-top:10px"><div class="feats">
+    <div class="ft"><div class="ic">${I.chart}</div><b>กราฟเชื่อม Excel</b><p>คลิกขวา › Edit Data แก้ตัวเลข กราฟเปลี่ยนตามทันที</p></div>
+    <div class="ft"><div class="ic">${I.palette}</div><b>เปลี่ยนสีได้ในคลิกเดียว</b><p>ไอคอนเป็นเวกเตอร์ สีทั้งชุดปรับตามแบรนด์ของคุณ</p></div>
+    <div class="ft"><div class="ic">${I.font}</div><b>ฟอนต์ไทยอ่านง่าย</b><p>IBM Plex Sans Thai ฟรีเชิงพาณิชย์ สระไม่ลอย</p></div>
+    <div class="ft"><div class="ic">${I.story}</div><b>หัวเรื่องเป็นประโยคสรุป</b><p>ผู้ฟังเข้าใจเร็วขึ้น ตามงานวิจัย Assertion-Evidence</p></div>
+  </div></section>
+
+  <section class="sec wrap reveal" style="padding-top:10px"><h2>ดูทุกหน้าในชุด</h2><p class="lead">คลิกที่ภาพเพื่อดูแบบนำเสนอเต็มจอ</p>
+    <div class="gal">${range(D.slides).map(k => `<button onclick="openPr(${k})"><img loading="lazy" src="${img(k)}" alt="สไลด์ ${k}"><span class="no">${String(k).padStart(2, '0')}</span></button>`).join('')}</div></section>
+
+  <div class="wrap">
+    ${store.get() ? '' : `<div class="band reveal"><div><h3>ได้ทุกชุด ${TOTAL} สไลด์ ในราคาเดียว</h3><p>จ่ายครั้งเดียว 499 บาท (ปกติ 999 บาท) ครบทุกอาชีพ</p></div><a class="btn" href="order.html">สั่งซื้อ 499฿</a></div>`}
+    <h2 style="font-size:24px;font-weight:800;margin:10px 0 18px">ชุดอื่นที่น่าสนใจ</h2>
+    <section class="rel">${rel.map(x => `<a href="template.html?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.jpg" alt=""><div>${esc(x.th)}</div></a>`).join('')}</section>
+  </div>`;
+  document.getElementById('mbar').innerHTML = store.get()
+    ? `<a class="btn btn-red" href="${D.file || 'download'}">${I.dl} ดาวน์โหลด .pptx</a>`
+    : `<a class="btn btn-red" href="order.html">${I.lock} สั่งซื้อ 499฿ ได้ทุกชุด</a>`;
+  show(1); autoplay(); bonusTick(); setInterval(bonusTick, 1000);
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}
+// hero gallery: cover first, then slides; thumbnails show the first 6
+function show(k, user){
+  const n = D.slides + 1; cur = (k - 1 + n) % n + 1;
+  document.querySelectorAll('#view img').forEach((el, i) => el.classList.toggle('on', i + 1 === cur));
+  document.querySelectorAll('#dots button').forEach((el, i) => el.classList.toggle('on', i + 1 === cur));
+  document.getElementById('cap').textContent = cur > 1 ? `· ${cur - 1}/${D.slides}` : '';
+  if (user) autoplay();
+}
+function autoplay(){ clearInterval(timer); timer = setInterval(() => show(cur + 1), 3000); }
+// presenter mode
+function openPr(k){
+  const P = document.getElementById('pr');
+  document.getElementById('prS').innerHTML = range(D.slides).map(i => `<img src="${img(i)}" alt="">`).join('');
+  document.getElementById('prStrip').innerHTML = range(D.slides).map(i => `<img src="${img(i)}" alt="" onclick="go(0,${i})">`).join('');
+  document.getElementById('prT').textContent = D.th;
+  P.classList.add('show'); document.body.style.overflow = 'hidden'; clearInterval(timer);
+  playing = true; document.getElementById('prPlay').textContent = 'หยุดเล่นอัตโนมัติ';
+  go(0, k || 1); prAuto();
+  if (P.requestFullscreen && window.innerWidth > 640) P.requestFullscreen().catch(() => {});
+}
+function closePr(){ document.getElementById('pr').classList.remove('show'); document.body.style.overflow = ''; clearInterval(prTimer); autoplay(); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); }
+function go(d, abs){
+  prCur = abs ? abs : (prCur - 1 + d + D.slides) % D.slides + 1;
+  document.querySelectorAll('#prS img').forEach((el, i) => el.classList.toggle('on', i + 1 === prCur));
+  document.querySelectorAll('#prStrip img').forEach((el, i) => { el.classList.toggle('on', i + 1 === prCur); if (i + 1 === prCur) el.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' }); });
+  document.getElementById('prBar').style.width = (prCur / D.slides * 100) + '%';
+  if (d || abs) prAuto();
+}
+function prAuto(){ clearInterval(prTimer); if (playing) prTimer = setInterval(() => go(1), 4000); }
+function togglePlay(){ playing = !playing; document.getElementById('prPlay').textContent = playing ? 'หยุดเล่นอัตโนมัติ' : 'เล่นอัตโนมัติ'; prAuto(); }
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('pr').classList.contains('show')) return;
+  if (e.key === 'Escape') closePr(); if (e.key === 'ArrowRight' || e.key === ' ') go(1); if (e.key === 'ArrowLeft') go(-1);
+});
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.getElementById('pr').classList.contains('show') && window.innerWidth > 640) closePr(); });
+fetch('library/data.json').then(r => r.json()).then(all => {
+  window.ALL = all; const id = new URLSearchParams(location.search).get('id');
+  D = all.find(x => x.slug === id) || all[0]; render();
+  const k = +new URLSearchParams(location.search).get('s'); if (k >= 1 && k <= D.slides) openPr(k);  // deep link from the slide-type browser
+});
+</script>
+</body>
+</html>
