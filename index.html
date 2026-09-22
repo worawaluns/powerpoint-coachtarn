@@ -2761,7 +2761,15 @@ fbq('track','PageView');
 .pp-thumbs button{flex:0 0 31%;padding:0;border:2px solid transparent;border-radius:9px;overflow:hidden;background:none;cursor:pointer}
 .pp-thumbs button.on{border-color:var(--red)}
 .pp-thumbs img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
-.pp-cta{display:flex;gap:10px;padding:14px 16px 0}
+.pp-deal{display:flex;align-items:center;gap:12px;margin:14px 16px 0;padding:12px 14px;border-radius:14px;background:var(--bg-soft);border:1px solid #F6D9CC}
+.pp-deal svg{flex:none;color:var(--red)}
+.pp-deal div{flex:1;min-width:0}
+.pp-deal b{display:block;font-size:14.5px;font-weight:800;color:#15151A;line-height:1.35}
+.pp-deal span{display:block;font-size:12.5px;color:#6B6B76;line-height:1.45;margin-top:2px}
+.pp-deal .pr{flex:none;text-align:right}
+.pp-deal .pr b{font-size:20px;color:var(--red)}
+.pp-deal .pr s{font-size:12px;color:#9A9AA5}
+.pp-cta{display:flex;gap:10px;padding:12px 16px 0}
 .pp-cta a{flex:1;text-align:center;border-radius:100px;padding:13px 10px;font-weight:700;font-size:15px;text-decoration:none}
 .pp-buy{background:var(--red);color:#fff}
 .pp-link{background:#fff;color:#15151A;border:1.5px solid #DDDCD8}
@@ -2789,7 +2797,10 @@ fbq('track','PageView');
         <button class="pp-arrow pp-prev" aria-label="ก่อนหน้า">&#8249;</button><button class="pp-arrow pp-next" aria-label="ถัดไป">&#8250;</button></div>
       <div class="pp-info"><b></b><span></span></div>
       <div class="pp-more"><p>หน้าอื่นในชุดนี้</p><div class="pp-thumbs"></div></div>
-      <div class="pp-cta"><a class="pp-link" href="#">ดูรายละเอียดชุด</a><a class="pp-buy" href="order">สั่งซื้อ 499฿</a></div>
+      <div class="pp-deal"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 17.5l9 5 9-5" opacity=".5"/></svg>
+        <div><b>ซื้อครั้งเดียว ได้ทุกชุดในคลัง</b><span>ไม่ใช่แค่ชุดนี้ โหลดได้ทุกชุด ทุกอาชีพ 6,500+ สไลด์</span></div>
+        <div class="pr"><b>499฿</b><s>999฿</s></div></div>
+      <div class="pp-cta"><a class="pp-link" href="#">ดูชุดนี้</a><a class="pp-buy" href="order">สั่งซื้อ รับทุกชุด</a></div>
     </div>
   </div>
 </section>
@@ -2798,9 +2809,9 @@ fbq('track','PageView');
   const JOB = {office:'พนักงานออฟฟิศ',teacher:'ครู / อาจารย์',proposal:'ใบเสนองาน',sales:'ฝ่ายขาย',health:'บุคลากรสุขภาพ',owner:'เจ้าของธุรกิจ',gov:'ข้าราชการ',engineer:'วิศวกร / QMS',trainer:'วิทยากร / โค้ช'};
   const TYPES = ['กราฟ','ตัวเลข KPI','ตาราง','ไทม์ไลน์ / ขั้นตอน','อินโฟกราฟิก','เปรียบเทียบ','สารบัญ','ตารางราคา','ทีม / องค์กร','แผนที่'];
   const $ = id => document.getElementById(id), esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  let D = [], S = {}, mode = 'type', sel = 'กราฟ', shown = 6, all = [];
-  Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slides.json').then(r => r.json())]).then(([d, s]) => {
-    D = d.sort((a, b) => b.no - a.no); S = s;
+  let D = [], S = {}, P = {type: {}, job: {}}, mode = 'type', sel = 'กราฟ', shown = 6, all = [];
+  Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slides.json').then(r => r.json()), fetch('library/pick.json').then(r => r.json()).catch(() => P)]).then(([d, s, p]) => {
+    D = d.sort((a, b) => b.no - a.no); S = s; P = p;
     render();
   }).catch(() => {});
   document.querySelectorAll('.pick-seg button').forEach(b => b.onclick = () => {
@@ -2815,11 +2826,13 @@ fbq('track','PageView');
     const n = {}; Object.values(S).forEach(v => v.forEach(t => n[t] = (n[t] || 0) + 1));
     return TYPES.filter(t => n[t]).map(t => [t, t, n[t]]);
   }
+  // vivid-first order with neighbouring colours kept apart (library/pick.json, built offline)
+  const ranked = (list, order) => { const r = new Map((order || []).map((s, i) => [s, i])); return list.slice().sort((a, b) => (r.has(a.slug) ? r.get(a.slug) : 1e4) - (r.has(b.slug) ? r.get(b.slug) : 1e4)); };
   function items(){
-    if (mode === 'job') return D.filter(x => x.group === sel).map(x =>
+    if (mode === 'job') return ranked(D.filter(x => x.group === sel), P.job[sel]).map(x =>
       `<a class="pick-card" href="template?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.jpg" alt="${esc(x.th)}"><div><b>${esc(x.th)}</b><i>${esc(x.cat)}</i></div></a>`);
     const out = [];
-    for (const x of [...D].reverse()) { const k = (S[x.slug] || []).indexOf(sel); if (k < 0) continue;  // earliest (most colourful) sets first
+    for (const x of ranked([...D].reverse(), P.type[sel])) { const k = (S[x.slug] || []).indexOf(sel); if (k < 0) continue;
       out.push(`<a class="pick-card slide" href="template?id=${x.slug}&s=${k + 1}"><img loading="lazy" src="library/slides/${x.slug}/${String(k + 1).padStart(2, '0')}.jpg" alt="${esc(sel)} จากชุด ${esc(x.th)}"><div><b>${esc(x.th)}</b><i>${esc(sel)}</i></div></a>`);
       if (out.length === 60) break; }
     return out;
