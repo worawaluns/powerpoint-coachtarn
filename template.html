@@ -134,6 +134,7 @@ a{color:inherit;text-decoration:none}
   <div class="strip" id="prStrip"></div>
 </div>
 <script>
+const DRIVE = 'https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing';
 const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } } };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const I = {
@@ -160,7 +161,7 @@ function cardHTML(){
       <div class="rate"><span class="st">★★★★★</span><b>4.9/5</b><span>· ใช้งานแล้ว 7,000+ คน</span></div>
       <p class="sub">${esc(D.sub || '')}</p>
       <div class="facts"><span>${D.slides} สไลด์</span><span>16:9</span><span>PowerPoint</span><span>กราฟแก้ใน Excel</span></div>`;
-  if (s) return head + `<div class="cta"><a class="btn btn-red" href="${D.file || 'download'}">${I.dl} ดาวน์โหลด .pptx</a>
+  if (s) return head + `<div class="cta"><a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener">${I.dl} เปิดโฟลเดอร์ดาวน์โหลด</a>
       <button class="btn btn-ghost" onclick="openPr()">${I.play} ดูแบบนำเสนอ</button></div>
       <p class="have">ปลดล็อกแล้ว ดาวน์โหลดได้ทุกชุดใน <a href="templates.html">คลังเทมเพลต</a></p>`;
   return head + `<div class="val"><b>ซื้อครั้งเดียว ได้ทั้งคลัง</b><ul>
@@ -229,7 +230,7 @@ function render(){
     <section class="rel">${rel.map(x => `<a href="template.html?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.jpg" alt=""><div>${esc(x.th)}</div></a>`).join('')}</section>
   </div>`;
   document.getElementById('mbar').innerHTML = store.get()
-    ? `<a class="btn btn-red" href="${D.file || 'download'}">${I.dl} ดาวน์โหลด .pptx</a>`
+    ? `<a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener">${I.dl} เปิดโฟลเดอร์ดาวน์โหลด</a>`
     : `<a class="btn btn-red" href="order.html">${I.lock} สั่งซื้อ 499฿ ได้ทุกชุด</a>`;
   show(1); autoplay(); bonusTick(); setInterval(bonusTick, 1000);
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });

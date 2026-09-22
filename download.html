@@ -316,6 +316,13 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 }
 .btn-dl-white:active{transform:scale(0.98)}
 .btn-dl-white svg{width:20px;height:20px;flex-shrink:0;color:var(--red)}
+.dls-note{font-size:12.5px;color:rgba(255,255,255,.85);margin:-8px 0 18px;line-height:1.5}
+.dls-note a{color:#fff;font-weight:700}
+.dls-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.dls-grid a{display:block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:14px;
+  padding:12px 12px;color:#fff;text-decoration:none;font-size:14px;font-weight:800;line-height:1.3}
+.dls-grid a small{display:block;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.8);margin-top:3px}
+.dls-grid a:active{transform:scale(.98)}
 .dls-reset{
   font-size:12.5px;color:rgba(255,255,255,0.65);
   text-decoration:underline;background:none;border:none;
@@ -621,12 +628,18 @@ fbq('track','PageView');
     </div>
     <div class="dls-title">ยืนยัน Code สำเร็จ!</div>
     <div class="dls-name" id="successName"></div>
-    <div class="dls-sub">PowerPoint Templates · 6,500+ สไลด์<br>พร้อมดาวน์โหลดได้เลยตอนนี้</div>
-    <a href="https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing"
-       target="_blank" rel="noopener" class="btn-dl-white">
+    <div class="dls-sub">ไฟล์ของคุณแบ่งเป็น 2 คลัง เลือกโหลดได้เลย</div>
+    <a href="https://drive.google.com/drive/folders/1opCHDz09xuTrxA7JoUajfSNBnKtJuJXy" target="_blank" rel="noopener" class="btn-dl-white">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      โหลดไฟล์ทั้งหมด (Google Drive)
+      เทมเพลตตามอาชีพ (ใหม่)
     </a>
+    <div class="dls-note">199 ชุด ชุดละ 20 สไลด์ ภาษาไทย · <a href="templates">ดูตัวอย่างทุกชุดบนเว็บ</a></div>
+    <div class="dls-grid">
+      <a href="https://drive.google.com/drive/folders/1JoTiE8D6egndF6nbiQCdOeKs8KuISIon" target="_blank" rel="noopener">PowerPoint<small>คลังเดิม 6,500+ สไลด์</small></a>
+      <a href="https://drive.google.com/drive/folders/1UiHZk9umjJII8_vXKq9fejLvQBa0FS5H" target="_blank" rel="noopener">Keynote<small>สำหรับ Mac</small></a>
+      <a href="https://drive.google.com/drive/folders/1cU7yW1bnw3YNTV1z6qg7mJjFSHkb6UJp" target="_blank" rel="noopener">Google Slides<small>ใช้บนเบราว์เซอร์</small></a>
+      <a href="https://drive.google.com/drive/folders/1_fujxDL1YTqRLVF8WBx3DZVmXZA44WEd" target="_blank" rel="noopener">ฟอนต์ลายมือ<small>แถมฟรี</small></a>
+    </div>
     <button class="dls-reset" onclick="resetRedeem()">กรอก Code ใหม่</button>
   </div>
 
@@ -1237,6 +1250,8 @@ async function verifyCode() {
       const nameEl = document.getElementById('successName');
       if (data.name) nameEl.textContent = `คุณ${data.name} 🎉`;
       document.getElementById('successZone').classList.add('show');
+      // remember the unlock so the rest of the site (library, popup) shows download buttons
+      try { localStorage.setItem('ct_lib', JSON.stringify({ code, name: data.name || '', t: Date.now() })); } catch (_) {}
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } else {

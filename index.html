@@ -2769,6 +2769,13 @@ fbq('track','PageView');
 .pp-deal .pr{flex:none;text-align:right}
 .pp-deal .pr b{font-size:20px;color:var(--red)}
 .pp-deal .pr s{font-size:12px;color:#9A9AA5}
+.pp-deal.open{background:#F1FAF4;border-color:#BFE6CF}
+.pp-deal.open svg{color:#17915A}
+/* member mode: someone who redeemed a code sees browse/download instead of buy */
+.member-bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#F1FAF4;border-bottom:1px solid #CDEBD9;font-size:13px;font-weight:700;color:#15151A}
+.member-bar svg{flex:none;color:#17915A}
+.member-bar a{margin-left:auto;flex:none;background:#17915A;color:#fff;border-radius:100px;padding:8px 14px;font-size:12.5px;font-weight:800;text-decoration:none}
+html.member .sticky-bar{display:none!important}
 .pp-cta{display:flex;gap:10px;padding:12px 16px 0}
 .pp-cta a{flex:1;text-align:center;border-radius:100px;padding:13px 10px;font-weight:700;font-size:15px;text-decoration:none}
 .pp-buy{background:var(--red);color:#fff}
@@ -2868,7 +2875,32 @@ fbq('track','PageView');
     pop.querySelector('.pp-thumbs button').classList.add('on'); }
   function go(i, smooth){ cur = Math.max(0, Math.min(list.length - 1, i)); const el = track.children[cur];
     track.scrollTo({ left: el.offsetLeft - 16, behavior: smooth ? 'smooth' : 'auto' }); info(); }
+  // members: swap every buy CTA on the page for browse/download
+  (function(){ try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (!(v && v.code)) return; } catch (e) { return; }
+    document.documentElement.classList.add('member');
+    const nav = document.querySelector('.nav-cta'); if (nav) { nav.href = 'templates'; nav.textContent = 'คลังของฉัน'; }
+    const dw = document.querySelector('.drawer-cta-btn'); if (dw) { dw.href = 'templates'; dw.textContent = 'เปิดคลังเทมเพลตของฉัน'; }
+    const bar = document.createElement('div'); bar.className = 'member-bar';
+    bar.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+      ปลดล็อกแล้ว โหลดได้ทุกชุด<a href="download">ไปหน้าดาวน์โหลด</a>`;
+    const an = document.querySelector('.announce');
+    if (an) an.after(bar); else document.body.prepend(bar);
+    if (an) an.style.display = 'none';   // the bonus offer is for new buyers only
+  })();
+  // buyers who redeemed a code (ct_lib) get a download button instead of the price box
+  const unlocked = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
+  const DRIVE = 'https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing';
+  function memberView(){
+    if (!unlocked()) return;
+    const deal = pop.querySelector('.pp-deal'), buy = pop.querySelector('.pp-buy');
+    deal.classList.add('open');
+    deal.querySelector('div:not(.pr) b').textContent = 'ปลดล็อกแล้ว โหลดได้ทุกชุด';
+    deal.querySelector('div:not(.pr) span').textContent = 'ชุดนี้และทุกชุดในคลัง อยู่ในโฟลเดอร์ Google Drive';
+    deal.querySelector('.pr').remove();
+    buy.textContent = 'เปิดโฟลเดอร์ดาวน์โหลด'; buy.href = DRIVE; buy.target = '_blank'; buy.rel = 'noopener';
+  }
   function open(i){
+    memberView();
     list = cards().map(parse);
     track.innerHTML = list.map(it => `<div class="pp-item"><img src="${it.img}" alt="${esc(it.alt)}"></div>`).join('');
     y0 = scrollY; Object.assign(document.body.style, { position: 'fixed', top: `-${y0}px`, left: '0', right: '0' });

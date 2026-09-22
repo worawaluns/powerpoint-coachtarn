@@ -79,6 +79,12 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#15151A;color:#fff;padding:12px 20px;border-radius:14px;font-size:14px;transition:transform .4s var(--ease);z-index:99}
 .toast.show{transform:translateX(-50%) translateY(0)}
 @media(max-width:640px){.hero{padding:26px 0 10px}.stats{gap:18px}.search input{width:100%}.search{flex:1 1 100%}.rd input{flex:1;width:auto}.rd{width:100%}.bar{top:56px}}
+.oldlib{display:flex;align-items:center;gap:12px;margin:0 0 16px;padding:14px 16px;border-radius:16px;
+  background:#F6F7F9;border:1px solid #E7E8EC;text-decoration:none;color:#15151A}
+.oldlib b{font-size:14.5px;font-weight:800}
+.oldlib span{flex:1;min-width:0;font-size:12.5px;color:#6B6B76;line-height:1.45}
+.oldlib svg{flex:none;width:18px;height:18px;color:#6B6B76}
+@media(max-width:640px){.oldlib{flex-wrap:wrap}.oldlib span{flex:0 0 100%}}
 </style>
 </head>
 <body>
@@ -101,6 +107,9 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
     <div class="chips" id="chips"></div>
     <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="ค้นหา เช่น KPI, ครู, งบ"></label>
   </div>
+  <a class="oldlib" id="oldlib" href="https://drive.google.com/drive/folders/1JoTiE8D6egndF6nbiQCdOeKs8KuISIon" target="_blank" rel="noopener" style="display:none">
+    <b>คลังเดิม 6,500+ สไลด์</b><span>ชุดสากลแยกตามหัวข้อ (PowerPoint / Keynote / Google Slides) อยู่ใน Google Drive ไม่ได้แสดงบนเว็บนี้</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
   <div class="types" id="types"></div>
   <section class="grid" id="grid"></section>
 </main>
@@ -111,6 +120,7 @@ const PATTERN = /^TARN-[A-Z0-9]{8}$/i;
 const ICON = { lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
   dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>',
   ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>', eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>' };
+const DRIVE = 'https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing';   // buyers download from the shared Drive folder (per-set links aren't public)
 const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } },
   set(v){ try{ v ? localStorage.setItem('ct_lib', JSON.stringify(v)) : localStorage.removeItem('ct_lib'); }catch(e){} } };
 let DATA = [], TAGS = {}, group = 'all', q = '', mode = 'sets', type = 'กราฟ', shown = 48;
@@ -159,12 +169,13 @@ function renderChips(){
 function setGroup(k){ group = k; shown = 48; renderChips(); render(); }
 function renderSets(){
   const open = !!store.get(), g = document.getElementById('grid');
+  const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
   const list = DATA.filter(d => (group === 'all' || d.group === group) && (!q || (d.th + d.en + d.cat).toLowerCase().includes(q)));
   g.innerHTML = list.length ? list.map(d => `
     <article class="card"><a class="cv" href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.jpg" alt="${esc(d.th)}">${d.new ? '<span class="new">ใหม่</span>' : ''}</a>
       <div class="cb"><a href="template.html?id=${d.slug}" style="min-width:0"><h3>${esc(d.th)}</h3><div class="en">${esc(d.en)}</div>
         <div class="meta"><span class="pill m1">${esc(d.cat)}</span><span class="pill m2">${d.slides} สไลด์</span></div></a>
-        ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || 'download'}" onclick="toast('กำลังดาวน์โหลด ${esc(d.th)}')">${ICON.dl}</a>`
+        ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="toast('เปิดโฟลเดอร์ดาวน์โหลดทั้งหมด')">${ICON.dl}</a>`
                : `<a class="dl" title="ดูตัวอย่าง" href="template.html?id=${d.slug}">${ICON.eye}</a>`}</div></article>`).join('')
     : '<div class="empty">ไม่พบเทมเพลตที่ค้นหา</div>';
 }
