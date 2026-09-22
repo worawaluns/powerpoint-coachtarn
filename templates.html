@@ -146,6 +146,16 @@ function renderMember(){
 // same Edge Function + public anon key as download.html
 const SUPABASE_URL = 'https://uyubtzyhuqalmjpjhmap.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
+// members: ask the server for this set's own file link (links are not public)
+const SB_URL = SUPABASE_URL, SB_KEY = SUPABASE_ANON_KEY;
+async function setFile(slug){
+  let v = null; try { v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); } catch (e) {}
+  if (!(v && v.code)) return null;
+  const r = await fetch(`${SB_URL}/functions/v1/verify-code`, { method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SB_KEY}` },
+    body: JSON.stringify({ code: v.code, slug }) });
+  const d = await r.json(); return d.valid && d.file ? d.file : null;
+}
 async function redeem(){
   const code = document.getElementById('code').value.trim().toUpperCase(), err = document.getElementById('err'), btn = document.querySelector('.rd .btn');
   const fail = m => { err.textContent = m; err.style.display = 'block'; };
@@ -167,6 +177,11 @@ function renderChips(){
     return `<button class="chip ${k === group ? 'on' : ''}" onclick="setGroup('${k}')">${t}<small>${n}</small></button>`; }).join('');
 }
 function setGroup(k){ group = k; shown = 48; renderChips(); render(); }
+async function dlSet(e, slug, name){   // download that one set; folder is the fallback
+  e.preventDefault(); toast(`กำลังเตรียมไฟล์ ${name}`);
+  const url = await setFile(slug).catch(() => null);
+  location.href = url || DRIVE; return false;
+}
 function renderSets(){
   const open = !!store.get(), g = document.getElementById('grid');
   const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
@@ -175,7 +190,7 @@ function renderSets(){
     <article class="card"><a class="cv" href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.jpg" alt="${esc(d.th)}">${d.new ? '<span class="new">ใหม่</span>' : ''}</a>
       <div class="cb"><a href="template.html?id=${d.slug}" style="min-width:0"><h3>${esc(d.th)}</h3><div class="en">${esc(d.en)}</div>
         <div class="meta"><span class="pill m1">${esc(d.cat)}</span><span class="pill m2">${d.slides} สไลด์</span></div></a>
-        ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="toast('เปิดโฟลเดอร์ดาวน์โหลดทั้งหมด')">${ICON.dl}</a>`
+        ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlSet(event,'${d.slug}','${esc(d.th)}')">${ICON.dl}</a>`
                : `<a class="dl" title="ดูตัวอย่าง" href="template.html?id=${d.slug}">${ICON.eye}</a>`}</div></article>`).join('')
     : '<div class="empty">ไม่พบเทมเพลตที่ค้นหา</div>';
 }

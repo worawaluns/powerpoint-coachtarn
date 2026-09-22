@@ -2875,6 +2875,16 @@ html.member .sticky-bar{display:none!important}
     pop.querySelector('.pp-thumbs button').classList.add('on'); }
   function go(i, smooth){ cur = Math.max(0, Math.min(list.length - 1, i)); const el = track.children[cur];
     track.scrollTo({ left: el.offsetLeft - 16, behavior: smooth ? 'smooth' : 'auto' }); info(); }
+// members: ask the server for this set's own file link (links are not public)
+const SB_URL = 'https://uyubtzyhuqalmjpjhmap.supabase.co', SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
+async function setFile(slug){
+  let v = null; try { v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); } catch (e) {}
+  if (!(v && v.code)) return null;
+  const r = await fetch(`${SB_URL}/functions/v1/verify-code`, { method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SB_KEY}` },
+    body: JSON.stringify({ code: v.code, slug }) });
+  const d = await r.json(); return d.valid && d.file ? d.file : null;
+}
   // members: swap every buy CTA on the page for browse/download
   (function(){ try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (!(v && v.code)) return; } catch (e) { return; }
     document.documentElement.classList.add('member');
@@ -2891,13 +2901,20 @@ html.member .sticky-bar{display:none!important}
   const unlocked = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
   const DRIVE = 'https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing';
   function memberView(){
-    if (!unlocked()) return;
     const deal = pop.querySelector('.pp-deal'), buy = pop.querySelector('.pp-buy');
+    if (!unlocked() || deal.classList.contains('open')) return;   // runs once; .pr is removed below
     deal.classList.add('open');
     deal.querySelector('div:not(.pr) b').textContent = 'ปลดล็อกแล้ว โหลดได้ทุกชุด';
     deal.querySelector('div:not(.pr) span').textContent = 'ชุดนี้และทุกชุดในคลัง อยู่ในโฟลเดอร์ Google Drive';
     deal.querySelector('.pr').remove();
-    buy.textContent = 'เปิดโฟลเดอร์ดาวน์โหลด'; buy.href = DRIVE; buy.target = '_blank'; buy.rel = 'noopener';
+    deal.querySelector('div:not(.pr)').insertAdjacentHTML('beforeend', `<span><a href="${DRIVE}" target="_blank" rel="noopener" style="color:#17915A;font-weight:700">เปิดโฟลเดอร์ทั้งหมดใน Google Drive</a></span>`);
+    buy.textContent = 'ดาวน์โหลดชุดนี้'; buy.href = DRIVE; buy.target = '_blank'; buy.rel = 'noopener';
+    buy.onclick = async e => {   // fetch this set's own file, fall back to the folder
+      const it = list[cur]; if (!it) return;
+      e.preventDefault(); const t = buy.textContent; buy.textContent = 'กำลังเตรียมไฟล์…';
+      const url = await setFile(it.slug).catch(() => null);
+      buy.textContent = t; location.href = url || DRIVE;
+    };
   }
   function open(i){
     memberView();

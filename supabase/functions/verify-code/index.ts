@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { code } = await req.json()
+    const { code, slug } = await req.json()
 
     // ── Validate format ────────────────────────────────────────────────────
     if (!code || !/^TARN-[A-Z0-9]{8}$/i.test(code)) {
@@ -51,9 +51,20 @@ serve(async (req) => {
       .update({ last_used_at: new Date().toISOString() })
       .eq('id', data.id)
 
+    // ── Per-set download link (only for a valid code; links are never public) ─
+    let file: string | null = null, drive: string | null = null
+    if (typeof slug === 'string' && /^[a-z0-9-]{1,40}$/i.test(slug)) {
+      const { data: f } = await supabase
+        .from('template_files')
+        .select('file_url, drive_url')
+        .eq('slug', slug)
+        .single()
+      if (f) { file = f.file_url; drive = f.drive_url }
+    }
+
     // ── Return success ─────────────────────────────────────────────────────
     return Response.json(
-      { valid: true, name: data.customer_name },
+      { valid: true, name: data.customer_name, file, drive },
       { headers: CORS }
     )
 
