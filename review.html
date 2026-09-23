@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>ยืนยันเงินเข้า | Coach Tarn</title>
+<link rel="icon" href="img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#D34724;--orange:#EB7D4A;--ink:#1D1D1F;--mid:#6E6E73;--line:rgba(0,0,0,.09);--soft:#F7F7F9}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:#F2F2F7;color:var(--ink);padding:24px 16px 60px}
+.wrap{max-width:540px;margin:0 auto}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(20,20,30,.06)}
+.strip{height:5px;background:linear-gradient(90deg,#F5A623,#EB7D4A)}
+.pad{padding:22px}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:100px;background:#FFF4E5;color:#B26A00}
+.badge.ok{background:#E8F7EF;color:#1F8F54}.badge.no{background:#FDECEA;color:#B3261E}
+h1{font-size:21px;font-weight:700;line-height:1.35;margin:12px 0 6px}
+p.lead{font-size:14px;color:var(--mid);line-height:1.7}
+table{width:100%;border:1px solid #EFEFEF;border-radius:12px;border-collapse:separate;border-spacing:0;margin:16px 0;overflow:hidden}
+td{padding:10px 13px;font-size:13.5px;border-bottom:1px solid #F4F4F6}
+tr:last-child td{border-bottom:none}
+td.k{color:#8a8a92;white-space:nowrap}td.v{text-align:right;font-weight:700;word-break:break-word}
+.sec{font-size:12px;font-weight:700;letter-spacing:.6px;color:#8a8a92;margin:18px 0 6px}
+.addr{font-size:13.5px;color:var(--mid);line-height:1.7;background:var(--soft);border-radius:12px;padding:12px 14px}
+.sliplink{display:block;text-align:center;border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;margin-top:14px}
+.slipimg{width:100%;border-radius:12px;border:1px solid var(--line);margin-top:12px;display:block}
+.btn{display:block;width:100%;text-align:center;border:none;border-radius:13px;padding:16px;font-size:15.5px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:12px}
+.btn-ok{background:#16A34A;color:#fff}
+.btn-no{background:#fff;color:var(--mid);border:1.5px solid #E0E0E5}
+.btn:disabled{opacity:.55;cursor:default}
+.hint{font-size:12.5px;color:#9a9aa2;line-height:1.7;margin-top:12px}
+.state{display:none;text-align:center;padding:34px 22px}
+.state .ic{width:66px;height:66px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff}
+.state h2{font-size:20px;font-weight:700;margin-bottom:8px}
+.state p{font-size:14px;color:var(--mid);line-height:1.7}
+.codes{margin-top:14px;text-align:left}
+.codes div{background:#FAFAFA;border:1px solid #EFEFEF;border-radius:10px;padding:9px 12px;margin-bottom:6px;font-family:'Courier New',monospace;font-size:15px;font-weight:700;letter-spacing:1.5px}
+.spin{width:22px;height:22px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;display:inline-block;vertical-align:-5px;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" id="card">
+    <div class="strip"></div>
+    <div class="pad" id="loading"><p class="lead">กำลังโหลดข้อมูลคำสั่งซื้อ...</p></div>
+
+    <!-- review -->
+    <div class="pad" id="review" style="display:none">
+      <span class="badge" id="why">Slip2Go อ่านสลิปไม่ได้</span>
+      <h1 id="title">ยืนยันว่าเงินเข้าบัญชีแล้ว?</h1>
+      <p class="lead">กดยืนยันแล้วระบบจะออก Redeem Code และส่งอีเมลให้ลูกค้าทันที ย้อนกลับไม่ได้</p>
+      <table id="info"></table>
+      <div id="taxWrap" style="display:none">
+        <div class="sec">ข้อมูลใบกำกับภาษี</div>
+        <table id="taxInfo"></table>
+        <div class="addr" id="taxAddr"></div>
+      </div>
+      <a class="sliplink" id="slipLink" href="#" target="_blank" rel="noopener">เปิดสลิปเต็มในแท็บใหม่</a>
+      <img class="slipimg" id="slipImg" alt="สลิปที่ลูกค้าแนบ" style="display:none">
+      <button class="btn btn-ok" id="okBtn" onclick="act('approve')">เช็คแล้วเงินเข้าจริง ส่ง Code ให้ลูกค้า</button>
+      <button class="btn btn-no" id="noBtn" onclick="act('reject')">เงินไม่เข้า ปิดคำสั่งซื้อนี้</button>
+      <div class="hint">ลิงก์นี้ใช้ได้ครั้งเดียวและหมดอายุใน 7 วัน ถ้ากดผิดให้ทักทีมงานเพื่อแก้ไขทันที</div>
+    </div>
+
+    <!-- done -->
+    <div class="state" id="done">
+      <div class="ic" style="background:#16A34A">&#10003;</div>
+      <h2 id="doneH">ส่ง Code ให้ลูกค้าแล้ว</h2>
+      <p id="doneP"></p>
+      <div class="codes" id="doneCodes"></div>
+    </div>
+
+    <!-- error -->
+    <div class="state" id="err">
+      <div class="ic" style="background:#B3261E">!</div>
+      <h2 id="errH">ลิงก์นี้ใช้ไม่ได้แล้ว</h2>
+      <p id="errP">อาจถูกใช้ไปแล้วหรือหมดอายุ ตรวจสอบสถานะคำสั่งซื้อในฐานข้อมูลได้เลย</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPA_URL      = 'https://uyubtzyhuqalmjpjhmap.supabase.co';
+const SUPA_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
+const token = new URLSearchParams(location.search).get('t') || '';
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const call = (action) => fetch(`${SUPA_URL}/functions/v1/review-order`, {
+  method : 'POST',
+  headers: { 'Authorization': `Bearer ${SUPA_ANON_KEY}`, 'Content-Type': 'application/json' },
+  body   : JSON.stringify({ token, action }),
+}).then(r => r.json());
+
+function show(id){ ['loading','review','done','err'].forEach(x => {
+  const e = document.getElementById(x); e.style.display = x === id ? (x === 'review' || x === 'loading' ? 'block' : 'block') : 'none'; }); }
+
+function fail(msg){ if (msg) document.getElementById('errP').textContent = msg; show('err'); }
+
+const row = (k, v) => `<tr><td class="k">${esc(k)}</td><td class="v">${esc(v)}</td></tr>`;
+
+async function load(){
+  if (!token) return fail('ลิงก์ไม่ถูกต้อง ไม่มีรหัสยืนยัน');
+  const r = await call('info').catch(() => null);
+  if (!r || r.error) return fail(r && r.error === 'expired' ? 'ลิงก์หมดอายุแล้ว (เกิน 7 วัน)' : null);
+  const o = r.order;
+  if (o.status === 'verified') { document.getElementById('errH').textContent = 'คำสั่งซื้อนี้ยืนยันไปแล้ว'; return fail('ลูกค้าได้รับ Redeem Code เรียบร้อยแล้ว'); }
+  document.getElementById('info').innerHTML =
+      row('เลขออเดอร์', String(o.id).slice(0, 8))
+    + row('ยอดที่ต้องได้รับ', Number(o.amount).toLocaleString('en-US') + ' บาท')
+    + row('แพ็ก', o.pack + ' สิทธิ์')
+    + row('ชื่อผู้สั่งซื้อ', o.name)
+    + row('อีเมลลูกค้า', o.email)
+    + row('เวลาที่แจ้งโอน', new Date(o.created_at).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' }));
+  if (o.tax_invoice) {
+    document.getElementById('taxWrap').style.display = 'block';
+    document.getElementById('taxInfo').innerHTML =
+        row('ชื่อบริษัท', o.tax_name) + row('สาขา', o.tax_branch || 'สำนักงานใหญ่')
+      + row('เลขผู้เสียภาษี', o.tax_id) + row('อีเมลบัญชี', o.tax_email || o.email);
+    document.getElementById('taxAddr').textContent = 'ที่อยู่จัดส่ง: ' + (o.tax_address || '');
+  }
+  if (r.slip_url) {
+    document.getElementById('slipLink').href = r.slip_url;
+    const img = document.getElementById('slipImg');
+    img.src = r.slip_url; img.onload = () => img.style.display = 'block';
+  }
+  show('review');
+}
+
+let busy = false;
+async function act(action){
+  if (busy) return;
+  if (action === 'reject' && !confirm('ยืนยันว่าเงินไม่เข้า และจะปิดคำสั่งซื้อนี้?')) return;
+  busy = true;
+  const btn = document.getElementById(action === 'approve' ? 'okBtn' : 'noBtn');
+  const label = btn.textContent;
+  btn.innerHTML = '<span class="spin"></span>';
+  document.getElementById('okBtn').disabled = document.getElementById('noBtn').disabled = true;
+  const r = await call(action).catch(() => null);
+  busy = false;
+  if (!r || r.error) { btn.textContent = label; document.getElementById('okBtn').disabled = document.getElementById('noBtn').disabled = false; return fail(r && r.error === 'already_reviewed' ? 'คำสั่งซื้อนี้ถูกตรวจไปแล้ว' : null); }
+  if (r.result === 'verified') {
+    document.getElementById('doneP').textContent = r.tax_invoice
+      ? 'ส่ง Redeem Code และแจ้งเรื่องใบกำกับภาษี 7 ถึง 10 วันทำการให้ลูกค้าแล้ว อย่าลืมส่งข้อมูลให้ฝ่ายบัญชีออกเอกสาร'
+      : 'ส่ง Redeem Code ไปที่อีเมลของลูกค้าเรียบร้อยแล้ว';
+    document.getElementById('doneCodes').innerHTML = (r.codes || []).map((c, i) => `<div>${i + 1}. ${esc(c)}</div>`).join('');
+  } else {
+    document.getElementById('doneH').textContent = 'ปิดคำสั่งซื้อแล้ว';
+    document.getElementById('doneP').textContent = 'ระบบแจ้งลูกค้าให้ทักแชทเพจเพื่อตรวจสอบอีกครั้ง';
+  }
+  show('done');
+}
+document.addEventListener('DOMContentLoaded', load);
+</script>
+</body>
+</html>

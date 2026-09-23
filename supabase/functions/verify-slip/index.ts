@@ -10,6 +10,8 @@ const SLIP2GO_KEY      = Deno.env.get('SLIP2GO_SECRET_KEY')!
 const RESEND_API_KEY   = Deno.env.get('RESEND_API_KEY')!
 const TURNSTILE_SECRET = Deno.env.get('TURNSTILE_SECRET_KEY')!
 const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
+const ADMIN_EMAIL      = Deno.env.get('ADMIN_REVIEW_EMAIL') ?? 'powerpoint.officialth@gmail.com'
+const REVIEW_PAGE      = Deno.env.get('REVIEW_PAGE_URL') ?? 'https://coachtarnslide.com/review'
 
 // Resend sender — DKIM อยู่ที่ resend._domainkey.coachtarnslide.com → ใช้ root domain
 const FROM_EMAIL = 'PowerPoint Template by Coach Tarn <noreply@coachtarnslide.com>'
@@ -291,12 +293,70 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
 </body></html>`
 }
 
+
+// ── สลิปที่ Slip2Go อ่านไม่ได้ (สลิปบริษัท/e-receipt ไม่มี QR) เข้าคิวให้แอดมินตรวจ ──
+function adminReviewHtml(order: any, seats: number, price: string, link: string, slipUrl: string | null, why: string): string {
+  const esc = (v: unknown) => String(v ?? '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]!))
+  const row = (k: string, v: string) => `<tr><td style="padding:9px 13px;font-size:13px;color:#8a8a92;border-bottom:1px solid #F4F4F6;">${k}</td><td align="right" style="padding:9px 13px;font-size:13.5px;font-weight:700;color:#1D1D1F;border-bottom:1px solid #F4F4F6;">${v}</td></tr>`
+  const tax = order.tax_invoice ? `
+    <p style="margin:16px 0 6px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;">ข้อมูลใบกำกับภาษี</p>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #EFEFEF;border-radius:12px;">
+      ${row('ชื่อบริษัท', esc(order.tax_name))}
+      ${row('สาขา', esc(order.tax_branch || 'สำนักงานใหญ่'))}
+      ${row('เลขผู้เสียภาษี', esc(order.tax_id))}
+      ${row('อีเมลบัญชี', esc(order.tax_email || order.email))}
+    </table>
+    <p style="margin:8px 0 0;font-size:13px;color:#6E6E73;line-height:1.7;">ที่อยู่จัดส่ง: ${esc(order.tax_address)}</p>` : ''
+  return `<!DOCTYPE html><html lang="th"><body style="margin:0;padding:0;background:#F2F2F7;font-family:-apple-system,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F2F2F7;"><tr><td align="center" style="padding:32px 16px;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#fff;border-radius:20px;overflow:hidden;">
+  <tr><td style="height:5px;background:#F5A623;font-size:0;">&nbsp;</td></tr>
+  <tr><td style="padding:26px 30px 22px;">
+    <p style="margin:0 0 10px;"><span style="display:inline-block;font-size:11.5px;font-weight:700;color:#B26A00;background:#FFF4E5;padding:4px 11px;border-radius:100px;">${esc(why)}</span></p>
+    <h1 style="margin:0 0 4px;font-size:20px;font-weight:800;color:#1D1D1F;">รอยืนยันเงินเข้า ${Number(price).toLocaleString('en-US')} บาท</h1>
+    <p style="margin:0 0 16px;font-size:13.5px;color:#6E6E73;">เช็คยอดในบัญชีแล้วกดยืนยันเพื่อส่ง Redeem Code ให้ลูกค้า</p>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #EFEFEF;border-radius:12px;">
+      ${row('เลขออเดอร์', esc(order.id).slice(0, 8))}
+      ${row('ยอดที่ต้องได้รับ', Number(price).toLocaleString('en-US') + ' บาท')}
+      ${row('แพ็ก', seats + ' สิทธิ์')}
+      ${row('ชื่อผู้สั่งซื้อ', esc(order.name))}
+      ${row('อีเมลลูกค้า', esc(order.email))}
+      ${row('ขอใบกำกับภาษี', order.tax_invoice ? 'ใช่' : 'ไม่')}
+    </table>
+    ${tax}
+    ${slipUrl ? `<p style="margin:16px 0 0;"><a href="${slipUrl}" target="_blank" style="font-size:13.5px;color:#D34724;font-weight:700;">เปิดดูสลิปที่ลูกค้าแนบ</a></p>` : ''}
+    <a href="${link}" target="_blank" style="display:block;text-align:center;background:#16A34A;color:#fff;text-decoration:none;font-size:15.5px;font-weight:800;padding:15px;border-radius:12px;margin-top:18px;">เปิดหน้ายืนยันเงินเข้า</a>
+    <p style="margin:12px 0 0;font-size:12px;color:#9a9aa2;line-height:1.7;">ลิงก์ใช้ได้ครั้งเดียว หมดอายุใน 7 วัน กดแล้วจะมีหน้ายืนยันอีกครั้งก่อนส่งจริง</p>
+  </td></tr>
+</table></td></tr></table></body></html>`
+}
+
+async function queueForReview(supabase: any, order: any, seats: number, price: string, why: string) {
+  const token = crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '').slice(0, 8)
+  await supabase.from('orders').update({
+    status: 'pending_review', review_token: token, review_sent_at: new Date().toISOString(),
+    reject_reason: null,
+  }).eq('id', order.id)
+  let slipUrl: string | null = null
+  try {
+    const { data } = await supabase.storage.from('slips').createSignedUrl(order.slip_url, 7 * 24 * 3600)
+    slipUrl = data?.signedUrl ?? null
+  } catch (_) {}
+  try {
+    await sendEmailViaResend(
+      ADMIN_EMAIL,
+      `รอยืนยันเงินเข้า ${Number(price).toLocaleString('en-US')} บาท ${order.name}`,
+      adminReviewHtml(order, seats, price, `${REVIEW_PAGE}?t=${token}`, slipUrl, why),
+    )
+  } catch (e) { console.error('[verify-slip] admin review mail failed:', e) }
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS })
 
   try {
-    const { order_id, turnstile_token, is_retry } = await req.json()
+    const { order_id, turnstile_token, is_retry, final } = await req.json()
     if (!order_id) return Response.json({ error: 'missing order_id' }, { status: 400, headers: CORS })
 
     // ── 1. Turnstile bot check (soft — Slip2Go คือ security จริง) ────────────
@@ -380,11 +440,10 @@ serve(async (req) => {
     } catch (e) {
       console.error('[verify-slip] Slip2Go fetch/parse error:', e)
       await supabase.from('orders').update({
-        status        : 'rejected',
-        reject_reason : 'invalid_slip',
         verify_detail : { error: 'slip2go_fetch_failed', message: String(e) },
       }).eq('id', order_id)
-      return Response.json({ status: 'rejected', reason: 'invalid_slip' }, { headers: CORS })
+      await queueForReview(supabase, order, seats, packPrice, 'ระบบตรวจสลิปขัดข้อง')
+      return Response.json({ status: 'pending_review' }, { headers: CORS })
     }
 
     const s2gCode      = slip?.code?.toString()
@@ -456,6 +515,10 @@ serve(async (req) => {
 
       // 200404 = slip ยังหาไม่เจอใน BBL/bank system → bbl_pending (real BBL delay)
       if (s2gCode === '200404') {
+        if (final) {                       // รอครบทุกรอบแล้วยังอ่านไม่ได้ ส่งให้แอดมินตรวจมือ
+          await queueForReview(supabase, order, seats, packPrice, 'Slip2Go อ่านสลิปไม่ได้ (ไม่มี QR)')
+          return Response.json({ status: 'pending_review' }, { headers: CORS })
+        }
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
       }
 

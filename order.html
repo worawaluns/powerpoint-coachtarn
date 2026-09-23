@@ -388,6 +388,39 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 @keyframes cardSlideIn{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
 
 /* ── Success section ── */
+
+/* ── ใบกำกับภาษี ── */
+.tax-group{margin:16px 18px 0;border:1px solid rgba(0,0,0,.09);border-radius:16px;overflow:hidden}
+.tax-toggle{display:flex;gap:11px;align-items:flex-start;padding:15px 16px;cursor:pointer;background:#fff}
+.tax-toggle input{position:absolute;opacity:0;pointer-events:none}
+.tax-box{flex:0 0 22px;height:22px;border-radius:7px;border:2px solid #D5D5DB;margin-top:1px;position:relative;transition:.15s}
+.tax-toggle input:checked + .tax-box{background:var(--red);border-color:var(--red)}
+.tax-toggle input:checked + .tax-box::after{content:'';position:absolute;left:6px;top:2px;width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.tax-toggle b{display:block;font-size:14.5px;font-weight:700}
+.tax-sub{display:block;font-size:12.5px;color:var(--text-sub);margin-top:2px;line-height:1.5}
+.tax-fields{display:none;padding:4px 16px 16px;background:#FAFAFB;border-top:1px solid rgba(0,0,0,.07)}
+.tax-fields.on{display:block}
+.tax-2col{display:grid;grid-template-columns:1.3fr 1fr;gap:10px}
+.tax-area{min-height:78px;resize:vertical;font-family:inherit;line-height:1.55;padding-top:11px}
+@media(max-width:420px){.tax-2col{grid-template-columns:1fr}}
+
+/* ── pending review ── */
+#reviewSection{display:none;padding-bottom:8px}
+.rev-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;overflow:hidden;padding:0 20px 22px;position:relative;box-shadow:0 4px 18px rgba(20,20,30,.05)}
+.rev-strip{height:5px;background:linear-gradient(90deg,#F5A623,#EB7D4A);margin:0 -20px 20px}
+.rev-badge{display:inline-block;font-size:11.5px;font-weight:700;color:#B26A00;background:#FFF4E5;padding:5px 12px;border-radius:100px}
+.rev-h{font-size:22px;font-weight:800;line-height:1.35;margin:12px 0 8px}
+.rev-p{font-size:14px;color:var(--text-sub);line-height:1.7}
+.rev-steps{margin:18px 0 16px;border-left:2px solid #EFEFEF;padding-left:18px}
+.rev-step{position:relative;font-size:13.5px;color:var(--text-sub);padding-bottom:13px}
+.rev-step::before{content:'';position:absolute;left:-25px;top:4px;width:10px;height:10px;border-radius:50%;background:#DCDCE2}
+.rev-step.done{color:var(--text);font-weight:600}
+.rev-step.done::before{background:var(--red)}
+.rev-mail{background:var(--bg-soft);border-radius:14px;padding:13px 15px;margin-bottom:12px}
+.rev-mail-l{font-size:12px;color:var(--text-sub)}
+.rev-mail-v{font-size:15px;font-weight:700;margin-top:2px;word-break:break-all}
+.rev-note{font-size:12.5px;color:var(--text-sub);line-height:1.7}
+.rev-btn{display:block;text-align:center;margin-top:14px;border:1.5px solid var(--red);color:var(--red);font-weight:700;font-size:14.5px;padding:12px;border-radius:100px;text-decoration:none}
 #successSection{display:none;padding-bottom:8px}
 /* code list for team packs + tax-invoice card */
 .suc-codes{display:none;margin:10px 0 4px}
@@ -983,6 +1016,28 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
     </div>
   </dialog>
 
+
+  <!-- ── Pending review: สลิปที่ระบบอ่านไม่ได้ รอแอดมินยืนยันเงินเข้า ── -->
+  <div id="reviewSection">
+    <div class="rev-card">
+      <div class="rev-strip"></div>
+      <div class="rev-badge">อยู่ระหว่างตรวจสอบ</div>
+      <h2 class="rev-h">ได้รับสลิปแล้ว<br>ทีมงานกำลังตรวจให้</h2>
+      <p class="rev-p">สลิปจากบัญชีบริษัทบางแห่งไม่มี QR ระบบจึงอ่านอัตโนมัติไม่ได้ ทีมงานจะเทียบกับยอดเงินเข้าบัญชีแล้วส่ง Redeem Code ไปที่อีเมลของคุณ</p>
+      <div class="rev-steps">
+        <div class="rev-step done">รับสลิปแล้ว</div>
+        <div class="rev-step done">ทีมงานกำลังตรวจสอบ</div>
+        <div class="rev-step">ส่ง Redeem Code ทางอีเมล</div>
+      </div>
+      <div class="rev-mail">
+        <div class="rev-mail-l">อีเมลที่จะได้รับ Code</div>
+        <div class="rev-mail-v" id="reviewEmail">-</div>
+      </div>
+      <div class="rev-note">ปกติไม่เกิน 2 ชั่วโมงทำการ (10:00 ถึง 24:00 น.) ถ้าเลยเวลานี้แล้วยังไม่ได้รับ ทักแชทเพจได้เลย</div>
+      <a class="rev-btn" href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener">ทักแชทเพจ</a>
+    </div>
+  </div>
+
   <!-- ── Rejected section (แสดงใน page flow ปกติ มี header อยู่เสมอ) ── -->
   <div id="rejectedSection">
     <div class="rej-card" id="rejCard">
@@ -1264,6 +1319,47 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
         </div>
       </div>
 
+
+      <!-- ใบกำกับภาษี: ถามตั้งแต่ตอนแนบสลิป จะได้ไม่ต้องตามเก็บข้อมูลทีหลัง -->
+      <div class="tax-group">
+        <label class="tax-toggle" for="taxWant">
+          <input type="checkbox" id="taxWant" onchange="toggleTax(this)">
+          <span class="tax-box"></span>
+          <span>
+            <b>ขอใบกำกับภาษี / ใบเสร็จในนามบริษัท</b>
+            <span class="tax-sub">ออกเอกสารและจัดส่งทางไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</span>
+          </span>
+        </label>
+        <div class="tax-fields" id="taxFields">
+          <div class="form-group">
+            <label class="form-label">ชื่อบริษัท / หน่วยงาน <span class="req">*</span></label>
+            <input type="text" class="form-input" id="taxName" placeholder="บริษัท ตัวอย่าง จำกัด" autocomplete="organization">
+          </div>
+          <div class="tax-2col">
+            <div class="form-group">
+              <label class="form-label">เลขประจำตัวผู้เสียภาษี <span class="req">*</span></label>
+              <input type="text" class="form-input" id="taxId" placeholder="13 หลัก" inputmode="numeric" maxlength="17">
+            </div>
+            <div class="form-group">
+              <label class="form-label">สาขา</label>
+              <input type="text" class="form-input" id="taxBranch" placeholder="สำนักงานใหญ่">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">ที่อยู่สำหรับจัดส่งเอกสาร <span class="req">*</span></label>
+            <textarea class="form-input tax-area" id="taxAddress" rows="3" placeholder="เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom:0">
+            <label class="form-label">อีเมลฝ่ายบัญชี <span style="font-weight:400;font-size:13px;color:var(--text-sub)">(ถ้าต่างจากอีเมลด้านบน)</span></label>
+            <input type="email" class="form-input" id="taxEmail" placeholder="account@company.co.th" inputmode="email">
+          </div>
+          <div class="error-msg" id="errTax">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            กรอกชื่อบริษัท เลขผู้เสียภาษี 13 หลัก และที่อยู่ให้ครบ
+          </div>
+        </div>
+      </div>
+
       <!-- Use Case selector -->
       <div class="use-case-group">
         <div class="use-case-heading">คุณใช้งานในด้านไหน</div>
@@ -1453,7 +1549,7 @@ async function handleSubmit() {
   ['inputName','inputEmail','inputEmailConfirm'].forEach(id =>
     document.getElementById(id).classList.remove('error')
   );
-  ['errName','errEmail','errEmailConfirm','errSlip'].forEach(id =>
+  ['errName','errEmail','errEmailConfirm','errSlip','errTax'].forEach(id =>
     document.getElementById(id).classList.remove('show')
   );
 
@@ -1461,6 +1557,7 @@ async function handleSubmit() {
   if (!emailRe.test(email))   { setErr('inputEmail','errEmail');             valid = false; }
   if (email !== emailC)       { setErr('inputEmailConfirm','errEmailConfirm'); valid = false; }
   if (!slip)                  { document.getElementById('errSlip').classList.add('show'); valid = false; }
+  if (!taxValid())            { valid = false; }
   if (!valid) {
     document.querySelector('.error-msg.show')?.scrollIntoView({ behavior:'smooth', block:'center' });
     return;
@@ -1524,6 +1621,7 @@ async function handleSubmit() {
         ref_source: new URLSearchParams(location.search).get('ref') ?? sessionStorage.getItem('ct_ref') ?? 'direct',
         use_case  : selectedUseCase,
         pack      : PACK,
+        ...taxPayload(),
         manychat_subscriber_id: manychatSubscriberId,
       }),
     });
@@ -1551,6 +1649,12 @@ async function handleSubmit() {
     // ── BBL delay: สลิปยังไม่พบ รอแล้ว retry ────────────────────────────
     if (result.status === 'bbl_pending') {
       await startBBLWait(orderId, email);
+      return;
+    }
+    if (result.status === 'pending_review') {
+      await new Promise(r => setTimeout(r, 400));
+      document.getElementById('loadingOverlay').classList.remove('show');
+      showPendingReview(email);
       return;
     }
 
@@ -1633,7 +1737,7 @@ async function startBBLWait(orderId, email) {
         const res = await fetch(`${SUPA_URL}/functions/v1/verify-slip`, {
           method : 'POST',
           headers: { 'Authorization': `Bearer ${SUPA_ANON_KEY}`, 'Content-Type': 'application/json' },
-          body   : JSON.stringify({ order_id: orderId, is_retry: true }),
+          body   : JSON.stringify({ order_id: orderId, is_retry: true, final: i === RETRY_AT.length - 1 }),
         });
         result = await res.json();
       } catch (_) { continue; }
@@ -1644,6 +1748,10 @@ async function startBBLWait(orderId, email) {
         await new Promise(r => setTimeout(r, 400));
         hideBBL(); showSuccess(email, result.code, result.codes); return;
       }
+      if (result.status === 'pending_review') {
+        finished = true; clearInterval(ticker);
+        hideBBL(); showPendingReview(email); return;
+      }
       if (result.status !== 'bbl_pending') {
         // รอบสุดท้าย defer=false → reject ของจริง (DB อัพเดตแล้ว)
         finished = true; clearInterval(ticker);
@@ -1651,9 +1759,9 @@ async function startBBLWait(orderId, email) {
       }
       // bbl_pending — ลูปต่อจนครบ
     }
-    // ครบ 4 รอบ ทุกรอบยัง bbl_pending (เช่น 200404 slip not found)
+    // ครบ 4 รอบแล้วยังอ่านสลิปไม่ได้ ตอนนี้ verify-slip จะส่งเข้าคิวตรวจมือให้เอง
     finished = true; clearInterval(ticker);
-    hideBBL(); showRejected({ reason: 'invalid_slip' });
+    hideBBL(); showPendingReview(email);
 
   } catch (err) {
     finished = true; clearInterval(ticker);
@@ -1767,6 +1875,33 @@ function hideRejected() {
 
 // ── Success section ────────────────────────────────────────────────────────────
 let successCode = '';
+
+
+function toggleTax(cb){ document.getElementById('taxFields').classList.toggle('on', cb.checked); if (!cb.checked) document.getElementById('errTax').classList.remove('show'); }
+function taxPayload(){
+  if (!document.getElementById('taxWant').checked) return { tax_invoice: false };
+  const v = id => (document.getElementById(id).value || '').trim();
+  return { tax_invoice: true, tax_name: v('taxName'), tax_id: v('taxId').replace(/\D/g,''),
+           tax_branch: v('taxBranch') || 'สำนักงานใหญ่', tax_address: v('taxAddress'), tax_email: v('taxEmail') || null };
+}
+function taxValid(){
+  const cb = document.getElementById('taxWant');
+  if (!cb.checked) return true;
+  const p = taxPayload();
+  const ok = p.tax_name.length > 1 && p.tax_id.length === 13 && p.tax_address.length > 9;
+  document.getElementById('errTax').classList.toggle('show', !ok);
+  return ok;
+}
+
+
+function showPendingReview(email){
+  document.getElementById('reviewEmail').textContent = email;
+  document.getElementById('mainContent').style.display = 'none';
+  document.getElementById('successSection').style.display = 'none';
+  document.getElementById('rejectedSection').style.display = 'none';
+  document.getElementById('reviewSection').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function showSuccess(email, code, codes) {
   // team packs: show every seat's code on screen, not just the first one
