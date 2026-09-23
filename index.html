@@ -2616,60 +2616,146 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- ⑥b REELS -->
-<section class="section reels-section">
-  <div class="reels-head reveal">
-    <p class="reels-eyebrow">เข้าใจปัญหาของคุณ</p>
-    <h2 class="reels-h2">เคยรู้สึก<br><span>แบบนี้บ้างไหม</span></h2>
+<!-- ⑩ REVIEWS -->
+<section class="section reviews-section" id="reviews">
+  <div class="reviews-head reveal">
+    <div class="section-pill">รีวิวจากผู้ใช้จริง</div>
+    <h2 class="section-h2">ลูกค้าพูดถึง<br>Coach Tarn ว่าไง</h2>
   </div>
-  <div class="reels-scroll-wrap">
-    <div class="reels-grid">
-      <div class="reel-thumb" data-reel="0">
-        <img src="img/poster-01.jpg" alt="Reel 1" loading="eager">
-        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      </div>
-      <div class="reel-thumb" data-reel="1">
-        <img src="img/poster-02.jpg" alt="Reel 2" loading="eager">
-        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      </div>
-      <div class="reel-thumb" data-reel="2">
-        <img src="img/poster-03.jpg" alt="Reel 3" loading="eager">
-        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      </div>
-      <div class="reel-thumb" data-reel="3">
-        <img src="img/poster-04.jpg" alt="Reel 4" loading="eager">
-        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      </div>
+  <div class="reviews-rating-bar reveal">
+    <div class="reviews-stars">
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
     </div>
-  </div><!-- /reels-scroll-wrap -->
-</section>
-
-<!-- Reels Modal -->
-<div class="reel-modal" id="reelModal" role="dialog" aria-modal="true">
-  <div class="reel-modal-card">
-    <button class="reel-modal-close" id="reelClose" aria-label="ปิด">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <button class="reel-modal-prev" id="reelPrev" aria-label="ก่อนหน้า">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
-    </button>
-    <button class="reel-modal-next" id="reelNext" aria-label="ถัดไป">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,6 15,12 9,18"/></svg>
-    </button>
-    <video id="reelVideo" playsinline controls preload="none"></video>
+    <span class="reviews-rating-text">รีวิวจากลูกค้าจริงทาง Messenger</span>
   </div>
-</div>
 
-<!-- Preload pool (hidden) -->
-<div class="reel-preload" aria-hidden="true">
-  <video id="rv0" src="videos/reel-pain-01.mp4" preload="auto" playsinline></video>
-  <video id="rv1" src="videos/reel-pain-02.mp4" preload="auto" playsinline></video>
-  <video id="rv2" src="videos/reel-pain-03.mp4" preload="auto" playsinline></video>
-  <video id="rv3" src="videos/reel-pain-04.mp4" preload="auto" playsinline></video>
-</div>
+  <!-- peek carousel -->
+  <div class="rv-outer" id="rvOuter">
+    <div class="rv-track" id="rvTrack">
 
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว Sucheera">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ส</div>
+          <div class="rv-info">
+            <div class="rv-name">Sucheera S.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว ชอ">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ช</div>
+          <div class="rv-info">
+            <div class="rv-name">ชอ ศ.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว Arm">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">A</div>
+          <div class="rv-info">
+            <div class="rv-name">Arm S.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว Ornkanya">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">O</div>
+          <div class="rv-info">
+            <div class="rv-name">Ornkanya N.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-05.png" alt="รีวิว Wutti">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">W</div>
+          <div class="rv-info">
+            <div class="rv-name">Wutti R.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-06.png" alt="รีวิว ณกร">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ณ</div>
+          <div class="rv-info">
+            <div class="rv-name">ณกร ไ.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-07.png" alt="รีวิว Puiipuii">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">P</div>
+          <div class="rv-info">
+            <div class="rv-name">Puiipuii J.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-08.png" alt="รีวิว ITuit">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">I</div>
+          <div class="rv-info">
+            <div class="rv-name">ITuit T.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-09.png" alt="รีวิว Nantaporn">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">N</div>
+          <div class="rv-info">
+            <div class="rv-name">Nantaporn P.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-10.png" alt="รีวิว Nattawut">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">N</div>
+          <div class="rv-info">
+            <div class="rv-name">Nattawut W.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /rv-track -->
+  </div><!-- /rv-outer -->
+
+  <!-- dots -->
+  <div class="rv-dots" id="rvDots"></div>
+
+</section>
 <!-- ⑤ SOCIAL PROOF -->
-<div class="social-bar reveal">
+<div class="social-bar reveal" style="display:none">
   <div class="avatars">
     <div class="av av1">ก</div><div class="av av2">ส</div>
     <div class="av av3">ป</div><div class="av av4">น</div>
@@ -2972,7 +3058,7 @@ async function setFile(slug){
 </div>
 
 <!-- ⑪ WHO IS THIS FOR — TABS -->
-<section class="section for-section" id="for">
+<section class="section for-section" id="for" style="display:none">
   <!-- Tab buttons -->
   <div class="tab-btns" id="forTabs" role="tablist">
     <button class="tab-btn active" onclick="switchTab('office',this)" role="tab">งานออฟฟิศ</button>
@@ -3190,144 +3276,58 @@ async function setFile(slug){
 </div><!-- /feat-items-wrap -->
 </section>
 
-<!-- ⑩ REVIEWS -->
-<section class="section reviews-section" id="reviews">
-  <div class="reviews-head reveal">
-    <div class="section-pill">รีวิวจากผู้ใช้จริง</div>
-    <h2 class="section-h2">ลูกค้าพูดถึง<br>Coach Tarn ว่าไง</h2>
+<!-- ⑥b REELS -->
+<section class="section reels-section">
+  <div class="reels-head reveal">
+    <p class="reels-eyebrow">เข้าใจปัญหาของคุณ</p>
+    <h2 class="reels-h2">เคยรู้สึก<br><span>แบบนี้บ้างไหม</span></h2>
   </div>
-  <div class="reviews-rating-bar reveal">
-    <div class="reviews-stars">
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+  <div class="reels-scroll-wrap">
+    <div class="reels-grid">
+      <div class="reel-thumb" data-reel="0">
+        <img src="img/poster-01.jpg" alt="Reel 1" loading="eager">
+        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="reel-thumb" data-reel="1">
+        <img src="img/poster-02.jpg" alt="Reel 2" loading="eager">
+        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="reel-thumb" data-reel="2">
+        <img src="img/poster-03.jpg" alt="Reel 3" loading="eager">
+        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
+      <div class="reel-thumb" data-reel="3">
+        <img src="img/poster-04.jpg" alt="Reel 4" loading="eager">
+        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+      </div>
     </div>
-    <span class="reviews-rating-text">รีวิวจากลูกค้าจริงทาง Messenger</span>
-  </div>
-
-  <!-- peek carousel -->
-  <div class="rv-outer" id="rvOuter">
-    <div class="rv-track" id="rvTrack">
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว Sucheera">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">ส</div>
-          <div class="rv-info">
-            <div class="rv-name">Sucheera S.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว ชอ">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">ช</div>
-          <div class="rv-info">
-            <div class="rv-name">ชอ ศ.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว Arm">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">A</div>
-          <div class="rv-info">
-            <div class="rv-name">Arm S.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว Ornkanya">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">O</div>
-          <div class="rv-info">
-            <div class="rv-name">Ornkanya N.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-05.png" alt="รีวิว Wutti">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">W</div>
-          <div class="rv-info">
-            <div class="rv-name">Wutti R.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-06.png" alt="รีวิว ณกร">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">ณ</div>
-          <div class="rv-info">
-            <div class="rv-name">ณกร ไ.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-07.png" alt="รีวิว Puiipuii">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">P</div>
-          <div class="rv-info">
-            <div class="rv-name">Puiipuii J.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-08.png" alt="รีวิว ITuit">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">I</div>
-          <div class="rv-info">
-            <div class="rv-name">ITuit T.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-09.png" alt="รีวิว Nantaporn">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">N</div>
-          <div class="rv-info">
-            <div class="rv-name">Nantaporn P.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-10.png" alt="รีวิว Nattawut">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">N</div>
-          <div class="rv-info">
-            <div class="rv-name">Nattawut W.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /rv-track -->
-  </div><!-- /rv-outer -->
-
-  <!-- dots -->
-  <div class="rv-dots" id="rvDots"></div>
-
+  </div><!-- /reels-scroll-wrap -->
 </section>
+
+<!-- Reels Modal -->
+<div class="reel-modal" id="reelModal" role="dialog" aria-modal="true">
+  <div class="reel-modal-card">
+    <button class="reel-modal-close" id="reelClose" aria-label="ปิด">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <button class="reel-modal-prev" id="reelPrev" aria-label="ก่อนหน้า">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
+    </button>
+    <button class="reel-modal-next" id="reelNext" aria-label="ถัดไป">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,6 15,12 9,18"/></svg>
+    </button>
+    <video id="reelVideo" playsinline controls preload="none"></video>
+  </div>
+</div>
+
+<!-- Preload pool (hidden) -->
+<div class="reel-preload" aria-hidden="true">
+  <video id="rv0" src="videos/reel-pain-01.mp4" preload="auto" playsinline></video>
+  <video id="rv1" src="videos/reel-pain-02.mp4" preload="auto" playsinline></video>
+  <video id="rv2" src="videos/reel-pain-03.mp4" preload="auto" playsinline></video>
+  <video id="rv3" src="videos/reel-pain-04.mp4" preload="auto" playsinline></video>
+</div>
+
 
 <!-- ⑧ EMAIL FLOW SECTION (merged with how-it-works) -->
 <section class="flow-section" id="how">
