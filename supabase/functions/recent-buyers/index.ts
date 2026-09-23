@@ -112,7 +112,7 @@ serve(async (req) => {
   const { data: first } = await supabase
     .from('site_views').select('day').order('day', { ascending: true }).limit(1)
 
-  const [d1, d7] = await Promise.all([orders(1), orders(7)])
+  const [d1, d30] = await Promise.all([orders(1), orders(30)])
 
-  return Response.json({ d1, d7, v1, v7, since: first?.[0]?.day ?? null }, { headers: CORS })
+  return Response.json({ d1, d30, v1, v7, since: first?.[0]?.day ?? null }, { headers: CORS })
 })
