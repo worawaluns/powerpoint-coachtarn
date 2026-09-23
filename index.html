@@ -2460,16 +2460,21 @@ body{
 .buyer-toast.on{opacity:1;transform:translateY(0);pointer-events:auto}
 .buyer-toast.up{bottom:88px}
 .bt-ava{
-  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;
-  font-size:17px;font-weight:800;color:#fff;letter-spacing:0;
-  background:linear-gradient(135deg,#EB7D4A,#D34724);
+  background:linear-gradient(135deg,#FFF1E9,#FFE2D3);
 }
+.bt-pulse{width:10px;height:10px;border-radius:50%;background:#17915A;position:relative}
+.bt-pulse::after{
+  content:'';position:absolute;inset:-6px;border-radius:50%;
+  border:2px solid rgba(23,145,90,.35);animation:btPulse 1.9s ease-out infinite;
+}
+@keyframes btPulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.25);opacity:0}}
 .bt-txt{flex:1;min-width:0}
 .bt-txt b{display:block;font-size:13.5px;font-weight:700;line-height:1.45;color:#1D1D1F}
 .bt-txt span{display:block;font-size:11.5px;color:#8A8A92;line-height:1.5;margin-top:1px;
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bt-ok{display:inline-flex;align-items:center;gap:3px;color:#17915A;font-size:11.5px;font-weight:700;flex-shrink:0}
+.bt-ok{display:inline-flex;align-items:center;gap:3px;color:#17915A;font-size:11.5px;font-weight:700;flex-shrink:0;white-space:nowrap}
 .bt-x{
   position:absolute;top:6px;right:8px;border:none;background:none;cursor:pointer;
   font-size:16px;line-height:1;color:#C3C3C9;padding:4px;font-family:inherit;
@@ -2482,6 +2487,7 @@ body{
 @media(prefers-reduced-motion:reduce){
   .buyer-toast{transition:opacity .2s linear}
   .buyer-toast.on{transform:none}
+  .bt-pulse::after{animation:none}
 }
 
 /* ══════════════════════════════════════
@@ -4420,33 +4426,34 @@ function closeDrawer() {
 })();
 </script>
 <script>
-/* Live buyer toast: latest verified orders, masked server-side for PDPA. */
+/* Live activity counter: recent verified orders and recent visits. Counts only, no names. */
 (function(){
-  if (matchMedia('(pointer:coarse)').matches && innerHeight < 500) return;   // tiny landscape phones
-  try { if (sessionStorage.getItem('ct_bt_off')) return; } catch(e){}
-  try { if (JSON.parse(localStorage.getItem('ct_lib')||'null')?.code) return; } catch(e){}   // members already bought
-
   const FN  = 'https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers';
   const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
 
-  const ago = iso => {
-    const m = Math.floor((Date.now() - new Date(iso)) / 60000);
-    if (m < 60)   return `${Math.max(m,1)} นาทีที่แล้ว`;
-    const h = Math.floor(m / 60); if (h < 24) return `${h} ชั่วโมงที่แล้ว`;
-    const d = Math.floor(h / 24); if (d === 1) return 'เมื่อวาน';
-    if (d < 30)  return `${d} วันที่แล้ว`;
-    return `${Math.floor(d / 30)} เดือนที่แล้ว`;
-  };
+  // count this tab-session once; the server stores a bare timestamp, nothing about who
+  let fresh = false;
+  try { fresh = !sessionStorage.getItem('ct_hit'); sessionStorage.setItem('ct_hit', '1'); } catch(e){}
+
+  const data = fetch(FN, {
+    method : 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${KEY}` },
+    body   : JSON.stringify({ hit: fresh }),
+  }).then(r => r.json()).catch(() => null);
+
+  // ── the toast itself ──
+  if (matchMedia('(pointer:coarse)').matches && innerHeight < 500) return;   // tiny landscape phones
+  try { if (sessionStorage.getItem('ct_bt_off')) return; } catch(e){}
+  try { if (JSON.parse(localStorage.getItem('ct_lib')||'null')?.code) return; } catch(e){}   // members already bought
 
   const el = document.createElement('div');
   el.className = 'buyer-toast';
   el.setAttribute('role', 'status');
   el.setAttribute('aria-live', 'polite');
-  el.innerHTML = `<div class="bt-ava"></div>
+  el.innerHTML = `<div class="bt-ava"><span class="bt-pulse"></span></div>
     <div class="bt-txt"><b></b><span></span></div>
-    <span class="bt-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ยืนยันแล้ว</span>
+    <span class="bt-ok"></span>
     <button class="bt-x" aria-label="ปิด">&times;</button>`;
-  el.style.position = 'fixed';
   document.body.appendChild(el);
 
   let stop = false;
@@ -4460,24 +4467,28 @@ function closeDrawer() {
   addEventListener('scroll', () => el.classList.contains('on') && lift(), { passive: true });
 
   const wait = ms => new Promise(r => setTimeout(r, ms));
+  const TICK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ยืนยันแล้ว';
+  const num  = n => n.toLocaleString('en-US');
 
   (async function run(){
-    let buyers = [];
-    try {
-      const r = await fetch(FN, {
-        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${KEY}` },
-      });
-      buyers = (await r.json()).buyers || [];
-    } catch(e) { return; }
-    if (!buyers.length) return;
+    const d = await data;
+    if (!d) return;
+
+    // a quiet day would read "0 ออเดอร์", so only keep the windows that have something to show
+    const lines = [
+      d.d1 > 0 && { t: `มี ${num(d.d1)} ออเดอร์ใหม่`,          s: 'ใน 24 ชั่วโมงที่ผ่านมา', ok: TICK },
+      d.v1 > 0 && { t: `มีคนเข้ามาดู ${num(d.v1)} ครั้ง`,      s: 'ใน 24 ชั่วโมงที่ผ่านมา', ok: 'กำลังสนใจ' },
+      d.d7 > 0 && { t: `มี ${num(d.d7)} ออเดอร์`,              s: 'ใน 7 วันที่ผ่านมา',     ok: TICK },
+      d.v7 > 0 && { t: `มีคนเข้ามาดู ${num(d.v7)} ครั้ง`,      s: 'ใน 7 วันที่ผ่านมา',     ok: 'กำลังสนใจ' },
+    ].filter(Boolean);
+    if (!lines.length) return;
 
     await wait(9000);
-    for (const b of buyers.slice(0, 6)) {
-      if (stop) return;
-      el.querySelector('.bt-ava').textContent = b.n;
-      el.querySelector('.bt-txt b').textContent =
-        b.pack > 1 ? `คุณ ${b.n}.... สั่งซื้อแพ็ก ${b.pack} สิทธิ์` : `คุณ ${b.n}.... สั่งซื้อเทมเพลตแล้ว`;
-      el.querySelector('.bt-txt span').textContent = `${b.e} · ${ago(b.at)}`;
+    for (let i = 0; i < 6 && !stop; i++) {
+      const l = lines[i % lines.length];
+      el.querySelector('.bt-txt b').textContent = l.t;
+      el.querySelector('.bt-txt span').textContent = l.s;
+      el.querySelector('.bt-ok').innerHTML = l.ok;
       lift();
       el.classList.add('on');
       await wait(6500);

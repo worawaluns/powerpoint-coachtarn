@@ -1,5 +1,5 @@
-// Social proof for the landing page: the latest real purchases, masked for PDPA.
-// Raw names and emails never leave this function.
+// Social proof for the landing page: recent orders and recent visits.
+// Counts only. No name, no email, no visitor id, nothing that points at a person.
 
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
@@ -9,24 +9,11 @@ const CORS = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-// "ชลิตา วงศ์…" → "ช" ／ "Somchai" → "S"
-function maskName(name: string): string {
-  const first = [...String(name ?? '').trim()].find(c => /\S/.test(c)) ?? ''
-  return first
-}
-
-// "aommy@gmail.com" → "a....@gmail.com"
-function maskEmail(email: string): string {
-  const [user, domain] = String(email ?? '').split('@')
-  if (!domain) return ''
-  return `${[...(user ?? '')][0] ?? ''}....@${domain}`
-}
-
-// our own test orders must never show up as social proof
-const SKIP = new Set([
+// our own test orders must never count as sales
+const SKIP = [
   Deno.env.get('ADMIN_EMAIL'), Deno.env.get('OWNER_EMAIL'), Deno.env.get('GMAIL_USER'),
   'powerpoint.officialth@gmail.com',
-].filter(Boolean).map(e => String(e).toLowerCase()))
+].filter(Boolean).map(e => String(e).toLowerCase())
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS })
@@ -36,25 +23,40 @@ serve(async (req) => {
     Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
   )
 
-  const { data, error } = await supabase
-    .from('orders')
-    .select('name, email, pack, created_at')
-    .eq('status', 'verified')
-    .order('created_at', { ascending: false })
-    .limit(20)
+  const since = (days: number) =>
+    new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString()
 
-  if (error) return Response.json({ buyers: [] }, { headers: CORS })
+  const count = async (days: number) => {
+    let q = supabase
+      .from('orders')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'verified')
+      .gte('created_at', since(days))
+    for (const e of SKIP) q = q.neq('email', e)
+    const { count, error } = await q
+    return error ? 0 : (count ?? 0)
+  }
 
-  const buyers = (data ?? [])
-    .filter(o => !SKIP.has(String(o.email ?? '').toLowerCase()))
-    .map(o => ({
-    n   : maskName(o.name),
-    e   : maskEmail(o.email),
-    pack: Number(o.pack) || 1,
-    at  : o.created_at,
-    })).filter(b => b.n && b.e)
+  // one visit per browser tab-session; the client decides when to send it
+  let hit = false
+  try { hit = (await req.json())?.hit === true } catch (_) {}
+  if (hit && /(^|\.)coachtarnslide\.com$|^localhost$/.test(
+        (() => { try { return new URL(req.headers.get('origin') ?? '').hostname } catch { return '' } })())) {
+    await supabase.from('site_hits').insert({})
+    if (Math.random() < 0.01) {                       // occasional trim, the table only needs 8 days
+      await supabase.from('site_hits').delete().lt('created_at', since(8))
+    }
+  }
 
-  return Response.json({ buyers }, {
-    headers: { ...CORS, 'Cache-Control': 'public, max-age=180' },
-  })
+  const visits = async (days: number) => {
+    const { count, error } = await supabase
+      .from('site_hits')
+      .select('id', { count: 'exact', head: true })
+      .gte('created_at', since(days))
+    return error ? 0 : (count ?? 0)
+  }
+
+  const [d1, d7, v1, v7] = await Promise.all([count(1), count(7), visits(1), visits(7)])
+
+  return Response.json({ d1, d7, v1, v7 }, { headers: CORS })
 })
