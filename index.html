@@ -2555,12 +2555,15 @@ body{
 .rc-stage{border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 10px 30px rgba(20,20,30,.10);background:#fff}
 .rc-stage img{width:100%;display:block;transition:filter .55s var(--ease)}
 .rc-cursor{
-  position:absolute;left:0;top:0;width:19px;height:19px;pointer-events:none;
-  transition:transform .55s cubic-bezier(.5,0,.2,1);filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));
+  position:absolute;left:0;top:0;width:19px;height:19px;pointer-events:none;opacity:0;
+  transition:transform .55s cubic-bezier(.5,0,.2,1),opacity .3s linear;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));
 }
-.rc-cursor svg{width:100%;height:100%;display:block}
-.rc-cursor.tap{animation:rcTap .4s ease}
-@keyframes rcTap{40%{transform:scale(.72)}100%{transform:scale(1)}}
+.rc-cursor.ready{opacity:1}
+.rc-cursor svg{width:100%;height:100%;display:block;transform-origin:2px 2px}
+/* the press scales the arrow only: putting it on .rc-cursor would wipe out its translate */
+.rc-cursor.tap svg{animation:rcTap .42s ease}
+@keyframes rcTap{45%{transform:scale(.7)}100%{transform:scale(1)}}
 .rc-note{margin-top:10px;font-size:12.5px;color:var(--text-sub);text-align:center}
 @media(prefers-reduced-motion:reduce){.rc-stage img{transition:none}}
 
@@ -4181,16 +4184,20 @@ async function setFile(slug){
   var cur = document.querySelector('.rc-cursor');
   if (!sws.length || !img) return;
   var i = 0, timer;
+  // the panel starts hidden, so offsetLeft is 0 until it is actually on screen
+  function place(tap){
+    if (!cur) return;
+    cur.style.transform = 'translate(' + (sws[i].offsetLeft + 15) + 'px,' + (sws[i].offsetTop + 15) + 'px)';
+    cur.classList.add('ready');
+    if (tap){ cur.classList.remove('tap'); void cur.offsetWidth; cur.classList.add('tap'); }
+  }
   function pick(n){
     i = (n + sws.length) % sws.length;
     sws.forEach(function(s, k){ s.classList.toggle('on', k === i); });
     img.style.filter = sws[i].dataset.f;
-    if (cur){                                    // the pointer walks over and taps, so nobody has to
-      cur.style.transform = 'translate(' + (sws[i].offsetLeft + 15) + 'px,' + (sws[i].offsetTop + 15) + 'px)';
-      cur.classList.remove('tap'); void cur.offsetWidth; cur.classList.add('tap');
-    }
+    place(true);                                 // the pointer walks over and taps, so nobody has to
   }
-  function play(){ clearInterval(timer); timer = setInterval(function(){ pick(i + 1); }, 2000); }
+  function play(){ place(false); clearInterval(timer); timer = setInterval(function(){ pick(i + 1); }, 2000); }
   sws.forEach(function(s, k){
     s.addEventListener('mouseenter', function(){ pick(k); play(); });
     s.addEventListener('click',      function(){ pick(k); play(); });
