@@ -4414,23 +4414,39 @@ function closeDrawer() {
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const num  = n => n.toLocaleString('en-US');
 
-  (async function run(){
-    const d = await data;
-    if (!d) return;
+  // numbers from the last visit show instantly; the fresh ones swap in when they land
+  const build = d => {
     // TEMPORARY for Ice's mobile review: pad the order counts. Delete this line to go back to real numbers.
-    d.d1 += 10; d.d7 += 10;
-
+    d = { ...d, d1: d.d1 + 10, d7: d.d7 + 10 };
     // a quiet window would read "0 ออเดอร์", so only keep the rounds that have something to show
-    const rounds = [
+    return [
       [ d.d1 > 0 && `${BAG}มี <b>${num(d.d1)}</b> ออเดอร์ใน 24 ชั่วโมง`,
         d.v1 > 0 && `${EYE}<b>${num(d.v1)}</b> คนเข้ามาดูวันนี้` ],
       [ d.d7 > 0 && `${BAG}มี <b>${num(d.d7)}</b> ออเดอร์ใน 7 วัน`,
         d.v7 > 0 && `${EYE}<b>${num(d.v7)}</b> คนเข้ามาดูใน 7 วัน` ],
     ].map(r => r.filter(Boolean)).filter(r => r.length);
-    if (!rounds.length) return;
+  };
 
-    await wait(9000);
+  let rounds = null;
+  try { const c = JSON.parse(localStorage.getItem('ct_cnt') || 'null'); if (c) rounds = build(c); } catch(e){}
+
+  data.then(fresh => {
+    if (!fresh) return;
+    try { localStorage.setItem('ct_cnt', JSON.stringify(fresh)); } catch(e){}
+    rounds = build(fresh);
+  });
+
+  (async function run(){
+    if (!rounds) {
+      const fresh = await data;
+      if (!fresh) return;
+      rounds = build(fresh);
+    } else {
+      await wait(500);           // let the page paint before the cached numbers slide in
+    }
+
     for (let i = 0; i < 6; i++) {
+      if (!rounds.length) return;
       const r = rounds[i % rounds.length];
       p1.innerHTML = r[0] || '';  p1.style.display = r[0] ? '' : 'none';
       p2.innerHTML = r[1] || '';  p2.style.display = r[1] ? '' : 'none';
