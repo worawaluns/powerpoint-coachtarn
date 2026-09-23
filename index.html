@@ -2536,6 +2536,27 @@ body{
   .ft-panel.on{animation:none}
 }
 
+/* feature 03: recolour a real slide the way a theme swatch does in PowerPoint */
+.rc-demo{max-width:620px;margin:0 auto}
+.rc-bar{
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;
+  padding:9px 13px;margin-bottom:12px;box-shadow:0 3px 12px rgba(20,20,30,.05);
+}
+.rc-lbl{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--text-mid);margin-right:4px}
+.rc-lbl svg{width:15px;height:15px}
+.rc-sw{
+  width:26px;height:26px;border-radius:8px;cursor:pointer;padding:0;
+  border:2px solid transparent;background:hsl(var(--sh) 72% 52%);
+  box-shadow:0 0 0 1px rgba(0,0,0,.08) inset;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease);
+}
+.rc-sw.on{transform:scale(1.12);box-shadow:0 0 0 2px #fff inset,0 0 0 2px rgba(20,20,30,.3)}
+.rc-stage{border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 10px 30px rgba(20,20,30,.10);background:#fff}
+.rc-stage img{width:100%;display:block;transition:filter .55s var(--ease)}
+.rc-note{margin-top:10px;font-size:12.5px;color:var(--text-sub);text-align:center}
+@media(prefers-reduced-motion:reduce){.rc-stage img{transition:none}}
+
 /* ══════════════════════════════════════
    FINAL CTA (dark card + slide fan)
 ══════════════════════════════════════ */
@@ -2638,18 +2659,31 @@ fbq('track','PageView');
 <!-- End Meta Pixel -->
 <style>
 /* ── preview-only sections ── */
-.pv-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:6px 20px 4px;max-width:var(--max);margin:0 auto}
-.pv-fact{background:linear-gradient(180deg,#FFF4EE,#FFFAF7);border:1px solid rgba(211,71,36,.16);border-radius:14px;padding:12px 14px;text-align:center;box-shadow:0 2px 10px rgba(211,71,36,.06)}
-.pv-fact b{display:block;font-size:18px;font-weight:800;color:var(--red);line-height:1.25;margin-bottom:2px}
-.pv-fact span{font-size:12.5px;color:#8A6A5E;text-wrap:balance}
+.pv-facts{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0;
+  padding:0;max-width:var(--max);margin:10px auto 0;
+  background:linear-gradient(105deg,#EB7D4A,#D34724);
+}
+.pv-fact{background:none;border:none;border-radius:0;box-shadow:none;padding:14px 12px;text-align:center}
+.pv-fact:nth-child(odd){border-right:1px solid rgba(255,255,255,.22)}
+.pv-fact:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.22)}
+.pv-fact b{display:block;font-size:18px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:2px}
+.pv-fact span{font-size:12.5px;color:rgba(255,255,255,.88);text-wrap:balance}
 .pv-out-section{padding-top:8px}
 .pv-outs{display:grid;gap:12px;margin-top:16px}
 .pv-out{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:16px 18px;box-shadow:0 3px 14px rgba(20,20,30,.05)}
-.pv-out p{font-size:14px;line-height:1.55;color:var(--text-mid);margin:2px 0 10px}
-.pv-out p b{color:var(--text-dark)}
-.pv-out-b,.pv-out-a{display:inline-block;font-size:11.5px;font-weight:800;border-radius:100px;padding:3px 11px;margin-bottom:4px}
-.pv-out-b{background:#f1f1f3;color:#8a8a92}
-.pv-out-a{background:rgba(86,192,160,.16);color:#1f8f74}
+.po-ic{
+  width:40px;height:40px;border-radius:12px;margin-bottom:10px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#FFF1E9,#FFE0CF);color:var(--red);
+}
+.po-ic svg{width:21px;height:21px}
+.pv-out h3{font-size:15.5px;font-weight:800;line-height:1.4;color:var(--text);margin-bottom:9px}
+.po-pair{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+.po-b,.po-a{font-size:11.5px;font-weight:700;border-radius:100px;padding:4px 11px;white-space:nowrap}
+.po-b{background:#F1F1F3;color:#9A9AA2;text-decoration:line-through}
+.po-a{background:rgba(86,192,160,.16);color:#1f8f74}
+.pv-out p{font-size:13px;line-height:1.65;color:var(--text-mid);margin:0}
 .pv-rv-stats{display:grid;gap:14px;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:18px;padding:18px;margin:0 20px 18px;box-shadow:0 3px 14px rgba(20,20,30,.05)}
 .pv-rv-score{text-align:center}
 .pv-rv-score b{display:block;font-size:44px;font-weight:800;line-height:1;color:var(--text-dark)}
@@ -2693,8 +2727,11 @@ fbq('track','PageView');
 @media(min-width:1024px){
   .pv-anchor{top:80px}
   .pv-anchor-in{max-width:1280px;padding:10px 64px}
-  .pv-facts{max-width:1280px;padding:4px 64px 6px;gap:14px}
-  .pv-fact{padding:16px 14px}
+  .pv-facts{max-width:100%;padding:0;gap:0;margin-top:14px}
+  .pv-fact:nth-child(odd){border-right:none}
+  .pv-fact:nth-child(-n+2){border-bottom:none}
+  .pv-fact:not(:last-child){border-right:1px solid rgba(255,255,255,.22)}
+  .pv-fact{padding:20px 14px}
   .pv-fact b{font-size:22px}
   .pv-out-section{max-width:1280px;margin:0 auto;padding:60px 64px 40px}
   .pv-outs{gap:18px;margin-top:22px}
@@ -3106,12 +3143,24 @@ async function setFile(slug){
     <h2 class="section-h2">เปลี่ยนงานพรีเซนต์<br>ของคุณตั้งแต่วันแรก</h2>
   </div>
   <div class="pv-outs">
-    <div class="pv-out reveal"><div class="pv-out-b">ก่อน</div><p>เปิด PowerPoint เปล่า นั่งจัดหน้าเอง 2-3 ชั่วโมงต่อหนึ่งงาน</p>
-      <div class="pv-out-a">หลัง</div><p><b>เลือกชุดที่ตรงงาน แก้ตัวเลข แล้วพรีเซนต์ได้ใน 10 นาที</b></p></div>
-    <div class="pv-out reveal"><div class="pv-out-b">ก่อน</div><p>กราฟทำเองเบี้ยว สีไม่เข้ากัน ตัวเลขอัปเดตทีต้องทำใหม่ทั้งแผ่น</p>
-      <div class="pv-out-a">หลัง</div><p><b>กราฟทุกตัวผูกกับ Excel แก้ตัวเลขครั้งเดียว อัปเดตให้ทุกแผ่น</b></p></div>
-    <div class="pv-out reveal"><div class="pv-out-b">ก่อน</div><p>โหลดเทมเพลตฟรีมาแล้วฟอนต์ไทยเพี้ยน ใช้จริงไม่ได้สักอัน</p>
-      <div class="pv-out-a">หลัง</div><p><b>ทุกชุดทำด้วยฟอนต์ไทยจริง เปิดเครื่องไหนก็ไม่เพี้ยน</b></p></div>
+    <div class="pv-out reveal">
+      <div class="po-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg></div>
+      <h3>ทำสไลด์เสร็จใน 10 นาที</h3>
+      <div class="po-pair"><span class="po-b">2-3 ชั่วโมง</span><span class="po-a">10 นาที</span></div>
+      <p>เลือกชุดที่ตรงงาน แก้ตัวเลข แล้วพรีเซนต์ได้เลย ไม่ต้องเริ่มจากหน้าเปล่า</p>
+    </div>
+    <div class="pv-out reveal">
+      <div class="po-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><rect x="5" y="11" width="3.4" height="7" rx="1"/><rect x="10.3" y="6" width="3.4" height="12" rx="1"/><rect x="15.6" y="14" width="3.4" height="4" rx="1"/></svg></div>
+      <h3>แก้ตัวเลขครั้งเดียว ทุกแผ่นตาม</h3>
+      <div class="po-pair"><span class="po-b">ทำใหม่ทีละแผ่น</span><span class="po-a">แก้ที่เดียว</span></div>
+      <p>กราฟทุกตัวผูกกับ Excel ไม่ต้องวาดใหม่ ไม่ต้องไล่แก้ทีละหน้า</p>
+    </div>
+    <div class="pv-out reveal">
+      <div class="po-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5V5h14v1.5"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></div>
+      <h3>ฟอนต์ไทยไม่เพี้ยนทุกเครื่อง</h3>
+      <div class="po-pair"><span class="po-b">ฟอนต์เพี้ยน</span><span class="po-a">เปิดที่ไหนก็ตรง</span></div>
+      <p>ทุกชุดทำด้วยฟอนต์ไทยจริง ไม่ใช่ฟอนต์ฝรั่งที่ดันสระลอย</p>
+    </div>
   </div>
 </section>
 
@@ -3216,52 +3265,23 @@ async function setFile(slug){
         </div>
       </div>
       <div class="ft-panel">
-        <div class="cust-demo">
-      <div class="cust-canvas">
-        <!-- Phase badges -->
-        <div class="cust-badge-edit">✏ พิมพ์ข้อความ</div>
-        <div class="cust-badge-color">🎨 เลือกสี</div>
-        <div class="cust-badge-done">สไลด์ของคุณ</div>
-
-        <!-- Slide preview (updates live) -->
-        <div class="cust-slide">
-          <div class="cust-slide-top">
-            <div class="cust-slide-title-area">
-              <span class="cust-title-b">Company Name</span>
-              <span class="cust-title-a-wrap"><span class="cust-title-a">Coach Tarn Slides</span></span>
-            </div>
-            <div class="cust-slide-sub">Presentation Template</div>
+        <div class="rc-demo">
+          <div class="rc-bar">
+            <span class="rc-lbl">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 3a9 9 0 1 0 0 18c1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H16a5 5 0 0 0 5-5c0-4-4-7-9-7z"/></svg>
+              ธีมสี
+            </span>
+            <button class="rc-sw on" type="button" data-h="0"   style="--sh:14"  aria-label="ธีมสีเดิม"></button>
+            <button class="rc-sw" type="button" data-h="-40" style="--sh:340" aria-label="ธีมสีชมพู"></button>
+            <button class="rc-sw" type="button" data-h="70"  style="--sh:90"  aria-label="ธีมสีเขียว"></button>
+            <button class="rc-sw" type="button" data-h="140" style="--sh:170" aria-label="ธีมสีฟ้า"></button>
+            <button class="rc-sw" type="button" data-h="210" style="--sh:245" aria-label="ธีมสีม่วง"></button>
           </div>
-          <div class="cust-slide-body">
-            <div class="cust-body-bar"></div>
-            <div class="cust-body-bar"></div>
-            <div class="cust-body-bar"></div>
+          <div class="rc-stage">
+            <img id="rcSlide" src="library/slides/marketingdash/02.jpg" alt="สไลด์จากคลัง เปลี่ยนธีมสีได้" loading="lazy">
           </div>
+          <p class="rc-note">สไลด์จริงจากคลัง เปลี่ยนธีมสีทั้งแผ่นได้ในคลิกเดียว</p>
         </div>
-
-        <!-- Edit panels: one visible at a time (same position) -->
-        <div class="cust-panels">
-          <!-- Panel A: Text input -->
-          <div class="cust-panel-text">
-            <span class="cust-plbl">ชื่อ / หัวข้อ</span>
-            <div class="cust-input-box">
-              <span class="cust-type-reveal">Coach Tarn Slides</span>
-              <span class="cust-ibeam-wrap"><span class="cust-ibeam"></span></span>
-            </div>
-          </div>
-          <!-- Panel B: Color picker -->
-          <div class="cust-panel-color">
-            <span class="cust-plbl">สีธีม</span>
-            <div class="cust-swatches">
-              <div class="cust-sw" style="--sc:#5B9BF5"></div>
-              <div class="cust-sw" style="--sc:#56C0A0"></div>
-              <div class="cust-sw" style="--sc:#9B77D8"></div>
-              <div class="cust-sw cust-sw-active" style="--sc:#D34724"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
       </div>
     </div>
 
@@ -4146,6 +4166,28 @@ async function setFile(slug){
   new IntersectionObserver(function(es){
     es.forEach(function(e){ e.isIntersecting ? play() : clearInterval(timer); });
   }, { threshold: 0.2 }).observe(document.querySelector('.ft-wrap'));
+})();
+
+/* ── Feature 03: a theme swatch recolours the whole slide, like PowerPoint ── */
+(function(){
+  var sws = [].slice.call(document.querySelectorAll('.rc-sw'));
+  var img = document.getElementById('rcSlide');
+  if (!sws.length || !img) return;
+  var i = 0, timer;
+  function pick(n){
+    i = (n + sws.length) % sws.length;
+    sws.forEach(function(s, k){ s.classList.toggle('on', k === i); });
+    var h = sws[i].dataset.h;
+    img.style.filter = h === '0' ? '' : 'hue-rotate(' + h + 'deg) saturate(1.08)';
+  }
+  function play(){ clearInterval(timer); timer = setInterval(function(){ pick(i + 1); }, 2400); }
+  sws.forEach(function(s, k){
+    s.addEventListener('mouseenter', function(){ pick(k); play(); });
+    s.addEventListener('click',      function(){ pick(k); play(); });
+  });
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ e.isIntersecting ? play() : clearInterval(timer); });
+  }, { threshold: 0.3 }).observe(document.querySelector('.rc-demo'));
 })();
 
 /* ── Scroll Reveal ── */
