@@ -118,7 +118,7 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
 
       ${list.length > 1 ? `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;">
         <tr><td style="padding:0 0 10px;font-size:13.5px;color:#6E6E73;line-height:1.6;">
-          แพ็กทีม ${list.length} สิทธิ์ — แจกให้ทีมคนละ 1 โค้ด ใช้กรอกที่หน้าดาวน์โหลดได้เลย ทุกโค้ดได้คลังเต็มเท่ากัน
+          แพ็กทีม ${list.length} สิทธิ์ แจกให้ทีมคนละ 1 โค้ด ใช้กรอกที่หน้าดาวน์โหลดได้เลย ทุกโค้ดได้คลังเต็มเท่ากัน
         </td></tr>
         ${list.map((c, i) => `<tr>
           <td style="padding:7px 14px;border:1px solid #EFEFEF;border-radius:10px;background:#FAFAFA;font-family:'Courier New',Courier,monospace;font-size:17px;font-weight:800;letter-spacing:2px;color:#1D1D1F;">
@@ -227,7 +227,7 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
                 padding:18px 52px;border-radius:100px;
                 letter-spacing:-0.2px;
                 box-shadow:0 6px 20px rgba(211,71,36,0.35);">
-        รับไฟล์สไลด์ &rarr;
+        รับไฟล์สไลด์
       </a>
       <p style="margin:16px 0 0;font-size:13px;color:#AEAEB2;">กดปุ่มด้านบนเพื่อไปยังหน้าดาวน์โหลด</p>
     </td></tr>
@@ -255,7 +255,7 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
     <tr><td style="padding:26px 48px;border-bottom:1px solid #F0F0F0;background:#FFF8F5;">
       <p style="margin:0 0 6px;font-size:14px;font-weight:800;color:#1D1D1F;">ต้องการใบกำกับภาษี / ใบเสร็จในนามบริษัท?</p>
       <p style="margin:0 0 12px;font-size:13px;color:#6E6E73;line-height:1.7;">
-        ระบบไม่ได้ออกให้อัตโนมัติ — ทักแชทเพจ แนบสลิปโอนเงิน แล้วแจ้งชื่อบริษัท ที่อยู่ และเลขประจำตัวผู้เสียภาษี
+        ระบบไม่ได้ออกให้อัตโนมัติ ทักแชทเพจ แนบสลิปโอนเงิน แล้วแจ้งชื่อบริษัท ที่อยู่ และเลขประจำตัวผู้เสียภาษี
         แอดมินจะออกเอกสารส่งกลับภายใน 1 วันทำการ
       </p>
       <a href="https://m.me/ThePowerpointTemplate" target="_blank"
@@ -267,7 +267,7 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
     <!-- ── Footer ── -->
     <tr><td align="center" style="padding:32px 48px 40px;background:#FAFAFA;">
       <p style="margin:0 0 10px;font-size:13px;color:#8E8E93;line-height:1.7;">
-        เก็บอีเมลนี้ไว้นะคะ — Code ใช้ได้ตลอด ไม่มีวันหมดอายุ
+        เก็บอีเมลนี้ไว้นะคะ Code ใช้ได้ตลอด ไม่มีวันหมดอายุ
       </p>
       <p style="margin:0 0 20px;font-size:13px;color:#8E8E93;line-height:1.7;">
         มีปัญหาติดต่อได้ที่
@@ -522,7 +522,7 @@ serve(async (req) => {
     // ── 10. ส่งอีเมล via Resend ──────────────────────────────────────────────
     await sendEmailViaResend(
       order.email,
-      seats > 1 ? `✅ Redeem Code ${seats} สิทธิ์ของคุณพร้อมแล้ว` : `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
+      seats > 1 ? `✅ Redeem Code ${seats} สิทธิ์ของคุณพร้อมแล้ว` : `✅ Redeem Code ของคุณพร้อมแล้ว ${redeemCode}`,
       buildEmailHtml(order.name, codes, packPrice),
     )
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>ชำระเงิน — Coach Tarn</title>
+<title>ชำระเงิน | Coach Tarn</title>
 <link rel="icon" type="image/x-icon" href="img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -862,7 +862,7 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
       </a>
     </nav>
     <div class="drawer-footer">
-      <a href="order" class="drawer-cta-btn">รับสไลด์ทันที — 499 บาท</a>
+      <a href="order" class="drawer-cta-btn">รับสไลด์ทันที 499 บาท</a>
     </div>
   </div>
 
@@ -946,7 +946,7 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
       <!-- ใบกำกับภาษี: บอกตรงนี้เพราะเป็นจังหวะที่ลูกค้าคิดถึงเรื่องเบิกเงิน -->
       <div class="suc-tax">
         <div class="suc-tax-h">ต้องการใบกำกับภาษี / ใบเสร็จในนามบริษัท?</div>
-        <div class="suc-tax-s">ระบบไม่ได้ออกให้อัตโนมัติ — ทักแชทเพจแล้วแอดมินออกให้ภายใน 1 วันทำการ</div>
+        <div class="suc-tax-s">ระบบไม่ได้ออกให้อัตโนมัติ ทักแชทเพจแล้วแอดมินออกให้ภายใน 1 วันทำการ</div>
         <ol class="suc-tax-steps">
           <li>กดปุ่มด้านล่างเพื่อเปิดแชทเพจ</li>
           <li>แนบสลิปโอนเงินที่เพิ่งใช้</li>
@@ -1699,7 +1699,7 @@ function showRejected(result) {
       msg:`ระบบตรวจพบว่าโอนมา ${actual ?? '?'} บาท แต่ต้องชำระ ${baht(PRICE)} บาท\nกรุณาโอนเพิ่มหรือแนบสลิปใหม่ที่มียอดครบ ${baht(PRICE)} บาท`,
       fbPrimary:false },
     wrong_account:            { icon:'warn',   title:'ระบบยังยืนยันสลิปไม่ได้',
-      msg:'ระบบตรวจสอบสลิปไม่สำเร็จ — เกิดได้ 2 สาเหตุ:\n\n• ธนาคารกำลังประมวลผลข้อมูล (ใช้เวลา 5-15 นาที)\n  รอสักครู่แล้วลองใหม่ได้เลย\n\n• โอนไปผิดบัญชี\n  กรุณาโอนมาที่ 229-3-98096-1 (KBANK)\n\nถ้าโอนเงินแล้วจริงๆ ทักแอดมินช่วยตรวจสอบทันที',
+      msg:'ระบบตรวจสอบสลิปไม่สำเร็จ เกิดได้ 2 สาเหตุ:\n\n• ธนาคารกำลังประมวลผลข้อมูล (ใช้เวลา 5-15 นาที)\n  รอสักครู่แล้วลองใหม่ได้เลย\n\n• โอนไปผิดบัญชี\n  กรุณาโอนมาที่ 229-3-98096-1 (KBANK)\n\nถ้าโอนเงินแล้วจริงๆ ทักแอดมินช่วยตรวจสอบทันที',
       fbPrimary:true },
     wrong_amount_and_account: { icon:'error',  title:'ยอดเงินและบัญชีไม่ถูกต้อง',
       msg:`สลิปนี้โอนไปผิดบัญชีและยอดเงินไม่ถูกต้อง\nกรุณาโอน ${baht(PRICE)} บาท มาที่เลขบัญชี 229-3-98096-1 (KBANK)`,
@@ -1773,7 +1773,7 @@ function showSuccess(email, code, codes) {
   const list = Array.isArray(codes) ? codes.filter(c => /^TARN-[A-Z0-9]{8}$/i.test(c)) : [];
   if (list.length > 1) {
     const box = document.getElementById('successCodeList');
-    box.innerHTML = '<div class="suc-codes-h">Redeem Code ทั้ง ' + list.length + ' สิทธิ์ — แจกให้ทีมคนละ 1 โค้ด</div>'
+    box.innerHTML = '<div class="suc-codes-h">Redeem Code ทั้ง ' + list.length + ' สิทธิ์ แจกให้ทีมคนละ 1 โค้ด</div>'
       + list.map((c, i) => '<div class="suc-codes-row"><span>' + (i + 1) + '</span><b>' + c + '</b></div>').join('');
     box.style.display = 'block';
     document.getElementById('successCopyBtn').textContent = 'คัดลอกทุก Code';
@@ -1908,7 +1908,7 @@ function closeDrawer(){
     }
     if (!fix || fix === domain) { hint.style.display='none'; return; }
     const suggested = v.slice(0, at+1) + fix;
-    hint.innerHTML = 'คุณอาจหมายถึง <strong>' + suggested + '</strong> — <span style="text-decoration:underline">คลิกเพื่อแก้ไข</span>';
+    hint.innerHTML = 'คุณอาจหมายถึง <strong>' + suggested + '</strong> <span style="text-decoration:underline">คลิกเพื่อแก้ไข</span>';
     hint.onclick = () => {
       input.value = suggested;
       if (confirmInput && confirmInput.value.trim()) confirmInput.value = suggested;

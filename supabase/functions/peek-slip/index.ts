@@ -40,7 +40,7 @@ function buildEmailHtml(name: string, codes: string | string[]): string {
   const list = Array.isArray(codes) ? codes : [codes]
   const code = list[0]
   const extra = list.length > 1
-    ? `<p style="margin:0 0 14px;font-size:14px;color:#6E6E73;line-height:1.7">แพ็กทีม ${list.length} สิทธิ์ — โค้ดทั้งหมด:<br>${list.map((c, i) => `<strong>${i + 1}. ${c}</strong>`).join('<br>')}</p>`
+    ? `<p style="margin:0 0 14px;font-size:14px;color:#6E6E73;line-height:1.7">แพ็กทีม ${list.length} สิทธิ์ โค้ดทั้งหมด:<br>${list.map((c, i) => `<strong>${i + 1}. ${c}</strong>`).join('<br>')}</p>`
     : ''
   const downloadUrl = `${DOWNLOAD_URL}?code=${encodeURIComponent(code)}`
   return `<!DOCTYPE html><html lang="th"><body style="margin:0;padding:0;background:#F2F2F7;font-family:-apple-system,sans-serif;">
@@ -60,7 +60,7 @@ ${extra}
 <span style="font-family:'Courier New',monospace;font-size:28px;font-weight:900;letter-spacing:4px;display:block;color:#1D1D1F;">${code}</span>
 </td></tr></table></td></tr>
 <tr><td align="center" style="padding:32px 40px;background:#FAFAFA;border-top:1px solid #F0F0F0;">
-<a href="${downloadUrl}" style="display:inline-block;background:linear-gradient(135deg,#EB7D4A,#D34724);color:#fff;text-decoration:none;font-size:16px;font-weight:800;padding:16px 44px;border-radius:100px;box-shadow:0 6px 20px rgba(211,71,36,0.35);">รับไฟล์สไลด์ &rarr;</a>
+<a href="${downloadUrl}" style="display:inline-block;background:linear-gradient(135deg,#EB7D4A,#D34724);color:#fff;text-decoration:none;font-size:16px;font-weight:800;padding:16px 44px;border-radius:100px;box-shadow:0 6px 20px rgba(211,71,36,0.35);">รับไฟล์สไลด์</a>
 </td></tr>
 <tr><td align="center" style="padding:24px 40px 32px;background:#FAFAFA;">
 <p style="margin:0;font-size:12px;color:#8E8E93;">ขออภัยที่ใช้เวลาตรวจสอบนาน หากมีคำถามทักได้ที่ Facebook: PowerPoint Template by Coach Tarn</p>
@@ -152,7 +152,7 @@ serve(async (req) => {
     try {
       await sendEmailViaResend(
         order.email,
-        `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
+        `✅ Redeem Code ของคุณพร้อมแล้ว ${redeemCode}`,
         buildEmailHtml(order.name, codes),
       )
     } catch (e) {
@@ -203,7 +203,7 @@ serve(async (req) => {
         order.email,
         codeList.length > 1
           ? `✅ Redeem Code ${codeList.length} สิทธิ์ของคุณพร้อมแล้ว`
-          : `✅ Redeem Code ของคุณพร้อมแล้ว — ${codeList[0]}`,
+          : `✅ Redeem Code ของคุณพร้อมแล้ว ${codeList[0]}`,
         buildEmailHtml(order.name, codeList),
       )
     } catch (e) {
