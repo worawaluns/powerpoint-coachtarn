@@ -2475,6 +2475,60 @@ body{
   .buyer-toast{transition:opacity .2s linear}
   .buyer-toast.on{transform:none}
 }
+
+/* ══════════════════════════════════════
+   FINAL CTA (dark card + slide fan)
+══════════════════════════════════════ */
+.fin-section{padding:8px 16px 40px;background:#fff}
+.fin-card{
+  position:relative;overflow:hidden;
+  max-width:var(--max);margin:0 auto;
+  border-radius:26px;padding:38px 20px 0;text-align:center;
+  background:
+    radial-gradient(120% 80% at 50% 0%,rgba(235,125,74,.30),transparent 62%),
+    linear-gradient(170deg,#2E211B,#1E1613);
+}
+.fin-h2{font-size:26px;font-weight:800;line-height:1.35;color:#fff;letter-spacing:-.3px}
+.fin-sub{margin:12px auto 0;max-width:460px;font-size:14px;line-height:1.85;color:rgba(255,255,255,.62)}
+.fin-price{display:flex;align-items:baseline;justify-content:center;gap:12px;margin-top:18px;line-height:1.15}
+.fin-price s{font-size:19px;color:rgba(255,255,255,.4)}
+.fin-price b{font-size:44px;font-weight:800;color:#fff;letter-spacing:-1px}
+.fin-btn{
+  display:inline-block;margin-top:18px;text-decoration:none;
+  background:linear-gradient(135deg,#EB7D4A,#D34724);color:#fff;
+  font-size:16px;font-weight:800;padding:15px 40px;border-radius:100px;
+  box-shadow:0 10px 28px rgba(211,71,36,.42);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.fin-note{margin-top:12px;font-size:12px;color:rgba(255,255,255,.4);line-height:1.8}
+/* fanned stack of real slides */
+.fin-fan{display:flex;justify-content:center;align-items:flex-end;margin-top:18px;padding-top:18px}
+.fin-slide{
+  flex:none;width:min(38vw,196px);aspect-ratio:16/9;margin:0 -24px;
+  border-radius:9px;overflow:hidden;background:#fff;
+  box-shadow:0 16px 36px rgba(0,0,0,.42);
+  transition:margin .55s var(--ease),transform .55s var(--ease);
+}
+.fin-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.fin-slide:nth-child(1){transform:rotate(-9deg) translateY(20px);z-index:1}
+.fin-slide:nth-child(2){transform:rotate(-4deg) translateY(8px);z-index:2}
+.fin-slide:nth-child(3){z-index:3}
+.fin-slide:nth-child(4){transform:rotate(4deg) translateY(8px);z-index:2}
+.fin-slide:nth-child(5){transform:rotate(9deg) translateY(20px);z-index:1}
+@media(hover:hover){
+  .fin-btn:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(211,71,36,.55)}
+  .fin-fan:hover .fin-slide{margin:0 -6px;transform:translateY(-6px)}
+  .fin-fan .fin-slide:hover{transform:translateY(-22px) scale(1.05);z-index:6;box-shadow:0 26px 50px rgba(0,0,0,.5)}
+}
+@media(min-width:768px){
+  .fin-card{padding:56px 32px 0;border-radius:32px}
+  .fin-h2{font-size:38px}
+  .fin-sub{font-size:16px;max-width:540px}
+  .fin-price b{font-size:56px}
+  .fin-slide{width:min(22vw,250px);margin:0 -40px}
+  .fin-fan{margin-top:26px;padding-top:22px}
+}
+@media(prefers-reduced-motion:reduce){.fin-slide{transition:none}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -3720,6 +3774,25 @@ async function setFile(slug){
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">เอาไปใช้กับงานลูกค้าหรืองานขายได้ไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
       <div class="faq-a">ใช้กับงานของคุณและงานที่ทำให้ลูกค้าได้ แต่ห้ามนำไฟล์ต้นฉบับไปขายต่อหรือแจกซ้ำ</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ⑫ FINAL CTA -->
+<section class="section fin-section">
+  <div class="fin-card reveal">
+    <h2 class="fin-h2">เลิกนั่งทำสไลด์เอง<br>ตั้งแต่หน้าแรกได้แล้ว</h2>
+    <p class="fin-sub">จ่ายครั้งเดียว ได้ทั้งคลัง 247 ชุด 6,500+ สไลด์ ใช้ได้ตลอดชีพ ชุดใหม่ที่เพิ่มเข้าคลังก็โหลดได้ฟรีด้วยโค้ดเดิม</p>
+    <div class="fin-price"><s>999฿</s><b>499฿</b></div>
+    <a href="order" class="fin-btn">สั่งซื้อเลย</a>
+    <div class="fin-note">โอนผ่านธนาคาร ระบบตรวจสลิปให้อัตโนมัติ ได้โค้ดทางอีเมลทันที</div>
+    <div class="fin-fan">
+      <div class="fin-slide"><img loading="lazy" src="library/slides/linechart/04.jpg" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/marketingdash/06.jpg" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/piedonut/03.jpg" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/kpinumber/05.jpg" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/timelineset/07.jpg" alt=""></div>
     </div>
   </div>
 </section>
