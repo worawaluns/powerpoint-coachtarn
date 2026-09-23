@@ -2446,6 +2446,77 @@ fbq('track','PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
+<style>
+/* ── preview-only sections ── */
+.pv-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:18px 20px 4px;max-width:var(--max);margin:0 auto}
+.pv-fact{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:12px 14px;text-align:center;box-shadow:0 2px 10px rgba(20,20,30,.04)}
+.pv-fact b{display:block;font-size:19px;font-weight:800;color:var(--red);line-height:1.2}
+.pv-fact span{font-size:12.5px;color:var(--text-mid)}
+.pv-out-section{padding-top:8px}
+.pv-outs{display:grid;gap:12px;margin-top:16px}
+.pv-out{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:16px 18px;box-shadow:0 3px 14px rgba(20,20,30,.05)}
+.pv-out p{font-size:14px;line-height:1.55;color:var(--text-mid);margin:2px 0 10px}
+.pv-out p b{color:var(--text-dark)}
+.pv-out-b,.pv-out-a{display:inline-block;font-size:11.5px;font-weight:800;border-radius:100px;padding:3px 11px;margin-bottom:4px}
+.pv-out-b{background:#f1f1f3;color:#8a8a92}
+.pv-out-a{background:rgba(86,192,160,.16);color:#1f8f74}
+.pv-rv-stats{display:grid;gap:14px;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:18px;padding:18px;margin:0 20px 18px;box-shadow:0 3px 14px rgba(20,20,30,.05)}
+.pv-rv-score{text-align:center}
+.pv-rv-score b{display:block;font-size:44px;font-weight:800;line-height:1;color:var(--text-dark)}
+.pv-rv-stars{color:#F5A623;font-size:17px;letter-spacing:2px}
+.pv-rv-score small{display:block;font-size:12.5px;color:var(--text-mid);margin-top:4px}
+.pv-rv-row{display:grid;grid-template-columns:1fr 84px 34px;align-items:center;gap:8px;font-size:13px;color:var(--text-mid);margin-bottom:8px}
+.pv-rv-row i{height:7px;border-radius:100px;background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));display:block}
+.pv-rv-row b{font-size:12.5px;color:var(--text-dark);text-align:right}
+.pv-rv-note{font-size:12.5px;color:var(--text-mid);border-top:1px dashed rgba(0,0,0,.1);padding-top:9px}
+.pv-b2b{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:20px;padding:20px;display:grid;gap:16px;box-shadow:0 4px 18px rgba(20,20,30,.05)}
+.pv-b2b-item{border-top:1px solid rgba(0,0,0,.07);padding-top:10px;margin-top:10px}
+.pv-b2b-item:first-child{border-top:none;padding-top:0;margin-top:0}
+.pv-b2b-item b{display:block;font-size:14.5px}
+.pv-b2b-item span{font-size:12.5px;color:var(--text-mid)}
+.pv-facts a,.pv-outs a,.pv-tiers a,.pv-rv-stats a{text-decoration:none}
+.pv-tiers{display:grid;gap:12px;margin-top:18px}
+.pv-tier{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:18px;padding:18px;text-align:center;box-shadow:0 3px 14px rgba(20,20,30,.05);position:relative}
+.pv-tier-hot{border-color:var(--red);box-shadow:0 8px 26px rgba(211,71,36,.16)}
+.pv-tier-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:11.5px;font-weight:800;padding:4px 12px;border-radius:100px;white-space:nowrap}
+.pv-tier-n{font-size:14px;font-weight:800;color:var(--text-mid)}
+.pv-tier-p{font-size:34px;font-weight:800;line-height:1.1;margin:2px 0 2px}
+.pv-tier-p small{font-size:17px;margin-left:2px}
+.pv-tier-u{font-size:12.5px;color:var(--text-mid);margin-bottom:12px}
+.pv-tier-btn{display:block;text-decoration:none;border-radius:100px;padding:10px 0;font-size:14.5px;font-weight:700;background:#f2f2f4;color:var(--text-dark)}
+.pv-tier-btn-hot{background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));color:#fff;box-shadow:0 6px 16px rgba(211,71,36,.28)}
+.pv-tier-note{font-size:12.5px;color:var(--text-mid);text-align:center;margin-top:14px;line-height:1.6}
+@media(min-width:768px){.pv-tiers{grid-template-columns:repeat(4,1fr);gap:14px}}
+/* sticky section nav */
+.pv-anchor{position:sticky;top:60px;z-index:120;background:#fff;border-bottom:1px solid rgba(0,0,0,.07);box-shadow:0 2px 10px rgba(20,20,30,.05)}
+.pv-anchor-in{display:flex;gap:6px;overflow-x:auto;padding:9px 16px;max-width:var(--max);margin:0 auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.pv-anchor-in::-webkit-scrollbar{display:none}
+.pv-anchor a{flex:0 0 auto;text-decoration:none;font-size:13.5px;font-weight:700;color:var(--text-mid);padding:7px 14px;border-radius:100px;background:#f2f2f4;white-space:nowrap}
+.pv-anchor a.on{background:var(--red);color:#fff}
+@media(min-width:768px){
+  .pv-facts{grid-template-columns:repeat(5,1fr)}
+  .pv-outs{grid-template-columns:repeat(3,1fr)}
+  .pv-rv-stats{grid-template-columns:190px 1fr;align-items:center;gap:26px}
+  .pv-anchor{top:78px}
+}
+/* desktop: same gutters and max widths as the rest of the page */
+@media(min-width:1024px){
+  .pv-anchor{top:80px}
+  .pv-anchor-in{max-width:1280px;padding:10px 64px}
+  .pv-facts{max-width:1280px;padding:26px 64px 6px;gap:14px}
+  .pv-fact{padding:16px 14px}
+  .pv-fact b{font-size:22px}
+  .pv-out-section{max-width:1280px;margin:0 auto;padding:60px 64px 40px}
+  .pv-outs{gap:18px;margin-top:22px}
+  .pv-out{padding:22px 24px}
+  .pv-rv-stats{max-width:880px;margin:0 auto 24px;padding:24px 30px}
+  .pv-b2b-section{max-width:1280px;margin:0 auto;padding:60px 64px}
+  .pv-tiers{max-width:1080px;margin:22px auto 0}
+  .pv-tier-note{max-width:820px;margin-left:auto;margin-right:auto}
+}
+/* the two sticky bars must not cover a heading when a chip is clicked */
+#library,#strip,#feat,#reviews,#how,#deal,#team,#faq{scroll-margin-top:150px}
+</style>
 </head>
 <body>
 <div class="page">
@@ -2455,11 +2526,9 @@ fbq('track','PageView');
   <a href="/" class="nav-logo"><svg id="ct-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214.66" height="38" aria-label="Coach Tarn"><style>#ct-logo .st0{fill:#DB490E}#ct-logo .st1{fill:#DB480E}#ct-logo .st2{fill:#DA490D}#ct-logo .st3{fill:#3F3633}#ct-logo .st4{fill:#D9470D}#ct-logo .st5{fill:#DA480C}#ct-logo .st6{fill:#3D3531}#ct-logo .st7{fill:#3C3330}#ct-logo .st8{fill:#D9470C}#ct-logo .st9{fill:#3E3532}</style><g><path class="st0" d="M103.79,71.86c0-9.77-0.04-19.53,0.01-29.3c0.03-5.2,2.12-7.31,7.3-7.32c17.8-0.05,35.6-0.06,53.4-0.04c4.83,0.01,7.32,2.59,7.32,7.49c0.01,19.42,0,38.85-0.04,58.27c-0.01,5.22-2.56,7.86-7.73,7.89c-17.36,0.09-34.73,0.15-52.09,0.16c-5.58,0-8.1-2.61-8.11-8.18c-0.02-9.66,0-19.31,0-28.97C103.83,71.86,103.81,71.86,103.79,71.86z"/><path class="st1" d="M103.76,152.7c0-9.77-0.02-19.54,0.01-29.3c0.02-5.44,2.27-7.86,7.68-7.79c12.8,0.18,25.63-0.84,38.39,0.5c11.64,1.22,21.69,12.15,21.91,23.86c0.28,14.43,0.11,28.87,0.07,43.3c-0.01,3.54-2.71,5.84-6.74,5.85c-14,0.03-28.01,0.02-42.01,0.02c-4.23,0-8.47,0.03-12.7-0.03c-4.08-0.06-6.47-2.4-6.48-6.46c-0.04-9.98-0.01-19.97-0.01-29.95C103.83,152.7,103.79,152.7,103.76,152.7z"/><path class="st2" d="M96.85,152.55c0,9.66,0,19.32,0,28.98c0,5.48-2.14,7.62-7.69,7.62c-10.75,0-21.49,0.05-32.24-0.05c-15.9-0.16-27.19-11.47-27.3-27.32c-0.09-12.7-0.06-25.4-0.06-38.09c0-5.53,2.62-8.18,8.17-8.19c16.72-0.01,33.43,0,50.15,0.07c6.87,0.03,8.95,2.18,8.96,8.99C96.85,133.88,96.85,143.21,96.85,152.55z"/><path class="st0" d="M63.24,108.99c-8.36,0-16.73,0.02-25.09,0c-6.19-0.02-8.64-2.51-8.63-8.68c0.01-9.02,0-18.03,0.04-27.05c0.02-4.93,2.69-7.7,7.62-7.71c16.95-0.05,33.89-0.07,50.84,0c6.15,0.03,8.65,2.66,8.69,8.81c0.06,8.91,0.09,17.81,0.07,26.72c-0.01,5.24-2.54,7.84-7.8,7.88C80.41,109.04,71.82,108.99,63.24,108.99z"/><path class="st3" d="M436.86,60.72c5.58-6.35,12-7.23,18.84-6.41c8.46,1.02,13.94,7.01,14.62,16.12c0.85,11.38,0.37,22.8,0.47,34.2c0.02,2.85-1.61,4.27-4.55,4.36c-9.93,0.31-9.91,0.34-9.96-9.56c-0.04-8.25,0.11-16.52-0.32-24.75c-0.4-7.7-8.28-11.22-14.5-6.7c-3.38,2.46-4.27,6.19-4.33,10.1c-0.12,8.36-0.07,16.73-0.11,25.09c-0.02,4.64-1.12,5.72-5.78,5.75c-8.64,0.06-8.62,0.06-8.62-8.56c-0.01-19.77-0.07-39.54-0.07-59.31c0-5.37,0.61-5.92,6.06-5.94c8.16-0.03,8.26,0.06,8.26,8.13C436.86,48.74,436.86,54.24,436.86,60.72z"/><path class="st4" d="M358.86,138.46c4.9-6.38,11.48-7.86,18.69-7.09c8.71,0.92,13.95,5.71,15.01,14.39c1.47,12.09,0.54,24.27,0.53,36.41c0,0.53-0.07,1.17-0.37,1.56c-3,3.93-7.17,1.78-10.85,1.91c-2.6,0.1-3.33-2.04-3.34-4.31c-0.05-8.25-0.06-16.49-0.09-24.74c-0.01-1.52,0.05-3.05-0.09-4.55c-0.49-4.91-2.52-7.25-6.68-7.87c-4.85-0.72-9.03,1.3-10.85,5.27c-0.87,1.89-1.34,3.86-1.34,5.97c0,8.35-0.06,16.71-0.12,25.06c-0.03,4.34-1.01,5.28-5.39,5.4c-9.28,0.25-9.3,0.25-9.29-9.14c0.01-12.59-0.01-25.17,0.1-37.76c0.02-2.25-0.79-5.2,2.05-6.31c3.3-1.29,6.86-1.16,10.14,0.22C359.11,133.81,357.87,136.24,358.86,138.46z"/><path class="st5" d="M63.26,58.89c-8.68,0-17.36,0.01-26.03-0.01c-5.46-0.01-7.57-2.16-7.62-7.71c-0.03-3.25-0.06-6.51,0.01-9.76c0.09-4.01,2.28-6.27,6.29-6.28c18.11-0.03,36.23,0,54.34,0.07c3.76,0.01,6.33,2.54,6.47,6.3c0.14,3.57,0.13,7.16,0.03,10.73c-0.12,4.16-2.6,6.63-6.8,6.66c-8.89,0.07-17.79,0.02-26.68,0.02C63.26,58.91,63.26,58.9,63.26,58.89z"/><path class="st6" d="M368.61,83.38c0.03-5.51,0.43-10.13,1.88-14.63c2.49-7.71,7.66-12.47,15.61-14c6.5-1.25,12.99-1.13,19.18,1.52c6.05,2.6,9.69,7.16,10.47,13.79c0.42,3.59-0.66,4.85-4.2,5.01c-1.41,0.06-2.83-0.1-4.23,0.04c-2.85,0.29-4.35-0.89-5.17-3.67c-1.15-3.92-3.91-5.8-7.93-5.99c-4.23-0.2-8,1.66-9.35,5.17c-2.83,7.35-2.76,14.91-0.4,22.33c1.3,4.09,5.04,5.92,9.94,5.75c4.56-0.16,7.16-1.84,8.43-6.24c0.84-2.91,2.54-3.8,5.24-3.66c0.32,0.02,0.65,0.02,0.98-0.01c7.85-0.55,8.38,2.13,5.87,8.75c-2.83,7.48-8.83,10.92-16.41,12.09c-4.01,0.62-8,0.55-12-0.07c-9.23-1.44-15.57-8.16-17.25-18.28C368.8,88.4,368.52,85.49,368.61,83.38z"/><path class="st7" d="M207.4,82.48c0.04-5.36,0.57-10.61,2.81-15.57c3.02-6.7,7.97-11.02,15.32-12.22c7.42-1.2,14.72-1.18,21.42,2.95c4.51,2.79,7.13,6.88,8.03,12.07c0.59,3.38-0.86,5.17-4.32,5.37c-1.52,0.09-3.05-0.06-4.56,0.06c-2.5,0.2-3.85-0.94-4.43-3.3c-1.04-4.24-4.14-5.94-8.15-6.19c-4.19-0.26-8,0.91-9.69,5.07c-2.97,7.3-2.98,14.88-0.45,22.27c1.47,4.29,5.23,5.77,9.67,5.67c4.22-0.1,7.25-1.82,8.89-5.83c1.49-3.66,8.62-5.6,12.02-3.37c1.58,1.03,1.53,2.55,1.28,4.06c-1.04,6.33-4.37,11.13-10.24,13.73c-7.64,3.39-15.72,3.7-23.52,1.02c-9.2-3.16-12.73-10.85-13.81-19.92C207.45,86.4,207.48,84.43,207.4,82.48z"/><path class="st5" d="M216.47,159.73c0-4.34-0.05-8.69,0.02-13.03c0.04-2-0.48-3.1-2.76-2.76c-1.06,0.16-2.17,0.01-3.25-0.05c-1.91-0.1-3.02-1.02-3.04-3.04c-0.01-0.98-0.07-1.95-0.06-2.93c0.05-5.12,0.49-5.72,5.59-5.54c2.89,0.1,3.84-0.74,3.52-3.64c-0.3-2.79-0.14-5.64-0.14-8.46c0-2.67,0.99-4.37,4.04-4.23c2.17,0.1,4.35,0.07,6.51-0.05c2.85-0.15,3.94,1.42,3.98,3.95c0.06,3.15,0.09,6.3-0.08,9.44c-0.12,2.23,0.5,3.19,2.9,2.98c2.26-0.2,4.56-0.07,6.83,0.02c2.31,0.1,3.44,1.34,3.67,3.7c0.7,7.06-0.05,7.93-7.15,7.8c-6.01-0.11-6.01-0.11-6.01,5.89c0,5.97-0.09,11.95,0.02,17.92c0.1,5.37,1.6,6.72,6.89,6.62c5.86-0.11,8.58,4.5,5.79,9.74c-0.72,1.35-1.91,1.72-3.23,1.81c-4.55,0.29-9.13,0.55-13.66-0.05c-6.04-0.81-9.79-5.34-10.18-12.4c-0.25-4.55-0.05-9.12-0.05-13.68C216.59,159.73,216.53,159.73,216.47,159.73z"/><path class="st5" d="M318.22,139.69c3.87-6.54,9.38-8.47,16.05-7.98c2.81,0.2,4.34,1.24,4.38,4.37c0.11,9.13,0.2,9.13-8.91,9.46c-7.37,0.27-10.97,3.78-11.23,11.48c-0.26,7.7-0.19,15.42-0.23,23.13c-0.03,4.86-0.78,5.63-5.67,5.71c-8.8,0.14-8.9,0.04-8.91-8.75c-0.01-12.49-0.09-24.98,0.04-37.46c0.02-2.32-0.97-5.42,1.86-6.76c3.22-1.53,6.83-1.42,10.16-0.2C318.68,133.76,317.41,136.79,318.22,139.69z"/><path class="st8" d="M294.33,145.96c-0.08-6.04-3.87-11.09-9.62-12.96c-8.3-2.7-16.7-2.51-24.93,0.21c-4.01,1.33-7.2,3.94-8.52,8.28c-1.92,6.28-0.2,8.63,6.33,8.26c2.15-0.12,4.58,0.35,5.93-2.33c2.66-5.28,9.22-7.09,14.18-4.02c2.61,1.62,3.39,4.18,3.03,7.02c-0.35,2.79-2.86,2.57-4.81,2.87c-4.7,0.74-9.47,0.75-14.19,1.72c-11.95,2.46-15.82,11.65-11.93,23.64c1.17,3.6,3.9,6.04,7.57,6.99c8.24,2.13,16.12,1.7,23.38-4.51c0.22,4.41,2.8,4.97,5.95,4.77c1.3-0.08,2.61,0.04,3.9-0.05c2.53-0.18,3.91-1.35,3.89-4.12C294.39,169.83,294.48,157.89,294.33,145.96z M269.69,176.34c-4.57-0.06-6.79-1.64-7.35-5.22c-0.58-3.69,1.13-6.37,5.47-7.46c3.64-0.92,7.45-1.22,11.18-1.76c0.85-0.12,1.45,0.15,1.5,1.19C280.76,169.91,278.34,176.65,269.69,176.34z"/><path class="st6" d="M361.56,70.68c-0.33-8.6-5.32-13.97-13.76-15.77c-5.93-1.26-11.89-1.15-17.76,0.21c-5.4,1.26-9.82,3.99-11.81,9.59c-2.2,6.17-0.51,8.64,5.9,8.59c0.98-0.01,1.95-0.11,2.93-0.1c1.64,0.02,2.49-0.83,3.13-2.3c2.44-5.58,10.84-7.69,15.64-3.94c2.16,1.68,2.88,4.07,2.52,6.68c-0.35,2.53-2.57,2.6-4.47,2.93c-1.39,0.24-2.79,0.38-4.19,0.53c-5.39,0.58-10.81,1.02-15.84,3.31c-6.22,2.83-8.78,8.09-8.09,16.52c0.51,6.16,4.22,10.71,10.47,12.13c7.99,1.81,15.55,1.02,21.88-5.04c0.23,0.49,0.38,0.77,0.49,1.06c1.53,3.9,9.2,5.55,12.28,2.65c0.85-0.8,1.22-1.73,1.2-2.89C361.92,93.46,362,82.06,361.56,70.68z M336.79,99.86c-4.17,0.01-6.77-1.95-7.24-5.47c-0.46-3.5,1.46-6.54,5.27-7.44c3.98-0.93,8.09-1.36,12.14-2.03c1.06-0.17,1.29,0.36,1.34,1.27C348.81,94.79,344.28,99.79,336.79,99.86z"/><path class="st9" d="M310.08,72.56c-2.13-10.42-8.58-16.71-19.03-18.11c-3.2-0.43-6.52-0.38-9.75-0.12c-10.28,0.82-17.26,6.89-19.75,16.89c-0.87,3.5-1.2,7.05-1.07,10.64c0,1.52-0.08,3.04,0.01,4.56c0.87,14.83,8.44,22.53,23.2,23.64c14.27,1.08,24.18-6.29,26.71-20.02C311.47,84.21,311.26,78.36,310.08,72.56z M295.32,92.69c-1.48,4.34-4.97,6.19-10.1,6c-4.9-0.18-7.84-2.27-9.32-6.68c-1.08-3.24-1.19-6.6-1.11-9.6c-0.02-3.75,0.08-7.11,1.24-10.34c1.52-4.21,4.66-6.36,9.51-6.51c4.79-0.15,8.32,1.83,9.78,6.04C297.74,78.58,297.7,85.71,295.32,92.69z"/></g></svg></a>
   <div class="nav-right">
     <div class="nav-links" id="navLinks">
-      <a href="#strip" class="nav-link">ตัวอย่าง</a>
       <a href="templates" class="nav-link">คลังเทมเพลต</a>
-      <a href="#reviews" class="nav-link">รีวิว</a>
-      <a href="#how" class="nav-link">ขั้นตอนการซื้อ</a>
       <a href="download" class="nav-link">วิธีดาวน์โหลด</a>
+      <a href="https://m.me/coachtarn" class="nav-link" target="_blank" rel="noopener">ติดต่อแอดมิน</a>
     </div>
     <a href="order" class="nav-cta">รับสไลด์เลย</a>
     <button class="hamburger" id="menuBtn" onclick="openDrawer()" aria-label="เมนู">
@@ -2481,25 +2550,17 @@ fbq('track','PageView');
     </button>
   </div>
   <nav class="drawer-nav">
-    <a href="#strip" class="drawer-item" onclick="closeDrawer()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
-      ดูตัวอย่าง
-    </a>
     <a href="templates" class="drawer-item" onclick="closeDrawer()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
       คลังเทมเพลตตามอาชีพ
     </a>
-    <a href="#reviews" class="drawer-item" onclick="closeDrawer()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-      รีวิวจากลูกค้า
-    </a>
-    <a href="#how" class="drawer-item" onclick="closeDrawer()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      ขั้นตอนการสั่งซื้อ
-    </a>
     <a href="download" class="drawer-item" onclick="closeDrawer()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       วิธีรับและดาวน์โหลดสไลด์
+    </a>
+    <a href="https://m.me/coachtarn" class="drawer-item" target="_blank" rel="noopener" onclick="closeDrawer()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      ติดต่อแอดมิน
     </a>
   </nav>
   <div class="drawer-footer">
@@ -2587,186 +2648,21 @@ fbq('track','PageView');
   </div>
 </section>
 
-<!-- ⑩ REVIEWS -->
-<section class="section reviews-section" id="reviews">
-  <div class="reviews-head reveal">
-    <div class="section-pill">รีวิวจากผู้ใช้จริง</div>
-    <h2 class="section-h2">ลูกค้าพูดถึง<br>Coach Tarn ว่าไง</h2>
-  </div>
-  <div class="reviews-rating-bar reveal">
-    <div class="reviews-stars">
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-    </div>
-    <span class="reviews-rating-text">รีวิวจากลูกค้าจริงทาง Messenger</span>
-  </div>
-
-  <!-- peek carousel -->
-  <div class="rv-outer" id="rvOuter">
-    <div class="rv-track" id="rvTrack">
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว Sucheera">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">ส</div>
-          <div class="rv-info">
-            <div class="rv-name">Sucheera S.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว ชอ">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">ช</div>
-          <div class="rv-info">
-            <div class="rv-name">ชอ ศ.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว Arm">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">A</div>
-          <div class="rv-info">
-            <div class="rv-name">Arm S.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว Ornkanya">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">O</div>
-          <div class="rv-info">
-            <div class="rv-name">Ornkanya N.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-05.png" alt="รีวิว Wutti">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">W</div>
-          <div class="rv-info">
-            <div class="rv-name">Wutti R.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-06.png" alt="รีวิว ณกร">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">ณ</div>
-          <div class="rv-info">
-            <div class="rv-name">ณกร ไ.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-07.png" alt="รีวิว Puiipuii">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">P</div>
-          <div class="rv-info">
-            <div class="rv-name">Puiipuii J.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-08.png" alt="รีวิว ITuit">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">I</div>
-          <div class="rv-info">
-            <div class="rv-name">ITuit T.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-09.png" alt="รีวิว Nantaporn">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">N</div>
-          <div class="rv-info">
-            <div class="rv-name">Nantaporn P.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="rv-card">
-        <img src="img/review/Coach-Tarn-Review-10.png" alt="รีวิว Nattawut">
-        <div class="rv-card-foot">
-          <div class="rv-avatar">N</div>
-          <div class="rv-info">
-            <div class="rv-name">Nattawut W.</div>
-            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /rv-track -->
-  </div><!-- /rv-outer -->
-
-  <!-- dots -->
-  <div class="rv-dots" id="rvDots"></div>
-
+<!-- ★ QUICK FACTS (preview) -->
+<section class="pv-facts reveal">
+  <div class="pv-fact"><b>247</b><span>ชุดเทมเพลต</span></div>
+  <div class="pv-fact"><b>6,500+</b><span>สไลด์พร้อมใช้</span></div>
+  <div class="pv-fact"><b>.pptx</b><span>แก้ได้ทุกชิ้น</span></div>
+  <div class="pv-fact"><b>5 นาที</b><span>ได้ไฟล์ทางอีเมล</span></div>
+  <div class="pv-fact"><b>จ่ายครั้งเดียว</b><span>โหลดซ้ำได้ตลอด</span></div>
 </section>
-<!-- ⑤ SOCIAL PROOF -->
-<div class="social-bar reveal" style="display:none">
-  <div class="avatars">
-    <div class="av av1">ก</div><div class="av av2">ส</div>
-    <div class="av av3">ป</div><div class="av av4">น</div>
-  </div>
-  <div class="social-text">
-    <a href="#reviews" class="social-count-link"><strong>7,000+ คน</strong></a> ใช้งานแล้ว<br>
-    <span class="stars-inline">★★★★★</span> รีวิวเฉลี่ย 4.9/5<br>
-    <a href="#reviews" class="social-review-link">อ่านรีวิวเพิ่มเติม <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+
+<div class="pv-anchor">
+  <div class="pv-anchor-in">
+    <a href="#library" class="on">หาสไลด์</a><a href="#strip">ตัวอย่างสไลด์</a><a href="#feat">ฟีเจอร์</a>
+    <a href="#reviews">รีวิว</a><a href="#how">วิธีสั่งซื้อ</a><a href="#deal">ราคา</a><a href="#team">ซื้อให้ทีม</a><a href="#faq">คำถาม</a>
   </div>
 </div>
-
-
-<!-- ⑦ PARALLAX TEMPLATE STRIP -->
-<section class="strip-section" id="strip">
-  <div class="strip-header reveal">
-    <div class="section-pill">Template Collection</div>
-    <h2 class="section-h2">6,500+ สไลด์<br>ครบทุกสไตล์</h2>
-    <p class="section-sub" style="margin-bottom:0">เลือกใช้ตามงานที่ต้องการ แก้ไขง่าย ใช้ได้ทันที</p>
-  </div>
-  <div class="strip-track-wrap" id="stripWrap">
-    <div class="strip-row" id="row1">
-      <div class="slide-tile g5"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-01.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
-      <div class="slide-tile g2"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Alphabet Infographics-02.jpg" alt="Alphabet Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Alphabet Infographics</div></div></div>
-      <div class="slide-tile g3"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Marketing Slides-01.jpg" alt="Marketing Slides" loading="lazy"><div class="slide-tile-label">Marketing</div></div><div class="slide-tile-info"><div class="slide-tile-name">Marketing Slides</div></div></div>
-      <div class="slide-tile g1"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/KPI Dashboards.jpg" alt="KPI Dashboards" loading="lazy"><div class="slide-tile-label">KPI</div></div><div class="slide-tile-info"><div class="slide-tile-name">KPI Dashboards</div></div></div>
-      <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-03.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
-    </div>
-    <div class="strip-row row2" id="row2">
-      <div class="slide-tile g8"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Business Strategy-01.jpg" alt="Business Strategy" loading="lazy"><div class="slide-tile-label">Strategy</div></div><div class="slide-tile-info"><div class="slide-tile-name">Business Strategy</div></div></div>
-      <div class="slide-tile g7"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-02.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
-      <div class="slide-tile g6"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Alphabet Infographics-01.jpg" alt="Alphabet Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Alphabet Infographics</div></div></div>
-      <div class="slide-tile g3"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Marketing Slides-02.jpg" alt="Marketing Slides" loading="lazy"><div class="slide-tile-label">Marketing</div></div><div class="slide-tile-info"><div class="slide-tile-name">Marketing Slides</div></div></div>
-    </div>
-    <div class="strip-row row3" id="row3">
-      <div class="slide-tile g1"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Product Life Cycle.jpg" alt="Product Life Cycle" loading="lazy"><div class="slide-tile-label">Product</div></div><div class="slide-tile-info"><div class="slide-tile-name">Product Life Cycle</div></div></div>
-      <div class="slide-tile g5"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Timeline Infographics.jpg" alt="Timeline Infographics" loading="lazy"><div class="slide-tile-label">Timeline</div></div><div class="slide-tile-info"><div class="slide-tile-name">Timeline Infographics</div></div></div>
-      <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Process Infographics.jpg" alt="Process Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Process Infographics</div></div></div>
-    </div>
-  </div>
-</section>
 
 <!-- ⑦c PICK BY JOB / BY SLIDE TYPE -> templates -->
 <style>
@@ -3010,6 +2906,22 @@ async function setFile(slug){
 })();
 </script>
 
+<!-- ★ WHAT YOU GET (preview) -->
+<section class="section pv-out-section">
+  <div class="reveal" style="text-align:center">
+    <div class="section-pill">ซื้อแล้วได้อะไร</div>
+    <h2 class="section-h2">เปลี่ยนงานพรีเซนต์<br>ของคุณตั้งแต่วันแรก</h2>
+  </div>
+  <div class="pv-outs">
+    <div class="pv-out reveal"><div class="pv-out-b">ก่อน</div><p>เปิด PowerPoint เปล่า นั่งจัดหน้าเอง 2-3 ชั่วโมงต่อหนึ่งงาน</p>
+      <div class="pv-out-a">หลัง</div><p><b>เลือกชุดที่ตรงงาน แก้ตัวเลข แล้วพรีเซนต์ได้ใน 10 นาที</b></p></div>
+    <div class="pv-out reveal"><div class="pv-out-b">ก่อน</div><p>กราฟทำเองเบี้ยว สีไม่เข้ากัน ตัวเลขอัปเดตทีต้องทำใหม่ทั้งแผ่น</p>
+      <div class="pv-out-a">หลัง</div><p><b>กราฟทุกตัวผูกกับ Excel แก้ตัวเลขครั้งเดียว อัปเดตให้ทุกแผ่น</b></p></div>
+    <div class="pv-out reveal"><div class="pv-out-b">ก่อน</div><p>โหลดเทมเพลตฟรีมาแล้วฟอนต์ไทยเพี้ยน ใช้จริงไม่ได้สักอัน</p>
+      <div class="pv-out-a">หลัง</div><p><b>ทุกชุดทำด้วยฟอนต์ไทยจริง เปิดเครื่องไหนก็ไม่เพี้ยน</b></p></div>
+  </div>
+</section>
+
 <!-- ④ COMPATIBLE WITH -->
 <div class="compat-section reveal">
   <span class="compat-label">ใช้ได้กับ</span>
@@ -3030,93 +2942,37 @@ async function setFile(slug){
   </div>
 </div>
 
-<!-- ⑪ WHO IS THIS FOR — TABS -->
-<section class="section for-section" id="for" style="display:none">
-  <!-- Tab buttons -->
-  <div class="tab-btns" id="forTabs" role="tablist">
-    <button class="tab-btn active" onclick="switchTab('office',this)" role="tab">งานออฟฟิศ</button>
-    <button class="tab-btn" onclick="switchTab('sales',this)" role="tab">ตัวแทนขาย</button>
-    <button class="tab-btn" onclick="switchTab('teacher',this)" role="tab">ครู / วิทยากร</button>
-    <button class="tab-btn" onclick="switchTab('biz',this)" role="tab">เจ้าของธุรกิจ</button>
-    <button class="tab-btn" onclick="switchTab('other',this)" role="tab">อาชีพอื่นๆ</button>
+<!-- ⑦ PARALLAX TEMPLATE STRIP -->
+<section class="strip-section" id="strip">
+  <div class="strip-header reveal">
+    <div class="section-pill">Template Collection</div>
+    <h2 class="section-h2">6,500+ สไลด์<br>ครบทุกสไตล์</h2>
+    <p class="section-sub" style="margin-bottom:0">เลือกใช้ตามงานที่ต้องการ แก้ไขง่าย ใช้ได้ทันที</p>
   </div>
-
-  <!-- Tab: คนทำงาน -->
-  <div class="tab-panel active" id="tab-office">
-    <div class="tab-desc">
-      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
-      <div class="tab-desc-text"><strong>คนทำงานออฟฟิศ / ผู้จัดการ / HR / Executive</strong>Presentation ดูโปร ผู้บริหารประทับใจ — Report, KPI, Annual Review, Meeting ครบ</div>
+  <div class="strip-track-wrap" id="stripWrap">
+    <div class="strip-row" id="row1">
+      <div class="slide-tile g5"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-01.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
+      <div class="slide-tile g2"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Alphabet Infographics-02.jpg" alt="Alphabet Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Alphabet Infographics</div></div></div>
+      <div class="slide-tile g3"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Marketing Slides-01.jpg" alt="Marketing Slides" loading="lazy"><div class="slide-tile-label">Marketing</div></div><div class="slide-tile-info"><div class="slide-tile-name">Marketing Slides</div></div></div>
+      <div class="slide-tile g1"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/KPI Dashboards.jpg" alt="KPI Dashboards" loading="lazy"><div class="slide-tile-label">KPI</div></div><div class="slide-tile-info"><div class="slide-tile-name">KPI Dashboards</div></div></div>
+      <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-03.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
     </div>
-    <div class="tab-slides-grid">
-      <div class="tab-slide-card g1"><div class="tab-slide-thumb"><img src="img/sample-slide/professionals_slide_01.jpg" alt="SWOT Infographic" loading="lazy"><div class="tab-slide-badge">SWOT</div></div><div class="tab-slide-info"><div class="tab-slide-name">SWOT Infographic</div></div></div>
-      <div class="tab-slide-card g4"><div class="tab-slide-thumb"><img src="img/sample-slide/professionals_slide_02.jpg" alt="Marketing Strategy" loading="lazy"><div class="tab-slide-badge">Marketing</div></div><div class="tab-slide-info"><div class="tab-slide-name">Marketing Strategy</div></div></div>
-      <div class="tab-slide-card g6"><div class="tab-slide-thumb"><img src="img/sample-slide/professionals_slide_03.jpg" alt="KPI Powerpoint" loading="lazy"><div class="tab-slide-badge">KPI</div></div><div class="tab-slide-info"><div class="tab-slide-name">KPI Powerpoint</div></div></div>
-      <div class="tab-slide-card g3"><div class="tab-slide-thumb"><img src="img/sample-slide/professionals_slide_04.jpg" alt="Digital Marketing Powerpoint Slides" loading="lazy"><div class="tab-slide-badge">Digital</div></div><div class="tab-slide-info"><div class="tab-slide-name">Digital Marketing Powerpoint Slides</div></div></div>
+    <div class="strip-row row2" id="row2">
+      <div class="slide-tile g8"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Business Strategy-01.jpg" alt="Business Strategy" loading="lazy"><div class="slide-tile-label">Strategy</div></div><div class="slide-tile-info"><div class="slide-tile-name">Business Strategy</div></div></div>
+      <div class="slide-tile g7"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-02.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
+      <div class="slide-tile g6"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Alphabet Infographics-01.jpg" alt="Alphabet Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Alphabet Infographics</div></div></div>
+      <div class="slide-tile g3"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Marketing Slides-02.jpg" alt="Marketing Slides" loading="lazy"><div class="slide-tile-label">Marketing</div></div><div class="slide-tile-info"><div class="slide-tile-name">Marketing Slides</div></div></div>
     </div>
-  </div>
-
-  <!-- Tab: ตัวแทนขาย -->
-  <div class="tab-panel" id="tab-sales">
-    <div class="tab-desc">
-      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
-      <div class="tab-desc-text"><strong>ตัวแทนขาย / ตัวแทนประกัน / นักการตลาด</strong>นำเสนอลูกค้าได้น่าเชื่อถือ ปิดการขายง่ายขึ้น — Sales Deck, ประกันชีวิต, Product Pitch พร้อม</div>
-    </div>
-    <div class="tab-slides-grid">
-      <div class="tab-slide-card g5"><div class="tab-slide-thumb"><img src="img/sample-slide/sales_slide_01.jpg" alt="Dashboard Slides" loading="lazy"><div class="tab-slide-badge">Dashboard</div></div><div class="tab-slide-info"><div class="tab-slide-name">Dashboard Slides</div></div></div>
-      <div class="tab-slide-card g2"><div class="tab-slide-thumb"><img src="img/sample-slide/sales_slide_02.jpg" alt="Marketing Infographics" loading="lazy"><div class="tab-slide-badge">Marketing</div></div><div class="tab-slide-info"><div class="tab-slide-name">Marketing Infographics</div></div></div>
-      <div class="tab-slide-card g7"><div class="tab-slide-thumb"><img src="img/sample-slide/sales_slide_03.jpg" alt="Progress Infographics" loading="lazy"><div class="tab-slide-badge">Progress</div></div><div class="tab-slide-info"><div class="tab-slide-name">Progress Infographics</div></div></div>
-      <div class="tab-slide-card g8"><div class="tab-slide-thumb"><img src="img/sample-slide/sales_slide_04.jpg" alt="Survey Results" loading="lazy"><div class="tab-slide-badge">Survey</div></div><div class="tab-slide-info"><div class="tab-slide-name">Survey Results</div></div></div>
+    <div class="strip-row row3" id="row3">
+      <div class="slide-tile g1"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Product Life Cycle.jpg" alt="Product Life Cycle" loading="lazy"><div class="slide-tile-label">Product</div></div><div class="slide-tile-info"><div class="slide-tile-name">Product Life Cycle</div></div></div>
+      <div class="slide-tile g5"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Timeline Infographics.jpg" alt="Timeline Infographics" loading="lazy"><div class="slide-tile-label">Timeline</div></div><div class="slide-tile-info"><div class="slide-tile-name">Timeline Infographics</div></div></div>
+      <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Process Infographics.jpg" alt="Process Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Process Infographics</div></div></div>
     </div>
   </div>
-
-  <!-- Tab: ครู / วิทยากร -->
-  <div class="tab-panel" id="tab-teacher">
-    <div class="tab-desc">
-      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-      <div class="tab-desc-text"><strong>ครู / อาจารย์ / วิทยากร / Trainer / โค้ช</strong>สอนได้สวย มืออาชีพขึ้น ในเวลาน้อยลง — มี template สอน, Workshop, Course พร้อมใช้</div>
-    </div>
-    <div class="tab-slides-grid">
-      <div class="tab-slide-card g3"><div class="tab-slide-thumb"><img src="img/sample-slide/educators_slide_01.jpg" alt="Education School" loading="lazy"><div class="tab-slide-badge">Education</div></div><div class="tab-slide-info"><div class="tab-slide-name">Education School</div></div></div>
-      <div class="tab-slide-card g6"><div class="tab-slide-thumb"><img src="img/sample-slide/educators_slide_02.jpg" alt="Education Infographics" loading="lazy"><div class="tab-slide-badge">Education</div></div><div class="tab-slide-info"><div class="tab-slide-name">Education Infographics</div></div></div>
-      <div class="tab-slide-card g1"><div class="tab-slide-thumb"><img src="img/sample-slide/educators_slide_03.jpg" alt="Education Infographics" loading="lazy"><div class="tab-slide-badge">Education</div></div><div class="tab-slide-info"><div class="tab-slide-name">Education Infographics</div></div></div>
-      <div class="tab-slide-card g4"><div class="tab-slide-thumb"><img src="img/sample-slide/educators_slide_04.jpg" alt="Education Infographics" loading="lazy"><div class="tab-slide-badge">Education</div></div><div class="tab-slide-info"><div class="tab-slide-name">Education Infographics</div></div></div>
-    </div>
-  </div>
-
-  <!-- Tab: เจ้าของธุรกิจ -->
-  <div class="tab-panel" id="tab-biz">
-    <div class="tab-desc">
-      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-      <div class="tab-desc-text"><strong>เจ้าของธุรกิจ / SME / Startup / Freelance</strong>Pitch deck สวยงาม ไม่ต้องจ้าง Designer — Investor Pitch, Strategy, Business Plan ครบ</div>
-    </div>
-    <div class="tab-slides-grid">
-      <div class="tab-slide-card g2"><div class="tab-slide-thumb"><img src="img/sample-slide/entrepreneurs_slide_01.jpg" alt="Business Plan Infographics" loading="lazy"><div class="tab-slide-badge">Business</div></div><div class="tab-slide-info"><div class="tab-slide-name">Business Plan Infographics</div></div></div>
-      <div class="tab-slide-card g7"><div class="tab-slide-thumb"><img src="img/sample-slide/entrepreneurs_slide_02.jpg" alt="Business Infographics" loading="lazy"><div class="tab-slide-badge">Business</div></div><div class="tab-slide-info"><div class="tab-slide-name">Business Infographics</div></div></div>
-      <div class="tab-slide-card g5"><div class="tab-slide-thumb"><img src="img/sample-slide/entrepreneurs_slide_03.jpg" alt="Dashboard Slides" loading="lazy"><div class="tab-slide-badge">Dashboard</div></div><div class="tab-slide-info"><div class="tab-slide-name">Dashboard Slides</div></div></div>
-      <div class="tab-slide-card g8"><div class="tab-slide-thumb"><img src="img/sample-slide/entrepreneurs_slide_04.jpg" alt="Organizational Charts" loading="lazy"><div class="tab-slide-badge">Org Chart</div></div><div class="tab-slide-info"><div class="tab-slide-name">Organizational Charts</div></div></div>
-    </div>
-  </div>
-
-  <!-- Tab: อาชีพอื่นๆ -->
-  <div class="tab-panel" id="tab-other">
-    <div class="tab-desc" style="background:rgba(211,71,36,0.05);border-color:rgba(211,71,36,0.2)">
-      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
-      <div class="tab-desc-text"><strong>ไม่เจออาชีพของคุณ? ไม่ต้องกังวล</strong>ทุก template ในชุดนี้ปรับแต่งได้อิสระ — เปลี่ยนสี ข้อความ รูปได้เอง เหมาะกับทุกสาขาอาชีพ</div>
-    </div>
-    <div class="tab-slides-grid">
-      <div class="tab-slide-card g4"><div class="tab-slide-thumb"><img src="img/sample-slide/other_slide_01.jpg" alt="Healthcare Slides" loading="lazy"><div class="tab-slide-badge">Healthcare</div></div><div class="tab-slide-info"><div class="tab-slide-name">Healthcare Slides</div></div></div>
-      <div class="tab-slide-card g1"><div class="tab-slide-thumb"><img src="img/sample-slide/other_slide_02.jpg" alt="Human Resources Powerpoint Slides" loading="lazy"><div class="tab-slide-badge">HR</div></div><div class="tab-slide-info"><div class="tab-slide-name">Human Resources Powerpoint Slides</div></div></div>
-      <div class="tab-slide-card g8"><div class="tab-slide-thumb"><img src="img/sample-slide/other_slide_03.jpg" alt="Real Estate Slides" loading="lazy"><div class="tab-slide-badge">Real Estate</div></div><div class="tab-slide-info"><div class="tab-slide-name">Real Estate Slides</div></div></div>
-      <div class="tab-slide-card g6"><div class="tab-slide-thumb"><img src="img/sample-slide/other_slide_04.jpg" alt="Technology Infographics" loading="lazy"><div class="tab-slide-badge">Tech</div></div><div class="tab-slide-info"><div class="tab-slide-name">Technology Infographics</div></div></div>
-    </div>
-  </div>
-
-  <div class="tab-more-note reveal">นี่เป็นตัวอย่างเพียงส่วนหนึ่ง — สั่งซื้อแล้วเข้าถึงได้<strong> 6,500+ สไลด์</strong>ทั้งหมดเลย</div>
-
 </section>
 
 <!-- ⑦b FEATURES SPECIAL -->
-<section class="excel-feat-section">
+<section class="excel-feat-section" id="feat">
 
 <div class="feat-items-wrap">
   <!-- 01: Raw → Visual -->
@@ -3223,6 +3079,153 @@ async function setFile(slug){
 </div><!-- /feat-items-wrap -->
 </section>
 
+<!-- ⑩ REVIEWS -->
+<section class="section reviews-section" id="reviews">
+  <div class="pv-rv-stats reveal">
+    <div class="pv-rv-score"><b>4.9</b><span class="pv-rv-stars">★★★★★</span><small>จากผู้ใช้ 7,000+ คน</small></div>
+    <div class="pv-rv-bars">
+      <div class="pv-rv-row"><span>กราฟแก้ใน Excel ได้จริง</span><i style="width:76%"></i><b>76%</b></div>
+      <div class="pv-rv-row"><span>ฟอนต์ไทยครบ ไม่เพี้ยน</span><i style="width:64%"></i><b>64%</b></div>
+      <div class="pv-rv-row"><span>ประหยัดเวลาทำสไลด์</span><i style="width:57%"></i><b>57%</b></div>
+      <div class="pv-rv-note">98% ของผู้ซื้อบอกว่าได้ของตรงกับที่โฆษณาไว้</div>
+    </div>
+  </div>
+  <div class="reviews-head reveal">
+    <div class="section-pill">รีวิวจากผู้ใช้จริง</div>
+    <h2 class="section-h2">ลูกค้าพูดถึง<br>Coach Tarn ว่าไง</h2>
+  </div>
+  <div class="reviews-rating-bar reveal">
+    <div class="reviews-stars">
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <svg viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    </div>
+    <span class="reviews-rating-text">รีวิวจากลูกค้าจริงทาง Messenger</span>
+  </div>
+
+  <!-- peek carousel -->
+  <div class="rv-outer" id="rvOuter">
+    <div class="rv-track" id="rvTrack">
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-01.png" alt="รีวิว Sucheera">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ส</div>
+          <div class="rv-info">
+            <div class="rv-name">Sucheera S.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-02.png" alt="รีวิว ชอ">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ช</div>
+          <div class="rv-info">
+            <div class="rv-name">ชอ ศ.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-03.png" alt="รีวิว Arm">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">A</div>
+          <div class="rv-info">
+            <div class="rv-name">Arm S.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-04.png" alt="รีวิว Ornkanya">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">O</div>
+          <div class="rv-info">
+            <div class="rv-name">Ornkanya N.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-05.png" alt="รีวิว Wutti">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">W</div>
+          <div class="rv-info">
+            <div class="rv-name">Wutti R.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-06.png" alt="รีวิว ณกร">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">ณ</div>
+          <div class="rv-info">
+            <div class="rv-name">ณกร ไ.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-07.png" alt="รีวิว Puiipuii">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">P</div>
+          <div class="rv-info">
+            <div class="rv-name">Puiipuii J.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-08.png" alt="รีวิว ITuit">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">I</div>
+          <div class="rv-info">
+            <div class="rv-name">ITuit T.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-09.png" alt="รีวิว Nantaporn">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">N</div>
+          <div class="rv-info">
+            <div class="rv-name">Nantaporn P.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rv-card">
+        <img src="img/review/Coach-Tarn-Review-10.png" alt="รีวิว Nattawut">
+        <div class="rv-card-foot">
+          <div class="rv-avatar">N</div>
+          <div class="rv-info">
+            <div class="rv-name">Nattawut W.</div>
+            <div class="rv-sub">รีวิวจากลูกค้าจริงทาง Messenger</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /rv-track -->
+  </div><!-- /rv-outer -->
+
+  <!-- dots -->
+  <div class="rv-dots" id="rvDots"></div>
+
+</section>
 <!-- ⑥b REELS -->
 <section class="section reels-section">
   <div class="reels-head reveal">
@@ -3596,6 +3599,43 @@ async function setFile(slug){
   </div><!-- /deal-inner -->
 </section>
 
+<!-- ★ FOR COMPANIES (preview) -->
+<section class="section pv-b2b-section" id="team">
+  <div class="reveal" style="text-align:center">
+    <div class="section-pill">ซื้อในนามองค์กร</div>
+    <h2 class="section-h2">ซื้อให้ทั้งทีม<br>ยิ่งหลายคนยิ่งถูก</h2>
+    <p class="section-sub">เลือกจำนวนสิทธิ์ได้เลย ไม่ต้องรอใบเสนอราคา · ออกใบกำกับภาษีในนามบริษัทได้ทุกแพ็ก</p>
+  </div>
+  <div class="pv-tiers">
+    <div class="pv-tier reveal">
+      <div class="pv-tier-n">1 คน</div>
+      <div class="pv-tier-p">499<small>฿</small></div>
+      <div class="pv-tier-u">499฿ ต่อคน</div>
+      <a href="order" class="pv-tier-btn">สั่งซื้อ</a>
+    </div>
+    <div class="pv-tier reveal pv-tier-hot">
+      <div class="pv-tier-tag">คุ้มที่สุดสำหรับทีมเล็ก</div>
+      <div class="pv-tier-n">5 คน</div>
+      <div class="pv-tier-p">1,990<small>฿</small></div>
+      <div class="pv-tier-u">398฿ ต่อคน · ประหยัด 20%</div>
+      <a href="order?pack=5" class="pv-tier-btn pv-tier-btn-hot">สั่งซื้อแพ็ก 5</a>
+    </div>
+    <div class="pv-tier reveal">
+      <div class="pv-tier-n">10 คน</div>
+      <div class="pv-tier-p">3,490<small>฿</small></div>
+      <div class="pv-tier-u">349฿ ต่อคน · ประหยัด 30%</div>
+      <a href="order?pack=10" class="pv-tier-btn">สั่งซื้อแพ็ก 10</a>
+    </div>
+    <div class="pv-tier reveal">
+      <div class="pv-tier-n">20 คน</div>
+      <div class="pv-tier-p">5,990<small>฿</small></div>
+      <div class="pv-tier-u">299฿ ต่อคน · ประหยัด 40%</div>
+      <a href="order?pack=20" class="pv-tier-btn">สั่งซื้อแพ็ก 20</a>
+    </div>
+  </div>
+  <div class="pv-tier-note reveal">ทุกแพ็กได้คลังเต็ม 247 ชุดเท่ากัน · แต่ละคนได้ Redeem Code ของตัวเอง · เกิน 20 คนหรือขอใบเสนอราคาในนามหน่วยงาน ทักแชทเพจได้เลย</div>
+</section>
+
 <!-- ⑭ FAQ -->
 <section class="section faq-section" id="faq">
   <div class="reveal" style="text-align:center">
@@ -3627,7 +3667,122 @@ async function setFile(slug){
       <button class="faq-q" onclick="toggleFaq(this)">Bonus Slides คืออะไร ได้รับตอนไหน?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
       <div class="faq-a">Bonus Slides คือ template ชุดพิเศษที่ไม่ได้อยู่ในชุดหลัก มูลค่า 299฿ ระบบส่งลิงก์มาพร้อมกับ Redeem Code ในอีเมลเดียวกันอัตโนมัติ ไม่ต้องร้องขอ</div>
     </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">ออกใบกำกับภาษี / ซื้อในนามบริษัทได้ไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="faq-a">ได้ครับ หลังโอนเงินแล้วทักมาที่ <a href="https://m.me/coachtarn" target="_blank" rel="noopener" style="color:var(--red);font-weight:700">แชท Facebook ของเพจ</a> แนบสลิปโอนเงินและแจ้งว่าขอใบกำกับภาษี พร้อมชื่อบริษัท/หน่วยงาน ที่อยู่ และเลขประจำตัวผู้เสียภาษี แอดมินจะออกเอกสารส่งกลับให้</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">ใช้ได้กี่เครื่อง โหลดซ้ำได้ไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="faq-a">ใช้ได้กับเครื่องของคุณเองไม่จำกัดเครื่อง และโหลดซ้ำได้ตลอดด้วย Redeem Code เดิม ไม่มีวันหมดอายุ</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">มีเทมเพลตเพิ่มในอนาคต ต้องจ่ายเพิ่มไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="faq-a">ไม่ต้องจ่ายเพิ่ม ชุดใหม่ที่เพิ่มเข้าคลังใช้ Redeem Code เดิมโหลดได้เลย ล่าสุดเพิ่งเพิ่มชุดกราฟและอินโฟกราฟิกอีก 16 ชุด</div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q" onclick="toggleFaq(this)">เอาไปใช้กับงานลูกค้าหรืองานขายได้ไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
+      <div class="faq-a">ใช้กับงานของคุณและงานที่ทำให้ลูกค้าได้ แต่ห้ามนำไฟล์ต้นฉบับไปขายต่อหรือแจกซ้ำ</div>
+    </div>
   </div>
+</section>
+
+<!-- ⑤ SOCIAL PROOF -->
+<div class="social-bar reveal" style="display:none">
+  <div class="avatars">
+    <div class="av av1">ก</div><div class="av av2">ส</div>
+    <div class="av av3">ป</div><div class="av av4">น</div>
+  </div>
+  <div class="social-text">
+    <a href="#reviews" class="social-count-link"><strong>7,000+ คน</strong></a> ใช้งานแล้ว<br>
+    <span class="stars-inline">★★★★★</span> รีวิวเฉลี่ย 4.9/5<br>
+    <a href="#reviews" class="social-review-link">อ่านรีวิวเพิ่มเติม <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
+  </div>
+</div>
+
+
+<!-- ⑪ WHO IS THIS FOR — TABS -->
+<section class="section for-section" id="for" style="display:none">
+  <!-- Tab buttons -->
+  <div class="tab-btns" id="forTabs" role="tablist">
+    <button class="tab-btn active" onclick="switchTab('office',this)" role="tab">งานออฟฟิศ</button>
+    <button class="tab-btn" onclick="switchTab('sales',this)" role="tab">ตัวแทนขาย</button>
+    <button class="tab-btn" onclick="switchTab('teacher',this)" role="tab">ครู / วิทยากร</button>
+    <button class="tab-btn" onclick="switchTab('biz',this)" role="tab">เจ้าของธุรกิจ</button>
+    <button class="tab-btn" onclick="switchTab('other',this)" role="tab">อาชีพอื่นๆ</button>
+  </div>
+
+  <!-- Tab: คนทำงาน -->
+  <div class="tab-panel active" id="tab-office">
+    <div class="tab-desc">
+      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
+      <div class="tab-desc-text"><strong>คนทำงานออฟฟิศ / ผู้จัดการ / HR / Executive</strong>Presentation ดูโปร ผู้บริหารประทับใจ — Report, KPI, Annual Review, Meeting ครบ</div>
+    </div>
+    <div class="tab-slides-grid">
+      <div class="tab-slide-card g1"><div class="tab-slide-thumb"><img src="img/sample-slide/professionals_slide_01.jpg" alt="SWOT Infographic" loading="lazy"><div class="tab-slide-badge">SWOT</div></div><div class="tab-slide-info"><div class="tab-slide-name">SWOT Infographic</div></div></div>
+      <div class="tab-slide-card g4"><div class="tab-slide-thumb"><img src="img/sample-slide/professionals_slide_02.jpg" alt="Marketing Strategy" loading="lazy"><div class="tab-slide-badge">Marketing</div></div><div class="tab-slide-info"><div class="tab-slide-name">Marketing Strategy</div></div></div>
+      <div class="tab-slide-card g6"><div class="tab-slide-thumb"><img src="img/sample-slide/professionals_slide_03.jpg" alt="KPI Powerpoint" loading="lazy"><div class="tab-slide-badge">KPI</div></div><div class="tab-slide-info"><div class="tab-slide-name">KPI Powerpoint</div></div></div>
+      <div class="tab-slide-card g3"><div class="tab-slide-thumb"><img src="img/sample-slide/professionals_slide_04.jpg" alt="Digital Marketing Powerpoint Slides" loading="lazy"><div class="tab-slide-badge">Digital</div></div><div class="tab-slide-info"><div class="tab-slide-name">Digital Marketing Powerpoint Slides</div></div></div>
+    </div>
+  </div>
+
+  <!-- Tab: ตัวแทนขาย -->
+  <div class="tab-panel" id="tab-sales">
+    <div class="tab-desc">
+      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+      <div class="tab-desc-text"><strong>ตัวแทนขาย / ตัวแทนประกัน / นักการตลาด</strong>นำเสนอลูกค้าได้น่าเชื่อถือ ปิดการขายง่ายขึ้น — Sales Deck, ประกันชีวิต, Product Pitch พร้อม</div>
+    </div>
+    <div class="tab-slides-grid">
+      <div class="tab-slide-card g5"><div class="tab-slide-thumb"><img src="img/sample-slide/sales_slide_01.jpg" alt="Dashboard Slides" loading="lazy"><div class="tab-slide-badge">Dashboard</div></div><div class="tab-slide-info"><div class="tab-slide-name">Dashboard Slides</div></div></div>
+      <div class="tab-slide-card g2"><div class="tab-slide-thumb"><img src="img/sample-slide/sales_slide_02.jpg" alt="Marketing Infographics" loading="lazy"><div class="tab-slide-badge">Marketing</div></div><div class="tab-slide-info"><div class="tab-slide-name">Marketing Infographics</div></div></div>
+      <div class="tab-slide-card g7"><div class="tab-slide-thumb"><img src="img/sample-slide/sales_slide_03.jpg" alt="Progress Infographics" loading="lazy"><div class="tab-slide-badge">Progress</div></div><div class="tab-slide-info"><div class="tab-slide-name">Progress Infographics</div></div></div>
+      <div class="tab-slide-card g8"><div class="tab-slide-thumb"><img src="img/sample-slide/sales_slide_04.jpg" alt="Survey Results" loading="lazy"><div class="tab-slide-badge">Survey</div></div><div class="tab-slide-info"><div class="tab-slide-name">Survey Results</div></div></div>
+    </div>
+  </div>
+
+  <!-- Tab: ครู / วิทยากร -->
+  <div class="tab-panel" id="tab-teacher">
+    <div class="tab-desc">
+      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="tab-desc-text"><strong>ครู / อาจารย์ / วิทยากร / Trainer / โค้ช</strong>สอนได้สวย มืออาชีพขึ้น ในเวลาน้อยลง — มี template สอน, Workshop, Course พร้อมใช้</div>
+    </div>
+    <div class="tab-slides-grid">
+      <div class="tab-slide-card g3"><div class="tab-slide-thumb"><img src="img/sample-slide/educators_slide_01.jpg" alt="Education School" loading="lazy"><div class="tab-slide-badge">Education</div></div><div class="tab-slide-info"><div class="tab-slide-name">Education School</div></div></div>
+      <div class="tab-slide-card g6"><div class="tab-slide-thumb"><img src="img/sample-slide/educators_slide_02.jpg" alt="Education Infographics" loading="lazy"><div class="tab-slide-badge">Education</div></div><div class="tab-slide-info"><div class="tab-slide-name">Education Infographics</div></div></div>
+      <div class="tab-slide-card g1"><div class="tab-slide-thumb"><img src="img/sample-slide/educators_slide_03.jpg" alt="Education Infographics" loading="lazy"><div class="tab-slide-badge">Education</div></div><div class="tab-slide-info"><div class="tab-slide-name">Education Infographics</div></div></div>
+      <div class="tab-slide-card g4"><div class="tab-slide-thumb"><img src="img/sample-slide/educators_slide_04.jpg" alt="Education Infographics" loading="lazy"><div class="tab-slide-badge">Education</div></div><div class="tab-slide-info"><div class="tab-slide-name">Education Infographics</div></div></div>
+    </div>
+  </div>
+
+  <!-- Tab: เจ้าของธุรกิจ -->
+  <div class="tab-panel" id="tab-biz">
+    <div class="tab-desc">
+      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="tab-desc-text"><strong>เจ้าของธุรกิจ / SME / Startup / Freelance</strong>Pitch deck สวยงาม ไม่ต้องจ้าง Designer — Investor Pitch, Strategy, Business Plan ครบ</div>
+    </div>
+    <div class="tab-slides-grid">
+      <div class="tab-slide-card g2"><div class="tab-slide-thumb"><img src="img/sample-slide/entrepreneurs_slide_01.jpg" alt="Business Plan Infographics" loading="lazy"><div class="tab-slide-badge">Business</div></div><div class="tab-slide-info"><div class="tab-slide-name">Business Plan Infographics</div></div></div>
+      <div class="tab-slide-card g7"><div class="tab-slide-thumb"><img src="img/sample-slide/entrepreneurs_slide_02.jpg" alt="Business Infographics" loading="lazy"><div class="tab-slide-badge">Business</div></div><div class="tab-slide-info"><div class="tab-slide-name">Business Infographics</div></div></div>
+      <div class="tab-slide-card g5"><div class="tab-slide-thumb"><img src="img/sample-slide/entrepreneurs_slide_03.jpg" alt="Dashboard Slides" loading="lazy"><div class="tab-slide-badge">Dashboard</div></div><div class="tab-slide-info"><div class="tab-slide-name">Dashboard Slides</div></div></div>
+      <div class="tab-slide-card g8"><div class="tab-slide-thumb"><img src="img/sample-slide/entrepreneurs_slide_04.jpg" alt="Organizational Charts" loading="lazy"><div class="tab-slide-badge">Org Chart</div></div><div class="tab-slide-info"><div class="tab-slide-name">Organizational Charts</div></div></div>
+    </div>
+  </div>
+
+  <!-- Tab: อาชีพอื่นๆ -->
+  <div class="tab-panel" id="tab-other">
+    <div class="tab-desc" style="background:rgba(211,71,36,0.05);border-color:rgba(211,71,36,0.2)">
+      <div class="tab-desc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
+      <div class="tab-desc-text"><strong>ไม่เจออาชีพของคุณ? ไม่ต้องกังวล</strong>ทุก template ในชุดนี้ปรับแต่งได้อิสระ — เปลี่ยนสี ข้อความ รูปได้เอง เหมาะกับทุกสาขาอาชีพ</div>
+    </div>
+    <div class="tab-slides-grid">
+      <div class="tab-slide-card g4"><div class="tab-slide-thumb"><img src="img/sample-slide/other_slide_01.jpg" alt="Healthcare Slides" loading="lazy"><div class="tab-slide-badge">Healthcare</div></div><div class="tab-slide-info"><div class="tab-slide-name">Healthcare Slides</div></div></div>
+      <div class="tab-slide-card g1"><div class="tab-slide-thumb"><img src="img/sample-slide/other_slide_02.jpg" alt="Human Resources Powerpoint Slides" loading="lazy"><div class="tab-slide-badge">HR</div></div><div class="tab-slide-info"><div class="tab-slide-name">Human Resources Powerpoint Slides</div></div></div>
+      <div class="tab-slide-card g8"><div class="tab-slide-thumb"><img src="img/sample-slide/other_slide_03.jpg" alt="Real Estate Slides" loading="lazy"><div class="tab-slide-badge">Real Estate</div></div><div class="tab-slide-info"><div class="tab-slide-name">Real Estate Slides</div></div></div>
+      <div class="tab-slide-card g6"><div class="tab-slide-thumb"><img src="img/sample-slide/other_slide_04.jpg" alt="Technology Infographics" loading="lazy"><div class="tab-slide-badge">Tech</div></div><div class="tab-slide-info"><div class="tab-slide-name">Technology Infographics</div></div></div>
+    </div>
+  </div>
+
+  <div class="tab-more-note reveal">นี่เป็นตัวอย่างเพียงส่วนหนึ่ง — สั่งซื้อแล้วเข้าถึงได้<strong> 6,500+ สไลด์</strong>ทั้งหมดเลย</div>
+
 </section>
 
 <!-- ⑮ FINAL CTA — merged into deal section above -->
@@ -4127,6 +4282,20 @@ function closeDrawer() {
   if (ref) {
     localStorage.setItem('traffic_ref', ref);
   }
+})();
+</script>
+<script>
+// preview: highlight the section chip you are actually looking at
+(function(){
+  const bar = document.querySelector('.pv-anchor'); if (!bar) return;
+  const links = [...bar.querySelectorAll('a')];
+  const targets = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const mark = () => {
+    const y = scrollY + 200; let cur = targets[0];
+    targets.forEach(s => { if (s.offsetTop <= y) cur = s; });
+    links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur.id));
+  };
+  addEventListener('scroll', mark, { passive: true }); mark();
 })();
 </script>
 </body>
