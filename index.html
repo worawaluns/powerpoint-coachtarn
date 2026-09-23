@@ -2467,6 +2467,62 @@ body{
 }
 
 /* ══════════════════════════════════════
+   FEATURES — pick one on the left, see it on the right
+══════════════════════════════════════ */
+.ft-wrap{display:grid;gap:24px}
+.ft-h2{font-size:24px;font-weight:800;line-height:1.35;color:var(--text);margin-bottom:20px;letter-spacing:-.4px}
+.ft-item{
+  display:block;width:100%;text-align:left;cursor:pointer;
+  border:none;background:none;font-family:inherit;padding:0 0 12px;
+}
+.ft-num{font-size:12px;font-weight:800;color:#C3C3CB;letter-spacing:1px}
+.ft-item.on .ft-num{color:var(--red)}
+.ft-name{
+  display:block;font-size:24px;font-weight:800;letter-spacing:-.5px;line-height:1.3;
+  color:#C6C6CE;transition:color .35s var(--ease);
+}
+.ft-item.on .ft-name{color:var(--text)}
+.ft-desc{display:none;font-size:14px;line-height:1.75;color:var(--text-mid);margin-top:8px}
+.ft-item.on .ft-desc{display:block}
+.ft-bar{display:block;height:3px;border-radius:3px;background:rgba(0,0,0,.07);margin-top:14px;overflow:hidden}
+.ft-bar i{display:block;height:100%;width:0;border-radius:3px;background:var(--red)}
+.ft-item.on .ft-bar i{animation:ftBar 7s linear forwards}
+@keyframes ftBar{to{width:100%}}
+.ft-panel{display:none}
+.ft-panel.on{display:block;animation:ftIn .45s var(--ease)}
+@keyframes ftIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.ft-panel .excel-vid-wrap{max-width:640px;margin:0 auto}
+.ft-panel .cust-demo{max-width:430px;margin:0 auto}   /* drawn for a narrow column, keep it that shape */
+.ft-panel .excel-vid-wrap{border:1px solid rgba(0,0,0,.07);box-shadow:0 8px 26px rgba(20,20,30,.08)}
+.ft-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.ft-grid img{
+  width:100%;aspect-ratio:16/9;object-fit:cover;display:block;
+  border-radius:10px;border:1px solid rgba(0,0,0,.07);
+  box-shadow:0 6px 18px rgba(20,20,30,.08);
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease);
+}
+@media(hover:hover){
+  .ft-grid img:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(20,20,30,.14)}
+}
+@media(max-width:767px){
+  .ft-grid img:nth-child(n+7){display:none}   /* six is plenty on a phone */
+}
+@media(min-width:768px){
+  .ft-grid{grid-template-columns:repeat(3,1fr);gap:12px}
+}
+@media(min-width:1024px){
+  .ft-wrap{grid-template-columns:380px 1fr;gap:56px;align-items:start}
+  .ft-h2{font-size:34px;margin-bottom:28px}
+  .ft-name{font-size:38px}
+  .ft-item{padding-bottom:16px}
+  .ft-grid{grid-template-columns:repeat(4,1fr);gap:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  .ft-item.on .ft-bar i{animation:none;width:100%}
+  .ft-panel.on{animation:none}
+}
+
+/* ══════════════════════════════════════
    FINAL CTA (dark card + slide fan)
 ══════════════════════════════════════ */
 .fin-section{padding:8px 16px 40px;background:#fff}
@@ -3096,63 +3152,57 @@ async function setFile(slug){
 
 <!-- ⑦b FEATURES SPECIAL -->
 <section class="excel-feat-section" id="feat">
+  <div class="ft-wrap">
 
-<div class="feat-items-wrap">
-  <!-- 01: Raw → Visual -->
-  <div class="feat-item reveal">
-    <div class="feat-item-num">01</div>
-    <h3 class="feat-item-h">เปลี่ยนข้อมูลดิบของคุณ<br>เป็น Infographic สวยทันที</h3>
-    <p class="feat-item-p">เปลี่ยนตัวเลขน่าเบื่อให้กลายเป็นสไลด์ดูง่าย โปร และน่าเชื่อถือ ด้วยเทมเพลตที่ออกแบบมาเพื่องานนี้โดยเฉพาะ</p>
-    <div class="rsd-demo">
-      <div class="rsd-steps">
-        <div class="rsd-step rsd-s1"><b>1</b>ตัวเลขที่คุณมี</div>
-        <div class="rsd-step rsd-s2"><b>2</b>เลือกสไลด์จากคลัง</div>
-        <div class="rsd-step rsd-s3"><b>3</b>พร้อมพรีเซนต์</div>
-      </div>
-      <div class="rsd-canvas">
-        <div class="rsd-stage">
-          <!-- 1: raw numbers, same figures as the finished slide below -->
-          <div class="rsd-raw">
-            <div class="rsd-doc-h">สรุปผลแคมเปญเดือนนี้</div>
-            <div class="rsd-doc-sub">ข้อมูลจาก Excel · ยังไม่ได้ทำสไลด์</div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">การมองเห็น:</span><span class="rsd-doc-val">1,820,000 ครั้ง</span></div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">คลิกเข้าชม:</span><span class="rsd-doc-val">86,400 ครั้ง</span></div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">คำสั่งซื้อ:</span><span class="rsd-doc-val">2,480 รายการ</span></div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">ต้นทุนต่อออเดอร์:</span><span class="rsd-doc-val">124 บาท</span></div>
-          </div>
-          <!-- 2: three real slides from the library, one gets picked -->
-          <div class="rsd-pick">
-            <div class="rsd-pick-card on"><img src="library/slides/marketingdash/02.jpg" alt="สไลด์ตัวเลข KPI" loading="lazy"><div class="rsd-pick-tick">✓</div></div>
-            <div class="rsd-pick-card"><img src="library/slides/piedonut/02.jpg" alt="สไลด์กราฟโดนัท" loading="lazy"></div>
-            <div class="rsd-pick-card"><img src="library/slides/barchart/02.jpg" alt="สไลด์กราฟแท่ง" loading="lazy"></div>
-          </div>
-          <!-- 3: that same slide, filled in -->
-          <div class="rsd-final"><img src="library/slides/marketingdash/02.jpg" alt="สไลด์ที่พร้อมนำเสนอ" loading="lazy"></div>
+    <div class="ft-list reveal">
+      <h2 class="ft-h2">ซื้อไปแล้วทำอะไรได้บ้าง</h2>
+
+      <button class="ft-item on" type="button">
+        <span class="ft-num">01</span>
+        <span class="ft-name">หยิบสไลด์จากคลังมาใช้</span>
+        <span class="ft-desc">เปิดคลัง 247 ชุด เลือกหน้าที่ตรงกับงาน วางตัวเลขของคุณลงไป จบในไม่กี่นาที ไม่ต้องเริ่มจากหน้าเปล่า</span>
+        <span class="ft-bar"><i></i></span>
+      </button>
+
+      <button class="ft-item" type="button">
+        <span class="ft-num">02</span>
+        <span class="ft-name">แก้ตัวเลขใน Excel</span>
+        <span class="ft-desc">กราฟทุกตัวต่อกับ Excel แก้ตัวเลขครั้งเดียว กราฟในสไลด์ขยับตามทันที ไม่ต้องวาดใหม่ทีละแผ่น</span>
+        <span class="ft-bar"><i></i></span>
+      </button>
+
+      <button class="ft-item" type="button">
+        <span class="ft-num">03</span>
+        <span class="ft-name">เปลี่ยนสีและข้อความ</span>
+        <span class="ft-desc">แก้ได้ทุกจุด เปลี่ยนสีให้ตรงแบรนด์ พิมพ์ข้อความใหม่ได้เอง ไม่ต้องมีพื้นฐานออกแบบ</span>
+        <span class="ft-bar"><i></i></span>
+      </button>
+    </div>
+
+    <div class="ft-panels reveal">
+      <div class="ft-panel on">
+        <div class="ft-grid">
+          <img loading="lazy" src="library/slides/marketingdash/02.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/piedonut/03.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/barchart/04.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/timelineset/05.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/kpinumber/06.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/processflow/07.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/strategymatrix/03.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/hrpeople/05.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/linechart/08.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/survey/04.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/comparechart/06.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/gaugeprogress/05.jpg" alt="ตัวอย่างสไลด์จากคลัง">
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="feat-divider"></div>
-
-  <!-- 02: Excel Link -->
-  <div class="feat-item reveal">
-    <div class="feat-item-num">02</div>
-    <h3 class="feat-item-h">เชื่อมกับ Excel<br>กราฟอัปเดตอัตโนมัติ</h3>
-    <p class="feat-item-p">แก้ตัวเลขใน Excel แค่ครั้งเดียว กราฟใน Slide อัปเดตให้ทันทีทุกแผ่น ไม่ต้องทำซ้ำ</p>
-    <div class="excel-vid-wrap">
-      <video class="excel-feat-vid" src="showcase/link-with-excel-white-bg.mp4" muted loop playsinline preload="none"></video>
-    </div>
-  </div>
-
-  <div class="feat-divider"></div>
-
-  <!-- 03: Customize -->
-  <div class="feat-item reveal">
-    <div class="feat-item-num">03</div>
-    <h3 class="feat-item-h">ปรับแต่งได้เลย<br>สีและข้อความตามแบรนด์คุณ</h3>
-    <p class="feat-item-p">ทุก template แก้ได้อิสระ เปลี่ยนสีให้ตรงแบรนด์ แก้ข้อความได้ทุกจุด ไม่ต้องมีทักษะ Design</p>
-    <div class="cust-demo">
+      <div class="ft-panel">
+        <div class="excel-vid-wrap">
+          <video class="excel-feat-vid" src="showcase/link-with-excel-white-bg.mp4" muted loop playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <div class="ft-panel">
+        <div class="cust-demo">
       <div class="cust-canvas">
         <!-- Phase badges -->
         <div class="cust-badge-edit">✏ พิมพ์ข้อความ</div>
@@ -3198,8 +3248,10 @@ async function setFile(slug){
         </div>
       </div>
     </div>
+      </div>
+    </div>
+
   </div>
-</div><!-- /feat-items-wrap -->
 </section>
 
 <!-- ⑩ REVIEWS -->
@@ -4055,6 +4107,31 @@ async function setFile(slug){
   tick();
   var timer = setInterval(tick, 1000);
   if(Date.now() >= deadline) setExpired();
+})();
+
+/* ── Features: hover or tap picks one, otherwise it advances on its own ── */
+(function(){
+  var items  = [].slice.call(document.querySelectorAll('.ft-item'));
+  var panels = [].slice.call(document.querySelectorAll('.ft-panel'));
+  if (!items.length) return;
+  var i = 0, timer;
+  function go(n){
+    i = (n + items.length) % items.length;
+    items.forEach(function(el, k){ el.classList.toggle('on', k === i); });
+    panels.forEach(function(el, k){ el.classList.toggle('on', k === i); });
+    var bar = items[i].querySelector('.ft-bar i');          // restart the progress sweep
+    bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = '';
+  }
+  function play(){ clearInterval(timer); timer = setInterval(function(){ go(i + 1); }, 7000); }
+  items.forEach(function(el, k){
+    el.addEventListener('mouseenter', function(){ if (k !== i) go(k); play(); });
+    el.addEventListener('click',      function(){ go(k); play(); });
+  });
+  go(0);
+  // only run the carousel while the section is on screen
+  new IntersectionObserver(function(es){
+    es.forEach(function(e){ e.isIntersecting ? play() : clearInterval(timer); });
+  }, { threshold: 0.2 }).observe(document.querySelector('.ft-wrap'));
 })();
 
 /* ── Scroll Reveal ── */
