@@ -2458,14 +2458,19 @@ body{
   display:inline-flex;align-items:center;gap:7px;
   max-width:calc(100vw - 24px);
   padding:7px 13px;border-radius:100px;
-  background:rgba(29,25,23,.86);
-  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  background:rgba(28,24,22,.62);
+  -webkit-backdrop-filter:blur(18px) saturate(180%);backdrop-filter:blur(18px) saturate(180%);
+  border:1px solid rgba(255,255,255,.16);
   color:#fff;font-size:12.5px;font-weight:600;line-height:1.4;white-space:nowrap;
-  box-shadow:0 6px 18px rgba(20,20,30,.22);
+  text-shadow:0 1px 2px rgba(0,0,0,.28);
+  box-shadow:0 8px 22px rgba(20,20,30,.16),inset 0 1px 0 rgba(255,255,255,.2);
   opacity:0;transform:translateX(-14px);
   transition:opacity .4s var(--ease),transform .4s var(--ease);
 }
-.lp b{font-weight:800;color:#FFA472}
+.lp b{font-weight:800;color:#FFB184}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .lp{background:rgba(28,24,22,.88)}
+}
 .lp svg{width:14px;height:14px;flex-shrink:0;opacity:.85}
 .live-pills.on .lp{opacity:1;transform:translateX(0)}
 .live-pills.on .lp:nth-child(2){transition-delay:.12s}
