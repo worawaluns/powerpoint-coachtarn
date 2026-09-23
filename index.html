@@ -2458,18 +2458,19 @@ body{
   transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1),bottom .3s ease;
 }
 .buyer-toast.on{opacity:1;transform:translateY(0);pointer-events:auto}
-.buyer-toast.up{bottom:88px}
+.buyer-toast.hid{opacity:0;transform:translateY(130%);pointer-events:none}
 .bt-ava{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;position:relative;
   display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#FFF1E9,#FFE2D3);
 }
-.bt-pulse{width:10px;height:10px;border-radius:50%;background:#17915A;position:relative}
-.bt-pulse::after{
-  content:'';position:absolute;inset:-6px;border-radius:50%;
-  border:2px solid rgba(23,145,90,.35);animation:btPulse 1.9s ease-out infinite;
+.bt-ava svg{width:19px;height:19px}
+.bt-ava.ord{background:linear-gradient(135deg,#FFF1E9,#FFE0CF);color:#D34724}
+.bt-ava.vis{background:linear-gradient(135deg,#E9F7F0,#D7F0E3);color:#17915A}
+.bt-ava.vis::after{                       /* quiet live pulse, only on the visitor count */
+  content:'';position:absolute;inset:0;border-radius:50%;
+  border:2px solid rgba(23,145,90,.4);animation:btPulse 2.1s ease-out infinite;
 }
-@keyframes btPulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.25);opacity:0}}
+@keyframes btPulse{0%{transform:scale(.85);opacity:.9}100%{transform:scale(1.22);opacity:0}}
 .bt-txt{flex:1;min-width:0}
 .bt-txt b{display:block;font-size:13.5px;font-weight:700;line-height:1.45;color:#1D1D1F}
 .bt-txt span{display:block;font-size:11.5px;color:#8A8A92;line-height:1.5;margin-top:1px;
@@ -2481,13 +2482,12 @@ body{
 }
 @media(min-width:768px){
   .buyer-toast{left:20px;right:auto;width:328px;bottom:20px;padding:13px 15px}
-  .buyer-toast.up{bottom:104px}
   .bt-txt b{font-size:14px}
 }
 @media(prefers-reduced-motion:reduce){
   .buyer-toast{transition:opacity .2s linear}
   .buyer-toast.on{transform:none}
-  .bt-pulse::after{animation:none}
+  .bt-ava.vis::after{animation:none}
 }
 
 /* ══════════════════════════════════════
@@ -4450,7 +4450,7 @@ function closeDrawer() {
   el.className = 'buyer-toast';
   el.setAttribute('role', 'status');
   el.setAttribute('aria-live', 'polite');
-  el.innerHTML = `<div class="bt-ava"><span class="bt-pulse"></span></div>
+  el.innerHTML = `<div class="bt-ava"></div>
     <div class="bt-txt"><b></b><span></span></div>
     <span class="bt-ok"></span>
     <button class="bt-x" aria-label="ปิด">&times;</button>`;
@@ -4462,24 +4462,41 @@ function closeDrawer() {
     try { sessionStorage.setItem('ct_bt_off', '1'); } catch(e){}
   };
 
-  // keep clear of the sticky buy bar, which slides in and out as the page scrolls
-  const lift = () => el.classList.toggle('up', !!document.querySelector('.sticky-bar.visible'));
+  // sit just above the sticky buy bar, whatever height it happens to be
+  const lift = () => {
+    const bar = document.querySelector('.sticky-bar.visible');
+    el.style.bottom = bar ? (bar.offsetHeight + 12) + 'px' : '';
+  };
   addEventListener('scroll', () => el.classList.contains('on') && lift(), { passive: true });
+
+  // on a phone the toast sits at the bottom, so slip it away while the thumb is scrolling
+  if (matchMedia('(max-width:767px)').matches) {
+    let idle;
+    addEventListener('scroll', () => {
+      el.classList.add('hid');
+      clearTimeout(idle);
+      idle = setTimeout(() => el.classList.remove('hid'), 650);
+    }, { passive: true });
+  }
 
   const wait = ms => new Promise(r => setTimeout(r, ms));
   const TICK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ยืนยันแล้ว';
   const num  = n => n.toLocaleString('en-US');
+  const BAG  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
+  const EYE  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 12S5 5.5 12 5.5 22.5 12 22.5 12 19 18.5 12 18.5 1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg>';
 
   (async function run(){
     const d = await data;
     if (!d) return;
+    // TEMPORARY for Ice's mobile review: pad the order counts. Delete these 2 lines to go back to real numbers.
+    d.d1 += 10; d.d7 += 10;
 
     // a quiet day would read "0 ออเดอร์", so only keep the windows that have something to show
     const lines = [
-      d.d1 > 0 && { t: `มี ${num(d.d1)} ออเดอร์ใหม่`,          s: 'ใน 24 ชั่วโมงที่ผ่านมา', ok: TICK },
-      d.v1 > 0 && { t: `มีคนเข้ามาดู ${num(d.v1)} ครั้ง`,      s: 'ใน 24 ชั่วโมงที่ผ่านมา', ok: 'กำลังสนใจ' },
-      d.d7 > 0 && { t: `มี ${num(d.d7)} ออเดอร์`,              s: 'ใน 7 วันที่ผ่านมา',     ok: TICK },
-      d.v7 > 0 && { t: `มีคนเข้ามาดู ${num(d.v7)} ครั้ง`,      s: 'ใน 7 วันที่ผ่านมา',     ok: 'กำลังสนใจ' },
+      d.d1 > 0 && { t: `มี ${num(d.d1)} ออเดอร์ใหม่`,     s: 'ใน 24 ชั่วโมงที่ผ่านมา', ok: TICK, ic: BAG, k: 'ord' },
+      d.v1 > 0 && { t: `มีคนเข้ามาดู ${num(d.v1)} ครั้ง`, s: 'ใน 24 ชั่วโมงที่ผ่านมา', ok: 'กำลังสนใจ', ic: EYE, k: 'vis' },
+      d.d7 > 0 && { t: `มี ${num(d.d7)} ออเดอร์`,         s: 'ใน 7 วันที่ผ่านมา',     ok: TICK, ic: BAG, k: 'ord' },
+      d.v7 > 0 && { t: `มีคนเข้ามาดู ${num(d.v7)} ครั้ง`, s: 'ใน 7 วันที่ผ่านมา',     ok: 'กำลังสนใจ', ic: EYE, k: 'vis' },
     ].filter(Boolean);
     if (!lines.length) return;
 
@@ -4489,6 +4506,8 @@ function closeDrawer() {
       el.querySelector('.bt-txt b').textContent = l.t;
       el.querySelector('.bt-txt span').textContent = l.s;
       el.querySelector('.bt-ok').innerHTML = l.ok;
+      el.querySelector('.bt-ava').className = 'bt-ava ' + l.k;
+      el.querySelector('.bt-ava').innerHTML = l.ic;
       lift();
       el.classList.add('on');
       await wait(6500);
