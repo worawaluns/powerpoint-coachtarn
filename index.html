@@ -4400,12 +4400,13 @@ function closeDrawer() {
     const bar = document.querySelector('.sticky-bar.visible');
     box.style.bottom = bar ? (bar.offsetHeight + 12) + 'px' : '';
   };
-  // on a phone the pills sit at the bottom, so slip them away while the thumb is scrolling
+  // on a phone the pills sit at the bottom, so slip them away while the thumb is scrolling.
+  // scrolling is not "doing something", so this only kicks in after the visitor has clicked.
   let idle;
   addEventListener('scroll', () => {
     if (!box.classList.contains('on')) return;
     lift();
-    if (!matchMedia('(max-width:767px)').matches) return;
+    if (!acted || !matchMedia('(max-width:767px)').matches) return;
     box.classList.add('hid');
     clearTimeout(idle);
     idle = setTimeout(() => box.classList.remove('hid'), 650);
