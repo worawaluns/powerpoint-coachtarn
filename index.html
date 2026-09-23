@@ -4436,6 +4436,17 @@ function closeDrawer() {
     rounds = build(fresh);
   });
 
+  // the pills stay up until the visitor actually does something, then they only peek in now and then
+  let acted = false;
+  const firstAction = new Promise(res => {
+    const h = e => {
+      if (!e.target.closest || !e.target.closest('a,button,input,select,textarea,label,[role="button"],[onclick]')) return;
+      document.removeEventListener('click', h, true);
+      acted = true; res();
+    };
+    document.addEventListener('click', h, true);
+  });
+
   (async function run(){
     if (!rounds) {
       const fresh = await data;
@@ -4444,17 +4455,35 @@ function closeDrawer() {
     } else {
       await wait(500);           // let the page paint before the cached numbers slide in
     }
+    if (!rounds.length) return;
 
-    for (let i = 0; i < 6; i++) {
-      if (!rounds.length) return;
+    let i = 0;
+    const show = () => {
       const r = rounds[i % rounds.length];
       p1.innerHTML = r[0] || '';  p1.style.display = r[0] ? '' : 'none';
       p2.innerHTML = r[1] || '';  p2.style.display = r[1] ? '' : 'none';
       lift();
       box.classList.add('on');
+    };
+
+    // ── pinned: up from the moment the page opens, swapping 24 hours / 7 days in place ──
+    show();
+    while (!acted) {
+      await Promise.race([wait(8000), firstAction]);
+      if (acted || rounds.length < 2) break;
+      box.classList.add('hid');
+      await wait(300);
+      i++; show();
+      box.classList.remove('hid');
+    }
+    box.classList.remove('on');
+
+    // ── after that: a short look-in every so often ──
+    for (let n = 0; n < 5; n++) {
+      await wait(18000);
+      i++; show();
       await wait(7000);
       box.classList.remove('on');
-      await wait(15000);
     }
   })();
 })();
