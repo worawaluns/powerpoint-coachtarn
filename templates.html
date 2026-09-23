@@ -271,5 +271,13 @@ Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slid
   renderMember(); renderChips(); render();
 });
 </script>
+<script>
+/* count this page view for the counters on the home page: a bare timestamp, nothing about who */
+fetch('https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers', {
+  method : 'POST',
+  headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ' },
+  body   : '{"hit":true}',
+}).catch(() => {});
+</script>
 </body>
 </html>

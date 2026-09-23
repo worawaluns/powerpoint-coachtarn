@@ -56,7 +56,14 @@ serve(async (req) => {
     return error ? 0 : (count ?? 0)
   }
 
-  const [d1, d7, v1, v7] = await Promise.all([count(1), count(7), visits(1), visits(7)])
+  // how far back the visit counter actually goes, so the page never claims a window it cannot back up
+  const oldest = async () => {
+    const { data } = await supabase
+      .from('site_hits').select('created_at').order('created_at', { ascending: true }).limit(1)
+    return data?.[0]?.created_at ?? null
+  }
 
-  return Response.json({ d1, d7, v1, v7 }, { headers: CORS })
+  const [d1, d7, v1, v7, since] = await Promise.all([count(1), count(7), visits(1), visits(7), oldest()])
+
+  return Response.json({ d1, d7, v1, v7, since }, { headers: CORS })
 })

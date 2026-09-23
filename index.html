@@ -4371,14 +4371,11 @@ function closeDrawer() {
   const FN  = 'https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers';
   const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
 
-  // count this tab-session once; the server stores a bare timestamp, nothing about who
-  let fresh = false;
-  try { fresh = !sessionStorage.getItem('ct_hit'); sessionStorage.setItem('ct_hit', '1'); } catch(e){}
-
+  // count this page view; the server stores a bare timestamp, nothing about who
   const data = fetch(FN, {
     method : 'POST',
     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${KEY}` },
-    body   : JSON.stringify({ hit: fresh }),
+    body   : JSON.stringify({ hit: true }),
   }).then(r => r.json()).catch(() => null);
 
   if (matchMedia('(pointer:coarse)').matches && innerHeight < 500) return;   // tiny landscape phones
@@ -4417,6 +4414,8 @@ function closeDrawer() {
 
   // numbers from the last visit show instantly; the fresh ones swap in when they land
   const build = d => {
+    // the visit counter started on 23 Sep; do not claim a 7 day figure until it has 7 days behind it
+    const daysLogged = d.since ? (Date.now() - new Date(d.since)) / 864e5 : 0;
     // TEMPORARY for Ice's mobile review: pad the order counts. Delete this line to go back to real numbers.
     d = { ...d, d1: d.d1 + 10, d7: d.d7 + 10 };
     // a quiet window would read "0 ออเดอร์", so only keep the rounds that have something to show
@@ -4424,7 +4423,7 @@ function closeDrawer() {
       [ d.d1 > 0 && `${BAG}มี <b>${num(d.d1)}</b> ออเดอร์ใน 24 ชั่วโมง`,
         d.v1 > 0 && `${EYE}<b>${num(d.v1)}</b> คนเข้ามาดูวันนี้` ],
       [ d.d7 > 0 && `${BAG}มี <b>${num(d.d7)}</b> ออเดอร์ใน 7 วัน`,
-        d.v7 > 0 && `${EYE}<b>${num(d.v7)}</b> คนเข้ามาดูใน 7 วัน` ],
+        daysLogged >= 6.5 && d.v7 > 0 && `${EYE}<b>${num(d.v7)}</b> คนเข้ามาดูใน 7 วัน` ],
     ].map(r => r.filter(Boolean)).filter(r => r.length);
   };
 
