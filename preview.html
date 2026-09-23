@@ -2475,6 +2475,18 @@ fbq('track','PageView');
 .pv-b2b-item:first-child{border-top:none;padding-top:0;margin-top:0}
 .pv-b2b-item b{display:block;font-size:14.5px}
 .pv-b2b-item span{font-size:12.5px;color:var(--text-mid)}
+.pv-tiers{display:grid;gap:12px;margin-top:18px}
+.pv-tier{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:18px;padding:18px;text-align:center;box-shadow:0 3px 14px rgba(20,20,30,.05);position:relative}
+.pv-tier-hot{border-color:var(--red);box-shadow:0 8px 26px rgba(211,71,36,.16)}
+.pv-tier-tag{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:11.5px;font-weight:800;padding:4px 12px;border-radius:100px;white-space:nowrap}
+.pv-tier-n{font-size:14px;font-weight:800;color:var(--text-mid)}
+.pv-tier-p{font-size:34px;font-weight:800;line-height:1.1;margin:2px 0 2px}
+.pv-tier-p small{font-size:17px;margin-left:2px}
+.pv-tier-u{font-size:12.5px;color:var(--text-mid);margin-bottom:12px}
+.pv-tier-btn{display:block;border-radius:100px;padding:10px 0;font-size:14.5px;font-weight:700;background:#f2f2f4;color:var(--text-dark)}
+.pv-tier-btn-hot{background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));color:#fff;box-shadow:0 6px 16px rgba(211,71,36,.28)}
+.pv-tier-note{font-size:12.5px;color:var(--text-mid);text-align:center;margin-top:14px;line-height:1.6}
+@media(min-width:768px){.pv-tiers{grid-template-columns:repeat(4,1fr);gap:14px}}
 /* sticky section nav */
 .pv-anchor{position:sticky;top:56px;z-index:120;background:rgba(255,255,255,.95);backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,.06)}
 .pv-anchor-in{display:flex;gap:6px;overflow-x:auto;padding:9px 16px;max-width:var(--max);margin:0 auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
@@ -2634,7 +2646,7 @@ fbq('track','PageView');
 <!-- ★ QUICK FACTS (preview) -->
 <section class="pv-facts reveal">
   <div class="pv-fact"><b>247</b><span>ชุดเทมเพลต</span></div>
-  <div class="pv-fact"><b>4,900+</b><span>สไลด์พร้อมใช้</span></div>
+  <div class="pv-fact"><b>6,500+</b><span>สไลด์พร้อมใช้</span></div>
   <div class="pv-fact"><b>.pptx</b><span>แก้ได้ทุกชิ้น</span></div>
   <div class="pv-fact"><b>5 นาที</b><span>ได้ไฟล์ทางอีเมล</span></div>
   <div class="pv-fact"><b>จ่ายครั้งเดียว</b><span>โหลดซ้ำได้ตลอด</span></div>
@@ -2643,7 +2655,7 @@ fbq('track','PageView');
 <div class="pv-anchor">
   <div class="pv-anchor-in">
     <a href="#pick" class="on">คลังสไลด์</a><a href="#strip">ตัวอย่าง</a><a href="#feat">ฟีเจอร์</a>
-    <a href="#reviews">รีวิว</a><a href="#how">วิธีสั่งซื้อ</a><a href="#deal">ราคา</a><a href="#faq">คำถาม</a>
+    <a href="#reviews">รีวิว</a><a href="#how">วิธีสั่งซื้อ</a><a href="#deal">ราคา</a><a href="#team">ซื้อให้ทีม</a><a href="#faq">คำถาม</a>
   </div>
 </div>
 
@@ -3583,20 +3595,40 @@ async function setFile(slug){
 </section>
 
 <!-- ★ FOR COMPANIES (preview) -->
-<section class="section pv-b2b-section">
-  <div class="pv-b2b reveal">
-    <div class="pv-b2b-l">
-      <div class="section-pill" style="background:rgba(211,71,36,.08);color:var(--red)">ซื้อในนามองค์กร</div>
-      <h2 class="section-h2" style="text-align:left;margin-top:10px">ซื้อให้ทั้งทีม<br>ออกใบกำกับภาษีได้</h2>
-      <p class="section-sub" style="text-align:left">ออกใบเสร็จ/ใบกำกับภาษีในนามบริษัทหรือหน่วยงานได้ เบิกกับต้นสังกัดได้ ซื้อตั้งแต่ 5 สิทธิ์ขึ้นไปมีส่วนลดเพิ่ม</p>
-      <a href="https://m.me/coachtarn" class="btn-primary" style="display:inline-block;margin-top:6px">ขอใบเสนอราคา</a>
+<section class="section pv-b2b-section" id="team">
+  <div class="reveal" style="text-align:center">
+    <div class="section-pill">ซื้อในนามองค์กร</div>
+    <h2 class="section-h2">ซื้อให้ทั้งทีม<br>ยิ่งหลายคนยิ่งถูก</h2>
+    <p class="section-sub">เลือกจำนวนสิทธิ์ได้เลย ไม่ต้องรอใบเสนอราคา · ออกใบกำกับภาษีในนามบริษัทได้ทุกแพ็ก</p>
+  </div>
+  <div class="pv-tiers">
+    <div class="pv-tier reveal">
+      <div class="pv-tier-n">1 คน</div>
+      <div class="pv-tier-p">499<small>฿</small></div>
+      <div class="pv-tier-u">499฿ ต่อคน</div>
+      <a href="order" class="pv-tier-btn">สั่งซื้อ</a>
     </div>
-    <div class="pv-b2b-r">
-      <div class="pv-b2b-item"><b>ครู / อาจารย์</b><span>60 คนซื้อไปใช้สอนและทำผลงาน</span></div>
-      <div class="pv-b2b-item"><b>พนักงานออฟฟิศ</b><span>170 คนใช้รายงานผู้บริหาร</span></div>
-      <div class="pv-b2b-item"><b>บุคลากรสุขภาพ</b><span>20 คนใช้ทำงานวิชาการ</span></div>
+    <div class="pv-tier reveal pv-tier-hot">
+      <div class="pv-tier-tag">คุ้มที่สุดสำหรับทีมเล็ก</div>
+      <div class="pv-tier-n">5 คน</div>
+      <div class="pv-tier-p">1,990<small>฿</small></div>
+      <div class="pv-tier-u">398฿ ต่อคน · ประหยัด 20%</div>
+      <a href="order?pack=5" class="pv-tier-btn pv-tier-btn-hot">สั่งซื้อแพ็ก 5</a>
+    </div>
+    <div class="pv-tier reveal">
+      <div class="pv-tier-n">10 คน</div>
+      <div class="pv-tier-p">3,490<small>฿</small></div>
+      <div class="pv-tier-u">349฿ ต่อคน · ประหยัด 30%</div>
+      <a href="order?pack=10" class="pv-tier-btn">สั่งซื้อแพ็ก 10</a>
+    </div>
+    <div class="pv-tier reveal">
+      <div class="pv-tier-n">20 คน</div>
+      <div class="pv-tier-p">5,990<small>฿</small></div>
+      <div class="pv-tier-u">299฿ ต่อคน · ประหยัด 40%</div>
+      <a href="order?pack=20" class="pv-tier-btn">สั่งซื้อแพ็ก 20</a>
     </div>
   </div>
+  <div class="pv-tier-note reveal">ทุกแพ็กได้คลังเต็ม 247 ชุดเท่ากัน · แต่ละคนได้ Redeem Code ของตัวเอง · เกิน 20 คนหรือขอใบเสนอราคาในนามหน่วยงาน ทักแชทเพจได้เลย</div>
 </section>
 
 <!-- ⑭ FAQ -->
@@ -3632,7 +3664,7 @@ async function setFile(slug){
     </div>
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">ออกใบกำกับภาษี / ซื้อในนามบริษัทได้ไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
-      <div class="faq-a">ได้ครับ แจ้งชื่อบริษัท ที่อยู่ และเลขประจำตัวผู้เสียภาษีทาง Messenger หลังชำระเงิน ทีมงานจะออกเอกสารให้ภายใน 1 วันทำการ</div>
+      <div class="faq-a">ได้ครับ หลังโอนเงินแล้วทักมาที่ <a href="https://m.me/coachtarn" target="_blank" rel="noopener" style="color:var(--red);font-weight:700">แชท Facebook ของเพจ</a> แนบสลิปโอนเงินและแจ้งว่าขอใบกำกับภาษี พร้อมชื่อบริษัท/หน่วยงาน ที่อยู่ และเลขประจำตัวผู้เสียภาษี แอดมินจะออกเอกสารส่งกลับให้</div>
     </div>
     <div class="faq-item reveal">
       <button class="faq-q" onclick="toggleFaq(this)">ใช้ได้กี่เครื่อง โหลดซ้ำได้ไหม?<span class="faq-caret"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></button>
