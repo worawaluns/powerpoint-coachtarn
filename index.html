@@ -2899,7 +2899,9 @@ html.member .sticky-bar{display:none!important}
 </section>
 <script>
 (function(){
-  const JOB = {office:'พนักงานออฟฟิศ',teacher:'ครู / อาจารย์',proposal:'ใบเสนองาน',sales:'ฝ่ายขาย',health:'บุคลากรสุขภาพ',owner:'เจ้าของธุรกิจ',gov:'ข้าราชการ',engineer:'วิศวกร / QMS',trainer:'วิทยากร / โค้ช'};
+  // chip order = verified orders per use_case in Supabase (office 170, teacher 60, sales 22,
+  // health ~20, owner 16, engineer 7, gov 5, trainer 3, proposal 0) — most bought first
+  const JOB = {office:'พนักงานออฟฟิศ',teacher:'ครู / อาจารย์',sales:'ฝ่ายขาย',health:'บุคลากรสุขภาพ',owner:'เจ้าของธุรกิจ',engineer:'วิศวกร / QMS',gov:'ข้าราชการ',trainer:'วิทยากร / โค้ช',proposal:'ใบเสนองาน'};
   const TYPES = ['กราฟ','ตัวเลข KPI','ตาราง','ไทม์ไลน์ / ขั้นตอน','อินโฟกราฟิก','เปรียบเทียบ','สารบัญ','ตารางราคา','ทีม / องค์กร','แผนที่'];
   const $ = id => document.getElementById(id), esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   let D = [], S = {}, P = {type: {}, job: {}}, mode = 'type', sel = 'กราฟ', shown = 6, all = [];
