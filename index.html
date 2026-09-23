@@ -2539,7 +2539,7 @@ body{
 /* feature 03: recolour a real slide the way a theme swatch does in PowerPoint */
 .rc-demo{max-width:620px;margin:0 auto}
 .rc-bar{
-  display:flex;align-items:center;gap:9px;flex-wrap:wrap;
+  position:relative;display:flex;align-items:center;gap:9px;flex-wrap:wrap;
   background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;
   padding:9px 13px;margin-bottom:12px;box-shadow:0 3px 12px rgba(20,20,30,.05);
 }
@@ -2547,13 +2547,20 @@ body{
 .rc-lbl svg{width:15px;height:15px}
 .rc-sw{
   width:26px;height:26px;border-radius:8px;cursor:pointer;padding:0;
-  border:2px solid transparent;background:hsl(var(--sh) 72% 52%);
+  border:2px solid transparent;background:var(--c);
   box-shadow:0 0 0 1px rgba(0,0,0,.08) inset;
   transition:transform .25s var(--ease),box-shadow .25s var(--ease);
 }
 .rc-sw.on{transform:scale(1.12);box-shadow:0 0 0 2px #fff inset,0 0 0 2px rgba(20,20,30,.3)}
 .rc-stage{border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.08);box-shadow:0 10px 30px rgba(20,20,30,.10);background:#fff}
 .rc-stage img{width:100%;display:block;transition:filter .55s var(--ease)}
+.rc-cursor{
+  position:absolute;left:0;top:0;width:19px;height:19px;pointer-events:none;
+  transition:transform .55s cubic-bezier(.5,0,.2,1);filter:drop-shadow(0 2px 4px rgba(0,0,0,.25));
+}
+.rc-cursor svg{width:100%;height:100%;display:block}
+.rc-cursor.tap{animation:rcTap .4s ease}
+@keyframes rcTap{40%{transform:scale(.72)}100%{transform:scale(1)}}
 .rc-note{margin-top:10px;font-size:12.5px;color:var(--text-sub);text-align:center}
 @media(prefers-reduced-motion:reduce){.rc-stage img{transition:none}}
 
@@ -2659,16 +2666,10 @@ fbq('track','PageView');
 <!-- End Meta Pixel -->
 <style>
 /* ── preview-only sections ── */
-.pv-facts{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:0;
-  padding:0;max-width:var(--max);margin:10px auto 0;
-  background:linear-gradient(105deg,#EB7D4A,#D34724);
-}
-.pv-fact{background:none;border:none;border-radius:0;box-shadow:none;padding:14px 12px;text-align:center}
-.pv-fact:nth-child(odd){border-right:1px solid rgba(255,255,255,.22)}
-.pv-fact:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.22)}
-.pv-fact b{display:block;font-size:18px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:2px}
-.pv-fact span{font-size:12.5px;color:rgba(255,255,255,.88);text-wrap:balance}
+.pv-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:10px 20px 4px;max-width:var(--max);margin:0 auto}
+.pv-fact{background:linear-gradient(180deg,#FFF4EE,#FFFAF7);border:1px solid rgba(211,71,36,.16);border-radius:14px;padding:12px 14px;text-align:center;box-shadow:0 2px 10px rgba(211,71,36,.06)}
+.pv-fact b{display:block;font-size:18px;font-weight:800;color:var(--red);line-height:1.25;margin-bottom:2px}
+.pv-fact span{font-size:12.5px;color:#8A6A5E;text-wrap:balance}
 .pv-out-section{padding-top:8px}
 .pv-outs{display:grid;gap:12px;margin-top:16px}
 .pv-out{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:16px 18px;box-shadow:0 3px 14px rgba(20,20,30,.05)}
@@ -2718,7 +2719,14 @@ fbq('track','PageView');
 .pv-anchor a{flex:0 0 auto;text-decoration:none;font-size:13.5px;font-weight:700;color:var(--text-mid);padding:7px 14px;border-radius:100px;background:#f2f2f4;white-space:nowrap}
 .pv-anchor a.on{background:var(--red);color:#fff}
 @media(min-width:768px){
-  .pv-facts{grid-template-columns:repeat(4,1fr)}
+  .pv-facts{
+    grid-template-columns:repeat(4,1fr);gap:0;padding:0;margin-top:12px;max-width:100%;
+    background:linear-gradient(105deg,#EB7D4A,#D34724);
+  }
+  .pv-fact{background:none;border:none;border-radius:0;box-shadow:none;padding:16px 12px}
+  .pv-fact:not(:last-child){border-right:1px solid rgba(255,255,255,.22)}
+  .pv-fact b{color:#fff}
+  .pv-fact span{color:rgba(255,255,255,.88)}
   .pv-outs{grid-template-columns:repeat(3,1fr)}
   .pv-rv-stats{grid-template-columns:190px 1fr;align-items:center;gap:26px}
   .pv-anchor{top:78px}
@@ -2727,10 +2735,7 @@ fbq('track','PageView');
 @media(min-width:1024px){
   .pv-anchor{top:80px}
   .pv-anchor-in{max-width:1280px;padding:10px 64px}
-  .pv-facts{max-width:100%;padding:0;gap:0;margin-top:14px}
-  .pv-fact:nth-child(odd){border-right:none}
-  .pv-fact:nth-child(-n+2){border-bottom:none}
-  .pv-fact:not(:last-child){border-right:1px solid rgba(255,255,255,.22)}
+  .pv-facts{margin-top:14px}
   .pv-fact{padding:20px 14px}
   .pv-fact b{font-size:22px}
   .pv-out-section{max-width:1280px;margin:0 auto;padding:60px 64px 40px}
@@ -3271,16 +3276,17 @@ async function setFile(slug){
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 3a9 9 0 1 0 0 18c1 0 1.8-.8 1.8-1.8 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.8 1.8-1.8H16a5 5 0 0 0 5-5c0-4-4-7-9-7z"/></svg>
               ธีมสี
             </span>
-            <button class="rc-sw on" type="button" data-h="0"   style="--sh:14"  aria-label="ธีมสีเดิม"></button>
-            <button class="rc-sw" type="button" data-h="-40" style="--sh:340" aria-label="ธีมสีชมพู"></button>
-            <button class="rc-sw" type="button" data-h="70"  style="--sh:90"  aria-label="ธีมสีเขียว"></button>
-            <button class="rc-sw" type="button" data-h="140" style="--sh:170" aria-label="ธีมสีฟ้า"></button>
-            <button class="rc-sw" type="button" data-h="210" style="--sh:245" aria-label="ธีมสีม่วง"></button>
+            <button class="rc-sw on" type="button" data-f=""                              style="--c:#14A37C" aria-label="ธีมเขียวมรกต"></button>
+            <button class="rc-sw" type="button" data-f="hue-rotate(-22deg) saturate(1.12)" style="--c:#E07B1E" aria-label="ธีมส้มอบอุ่น"></button>
+            <button class="rc-sw" type="button" data-f="hue-rotate(115deg) saturate(.98)"  style="--c:#C63CA0" aria-label="ธีมม่วงชมพู"></button>
+            <button class="rc-sw" type="button" data-f="hue-rotate(165deg)"                style="--c:#E03C6E" aria-label="ธีมชมพูแดง"></button>
+            <button class="rc-sw" type="button" data-f="hue-rotate(215deg) saturate(1.05)" style="--c:#8A54D6" aria-label="ธีมม่วงส้ม"></button>
+            <span class="rc-cursor" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 2.5 19 12.2l-5.9.6-2.6 5.4z" fill="#1D1D1F" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
           </div>
           <div class="rc-stage">
-            <img id="rcSlide" src="library/slides/marketingdash/02.jpg" alt="สไลด์จากคลัง เปลี่ยนธีมสีได้" loading="lazy">
+            <img id="rcSlide" src="library/slides/processflow/03.jpg" alt="สไลด์จากคลัง เปลี่ยนธีมสีได้" loading="lazy">
           </div>
-          <p class="rc-note">สไลด์จริงจากคลัง เปลี่ยนธีมสีทั้งแผ่นได้ในคลิกเดียว</p>
+          <p class="rc-note">สไลด์จริงจากคลัง กดสีเดียว เปลี่ยนทั้งแผ่น</p>
         </div>
       </div>
     </div>
@@ -4172,15 +4178,19 @@ async function setFile(slug){
 (function(){
   var sws = [].slice.call(document.querySelectorAll('.rc-sw'));
   var img = document.getElementById('rcSlide');
+  var cur = document.querySelector('.rc-cursor');
   if (!sws.length || !img) return;
   var i = 0, timer;
   function pick(n){
     i = (n + sws.length) % sws.length;
     sws.forEach(function(s, k){ s.classList.toggle('on', k === i); });
-    var h = sws[i].dataset.h;
-    img.style.filter = h === '0' ? '' : 'hue-rotate(' + h + 'deg) saturate(1.08)';
+    img.style.filter = sws[i].dataset.f;
+    if (cur){                                    // the pointer walks over and taps, so nobody has to
+      cur.style.transform = 'translate(' + (sws[i].offsetLeft + 15) + 'px,' + (sws[i].offsetTop + 15) + 'px)';
+      cur.classList.remove('tap'); void cur.offsetWidth; cur.classList.add('tap');
+    }
   }
-  function play(){ clearInterval(timer); timer = setInterval(function(){ pick(i + 1); }, 2400); }
+  function play(){ clearInterval(timer); timer = setInterval(function(){ pick(i + 1); }, 2000); }
   sws.forEach(function(s, k){
     s.addEventListener('mouseenter', function(){ pick(k); play(); });
     s.addEventListener('click',      function(){ pick(k); play(); });
