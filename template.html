@@ -70,18 +70,32 @@ a{color:inherit;text-decoration:none}
 @keyframes mq{to{transform:translateX(-50%)}}
 /* ---------- story ---------- */
 .sec{padding:60px 0}.sec h2{font-size:30px;font-weight:800;text-align:center}.sec .lead{text-align:center;color:var(--mid);margin:8px auto 30px;max-width:640px;line-height:1.6}
-.story{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;counter-reset:s}
-.story::before{content:'';position:absolute;left:10%;right:10%;top:30px;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:3px}
-.st{text-align:center;position:relative;padding:0 8px}
-.st i{display:grid;place-items:center;width:60px;height:60px;margin:0 auto 14px;border-radius:50%;background:#fff;border:3px solid var(--c1);font-style:normal;font-weight:800;font-size:20px;color:var(--c1);position:relative;box-shadow:0 8px 20px rgba(20,20,40,.1)}
-.st:nth-child(n+3) i{border-color:var(--c2);color:var(--c2)}
-.st b{display:block;font-size:16px}
-.flowtag{text-align:center;margin-top:26px}.flowtag span{display:inline-block;background:var(--soft);color:var(--red);border-radius:100px;padding:8px 18px;font-size:14px;font-weight:700}
+/* จอใหญ่: สารบัญสองคอลัมน์ | มือถือ: ยุบเป็นแถบเดียว (.slim) */
+.tocw{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:56px;align-items:start}
+.toch h2{font-size:28px;font-weight:800;line-height:1.35;text-align:left}
+.toch p{color:var(--mid);line-height:1.7;margin-top:12px;font-size:15px}
+.tocm{margin-top:20px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--sub)}
+.tocm div{display:flex;gap:8px;align-items:baseline}.tocm b{color:var(--text);font-weight:700}
+.toc{border-top:1px solid var(--line)}
+.toc.two{columns:2;column-gap:52px;border-top:none}
+.tr{display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--line);break-inside:avoid}
+.toc.two .tr{border-top:1px solid var(--line);border-bottom:none;margin-top:-1px}
+.tr i{font-style:normal;font-variant-numeric:tabular-nums;font-size:13px;font-weight:800;color:var(--sub);letter-spacing:.04em;transform:translateY(-1px)}
+.tr b{font-size:17px;font-weight:700;line-height:1.5}
+.tr.dim b{color:var(--sub);font-weight:600}
+.slim{display:none;background:var(--soft);border-radius:20px;padding:22px 18px 24px}
+.slim>b{display:block;font-size:15px;font-weight:800}
+.slim>p{font-size:14px;color:var(--mid);margin-top:4px;line-height:1.6}
+.sl{margin-top:14px}
+.sr{display:grid;grid-template-columns:26px minmax(0,1fr);gap:4px;align-items:baseline;padding:9px 0;border-top:1px solid rgba(211,71,36,.14)}
+.sr i{font-style:normal;font-variant-numeric:tabular-nums;font-size:12px;font-weight:800;color:var(--red);opacity:.6}
+.sr b{font-size:15px;font-weight:700;line-height:1.45}
 /* ---------- features ---------- */
-.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.ft{background:#fff;border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(20,20,40,.06)}
-.ft .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));margin-bottom:14px}
-.ft .ic svg{width:24px;height:24px}.ft b{font-size:17px;display:block}.ft p{font-size:14px;color:var(--mid);margin-top:6px;line-height:1.55}
+.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.ft{padding:24px 22px;border-left:1px solid var(--line)}
+.ft:first-child{border-left:none}
+.ft .ic{width:34px;height:34px;display:grid;place-items:center;color:var(--red);margin-bottom:12px}
+.ft .ic svg{width:26px;height:26px}.ft b{font-size:16px;display:block}.ft p{font-size:13.5px;color:var(--mid);margin-top:5px;line-height:1.55}
 /* ---------- gallery ---------- */
 .gal{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .gal button{border:none;padding:0;background:none;cursor:zoom-in;border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05),0 6px 18px rgba(20,20,40,.08);position:relative;transition:transform .35s var(--ease),box-shadow .35s}
@@ -113,9 +127,11 @@ a{color:inherit;text-decoration:none}
 .pr .strip img.on{opacity:1;border-color:#fff}
 .pr .prog{height:3px;background:rgba(255,255,255,.12)}.pr .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--c1),var(--c2));width:0;transition:width .4s}
 .mbar{display:none}
-@media(max-width:980px){.grid{grid-template-columns:1fr;gap:20px}.side{position:static}.feats{grid-template-columns:repeat(2,1fr)}.gal,.rel{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.story{grid-template-columns:1fr;gap:16px}.story::before{left:29px;right:auto;top:10px;bottom:10px;width:3px;height:auto}.st{display:flex;align-items:center;gap:14px;text-align:left}.st i{margin:0;flex-shrink:0}
-  .feats{grid-template-columns:1fr}.row img{width:220px}.pr .mid{padding:0 8px}.pr .arr{display:none}.band{padding:28px}.band h3{font-size:22px}.side{padding:20px}.thumbs{gap:6px}.main .pv{padding:8px 14px;font-size:13px}
+@media(max-width:980px){.grid{grid-template-columns:1fr;gap:20px}.side{position:static}.gal,.rel{grid-template-columns:repeat(2,1fr)}
+  .tocw{grid-template-columns:1fr;gap:24px}.toc.two{columns:1}.toc.two .tr{border-bottom:none}
+  .feats{grid-template-columns:repeat(2,1fr)}.ft:nth-child(odd){border-left:none}.ft:nth-child(n+3){border-top:1px solid var(--line)}}
+@media(max-width:640px){.tocw{display:none}.slim{display:block}.sec{padding:40px 0}
+  .feats{grid-template-columns:1fr}.ft{border-left:none;border-top:1px solid var(--line)}.ft:first-child{border-top:none}.row img{width:220px}.pr .mid{padding:0 8px}.pr .arr{display:none}.band{padding:28px}.band h3{font-size:22px}.side{padding:20px}.thumbs{gap:6px}.main .pv{padding:8px 14px;font-size:13px}
   .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 -1px 0 rgba(0,0,0,.08)}.mbar .btn{flex:1;padding:13px}}
 @media(prefers-reduced-motion:reduce){.cta .btn-red{animation:none}}
 </style>
@@ -150,6 +166,36 @@ async function dlThis(e){ e.preventDefault(); const a = e.currentTarget, t = a.i
   a.innerHTML = t; location.href = url || DRIVE; return false; }
 const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } } };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// flow ที่เป็นลูกโซ่ (โอกาส → ตัวเลข → ...) พูดซ้ำกับสารบัญที่อยู่ข้าง ๆ อยู่แล้ว โชว์เฉพาะที่เป็นชื่อโครงจริง
+const CHAIN = /[→>›➔➝]/;
+const framework = () => (D.flow && !CHAIN.test(D.flow)) ? D.flow : '';
+const n2 = i => String(i + 1).padStart(2, '0');
+function tocHTML(){
+  const ag = D.agenda || [], fw = framework();
+  const rows = (cls, n) => ag.length
+    ? ag.map((a, i) => `<div class="${cls}"><i>${n2(i)}</i><b>${esc(a)}</b></div>`).join('')
+    : `<div class="${cls} dim"><i>—</i><b>${n}</b></div>`;
+  const empty = 'ชุดนี้เป็นหน้าเปล่าให้ประกอบเอง ลำดับหน้าจัดไว้ให้แล้วในไฟล์';
+  return `<div class="tocw">
+    <div class="toch">
+      <h2>เปิดไฟล์มาก็เล่าได้เลย</h2>
+      <p>ลำดับหน้าเรียงมาให้ครบตั้งแต่เปิดจนปิด คุณแค่เปลี่ยนตัวเลขกับชื่อให้เป็นของคุณ</p>
+      <div class="tocm">
+        <div>สารบัญในชุด<b>${ag.length ? ag.length + ' ตอน' : 'จัดลำดับไว้แล้ว'}</b></div>
+        <div>จำนวนหน้า<b>${D.slides} สไลด์</b></div>
+        ${fw ? `<div>วางโครงตาม<b>${esc(fw)}</b></div>` : ''}
+      </div>
+    </div>
+    <div class="toc${ag.length > 6 ? ' two' : ''}">${rows('tr', empty)}</div>
+  </div>
+  <div class="slim">
+    <b>${ag.length ? 'สารบัญที่มาในชุดนี้ · ' + ag.length + ' ตอน' : 'ลำดับหน้าจัดไว้ให้แล้ว'}</b>
+    <p>${ag.length
+      ? `เรียงมาให้ครบตั้งแต่เปิดจนปิด${fw ? ' ตามโครง ' + esc(fw) : ''} เหลือแค่เปลี่ยนข้อมูลเป็นของคุณ`
+      : empty}</p>
+    ${ag.length ? `<div class="sl">${rows('sr', empty)}</div>` : ''}
+  </div>`;
+}
 const I = {
   dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>',
   lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
@@ -222,10 +268,7 @@ function render(){
   <section class="mq"><h2>${D.slides} สไลด์ ออกแบบมาให้เล่าเรื่องต่อกัน</h2><p>ชี้เพื่อหยุด  |  คลิก "ดูแบบนำเสนอ" เพื่อดูเต็มจอ</p>
     <div class="row">${row(r1)}</div><div class="row r2">${row(r2)}</div></section>
 
-  <section class="sec wrap reveal"><h2>โครงเรื่องพร้อมใช้ ตั้งแต่เปิดจนปิด</h2>
-    <p class="lead">ไม่ต้องคิดว่าจะเรียงหน้าอย่างไร แค่เปลี่ยนข้อมูลเป็นของคุณ</p>
-    <div class="story">${D.agenda.map((a, i) => `<div class="st"><i>0${i + 1}</i><b>${esc(a)}</b></div>`).join('')}</div>
-    <div class="flowtag"><span>เรียงตามหลัก ${esc(D.flow)}</span></div></section>
+  <section class="sec wrap reveal">${tocHTML()}</section>
 
   <section class="sec wrap reveal" style="padding-top:10px"><div class="feats">
     <div class="ft"><div class="ic">${I.chart}</div><b>กราฟเชื่อม Excel</b><p>คลิกขวา › Edit Data แก้ตัวเลข กราฟเปลี่ยนตามทันที</p></div>
