@@ -30,6 +30,8 @@ async function sendEmailViaResend(to: string, subject: string, html: string) {
   return res.json()
 }
 
+// team packs: seats -> price. 1 seat stays 499 so nothing changes for normal orders.
+const PACK_PRICE: Record<number, string> = { 1: '499', 5: '1990', 10: '3490', 20: '5990' }
 const PRICE          = '499'
 const ACCOUNT_NUMBER = '2293980961'
 const ACCOUNT_TYPE   = '01004'  // KBANK
@@ -59,7 +61,10 @@ async function verifyTurnstile(token: string, ip: string): Promise<boolean> {
 }
 
 // ── Email HTML ───────────────────────────────────────────────────────────────
-function buildEmailHtml(name: string, code: string): string {
+function buildEmailHtml(name: string, codes: string | string[], price = '499'): string {
+  const list = Array.isArray(codes) ? codes : [codes]
+  const paid = Number(price).toLocaleString('en-US')
+  const code = list[0]
   const downloadUrl = `${DOWNLOAD_URL}?code=${encodeURIComponent(code)}`
   const fbUrl = 'https://www.facebook.com/ThePowerpointTemplate'
   return `<!DOCTYPE html>
@@ -109,10 +114,20 @@ function buildEmailHtml(name: string, code: string): string {
 
     <!-- ── Redeem Code ── -->
     <tr><td style="padding:36px 48px 32px;border-bottom:1px solid #F0F0F0;">
-      <p style="margin:0 0 14px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;text-transform:uppercase;">Redeem Code ของคุณ</p>
+      <p style="margin:0 0 14px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;text-transform:uppercase;">${list.length > 1 ? `Redeem Code ทั้ง ${list.length} สิทธิ์` : 'Redeem Code ของคุณ'}</p>
 
-      <!-- Code box -->
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      ${list.length > 1 ? `<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;">
+        <tr><td style="padding:0 0 10px;font-size:13.5px;color:#6E6E73;line-height:1.6;">
+          แพ็กทีม ${list.length} สิทธิ์ — แจกให้ทีมคนละ 1 โค้ด ใช้กรอกที่หน้าดาวน์โหลดได้เลย ทุกโค้ดได้คลังเต็มเท่ากัน
+        </td></tr>
+        ${list.map((c, i) => `<tr>
+          <td style="padding:7px 14px;border:1px solid #EFEFEF;border-radius:10px;background:#FAFAFA;font-family:'Courier New',Courier,monospace;font-size:17px;font-weight:800;letter-spacing:2px;color:#1D1D1F;">
+            <span style="display:inline-block;width:26px;font-family:-apple-system,Arial,sans-serif;font-size:12px;font-weight:700;color:#8E8E93;letter-spacing:0;">${i + 1}.</span>${c}
+          </td></tr><tr><td style="height:6px;font-size:0;line-height:0;">&nbsp;</td></tr>`).join('')}
+      </table>` : ''}
+
+      <!-- Code box (single-seat orders only; team packs list every code above) -->
+      ${list.length > 1 ? '' : `<table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td style="background:linear-gradient(135deg,#FFF3EF 0%,#FFF8F5 100%);
                      border:2px solid rgba(211,71,36,0.15);
@@ -134,7 +149,7 @@ function buildEmailHtml(name: string, code: string): string {
             </table>
           </td>
         </tr>
-      </table>
+      </table>`}
     </td></tr>
 
     <!-- ── How to redeem ── -->
@@ -227,11 +242,11 @@ function buildEmailHtml(name: string, code: string): string {
         </tr>
         <tr>
           <td style="font-size:13px;color:#8E8E93;padding-bottom:10px;">รายละเอียด</td>
-          <td align="right" style="font-size:13px;color:#1D1D1F;padding-bottom:10px;">6,500+ สไลด์ &middot; 3 ฟอร์แมต</td>
+          <td align="right" style="font-size:13px;color:#1D1D1F;padding-bottom:10px;">6,500+ สไลด์ &middot; 3 ฟอร์แมต${list.length > 1 ? ` &middot; ${list.length} สิทธิ์` : ''}</td>
         </tr>
         <tr>
           <td style="font-size:13px;color:#8E8E93;border-top:1px solid #F0F0F0;padding-top:14px;">ยอดชำระ</td>
-          <td align="right" style="font-size:18px;color:#D34724;font-weight:800;border-top:1px solid #F0F0F0;padding-top:14px;">&#3647;499</td>
+          <td align="right" style="font-size:18px;color:#D34724;font-weight:800;border-top:1px solid #F0F0F0;padding-top:14px;">&#3647;${paid}</td>
         </tr>
       </table>
     </td></tr>
@@ -290,7 +305,7 @@ serve(async (req) => {
     // ── 2. ดึง order ─────────────────────────────────────────────────────────
     const { data: order, error: orderErr } = await supabase
       .from('orders')
-      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id')
+      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, pack')
       .eq('id', order_id)
       .single()
 
@@ -300,6 +315,10 @@ serve(async (req) => {
     if (order.status === 'verified') {
       return Response.json({ status: 'already_verified' }, { headers: CORS })
     }
+
+    // ── 2b. ราคาตามแพ็ก (order.pack) ─────────────────────────────────────────
+    const seats     = PACK_PRICE[Number(order.pack) || 1] ? (Number(order.pack) || 1) : 1
+    const packPrice = PACK_PRICE[seats]
 
     // ── 3. Signed URL ────────────────────────────────────────────────────────
     const { data: signedData } = await supabase.storage
@@ -335,7 +354,7 @@ serve(async (req) => {
                     accountNumber: ACCOUNT_NUMBER,
                   })),
                 ],
-                checkAmount: { type: 'eq', amount: PRICE },
+                checkAmount: { type: 'eq', amount: packPrice },
               },
             },
           }),
@@ -399,7 +418,7 @@ serve(async (req) => {
     let bankId = '', receiverAccount = '', accountDigits = ''
 
     if (s2gCode === '200200') {
-      amountOk        = Number(actualAmount) === Number(PRICE)
+      amountOk        = Number(actualAmount) === Number(packPrice)
       bankId          = slip?.data?.receiver?.bank?.id ?? slip?.data?.bank?.id ?? ''
       receiverAccount = slip?.data?.receiver?.account?.bank?.account ?? ''
       accountDigits   = receiverAccount.replace(/\D/g, '')
@@ -462,18 +481,21 @@ serve(async (req) => {
       }
     }
 
-    // ── 8. สร้าง Redeem Code ─────────────────────────────────────────────────
-    let redeemCode = ''
-    for (let i = 0; i < 5; i++) {
-      const candidate = generateCode()
-      const { error } = await supabase.from('redeem_codes').insert({
-        order_id: order_id, customer_name: order.name, code: candidate,
-      })
-      if (!error) { redeemCode = candidate; break }
+    // ── 8. สร้าง Redeem Code (1 ใบต่อ 1 สิทธิ์) ──────────────────────────────
+    const codes: string[] = []
+    for (let seat = 0; seat < seats; seat++) {
+      for (let i = 0; i < 5; i++) {                 // retry on the rare code collision
+        const candidate = generateCode()
+        const { error } = await supabase.from('redeem_codes').insert({
+          order_id: order_id, customer_name: order.name, code: candidate,
+        })
+        if (!error) { codes.push(candidate); break }
+      }
     }
-    if (!redeemCode) {
+    if (codes.length !== seats) {
       return Response.json({ status: 'error', reason: 'code_generation_failed' }, { status: 500, headers: CORS })
     }
+    const redeemCode = codes[0]
 
     // ── 9. Update order → verified ───────────────────────────────────────────
     await supabase.from('orders').update({
@@ -487,8 +509,8 @@ serve(async (req) => {
     // ── 10. ส่งอีเมล via Resend ──────────────────────────────────────────────
     await sendEmailViaResend(
       order.email,
-      `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
-      buildEmailHtml(order.name, redeemCode),
+      seats > 1 ? `✅ Redeem Code ${seats} สิทธิ์ของคุณพร้อมแล้ว` : `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
+      buildEmailHtml(order.name, codes, packPrice),
     )
 
     // ── 11. ManyChat tag (additive, non-critical — only for Messenger-referred users) ────

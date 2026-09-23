@@ -36,7 +36,12 @@ function generateCode(): string {
   return `TARN-${suffix}`
 }
 
-function buildEmailHtml(name: string, code: string): string {
+function buildEmailHtml(name: string, codes: string | string[]): string {
+  const list = Array.isArray(codes) ? codes : [codes]
+  const code = list[0]
+  const extra = list.length > 1
+    ? `<p style="margin:0 0 14px;font-size:14px;color:#6E6E73;line-height:1.7">แพ็กทีม ${list.length} สิทธิ์ — โค้ดทั้งหมด:<br>${list.map((c, i) => `<strong>${i + 1}. ${c}</strong>`).join('<br>')}</p>`
+    : ''
   const downloadUrl = `${DOWNLOAD_URL}?code=${encodeURIComponent(code)}`
   return `<!DOCTYPE html><html lang="th"><body style="margin:0;padding:0;background:#F2F2F7;font-family:-apple-system,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F2F2F7;"><tr><td style="padding:40px 16px;" align="center">
@@ -50,6 +55,7 @@ function buildEmailHtml(name: string, code: string): string {
 </td></tr>
 <tr><td style="padding:24px 40px;border-top:1px solid #F0F0F0;">
 <p style="margin:0 0 12px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;">REDEEM CODE</p>
+${extra}
 <table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background:linear-gradient(135deg,#FFF3EF,#FFF8F5);border:2px solid rgba(211,71,36,0.15);border-radius:14px;padding:22px;">
 <span style="font-family:'Courier New',monospace;font-size:28px;font-weight:900;letter-spacing:4px;display:block;color:#1D1D1F;">${code}</span>
 </td></tr></table></td></tr>
@@ -97,7 +103,7 @@ serve(async (req) => {
 
     const { data: order, error: orderErr } = await supabase
       .from('orders')
-      .select('id, name, email, status, created_at')
+      .select('id, name, email, status, created_at, pack')
       .eq('id', orderId)
       .single()
     if (orderErr || !order) {
@@ -107,18 +113,22 @@ serve(async (req) => {
       return Response.json({ error: 'already_verified' }, { headers: CORS })
     }
 
-    // 1) generate + insert code
-    let redeemCode = ''
-    for (let i = 0; i < 5; i++) {
-      const candidate = generateCode()
-      const { error } = await supabase.from('redeem_codes').insert({
-        order_id: orderId, customer_name: order.name, code: candidate,
-      })
-      if (!error) { redeemCode = candidate; break }
+    // 1) generate + insert codes (1 per seat — team packs get several)
+    const seats = [1, 5, 10, 20].includes(Number(order.pack)) ? Number(order.pack) : 1
+    const codes: string[] = []
+    for (let seat = 0; seat < seats; seat++) {
+      for (let i = 0; i < 5; i++) {
+        const candidate = generateCode()
+        const { error } = await supabase.from('redeem_codes').insert({
+          order_id: orderId, customer_name: order.name, code: candidate,
+        })
+        if (!error) { codes.push(candidate); break }
+      }
     }
-    if (!redeemCode) {
+    if (codes.length !== seats) {
       return Response.json({ error: 'code_gen_failed' }, { status: 500, headers: CORS })
     }
+    const redeemCode = codes[0]
 
     // 2) update order
     await supabase.from('orders').update({ status: 'verified' }).eq('id', orderId)
@@ -143,7 +153,7 @@ serve(async (req) => {
       await sendEmailViaResend(
         order.email,
         `✅ Redeem Code ของคุณพร้อมแล้ว — ${redeemCode}`,
-        buildEmailHtml(order.name, redeemCode),
+        buildEmailHtml(order.name, codes),
       )
     } catch (e) {
       console.error('[peek-slip] email failed:', e)
@@ -177,23 +187,24 @@ serve(async (req) => {
       return Response.json({ error: 'order_not_verified', status: order.status }, { headers: CORS })
     }
 
-    // ดึง code ที่ผูกกับ order นี้ (อันแรก/อันล่าสุด)
-    const { data: codeRow } = await supabase
+    // ดึง code ทั้งหมดของ order นี้ (แพ็กทีมมีหลายใบ)
+    const { data: codeRows } = await supabase
       .from('redeem_codes')
       .select('code')
       .eq('order_id', orderId)
       .order('id', { ascending: true })
-      .limit(1)
-      .single()
-    if (!codeRow?.code) {
+    const codeList = (codeRows ?? []).map(r => r.code as string)
+    if (codeList.length === 0) {
       return Response.json({ error: 'no_code_found' }, { status: 404, headers: CORS })
     }
 
     try {
       await sendEmailViaResend(
         order.email,
-        `✅ Redeem Code ของคุณพร้อมแล้ว — ${codeRow.code}`,
-        buildEmailHtml(order.name, codeRow.code),
+        codeList.length > 1
+          ? `✅ Redeem Code ${codeList.length} สิทธิ์ของคุณพร้อมแล้ว`
+          : `✅ Redeem Code ของคุณพร้อมแล้ว — ${codeList[0]}`,
+        buildEmailHtml(order.name, codeList),
       )
     } catch (e) {
       console.error('[peek-slip] resend email failed:', e)
@@ -202,7 +213,8 @@ serve(async (req) => {
 
     return Response.json({
       resent: true,
-      code: codeRow.code,
+      code: codeList[0],
+      codes: codeList,
       email_sent_to: order.email,
     }, { headers: CORS })
   }
