@@ -98,7 +98,7 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
       <div><div class="eyebrow">NEW · คลังเทมเพลตตามอาชีพ</div>
         <h1>สไลด์พร้อมใช้<br><span style="white-space:nowrap">ออกแบบมา</span><span style="white-space:nowrap">เพื่องานของคุณ</span></h1>
         <p class="lead">ทุกชุดเรียงเรื่องตั้งแต่เปิดจนปิด ตามหลักการนำเสนอที่มีงานวิจัยรองรับ กราฟทุกตัวแก้ใน Excel ได้ เลือกโหลดเฉพาะชุดที่ต้องใช้</p></div>
-      <div class="stats"><div class="stat"><b id="stN">20</b><span>ชุดเทมเพลต</span></div><div class="stat"><b>6,500+</b><span>สไลด์</span></div><div class="stat"><b>8</b><span>กลุ่มอาชีพ</span></div></div>
+      <div class="stats"><div class="stat"><b id="stN">20</b><span>ชุดเทมเพลต</span></div><div class="stat"><b>6,500+</b><span>สไลด์</span></div><div class="stat"><b>9</b><span>หมวดหมู่</span></div></div>
     </div>
     <div class="member locked" id="member"></div>
     <div class="mode" id="mode"><button data-m="sets" onclick="setMode('sets')">เลือกเป็นชุด</button><button data-m="slides" onclick="setMode('slides')">เลือกตามประเภทสไลด์</button></div>
@@ -115,7 +115,7 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
 </main>
 <div class="toast" id="toast"></div>
 <script>
-const GROUPS = [['all','ทั้งหมด'],['office','พนักงานออฟฟิศ'],['teacher','ครู / อาจารย์'],['sales','ฝ่ายขาย'],['owner','เจ้าของธุรกิจ'],['health','บุคลากรสุขภาพ'],['engineer','วิศวกร / QMS'],['gov','ข้าราชการ / ท้องถิ่น'],['trainer','วิทยากร / โค้ช'],['proposal','ใบเสนองาน']];
+const GROUPS = [['all','ทั้งหมด'],['chart','กราฟ & อินโฟกราฟิก'],['office','พนักงานออฟฟิศ'],['teacher','ครู / อาจารย์'],['sales','ฝ่ายขาย'],['owner','เจ้าของธุรกิจ'],['health','บุคลากรสุขภาพ'],['engineer','วิศวกร / QMS'],['gov','ข้าราชการ / ท้องถิ่น'],['trainer','วิทยากร / โค้ช'],['proposal','ใบเสนองาน']];
 const PATTERN = /^TARN-[A-Z0-9]{8}$/i;
 const ICON = { lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
   dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>',
