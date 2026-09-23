@@ -2437,6 +2437,44 @@ body{
   .btn-hero-fill{padding:15px 36px;font-size:17px}
   .hero-btn-row{gap:20px}
 }
+
+/* ══════════════════════════════════════
+   LIVE BUYER TOAST (real orders, masked for PDPA)
+══════════════════════════════════════ */
+.buyer-toast{
+  position:fixed;z-index:98;left:12px;right:12px;bottom:16px;
+  display:flex;align-items:center;gap:11px;
+  background:#fff;border:1px solid rgba(20,20,30,.07);border-radius:16px;
+  padding:11px 13px;box-shadow:0 10px 34px rgba(20,20,30,.14);
+  opacity:0;transform:translateY(14px);pointer-events:none;
+  transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1),bottom .3s ease;
+}
+.buyer-toast.on{opacity:1;transform:translateY(0);pointer-events:auto}
+.buyer-toast.up{bottom:88px}
+.bt-ava{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;font-weight:800;color:#fff;letter-spacing:0;
+  background:linear-gradient(135deg,#EB7D4A,#D34724);
+}
+.bt-txt{flex:1;min-width:0}
+.bt-txt b{display:block;font-size:13.5px;font-weight:700;line-height:1.45;color:#1D1D1F}
+.bt-txt span{display:block;font-size:11.5px;color:#8A8A92;line-height:1.5;margin-top:1px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bt-ok{display:inline-flex;align-items:center;gap:3px;color:#17915A;font-size:11.5px;font-weight:700;flex-shrink:0}
+.bt-x{
+  position:absolute;top:6px;right:8px;border:none;background:none;cursor:pointer;
+  font-size:16px;line-height:1;color:#C3C3C9;padding:4px;font-family:inherit;
+}
+@media(min-width:768px){
+  .buyer-toast{left:20px;right:auto;width:328px;bottom:20px;padding:13px 15px}
+  .buyer-toast.up{bottom:104px}
+  .bt-txt b{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){
+  .buyer-toast{transition:opacity .2s linear}
+  .buyer-toast.on{transform:none}
+}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -4296,6 +4334,74 @@ function closeDrawer() {
     links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur.id));
   };
   addEventListener('scroll', mark, { passive: true }); mark();
+})();
+</script>
+<script>
+/* Live buyer toast: latest verified orders, masked server-side for PDPA. */
+(function(){
+  if (matchMedia('(pointer:coarse)').matches && innerHeight < 500) return;   // tiny landscape phones
+  try { if (sessionStorage.getItem('ct_bt_off')) return; } catch(e){}
+  try { if (JSON.parse(localStorage.getItem('ct_lib')||'null')?.code) return; } catch(e){}   // members already bought
+
+  const FN  = 'https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers';
+  const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
+
+  const ago = iso => {
+    const m = Math.floor((Date.now() - new Date(iso)) / 60000);
+    if (m < 60)   return `${Math.max(m,1)} นาทีที่แล้ว`;
+    const h = Math.floor(m / 60); if (h < 24) return `${h} ชั่วโมงที่แล้ว`;
+    const d = Math.floor(h / 24); if (d === 1) return 'เมื่อวาน';
+    if (d < 30)  return `${d} วันที่แล้ว`;
+    return `${Math.floor(d / 30)} เดือนที่แล้ว`;
+  };
+
+  const el = document.createElement('div');
+  el.className = 'buyer-toast';
+  el.setAttribute('role', 'status');
+  el.setAttribute('aria-live', 'polite');
+  el.innerHTML = `<div class="bt-ava"></div>
+    <div class="bt-txt"><b></b><span></span></div>
+    <span class="bt-ok"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>ยืนยันแล้ว</span>
+    <button class="bt-x" aria-label="ปิด">&times;</button>`;
+  el.style.position = 'fixed';
+  document.body.appendChild(el);
+
+  let stop = false;
+  el.querySelector('.bt-x').onclick = () => {
+    stop = true; el.classList.remove('on');
+    try { sessionStorage.setItem('ct_bt_off', '1'); } catch(e){}
+  };
+
+  // keep clear of the sticky buy bar, which slides in and out as the page scrolls
+  const lift = () => el.classList.toggle('up', !!document.querySelector('.sticky-bar.visible'));
+  addEventListener('scroll', () => el.classList.contains('on') && lift(), { passive: true });
+
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  (async function run(){
+    let buyers = [];
+    try {
+      const r = await fetch(FN, {
+        method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${KEY}` },
+      });
+      buyers = (await r.json()).buyers || [];
+    } catch(e) { return; }
+    if (!buyers.length) return;
+
+    await wait(9000);
+    for (const b of buyers.slice(0, 6)) {
+      if (stop) return;
+      el.querySelector('.bt-ava').textContent = b.n;
+      el.querySelector('.bt-txt b').textContent =
+        b.pack > 1 ? `คุณ ${b.n}.... สั่งซื้อแพ็ก ${b.pack} สิทธิ์` : `คุณ ${b.n}.... สั่งซื้อเทมเพลตแล้ว`;
+      el.querySelector('.bt-txt span').textContent = `${b.e} · ${ago(b.at)}`;
+      lift();
+      el.classList.add('on');
+      await wait(6500);
+      el.classList.remove('on');
+      await wait(16000);
+    }
+  })();
 })();
 </script>
 </body>
