@@ -251,6 +251,19 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
       </table>
     </td></tr>
 
+    <!-- ── Tax invoice (manual, on request) ── -->
+    <tr><td style="padding:26px 48px;border-bottom:1px solid #F0F0F0;background:#FFF8F5;">
+      <p style="margin:0 0 6px;font-size:14px;font-weight:800;color:#1D1D1F;">ต้องการใบกำกับภาษี / ใบเสร็จในนามบริษัท?</p>
+      <p style="margin:0 0 12px;font-size:13px;color:#6E6E73;line-height:1.7;">
+        ระบบไม่ได้ออกให้อัตโนมัติ — ทักแชทเพจ แนบสลิปโอนเงิน แล้วแจ้งชื่อบริษัท ที่อยู่ และเลขประจำตัวผู้เสียภาษี
+        แอดมินจะออกเอกสารส่งกลับภายใน 1 วันทำการ
+      </p>
+      <a href="https://m.me/ThePowerpointTemplate" target="_blank"
+         style="display:inline-block;background:#ffffff;border:1.5px solid #D34724;color:#D34724;text-decoration:none;font-size:14px;font-weight:700;padding:11px 22px;border-radius:100px;">
+        ขอใบกำกับภาษีทางแชท
+      </a>
+    </td></tr>
+
     <!-- ── Footer ── -->
     <tr><td align="center" style="padding:32px 48px 40px;background:#FAFAFA;">
       <p style="margin:0 0 10px;font-size:13px;color:#8E8E93;line-height:1.7;">
@@ -538,7 +551,7 @@ serve(async (req) => {
       // Must NOT throw — order is already verified and email sent
     }
 
-    return Response.json({ status: 'verified', code: redeemCode }, { headers: CORS })
+    return Response.json({ status: 'verified', code: redeemCode, codes, seats }, { headers: CORS })
 
   } catch (err) {
     console.error('verify-slip error:', err)
