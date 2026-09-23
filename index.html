@@ -2197,58 +2197,50 @@ body{
   .nav-links{display:flex;gap:8px}
   .nav-right{gap:12px}
 
-  /* ── HERO — centered, slides laid flat underneath ── */
+  /* ── HERO — two columns, floating cards beside the photo ── */
   .hero{
-    display:block;text-align:center;overflow:visible;
-    min-height:0;max-width:100%;margin:0;padding:0 0 8px;
+    display:grid;grid-template-columns:1fr minmax(400px,520px);align-items:center;
+    text-align:left;max-width:1340px;margin:0 auto;
+    padding:0 40px 20px;min-height:0;overflow:visible;
   }
-  .hero-bg{overflow:visible}
-  .hero-inner{max-width:900px;margin:0 auto;padding:26px 32px 0;z-index:1}
-  .hero-eyebrow{justify-content:center}
-  .hero-h1{font-size:56px;line-height:1.16;letter-spacing:-1.8px;margin-bottom:14px}
-  .hero-sub{display:block;font-size:17px;max-width:660px;margin:0 auto 20px;text-wrap:balance}
-  .hero-bg .hbc{opacity:.45}
-  .hero-price{justify-content:center;margin:0 0 16px;gap:12px}
-  .price-big{font-size:44px}
+  .hero-bg{overflow:visible;grid-column:1/-1;grid-row:1}
+  .hero-inner{grid-column:1;grid-row:1;padding:34px 32px 34px 24px;max-width:none;z-index:1}
+  .hero-eyebrow,.hero-flash{align-self:flex-start}
+  .hero-h1{font-size:50px;line-height:1.18;letter-spacing:-1.6px;margin-bottom:14px}
+  .hero-sub{display:block;font-size:16.5px;max-width:520px;margin:0 0 20px}
+  .hero-price{justify-content:flex-start;margin:0 0 16px;gap:12px}
+  .price-big{font-size:42px}
   .price-old{font-size:16px}
   .price-save{font-size:12px;padding:3px 10px}
-  .hero-btn-row{justify-content:center;flex-direction:row-reverse;gap:34px;margin-bottom:4px}
-  .btn-hero-out{text-decoration:none;font-size:16px;color:var(--text-mid)}
-  .btn-hero-out:hover{color:var(--red)}
+  .hero-btn-row{justify-content:flex-end;flex-direction:row-reverse;gap:26px;margin-bottom:4px}
   .btn-hero-fill{
     background:linear-gradient(135deg,var(--orange),var(--red));
     border-color:transparent;color:#fff;
-    padding:16px 46px;font-size:18px;box-shadow:0 10px 26px rgba(211,71,36,.32);
+    padding:15px 42px;font-size:17px;box-shadow:0 10px 26px rgba(211,71,36,.32);
   }
   .btn-hero-fill:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(211,71,36,.42)}
-  .trust-line{justify-content:center;font-size:13px;margin-top:12px;gap:10px}
+  .btn-hero-out{text-decoration:none;font-size:16px;color:var(--text-mid)}
+  .btn-hero-out:hover{color:var(--red)}
+  .trust-line{justify-content:flex-start;font-size:13px;margin-top:12px;gap:10px}
   .hero-by{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:var(--text-mid)}
-  .hero-by img{
-    width:28px;height:28px;border-radius:50%;background:#F3EFEC;
-    object-fit:cover;object-position:50% 4%;
-  }
-  .hero-stats{width:auto;max-width:660px;margin:12px auto 0;border:none}
-  .hero-stat{padding:0 30px}
+  .hero-by img{width:28px;height:28px;border-radius:50%;background:#F3EFEC;object-fit:cover;object-position:50% 4%}
+  .hero-stats{width:100%;max-width:520px;margin:16px 0 0;border:none}
+  .hero-stat{padding:0 26px}
+  .hero-stat:first-child{padding-left:0}
   .hero-stat+.hero-stat::before{background:rgba(0,0,0,.09)}
-  .hero-stat-num{font-size:24px}
-  .hero-stat-num .inf-svg{width:30px;height:30px}
+  .hero-stat-num{font-size:23px}
+  .hero-stat-num .inf-svg{width:28px;height:28px}
   .hero-stat-label{font-size:12px}
-  .hero-visual{
-    position:static;display:flex;justify-content:center;align-items:flex-end;gap:14px;
-    height:auto;margin:14px auto 0;padding:0 24px;max-width:1180px;overflow:visible;
-  }
-  .hero-visual .coach-img{
-    position:static;flex:none;order:-1;transform:none;
-    height:340px;width:auto;align-self:flex-end;margin-right:4px;
-    object-fit:contain;object-position:bottom center;
-  }
-  .hero-visual .float-card.fc4{display:none}   /* three cards leave room for the photo */
+  .hero-visual{grid-column:2;grid-row:1;position:relative;height:470px;overflow:visible;z-index:1;margin:0;padding:0;display:block}
+  .hero-visual .coach-img{display:block;position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:400px;width:auto}
   .hero-visual .float-card{
-    position:static;width:auto;flex:1 1 0;max-width:280px;animation:none;
-    border-radius:14px;box-shadow:0 14px 36px rgba(0,0,0,.12);
-    transition:transform .4s var(--ease),box-shadow .4s var(--ease);
+    position:absolute;animation:floatCard 4s ease-in-out infinite;
+    border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.14);
   }
-  .hero-visual .float-card:hover{transform:translateY(-8px);box-shadow:0 22px 48px rgba(0,0,0,.18)}
+  .hero-visual .float-card.fc1{width:168px;left:-46px;bottom:232px;top:auto}
+  .hero-visual .float-card.fc2{width:156px;right:2px;top:26px;bottom:auto}
+  .hero-visual .float-card.fc3{width:150px;left:-18px;bottom:78px;top:auto}
+  .hero-visual .float-card.fc4{width:150px;right:-16px;bottom:52px;top:auto}
 
   /* ── REELS ── */
   .reels-section{padding:64px 0}
@@ -2469,6 +2461,23 @@ body{
   .btn-main svg{width:24px;height:24px}
   .btn-hero-fill{padding:15px 36px;font-size:17px}
   .hero-btn-row{gap:20px}
+}
+
+/* laptop widths: the two columns get tight, so shrink the right one */
+@media(min-width:1024px) and (max-width:1319px){
+  .hero{grid-template-columns:1fr 400px;padding:0 28px 18px}
+  .hero-h1{font-size:42px;letter-spacing:-1.2px}
+  .hero-sub{font-size:15.5px}
+  .price-big{font-size:36px}
+  .hero-stat{padding:0 18px}
+  .hero-stat-num{font-size:21px}
+  .trust-line{font-size:12.5px;flex-wrap:wrap;row-gap:4px}
+  .hero-visual{height:410px}
+  .hero-visual .coach-img{height:350px}
+  .hero-visual .float-card.fc1{width:138px;left:-12px;bottom:206px}
+  .hero-visual .float-card.fc2{width:130px;right:0;top:18px}
+  .hero-visual .float-card.fc3{width:126px;left:4px;bottom:66px}
+  .hero-visual .float-card.fc4{width:126px;right:-8px;bottom:44px}
 }
 
 /* ══════════════════════════════════════
