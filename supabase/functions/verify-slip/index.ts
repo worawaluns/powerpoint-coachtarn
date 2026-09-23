@@ -442,7 +442,7 @@ serve(async (req) => {
       await supabase.from('orders').update({
         verify_detail : { error: 'slip2go_fetch_failed', message: String(e) },
       }).eq('id', order_id)
-      await queueForReview(supabase, order, seats, packPrice, 'ระบบตรวจสลิปขัดข้อง')
+      await queueForReview(supabase, order, seats, packPrice, 'ระบบตรวจสลิปขัดข้อง ต้องเช็คด้วยตา')
       return Response.json({ status: 'pending_review' }, { headers: CORS })
     }
 
@@ -516,7 +516,7 @@ serve(async (req) => {
       // 200404 = slip ยังหาไม่เจอใน BBL/bank system → bbl_pending (real BBL delay)
       if (s2gCode === '200404') {
         if (final) {                       // รอครบทุกรอบแล้วยังอ่านไม่ได้ ส่งให้แอดมินตรวจมือ
-          await queueForReview(supabase, order, seats, packPrice, 'Slip2Go อ่านสลิปไม่ได้ (ไม่มี QR)')
+          await queueForReview(supabase, order, seats, packPrice, 'สลิปไม่มี QR ตรวจอัตโนมัติไม่ได้')
           return Response.json({ status: 'pending_review' }, { headers: CORS })
         }
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
