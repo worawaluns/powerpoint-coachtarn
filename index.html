@@ -2203,12 +2203,12 @@ body{
     min-height:0;max-width:100%;margin:0;padding:0 0 8px;
   }
   .hero-bg{overflow:visible}
-  .hero-inner{max-width:900px;margin:0 auto;padding:60px 32px 0;z-index:1}
+  .hero-inner{max-width:900px;margin:0 auto;padding:26px 32px 0;z-index:1}
   .hero-eyebrow{justify-content:center}
-  .hero-h1{font-size:62px;line-height:1.16;letter-spacing:-2px;margin-bottom:18px}
-  .hero-sub{display:block;font-size:17px;max-width:660px;margin:0 auto 26px;text-wrap:balance}
+  .hero-h1{font-size:56px;line-height:1.16;letter-spacing:-1.8px;margin-bottom:14px}
+  .hero-sub{display:block;font-size:17px;max-width:660px;margin:0 auto 20px;text-wrap:balance}
   .hero-bg .hbc{opacity:.45}
-  .hero-price{justify-content:center;margin-bottom:18px;gap:12px}
+  .hero-price{justify-content:center;margin:0 0 16px;gap:12px}
   .price-big{font-size:44px}
   .price-old{font-size:16px}
   .price-save{font-size:12px;padding:3px 10px}
@@ -2221,25 +2221,30 @@ body{
     padding:16px 46px;font-size:18px;box-shadow:0 10px 26px rgba(211,71,36,.32);
   }
   .btn-hero-fill:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(211,71,36,.42)}
-  .trust-line{justify-content:center;font-size:13px;margin-top:16px;gap:10px}
+  .trust-line{justify-content:center;font-size:13px;margin-top:12px;gap:10px}
   .hero-by{display:inline-flex;align-items:center;gap:7px;font-weight:700;color:var(--text-mid)}
   .hero-by img{
     width:28px;height:28px;border-radius:50%;background:#F3EFEC;
     object-fit:cover;object-position:50% 4%;
   }
-  .hero-stats{width:auto;max-width:660px;margin:22px auto 0;border:none}
+  .hero-stats{width:auto;max-width:660px;margin:12px auto 0;border:none}
   .hero-stat{padding:0 30px}
   .hero-stat+.hero-stat::before{background:rgba(0,0,0,.09)}
   .hero-stat-num{font-size:24px}
   .hero-stat-num .inf-svg{width:30px;height:30px}
   .hero-stat-label{font-size:12px}
   .hero-visual{
-    position:static;display:flex;justify-content:center;align-items:flex-start;gap:20px;
-    height:auto;margin:42px auto 0;padding:0 24px;max-width:1360px;overflow:visible;
+    position:static;display:flex;justify-content:center;align-items:flex-end;gap:14px;
+    height:auto;margin:14px auto 0;padding:0 24px;max-width:1180px;overflow:visible;
   }
-  .hero-visual .coach-img{display:none}
+  .hero-visual .coach-img{
+    position:static;flex:none;order:-1;transform:none;
+    height:340px;width:auto;align-self:flex-end;margin-right:4px;
+    object-fit:contain;object-position:bottom center;
+  }
+  .hero-visual .float-card.fc4{display:none}   /* three cards leave room for the photo */
   .hero-visual .float-card{
-    position:static;width:auto;flex:1 1 0;max-width:310px;animation:none;
+    position:static;width:auto;flex:1 1 0;max-width:280px;animation:none;
     border-radius:14px;box-shadow:0 14px 36px rgba(0,0,0,.12);
     transition:transform .4s var(--ease),box-shadow .4s var(--ease);
   }
