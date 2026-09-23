@@ -317,72 +317,43 @@ body{
 
 /* ── Raw→Visual animation demo ── */
 .rsd-demo{margin-top:18px}
-.rsd-canvas{background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,0.09);overflow:hidden;position:relative;padding:44px 16px 16px}
-.rsd-badge-raw,.rsd-badge-done{position:absolute;top:13px;left:14px;font-size:10.5px;font-weight:700;border-radius:100px;padding:3px 11px}
-.rsd-badge-raw{background:#efefef;color:#999;animation:rsdBadgeRaw 8s infinite}
-.rsd-badge-done{background:rgba(86,192,160,0.14);color:#22967a;opacity:0;animation:rsdBadgeDone 8s infinite}
-.rsd-canvas-title{font-size:12px;font-weight:800;margin-bottom:10px;animation:rsdTitleColor 8s infinite}
-.rsd-inner{position:relative;height:240px}
-/* Raw doc — real data text */
-.rsd-raw{position:absolute;inset:0;animation:rsdRawFade 8s infinite;overflow:hidden}
-.rsd-doc-h{font-size:9px;font-weight:800;color:#444;margin-bottom:2px;line-height:1.3}
-.rsd-doc-sub{font-size:7px;color:#bbb;margin-bottom:8px;letter-spacing:0.1px}
-.rsd-doc-sec{font-size:7.5px;font-weight:700;color:#999;margin:6px 0 3px;letter-spacing:0.3px;text-transform:uppercase}
-.rsd-doc-row{display:flex;align-items:baseline;gap:3px;margin-bottom:3.5px}
+/* three labelled steps, each stage shown with real slides from the library */
+.rsd-steps{display:flex;gap:8px;margin-bottom:12px}
+.rsd-step{flex:1;display:flex;align-items:center;gap:6px;border-top:2px solid #ececec;padding-top:7px;font-size:10.5px;font-weight:700;color:#b3b3b3;line-height:1.25}
+.rsd-step b{width:17px;height:17px;flex-shrink:0;border-radius:50%;background:#ececec;color:#a0a0a0;display:inline-flex;align-items:center;justify-content:center;font-size:9.5px}
+.rsd-s1{animation:rsdS1 10s infinite}.rsd-s1 b{animation:rsdS1b 10s infinite}
+.rsd-s2{animation:rsdS2 10s infinite}.rsd-s2 b{animation:rsdS2b 10s infinite}
+.rsd-s3{animation:rsdS3 10s infinite}.rsd-s3 b{animation:rsdS3b 10s infinite}
+.rsd-canvas{background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,0.09);overflow:hidden;position:relative;padding:14px}
+.rsd-stage{position:relative;aspect-ratio:16/10;border-radius:9px;overflow:hidden;background:#fafafa}
+/* 1 — the numbers you start with */
+.rsd-raw{position:absolute;inset:0;padding:13px 15px;background:#fff;animation:rsdRaw 10s infinite}
+.rsd-doc-h{font-size:10px;font-weight:800;color:#444;margin-bottom:2px;line-height:1.3}
+.rsd-doc-sub{font-size:8px;color:#bbb;margin-bottom:9px}
+.rsd-doc-row{display:flex;align-items:baseline;gap:4px;margin-bottom:5px}
 .rsd-doc-bullet{color:#ccc;font-size:8px;flex-shrink:0}
-.rsd-doc-key{font-size:8px;color:#bbb;flex-shrink:0}
-.rsd-doc-val{font-size:8px;font-weight:700;color:#555}
-/* Infographic image layer — wipe reveal */
-.rsd-info{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
-  animation:rsdInfoReveal 8s infinite;
-  clip-path:inset(0 100% 0 0 round 6px);
-}
-/* Pencil infographic overlay */
-.rsd-pencil-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
-.rsd-pencil-img{height:100%;width:auto;object-fit:contain;position:relative;z-index:1;border-radius:4px}
-/* Infographic labels */
-.rsd-ol{position:absolute;z-index:2;opacity:0;display:flex;flex-direction:column;max-width:108px}
-.rsd-ol-letter{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;font-family:'LINESeedSansTH_W_XBd',sans-serif;font-size:7px;color:#fff;margin-bottom:2px;flex-shrink:0}
-.rsd-ol-key{font-family:'LINESeedSansTH_W_Rg',sans-serif;font-size:7px;color:#999;line-height:1.3}
-.rsd-ol-val{font-family:'LINESeedSansTH_W_XBd',sans-serif;font-size:12px;line-height:1.2}
-/* Left labels */
-.rsd-ol-a,.rsd-ol-c{left:4px;align-items:flex-end;text-align:right}
-/* Right labels */
-.rsd-ol-b,.rsd-ol-d{right:4px;align-items:flex-start;text-align:left}
-/* Vertical positions */
-.rsd-ol-a{top:4%;color:#7B52AB;animation:rsdOlA 8s infinite}
-.rsd-ol-b{top:27%;color:#E05C7E;animation:rsdOlB 8s infinite}
-.rsd-ol-c{top:53%;color:#E8A020;animation:rsdOlC 8s infinite}
-.rsd-ol-d{top:70%;color:#3DB8A0;animation:rsdOlD 8s infinite}
-/* Flash overlay — white burst at transition moment */
-.rsd-flash{
-  position:absolute;inset:0;border-radius:8px;
-  background:#fff;pointer-events:none;z-index:10;
-  animation:rsdFlash 8s infinite;opacity:0;
-}
-/* Animation keyframes */
-@keyframes rsdBadgeRaw{0%,23%{opacity:1;transform:none}34%,100%{opacity:0;transform:translateY(-4px)}}
-@keyframes rsdBadgeDone{0%,43%{opacity:0;transform:translateY(4px)}53%,76%{opacity:1;transform:none}84%,100%{opacity:0;transform:translateY(-4px)}}
-@keyframes rsdTitleColor{0%,28%{color:#bbb}40%,76%{color:var(--red)}84%,100%{color:#bbb}}
-@keyframes rsdRawFade{0%,25%{opacity:1;transform:none}36%,100%{opacity:0;transform:translateY(-6px) scale(0.97)}}
-@keyframes rsdInfoReveal{
-  0%,35%{opacity:0;clip-path:inset(0 100% 0 0 round 6px);transform:scale(0.95)}
-  43%{opacity:1;clip-path:inset(0 100% 0 0 round 6px);transform:scale(0.95)}
-  60%,76%{opacity:1;clip-path:inset(0 0% 0 0 round 6px);transform:scale(1)}
-  84%,100%{opacity:0;clip-path:inset(0 0% 0 0 round 6px);transform:scale(1)}
-}
-@keyframes rsdFlash{
-  0%,32%{opacity:0}
-  37%{opacity:0.75}
-  43%,100%{opacity:0}
-}
-/* Pencil labels — staggered in after wipe completes (60%) */
-@keyframes rsdOlA{0%,58%{opacity:0;transform:translateY(5px)} 65%{opacity:1;transform:none} 78%,100%{opacity:0;transform:translateY(-3px)}}
-@keyframes rsdOlB{0%,62%{opacity:0;transform:translateY(5px)} 69%{opacity:1;transform:none} 78%,100%{opacity:0;transform:translateY(-3px)}}
-@keyframes rsdOlC{0%,65%{opacity:0;transform:translateY(5px)} 72%{opacity:1;transform:none} 78%,100%{opacity:0;transform:translateY(-3px)}}
-@keyframes rsdOlD{0%,68%{opacity:0;transform:translateY(5px)} 74.5%{opacity:1;transform:none} 78%,100%{opacity:0;transform:translateY(-3px)}}
+.rsd-doc-key{font-size:8.5px;color:#b5b5b5;flex-shrink:0}
+.rsd-doc-val{font-size:8.5px;font-weight:700;color:#555}
+/* 2 — pick a template from the library */
+.rsd-pick{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-content:center;padding:14px;background:#F4F5F8;opacity:0;animation:rsdPick 10s infinite}
+.rsd-pick img{width:100%;border-radius:5px;border:1px solid rgba(0,0,0,0.08);background:#fff;display:block}
+.rsd-pick-card{position:relative}
+.rsd-pick-card.on{animation:rsdSel 10s infinite}
+.rsd-pick-tick{position:absolute;right:-5px;top:-5px;width:17px;height:17px;border-radius:50%;background:var(--red);color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;opacity:0;animation:rsdTick 10s infinite}
+/* 3 — the finished slide */
+.rsd-final{position:absolute;inset:0;opacity:0;clip-path:inset(0 100% 0 0);animation:rsdFinal 10s infinite}
+.rsd-final img{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes rsdRaw{0%,24%{opacity:1;transform:none}31%,100%{opacity:0;transform:translateY(-6px) scale(.98)}}
+@keyframes rsdPick{0%,26%{opacity:0;transform:scale(.98)}33%,56%{opacity:1;transform:none}62%,100%{opacity:0;transform:scale(.98)}}
+@keyframes rsdSel{0%,40%{transform:none;box-shadow:none}47%,58%{transform:scale(1.07);box-shadow:0 0 0 2px var(--red)}64%,100%{transform:none;box-shadow:none}}
+@keyframes rsdTick{0%,43%{opacity:0;transform:scale(.6)}49%,58%{opacity:1;transform:none}62%,100%{opacity:0}}
+@keyframes rsdFinal{0%,58%{opacity:0;clip-path:inset(0 100% 0 0)}66%{opacity:1;clip-path:inset(0 0 0 0)}96%{opacity:1;clip-path:inset(0 0 0 0)}100%{opacity:0;clip-path:inset(0 0 0 0)}}
+@keyframes rsdS1{0%,24%{color:var(--red);border-top-color:var(--red)}30%,100%{color:#b3b3b3;border-top-color:#ececec}}
+@keyframes rsdS1b{0%,24%{background:var(--red);color:#fff}30%,100%{background:#ececec;color:#a0a0a0}}
+@keyframes rsdS2{0%,28%{color:#b3b3b3;border-top-color:#ececec}33%,57%{color:var(--red);border-top-color:var(--red)}62%,100%{color:#b3b3b3;border-top-color:#ececec}}
+@keyframes rsdS2b{0%,28%{background:#ececec;color:#a0a0a0}33%,57%{background:var(--red);color:#fff}62%,100%{background:#ececec;color:#a0a0a0}}
+@keyframes rsdS3{0%,60%{color:#b3b3b3;border-top-color:#ececec}66%,100%{color:var(--red);border-top-color:var(--red)}}
+@keyframes rsdS3b{0%,60%{background:#ececec;color:#a0a0a0}66%,100%{background:var(--red);color:#fff}}
 
 /* ── Customize animation demo ── */
 .cust-demo{margin-top:18px}
@@ -3154,56 +3125,30 @@ async function setFile(slug){
     <h3 class="feat-item-h">เปลี่ยนข้อมูลดิบของคุณ<br>เป็น Infographic สวยทันที</h3>
     <p class="feat-item-p">เปลี่ยนตัวเลขน่าเบื่อให้กลายเป็นสไลด์ดูง่าย โปร และน่าเชื่อถือ — template ออกแบบมาเพื่องานนี้โดยเฉพาะ</p>
     <div class="rsd-demo">
+      <div class="rsd-steps">
+        <div class="rsd-step rsd-s1"><b>1</b>ตัวเลขที่คุณมี</div>
+        <div class="rsd-step rsd-s2"><b>2</b>เลือกสไลด์จากคลัง</div>
+        <div class="rsd-step rsd-s3"><b>3</b>พร้อมพรีเซนต์</div>
+      </div>
       <div class="rsd-canvas">
-        <div class="rsd-badge-raw">ข้อมูลดิบ</div>
-        <div class="rsd-badge-done">Infographic พร้อมใช้</div>
-        <div class="rsd-canvas-title">ภาพรวมตัวชี้วัด Q2</div>
-        <div class="rsd-inner">
-          <!-- BEFORE: Raw doc with real data -->
+        <div class="rsd-stage">
+          <!-- 1: raw numbers, same figures as the finished slide below -->
           <div class="rsd-raw">
-            <div class="rsd-doc-h">ภาพรวมตัวชี้วัดสำคัญ</div>
-            <div class="rsd-doc-sub">ข้อมูลล่าสุด ณ พฤษภาคม · ไตรมาส Q2</div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">ผู้ใช้งานทั้งหมด:</span><span class="rsd-doc-val">125,430 คน</span></div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">ผู้ใช้ใหม่:</span><span class="rsd-doc-val">18,920 คน · เติบโต +12.5%</span></div>
-            <div class="rsd-doc-sec">Engagement</div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">Sessions:</span><span class="rsd-doc-val">342,180 ครั้ง</span></div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">Bounce Rate:</span><span class="rsd-doc-val">38.7%</span></div>
-            <div class="rsd-doc-sec">Revenue</div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">รายได้รวม:</span><span class="rsd-doc-val">฿2,450,000</span></div>
-            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">ROI:</span><span class="rsd-doc-val">185%</span></div>
+            <div class="rsd-doc-h">สรุปผลแคมเปญเดือนนี้</div>
+            <div class="rsd-doc-sub">ข้อมูลจาก Excel · ยังไม่ได้ทำสไลด์</div>
+            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">การมองเห็น:</span><span class="rsd-doc-val">1,820,000 ครั้ง</span></div>
+            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">คลิกเข้าชม:</span><span class="rsd-doc-val">86,400 ครั้ง</span></div>
+            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">คำสั่งซื้อ:</span><span class="rsd-doc-val">2,480 รายการ</span></div>
+            <div class="rsd-doc-row"><span class="rsd-doc-bullet">•</span><span class="rsd-doc-key">ต้นทุนต่อออเดอร์:</span><span class="rsd-doc-val">124 บาท</span></div>
           </div>
-          <!-- AFTER: Pencil infographic with overlay labels -->
-          <div class="rsd-info">
-            <div class="rsd-pencil-wrap">
-              <img src="img/pencil-info.png" alt="Pencil Infographic" class="rsd-pencil-img" loading="lazy">
-              <!-- A: ผู้ใช้งาน — top left, purple -->
-              <div class="rsd-ol rsd-ol-a">
-                <div class="rsd-ol-letter" style="background:#7B52AB">A</div>
-                <div class="rsd-ol-key">ผู้ใช้งาน</div>
-                <div class="rsd-ol-val">125,430</div>
-              </div>
-              <!-- B: Sessions — upper right, pink -->
-              <div class="rsd-ol rsd-ol-b">
-                <div class="rsd-ol-letter" style="background:#E05C7E">B</div>
-                <div class="rsd-ol-key">Sessions</div>
-                <div class="rsd-ol-val">342,180</div>
-              </div>
-              <!-- C: รายได้รวม — lower left, orange -->
-              <div class="rsd-ol rsd-ol-c">
-                <div class="rsd-ol-letter" style="background:#E8A020">C</div>
-                <div class="rsd-ol-key">รายได้รวม</div>
-                <div class="rsd-ol-val">฿2.45M</div>
-              </div>
-              <!-- D: ROI — bottom right, teal -->
-              <div class="rsd-ol rsd-ol-d">
-                <div class="rsd-ol-letter" style="background:#3DB8A0">D</div>
-                <div class="rsd-ol-key">ROI</div>
-                <div class="rsd-ol-val">185%</div>
-              </div>
-            </div>
+          <!-- 2: three real slides from the library, one gets picked -->
+          <div class="rsd-pick">
+            <div class="rsd-pick-card on"><img src="library/slides/marketingdash/02.jpg" alt="สไลด์ตัวเลข KPI" loading="lazy"><div class="rsd-pick-tick">✓</div></div>
+            <div class="rsd-pick-card"><img src="library/slides/piedonut/02.jpg" alt="สไลด์กราฟโดนัท" loading="lazy"></div>
+            <div class="rsd-pick-card"><img src="library/slides/barchart/02.jpg" alt="สไลด์กราฟแท่ง" loading="lazy"></div>
           </div>
-          <!-- White flash at transition moment -->
-          <div class="rsd-flash" aria-hidden="true"></div>
+          <!-- 3: that same slide, filled in -->
+          <div class="rsd-final"><img src="library/slides/marketingdash/02.jpg" alt="สไลด์ที่พร้อมนำเสนอ" loading="lazy"></div>
         </div>
       </div>
     </div>
