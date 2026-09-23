@@ -63,7 +63,7 @@ serve(async (req) => {
     return data?.[0]?.created_at ?? null
   }
 
-  const [d1, d7, v1, v7, since] = await Promise.all([count(1), count(7), visits(1), visits(7), oldest()])
+  const [d1, d7, v1, v7, firstSeen] = await Promise.all([count(1), count(7), visits(1), visits(7), oldest()])
 
-  return Response.json({ d1, d7, v1, v7, since }, { headers: CORS })
+  return Response.json({ d1, d7, v1, v7, since: firstSeen }, { headers: CORS })
 })
