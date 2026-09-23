@@ -2201,7 +2201,7 @@ body{
   .hero{
     display:grid;grid-template-columns:1fr minmax(400px,520px);align-items:center;
     text-align:left;max-width:1340px;margin:0 auto;
-    padding:0 40px 20px;min-height:0;overflow:visible;
+    padding:0 40px 6px;min-height:0;overflow:visible;
   }
   .hero-bg{overflow:visible;grid-column:1/-1;grid-row:1}
   .hero-inner{grid-column:1;grid-row:1;padding:34px 32px 34px 24px;max-width:none;z-index:1}
@@ -2465,7 +2465,7 @@ body{
 
 /* laptop widths: the two columns get tight, so shrink the right one */
 @media(min-width:1024px) and (max-width:1319px){
-  .hero{grid-template-columns:1fr 400px;padding:0 28px 18px}
+  .hero{grid-template-columns:1fr 400px;padding:0 28px 6px}
   .hero-h1{font-size:42px;letter-spacing:-1.2px}
   .hero-sub{font-size:15.5px}
   .price-big{font-size:36px}
@@ -2638,10 +2638,10 @@ fbq('track','PageView');
 <!-- End Meta Pixel -->
 <style>
 /* ── preview-only sections ── */
-.pv-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:18px 20px 4px;max-width:var(--max);margin:0 auto}
-.pv-fact{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:12px 14px;text-align:center;box-shadow:0 2px 10px rgba(20,20,30,.04)}
+.pv-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:6px 20px 4px;max-width:var(--max);margin:0 auto}
+.pv-fact{background:linear-gradient(180deg,#FFF4EE,#FFFAF7);border:1px solid rgba(211,71,36,.16);border-radius:14px;padding:12px 14px;text-align:center;box-shadow:0 2px 10px rgba(211,71,36,.06)}
 .pv-fact b{display:block;font-size:18px;font-weight:800;color:var(--red);line-height:1.25;margin-bottom:2px}
-.pv-fact span{font-size:12.5px;color:var(--text-mid);text-wrap:balance}
+.pv-fact span{font-size:12.5px;color:#8A6A5E;text-wrap:balance}
 .pv-out-section{padding-top:8px}
 .pv-outs{display:grid;gap:12px;margin-top:16px}
 .pv-out{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:16px 18px;box-shadow:0 3px 14px rgba(20,20,30,.05)}
@@ -2693,7 +2693,7 @@ fbq('track','PageView');
 @media(min-width:1024px){
   .pv-anchor{top:80px}
   .pv-anchor-in{max-width:1280px;padding:10px 64px}
-  .pv-facts{max-width:1280px;padding:26px 64px 6px;gap:14px}
+  .pv-facts{max-width:1280px;padding:4px 64px 6px;gap:14px}
   .pv-fact{padding:16px 14px}
   .pv-fact b{font-size:22px}
   .pv-out-section{max-width:1280px;margin:0 auto;padding:60px 64px 40px}
