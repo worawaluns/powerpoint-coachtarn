@@ -2496,8 +2496,8 @@ fbq('track','PageView');
 /* ── preview-only sections ── */
 .pv-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:18px 20px 4px;max-width:var(--max);margin:0 auto}
 .pv-fact{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:14px;padding:12px 14px;text-align:center;box-shadow:0 2px 10px rgba(20,20,30,.04)}
-.pv-fact b{display:block;font-size:19px;font-weight:800;color:var(--red);line-height:1.2}
-.pv-fact span{font-size:12.5px;color:var(--text-mid)}
+.pv-fact b{display:block;font-size:18px;font-weight:800;color:var(--red);line-height:1.25;margin-bottom:2px}
+.pv-fact span{font-size:12.5px;color:var(--text-mid);text-wrap:balance}
 .pv-out-section{padding-top:8px}
 .pv-outs{display:grid;gap:12px;margin-top:16px}
 .pv-out{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:16px 18px;box-shadow:0 3px 14px rgba(20,20,30,.05)}
@@ -2698,11 +2698,12 @@ fbq('track','PageView');
 
 <!-- ★ QUICK FACTS (preview) -->
 <section class="pv-facts reveal">
-  <!-- hero already says 6,500+ / unlimited / one-time — these four add what it does not -->
-  <div class="pv-fact"><b>247</b><span>ชุดเทมเพลต แยกตามอาชีพ</span></div>
-  <div class="pv-fact"><b>.pptx</b><span>แก้ได้ทุกชิ้น ไม่ล็อก</span></div>
-  <div class="pv-fact"><b>ทันที</b><span>โอนเสร็จรับ Code เข้าโหลดได้เลย</span></div>
-  <div class="pv-fact"><b>เลือกเอง</b><span>หยิบเฉพาะชุดที่ต้องใช้</span></div>
+  <!-- hero already says 6,500+ / unlimited / one-time — these four add what it does not.
+       each one is a plain statement, not a word the reader has to decode -->
+  <div class="pv-fact"><b>247 ชุด</b><span>แยกตามอาชีพและงาน</span></div>
+  <div class="pv-fact"><b>แก้ได้ทุกหน้า</b><span>ไฟล์ .pptx ไม่ใช่รูปภาพ</span></div>
+  <div class="pv-fact"><b>กราฟต่อ Excel</b><span>พิมพ์เลขใหม่ กราฟขยับตาม</span></div>
+  <div class="pv-fact"><b>โอนแล้วได้เลย</b><span>ระบบส่งโค้ดเข้าอีเมลให้เอง</span></div>
 </section>
 
 <div class="pv-anchor">
