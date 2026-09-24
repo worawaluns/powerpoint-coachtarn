@@ -404,6 +404,25 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .tax-area{min-height:78px;resize:vertical;font-family:inherit;line-height:1.55;padding-top:11px}
 @media(max-width:420px){.tax-2col{grid-template-columns:1fr}}
 
+.pc-wrap{margin-bottom:18px}
+.pc-lbl{font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:8px}
+.pc-opts{display:grid;gap:10px}
+.pc-opt{border:1.5px solid #E6E6EA;border-radius:16px;padding:14px;display:flex;gap:12px;background:#fff;cursor:pointer}
+.pc-opt.on{border-color:var(--red);background:var(--bg-soft);box-shadow:0 2px 12px rgba(211,71,36,.08)}
+.pc-dot{width:20px;height:20px;border-radius:50%;border:2px solid #D4D4DA;flex:none;margin-top:2px;display:flex;align-items:center;justify-content:center}
+.pc-opt.on .pc-dot{border-color:var(--red)}
+.pc-opt.on .pc-dot::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--red)}
+.pc-opt b{display:block;font-size:15px;font-weight:800;line-height:1.4}
+.pc-opt p{font-size:12.5px;color:var(--text-sub);line-height:1.6;margin-top:3px}
+.pc-tag{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:100px}
+.pc-tag.fast{background:#E8F7EF;color:#1F8F54}
+.pc-tag.slow{background:#FFF4E5;color:#B26A00}
+.pc-note{display:none;gap:10px;background:var(--bg-soft);border:1px solid rgba(211,71,36,.14);border-radius:14px;padding:13px 14px;margin-top:12px}
+.pc-note.show{display:flex}
+.pc-note svg{width:18px;height:18px;color:var(--red);flex:none;margin-top:1px}
+.pc-note p{font-size:12.8px;line-height:1.7;color:var(--text-mid)}
+.pc-note p b{color:var(--text)}
+
 /* ── pending review ── */
 #reviewSection{display:none;padding-bottom:8px}
 .rev-card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;overflow:hidden;padding:0 20px 22px;position:relative;box-shadow:0 4px 18px rgba(20,20,30,.05)}
@@ -979,7 +998,7 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
       <!-- ใบกำกับภาษี: บอกตรงนี้เพราะเป็นจังหวะที่ลูกค้าคิดถึงเรื่องเบิกเงิน -->
       <div class="suc-tax">
         <div class="suc-tax-h">ต้องการใบกำกับภาษี / ใบเสร็จในนามบริษัท?</div>
-        <div class="suc-tax-s">ระบบไม่ได้ออกให้อัตโนมัติ ทักแชทเพจแล้วแอดมินออกให้ภายใน 1 วันทำการ</div>
+        <div class="suc-tax-s">ถ้ายังไม่ได้ติ๊กขอไว้ตอนสั่งซื้อ ทักแชทเพจแล้วแอดมินออกให้</div>
         <ol class="suc-tax-steps">
           <li>กดปุ่มด้านล่างเพื่อเปิดแชทเพจ</li>
           <li>แนบสลิปโอนเงินที่เพิ่งใช้</li>
@@ -1185,7 +1204,7 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
         </div>
         <div class="bank-row">
           <span class="bank-key">ประเภท / สาขา</span>
-          <span class="bank-val">ออมทรัพย์ · เมกาบางนา</span>
+          <span class="bank-val">ออมทรัพย์ · เซ็นทรัล เวสต์เกต</span>
         </div>
         <div class="bank-row" style="border-bottom:none">
           <span class="bank-key">เลขบัญชี</span>
@@ -1207,7 +1226,7 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
       </div>
 
       <div style="padding:0 18px;margin:-2px 0 10px;font-size:12px;color:#8a8a92;line-height:1.6">
-        ต้องการใบกำกับภาษีในนามบริษัท? โอนตามปกติแล้วทักแชทเพจพร้อมสลิปได้เลย แอดมินออกให้ภายใน 1 วันทำการ
+        ต้องการใบกำกับภาษีในนามบริษัท ติ๊กช่องขอใบกำกับภาษีด้านล่าง แล้วกรอกข้อมูลบริษัท ไม่ต้องทักแชท
       </div>
       <div class="bank-note">
         <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -1284,6 +1303,26 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
           </div>
         </div>
 
+        <div class="pc-wrap">
+          <div class="pc-lbl">โอนจากบัญชีแบบไหน</div>
+          <div class="pc-opts">
+            <div class="pc-opt on" id="pcPersonal" onclick="setChannel('personal')">
+              <div class="pc-dot"></div>
+              <div><b>บัญชีส่วนตัว</b><p>สลิปจากแอปธนาคาร มี QR</p>
+                <span class="pc-tag fast">ตรวจอัตโนมัติ รู้ผลใน 1 นาที</span></div>
+            </div>
+            <div class="pc-opt" id="pcCorporate" onclick="setChannel('corporate')">
+              <div class="pc-dot"></div>
+              <div><b>บัญชีบริษัท</b><p>สลิปจากระบบธนาคารของบริษัท หรือไฟล์ PDF</p>
+                <span class="pc-tag slow">ทีมงานตรวจ ไม่เกิน 2 ชั่วโมงทำการ</span></div>
+            </div>
+          </div>
+          <div class="pc-note" id="pcNote">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.2"/></svg>
+            <p><b>ตรวจสอบโดยทีมงาน</b><br>สลิปบริษัทไม่มี QR ให้ระบบอ่าน เมื่อตรวจยอดเงินเข้าบัญชีเรียบร้อย ส่ง Redeem Code ทางอีเมลทันที</p>
+          </div>
+        </div>
+
         <div class="form-group" style="margin-bottom:0">
           <label class="form-label">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
@@ -1327,7 +1366,7 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
           <span class="tax-box"></span>
           <span>
             <b>ขอใบกำกับภาษี / ใบเสร็จในนามบริษัท</b>
-            <span class="tax-sub">ออกเอกสารและจัดส่งทางไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</span>
+            <span class="tax-sub">รับ Redeem Code ทางอีเมลทันที ไม่ต้องรอเอกสาร ใบกำกับภาษีจัดส่งทางไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</span>
           </span>
         </label>
         <div class="tax-fields" id="taxFields">
@@ -1477,6 +1516,16 @@ function copyAcc() {
 
 // Use Case selection
 let selectedUseCase = null;
+
+// personal = the checker reads the slip. corporate = a person reads it, because
+// company slips come out of the bank's back office with no QR on them.
+let payChannel = 'personal';
+function setChannel(v){
+  payChannel = v;
+  document.getElementById('pcPersonal').classList.toggle('on', v === 'personal');
+  document.getElementById('pcCorporate').classList.toggle('on', v === 'corporate');
+  document.getElementById('pcNote').classList.toggle('show', v === 'corporate');
+}
 function selectUseCase(el) {
   document.querySelectorAll('.use-case-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
@@ -1622,6 +1671,7 @@ async function handleSubmit() {
         use_case  : selectedUseCase,
         pack      : PACK,
         ...taxPayload(),
+        pay_channel: payChannel,
         manychat_subscriber_id: manychatSubscriberId,
       }),
     });
@@ -1803,30 +1853,46 @@ function showRejected(result) {
   };
 
   const CONFIGS = {
-    wrong_amount:             { icon:'warn',   title:'ยอดเงินไม่ถูกต้อง',
-      msg:`ระบบตรวจพบว่าโอนมา ${actual ?? '?'} บาท แต่ต้องชำระ ${baht(PRICE)} บาท\nกรุณาโอนเพิ่มหรือแนบสลิปใหม่ที่มียอดครบ ${baht(PRICE)} บาท`,
-      fbPrimary:false },
-    wrong_account:            { icon:'warn',   title:'ระบบยังยืนยันสลิปไม่ได้',
-      msg:'ระบบตรวจสอบสลิปไม่สำเร็จ เกิดได้ 2 สาเหตุ:\n\n• ธนาคารกำลังประมวลผลข้อมูล (ใช้เวลา 5-15 นาที)\n  รอสักครู่แล้วลองใหม่ได้เลย\n\n• โอนไปผิดบัญชี\n  กรุณาโอนมาที่ 229-3-98096-1 (KBANK)\n\nถ้าโอนเงินแล้วจริงๆ ทักแอดมินช่วยตรวจสอบทันที',
+    wrong_amount:             { icon:'warn',   title:'ยอดเงินไม่ตรง',
+      msg:`สลิปนี้โอนมา ${actual ?? '?'} บาท ยอดที่ต้องชำระคือ ${baht(PRICE)} บาท\nกรุณาโอนส่วนต่างแล้วส่งสลิปให้แอดมินทางแชท`,
       fbPrimary:true },
-    wrong_amount_and_account: { icon:'error',  title:'ยอดเงินและบัญชีไม่ถูกต้อง',
-      msg:`สลิปนี้โอนไปผิดบัญชีและยอดเงินไม่ถูกต้อง\nกรุณาโอน ${baht(PRICE)} บาท มาที่เลขบัญชี 229-3-98096-1 (KBANK)`,
-      fbPrimary:false },
-    duplicate:                { icon:'info',   title:'สลิปนี้เคยใช้แล้ว',
-      msg:'สลิปนี้ถูกใช้สั่งซื้อในระบบแล้ว ถ้าเป็นสลิปที่คุณเพิ่งโอน อาจเป็นเพราะ:\n\n• ระบบกำลังประมวลผล\n  รอสัก 5-10 นาที แล้วลองใหม่\n\n• กรอกอีเมลผิดในรอบก่อน\n  ทักแอดมินช่วยส่ง code ใหม่ได้',
+    wrong_account:            { icon:'warn',   title:'ระบบยืนยันสลิปนี้ไม่ได้',
+      msg:'ส่งสลิปให้แอดมินทางแชทได้เลย เมื่อตรวจสอบเรียบร้อย แอดมินจะส่งลิงก์ดาวน์โหลดให้ในแชททันที ไม่ต้องโอนซ้ำ',
       fbPrimary:true },
-    invalid_slip:             { icon:'warn',   title:'อ่านสลิปไม่ได้',
-      msg:'ระบบไม่สามารถอ่านข้อมูลจากสลิปนี้ได้\nกรุณาแนบสลิปจากแอปธนาคารโดยตรง (ไม่ใช่ภาพถ่ายที่ถูกครอปหรือแก้ไข)',
-      fbPrimary:false },
+    wrong_amount_and_account: { icon:'error',  title:'ยอดเงินและบัญชีไม่ตรง',
+      msg:`กรุณาโอน ${baht(PRICE)} บาท มาที่บัญชี 229-3-98096-1 ธนาคารกสิกรไทย แล้วส่งสลิปให้แอดมินทางแชท`,
+      fbPrimary:true },
+    duplicate:                { icon:'info',   title:'สลิปใบนี้อยู่ในระบบแล้ว',
+      msg:'ส่งสลิปให้แอดมินทางแชทได้เลย เมื่อตรวจสอบเรียบร้อย แอดมินจะส่งลิงก์ดาวน์โหลดให้ในแชททันที ไม่ต้องโอนซ้ำ',
+      fbPrimary:true },
+    invalid_slip:             { icon:'warn',   title:'ระบบอ่านสลิปนี้ไม่ได้',
+      msg:'ส่งสลิปให้แอดมินทางแชทได้เลย เมื่อตรวจสอบเรียบร้อย แอดมินจะส่งลิงก์ดาวน์โหลดให้ในแชททันที ไม่ต้องโอนซ้ำ',
+      fbPrimary:true },
     bot_detected:             { icon:'shield', title:'ตรวจพบการเข้าถึงผิดปกติ',
-      msg:'ระบบตรวจพบการเข้าถึงที่ผิดปกติ\nกรุณาโหลดหน้าใหม่แล้วลองอีกครั้ง',
+      msg:'กรุณาโหลดหน้าใหม่แล้วลองอีกครั้ง',
       fbPrimary:false },
     error:                    { icon:'warn',   title:'เกิดข้อผิดพลาด',
-      msg:'เกิดปัญหาในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง\nหรือติดต่อแอดมินผ่าน Facebook ได้เลยค่ะ',
-      fbPrimary:false },
+      msg:'เกิดปัญหาในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง หรือส่งสลิปให้แอดมินทางแชท',
+      fbPrimary:true },
   };
 
-  const cfg     = CONFIGS[reason] ?? CONFIGS.error;
+  let cfg       = CONFIGS[reason] ?? CONFIGS.error;
+
+  // a second failed attempt on the same visit means the slip is in already and
+  // sending it again only comes back "duplicate", so stop offering that road
+  // only for reasons where the slip really is in already; a dropped connection
+  // is worth another go
+  let tries = 0;
+  if (['duplicate', 'wrong_account', 'invalid_slip'].includes(reason)) {
+    try { tries = (+sessionStorage.getItem('ct_fail') || 0) + 1; sessionStorage.setItem('ct_fail', tries); } catch (e) { tries = 1; }
+  }
+  const stopRetry = tries >= 2;
+  if (stopRetry) {
+    cfg = { icon:'info', fbPrimary:true, title:'ส่งซ้ำจะได้ผลเหมือนเดิม',
+      msg:'สลิปใบนี้อยู่ในระบบแล้ว กรุณาส่งสลิปให้แอดมินทางแชท เมื่อตรวจสอบเรียบร้อย แอดมินจะส่งลิงก์ดาวน์โหลดให้ในแชททันที' };
+  }
+  document.getElementById('rejBtnRetry').style.display = stopRetry ? 'none' : '';
+
   const iconDef = ICONS[cfg.icon];
 
   // strip
@@ -1850,7 +1916,7 @@ function showRejected(result) {
   const fbPrimary = cfg.fbPrimary === true;
   document.getElementById('rejActions').classList.toggle('fb-primary', fbPrimary);
   document.getElementById('rejBtnFbText').textContent = fbPrimary
-    ? 'ทักแอดมินช่วยตรวจสอบให้'
+    ? 'ส่งสลิปให้แอดมินทางแชท'
     : 'ติดต่อแอดมิน Facebook';
 
   // reset card animation so it plays fresh each time

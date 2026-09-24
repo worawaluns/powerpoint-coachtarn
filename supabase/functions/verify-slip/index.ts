@@ -378,7 +378,7 @@ serve(async (req) => {
     // ── 2. ดึง order ─────────────────────────────────────────────────────────
     const { data: order, error: orderErr } = await supabase
       .from('orders')
-      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, pack')
+      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, pack, pay_channel')
       .eq('id', order_id)
       .single()
 
@@ -467,6 +467,20 @@ serve(async (req) => {
     // 200404 = Slip Not Found
     // 200500 = Slip is Fraud
     // 200501 = Slip is Duplicated
+
+    // ── 4b. โอนจากบัญชีบริษัท ────────────────────────────────────────────────
+    // ลูกค้าเลือกเองตั้งแต่หน้าแนบสลิปว่าโอนจากบัญชีบริษัท สลิปกลุ่มนี้ออกจากระบบ
+    // หลังบ้านของธนาคาร ไม่มี QR ให้เครื่องอ่าน จึงไม่ปล่อยให้ผลอัตโนมัติ reject
+    // ถ้าอ่านได้ผ่าน (200200) ยังได้ Code ทันทีเหมือนเดิม
+    if (order.pay_channel === 'corporate' && s2gCode !== '200200') {
+      await supabase.from('orders').update({
+        slip2go_code: s2gCode, slip2go_message: s2gMessage,
+        verify_detail: { actualAmount, transRef },
+      }).eq('id', order_id)
+      await queueForReview(supabase, order, seats, packPrice,
+        'ลูกค้าแจ้งว่าโอนจากบัญชีบริษัท ต้องเช็คยอดเงินเข้าบัญชีด้วยตา')
+      return Response.json({ status: 'pending_review' }, { headers: CORS })
+    }
 
     // ── 5. สลิปซ้ำ ───────────────────────────────────────────────────────────
     if (s2gCode === '200501') {
