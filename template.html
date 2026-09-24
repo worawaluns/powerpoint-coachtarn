@@ -208,7 +208,7 @@ const I = {
   clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
   story:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h10M4 18h13"/></svg>' };
 let D, cur = 1, timer = null, prCur = 1, prTimer = null, playing = true;
-const img = k => `library/slides/${D.slug}/${String(k).padStart(2, '0')}.jpg`;
+const img = k => `library/slides/${D.slug}/${String(k).padStart(2, '0')}.webp`;
 const range = n => Array.from({ length: n }, (_, i) => i + 1);
 
 // ponytail: slide total is the whole bundle (new sets + existing archive), same claim as the landing page
@@ -248,7 +248,7 @@ function render(){
   document.title = D.th + ' — Coach Tarn';
   document.documentElement.style.setProperty('--c1', '#' + D.c1); document.documentElement.style.setProperty('--c2', '#' + D.c2);
   const all = window.ALL, rel = all.filter(x => x.group === D.group && x.slug !== D.slug).concat(all.filter(x => x.group !== D.group)).slice(0, 4);
-  const shots = [`library/cover/${D.slug}.jpg`].concat(range(D.slides).map(img));
+  const shots = [`library/cover/${D.slug}.webp`].concat(range(D.slides).map(img));
   const pick = range(D.slides).filter(k => k > 2);
   const r1 = pick.filter((_, i) => i % 2 === 0), r2 = pick.filter((_, i) => i % 2 === 1);
   const row = a => a.concat(a).map(k => `<img loading="lazy" src="${img(k)}" alt="">`).join('');
@@ -283,7 +283,7 @@ function render(){
   <div class="wrap">
     ${store.get() ? '' : `<div class="band reveal"><div><h3>ได้ทุกชุด ${TOTAL} สไลด์ ในราคาเดียว</h3><p>จ่ายครั้งเดียว 499 บาท (ปกติ 999 บาท) ครบทุกอาชีพ</p></div><a class="btn" href="order.html">สั่งซื้อ 499฿</a></div>`}
     <h2 style="font-size:24px;font-weight:800;margin:10px 0 18px">ชุดอื่นที่น่าสนใจ</h2>
-    <section class="rel">${rel.map(x => `<a href="template.html?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.jpg" alt=""><div>${esc(x.th)}</div></a>`).join('')}</section>
+    <section class="rel">${rel.map(x => `<a href="template.html?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.webp" alt=""><div>${esc(x.th)}</div></a>`).join('')}</section>
   </div>`;
   document.getElementById('mbar').innerHTML = store.get()
     ? `<a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl} ดาวน์โหลดชุดนี้</a>`

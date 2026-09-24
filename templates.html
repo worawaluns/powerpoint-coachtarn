@@ -224,7 +224,7 @@ function renderSets(){
   const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
   const list = DATA.filter(d => (group === 'all' || d.group === group) && (!q || (d.th + d.en + d.cat).toLowerCase().includes(q)));
   g.innerHTML = list.length ? list.map(d => `
-    <article class="card"><a class="cv" href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.jpg" alt="${esc(d.th)}">${d.new ? '<span class="new">ใหม่</span>' : ''}</a>
+    <article class="card"><a class="cv" href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.webp" alt="${esc(d.th)}">${d.new ? '<span class="new">ใหม่</span>' : ''}</a>
       <div class="cb"><a href="template.html?id=${d.slug}" style="min-width:0"><h3>${esc(d.th)}</h3><div class="en">${esc(d.en)}</div>
         <div class="meta"><span class="pill m1">${esc(d.cat)}</span><span class="pill m2">${d.slides} สไลด์</span></div></a>
         ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlSet(event,'${d.slug}','${esc(d.th)}')">${ICON.dl}</a>`
@@ -263,7 +263,7 @@ function render(){
     return n ? `<button class="chip ${k === type ? 'on' : ''}" onclick="setType('${k}')">${t}<small>${n}</small></button>` : ''; }).join('');
   const list = slideList(sets);
   g.innerHTML = list.length ? list.slice(0, shown).map(([d, k, t]) => `<a class="sl" href="template.html?id=${d.slug}&s=${k}" title="${esc(d.th)} · สไลด์ ${k}">
-      <img loading="lazy" src="library/slides/${d.slug}/${String(k).padStart(2, '0')}.jpg" alt="${esc(t)} จากชุด ${esc(d.th)}"><div><span class="pill m1">${esc(t)}</span><b>${esc(d.th)}</b></div></a>`).join('')
+      <img loading="lazy" src="library/slides/${d.slug}/${String(k).padStart(2, '0')}.webp" alt="${esc(t)} จากชุด ${esc(d.th)}"><div><span class="pill m1">${esc(t)}</span><b>${esc(d.th)}</b></div></a>`).join('')
       + (list.length > shown ? `<button class="btn btn-ghost more" onclick="shown += 48; render()">ดูเพิ่ม (เหลืออีก ${list.length - shown} สไลด์)</button>` : '')
     : '<div class="empty">ไม่พบสไลด์ประเภทนี้ในกลุ่มที่เลือก</div>';
 }

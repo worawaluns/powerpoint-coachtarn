@@ -3030,10 +3030,10 @@ html.member .sticky-bar{display:none!important}
   const ranked = (list, order) => { const r = new Map((order || []).map((s, i) => [s, i])); return list.slice().sort((a, b) => (r.has(a.slug) ? r.get(a.slug) : 1e4) - (r.has(b.slug) ? r.get(b.slug) : 1e4)); };
   function items(){
     if (mode === 'job') return ranked(D.filter(x => x.group === sel), P.job[sel]).map(x =>
-      `<a class="pick-card" href="template?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.jpg" alt="${esc(x.th)}"><div><b>${esc(x.th)}</b><i>${esc(x.cat)}</i></div></a>`);
+      `<a class="pick-card" href="template?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.webp" alt="${esc(x.th)}"><div><b>${esc(x.th)}</b><i>${esc(x.cat)}</i></div></a>`);
     const out = [];
     for (const x of ranked([...D].reverse(), P.type[sel])) { const k = (S[x.slug] || []).indexOf(sel); if (k < 0) continue;
-      out.push(`<a class="pick-card slide" href="template?id=${x.slug}&s=${k + 1}"><img loading="lazy" src="library/slides/${x.slug}/${String(k + 1).padStart(2, '0')}.jpg" alt="${esc(sel)} จากชุด ${esc(x.th)}"><div><b>${esc(x.th)}</b><i>${esc(sel)}</i></div></a>`);
+      out.push(`<a class="pick-card slide" href="template?id=${x.slug}&s=${k + 1}"><img loading="lazy" src="library/slides/${x.slug}/${String(k + 1).padStart(2, '0')}.webp" alt="${esc(sel)} จากชุด ${esc(x.th)}"><div><b>${esc(x.th)}</b><i>${esc(sel)}</i></div></a>`);
       if (out.length === 60) break; }
     return out;
   }
@@ -3064,7 +3064,7 @@ html.member .sticky-bar{display:none!important}
     pop.querySelector('.pp-info span').textContent = it.s ? 'แตะรูปเล็กด้านล่างเพื่อดูหน้าอื่นในชุดเดียวกัน' : 'ชุดสไลด์ 16:9 แก้ไขได้ทุกหน้าใน PowerPoint';
     pop.querySelector('.pp-link').href = it.href;
     const pages = [...new Set([it.s || 1, 1, 4, 7, 10, 13, 16, 19])].slice(0, 7);
-    pop.querySelector('.pp-thumbs').innerHTML = pages.map(n => `<button data-n="${n}"><img loading="lazy" src="library/slides/${it.slug}/${pad(n)}.jpg" alt=""></button>`).join('');
+    pop.querySelector('.pp-thumbs').innerHTML = pages.map(n => `<button data-n="${n}"><img loading="lazy" src="library/slides/${it.slug}/${pad(n)}.webp" alt=""></button>`).join('');
     pop.querySelector('.pp-thumbs button').classList.add('on'); }
   function go(i, smooth){ cur = Math.max(0, Math.min(list.length - 1, i)); const el = track.children[cur];
     track.scrollTo({ left: el.offsetLeft - 16, behavior: smooth ? 'smooth' : 'auto' }); info(); }
@@ -3132,7 +3132,7 @@ async function setFile(slug){
     const w = track.children[0] ? track.children[0].offsetWidth + 12 : 1, i = Math.round(track.scrollLeft / w);
     if (i !== cur) { cur = i; info(); } }, 60); }, { passive: true });
   pop.querySelector('.pp-thumbs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
-    const it = list[cur]; track.children[cur].querySelector('img').src = `library/slides/${it.slug}/${pad(b.dataset.n)}.jpg`;
+    const it = list[cur]; track.children[cur].querySelector('img').src = `library/slides/${it.slug}/${pad(b.dataset.n)}.webp`;
     pop.querySelectorAll('.pp-thumbs button').forEach(x => x.classList.toggle('on', x === b)); });
   document.addEventListener('keydown', e => { if (!isOpen) return;
     if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') go(cur - 1, true); if (e.key === 'ArrowRight') go(cur + 1, true); });
@@ -3253,18 +3253,18 @@ async function setFile(slug){
     <div class="ft-panels reveal">
       <div class="ft-panel on">
         <div class="ft-grid">
-          <img loading="lazy" src="library/slides/marketingdash/02.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/piedonut/03.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/barchart/04.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/timelineset/05.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/kpinumber/06.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/processflow/07.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/strategymatrix/03.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/hrpeople/05.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/linechart/08.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/survey/04.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/comparechart/06.jpg" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/gaugeprogress/05.jpg" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/marketingdash/02.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/piedonut/03.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/barchart/04.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/timelineset/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/kpinumber/06.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/processflow/07.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/strategymatrix/03.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/hrpeople/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/linechart/08.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/survey/04.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/comparechart/06.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="library/slides/gaugeprogress/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
         </div>
       </div>
       <div class="ft-panel">
@@ -3287,7 +3287,7 @@ async function setFile(slug){
             <span class="rc-cursor" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 2.5 19 12.2l-5.9.6-2.6 5.4z" fill="#1D1D1F" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
           </div>
           <div class="rc-stage">
-            <img id="rcSlide" src="library/slides/processflow/03.jpg" alt="สไลด์จากคลัง เปลี่ยนธีมสีได้" loading="lazy">
+            <img id="rcSlide" src="library/slides/processflow/03.webp" alt="สไลด์จากคลัง เปลี่ยนธีมสีได้" loading="lazy">
           </div>
           <p class="rc-note">สไลด์จริงจากคลัง กดสีเดียว เปลี่ยนทั้งแผ่น</p>
         </div>
@@ -3914,11 +3914,11 @@ async function setFile(slug){
     <a href="order" class="fin-btn">สั่งซื้อเลย</a>
     <div class="fin-note">โอนผ่านธนาคาร ระบบตรวจสลิปให้อัตโนมัติ ได้โค้ดทางอีเมลทันที</div>
     <div class="fin-fan">
-      <div class="fin-slide"><img loading="lazy" src="library/slides/linechart/04.jpg" alt=""></div>
-      <div class="fin-slide"><img loading="lazy" src="library/slides/marketingdash/06.jpg" alt=""></div>
-      <div class="fin-slide"><img loading="lazy" src="library/slides/piedonut/03.jpg" alt=""></div>
-      <div class="fin-slide"><img loading="lazy" src="library/slides/kpinumber/05.jpg" alt=""></div>
-      <div class="fin-slide"><img loading="lazy" src="library/slides/timelineset/07.jpg" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/linechart/04.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/marketingdash/06.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/piedonut/03.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/kpinumber/05.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="library/slides/timelineset/07.webp" alt=""></div>
     </div>
   </div>
 </section>
