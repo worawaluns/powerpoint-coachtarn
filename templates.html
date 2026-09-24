@@ -129,9 +129,9 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
     <h1>สไลด์พร้อมใช้<br>ออกแบบมาเพื่องานของคุณ</h1>
     <p class="lead">ทุกชุดเรียงเรื่องตั้งแต่เปิดจนปิด กราฟทุกตัวแก้ใน Excel ได้ เลือกโหลดเฉพาะชุดที่ต้องใช้</p>
     <div class="facts">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><b id="stN">247</b> ชุดเทมเพลต</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><b id="stN">348</b> ชุดเทมเพลต</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><b>6,500+</b> สไลด์</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><b>9</b> หมวดหมู่</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><b id="stC">9</b> หมวดหมู่</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>แก้ใน Excel ได้</span>
     </div>
     <label class="search hero-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="ค้นหาเช่น KPI, ครู, งบประมาณ" autocomplete="off"></label>
@@ -209,6 +209,9 @@ function renderChips(){
   document.getElementById('chips').innerHTML = GROUPS.map(([k, t]) => {
     const n = k === 'all' ? DATA.length : DATA.filter(d => d.group === k).length;
     return `<button class="chip ${k === group ? 'on' : ''}" onclick="setGroup('${k}')">${t}<small>${n}</small></button>`; }).join('');
+  // count the real groups, minus the "ทั้งหมด" chip, so the fact never goes stale
+  const c = document.getElementById('stC');
+  if (c) c.textContent = GROUPS.filter(([k]) => k !== 'all' && DATA.some(d => d.group === k)).length;
 }
 function setGroup(k){ group = k; shown = 48; renderChips(); render(); }
 async function dlSet(e, slug, name){   // download that one set; folder is the fallback
