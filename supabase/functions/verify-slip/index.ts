@@ -388,6 +388,11 @@ serve(async (req) => {
     if (order.status === 'verified') {
       return Response.json({ status: 'already_verified' }, { headers: CORS })
     }
+    // already waiting on a person: re-checking would only mail the admin again and
+    // invalidate the review link they were sent
+    if (order.status === 'pending_review') {
+      return Response.json({ status: 'pending_review' }, { headers: CORS })
+    }
 
     // ── 2b. ราคาตามแพ็ก (order.pack) ─────────────────────────────────────────
     const seats     = PACK_PRICE[Number(order.pack) || 1] ? (Number(order.pack) || 1) : 1
@@ -522,10 +527,25 @@ serve(async (req) => {
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
       }
 
+      // 200500 = Slip is Fraud. Corporate e-receipts and re-saved images trip this
+      // even when the money really did arrive, so a person checks the bank instead
+      // of the customer being told "สลิปไม่ถูกต้อง" with no way forward.
+      // Anything we do not recognise goes the same way.
+      if (s2gCode === '200500' || !['200401', '200402', '200403'].includes(s2gCode)) {
+        await supabase.from('orders').update({
+          slip2go_code: s2gCode, slip2go_message: s2gMessage,
+          verify_detail: { actualAmount, transRef },
+        }).eq('id', order_id)
+        await queueForReview(supabase, order, seats, packPrice,
+          s2gCode === '200500'
+            ? 'ระบบอ่านสลิปแล้วสงสัยว่าไฟล์ถูกแก้ไข ต้องเช็คยอดเงินเข้าในบัญชีด้วยตาก่อนยืนยัน'
+            : `ระบบตรวจสลิปตอบรหัส ${s2gCode} ที่ยังไม่รู้จัก ต้องเช็คด้วยตา`)
+        return Response.json({ status: 'pending_review' }, { headers: CORS })
+      }
+
       let reason = 'invalid_slip'
       if      (s2gCode === '200401') reason = 'wrong_account'
       else if (s2gCode === '200402') reason = 'wrong_amount'
-      else if (s2gCode === '200500') reason = 'invalid_slip'
 
       await supabase.from('orders').update({
         status         : 'rejected',
