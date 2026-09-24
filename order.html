@@ -99,7 +99,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
 /* ── Progress bar ── */
 .progress-bar{
-  position:fixed;top:62px;left:0;right:0;
+  position:fixed;top:66px;left:0;right:0;   /* = nav height, see the two media queries */
   height:3px;background:linear-gradient(90deg,var(--grad-start),var(--grad-end));
   width:50%;transition:width .4s var(--ease);
   z-index:199;
@@ -709,11 +709,12 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 ══════════════════════════════════════ */
 /* ── Tablet 768px+ ── */
 @media(min-width:768px){
+  .progress-bar{top:80px}
   .page{max-width:100%;box-shadow:none}
   .nav{padding:12px 28px}
   .nav-links{display:flex;gap:8px}
   .hamburger{display:none}
-  .page-inner{padding:78px 24px 48px;max-width:900px;margin:0 auto}
+  .page-inner{padding:88px 24px 48px;max-width:900px;margin:0 auto}
   .card{margin:0 0 14px}
   .trust-chips{padding:10px 0}
   .submit-area{padding:0 0 4px}
@@ -754,9 +755,10 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
 /* ── Desktop 1024px+ ── */
 @media(min-width:1024px){
+  .progress-bar{top:94px}
   .page{max-width:100%}
   .nav{padding:14px 64px}
-  .page-inner{max-width:1060px;padding-top:92px;padding-left:40px;padding-right:40px}
+  .page-inner{max-width:1060px;padding-top:102px;padding-left:40px;padding-right:40px}
 
   /* 2-column layout */
   #mainContent{
