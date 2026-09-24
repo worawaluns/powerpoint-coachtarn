@@ -304,9 +304,10 @@ function adminReviewHtml(order: any, seats: number, price: string, link: string,
       ${row('ชื่อบริษัท', esc(order.tax_name))}
       ${row('สาขา', esc(order.tax_branch || 'สำนักงานใหญ่'))}
       ${row('เลขผู้เสียภาษี', esc(order.tax_id))}
-      ${row('อีเมลบัญชี', esc(order.tax_email || order.email))}
+      ${row('เบอร์โทรติดต่อ', esc(order.tax_phone || '-'))}
     </table>
-    <p style="margin:8px 0 0;font-size:13px;color:#6E6E73;line-height:1.7;">ที่อยู่จัดส่ง: ${esc(order.tax_address)}</p>` : ''
+    <p style="margin:8px 0 0;font-size:13px;color:#6E6E73;line-height:1.7;">ที่อยู่บริษัท ตามที่จดทะเบียน: ${esc(order.tax_address)}</p>
+    <p style="margin:6px 0 0;font-size:13px;color:#1D1D1F;line-height:1.7;font-weight:700;">ส่งเอกสารไปที่: ${esc(order.tax_ship_address || order.tax_address)}</p>` : ''
   return `<!DOCTYPE html><html lang="th"><body style="margin:0;padding:0;background:#F2F2F7;font-family:-apple-system,Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F2F2F7;"><tr><td align="center" style="padding:32px 16px;">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#fff;border-radius:20px;overflow:hidden;">

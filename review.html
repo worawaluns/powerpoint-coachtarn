@@ -25,7 +25,7 @@ td{padding:10px 13px;font-size:13.5px;border-bottom:1px solid #F4F4F6}
 tr:last-child td{border-bottom:none}
 td.k{color:#8a8a92;white-space:nowrap}td.v{text-align:right;font-weight:700;word-break:break-word}
 .sec{font-size:12px;font-weight:700;letter-spacing:.6px;color:#8a8a92;margin:18px 0 6px}
-.addr{font-size:13.5px;color:var(--mid);line-height:1.7;background:var(--soft);border-radius:12px;padding:12px 14px}
+.addr{font-size:13.5px;color:var(--mid);line-height:1.7;background:var(--soft);border-radius:12px;padding:12px 14px;white-space:pre-line}
 .sliplink{display:block;text-align:center;border:1.5px solid var(--line);border-radius:12px;padding:12px;font-size:14px;font-weight:700;color:var(--ink);text-decoration:none;margin-top:14px}
 .slipimg{width:100%;border-radius:12px;border:1px solid var(--line);margin-top:12px;display:block}
 .btn{display:block;width:100%;text-align:center;border:none;border-radius:13px;padding:16px;font-size:15.5px;font-weight:700;font-family:inherit;cursor:pointer;margin-top:12px}
@@ -119,8 +119,10 @@ async function load(){
     document.getElementById('taxWrap').style.display = 'block';
     document.getElementById('taxInfo').innerHTML =
         row('ชื่อบริษัท', o.tax_name) + row('สาขา', o.tax_branch || 'สำนักงานใหญ่')
-      + row('เลขผู้เสียภาษี', o.tax_id) + row('อีเมลบัญชี', o.tax_email || o.email);
-    document.getElementById('taxAddr').textContent = 'ที่อยู่จัดส่ง: ' + (o.tax_address || '');
+      + row('เลขผู้เสียภาษี', o.tax_id) + row('เบอร์โทรติดต่อ', o.tax_phone || '-');
+    document.getElementById('taxAddr').textContent =
+      'ที่อยู่บริษัท: ' + (o.tax_address || '') +
+      (o.tax_ship_address ? '\nที่อยู่จัดส่ง: ' + o.tax_ship_address : '');
   }
   if (r.slip_url) {
     document.getElementById('slipLink').href = r.slip_url;
