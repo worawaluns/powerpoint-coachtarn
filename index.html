@@ -2982,8 +2982,8 @@ html.member .sticky-bar{display:none!important}
 </style>
 <section class="pick-section reveal" id="library">
   <h2>หาสไลด์ที่ตรงกับงานของคุณ</h2>
-  <p class="pick-lead" id="pickLead">เลือกตามประเภทสไลด์ หรือตามอาชีพที่ต้องการ</p>
-  <div class="pick-seg"><button class="on" data-m="type">ตามประเภทสไลด์</button><button data-m="job">ตามอาชีพ</button></div>
+  <p class="pick-lead" id="pickLead">เลือกตามอาชีพ หรือตามประเภทสไลด์ที่ต้องการ</p>
+  <div class="pick-seg"><button class="on" data-m="job">ตามอาชีพ</button><button data-m="type">ตามประเภทสไลด์</button></div>
   <div class="pick-chips" id="pickChips"><a href="templates?g=office">พนักงานออฟฟิศ</a><a href="templates?g=teacher">ครู / อาจารย์</a><a href="templates?g=sales">ฝ่ายขาย</a><a href="templates">ดูทั้งหมด</a></div>
   <div class="pick-rail" id="pickRail"></div>
   <div class="pick-more"><button id="pickLoad" hidden>ดูเพิ่ม</button><a id="pickMore" href="templates">ดูคลังเทมเพลตทั้งหมด</a></div>
@@ -3009,7 +3009,7 @@ html.member .sticky-bar{display:none!important}
   const JOB = {office:'พนักงานออฟฟิศ',teacher:'ครู / อาจารย์',sales:'ฝ่ายขาย',health:'บุคลากรสุขภาพ',owner:'เจ้าของธุรกิจ',engineer:'วิศวกร / QMS',gov:'ข้าราชการ',trainer:'วิทยากร / โค้ช',proposal:'ใบเสนองาน'};
   const TYPES = ['กราฟ','ตัวเลข KPI','ตาราง','ไทม์ไลน์ / ขั้นตอน','อินโฟกราฟิก','เปรียบเทียบ','สารบัญ','ตารางราคา','ทีม / องค์กร','แผนที่'];
   const $ = id => document.getElementById(id), esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  let D = [], S = {}, P = {type: {}, job: {}}, mode = 'type', sel = 'กราฟ', shown = 6, all = [];
+  let D = [], S = {}, P = {type: {}, job: {}}, mode = 'job', sel = 'office', shown = 6, all = [];
   Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slides.json').then(r => r.json()), fetch('library/pick.json').then(r => r.json()).catch(() => P)]).then(([d, s, p]) => {
     D = d.sort((a, b) => b.no - a.no); S = s; P = p;
     render();
