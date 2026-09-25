@@ -294,6 +294,37 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
 }
 
 
+// ── ลูกค้าจ่ายผ่านแล้วแต่ขอใบกำกับภาษี แอดมินต้องรู้เพื่อออกเอกสาร ──
+function taxNoticeHtml(order: any, price: string, codes: string[]): string {
+  const esc = (v: unknown) => String(v ?? '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]!))
+  const row = (k: string, v: string) => `<tr><td style="padding:9px 13px;font-size:13px;color:#8a8a92;border-bottom:1px solid #F4F4F6;">${k}</td><td align="right" style="padding:9px 13px;font-size:13.5px;font-weight:700;color:#1D1D1F;border-bottom:1px solid #F4F4F6;">${v}</td></tr>`
+  return `<!DOCTYPE html><html lang="th"><body style="margin:0;padding:0;background:#F2F2F7;font-family:-apple-system,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F2F2F7;"><tr><td align="center" style="padding:32px 16px;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#fff;border-radius:20px;overflow:hidden;">
+  <tr><td style="height:5px;background:#2563EB;font-size:0;">&nbsp;</td></tr>
+  <tr><td style="padding:26px 30px 24px;">
+    <p style="margin:0 0 10px;"><span style="display:inline-block;font-size:11.5px;font-weight:700;color:#1D4ED8;background:#E8EEFF;padding:4px 11px;border-radius:100px;">จ่ายเงินแล้ว ต้องออกเอกสาร</span></p>
+    <h1 style="margin:0 0 4px;font-size:20px;font-weight:800;color:#1D1D1F;">ออกใบกำกับภาษี ${Number(price).toLocaleString('en-US')} บาท</h1>
+    <p style="margin:0 0 16px;font-size:13.5px;color:#6E6E73;">สลิปผ่านการตรวจแล้ว ลูกค้าได้ Redeem Code ไปเรียบร้อย เหลือออกใบกำกับภาษีและส่งไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</p>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #EFEFEF;border-radius:12px;">
+      ${row('เลขออเดอร์', esc(order.id).slice(0, 8))}
+      ${row('ชื่อผู้สั่งซื้อ', esc(order.name))}
+      ${row('อีเมลลูกค้า', esc(order.email))}
+      ${row('Redeem Code', esc(codes.join(', ')))}
+    </table>
+    <p style="margin:16px 0 6px;font-size:12px;font-weight:700;letter-spacing:1px;color:#8E8E93;">ข้อมูลใบกำกับภาษี</p>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #EFEFEF;border-radius:12px;">
+      ${row('ชื่อบริษัท', esc(order.tax_name))}
+      ${row('สาขา', esc(order.tax_branch || 'สำนักงานใหญ่'))}
+      ${row('เลขผู้เสียภาษี', esc(order.tax_id))}
+      ${row('เบอร์โทรติดต่อ', esc(order.tax_phone || '-'))}
+    </table>
+    <p style="margin:8px 0 0;font-size:13px;color:#6E6E73;line-height:1.7;">ที่อยู่บริษัท ตามที่จดทะเบียน: ${esc(order.tax_address)}</p>
+    <p style="margin:6px 0 0;font-size:13.5px;color:#1D1D1F;line-height:1.7;font-weight:700;">ส่งเอกสารไปที่: ${esc(order.tax_ship_address || order.tax_address)}</p>
+  </td></tr>
+</table></td></tr></table></body></html>`
+}
+
 // ── สลิปที่ Slip2Go อ่านไม่ได้ (สลิปบริษัท/e-receipt ไม่มี QR) เข้าคิวให้แอดมินตรวจ ──
 function adminReviewHtml(order: any, seats: number, price: string, link: string, slipUrl: string | null, why: string): string {
   const esc = (v: unknown) => String(v ?? '').replace(/[<>&]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c]!))
@@ -379,7 +410,7 @@ serve(async (req) => {
     // ── 2. ดึง order ─────────────────────────────────────────────────────────
     const { data: order, error: orderErr } = await supabase
       .from('orders')
-      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, pack, pay_channel')
+      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, pack, pay_channel, tax_invoice, tax_name, tax_branch, tax_id, tax_address, tax_ship_address, tax_phone')
       .eq('id', order_id)
       .single()
 
@@ -623,6 +654,17 @@ serve(async (req) => {
       seats > 1 ? `✅ Redeem Code ${seats} สิทธิ์ของคุณพร้อมแล้ว` : `✅ Redeem Code ของคุณพร้อมแล้ว ${redeemCode}`,
       buildEmailHtml(order.name, codes, packPrice),
     )
+
+    // ── 10b. ขอใบกำกับภาษีมาด้วย บอกแอดมินให้ออกเอกสาร ────────────────────
+    if (order.tax_invoice) {
+      try {
+        await sendEmailViaResend(
+          ADMIN_EMAIL,
+          `ออกใบกำกับภาษี ${order.tax_name ?? order.name} ${Number(packPrice).toLocaleString('en-US')} บาท`,
+          taxNoticeHtml(order, packPrice, codes),
+        )
+      } catch (e) { console.error('[verify-slip] tax notice mail failed:', e) }
+    }
 
     // ── 11. ManyChat tag (additive, non-critical — only for Messenger-referred users) ────
     try {
