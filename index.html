@@ -2579,8 +2579,14 @@ body{
   border-radius:20px;padding:44px 22px 0;text-align:center;
   background:#0E1623;           /* flat and near black, like the reference */
 }
-
-.fin-h2,.fin-sub,.fin-price,.fin-btn,.fin-note,.fin-fan{position:relative;z-index:1}
+/* the little sparkles the reference has either side of the button */
+.fin-card::before,.fin-card::after{
+  content:'';position:absolute;width:30px;height:30px;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 11.4 11.4C17.1 12 12.6 16.5 12 22.8 11.4 16.5 6.9 12 .6 11.4 6.9 10.8 11.4 6.3 12 0z' fill='%23FFC93C'/%3E%3C/svg%3E") center/contain no-repeat;
+  opacity:.9;
+}
+.fin-card::before{left:16px;bottom:210px}
+.fin-card::after{right:16px;bottom:230px;width:20px;height:20px}
 .fin-h2{font-size:27px;font-weight:800;line-height:1.32;color:#fff;letter-spacing:-.4px;text-wrap:balance}
 .fin-sub{margin:14px auto 0;max-width:440px;font-size:14px;line-height:1.8;color:rgba(255,255,255,.60);text-wrap:balance}
 .fin-price{display:flex;align-items:baseline;justify-content:center;gap:16px;margin-top:24px;line-height:1.15}
@@ -2616,6 +2622,8 @@ body{
 @media(min-width:768px){
   .fin-section{padding:8px 40px 64px}
   .fin-card{max-width:1080px;padding:64px 32px 0;border-radius:24px}
+  .fin-card::before{left:11%;bottom:250px;width:36px;height:36px}
+  .fin-card::after{right:11%;bottom:280px;width:26px;height:26px}
   .fin-h2{font-size:38px}
   .fin-sub{font-size:16px;max-width:540px}
   .fin-price b{font-size:62px}
@@ -2624,40 +2632,6 @@ body{
   .fin-fan{margin-top:34px;padding-top:26px}
 }
 @media(prefers-reduced-motion:reduce){.fin-slide{transition:none}}
-
-/* the glow the reference has under the slide stack */
-.fin-card::after{
-  content:'';position:absolute;left:50%;bottom:-40px;width:620px;height:340px;
-  transform:translateX(-50%);pointer-events:none;
-  background:radial-gradient(50% 50% at 50% 50%,rgba(86,132,255,.20),transparent 70%);
-}
-/* app icons, a count and sparkles, held back until the mouse is on the card */
-.fin-deco{position:absolute;inset:0;pointer-events:none}
-.fin-app,.fin-pill,.fin-spark{position:absolute;opacity:0;transition:opacity .45s var(--ease),transform .45s var(--ease)}
-.fin-app{width:52px;height:52px;border-radius:14px;transform:scale(.75) rotate(-6deg)}
-.fa1{top:24px;left:22px}
-.fa2{top:18px;right:24px;transform:scale(.75) rotate(7deg)}
-.fa3{bottom:190px;right:20px;transform:scale(.75) rotate(-5deg)}
-.fin-pill{
-  left:22px;top:44%;padding:8px 16px;border-radius:999px;white-space:nowrap;
-  border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);
-  color:rgba(255,255,255,.78);font-size:13px;font-weight:700;transform:translateX(-8px);
-}
-.fin-spark{
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 11.4 11.4C17.1 12 12.6 16.5 12 22.8 11.4 16.5 6.9 12 .6 11.4 6.9 10.8 11.4 6.3 12 0z' fill='%23FFC93C'/%3E%3C/svg%3E") center/contain no-repeat;
-  transform:scale(.6);
-}
-.s1{width:22px;height:22px;left:9%;bottom:225px}
-.s2{width:14px;height:14px;left:14%;bottom:255px}
-.s3{width:20px;height:20px;right:11%;bottom:270px}
-.s4{width:13px;height:13px;right:15%;bottom:300px}
-@media(hover:hover){
-  .fin-card:hover .fin-app{opacity:1;transform:scale(1) rotate(0deg)}
-  .fin-card:hover .fin-pill{opacity:1;transform:translateX(0)}
-  .fin-card:hover .fin-spark{opacity:1;transform:scale(1)}
-  .fin-card:hover .fin-slide{margin:0 -48px;transform:translateY(-6px)}
-}
-@media(max-width:767px){.fin-deco{display:none}}
 
 /* ══════════════════════════════════════
    LIVE COUNTERS (small pills, bottom left)
@@ -3872,13 +3846,6 @@ async function setFile(slug){
 <!-- ⑫ FINAL CTA -->
 <section class="section fin-section">
   <div class="fin-card reveal">
-    <div class="fin-deco" aria-hidden="true">
-      <img class="fin-app fa1" src="img/icon-powerpoint.png" alt="" loading="lazy">
-      <img class="fin-app fa2" src="img/icon-google-slide.png" alt="" loading="lazy">
-      <img class="fin-app fa3" src="img/icon-keynote.png" alt="" loading="lazy">
-      <span class="fin-pill">348 ชุด ในคลัง</span>
-      <i class="fin-spark s1"></i><i class="fin-spark s2"></i><i class="fin-spark s3"></i><i class="fin-spark s4"></i>
-    </div>
     <h2 class="fin-h2">เลิกนั่งทำสไลด์เอง<br>ตั้งแต่หน้าแรกได้แล้ว</h2>
     <p class="fin-sub">คนใช้งานแล้วกว่า 7,000 คน จ่ายครั้งเดียวได้คลัง 348 ชุด 6,500+ สไลด์ ชุดใหม่ที่เพิ่มเข้าคลัง โหลดฟรีด้วยโค้ดเดิมตลอด</p>
     <div class="fin-price"><s>999฿</s><b>499฿</b></div>
