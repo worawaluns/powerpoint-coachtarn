@@ -767,7 +767,13 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     gap:28px;
     align-items:start;
   }
-  .order-left{display:flex;flex-direction:column;gap:0}
+  .order-left{
+    display:flex;flex-direction:column;gap:0;
+    position:sticky;top:110px;          /* clears the 94px nav */
+    align-self:start;
+    max-height:calc(100vh - 130px);overflow:auto;scrollbar-width:none;
+  }
+  .order-left::-webkit-scrollbar{display:none}
   .order-right{display:flex;flex-direction:column;gap:0}
 
   /* Success/rejected span full width */
