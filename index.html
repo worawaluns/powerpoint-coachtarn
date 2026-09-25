@@ -2749,8 +2749,33 @@ fbq('track','PageView');
   .pv-tiers{max-width:1080px;margin:22px auto 0}
   .pv-tier-note{max-width:820px;margin-left:auto;margin-right:auto}
 }
+/* team packs: one line unless someone is actually buying for a team */
+.b2b-bar{
+  display:flex;align-items:center;gap:13px;width:calc(100% - 40px);max-width:var(--max);
+  margin:0 auto;padding:16px 18px;border:1px solid rgba(211,71,36,.18);border-radius:18px;
+  background:linear-gradient(135deg,#FFF6F2,#FFFBF9);font:inherit;text-align:left;cursor:pointer;
+  box-shadow:0 3px 14px rgba(211,71,36,.06);
+}
+.b2b-ic{
+  width:40px;height:40px;border-radius:13px;flex:none;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#FFE7DA,#FFD3BE);color:var(--red);
+}
+.b2b-ic svg{width:21px;height:21px}
+.b2b-txt{flex:1;min-width:0}
+.b2b-txt b{display:block;font-size:15px;text-wrap:balance;font-weight:800;line-height:1.4;color:var(--text)}
+.b2b-txt span{display:block;font-size:12.5px;color:var(--text-mid);line-height:1.6;margin-top:2px}
+.b2b-chev{flex:none;color:var(--red);transition:transform .3s var(--ease)}
+.b2b-chev svg{width:20px;height:20px;display:block}
+.b2b-bar[aria-expanded="true"] .b2b-chev{transform:rotate(180deg)}
+.b2b-body[hidden]{display:none}
+@media(min-width:768px){
+  .b2b-bar{max-width:720px;padding:18px 22px}
+  .b2b-txt b{font-size:17px}
+  .b2b-txt span{font-size:13.5px}
+}
+
 /* the two sticky bars must not cover a heading when a chip is clicked */
-#library,#strip,#feat,#reviews,#how,#deal,#team,#faq{scroll-margin-top:150px}
+#library,#feat,#reviews,#how,#deal,#team,#faq{scroll-margin-top:150px}
 </style>
 </head>
 <body>
@@ -2828,7 +2853,7 @@ fbq('track','PageView');
       สไลด์ PowerPoint<br>
       <span class="line2">โหลดไม่จำกัด</span>
     </h1>
-    <p class="hero-sub">คลังสไลด์พร้อมใช้ 348 ชุด สำหรับงานนำเสนอ รายงาน และงานสอน เปิดใน PowerPoint แก้ได้ทุกหน้า</p>
+    <p class="hero-sub">คลังสไลด์พร้อมใช้ 348 ชุด หยิบข้ามชุดมารวมเป็นไฟล์เดียวได้ เปิดใน PowerPoint แก้ได้ทุกหน้า</p>
     <div class="hero-price">
       <span class="price-save">ลด 50%</span>
       <span class="price-big">499฿</span>
@@ -2836,7 +2861,7 @@ fbq('track','PageView');
     </div>
 
     <div class="hero-btn-row">
-      <a href="#strip" class="btn-hero-out">ดูเพิ่มเติม</a>
+      <a href="#library" class="btn-hero-out">ดูสไลด์ทั้งหมด</a>
       <a href="order" class="btn-hero-fill">สั่งซื้อเลย</a>
     </div>
     <div class="trust-line">
@@ -2889,7 +2914,7 @@ fbq('track','PageView');
 <section class="pv-facts reveal">
   <!-- hero already says 6,500+ / unlimited / one-time — these four add what it does not.
        each one is a plain statement, not a word the reader has to decode -->
-  <div class="pv-fact"><b>348 ชุด</b><span>แยกตามอาชีพและงาน</span></div>
+  <div class="pv-fact"><b>348 ชุด</b><span>ผสมข้ามชุดได้ รวมเป็นไฟล์เดียว</span></div>
   <div class="pv-fact"><b>แก้ได้ทุกหน้า</b><span>ไฟล์ .pptx ไม่ใช่รูปภาพ</span></div>
   <div class="pv-fact"><b>กราฟต่อ Excel</b><span>พิมพ์เลขใหม่ กราฟขยับตาม</span></div>
   <div class="pv-fact"><b>โอนแล้วได้เลย</b><span>ระบบส่งโค้ดเข้าอีเมลให้เอง</span></div>
@@ -2897,7 +2922,7 @@ fbq('track','PageView');
 
 <div class="pv-anchor">
   <div class="pv-anchor-in">
-    <a href="#library" class="on">หาสไลด์</a><a href="#strip">ตัวอย่างสไลด์</a><a href="#feat">ฟีเจอร์</a>
+    <a href="#library" class="on">หาสไลด์</a><a href="#feat">ฟีเจอร์</a>
     <a href="#reviews">รีวิว</a><a href="#how">วิธีสั่งซื้อ</a><a href="#deal">ราคา</a><a href="#team">ซื้อให้ทีม</a><a href="#faq">คำถาม</a>
   </div>
 </div>
@@ -2982,7 +3007,7 @@ html.member .sticky-bar{display:none!important}
 </style>
 <section class="pick-section reveal" id="library">
   <h2>หาสไลด์ที่ตรงกับงานของคุณ</h2>
-  <p class="pick-lead" id="pickLead">เลือกตามอาชีพ หรือตามประเภทสไลด์ที่ต้องการ</p>
+  <p class="pick-lead" id="pickLead">เลือกตามอาชีพ หรือตามประเภทสไลด์ หยิบข้ามชุดมารวมกันได้</p>
   <div class="pick-seg"><button class="on" data-m="job">ตามอาชีพ</button><button data-m="type">ตามประเภทสไลด์</button></div>
   <div class="pick-chips" id="pickChips"><a href="templates?g=office">พนักงานออฟฟิศ</a><a href="templates?g=teacher">ครู / อาจารย์</a><a href="templates?g=sales">ฝ่ายขาย</a><a href="templates">ดูทั้งหมด</a></div>
   <div class="pick-rail" id="pickRail"></div>
@@ -3192,34 +3217,7 @@ async function setFile(slug){
   </div>
 </div>
 
-<!-- ⑦ PARALLAX TEMPLATE STRIP -->
-<section class="strip-section" id="strip">
-  <div class="strip-header reveal">
-    <div class="section-pill">Template Collection</div>
-    <h2 class="section-h2">6,500+ สไลด์<br>ครบทุกสไตล์</h2>
-    <p class="section-sub" style="margin-bottom:0">เลือกใช้ตามงานที่ต้องการ แก้ไขง่าย ใช้ได้ทันที</p>
-  </div>
-  <div class="strip-track-wrap" id="stripWrap">
-    <div class="strip-row" id="row1">
-      <div class="slide-tile g5"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-01.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
-      <div class="slide-tile g2"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Alphabet Infographics-02.jpg" alt="Alphabet Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Alphabet Infographics</div></div></div>
-      <div class="slide-tile g3"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Marketing Slides-01.jpg" alt="Marketing Slides" loading="lazy"><div class="slide-tile-label">Marketing</div></div><div class="slide-tile-info"><div class="slide-tile-name">Marketing Slides</div></div></div>
-      <div class="slide-tile g1"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/KPI Dashboards.jpg" alt="KPI Dashboards" loading="lazy"><div class="slide-tile-label">KPI</div></div><div class="slide-tile-info"><div class="slide-tile-name">KPI Dashboards</div></div></div>
-      <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-03.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
-    </div>
-    <div class="strip-row row2" id="row2">
-      <div class="slide-tile g8"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Business Strategy-01.jpg" alt="Business Strategy" loading="lazy"><div class="slide-tile-label">Strategy</div></div><div class="slide-tile-info"><div class="slide-tile-name">Business Strategy</div></div></div>
-      <div class="slide-tile g7"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-02.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
-      <div class="slide-tile g6"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Alphabet Infographics-01.jpg" alt="Alphabet Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Alphabet Infographics</div></div></div>
-      <div class="slide-tile g3"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Marketing Slides-02.jpg" alt="Marketing Slides" loading="lazy"><div class="slide-tile-label">Marketing</div></div><div class="slide-tile-info"><div class="slide-tile-name">Marketing Slides</div></div></div>
-    </div>
-    <div class="strip-row row3" id="row3">
-      <div class="slide-tile g1"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Product Life Cycle.jpg" alt="Product Life Cycle" loading="lazy"><div class="slide-tile-label">Product</div></div><div class="slide-tile-info"><div class="slide-tile-name">Product Life Cycle</div></div></div>
-      <div class="slide-tile g5"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Timeline Infographics.jpg" alt="Timeline Infographics" loading="lazy"><div class="slide-tile-label">Timeline</div></div><div class="slide-tile-info"><div class="slide-tile-name">Timeline Infographics</div></div></div>
-      <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Process Infographics.jpg" alt="Process Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Process Infographics</div></div></div>
-    </div>
-  </div>
-</section>
+
 
 <!-- ⑦b FEATURES SPECIAL -->
 <section class="excel-feat-section" id="feat">
@@ -3444,59 +3442,6 @@ async function setFile(slug){
   <div class="rv-dots" id="rvDots"></div>
 
 </section>
-<!-- ⑥b REELS -->
-<section class="section reels-section">
-  <div class="reels-head reveal">
-    <p class="reels-eyebrow">เข้าใจปัญหาของคุณ</p>
-    <h2 class="reels-h2">เคยรู้สึก<br><span>แบบนี้บ้างไหม</span></h2>
-  </div>
-  <div class="reels-scroll-wrap">
-    <div class="reels-grid">
-      <div class="reel-thumb" data-reel="0">
-        <img src="img/poster-01.jpg" alt="Reel 1" loading="eager">
-        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      </div>
-      <div class="reel-thumb" data-reel="1">
-        <img src="img/poster-02.jpg" alt="Reel 2" loading="eager">
-        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      </div>
-      <div class="reel-thumb" data-reel="2">
-        <img src="img/poster-03.jpg" alt="Reel 3" loading="eager">
-        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      </div>
-      <div class="reel-thumb" data-reel="3">
-        <img src="img/poster-04.jpg" alt="Reel 4" loading="eager">
-        <div class="reel-play-wrap"><div class="reel-play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div></div>
-      </div>
-    </div>
-  </div><!-- /reels-scroll-wrap -->
-</section>
-
-<!-- Reels Modal -->
-<div class="reel-modal" id="reelModal" role="dialog" aria-modal="true">
-  <div class="reel-modal-card">
-    <button class="reel-modal-close" id="reelClose" aria-label="ปิด">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <button class="reel-modal-prev" id="reelPrev" aria-label="ก่อนหน้า">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15,18 9,12 15,6"/></svg>
-    </button>
-    <button class="reel-modal-next" id="reelNext" aria-label="ถัดไป">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9,6 15,12 9,18"/></svg>
-    </button>
-    <video id="reelVideo" playsinline controls preload="none"></video>
-  </div>
-</div>
-
-<!-- Preload pool (hidden) -->
-<div class="reel-preload" aria-hidden="true">
-  <video id="rv0" src="videos/reel-pain-01.mp4" preload="auto" playsinline></video>
-  <video id="rv1" src="videos/reel-pain-02.mp4" preload="auto" playsinline></video>
-  <video id="rv2" src="videos/reel-pain-03.mp4" preload="auto" playsinline></video>
-  <video id="rv3" src="videos/reel-pain-04.mp4" preload="auto" playsinline></video>
-</div>
-
-
 <!-- ⑧ EMAIL FLOW SECTION (merged with how-it-works) -->
 <section class="flow-section" id="how">
   <div class="reveal" style="text-align:center">
@@ -3819,11 +3764,19 @@ async function setFile(slug){
 
 <!-- ★ FOR COMPANIES (preview) -->
 <section class="section pv-b2b-section" id="team">
-  <div class="reveal" style="text-align:center">
-    <div class="section-pill">ซื้อในนามองค์กร</div>
-    <h2 class="section-h2">ซื้อให้ทั้งทีม<br>ยิ่งหลายคนยิ่งถูก</h2>
-    <p class="section-sub">เลือกจำนวนสิทธิ์ได้เลย ไม่ต้องรอใบเสนอราคา · ออกใบกำกับภาษีในนามบริษัทได้ทุกแพ็ก</p>
-  </div>
+  <button class="b2b-bar reveal" type="button" id="b2bBar" aria-expanded="false" aria-controls="b2bBody">
+    <span class="b2b-ic">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20"/><circle cx="9.5" cy="8" r="3.2"/><path d="M21 20v-1.6a3.4 3.4 0 0 0-2.6-3.3"/><path d="M15.4 5a3.2 3.2 0 0 1 0 6.1"/></svg>
+    </span>
+    <span class="b2b-txt">
+      <b>ซื้อให้ทั้งทีม</b>
+      <span>ยิ่งหลายคนยิ่งถูก เริ่ม 299฿ ต่อคน</span>
+    </span>
+    <span class="b2b-chev" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </span>
+  </button>
+  <div class="b2b-body" id="b2bBody" hidden>
   <div class="pv-tiers">
     <div class="pv-tier reveal">
       <div class="pv-tier-n">1 คน</div>
@@ -3852,6 +3805,7 @@ async function setFile(slug){
     </div>
   </div>
   <div class="pv-tier-note reveal">ทุกแพ็กได้คลังเต็ม 348 ชุดเท่ากัน · แต่ละคนได้ Redeem Code ของตัวเอง · เกิน 20 คนหรือขอใบเสนอราคาในนามหน่วยงาน ทักแชทเพจได้เลย</div>
+  </div>
 </section>
 
 <!-- ⑭ FAQ -->
@@ -3909,7 +3863,7 @@ async function setFile(slug){
 <section class="section fin-section">
   <div class="fin-card reveal">
     <h2 class="fin-h2">เลิกนั่งทำสไลด์เอง<br>ตั้งแต่หน้าแรกได้แล้ว</h2>
-    <p class="fin-sub">จ่ายครั้งเดียว ได้ทั้งคลัง 348 ชุด 6,500+ สไลด์ ใช้ได้ตลอดชีพ ชุดใหม่ที่เพิ่มเข้าคลังก็โหลดได้ฟรีด้วยโค้ดเดิม</p>
+    <p class="fin-sub">จ่ายครั้งเดียว ได้ทั้งคลัง 348 ชุด 6,500+ สไลด์ หยิบข้ามชุดมารวมเป็นไฟล์เดียวได้ ชุดใหม่ที่เพิ่มเข้าคลังก็โหลดฟรีด้วยโค้ดเดิม</p>
     <div class="fin-price"><s>999฿</s><b>499฿</b></div>
     <a href="order" class="fin-btn">สั่งซื้อเลย</a>
     <div class="fin-note">โอนผ่านธนาคาร ระบบตรวจสลิปให้อัตโนมัติ ได้โค้ดทางอีเมลทันที</div>
@@ -4038,7 +3992,7 @@ async function setFile(slug){
     <!-- Col 2: Menu -->
     <div class="footer-col">
       <div class="footer-col-label">เมนู</div>
-      <a href="#strip" class="footer-col-link">ตัวอย่างสไลด์</a>
+      <a href="#library" class="footer-col-link">ตัวอย่างสไลด์</a>
       <a href="#reviews" class="footer-col-link">รีวิวจากลูกค้า</a>
       <a href="#how" class="footer-col-link">วิธีสั่งซื้อ</a>
       <a href="download" class="footer-col-link">วิธีดาวน์โหลด</a>
@@ -4207,6 +4161,20 @@ async function setFile(slug){
   }, { threshold: 0.3 }).observe(document.querySelector('.rc-demo'));
 })();
 
+/* ── Team packs open on demand ── */
+(function(){
+  const bar = document.getElementById('b2bBar'), body = document.getElementById('b2bBody');
+  if (!bar || !body) return;
+  bar.addEventListener('click', () => {
+    const open = bar.getAttribute('aria-expanded') === 'true';
+    bar.setAttribute('aria-expanded', String(!open));
+    body.hidden = open;
+    if (!open) body.querySelectorAll('.reveal').forEach(e => e.classList.add('visible'));
+  });
+  // someone arriving on #team wants the table, not the line
+  if (location.hash === '#team') bar.click();
+})();
+
 /* ── Scroll Reveal ── */
 const revealObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
@@ -4263,20 +4231,6 @@ window.addEventListener('scroll', () => {
 }, {passive:true});
 
 /* ── Parallax strip ── */
-const row1 = document.getElementById('row1');
-const row3 = document.getElementById('row3');
-const row2 = document.getElementById('row2');
-const stripWrap = document.getElementById('stripWrap');
-window.addEventListener('scroll', () => {
-  const rect = stripWrap.getBoundingClientRect();
-  if(rect.top > window.innerHeight || rect.bottom < 0) return;
-  const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-  const off = (progress - 0.5) * 160;
-  row1.style.transform = `translateX(${-off}px)`;
-  row2.style.transform = `translateX(${off}px)`;
-  if(row3) row3.style.transform = `translateX(${-off}px)`;
-}, {passive:true});
-
 /* ── FAQ ── */
 function toggleFaq(btn) { btn.closest('.faq-item').classList.toggle('open'); }
 
@@ -4287,14 +4241,15 @@ function updateSticky() {
   stickyBar.classList.toggle('visible', stickyAfterHero && !stickyAtFinal);
   stickyBar.classList.toggle('hide-final', stickyAtFinal);
 }
-new IntersectionObserver(entries => {
+const afterHero = document.querySelector('#library');   // first section past the hero
+if (afterHero) new IntersectionObserver(entries => {
   if (entries[0].isIntersecting) {
-    stickyAfterHero = true; /* เลื่อนลงมาถึง pain-section */
+    stickyAfterHero = true;
   } else if (entries[0].boundingClientRect.top > 0) {
-    stickyAfterHero = false; /* เลื่อนกลับขึ้นไปเหนือ pain-section */
+    stickyAfterHero = false;   /* scrolled back above it */
   }
   updateSticky();
-}, {threshold:0}).observe(document.querySelector('.strip-section'));
+}, {threshold:0}).observe(afterHero);
 new IntersectionObserver(entries => {
   stickyAtFinal = entries[0].isIntersecting;
   updateSticky();
@@ -4435,61 +4390,7 @@ function closeDrawer() {
   }
 })();
 
-/* ── Reels Modal ── */
-(function(){
-  const POSTERS = ['img/poster-01.jpg','img/poster-02.jpg','img/poster-03.jpg','img/poster-04.jpg'];
-  const modal   = document.getElementById('reelModal');
-  const modalVid= document.getElementById('reelVideo');
-  const btnClose= document.getElementById('reelClose');
-  const btnPrev = document.getElementById('reelPrev');
-  const btnNext = document.getElementById('reelNext');
-  const pool    = [
-    document.getElementById('rv0'),
-    document.getElementById('rv1'),
-    document.getElementById('rv2'),
-    document.getElementById('rv3'),
-  ];
-  let cur = 0;
 
-  function loadReel(i){
-    // pause current preloaded video if different
-    if(pool[cur] && cur !== i) pool[cur].pause();
-    cur = i;
-    // swap src from preloaded pool → instant play
-    const pv = pool[i];
-    modalVid.src   = pv.src;
-    modalVid.poster= POSTERS[i];
-    modalVid.currentTime = 0;
-    modalVid.play().catch(()=>{});
-  }
-
-  function openModal(i){
-    loadReel(i);
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal(){
-    modal.classList.remove('open');
-    modalVid.pause();
-    modalVid.src = '';
-    document.body.style.overflow = '';
-  }
-
-  document.querySelectorAll('.reel-thumb').forEach(el => {
-    el.addEventListener('click', () => openModal(+el.dataset.reel));
-  });
-
-  btnClose.addEventListener('click', closeModal);
-  btnPrev.addEventListener('click', () => loadReel((cur - 1 + pool.length) % pool.length));
-  btnNext.addEventListener('click', () => loadReel((cur + 1) % pool.length));
-
-  // close on backdrop click
-  modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
-
-  // close on Escape
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
-})();
 
 /* ── Reviews Carousel ── */
 (function(){
