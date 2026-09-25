@@ -767,13 +767,10 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
     gap:28px;
     align-items:start;
   }
-  .order-left{
-    display:flex;flex-direction:column;gap:0;
-    position:sticky;top:110px;          /* clears the 94px nav */
-    align-self:start;
-    max-height:calc(100vh - 130px);overflow:auto;scrollbar-width:none;
-  }
-  .order-left::-webkit-scrollbar{display:none}
+  .order-left{display:flex;flex-direction:column;gap:0;align-self:stretch}
+  /* the transfer details follow you down the form; the order summary above
+     has been read by then and stays put */
+  .bank-card{position:sticky;top:110px}
   .order-right{display:flex;flex-direction:column;gap:0}
 
   /* Success/rejected span full width */
@@ -1191,7 +1188,7 @@ document.addEventListener('DOMContentLoaded', function applyPack(){
     </div>
 
     <!-- ② Bank transfer -->
-    <div class="card">
+    <div class="card bank-card">
       <div class="bank-header">
         <div class="bank-title-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
