@@ -2576,28 +2576,34 @@ body{
 .fin-card{
   position:relative;overflow:hidden;
   max-width:var(--max);margin:0 auto;
-  border-radius:26px;padding:38px 20px 0;text-align:center;
-  background:
-    radial-gradient(120% 80% at 50% 0%,rgba(235,125,74,.30),transparent 62%),
-    linear-gradient(170deg,#2E211B,#1E1613);
+  border-radius:20px;padding:44px 22px 0;text-align:center;
+  background:#0E1623;           /* flat and near black, like the reference */
 }
-.fin-h2{font-size:26px;font-weight:800;line-height:1.35;color:#fff;letter-spacing:-.3px}
-.fin-sub{margin:12px auto 0;max-width:460px;font-size:14px;line-height:1.85;color:rgba(255,255,255,.62)}
-.fin-price{display:flex;align-items:baseline;justify-content:center;gap:12px;margin-top:18px;line-height:1.15}
-.fin-price s{font-size:19px;color:rgba(255,255,255,.4)}
-.fin-price b{font-size:44px;font-weight:800;color:#fff;letter-spacing:-1px}
+/* the little sparkles the reference has either side of the button */
+.fin-card::before,.fin-card::after{
+  content:'';position:absolute;width:30px;height:30px;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0c.6 6.3 5.1 10.8 11.4 11.4C17.1 12 12.6 16.5 12 22.8 11.4 16.5 6.9 12 .6 11.4 6.9 10.8 11.4 6.3 12 0z' fill='%23FFC93C'/%3E%3C/svg%3E") center/contain no-repeat;
+  opacity:.9;
+}
+.fin-card::before{left:16px;bottom:210px}
+.fin-card::after{right:16px;bottom:230px;width:20px;height:20px}
+.fin-h2{font-size:27px;font-weight:800;line-height:1.32;color:#fff;letter-spacing:-.4px;text-wrap:balance}
+.fin-sub{margin:14px auto 0;max-width:440px;font-size:14px;line-height:1.8;color:rgba(255,255,255,.60);text-wrap:balance}
+.fin-price{display:flex;align-items:baseline;justify-content:center;gap:16px;margin-top:24px;line-height:1.15}
+.fin-price s{font-size:26px;font-weight:700;color:#F2695C}
+.fin-price b{font-size:48px;font-weight:800;color:#fff;letter-spacing:-1.5px}
 .fin-btn{
-  display:inline-block;margin-top:18px;text-decoration:none;
+  display:inline-block;margin-top:22px;text-decoration:none;
   background:linear-gradient(135deg,#EB7D4A,#D34724);color:#fff;
-  font-size:16px;font-weight:800;padding:15px 40px;border-radius:100px;
+  font-size:17px;font-weight:800;padding:17px 52px;border-radius:999px;
   box-shadow:0 10px 28px rgba(211,71,36,.42);
   transition:transform .3s var(--ease),box-shadow .3s var(--ease);
 }
-.fin-note{margin-top:12px;font-size:12px;color:rgba(255,255,255,.4);line-height:1.8}
+.fin-note{margin-top:14px;font-size:12.5px;color:rgba(255,255,255,.42);line-height:1.8}
 /* fanned stack of real slides */
-.fin-fan{display:flex;justify-content:center;align-items:flex-end;margin-top:18px;padding-top:18px}
+.fin-fan{display:flex;justify-content:center;align-items:flex-end;margin-top:26px;padding-top:20px}
 .fin-slide{
-  flex:none;width:min(38vw,196px);aspect-ratio:16/9;margin:0 -24px;
+  flex:none;width:min(52vw,236px);aspect-ratio:16/9;margin:0 -62px;
   border-radius:9px;overflow:hidden;background:#fff;
   box-shadow:0 16px 36px rgba(0,0,0,.42);
   transition:margin .55s var(--ease),transform .55s var(--ease);
@@ -2614,12 +2620,16 @@ body{
   .fin-fan .fin-slide:hover{transform:translateY(-22px) scale(1.05);z-index:6;box-shadow:0 26px 50px rgba(0,0,0,.5)}
 }
 @media(min-width:768px){
-  .fin-card{padding:56px 32px 0;border-radius:32px}
+  .fin-section{padding:8px 40px 64px}
+  .fin-card{max-width:1080px;padding:64px 32px 0;border-radius:24px}
+  .fin-card::before{left:11%;bottom:250px;width:36px;height:36px}
+  .fin-card::after{right:11%;bottom:280px;width:26px;height:26px}
   .fin-h2{font-size:38px}
   .fin-sub{font-size:16px;max-width:540px}
-  .fin-price b{font-size:56px}
-  .fin-slide{width:min(22vw,250px);margin:0 -40px}
-  .fin-fan{margin-top:26px;padding-top:22px}
+  .fin-price b{font-size:62px}
+  .fin-price s{font-size:32px}
+  .fin-slide{width:min(24vw,286px);margin:0 -86px}
+  .fin-fan{margin-top:34px;padding-top:26px}
 }
 @media(prefers-reduced-motion:reduce){.fin-slide{transition:none}}
 
@@ -3837,7 +3847,7 @@ async function setFile(slug){
 <section class="section fin-section">
   <div class="fin-card reveal">
     <h2 class="fin-h2">เลิกนั่งทำสไลด์เอง<br>ตั้งแต่หน้าแรกได้แล้ว</h2>
-    <p class="fin-sub">จ่ายครั้งเดียว ได้ทั้งคลัง 348 ชุด 6,500+ สไลด์ หยิบข้ามชุดมารวมเป็นไฟล์เดียวได้ ชุดใหม่ที่เพิ่มเข้าคลังก็โหลดฟรีด้วยโค้ดเดิม</p>
+    <p class="fin-sub">คนใช้งานแล้วกว่า 7,000 คน จ่ายครั้งเดียวได้คลัง 348 ชุด 6,500+ สไลด์ ชุดใหม่ที่เพิ่มเข้าคลัง โหลดฟรีด้วยโค้ดเดิมตลอด</p>
     <div class="fin-price"><s>999฿</s><b>499฿</b></div>
     <a href="order" class="fin-btn">สั่งซื้อเลย</a>
     <div class="fin-note">โอนผ่านธนาคาร ระบบตรวจสลิปให้อัตโนมัติ ได้โค้ดทางอีเมลทันที</div>
