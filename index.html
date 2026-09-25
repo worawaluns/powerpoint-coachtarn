@@ -911,6 +911,7 @@ body{
    SECTION BASE
 ══════════════════════════════════════ */
 .section{padding:40px 24px}
+.pv-b2b-section{padding-top:16px}
 .section-pill{
   display:block;text-align:center;
   background:rgba(211,71,36,0.09);
@@ -2304,7 +2305,8 @@ body{
   .deal-h2{font-size:36px}
   .deal-right{position:sticky;top:100px}
 
-  /* ── FAQ ── */
+
+/* ── FAQ ── */
   .faq-section{padding:64px 80px}
 
   /* ── FOOTER ── */
@@ -2745,33 +2747,9 @@ fbq('track','PageView');
   .pv-outs{gap:18px;margin-top:22px}
   .pv-out{padding:22px 24px}
   .pv-rv-stats{max-width:880px;margin:0 auto 24px;padding:24px 30px}
-  .pv-b2b-section{max-width:1280px;margin:0 auto;padding:60px 64px}
+  .pv-b2b-section{max-width:1280px;margin:0 auto;padding:24px 64px 60px}
   .pv-tiers{max-width:1080px;margin:22px auto 0}
   .pv-tier-note{max-width:820px;margin-left:auto;margin-right:auto}
-}
-/* team packs: one line unless someone is actually buying for a team */
-.b2b-bar{
-  display:flex;align-items:center;gap:13px;width:calc(100% - 40px);max-width:var(--max);
-  margin:0 auto;padding:16px 18px;border:1px solid rgba(211,71,36,.18);border-radius:18px;
-  background:linear-gradient(135deg,#FFF6F2,#FFFBF9);font:inherit;text-align:left;cursor:pointer;
-  box-shadow:0 3px 14px rgba(211,71,36,.06);
-}
-.b2b-ic{
-  width:40px;height:40px;border-radius:13px;flex:none;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(135deg,#FFE7DA,#FFD3BE);color:var(--red);
-}
-.b2b-ic svg{width:21px;height:21px}
-.b2b-txt{flex:1;min-width:0}
-.b2b-txt b{display:block;font-size:15px;text-wrap:balance;font-weight:800;line-height:1.4;color:var(--text)}
-.b2b-txt span{display:block;font-size:12.5px;color:var(--text-mid);line-height:1.6;margin-top:2px}
-.b2b-chev{flex:none;color:var(--red);transition:transform .3s var(--ease)}
-.b2b-chev svg{width:20px;height:20px;display:block}
-.b2b-bar[aria-expanded="true"] .b2b-chev{transform:rotate(180deg)}
-.b2b-body[hidden]{display:none}
-@media(min-width:768px){
-  .b2b-bar{max-width:720px;padding:18px 22px}
-  .b2b-txt b{font-size:17px}
-  .b2b-txt span{font-size:13.5px}
 }
 
 /* the two sticky bars must not cover a heading when a chip is clicked */
@@ -3005,6 +2983,35 @@ html.member .sticky-bar{display:none!important}
 @media(min-width:460px){.pick-seg{margin:0 auto 14px}}
 @media(min-width:760px){.pick-rail{grid-template-columns:repeat(3,1fr);gap:16px}.pick-chips{justify-content:center;flex-wrap:wrap}}
 </style>
+<!-- ⑦ PARALLAX TEMPLATE STRIP -->
+<section class="strip-section" id="strip">
+  <div class="strip-header reveal">
+    <div class="section-pill">Template Collection</div>
+    <h2 class="section-h2">6,500+ สไลด์<br>ครบทุกสไตล์</h2>
+    <p class="section-sub" style="margin-bottom:0">เลือกใช้ตามงานที่ต้องการ แก้ไขง่าย ใช้ได้ทันที</p>
+  </div>
+  <div class="strip-track-wrap" id="stripWrap">
+    <div class="strip-row" id="row1">
+      <div class="slide-tile g5"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-01.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
+      <div class="slide-tile g2"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Alphabet Infographics-02.jpg" alt="Alphabet Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Alphabet Infographics</div></div></div>
+      <div class="slide-tile g3"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Marketing Slides-01.jpg" alt="Marketing Slides" loading="lazy"><div class="slide-tile-label">Marketing</div></div><div class="slide-tile-info"><div class="slide-tile-name">Marketing Slides</div></div></div>
+      <div class="slide-tile g1"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/KPI Dashboards.jpg" alt="KPI Dashboards" loading="lazy"><div class="slide-tile-label">KPI</div></div><div class="slide-tile-info"><div class="slide-tile-name">KPI Dashboards</div></div></div>
+      <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-03.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
+    </div>
+    <div class="strip-row row2" id="row2">
+      <div class="slide-tile g8"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Business Strategy-01.jpg" alt="Business Strategy" loading="lazy"><div class="slide-tile-label">Strategy</div></div><div class="slide-tile-info"><div class="slide-tile-name">Business Strategy</div></div></div>
+      <div class="slide-tile g7"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Demographic Infographics-02.jpg" alt="Demographic Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Demographic Infographics</div></div></div>
+      <div class="slide-tile g6"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Alphabet Infographics-01.jpg" alt="Alphabet Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Alphabet Infographics</div></div></div>
+      <div class="slide-tile g3"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Marketing Slides-02.jpg" alt="Marketing Slides" loading="lazy"><div class="slide-tile-label">Marketing</div></div><div class="slide-tile-info"><div class="slide-tile-name">Marketing Slides</div></div></div>
+    </div>
+    <div class="strip-row row3" id="row3">
+      <div class="slide-tile g1"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Product Life Cycle.jpg" alt="Product Life Cycle" loading="lazy"><div class="slide-tile-label">Product</div></div><div class="slide-tile-info"><div class="slide-tile-name">Product Life Cycle</div></div></div>
+      <div class="slide-tile g5"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Timeline Infographics.jpg" alt="Timeline Infographics" loading="lazy"><div class="slide-tile-label">Timeline</div></div><div class="slide-tile-info"><div class="slide-tile-name">Timeline Infographics</div></div></div>
+      <div class="slide-tile g4"><div class="slide-tile-thumb"><img src="img/sample-slide/first-section-show/Process Infographics.jpg" alt="Process Infographics" loading="lazy"><div class="slide-tile-label">Infographic</div></div><div class="slide-tile-info"><div class="slide-tile-name">Process Infographics</div></div></div>
+    </div>
+  </div>
+</section>
+
 <section class="pick-section reveal" id="library">
   <h2>หาสไลด์ที่ตรงกับงานของคุณ</h2>
   <p class="pick-lead" id="pickLead">เลือกตามอาชีพ หรือตามประเภทสไลด์ หยิบข้ามชุดมารวมกันได้</p>
@@ -3171,19 +3178,11 @@ async function setFile(slug){
 
 <!-- ★ WHAT YOU GET (preview) -->
 <section class="section pv-b2b-section" id="team">
-  <button class="b2b-bar reveal" type="button" id="b2bBar" aria-expanded="true" aria-controls="b2bBody">
-    <span class="b2b-ic">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20"/><circle cx="9.5" cy="8" r="3.2"/><path d="M21 20v-1.6a3.4 3.4 0 0 0-2.6-3.3"/><path d="M15.4 5a3.2 3.2 0 0 1 0 6.1"/></svg>
-    </span>
-    <span class="b2b-txt">
-      <b>ซื้อให้ทั้งทีม</b>
-      <span>ยิ่งหลายคนยิ่งถูก เริ่ม 299฿ ต่อคน</span>
-    </span>
-    <span class="b2b-chev" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </span>
-  </button>
-  <div class="b2b-body" id="b2bBody">
+  <div class="reveal" style="text-align:center">
+    <div class="section-pill">ซื้อในนามองค์กร</div>
+    <h2 class="section-h2">ซื้อให้ทั้งทีม<br>ยิ่งหลายคนยิ่งถูก</h2>
+    <p class="section-sub">เริ่ม 299฿ ต่อคน แต่ละคนได้ Redeem Code ของตัวเอง ออกใบกำกับภาษีในนามบริษัทได้ทุกแพ็ก</p>
+  </div>
   <div class="pv-tiers">
     <div class="pv-tier reveal">
       <div class="pv-tier-n">1 คน</div>
@@ -3212,7 +3211,6 @@ async function setFile(slug){
     </div>
   </div>
   <div class="pv-tier-note reveal">ทุกแพ็กได้คลังเต็ม 348 ชุดเท่ากัน · แต่ละคนได้ Redeem Code ของตัวเอง · เกิน 20 คนหรือขอใบเสนอราคาในนามหน่วยงาน ทักแชทเพจได้เลย</div>
-  </div>
 </section>
 
 
@@ -4137,19 +4135,23 @@ async function setFile(slug){
   }, { threshold: 0.3 }).observe(document.querySelector('.rc-demo'));
 })();
 
-/* ── Team packs open on demand ── */
-(function(){
-  const bar = document.getElementById('b2bBar'), body = document.getElementById('b2bBody');
-  if (!bar || !body) return;
-  bar.addEventListener('click', () => {
-    const open = bar.getAttribute('aria-expanded') === 'true';
-    bar.setAttribute('aria-expanded', String(!open));
-    body.hidden = open;
-    if (!open) body.querySelectorAll('.reveal').forEach(e => e.classList.add('visible'));
-  });
-  // someone arriving on #team wants the table, not the line
-  // it starts open; the toggle is only there for folding it away
-})();
+
+
+const row1 = document.getElementById('row1');
+const row3 = document.getElementById('row3');
+const row2 = document.getElementById('row2');
+const stripWrap = document.getElementById('stripWrap');
+if (stripWrap) {
+window.addEventListener('scroll', () => {
+  const rect = stripWrap.getBoundingClientRect();
+  if(rect.top > window.innerHeight || rect.bottom < 0) return;
+  const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+  const off = (progress - 0.5) * 160;
+  row1.style.transform = `translateX(${-off}px)`;
+  row2.style.transform = `translateX(${off}px)`;
+  if(row3) row3.style.transform = `translateX(${-off}px)`;
+}, {passive:true});
+}
 
 /* ── Scroll Reveal ── */
 const revealObs = new IntersectionObserver(entries => {
