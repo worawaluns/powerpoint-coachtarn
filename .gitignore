@@ -5,3 +5,8 @@ supabase/.temp/
 debug/
 
 library/links.json
+
+# รูปเทมเพลตอ้างอิงของคนอื่น + prompt ภายใน — โฟลเดอร์นี้ deploy ขึ้นเว็บจริง
+# ถ้า commit จะถูกเสิร์ฟที่ coachtarnslide.com ให้คนนอกโหลดได้
+ref-templates/
+PROMPT-*.md
