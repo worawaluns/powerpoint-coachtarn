@@ -2933,6 +2933,8 @@ fbq('track','PageView');
 .pick-card:hover{transform:translateY(-3px)}
 .pick-card img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:#F4F3F1}
 .pick-card.slide img{aspect-ratio:16/9}
+.pick-card{position:relative}
+.pick-card .new{position:absolute;top:10px;right:10px;background:#fff;color:var(--red);font-size:11px;font-weight:800;padding:4px 10px;border-radius:100px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .pick-card div{padding:8px 10px 10px}
 .pick-card b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;font-weight:700;line-height:1.4}
 .pick-card i{font-style:normal;font-size:12px;color:#6B6B76}
@@ -3044,15 +3046,16 @@ html.member .sticky-bar{display:none!important}
     </div>
   </div>
 </section>
+<script src="js/newbadge.js"></script>
 <script>
 (function(){
   // chip order = the job that got new templates most recently comes first (see chips())
   const JOB = {office:'พนักงานออฟฟิศ',teacher:'ครู / อาจารย์',sales:'ฝ่ายขาย',health:'บุคลากรสุขภาพ',owner:'เจ้าของธุรกิจ',engineer:'วิศวกร / QMS',gov:'ข้าราชการ',trainer:'วิทยากร / โค้ช',proposal:'ใบเสนองาน'};
   const TYPES = ['กราฟ','ตัวเลข KPI','ตาราง','ไทม์ไลน์ / ขั้นตอน','อินโฟกราฟิก','เปรียบเทียบ','สารบัญ','ตารางราคา','ทีม / องค์กร','แผนที่'];
   const $ = id => document.getElementById(id), esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  let D = [], S = {}, P = {type: {}, job: {}}, mode = 'job', sel = '', shown = 6, all = [];
+  let D = [], S = {}, P = {type: {}, job: {}}, mode = 'job', sel = '', shown = 6, all = [], NEW = new Set();
   Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slides.json').then(r => r.json()), fetch('library/pick.json').then(r => r.json()).catch(() => P)]).then(([d, s, p]) => {
-    D = d.sort((a, b) => b.no - a.no); S = s; P = p;
+    D = d.sort((a, b) => b.no - a.no); S = s; P = p; NEW = window.ctNew ? window.ctNew(D) : NEW;
     render();
   }).catch(() => {});
   document.querySelectorAll('.pick-seg button').forEach(b => b.onclick = () => {
@@ -3072,10 +3075,10 @@ html.member .sticky-bar{display:none!important}
   const ranked = (list, order) => { const r = new Map((order || []).map((s, i) => [s, i])); return list.slice().sort((a, b) => (r.has(a.slug) ? r.get(a.slug) : 1e4) - (r.has(b.slug) ? r.get(b.slug) : 1e4)); };
   function items(){
     if (mode === 'job') return ranked(D.filter(x => x.group === sel), P.job[sel]).map(x =>
-      `<a class="pick-card" href="template?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.webp" alt="${esc(x.th)}"><div><b>${esc(x.th)}</b><i>${esc(x.cat)}</i></div></a>`);
+      `<a class="pick-card" href="template?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.webp" alt="${esc(x.th)}">${NEW.has(x.slug) ? '<span class="new">ใหม่</span>' : ''}<div><b>${esc(x.th)}</b><i>${esc(x.cat)}</i></div></a>`);
     const out = [];
     for (const x of ranked([...D].reverse(), P.type[sel])) { const k = (S[x.slug] || []).indexOf(sel); if (k < 0) continue;
-      out.push(`<a class="pick-card slide" href="template?id=${x.slug}&s=${k + 1}"><img loading="lazy" src="library/slides/${x.slug}/${String(k + 1).padStart(2, '0')}.webp" alt="${esc(sel)} จากชุด ${esc(x.th)}"><div><b>${esc(x.th)}</b><i>${esc(sel)}</i></div></a>`);
+      out.push(`<a class="pick-card slide" href="template?id=${x.slug}&s=${k + 1}"><img loading="lazy" src="library/slides/${x.slug}/${String(k + 1).padStart(2, '0')}.webp" alt="${esc(sel)} จากชุด ${esc(x.th)}">${NEW.has(x.slug) ? '<span class="new">ใหม่</span>' : ''}<div><b>${esc(x.th)}</b><i>${esc(sel)}</i></div></a>`);
       if (out.length === 60) break; }
     return out;
   }

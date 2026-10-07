@@ -148,6 +148,7 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
   <section class="grid" id="grid"></section>
 </main>
 <div class="toast" id="toast"></div>
+<script src="js/newbadge.js"></script>
 <script>
 const GROUPS = [['all','ทั้งหมด'],['chart','กราฟ & อินโฟกราฟิก'],['office','พนักงานออฟฟิศ'],['teacher','ครู / อาจารย์'],['sales','ฝ่ายขาย'],['owner','เจ้าของธุรกิจ'],['health','บุคลากรสุขภาพ'],['engineer','วิศวกร / QMS'],['gov','ข้าราชการ / ท้องถิ่น'],['trainer','วิทยากร / โค้ช'],['proposal','ใบเสนองาน']];
 const PATTERN = /^TARN-[A-Z0-9]{8}$/i;
@@ -158,7 +159,7 @@ const DRIVE = 'https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl
 const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } },
   set(v){ try{ v ? localStorage.setItem('ct_lib', JSON.stringify(v)) : localStorage.removeItem('ct_lib'); }catch(e){} } };
 let DATA = [], TAGS = {}, PICK = {}, group = 'all', q = '', mode = 'sets', type = 'กราฟ', shown = 48;
-let NEW_FROM = Infinity;   // ponytail: data.json's own "new" flag is true on every set, so recency comes from `no`
+let NEWSET = new Set();   // slugs that get the "ใหม่" badge — rule lives in js/newbadge.js
 { const u = new URLSearchParams(location.search); if (location.hash === '#slides' || u.get('view') === 'slides') mode = 'slides'; if (u.get('type')) type = u.get('type'); if (u.get('g')) group = u.get('g'); }
 const TYPES = ['กราฟ', 'ตัวเลข KPI', 'ตาราง', 'ตารางราคา', 'ไทม์ไลน์ / ขั้นตอน', 'เปรียบเทียบ', 'อินโฟกราฟิก', 'สารบัญ', 'สรุปผู้บริหาร', 'ทีม / องค์กร', 'แผนที่', 'ภาพ / คำคม', 'ปก', 'คั่นบท', 'เปิดเรื่อง', 'ปิดท้าย'];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -227,7 +228,7 @@ function renderSets(){
   const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
   const list = DATA.filter(d => (group === 'all' || d.group === group) && (!q || (d.th + d.en + d.cat).toLowerCase().includes(q)));
   g.innerHTML = list.length ? list.map(d => `
-    <article class="card"><a class="cv" href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.webp" alt="${esc(d.th)}">${d.no > NEW_FROM ? '<span class="new">ใหม่</span>' : ''}</a>
+    <article class="card"><a class="cv" href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.webp" alt="${esc(d.th)}">${NEWSET.has(d.slug) ? '<span class="new">ใหม่</span>' : ''}</a>
       <div class="cb"><a href="template.html?id=${d.slug}" style="min-width:0"><h3>${esc(d.th)}</h3><div class="en">${esc(d.en)}</div>
         <div class="meta"><span class="pill m1">${esc(d.cat)}</span><span class="pill m2">${d.slides} สไลด์</span></div></a>
         ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlSet(event,'${d.slug}','${esc(d.th)}')">${ICON.dl}</a>`
@@ -274,7 +275,7 @@ document.getElementById('q').addEventListener('input', e => { q = e.target.value
 Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slides.json').then(r => r.json()).catch(() => ({})), fetch('library/pick.json').then(r => r.json()).catch(() => ({}))]).then(([d, t, p]) => {
   PICK = p;
   TAGS = t;
-  DATA = d.slice().sort((a, b) => b.no - a.no); NEW_FROM = DATA[0].no - 40; document.getElementById('stN').textContent = d.length; // ponytail: total = whole bundle incl. existing archive, matches landing page claim
+  DATA = d.slice().sort((a, b) => b.no - a.no); NEWSET = window.ctNew ? window.ctNew(DATA) : NEWSET;   // ไม่มีป้ายดีกว่าหน้าว่าง ถ้า newbadge.js โหลดไม่ขึ้น document.getElementById('stN').textContent = d.length; // ponytail: total = whole bundle incl. existing archive, matches landing page claim
   renderMember(); renderChips(); render();
 });
 </script>
