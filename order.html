@@ -1974,28 +1974,28 @@ function toggleShip(cb){
 }
 function toggleTax(cb){ document.getElementById('taxFields').classList.toggle('on', cb.checked); if (!cb.checked) document.getElementById('errTax').classList.remove('show'); }
 
-// ใบกำกับภาษีเต็มรูปบังคับเลขผู้เสียภาษี + สาขาของผู้ซื้อเฉพาะตอนผู้ซื้อจด VAT
-// (ประกาศอธิบดีฯ ภาษีมูลค่าเพิ่ม ฉบับที่ 199 ข้อ 7 และ 9) บุคคลธรรมดาใช้แค่ชื่อกับที่อยู่
-// เลขบัตรประชาชนเลยเป็นช่องไม่บังคับ และไม่ต้องถามสาขา
+// กฎหมายบังคับเลขผู้เสียภาษี + สาขาของผู้ซื้อเฉพาะตอนผู้ซื้อจด VAT
+// (ประกาศอธิบดีฯ ภาษีมูลค่าเพิ่ม ฉบับที่ 199 ข้อ 7 และ 9) บุคคลธรรมดากฎหมายเอาแค่ชื่อกับที่อยู่
+// แต่ไอซ์ขอให้บังคับเลขบัตรประชาชนด้วย เพราะต้องใช้ออกเอกสาร — ส่วนสาขายังไม่ถามเหมือนเดิม
 let taxType = 'company';
 const TAX_UI = {
   company:  { name: 'ชื่อบริษัท / หน่วยงาน', namePh: 'บริษัท ตัวอย่าง จำกัด', nameAc: 'organization',
-              id: 'เลขประจำตัวผู้เสียภาษี', idReq: true, addr: 'ที่อยู่บริษัท ตามที่จดทะเบียน',
+              id: 'เลขประจำตัวผู้เสียภาษี', branch: true, addr: 'ที่อยู่บริษัท ตามที่จดทะเบียน',
               err: 'กรอกชื่อบริษัท เลขผู้เสียภาษี 13 หลัก ที่อยู่ และเบอร์โทรให้ครบ' },
   personal: { name: 'ชื่อ-นามสกุล ผู้ขอ', namePh: 'นางสาว ตัวอย่าง ใจดี', nameAc: 'name',
-              id: 'เลขประจำตัวประชาชน (ถ้ามี)', idReq: false, addr: 'ที่อยู่ตามบัตรประชาชน',
-              err: 'กรอกชื่อ-นามสกุล ที่อยู่ และเบอร์โทรให้ครบ' },
+              id: 'เลขประจำตัวประชาชน', branch: false, addr: 'ที่อยู่ตามบัตรประชาชน',
+              err: 'กรอกชื่อ-นามสกุล เลขประจำตัวประชาชน 13 หลัก ที่อยู่ และเบอร์โทรให้ครบ' },
 };
 function setTaxType(v){
   taxType = v;
   const u = TAX_UI[v], req = ' <span class="req">*</span>';
   document.querySelectorAll('#taxSeg button').forEach((b, i) => b.classList.toggle('on', (i === 0) === (v === 'company')));
   document.getElementById('taxNameLbl').innerHTML = u.name + req;
-  document.getElementById('taxIdLbl').innerHTML = u.id + (u.idReq ? req : '');
+  document.getElementById('taxIdLbl').innerHTML = u.id + req;
   document.getElementById('taxAddrLbl').innerHTML = u.addr + req;
   const n = document.getElementById('taxName');
   n.placeholder = u.namePh; n.autocomplete = u.nameAc;
-  document.getElementById('taxBranchWrap').style.display = u.idReq ? '' : 'none';
+  document.getElementById('taxBranchWrap').style.display = u.branch ? '' : 'none';
   document.getElementById('errTaxMsg').textContent = u.err;
   document.getElementById('errTax').classList.remove('show');
 }
@@ -2011,8 +2011,7 @@ function taxValid(){
   const cb = document.getElementById('taxWant');
   if (!cb.checked) return true;
   const p = taxPayload();
-  const idOk = p.tax_type === 'company' ? p.tax_id.length === 13 : (p.tax_id === '' || p.tax_id.length === 13);
-  const ok = p.tax_name.length > 1 && idOk && p.tax_address.length > 9
+  const ok = p.tax_name.length > 1 && p.tax_id.length === 13 && p.tax_address.length > 9
           && p.tax_phone.replace(/\D/g, '').length >= 9
           && (p.tax_ship_address === null || p.tax_ship_address.length > 9);
   document.getElementById('errTax').classList.toggle('show', !ok);
