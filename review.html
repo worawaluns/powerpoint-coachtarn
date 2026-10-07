@@ -117,11 +117,15 @@ async function load(){
     + row('เวลาที่แจ้งโอน', new Date(o.created_at).toLocaleString('th-TH', { dateStyle: 'medium', timeStyle: 'short' }));
   if (o.tax_invoice) {
     document.getElementById('taxWrap').style.display = 'block';
+    const personal = o.tax_type === 'personal';   // บุคคลธรรมดาไม่มีสาขา ป้ายต้องไม่เรียกว่าบริษัท
     document.getElementById('taxInfo').innerHTML =
-        row('ชื่อบริษัท', o.tax_name) + row('สาขา', o.tax_branch || 'สำนักงานใหญ่')
-      + row('เลขผู้เสียภาษี', o.tax_id) + row('เบอร์โทรติดต่อ', o.tax_phone || '-');
+        row('ออกในนาม', personal ? 'บุคคลธรรมดา' : 'นิติบุคคล')
+      + row(personal ? 'ชื่อ-นามสกุล' : 'ชื่อบริษัท', o.tax_name)
+      + (personal ? '' : row('สาขา', o.tax_branch || 'สำนักงานใหญ่'))
+      + row(personal ? 'เลขประจำตัวประชาชน' : 'เลขผู้เสียภาษี', o.tax_id || '-')
+      + row('เบอร์โทรติดต่อ', o.tax_phone || '-');
     document.getElementById('taxAddr').textContent =
-      'ที่อยู่บริษัท: ' + (o.tax_address || '') +
+      (personal ? 'ที่อยู่ตามบัตรประชาชน: ' : 'ที่อยู่บริษัท: ') + (o.tax_address || '') +
       (o.tax_ship_address ? '\nที่อยู่จัดส่ง: ' + o.tax_ship_address : '');
   }
   if (r.slip_url) {

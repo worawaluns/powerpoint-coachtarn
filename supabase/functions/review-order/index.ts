@@ -48,7 +48,7 @@ function customerHtml(order: any, codes: string[]): string {
       <p style="margin:0 0 6px;font-size:14px;font-weight:800;color:#1D1D1F;">ใบกำกับภาษี</p>
       <p style="margin:0;font-size:13px;color:#6E6E73;line-height:1.75;">
         ทีมงานจะออกใบกำกับภาษีในนาม <strong>${esc(order.tax_name)}</strong>
-        ${order.tax_branch ? `(${esc(order.tax_branch)})` : ''}
+        ${order.tax_type !== 'personal' && order.tax_branch ? `(${esc(order.tax_branch)})` : ''}
         และจัดส่งทางไปรษณีย์ตามที่อยู่ที่แจ้งไว้ ภายใน <strong>7 ถึง 10 วันทำการ</strong>
         ไม่รวมวันเสาร์ อาทิตย์ และวันหยุดนักขัตฤกษ์ ขอบคุณค่ะ
       </p>
@@ -129,7 +129,7 @@ serve(async (req) => {
         order: {
           id: order.id, name: order.name, email: order.email, status: order.status,
           pack: seats, amount: packPrice, created_at: order.created_at,
-          tax_invoice: order.tax_invoice, tax_name: order.tax_name, tax_branch: order.tax_branch,
+          tax_invoice: order.tax_invoice, tax_type: order.tax_type, tax_name: order.tax_name, tax_branch: order.tax_branch,
           tax_id: order.tax_id, tax_address: order.tax_address, tax_phone: order.tax_phone,
           tax_ship_address: order.tax_ship_address,
           slip2go_code: order.slip2go_code, reviewed_at: order.reviewed_at,
