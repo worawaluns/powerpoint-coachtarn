@@ -219,7 +219,7 @@ function cardHTML(){
       <h1>${esc(D.th)}</h1><div class="en">${esc(D.en).toUpperCase()}</div>
       <div class="rate"><span class="st">★★★★★</span><b>4.9/5</b><span>· ใช้งานแล้ว 7,000+ คน</span></div>
       <p class="sub">${esc(D.sub || '')}</p>
-      <div class="facts"><span>${D.slides} สไลด์</span><span>16:9</span><span>PowerPoint</span><span>กราฟแก้ใน Excel</span></div>`;
+      <div class="facts"><span>${D.slides} สไลด์</span><span>16:9</span><span>PowerPoint</span>${D.excel === false ? '<span>แก้ข้อความทุกหน้า</span>' : '<span>กราฟแก้ใน Excel</span>'}</div>`;
   if (s) return head + `<div class="cta"><a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl} ดาวน์โหลดชุดนี้</a>
       <button class="btn btn-ghost" onclick="openPr()">${I.play} ดูแบบนำเสนอ</button></div>
       <p class="have">ปลดล็อกแล้ว ดาวน์โหลดได้ทุกชุดใน <a href="templates.html">คลังเทมเพลต</a></p>`;
@@ -271,7 +271,9 @@ function render(){
   <section class="sec wrap reveal">${tocHTML()}</section>
 
   <section class="sec wrap reveal" style="padding-top:10px"><div class="feats">
-    <div class="ft"><div class="ic">${I.chart}</div><b>กราฟเชื่อม Excel</b><p>คลิกขวา › Edit Data แก้ตัวเลข กราฟเปลี่ยนตามทันที</p></div>
+    ${D.excel === false
+      ? `<div class="ft"><div class="ic">${I.chart}</div><b>ทุกชิ้นเป็นรูปทรงแก้ได้</b><p>แท่ง วง และลูกศรทุกอันเป็นรูปทรง PowerPoint คลิกลากย่อขยายได้ตรง ๆ</p></div>`
+      : `<div class="ft"><div class="ic">${I.chart}</div><b>กราฟเชื่อม Excel</b><p>คลิกขวา › Edit Data แก้ตัวเลข กราฟเปลี่ยนตามทันที</p></div>`}
     <div class="ft"><div class="ic">${I.palette}</div><b>เปลี่ยนสีได้ในคลิกเดียว</b><p>ไอคอนเป็นเวกเตอร์ สีทั้งชุดปรับตามแบรนด์ของคุณ</p></div>
     <div class="ft"><div class="ic">${I.font}</div><b>ฟอนต์ไทยอ่านง่าย</b><p>IBM Plex Sans Thai ฟรีเชิงพาณิชย์ สระไม่ลอย</p></div>
     <div class="ft"><div class="ic">${I.story}</div><b>หัวเรื่องเป็นประโยคสรุป</b><p>ผู้ฟังเข้าใจเร็วขึ้น ตามงานวิจัย Assertion-Evidence</p></div>
