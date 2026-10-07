@@ -110,6 +110,17 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
 .oldlib svg{flex:none;width:18px;height:18px;color:#6B6B76}
 @media(max-width:640px){.oldlib{flex-wrap:wrap}.oldlib span{flex:0 0 100%}}
 </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1266196328254901');
+fbq('track','PageView');
+// ลูกค้าที่ซื้อแล้วกลับมาโหลดไฟล์หน้านี้เหมือนกัน ยิง MemberVisit ไว้ทำ audience ตัดออก
+// จะได้ไม่จ่ายค่าโฆษณาไล่ตามคนที่จ่ายเงินไปแล้ว — ส่วน ViewContent ยิงเฉพาะคนที่ยังไม่ปลดล็อก
+try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _m.code) fbq('trackCustom','MemberVisit'); } catch (e) {}
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 </head>
 <body>
 <nav class="nav">

@@ -135,6 +135,17 @@ a{color:inherit;text-decoration:none}
   .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 -1px 0 rgba(0,0,0,.08)}.mbar .btn{flex:1;padding:13px}}
 @media(prefers-reduced-motion:reduce){.cta .btn-red{animation:none}}
 </style>
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1266196328254901');
+fbq('track','PageView');
+// ลูกค้าที่ซื้อแล้วกลับมาโหลดไฟล์หน้านี้เหมือนกัน ยิง MemberVisit ไว้ทำ audience ตัดออก
+// จะได้ไม่จ่ายค่าโฆษณาไล่ตามคนที่จ่ายเงินไปแล้ว — ส่วน ViewContent ยิงเฉพาะคนที่ยังไม่ปลดล็อก
+try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _m.code) fbq('trackCustom','MemberVisit'); } catch (e) {}
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel -->
 </head>
 <body>
 <nav class="nav">
@@ -331,8 +342,18 @@ document.addEventListener('keydown', e => {
 document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.getElementById('pr').classList.contains('show') && window.innerWidth > 640) closePr(); });
 fetch('library/data.json').then(r => r.json()).then(all => {
   window.ALL = all; const id = new URLSearchParams(location.search).get('id');
-  D = all.find(x => x.slug === id) || all[0]; render();
+  const hit = all.find(x => x.slug === id);
+  D = hit || all[0]; render();
   const k = +new URLSearchParams(location.search).get('s'); if (k >= 1 && k <= D.slides) openPr(k);  // deep link from the slide-type browser
+  // คนที่ยังไม่ปลดล็อก = ยังไม่ซื้อ ยิง ViewContent ไว้ทำ audience "ดูชุดนี้แล้วไม่ซื้อ"
+  // ยิงเฉพาะตอน id ตรงชุดจริง ลิงก์เสียจะได้ไม่ส่งชื่อชุดแรกไปให้ Meta มั่ว
+  // และวางไว้หลัง openPr เพราะ tracking ห้ามขวางการเปิดสไลด์จาก deep link
+  try {
+    if (hit && typeof fbq !== 'undefined' && !store.get()) {
+      fbq('track','ViewContent',{ content_name: D.th, content_ids: [D.slug], content_category: D.cat,
+                                  content_type: 'product', value: 499, currency: 'THB' });
+    }
+  } catch (e) {}
 });
 </script>
 <script>
