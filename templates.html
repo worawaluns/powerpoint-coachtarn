@@ -427,7 +427,7 @@ function renderSets(){
   const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
   const list = visible();
   g.innerHTML = list.length ? list.map(d => `
-    <article class="card"><div class="cv"><a href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.webp" alt="${esc(d.th)}"></a>${NEWSET.has(d.slug) ? '<i class="new"><span>ใหม่</span></i>' : ''}
+    <article class="card"><div class="cv"><a href="template.html?id=${d.slug}"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${d.slug}.webp" alt="${esc(d.th)}"></a>${NEWSET.has(d.slug) ? '<i class="new"><span>ใหม่</span></i>' : ''}
         ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlSet(event,'${d.slug}','${esc(d.th)}')">${ICON.dl}</a>` : ''}</div>
       <a class="cb" href="template.html?id=${d.slug}"><h3>${esc(d.th)}</h3>
         <div class="sub2">${esc(d.cat)}<span class="sep"></span>${d.slides} สไลด์</div></a></article>`).join('')
@@ -470,7 +470,7 @@ function render(){
     return n ? `<button class="chip ${k === type ? 'on' : ''}" onclick="setType('${k}')">${t}<small>${n}</small></button>` : ''; }).join('');
   const list = slideList(sets);
   g.innerHTML = list.length ? list.slice(0, shown).map(([d, k, t]) => `<a class="sl" href="template.html?id=${d.slug}&s=${k}" title="${esc(d.th)} · สไลด์ ${k}">
-      <img loading="lazy" src="library/slides/${d.slug}/${String(k).padStart(2, '0')}.webp" alt="${esc(t)} จากชุด ${esc(d.th)}"><div><span class="pill m1">${esc(t)}</span><b>${esc(d.th)}</b></div></a>`).join('')
+      <img loading="lazy" src="https://img.coachtarnslide.com/slides/${d.slug}/${String(k).padStart(2, '0')}.webp" alt="${esc(t)} จากชุด ${esc(d.th)}"><div><span class="pill m1">${esc(t)}</span><b>${esc(d.th)}</b></div></a>`).join('')
       + (list.length > shown ? `<button class="btn btn-ghost more" onclick="shown += 48; render()">ดูเพิ่ม (เหลืออีก ${list.length - shown} สไลด์)</button>` : '')
     : emptyHtml();
 }

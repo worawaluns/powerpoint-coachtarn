@@ -9,16 +9,8 @@
 /review
   X-Robots-Tag: noindex, nofollow, noarchive
 
-# ภาพสไลด์รายหน้า: cache ยาวได้ ชื่อไฟล์ไม่เปลี่ยน และห้าม index เป็นรูปเดี่ยว
-# (หน้าตาสไลด์ข้างในคือของที่ขาย ไม่ต้องให้ค้นเจอเป็นรูปลอย ๆ)
-/library/slides/*
-  X-Robots-Tag: noai, noimageai, noindex
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-
-# ปก: ให้ Google Images เก็บได้ เป็นทางให้คนหาเจอเว็บ แต่ยังห้ามเอาไปเทรน
-/library/cover/*
-  X-Robots-Tag: noai, noimageai
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+# รูปสไลด์และปกย้ายไปอยู่ R2 แล้ว เสิร์ฟที่ img.coachtarnslide.com ไม่ผ่าน Pages
+# header ของรูปจึงคุมที่ Cloudflare ฝั่งโซนนั้น ไม่ใช่ไฟล์นี้
 
 # ไฟล์ JSON เปลี่ยนทุกครั้งที่เพิ่มชุด ห้าม cache ยาว ไม่งั้นลูกค้าเก่าเห็นคลังเก่าค้างทั้งวัน
 /library/*.json

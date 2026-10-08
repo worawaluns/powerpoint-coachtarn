@@ -2841,7 +2841,7 @@ fbq('track','PageView');
       สไลด์ PowerPoint<br>
       <span class="line2">โหลดไม่จำกัด</span>
     </h1>
-    <p class="hero-sub">คลังสไลด์พร้อมใช้ 366 ชุด หยิบข้ามชุดมารวมเป็นไฟล์เดียวได้ เปิดใน PowerPoint แก้ได้ทุกหน้า</p>
+    <p class="hero-sub">คลังสไลด์พร้อมใช้ 372 ชุด หยิบข้ามชุดมารวมเป็นไฟล์เดียวได้ เปิดใน PowerPoint แก้ได้ทุกหน้า</p>
     <div class="hero-price">
       <span class="price-save">ลด 50%</span>
       <span class="price-big">499฿</span>
@@ -2902,7 +2902,7 @@ fbq('track','PageView');
 <section class="pv-facts reveal">
   <!-- hero already says 6,500+ / unlimited / one-time — these four add what it does not.
        each one is a plain statement, not a word the reader has to decode -->
-  <div class="pv-fact"><b>366 ชุด</b><span>ผสมข้ามชุดได้ รวมเป็นไฟล์เดียว</span></div>
+  <div class="pv-fact"><b>372 ชุด</b><span>ผสมข้ามชุดได้ รวมเป็นไฟล์เดียว</span></div>
   <div class="pv-fact"><b>แก้ได้ทุกหน้า</b><span>ไฟล์ .pptx ไม่ใช่รูปภาพ</span></div>
   <div class="pv-fact"><b>กราฟต่อ Excel</b><span>พิมพ์เลขใหม่ กราฟขยับตาม</span></div>
   <div class="pv-fact"><b>โอนแล้วได้เลย</b><span>ระบบส่งโค้ดเข้าอีเมลให้เอง</span></div>
@@ -3075,10 +3075,10 @@ html.member .sticky-bar{display:none!important}
   const ranked = (list, order) => { const r = new Map((order || []).map((s, i) => [s, i])); return list.slice().sort((a, b) => (r.has(a.slug) ? r.get(a.slug) : 1e4) - (r.has(b.slug) ? r.get(b.slug) : 1e4)); };
   function items(){
     if (mode === 'job') return ranked(D.filter(x => x.group === sel), P.job[sel]).map(x =>
-      `<a class="pick-card" href="template?id=${x.slug}"><img loading="lazy" src="library/cover/${x.slug}.webp" alt="${esc(x.th)}">${NEW.has(x.slug) ? '<span class="new">ใหม่</span>' : ''}<div><b>${esc(x.th)}</b><i>${esc(x.cat)}</i></div></a>`);
+      `<a class="pick-card" href="template?id=${x.slug}"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${x.slug}.webp" alt="${esc(x.th)}">${NEW.has(x.slug) ? '<span class="new">ใหม่</span>' : ''}<div><b>${esc(x.th)}</b><i>${esc(x.cat)}</i></div></a>`);
     const out = [];
     for (const x of ranked([...D].reverse(), P.type[sel])) { const k = (S[x.slug] || []).indexOf(sel); if (k < 0) continue;
-      out.push(`<a class="pick-card slide" href="template?id=${x.slug}&s=${k + 1}"><img loading="lazy" src="library/slides/${x.slug}/${String(k + 1).padStart(2, '0')}.webp" alt="${esc(sel)} จากชุด ${esc(x.th)}">${NEW.has(x.slug) ? '<span class="new">ใหม่</span>' : ''}<div><b>${esc(x.th)}</b><i>${esc(sel)}</i></div></a>`);
+      out.push(`<a class="pick-card slide" href="template?id=${x.slug}&s=${k + 1}"><img loading="lazy" src="https://img.coachtarnslide.com/slides/${x.slug}/${String(k + 1).padStart(2, '0')}.webp" alt="${esc(sel)} จากชุด ${esc(x.th)}">${NEW.has(x.slug) ? '<span class="new">ใหม่</span>' : ''}<div><b>${esc(x.th)}</b><i>${esc(sel)}</i></div></a>`);
       if (out.length === 60) break; }
     return out;
   }
@@ -3110,7 +3110,7 @@ html.member .sticky-bar{display:none!important}
     pop.querySelector('.pp-info span').textContent = it.s ? 'แตะรูปเล็กด้านล่างเพื่อดูหน้าอื่นในชุดเดียวกัน' : 'ชุดสไลด์ 16:9 แก้ไขได้ทุกหน้าใน PowerPoint';
     pop.querySelector('.pp-link').href = it.href;
     const pages = [...new Set([it.s || 1, 1, 4, 7, 10, 13, 16, 19])].slice(0, 7);
-    pop.querySelector('.pp-thumbs').innerHTML = pages.map(n => `<button data-n="${n}"><img loading="lazy" src="library/slides/${it.slug}/${pad(n)}.webp" alt=""></button>`).join('');
+    pop.querySelector('.pp-thumbs').innerHTML = pages.map(n => `<button data-n="${n}"><img loading="lazy" src="https://img.coachtarnslide.com/slides/${it.slug}/${pad(n)}.webp" alt=""></button>`).join('');
     pop.querySelector('.pp-thumbs button').classList.add('on'); }
   function go(i, smooth){ cur = Math.max(0, Math.min(list.length - 1, i)); const el = track.children[cur];
     track.scrollTo({ left: el.offsetLeft - 16, behavior: smooth ? 'smooth' : 'auto' }); info(); }
@@ -3178,7 +3178,7 @@ async function setFile(slug){
     const w = track.children[0] ? track.children[0].offsetWidth + 12 : 1, i = Math.round(track.scrollLeft / w);
     if (i !== cur) { cur = i; info(); } }, 60); }, { passive: true });
   pop.querySelector('.pp-thumbs').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
-    const it = list[cur]; track.children[cur].querySelector('img').src = `library/slides/${it.slug}/${pad(b.dataset.n)}.webp`;
+    const it = list[cur]; track.children[cur].querySelector('img').src = `https://img.coachtarnslide.com/slides/${it.slug}/${pad(b.dataset.n)}.webp`;
     pop.querySelectorAll('.pp-thumbs button').forEach(x => x.classList.toggle('on', x === b)); });
   document.addEventListener('keydown', e => { if (!isOpen) return;
     if (e.key === 'Escape') close(); if (e.key === 'ArrowLeft') go(cur - 1, true); if (e.key === 'ArrowRight') go(cur + 1, true); });
@@ -3224,7 +3224,7 @@ async function setFile(slug){
       <a href="order?pack=20" class="pv-tier-btn">สั่งซื้อแพ็ก 20</a>
     </div>
   </div>
-  <div class="pv-tier-note reveal">ทุกแพ็กได้คลังเต็ม 366 ชุดเท่ากัน · แต่ละคนได้ Redeem Code ของตัวเอง · เกิน 20 คนหรือขอใบเสนอราคาในนามหน่วยงาน ทักแชทเพจได้เลย</div>
+  <div class="pv-tier-note reveal">ทุกแพ็กได้คลังเต็ม 372 ชุดเท่ากัน · แต่ละคนได้ Redeem Code ของตัวเอง · เกิน 20 คนหรือขอใบเสนอราคาในนามหน่วยงาน ทักแชทเพจได้เลย</div>
 </section>
 
 
@@ -3261,7 +3261,7 @@ async function setFile(slug){
       <button class="ft-item on" type="button">
         <span class="ft-num">01</span>
         <span class="ft-name">หยิบสไลด์จากคลังมาใช้</span>
-        <span class="ft-desc">เปิดคลัง 366 ชุด เลือกหน้าที่ตรงกับงาน วางตัวเลขของคุณลงไป จบในไม่กี่นาที ไม่ต้องเริ่มจากหน้าเปล่า</span>
+        <span class="ft-desc">เปิดคลัง 372 ชุด เลือกหน้าที่ตรงกับงาน วางตัวเลขของคุณลงไป จบในไม่กี่นาที ไม่ต้องเริ่มจากหน้าเปล่า</span>
         <span class="ft-bar"><i></i></span>
       </button>
 
@@ -3283,18 +3283,18 @@ async function setFile(slug){
     <div class="ft-panels reveal">
       <div class="ft-panel on">
         <div class="ft-grid">
-          <img loading="lazy" src="library/slides/marketingdash/02.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/piedonut/03.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/barchart/04.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/timelineset/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/kpinumber/06.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/processflow/07.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/strategymatrix/03.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/hrpeople/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/linechart/08.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/survey/04.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/comparechart/06.webp" alt="ตัวอย่างสไลด์จากคลัง">
-          <img loading="lazy" src="library/slides/gaugeprogress/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/marketingdash/02.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/piedonut/03.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/barchart/04.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/timelineset/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/kpinumber/06.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/processflow/07.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/strategymatrix/03.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/hrpeople/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/linechart/08.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/survey/04.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/comparechart/06.webp" alt="ตัวอย่างสไลด์จากคลัง">
+          <img loading="lazy" src="https://img.coachtarnslide.com/slides/gaugeprogress/05.webp" alt="ตัวอย่างสไลด์จากคลัง">
         </div>
       </div>
       <div class="ft-panel">
@@ -3317,7 +3317,7 @@ async function setFile(slug){
             <span class="rc-cursor" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 2.5 19 12.2l-5.9.6-2.6 5.4z" fill="#1D1D1F" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
           </div>
           <div class="rc-stage">
-            <img id="rcSlide" src="library/slides/processflow/03.webp" alt="สไลด์จากคลัง เปลี่ยนธีมสีได้" loading="lazy">
+            <img id="rcSlide" src="https://img.coachtarnslide.com/slides/processflow/03.webp" alt="สไลด์จากคลัง เปลี่ยนธีมสีได้" loading="lazy">
           </div>
           <p class="rc-note">สไลด์จริงจากคลัง กดสีเดียว เปลี่ยนทั้งแผ่น</p>
         </div>
@@ -3851,16 +3851,16 @@ async function setFile(slug){
 <section class="section fin-section">
   <div class="fin-card reveal">
     <h2 class="fin-h2">เลิกนั่งทำสไลด์เอง<br>ตั้งแต่หน้าแรกได้แล้ว</h2>
-    <p class="fin-sub">คนใช้งานแล้วกว่า 7,000 คน จ่ายครั้งเดียวได้คลัง 366 ชุด 6,500+ สไลด์ ชุดใหม่ที่เพิ่มเข้าคลัง โหลดฟรีด้วยโค้ดเดิมตลอด</p>
+    <p class="fin-sub">คนใช้งานแล้วกว่า 7,000 คน จ่ายครั้งเดียวได้คลัง 372 ชุด 6,500+ สไลด์ ชุดใหม่ที่เพิ่มเข้าคลัง โหลดฟรีด้วยโค้ดเดิมตลอด</p>
     <div class="fin-price"><s>999฿</s><b>499฿</b></div>
     <a href="order" class="fin-btn">สั่งซื้อเลย</a>
     <div class="fin-note">โอนผ่านธนาคาร ระบบตรวจสลิปให้อัตโนมัติ ได้โค้ดทางอีเมลทันที</div>
     <div class="fin-fan">
-      <div class="fin-slide"><img loading="lazy" src="library/slides/linechart/04.webp" alt=""></div>
-      <div class="fin-slide"><img loading="lazy" src="library/slides/marketingdash/06.webp" alt=""></div>
-      <div class="fin-slide"><img loading="lazy" src="library/slides/piedonut/03.webp" alt=""></div>
-      <div class="fin-slide"><img loading="lazy" src="library/slides/kpinumber/05.webp" alt=""></div>
-      <div class="fin-slide"><img loading="lazy" src="library/slides/timelineset/07.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="https://img.coachtarnslide.com/slides/linechart/04.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="https://img.coachtarnslide.com/slides/marketingdash/06.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="https://img.coachtarnslide.com/slides/piedonut/03.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="https://img.coachtarnslide.com/slides/kpinumber/05.webp" alt=""></div>
+      <div class="fin-slide"><img loading="lazy" src="https://img.coachtarnslide.com/slides/timelineset/07.webp" alt=""></div>
     </div>
   </div>
 </section>

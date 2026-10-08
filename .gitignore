@@ -6,7 +6,18 @@ debug/
 
 library/links.json
 
+# รูปคลังย้ายไป Cloudflare R2 แล้ว (8 ต.ค. 2026) เว็บอ่านจาก img.coachtarnslide.com
+# เก็บไว้ใน git อีกจะโตเดือนละ ~100 MB จนกว่า push จะเริ่มพัง
+# ไฟล์ยังอยู่ในเครื่องตามปกติ เครื่องมือ publish อัปขึ้น R2 ให้เอง (tools/r2put.py)
+library/slides/
+library/cover/
+
 # รูปเทมเพลตอ้างอิงของคนอื่น + prompt ภายใน — โฟลเดอร์นี้ deploy ขึ้นเว็บจริง
 # ถ้า commit จะถูกเสิร์ฟที่ coachtarnslide.com ให้คนนอกโหลดได้
 ref-templates/
 PROMPT-*.md
+
+# API token ของ Cloudflare R2 ห้ามขึ้น GitHub เด็ดขาด
+.env.r2
+.env
+.env.*
