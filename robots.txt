@@ -1,0 +1,57 @@
+# coachtarnslide.com
+# ภาพสไลด์ในคลังเป็นงานมีลิขสิทธิ์ เผยแพร่ให้ "คนดู" ก่อนตัดสินใจซื้อ
+# ไม่ได้เผยแพร่ให้เอาไปเทรนโมเดลหรือดูดเป็นกอง — เงื่อนไข /terms ข้อ 6
+
+User-agent: *
+Allow: /
+Crawl-delay: 2
+# ไม่ใส่ Disallow: /review เพราะ robots.txt เปิดอ่านได้ทุกคน = ประกาศ path หน้าแอดมินเอง
+# กันด้วย X-Robots-Tag: noindex ใน _headers แทน (บอทที่ถูก robots บล็อกจะไม่เคยอ่าน header นั้น)
+# ห้ามบล็อก /order — ไอซ์ยิงแอดเข้าหน้านี้ ถ้าบล็อก facebookexternalhit อาจดึงพรีวิวลิงก์ไม่ขึ้น
+# (FacebookBot กับ meta-externalagent ที่บล็อกด้านล่างเป็นบอทเก็บข้อมูลเทรน คนละตัวกับตัวทำพรีวิว)
+
+# ── บอทเก็บข้อมูลไปเทรน AI ── ห้ามทั้งหมด
+User-agent: GPTBot
+Disallow: /
+User-agent: OAI-SearchBot
+Disallow: /
+User-agent: ChatGPT-User
+Disallow: /
+User-agent: ClaudeBot
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Google-Extended
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: PerplexityBot
+Disallow: /
+User-agent: Perplexity-User
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+User-agent: Amazonbot
+Disallow: /
+User-agent: Applebot-Extended
+Disallow: /
+User-agent: meta-externalagent
+Disallow: /
+User-agent: FacebookBot
+Disallow: /
+User-agent: Diffbot
+Disallow: /
+User-agent: ImagesiftBot
+Disallow: /
+User-agent: Omgili
+Disallow: /
+User-agent: cohere-ai
+Disallow: /
+User-agent: AI2Bot
+Disallow: /
+User-agent: Timpibot
+Disallow: /
+User-agent: img2dataset
+Disallow: /
