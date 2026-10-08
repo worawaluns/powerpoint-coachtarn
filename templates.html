@@ -124,7 +124,8 @@ a{color:inherit;text-decoration:none}
    ไล่ขาว→เทา ตัวหนังสือดำ อ่านออกทั้งปกดำและปกขาว ขยับเบา ๆ ทุก 7 วิ พอให้สะดุดตา ไม่กวน */
 .new{position:absolute;top:0;left:0;z-index:2;overflow:hidden;
   background:linear-gradient(135deg,#fff 0%,#F4F4F7 45%,#D8D8E2 100%);
-  color:#0E0E12;font-size:10px;font-weight:800;letter-spacing:1px;padding:5px 12px;
+  color:#0E0E12;font-size:10px;font-weight:800;letter-spacing:1px;padding:6px 12px 5px;
+  line-height:1.75;   /* วรรณยุกต์ไทยลอยเหนือตัวอักษร ถ้า line-height แน่นเจอ overflow:hidden แล้ว ่ โดนตัด */
   border-radius:0 0 13px 0;box-shadow:0 2px 9px rgba(0,0,0,.2),inset 0 0 0 1px rgba(0,0,0,.06);
   transform-origin:top left;animation:newBeat 7s ease-in-out infinite}
 .new span{position:relative;z-index:1}
@@ -134,7 +135,7 @@ a{color:inherit;text-decoration:none}
 @keyframes newBeat{0%,88%,100%{transform:scale(1)}93%{transform:scale(1.07)}}
 @keyframes newShine{0%,80%{transform:translateX(-130%) rotate(8deg)}96%,100%{transform:translateX(130%) rotate(8deg)}}
 @media(prefers-reduced-motion:reduce){.new,.new::after{animation:none}}
-@media(min-width:768px){.new{font-size:10.5px;padding:6px 14px}}
+@media(min-width:768px){.new{font-size:10.5px;padding:7px 14px 6px}}
 .cb{padding:9px 11px 11px;min-width:0}
 .cb h3{font-size:13.5px;font-weight:700;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cb .en{display:none}
