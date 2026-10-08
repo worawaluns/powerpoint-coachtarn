@@ -116,6 +116,14 @@ a{color:inherit;text-decoration:none}
 .pr.show{display:flex}
 .pr .top{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;color:#cfd3e0;font-size:14px}
 .pr .top button{background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:10px;padding:8px 14px;font-family:inherit;font-weight:700;cursor:pointer}
+.pr .slide{position:relative}
+.pr .wm{position:absolute;right:14px;bottom:12px;z-index:3;pointer-events:none;user-select:none;
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12.5px;font-weight:700;letter-spacing:.4px;color:rgba(255,255,255,.55);
+  text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.pr .wm svg{width:15px;height:15px;flex:none;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6))}
+body.owned .pr .wm{display:none}
+@media(min-width:768px){.pr .wm{right:20px;bottom:16px;font-size:14px}}
 .pr .mid{flex:1;display:flex;align-items:center;justify-content:center;padding:0 70px;position:relative}
 .pr .slide{position:relative;width:min(100%,calc((100vh - 170px) * 16 / 9));aspect-ratio:16/9}
 .pr .slide img{position:absolute;inset:0;width:100%;height:100%;border-radius:8px;opacity:0;transform:scale(.97);transition:opacity .6s ease,transform .6s var(--ease);box-shadow:0 30px 80px rgba(0,0,0,.6)}
@@ -134,6 +142,11 @@ a{color:inherit;text-decoration:none}
   .feats{grid-template-columns:1fr}.ft{border-left:none;border-top:1px solid var(--line)}.ft:first-child{border-top:none}.row img{width:220px}.pr .mid{padding:0 8px}.pr .arr{display:none}.band{padding:28px}.band h3{font-size:22px}.side{padding:20px}.thumbs{gap:6px}.main .pv{padding:8px 14px;font-size:13px}
   .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 -1px 0 rgba(0,0,0,.08)}.mbar .btn{flex:1;padding:13px}}
 @media(prefers-reduced-motion:reduce){.cta .btn-red{animation:none}}
+.lfoot{border-top:1px solid var(--line);margin-top:10px;padding:22px 20px 34px;text-align:center}
+.lfoot p{font-size:12.5px;line-height:1.9;color:var(--sub);max-width:640px;margin:0 auto}
+.lfoot p+p{margin-top:6px}
+.lfoot a{color:var(--mid);text-decoration:underline;text-underline-offset:3px;margin:0 12px}
+.lfoot .c{font-size:11.5px;color:#B0B0BA;margin-top:10px}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -157,7 +170,7 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
 <div class="pr" id="pr">
   <div class="top"><span id="prT"></span><div style="display:flex;gap:8px"><button id="prPlay" onclick="togglePlay()">หยุดเล่นอัตโนมัติ</button><button onclick="closePr()">ปิด ✕</button></div></div>
   <div class="prog"><i id="prBar"></i></div>
-  <div class="mid"><button class="arr l" onclick="go(-1)">‹</button><div class="slide" id="prS"></div><button class="arr r" onclick="go(1)">›</button></div>
+  <div class="mid"><button class="arr l" onclick="go(-1)">‹</button><div class="slide" id="prS"><span class="wm"><svg viewBox="0 0 175 160" fill="currentColor" aria-hidden="true"><path d="M103.8 71.9c0-9.8 0-19.5 0-29.3 0-5.2 2.1-7.3 7.3-7.3 17.8-.1 35.6-.1 53.4 0 4.8 0 7.3 2.6 7.3 7.5 0 19.4 0 38.8 0 58.3 0 5.2-2.6 7.9-7.7 7.9-17.4.1-34.7.2-52.1.2-5.6 0-8.1-2.6-8.1-8.2 0-9.7 0-19.3 0-29z"/><path d="M103.8 152.7c0-9.8 0-19.5 0-29.3 0-5.4 2.3-7.9 7.7-7.8 12.8.2 25.6-.8 38.4.5 11.6 1.2 21.7 12.2 21.9 23.9.3 14.4.1 28.9.1 43.3 0 3.5-2.7 5.8-6.7 5.9-14 0-28 0-42 0-4.2 0-8.5 0-12.7 0-4.1-.1-6.5-2.4-6.5-6.5 0-10 0-20 0-30z"/><path d="M96.9 152.6c0 9.7 0 19.3 0 29 0 5.5-2.1 7.6-7.7 7.6-10.7 0-21.5.1-32.2-.1-15.9-.2-27.2-11.5-27.3-27.3-.1-12.7-.1-25.4-.1-38.1 0-5.5 2.6-8.2 8.2-8.2 16.7 0 33.4 0 50.2.1 6.9 0 8.9 2.2 9 9 0 9.3 0 18.7 0 28z"/><path d="M63.2 109c-8.4 0-16.7 0-25.1 0-6.2 0-8.6-2.5-8.6-8.7 0-9 0-18 0-27 0-4.9 2.7-7.7 7.6-7.7 17-.1 33.9-.1 50.8 0 6.2 0 8.7 2.7 8.7 8.8.1 8.9.1 17.8.1 26.7 0 5.2-2.5 7.8-7.8 7.9-8.6.1-17.2 0-25.7 0z"/><path d="M63.3 58.9c-8.7 0-17.4 0-26 0-5.5 0-7.6-2.2-7.6-7.7 0-3.3-.1-6.5 0-9.8.1-4 2.3-6.3 6.3-6.3 18.1 0 36.2 0 54.3.1 3.8 0 6.3 2.5 6.5 6.3.1 3.6.1 7.2 0 10.7-.1 4.2-2.6 6.6-6.8 6.7-8.9.1-17.8 0-26.7 0z"/></svg>coachtarnslide.com</span></div><button class="arr r" onclick="go(1)">›</button></div>
   <div class="strip" id="prStrip"></div>
 </div>
 <script>
@@ -317,7 +330,9 @@ function autoplay(){ clearInterval(timer); timer = setInterval(() => show(cur + 
 // presenter mode
 function openPr(k){
   const P = document.getElementById('pr');
-  document.getElementById('prS').innerHTML = range(D.slides).map(i => `<img src="${img(i)}" alt="">`).join('');
+  // ลายน้ำต้องต่อท้ายทุกครั้ง เพราะบรรทัดนี้เขียนทับ innerHTML ทั้งก้อน
+  document.getElementById('prS').innerHTML = range(D.slides).map(i => `<img src="${img(i)}" alt="">`).join('')
+    + '<span class="wm"><svg viewBox="0 0 175 160" fill="currentColor" aria-hidden="true"><path d="M103.8 71.9c0-9.8 0-19.5 0-29.3 0-5.2 2.1-7.3 7.3-7.3 17.8-.1 35.6-.1 53.4 0 4.8 0 7.3 2.6 7.3 7.5 0 19.4 0 38.8 0 58.3 0 5.2-2.6 7.9-7.7 7.9-17.4.1-34.7.2-52.1.2-5.6 0-8.1-2.6-8.1-8.2 0-9.7 0-19.3 0-29z"/><path d="M103.8 152.7c0-9.8 0-19.5 0-29.3 0-5.4 2.3-7.9 7.7-7.8 12.8.2 25.6-.8 38.4.5 11.6 1.2 21.7 12.2 21.9 23.9.3 14.4.1 28.9.1 43.3 0 3.5-2.7 5.8-6.7 5.9-14 0-28 0-42 0-4.2 0-8.5 0-12.7 0-4.1-.1-6.5-2.4-6.5-6.5 0-10 0-20 0-30z"/><path d="M96.9 152.6c0 9.7 0 19.3 0 29 0 5.5-2.1 7.6-7.7 7.6-10.7 0-21.5.1-32.2-.1-15.9-.2-27.2-11.5-27.3-27.3-.1-12.7-.1-25.4-.1-38.1 0-5.5 2.6-8.2 8.2-8.2 16.7 0 33.4 0 50.2.1 6.9 0 8.9 2.2 9 9 0 9.3 0 18.7 0 28z"/><path d="M63.2 109c-8.4 0-16.7 0-25.1 0-6.2 0-8.6-2.5-8.6-8.7 0-9 0-18 0-27 0-4.9 2.7-7.7 7.6-7.7 17-.1 33.9-.1 50.8 0 6.2 0 8.7 2.7 8.7 8.8.1 8.9.1 17.8.1 26.7 0 5.2-2.5 7.8-7.8 7.9-8.6.1-17.2 0-25.7 0z"/><path d="M63.3 58.9c-8.7 0-17.4 0-26 0-5.5 0-7.6-2.2-7.6-7.7 0-3.3-.1-6.5 0-9.8.1-4 2.3-6.3 6.3-6.3 18.1 0 36.2 0 54.3.1 3.8 0 6.3 2.5 6.5 6.3.1 3.6.1 7.2 0 10.7-.1 4.2-2.6 6.6-6.8 6.7-8.9.1-17.8 0-26.7 0z"/></svg>coachtarnslide.com</span>';
   document.getElementById('prStrip').innerHTML = range(D.slides).map(i => `<img src="${img(i)}" alt="" onclick="go(0,${i})">`).join('');
   document.getElementById('prT').textContent = D.th;
   P.classList.add('show'); document.body.style.overflow = 'hidden'; clearInterval(timer);
@@ -344,6 +359,7 @@ fetch('library/data.json').then(r => r.json()).then(all => {
   window.ALL = all; const id = new URLSearchParams(location.search).get('id');
   const hit = all.find(x => x.slug === id);
   D = hit || all[0]; render();
+  document.body.classList.toggle('owned', !!store.get());   // คนที่ซื้อแล้วดูได้โดยไม่มีลายน้ำ
   const k = +new URLSearchParams(location.search).get('s'); if (k >= 1 && k <= D.slides) openPr(k);  // deep link from the slide-type browser
   // คนที่ยังไม่ปลดล็อก = ยังไม่ซื้อ ยิง ViewContent ไว้ทำ audience "ดูชุดนี้แล้วไม่ซื้อ"
   // ยิงเฉพาะตอน id ตรงชุดจริง ลิงก์เสียจะได้ไม่ส่งชื่อชุดแรกไปให้ Meta มั่ว
@@ -364,5 +380,10 @@ fetch('https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers', {
   body   : '{"hit":true}',
 }).catch(() => {});
 </script>
+<footer class="lfoot">
+  <p>ภาพสไลด์ทั้งหมดบนหน้านี้เป็นงานมีลิขสิทธิ์ของบริษัท ดับเบิ้ลคราฟ์ จำกัด เผยแพร่เพื่อให้ดูตัวอย่างก่อนตัดสินใจซื้อ</p>
+  <p><a href="privacy">นโยบายความเป็นส่วนตัว</a><a href="terms">เงื่อนไขการใช้งานและสิทธิ์การใช้ไฟล์</a></p>
+  <p class="c">© 2026 บริษัท ดับเบิ้ลคราฟ์ จำกัด, All rights reserved</p>
+</footer>
 </body>
 </html>

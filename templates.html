@@ -33,58 +33,119 @@ a{color:inherit;text-decoration:none}
 .pill{display:inline-flex;align-items:center;gap:6px;border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700}
 
 
-.hero{padding:52px 0 26px;text-align:center}
-.hero .eyebrow{font-size:13.5px;font-weight:700;color:var(--red);letter-spacing:1.2px;margin-bottom:12px}
-.hero h1{font-size:clamp(30px,5vw,50px);font-weight:800;line-height:1.18;letter-spacing:-.5px}
-.hero .lead{max-width:620px;margin:14px auto 0;font-size:16px;color:var(--sub);line-height:1.75}
-.facts{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;margin:22px 0 20px}
-.facts span{display:inline-flex;align-items:center;gap:7px;font-size:15px;color:var(--mid)}
-.facts svg{width:17px;height:17px;color:#16A34A;flex:0 0 17px}
-.facts b{font-weight:800;color:var(--text)}
-.hero-search{display:block;max-width:520px;margin:0 auto}
-.hero-search input{width:100%;font-size:15.5px;padding:14px 18px 14px 44px;border-radius:100px;border:1.5px solid var(--line);box-shadow:0 2px 12px rgba(20,20,30,.05)}
-.hero-search svg{left:17px;width:18px;height:18px}
-.mode{justify-content:center}
-.bar{justify-content:center}
-
-.hero-top{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
-.eyebrow{color:var(--red);font-weight:700;font-size:14px;letter-spacing:.5px}
-h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6px}
-.lead{color:var(--mid);font-size:16px;margin-top:10px;max-width:620px;line-height:1.6}
-.stats{display:flex;gap:26px}.stat b{display:block;font-size:26px;font-weight:800;color:var(--red)}.stat span{font-size:13px;color:var(--sub)}
-/* member / redeem */
-.member{margin-top:22px;border-radius:20px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.member.locked{background:#fff;border:1.5px dashed #F2C4B4}
-.member.open{background:linear-gradient(120deg,#E8F8EF,#F3FBF6);border:1.5px solid #BFE8CF}
-.member .ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex-shrink:0}
-.member.locked .ic{background:var(--soft);color:var(--red)}.member.open .ic{background:#1E9E5A;color:#fff}
-.member .tx{flex:1;min-width:220px}.member .tx b{font-size:16px}.member .tx p{font-size:13px;color:var(--sub);margin-top:2px}
-.rd{display:flex;gap:8px;flex-wrap:wrap}
-.rd input{font-family:inherit;font-size:15px;padding:10px 14px;border-radius:12px;border:1.5px solid var(--line);width:210px;text-transform:uppercase;letter-spacing:1px;outline:none}
-.rd input:focus{border-color:var(--red)}
-.err{color:#D93A2B;font-size:13px;margin-top:6px;display:none}
-/* filters */
-.bar{position:sticky;top:68px;   /* = nav height */ z-index:20;background:var(--bg);padding:14px 0 12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-@media(min-width:1024px){.bar{top:81px}}   /* the desktop nav is taller */
-.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding-bottom:2px}.chips::-webkit-scrollbar{display:none}
-.chip{border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:8px 15px;font-family:inherit;font-size:14px;font-weight:600;color:var(--mid);cursor:pointer;white-space:nowrap}
+/* ── หัวหน้าคลัง: มือถือมาก่อน ต้องเห็นการ์ดใบแรกภายใน ~200px ──────────────
+   ของเดิม hero กลางจอ + กล่อง Redeem เส้นประ ดันการ์ดใบแรกไป 787px บนมือถือ
+   = ต้องเลื่อนเต็มจอก่อนเห็นสไลด์สักใบ */
+.lib-top{padding:14px 0 0}
+.lib-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:11px}
+.lib-head h1{font-size:21px;font-weight:800;letter-spacing:-.3px;line-height:1.2}
+.lib-head .n{display:none;margin-top:3px;font-size:12.5px;color:var(--sub);font-weight:600;line-height:1.5;white-space:nowrap}
+.lib-head .n.ready{display:block}
+.lib-head .n .xl{display:none}
+@media(min-width:768px){.lib-head .n .xl{display:inline}}
+.key{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:#fff;border-radius:100px;
+  padding:7px 13px;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--mid);cursor:pointer;white-space:nowrap}
+.key svg{width:14px;height:14px}
+.key.on{background:#E9F8F0;border-color:#BFE8CF;color:#157F45}
+.search{position:relative;display:block}
+.search input{width:100%;font-family:inherit;font-size:16px;padding:13px 40px 13px 42px;border-radius:14px;
+  border:1.5px solid var(--line);outline:none;background:#fff;box-shadow:0 1px 3px rgba(20,20,30,.05)}
+.search input:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(211,71,36,.09)}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--sub);pointer-events:none}
+.search .clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:none;cursor:pointer;
+  padding:6px;line-height:0;color:var(--sub);display:none}
+.search .clr.show{display:block}
+.search .clr svg{position:static;transform:none;width:16px;height:16px}
+/* แถวชิป + ปุ่มตัวกรอง เกาะใต้ nav */
+.bar{position:sticky;top:62px;z-index:20;background:var(--bg);padding:10px 0 9px;display:flex;gap:8px;align-items:center}
+.bar::after{content:'';position:absolute;left:-20px;right:-20px;bottom:0;height:1px;background:var(--line)}
+.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 22px),transparent);padding-right:6px}
+.chips::-webkit-scrollbar{display:none}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:7px 13px;font-family:inherit;
+  font-size:13.5px;font-weight:600;color:var(--mid);cursor:pointer;white-space:nowrap}
 .chip small{color:var(--sub);font-weight:500;margin-left:4px}
 .chip.on{background:var(--text);border-color:var(--text);color:#fff}.chip.on small{color:#bbb}
-.search{position:relative}.search input{font-family:inherit;font-size:14px;padding:9px 14px 9px 36px;border-radius:100px;border:1.5px solid var(--line);width:220px;outline:none;background:#fff}
-.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--sub)}
+.fbtn{flex:none;display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:#fff;border-radius:100px;
+  padding:7px 13px;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--mid);cursor:pointer}
+.fbtn svg{width:15px;height:15px}
+.fbtn span{display:none}
+@media(min-width:420px){.fbtn span{display:inline}}
+.fbtn.on{background:var(--red);border-color:var(--red);color:#fff}
+.fbtn b{min-width:17px;height:17px;border-radius:100px;background:var(--red);color:#fff;font-size:11px;display:grid;place-items:center}
+.fbtn b[hidden]{display:none}
+.fbtn.on b{background:#fff;color:var(--red)}
+.vsw{flex:none;display:inline-flex;background:#EFEFF2;border-radius:100px;padding:3px;gap:2px}
+.vsw button{border:none;background:none;border-radius:100px;padding:6px 9px;cursor:pointer;color:var(--sub);line-height:0}
+.vsw button svg{width:15px;height:15px}
+.vsw button.on{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(20,20,40,.14)}
+@media(min-width:768px){.vsw{display:none}}
+/* แผงตัวกรอง กางลงมาในหน้า ไม่ใช่ popup ซ้อน จะได้ใช้นิ้วเดียวจบบนมือถือ */
+.facets{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 15px;margin:12px 0 0}
+.facets.show{display:block}
+.fgrp{margin-bottom:13px}.fgrp:last-child{margin-bottom:0}
+.fgrp>span{display:block;font-size:11.5px;font-weight:800;letter-spacing:.7px;color:var(--sub);margin-bottom:7px}
+.fopts{display:flex;gap:7px;flex-wrap:wrap}
+.fo{border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:6px 12px;font-family:inherit;
+  font-size:13px;font-weight:600;color:var(--mid);cursor:pointer}
+.fo.on{background:var(--soft);border-color:var(--red);color:var(--red)}
+.fclr{margin-top:12px;font-size:13px;font-weight:700;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit;padding:0}
+/* ปลดล็อกด้วย Redeem Code — เดิมเป็นกล่องเส้นประสูง 216px โชว์ทุกคน ตอนนี้ซ่อนไว้หลังปุ่ม */
+.member{display:none;margin-top:12px;border-radius:16px;padding:14px 15px;background:#fff;border:1.5px solid var(--line)}
+.member.show{display:block}
+.member b{font-size:14.5px}.member p{font-size:12.5px;color:var(--sub);margin:3px 0 10px;line-height:1.6}
+.rd{display:flex;gap:8px}
+.rd input{flex:1;min-width:0;font-family:inherit;font-size:16px;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);
+  text-transform:uppercase;letter-spacing:1px;outline:none}
+.rd input:focus{border-color:var(--red)}
+.err{color:#D93A2B;font-size:12.5px;margin-top:7px;display:none}
+.mode{display:inline-flex;background:#EFEFF2;border-radius:100px;padding:3px;gap:3px;margin:12px 0 0}
+.mode button{border:none;background:none;border-radius:100px;padding:8px 15px;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--mid);cursor:pointer}
+.mode button.on{background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(20,20,40,.12)}
+@media(min-width:768px){
+  .lib-top{padding:22px 0 0}
+  .lib-head h1{font-size:28px}
+  .search input{font-size:16px;padding:15px 44px 15px 46px}
+  .bar{top:68px}
+}
+@media(min-width:1024px){.bar{top:81px}}
 /* grid */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;padding:8px 0 70px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:14px 0 70px}
+.grid.one{grid-template-columns:minmax(0,1fr);gap:16px}
+.grid.one .cb h3{font-size:16px}
+.grid.one .sub2{font-size:13px}
+@media(min-width:768px){.grid,.grid.one{grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}}
 .card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(20,20,40,.06);transition:transform .35s var(--ease),box-shadow .35s var(--ease);display:flex;flex-direction:column}
 .card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,20,40,.12)}
-.cv{position:relative;aspect-ratio:3/2;overflow:hidden;background:#eee}.cv img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
+.cv{position:relative;aspect-ratio:3/2;overflow:hidden;background:#eee;display:block}.cv img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s var(--ease)}
 .card:hover .cv img{transform:scale(1.04)}
-.new{position:absolute;top:12px;right:12px;background:#fff;color:var(--red);font-size:11px;font-weight:800;padding:4px 10px;border-radius:100px;box-shadow:0 2px 8px rgba(0,0,0,.12)}
-.cb{padding:14px 16px 16px;display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex:1}
-.cb h3{font-size:17px;font-weight:700;line-height:1.35}.cb .en{font-size:12px;color:var(--sub);margin-top:2px}
-.meta{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+/* ป้าย "ใหม่" มุมบนซ้าย — สไลด์ในปกเกาะฝั่งขวา ป้ายซ้ายเลยไม่ทับของที่อยากให้ดู
+   ไล่ขาว→เทา ตัวหนังสือดำ อ่านออกทั้งปกดำและปกขาว ขยับเบา ๆ ทุก 7 วิ พอให้สะดุดตา ไม่กวน */
+.new{position:absolute;top:0;left:0;z-index:2;overflow:hidden;
+  background:linear-gradient(135deg,#fff 0%,#F4F4F7 45%,#D8D8E2 100%);
+  color:#0E0E12;font-size:10px;font-weight:800;letter-spacing:1px;padding:5px 12px;
+  border-radius:0 0 13px 0;box-shadow:0 2px 9px rgba(0,0,0,.2),inset 0 0 0 1px rgba(0,0,0,.06);
+  transform-origin:top left;animation:newBeat 7s ease-in-out infinite}
+.new span{position:relative;z-index:1}
+.new::after{content:'';position:absolute;inset:-40% -10%;transform:translateX(-130%) rotate(8deg);
+  background:linear-gradient(100deg,transparent 38%,rgba(255,255,255,.95) 50%,transparent 62%);
+  animation:newShine 7s ease-in-out infinite}
+@keyframes newBeat{0%,88%,100%{transform:scale(1)}93%{transform:scale(1.07)}}
+@keyframes newShine{0%,80%{transform:translateX(-130%) rotate(8deg)}96%,100%{transform:translateX(130%) rotate(8deg)}}
+@media(prefers-reduced-motion:reduce){.new,.new::after{animation:none}}
+@media(min-width:768px){.new{font-size:10.5px;padding:6px 14px}}
+.cb{padding:9px 11px 11px;min-width:0}
+.cb h3{font-size:13.5px;font-weight:700;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cb .en{display:none}
+/* บรรทัดสอง: คำเปล่า ไม่มีพื้นหลัง ให้ภาพเป็นพระเอก */
+.sub2{margin-top:3px;font-size:11.5px;color:var(--sub);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(min-width:768px){.cb{padding:12px 14px 14px}.cb h3{font-size:15.5px}.sub2{font-size:12.5px;margin-top:4px}}
 .m1{background:var(--soft);color:var(--red)}.m2{background:#F1F2F6;color:var(--mid)}
-.dl{flex-shrink:0;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;border:none;cursor:pointer;background:#F1F2F6;color:var(--mid)}
-.dl.open{background:linear-gradient(-135deg,var(--orange),var(--red));color:#fff;box-shadow:0 6px 14px rgba(211,71,36,.3)}
+.dl{position:absolute;right:8px;bottom:8px;width:34px;height:34px;border-radius:100px;display:grid;place-items:center;
+  border:none;cursor:pointer;background:rgba(255,255,255,.93);backdrop-filter:blur(6px);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.16)}
+@media(min-width:768px){.dl{position:static;width:42px;height:42px;border-radius:12px;background:#F1F2F6;color:var(--mid);box-shadow:none;backdrop-filter:none}}
+.dl.open{background:linear-gradient(-135deg,var(--orange),var(--red));color:#fff;box-shadow:0 4px 12px rgba(211,71,36,.4)}
 .dl svg{width:19px;height:19px}
 /* browse mode: by set / by slide type */
 .mode{display:inline-flex;background:#fff;border:1.5px solid var(--line);border-radius:100px;padding:4px;gap:4px;margin-top:22px}
@@ -92,7 +153,8 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
 .mode button.on{background:var(--text);color:#fff}
 .types{display:none;gap:8px;overflow-x:auto;scrollbar-width:none;padding:0 0 12px}.types::-webkit-scrollbar{display:none}.types.show{display:flex}
 .types .chip.on{background:var(--red);border-color:var(--red)}
-.sgrid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.sgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(min-width:768px){.sgrid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}}
 .sl{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.04),0 6px 18px rgba(20,20,40,.06);transition:transform .3s var(--ease),box-shadow .3s}
 .sl:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(20,20,40,.12)}
 .sl img{width:100%;aspect-ratio:16/9;display:block;background:#eef0f4}
@@ -102,13 +164,31 @@ h1{font-size:clamp(30px,5vw,46px);font-weight:800;line-height:1.15;margin-top:6p
 .empty{grid-column:1/-1;text-align:center;color:var(--sub);padding:60px 0}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#15151A;color:#fff;padding:12px 20px;border-radius:14px;font-size:14px;transition:transform .4s var(--ease);z-index:99}
 .toast.show{transform:translateX(-50%) translateY(0)}
-@media(max-width:640px){.hero{padding:26px 0 10px}.stats{gap:18px}.search input{width:100%}.search{flex:1 1 100%}.rd input{flex:1;width:auto}.rd{width:100%}.bar{top:68px}}
+
 .oldlib{display:flex;align-items:center;gap:12px;margin:0 0 16px;padding:14px 16px;border-radius:16px;
   background:#F6F7F9;border:1px solid #E7E8EC;text-decoration:none;color:#15151A}
 .oldlib b{font-size:14.5px;font-weight:800}
 .oldlib span{flex:1;min-width:0;font-size:12.5px;color:#6B6B76;line-height:1.45}
 .oldlib svg{flex:none;width:18px;height:18px;color:#6B6B76}
 @media(max-width:640px){.oldlib{flex-wrap:wrap}.oldlib span{flex:0 0 100%}}
+/* แจ้งสิทธิ์การใช้ไฟล์ให้คนที่เพิ่งปลดล็อก — โชว์ครั้งเดียวในชีวิต ไม่ใช่ popup ทุกครั้งที่เข้า */
+.lic{display:none;margin-top:12px;border-radius:16px;padding:14px 15px;background:#F2FBF5;border:1px solid #BFE8CF}
+.lic.show{display:block}
+.lic b{display:block;font-size:14.5px;color:#14673B}
+.lic ul{margin:8px 0 0;padding-left:18px}
+.lic li{font-size:13px;line-height:1.85;color:#2F6B4A}
+.lic .row{display:flex;gap:10px;align-items:center;margin-top:11px;flex-wrap:wrap}
+.lic .row a{font-size:13px;font-weight:700;color:#14673B;text-decoration:underline;text-underline-offset:3px}
+.lic .row button{margin-left:auto;border:none;background:#14673B;color:#fff;font-family:inherit;font-size:13.5px;
+  font-weight:700;padding:9px 18px;border-radius:100px;cursor:pointer}
+.licnote{font-size:12px;color:var(--sub);line-height:1.8;padding:0 2px 10px}
+.licnote a{color:var(--mid);text-decoration:underline;text-underline-offset:2px}
+.lfoot{border-top:1px solid var(--line);margin-top:10px;padding:22px 20px 34px;text-align:center}
+.lfoot p{font-size:12.5px;line-height:1.9;color:var(--sub);max-width:640px;margin:0 auto}
+.lfoot p+p{margin-top:6px}
+.lfoot a{color:var(--mid);text-decoration:underline;text-underline-offset:3px;margin:0 12px}
+.sep{display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.35;margin:0 7px;vertical-align:middle}
+.lfoot .c{font-size:11.5px;color:#B0B0BA;margin-top:10px}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -135,23 +215,47 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
   </div>
 </nav>
 <main class="wrap">
-  <section class="hero">
-    <div class="eyebrow">คลังเทมเพลตตามอาชีพ</div>
-    <h1>สไลด์พร้อมใช้<br>ออกแบบมาเพื่องานของคุณ</h1>
-    <p class="lead">ทุกชุดเรียงเรื่องตั้งแต่เปิดจนปิด กราฟแก้ใน Excel ได้ เลือกโหลดเฉพาะชุดที่ต้องใช้</p>
-    <div class="facts">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><b id="stN">366</b> ชุดเทมเพลต</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><b>6,500+</b> สไลด์</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg><b id="stC">9</b> หมวดหมู่</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>แก้ใน Excel ได้</span>
+  <section class="lib-top">
+    <div class="lib-head">
+      <div>
+        <h1>คลังเทมเพลต</h1>
+        <span class="n"><b id="stN">&ndash;</b> ชุด<span class="sep"></span><b id="stS">&ndash;</b> สไลด์<span class="xl"><span class="sep"></span>แก้ใน Excel ได้</span></span>
+      </div>
+      <button class="key" id="keyBtn" onclick="toggleMember()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span id="keyTx">ซื้อแล้ว? ปลดล็อก</span>
+      </button>
     </div>
-    <label class="search hero-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="ค้นหาเช่น KPI, ครู, งบประมาณ" autocomplete="off"></label>
-    <div class="member locked" id="member"></div>
-    <div class="mode" id="mode"><button data-m="sets" onclick="setMode('sets')">เลือกเป็นชุด</button><button data-m="slides" onclick="setMode('slides')">เลือกตามประเภทสไลด์</button></div>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" placeholder="ค้นหา เช่น KPI, งบประมาณ, กราฟแท่ง, โรงเรียน" autocomplete="off" enterkeyhint="search">
+      <button class="clr" id="qClr" onclick="clearQ()" aria-label="ล้างคำค้น"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </label>
+    <div class="member" id="member"></div>
+    <div class="lic" id="lic">
+      <b>ปลดล็อกแล้ว · ไฟล์นี้เป็นของคุณ</b>
+      <ul>
+        <li>ใช้ได้ไม่จำกัดจำนวนงาน ทั้งงานตัวเอง งานบริษัท และงานที่รับเงินลูกค้า</li>
+        <li>แก้ไข เปลี่ยนสี หยิบบางหน้าไปรวมไฟล์อื่น ได้หมด ไม่ต้องให้เครดิต</li>
+        <li>สิ่งเดียวที่ทำไม่ได้คือ <b style="display:inline">แจกหรือขายต่อตัวไฟล์เทมเพลตและ Redeem Code</b></li>
+      </ul>
+      <div class="row"><a href="terms" target="_blank" rel="noopener">อ่านสิทธิ์การใช้ไฟล์ฉบับเต็ม</a>
+        <button onclick="okLic()">เข้าใจแล้ว</button></div>
+    </div>
   </section>
   <div class="bar">
     <div class="chips" id="chips"></div>
+    <button class="fbtn" id="fbtn" onclick="toggleFacets()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+      <span>ตัวกรอง</span><b id="fcount" hidden>0</b>
+    </button>
+    <div class="vsw" id="vsw">
+      <button onclick="setCols(2)" id="v2" class="on" aria-label="สองคอลัมน์"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="8" height="7" rx="1.5"/><rect x="13" y="4" width="8" height="7" rx="1.5"/><rect x="3" y="13" width="8" height="7" rx="1.5"/><rect x="13" y="13" width="8" height="7" rx="1.5"/></svg></button>
+      <button onclick="setCols(1)" id="v1" aria-label="คอลัมน์เดียว"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="7" rx="1.5"/><rect x="4" y="13" width="16" height="7" rx="1.5"/></svg></button>
+    </div>
   </div>
+  <div class="facets" id="facets"></div>
+  <div class="licnote" id="licnote"></div>
   <a class="oldlib" id="oldlib" href="https://drive.google.com/drive/folders/1JoTiE8D6egndF6nbiQCdOeKs8KuISIon" target="_blank" rel="noopener" style="display:none">
     <b>คลังเดิม 6,500+ สไลด์</b><span>ชุดสากลแยกตามหัวข้อ (PowerPoint / Keynote / Google Slides) อยู่ใน Google Drive ไม่ได้แสดงบนเว็บนี้</span>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
@@ -169,24 +273,37 @@ const ICON = { lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" 
 const DRIVE = 'https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing';   // buyers download from the shared Drive folder (per-set links aren't public)
 const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } },
   set(v){ try{ v ? localStorage.setItem('ct_lib', JSON.stringify(v)) : localStorage.removeItem('ct_lib'); }catch(e){} } };
-let DATA = [], TAGS = {}, PICK = {}, group = 'all', q = '', mode = 'sets', type = 'กราฟ', shown = 48;
+let DATA = [], TAGS = {}, PICK = {}, SEARCH = {}, group = 'all', q = '', mode = 'sets', type = 'กราฟ', shown = 48;
+// ตัวกรองนอกเหนือจากหมวดอาชีพ — ค่าว่าง = ไม่กรอง
+const F = { charts: new Set(), tone: '', photo: false, excel: false };
+const CHART_KINDS = ['แท่ง', 'แท่งแนวนอน', 'เส้น', 'โดนัท', 'ตาราง', 'ไทม์ไลน์', 'แกนต์', 'ผังขั้นตอน', 'แผนที่', 'เมทริกซ์', 'ตัวเลขใหญ่', 'ทีมงาน', 'ตารางราคา'];
 let NEWSET = new Set();   // slugs that get the "ใหม่" badge — rule lives in js/newbadge.js
 { const u = new URLSearchParams(location.search); if (location.hash === '#slides' || u.get('view') === 'slides') mode = 'slides'; if (u.get('type')) type = u.get('type'); if (u.get('g')) group = u.get('g'); }
 const TYPES = ['กราฟ', 'ตัวเลข KPI', 'ตาราง', 'ตารางราคา', 'ไทม์ไลน์ / ขั้นตอน', 'เปรียบเทียบ', 'อินโฟกราฟิก', 'สารบัญ', 'สรุปผู้บริหาร', 'ทีม / องค์กร', 'แผนที่', 'ภาพ / คำคม', 'ปก', 'คั่นบท', 'เปิดเรื่อง', 'ปิดท้าย'];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const toast = m => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2400); };
 
+function toggleMember(){
+  const m = document.getElementById('member');
+  if (store.get()) return;                       // ปลดล็อกแล้ว ปุ่มเป็นแค่ป้ายบอกสถานะ
+  m.classList.toggle('show');
+  if (m.classList.contains('show')) document.getElementById('code').focus();
+}
 function renderMember(){
   const m = document.getElementById('member'), s = store.get();
+  const btn = document.getElementById('keyBtn'), tx = document.getElementById('keyTx');
   document.getElementById('navCta').style.display = s ? 'none' : '';
+  btn.classList.toggle('on', !!s);
   if (s){
-    m.className = 'member open';
-    m.innerHTML = `<div class="ic">${ICON.ok}</div><div class="tx"><b>ปลดล็อกแล้ว · โหลดได้ทุกชุด</b><p>Code ${esc(s.code)} · กดปุ่มดาวน์โหลดที่การ์ด หรือเปิดดูรายละเอียดก่อนโหลด</p></div>
-      <button class="btn btn-ghost" onclick="logout()">ออกจากระบบ</button>`;
+    tx.textContent = 'ปลดล็อกแล้ว';
+    btn.innerHTML = `${ICON.ok}<span id="keyTx">ปลดล็อกแล้ว</span>`;
+    btn.onclick = () => { if (confirm('ออกจากระบบ? ต้องกรอก Code ใหม่เพื่อโหลดไฟล์')) logout(); };
+    m.classList.remove('show'); m.innerHTML = '';
   } else {
-    m.className = 'member locked';
-    m.innerHTML = `<div class="ic">${ICON.lock}</div><div class="tx"><b>ซื้อแล้ว? กรอก Redeem Code เพื่อปลดล็อก</b><p>Code อยู่ในอีเมลหลังชำระเงิน รูปแบบ TARN-XXXXXXXX · ยังไม่ซื้อ ดูตัวอย่างได้ทุกชุด</p><div class="err" id="err"></div></div>
-      <div class="rd"><input id="code" placeholder="TARN-XXXXXXXX" maxlength="13"><button class="btn btn-red" onclick="redeem()">ปลดล็อก</button></div>`;
+    m.innerHTML = `<b>กรอก Redeem Code เพื่อปลดล็อกการดาวน์โหลด</b>
+      <p>Code อยู่ในอีเมลหลังชำระเงิน รูปแบบ TARN-XXXXXXXX · ยังไม่ซื้อก็ดูตัวอย่างได้ทุกชุด</p>
+      <div class="rd"><input id="code" placeholder="TARN-XXXXXXXX" maxlength="13" autocomplete="off"><button class="btn btn-red" onclick="redeem()">ปลดล็อก</button></div>
+      <div class="err" id="err"></div>`;
     document.getElementById('code').addEventListener('keydown', e => { if (e.key === 'Enter') redeem(); });
   }
 }
@@ -213,11 +330,17 @@ async function redeem(){
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ code }) });
     const d = await r.json();
     if (!d.valid) return fail(d.reason === 'not_found' ? 'ไม่พบ Code นี้ ตรวจตัวอักษรในอีเมลอีกครั้ง' : 'ตรวจสอบไม่สำเร็จ ลองใหม่อีกครั้ง');
-    store.set({ code, name: d.name || '', t: Date.now() }); renderMember(); render(); toast('ปลดล็อกสำเร็จ โหลดได้ทุกชุดแล้ว');
+    store.set({ code, name: d.name || '', t: Date.now() }); renderMember(); maybeLic(); render(); toast('ปลดล็อกสำเร็จ โหลดได้ทุกชุดแล้ว');
   } catch (e) { fail('เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง'); }
   finally { if (btn.isConnected) { btn.disabled = false; btn.textContent = 'ปลดล็อก'; } }
 }
 function logout(){ store.set(null); renderMember(); render(); }
+// โชว์ครั้งเดียวตอนเพิ่งปลดล็อก แล้วจำไว้ว่าอ่านแล้ว ไม่กวนอีก
+function okLic(){ try { localStorage.setItem('ct_lic', '1'); } catch (e) {} document.getElementById('lic').classList.remove('show'); }
+function maybeLic(){
+  let seen = true; try { seen = !!localStorage.getItem('ct_lic'); } catch (e) {}
+  document.getElementById('lic').classList.toggle('show', !!store.get() && !seen);
+}
 function renderChips(){
   const fresh = {}; DATA.forEach(d => fresh[d.group] = Math.max(fresh[d.group] || 0, d.no));
   const order = GROUPS.slice().sort((a, b) => a[0] === 'all' ? -1 : b[0] === 'all' ? 1 : (fresh[b[0]] || 0) - (fresh[a[0]] || 0));
@@ -229,6 +352,67 @@ function renderChips(){
   if (c) c.textContent = GROUPS.filter(([k]) => k !== 'all' && DATA.some(d => d.group === k)).length;
 }
 function setGroup(k){ group = k; shown = 48; renderChips(); render(); }
+// จำว่าเลือกกี่คอลัมน์ไว้ ค่าเริ่มต้น 2
+let cols = 2;
+try { cols = +localStorage.getItem('ct_cols') === 1 ? 1 : 2; } catch (e) {}
+function setCols(n){
+  cols = n;
+  try { localStorage.setItem('ct_cols', n); } catch (e) {}
+  document.getElementById('grid').classList.toggle('one', n === 1);
+  document.getElementById('v1').classList.toggle('on', n === 1);
+  document.getElementById('v2').classList.toggle('on', n === 2);
+}
+function clearQ(){ document.getElementById('q').value = ''; q = ''; document.getElementById('qClr').classList.remove('show'); render(); }
+
+// ค้นหาแบบทุกคำต้องเจอ (AND) ไม่ใช่ทั้งประโยคต้องตรง — "กราฟ ครู" เลยหาเจอ
+const GLABEL = Object.fromEntries(GROUPS);
+const _hay = new Map();
+function hay(d){
+  if (_hay.has(d.slug)) return _hay.get(d.slug);
+  const x = SEARCH[d.slug] || { kw: '', charts: [], photo: false, dark: false };
+  // คำที่คนพิมพ์จริงต้องเจอด้วย ไม่ใช่แค่ชื่อชุด — "กราฟ ครู" ต้องหาเจอ
+  const extra = [x.charts.length ? 'กราฟ chart' : '', x.photo ? 'รูป ภาพ photo' : '',
+                 x.dark ? 'พื้นเข้ม dark' : 'พื้นสว่าง light', d.excel ? 'excel เอ็กเซล' : '',
+                 GLABEL[d.group] || ''].join(' ');
+  // ประเภทสไลด์ที่อยู่ในชุดด้วย พิมพ์ "kpi" หรือ "สารบัญ" แล้วต้องเจอชุดที่มีหน้านั้น
+  const types = [...new Set(TAGS[d.slug] || [])].join(' ');
+  const v = (d.th + ' ' + d.en + ' ' + d.cat + ' ' + x.kw + ' ' + x.charts.join(' ') + ' ' + types + ' ' + extra).toLowerCase();
+  _hay.set(d.slug, v); return v;
+}
+function match(d){
+  if (q && !q.split(/\s+/).every(w => hay(d).includes(w))) return false;
+  const x = SEARCH[d.slug] || { charts: [], photo: false, dark: false };
+  if (F.charts.size && ![...F.charts].every(c => x.charts.includes(c))) return false;
+  if (F.tone === 'light' && x.dark) return false;
+  if (F.tone === 'dark' && !x.dark) return false;
+  if (F.photo && !x.photo) return false;
+  if (F.excel && !d.excel) return false;
+  return true;
+}
+function visible(){ return DATA.filter(d => (group === 'all' || d.group === group) && match(d)); }
+function fCount(){ return F.charts.size + (F.tone ? 1 : 0) + (F.photo ? 1 : 0) + (F.excel ? 1 : 0); }
+function toggleFacets(){ document.getElementById('facets').classList.toggle('show'); renderFacets(); }
+function setChart(c){ F.charts.has(c) ? F.charts.delete(c) : F.charts.add(c); shown = 48; renderFacets(); render(); }
+function setTone(t){ F.tone = F.tone === t ? '' : t; shown = 48; renderFacets(); render(); }
+function setFlag(k){ F[k] = !F[k]; shown = 48; renderFacets(); render(); }
+function clearF(){ F.charts.clear(); F.tone = ''; F.photo = false; F.excel = false; shown = 48; renderFacets(); render(); }
+function renderFacets(){
+  const n = fCount(), b = document.getElementById('fcount'), fb = document.getElementById('fbtn');
+  b.hidden = !n; b.textContent = n; fb.classList.toggle('on', n > 0);
+  const el = document.getElementById('facets');
+  if (!el.classList.contains('show')) return;
+  const opt = (on, fn, label) => `<button class="fo ${on ? 'on' : ''}" onclick="${fn}">${label}</button>`;
+  el.innerHTML = `
+    <div class="fgrp"><span>มุมมอง</span><div class="fopts">
+      ${opt(mode === 'sets', "setMode('sets')", 'เลือกเป็นชุด')}${opt(mode === 'slides', "setMode('slides')", 'เลือกตามประเภทสไลด์')}</div></div>
+    <div class="fgrp"><span>ในชุดต้องมี</span><div class="fopts">
+      ${CHART_KINDS.map(c => opt(F.charts.has(c), `setChart('${c}')`, c)).join('')}</div></div>
+    <div class="fgrp"><span>โทนสี</span><div class="fopts">
+      ${opt(F.tone === 'light', "setTone('light')", 'พื้นสว่าง')}${opt(F.tone === 'dark', "setTone('dark')", 'พื้นเข้ม')}</div></div>
+    <div class="fgrp"><span>อื่นๆ</span><div class="fopts">
+      ${opt(F.photo, "setFlag('photo')", 'มีรูปภาพประกอบ')}${opt(F.excel, "setFlag('excel')", 'กราฟแก้ใน Excel ได้')}</div></div>
+    ${n ? '<button class="fclr" onclick="clearF()">ล้างตัวกรองทั้งหมด</button>' : ''}`;
+}
 async function dlSet(e, slug, name){   // download that one set; folder is the fallback
   e.preventDefault(); toast(`กำลังเตรียมไฟล์ ${name}`);
   const url = await setFile(slug).catch(() => null);
@@ -236,17 +420,20 @@ async function dlSet(e, slug, name){   // download that one set; folder is the f
 }
 function renderSets(){
   const open = !!store.get(), g = document.getElementById('grid');
+  const ln = document.getElementById('licnote');
+  if (ln) ln.innerHTML = open
+    ? 'ใช้ไฟล์ได้ทุกงานรวมงานที่รับเงินลูกค้า ห้ามแจกหรือขายต่อตัวไฟล์และ Code <a href="terms" target="_blank" rel="noopener">อ่านสิทธิ์การใช้ไฟล์</a>'
+    : '';
   const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
-  const list = DATA.filter(d => (group === 'all' || d.group === group) && (!q || (d.th + d.en + d.cat).toLowerCase().includes(q)));
+  const list = visible();
   g.innerHTML = list.length ? list.map(d => `
-    <article class="card"><a class="cv" href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.webp" alt="${esc(d.th)}">${NEWSET.has(d.slug) ? '<span class="new">ใหม่</span>' : ''}</a>
-      <div class="cb"><a href="template.html?id=${d.slug}" style="min-width:0"><h3>${esc(d.th)}</h3><div class="en">${esc(d.en)}</div>
-        <div class="meta"><span class="pill m1">${esc(d.cat)}</span><span class="pill m2">${d.slides} สไลด์</span></div></a>
-        ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlSet(event,'${d.slug}','${esc(d.th)}')">${ICON.dl}</a>`
-               : `<a class="dl" title="ดูตัวอย่าง" href="template.html?id=${d.slug}">${ICON.eye}</a>`}</div></article>`).join('')
-    : '<div class="empty">ไม่พบเทมเพลตที่ค้นหา</div>';
+    <article class="card"><div class="cv"><a href="template.html?id=${d.slug}"><img loading="lazy" src="library/cover/${d.slug}.webp" alt="${esc(d.th)}"></a>${NEWSET.has(d.slug) ? '<i class="new"><span>ใหม่</span></i>' : ''}
+        ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlSet(event,'${d.slug}','${esc(d.th)}')">${ICON.dl}</a>` : ''}</div>
+      <a class="cb" href="template.html?id=${d.slug}"><h3>${esc(d.th)}</h3>
+        <div class="sub2">${esc(d.cat)}<span class="sep"></span>${d.slides} สไลด์</div></a></article>`).join('')
+    : emptyHtml();
 }
-function setMode(m){ mode = m; shown = 48; history.replaceState(null, '', m === 'slides' ? '#slides' : location.pathname + location.search); render(); }
+function setMode(m){ mode = m; shown = 48; history.replaceState(null, '', m === 'slides' ? '#slides' : location.pathname + location.search); renderFacets(); render(); }
 function setType(t){ type = t; shown = 48; render(); }
 // round-robin across sets (in pick.json's variety order) so neighbouring cards are never
 // twenty bar charts from the same file — Ice: ต้องดูไม่ซ้ำกัน
@@ -267,12 +454,17 @@ function slideList(sets){
   }
   return out;
 }
+function emptyHtml(){
+  const bits = [q && `คำค้น "${esc(q)}"`, fCount() && 'ตัวกรองที่เลือก', group !== 'all' && 'หมวดนี้'].filter(Boolean);
+  return `<div class="empty"><b>ไม่พบเทมเพลตที่ตรงกับ${bits.length ? bits.join(' + ') : 'เงื่อนไขนี้'}</b>
+    <p style="margin-top:8px;font-size:13.5px">ลองคำสั้นลง หรือ<button class="fclr" style="margin:0 0 0 4px" onclick="resetAll()">ล้างทั้งหมด</button></p></div>`;
+}
+function resetAll(){ clearQ(); F.charts.clear(); F.tone = ''; F.photo = false; F.excel = false; group = 'all'; shown = 48; renderChips(); renderFacets(); render(); }
 function render(){
-  document.querySelectorAll('#mode button').forEach(b => b.classList.toggle('on', b.dataset.m === mode));
   const T = document.getElementById('types'), g = document.getElementById('grid');
   T.classList.toggle('show', mode === 'slides'); g.classList.toggle('sgrid', mode === 'slides');
   if (mode === 'sets') return renderSets();
-  const sets = DATA.filter(d => (group === 'all' || d.group === group) && (!q || (d.th + d.en + d.cat).toLowerCase().includes(q)));
+  const sets = visible();
   T.innerHTML = [['all', 'ทุกประเภท']].concat(TYPES.map(t => [t, t])).map(([k, t]) => {
     const n = k === 'all' ? sets.reduce((a, d) => a + (TAGS[d.slug] || []).length, 0) : sets.reduce((a, d) => a + (TAGS[d.slug] || []).filter(x => x === k).length, 0);
     return n ? `<button class="chip ${k === type ? 'on' : ''}" onclick="setType('${k}')">${t}<small>${n}</small></button>` : ''; }).join('');
@@ -280,14 +472,26 @@ function render(){
   g.innerHTML = list.length ? list.slice(0, shown).map(([d, k, t]) => `<a class="sl" href="template.html?id=${d.slug}&s=${k}" title="${esc(d.th)} · สไลด์ ${k}">
       <img loading="lazy" src="library/slides/${d.slug}/${String(k).padStart(2, '0')}.webp" alt="${esc(t)} จากชุด ${esc(d.th)}"><div><span class="pill m1">${esc(t)}</span><b>${esc(d.th)}</b></div></a>`).join('')
       + (list.length > shown ? `<button class="btn btn-ghost more" onclick="shown += 48; render()">ดูเพิ่ม (เหลืออีก ${list.length - shown} สไลด์)</button>` : '')
-    : '<div class="empty">ไม่พบสไลด์ประเภทนี้ในกลุ่มที่เลือก</div>';
+    : emptyHtml();
 }
-document.getElementById('q').addEventListener('input', e => { q = e.target.value.trim().toLowerCase(); render(); });
-Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slides.json').then(r => r.json()).catch(() => ({})), fetch('library/pick.json').then(r => r.json()).catch(() => ({}))]).then(([d, t, p]) => {
+let _qt;
+document.getElementById('q').addEventListener('input', e => {
+  const v = e.target.value;
+  document.getElementById('qClr').classList.toggle('show', !!v);
+  clearTimeout(_qt);                      // 366 ชุด × กรองทุกตัวอักษร = มือถือกระตุก
+  _qt = setTimeout(() => { q = v.trim().toLowerCase(); shown = 48; render(); }, 120);
+});
+Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slides.json').then(r => r.json()).catch(() => ({})),
+             fetch('library/pick.json').then(r => r.json()).catch(() => ({})), fetch('library/search.json').then(r => r.json()).catch(() => ({}))]).then(([d, t, p, x]) => {
   PICK = p;
   TAGS = t;
-  DATA = d.slice().sort((a, b) => b.no - a.no); NEWSET = window.ctNew ? window.ctNew(DATA) : NEWSET;   // ไม่มีป้ายดีกว่าหน้าว่าง ถ้า newbadge.js โหลดไม่ขึ้น document.getElementById('stN').textContent = d.length; // ponytail: total = whole bundle incl. existing archive, matches landing page claim
-  renderMember(); renderChips(); render();
+  SEARCH = x;
+  DATA = d.slice().sort((a, b) => b.no - a.no);
+  NEWSET = window.ctNew ? window.ctNew(DATA) : NEWSET;   // ไม่มีป้ายดีกว่าหน้าว่าง ถ้า newbadge.js โหลดไม่ขึ้น
+  document.getElementById('stN').textContent = d.length; // ponytail: total = whole bundle incl. existing archive
+  document.getElementById('stS').textContent = d.reduce((a, e) => a + (e.slides || 0), 0).toLocaleString('en-US');
+  document.querySelector('.lib-head .n').classList.add('ready');   // โชว์ตัวเลขเมื่อมีของจริงแล้วเท่านั้น
+  renderMember(); maybeLic(); renderChips(); renderFacets(); render(); setCols(cols);
 });
 </script>
 <script>
@@ -298,5 +502,10 @@ fetch('https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers', {
   body   : '{"hit":true}',
 }).catch(() => {});
 </script>
+<footer class="lfoot">
+  <p>ภาพสไลด์ทั้งหมดบนหน้านี้เป็นงานมีลิขสิทธิ์ของบริษัท ดับเบิ้ลคราฟ์ จำกัด เผยแพร่เพื่อให้ดูตัวอย่างก่อนตัดสินใจซื้อ</p>
+  <p><a href="privacy">นโยบายความเป็นส่วนตัว</a><a href="terms">เงื่อนไขการใช้งานและสิทธิ์การใช้ไฟล์</a></p>
+  <p class="c">© 2026 บริษัท ดับเบิ้ลคราฟ์ จำกัด, All rights reserved</p>
+</footer>
 </body>
 </html>
