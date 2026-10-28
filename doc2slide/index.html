@@ -2,15 +2,17 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#ffffff">
-<title>แปลงเอกสารเป็นสไลด์ (ทดลอง) | Coach Tarn</title>
+<title>ผู้ช่วยทำสไลด์ (ทดลอง) | Coach Tarn</title>
 <link rel="icon" href="/img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--red:#D34724;--orange:#EB7D4A;--text:#15151A;--mid:#4A4A55;--sub:#8A8A96;--line:#ECECF0;--soft:#FFF6F2;--bg:#F6F6F8;--ok:#2E7D4F;--ease:cubic-bezier(.16,1,.3,1);--safe:env(safe-area-inset-bottom,0px)}
+:root{--red:#D34724;--orange:#EB7D4A;--text:#15151A;--mid:#4A4A55;--sub:#8A8A96;--line:#ECECF0;--soft:#FFF6F2;--bg:#F6F6F8;--ok:#2E7D4F;
+  --ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);--safe:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6}
@@ -20,105 +22,198 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .hidden{display:none!important}
 .spin{width:18px;height:18px;border-radius:50%;border:2.5px solid #F2D6CC;border-top-color:var(--red);animation:sp .8s linear infinite;flex:none;display:inline-block}
 @keyframes sp{to{transform:rotate(360deg)}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}}
+@keyframes pop{from{opacity:0;transform:scale(.85) translateY(10px)}}
+@keyframes ckPop{from{opacity:0;transform:scale(.4)}60%{transform:scale(1.15)}to{opacity:1;transform:scale(1)}}
+@keyframes sheen{from{transform:translateX(-100%)}to{transform:translateX(300%)}}
+@keyframes fadePulse{50%{opacity:.5}}
+.btn,.chip,.ib,.look,.th{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 .top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:8px;height:56px;padding:0 12px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .logo{display:flex;align-items:center;height:30px}.logo svg{height:30px;width:auto}
 .top .ttl{flex:1;min-width:0;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
 .tag{margin-left:auto;font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border:1px solid #F6D3C6;border-radius:100px;padding:1px 10px;line-height:1.75;white-space:nowrap}
-.ib{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;border:none;background:none;flex:none}
+.ib{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;border:none;background:none;flex:none;transition:background .15s,transform .15s}
 .ib:hover{background:var(--bg)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;font-weight:700;font-size:15px;height:44px;padding:0 16px;line-height:1.5;transition:opacity .2s,transform .2s var(--ease)}
-.btn:active{transform:scale(.97)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;font-weight:700;font-size:15px;height:44px;padding:0 16px;line-height:1.5;text-decoration:none;transition:opacity .2s,transform .2s var(--ease),box-shadow .2s}
+.btn:active,.look:active,.th:active,.ib:active,.chip:active{transform:scale(.96);transition-duration:.08s}
 .btn:disabled{opacity:.4}
 .btn-red{background:linear-gradient(-135deg,var(--orange),var(--red));color:#fff;box-shadow:0 6px 16px rgba(211,71,36,.24)}
-.btn-line{background:#fff;border:1px solid var(--line)}
+.btn-line{background:#fff;border:1px solid var(--line);color:var(--text)}
 .btn-big{height:52px;font-size:16px;border-radius:14px}
 .btn-sm{height:36px;font-size:14px;padding:0 12px;border-radius:10px}
-/* หน้า 1 */
-.home{max-width:620px;margin:0 auto;padding:26px 16px 40px}
-.home h1{font-size:27px;line-height:1.35;font-weight:700;text-align:center}
-.home .lead{color:var(--mid);text-align:center;margin-top:8px;font-size:15px}
-.inapp{margin-top:16px;padding:12px 14px;border-radius:12px;background:#FFF8E6;color:#7A5300;font-size:14px}
-.composer{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 10px 30px rgba(21,21,26,.06)}
-.drop{display:flex;flex-direction:column;align-items:center;gap:10px;border:2px dashed #E7CFC5;border-radius:14px;background:var(--soft);padding:26px 16px 18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
-.drop.over{border-color:var(--red);background:#FFEDE6}
-.drop .ic{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:#fff;color:var(--red);box-shadow:0 2px 8px rgba(211,71,36,.12)}
-.drop strong{font-size:16px}
-.drop .fine{display:none}
-@media (pointer:fine){.drop .fine{display:inline}}
-.types{display:flex;justify-content:center;gap:8px}
-.types i{font-style:normal;font-size:12px;font-weight:700;padding:1px 9px;border-radius:6px;background:#fff;border:1px solid var(--line);color:var(--mid);line-height:1.75}
-.priv{display:flex;gap:6px;align-items:flex-start;justify-content:center;color:var(--ok);font-size:13px;line-height:1.6;max-width:320px}
-.priv svg{width:16px;height:16px;margin-top:2px}
-.demo{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:8px;background:none;border:none;color:var(--red);font-weight:700;font-size:14px;height:44px}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);margin-top:24px;text-align:center;font-size:13px;color:var(--mid);line-height:1.5}
-.steps b{display:grid;place-items:center;width:28px;height:28px;margin:0 auto 6px;border-radius:50%;background:#fff;border:1px solid var(--line);color:var(--red);font-size:13px}
-.trust{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px;font-size:14px;color:var(--mid)}
-.trust li{display:flex;gap:8px;list-style:none;padding:5px 0}
-.trust li svg{color:var(--ok);width:18px;height:18px;margin-top:2px}
-.faq{margin-top:14px;font-size:13px;color:var(--sub);text-align:center}
-.err{margin-top:14px;padding:12px 14px;border-radius:12px;background:#FFF1F0;color:#B42318;font-size:14px}
-.err .btn{margin-top:10px}
-/* หน้า 2 */
-.read{max-width:620px;margin:0 auto;padding:22px 16px 40px}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
-.card+.card{margin-top:14px}
-.card h2{display:flex;align-items:center;gap:8px;font-size:17px;line-height:1.5}
-.card h2 svg{color:var(--red)}
-.sub{font-size:13px;color:var(--sub)}
-.fileline{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--bg);margin-top:12px;font-weight:600;font-size:14px}
-.fileline span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.75}
-.found{list-style:none;margin-top:12px;display:grid;gap:8px}
-.found li,.outline li{opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s var(--ease)}
-.found li.on,.outline li.on{opacity:1;transform:none}
-.found li{display:flex;align-items:center;gap:10px;font-size:14px}
-.found li>b{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--soft);color:var(--red);flex:none}
-.found li>b svg{width:17px;height:17px}
+/* ไอคอนผู้ช่วย: ลูกแก้วไล่สี ตอนคิดมีวงแสงหมุน + ประกายกะพริบ (CSS ล้วน ลื่นแม้ระบบกำลังคำนวณ) */
+.orb{position:relative;width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;color:#fff;
+  background:radial-gradient(circle at 30% 25%,#FFC09F 0,#EB7D4A 45%,#D34724 100%);box-shadow:0 4px 12px rgba(211,71,36,.28)}
+.orb svg{width:52%;height:52%;fill:currentColor;stroke:none;position:relative;z-index:1}
+.orb::before{content:'';position:absolute;inset:-4px;border-radius:50%;opacity:0;
+  background:conic-gradient(from 0deg,transparent 0 55%,#FFB38F 70%,#D34724 85%,transparent 100%);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));transition:opacity .3s}
+.orb.think::before{opacity:1;animation:sp 1.1s linear infinite;will-change:transform}
+.orb.think svg{animation:twinkle 1.4s ease-in-out infinite}
+.orb::after{content:'';position:absolute;inset:-7px;border-radius:50%;background:radial-gradient(rgba(235,125,74,.45),transparent 70%);opacity:0;transform:scale(.8);pointer-events:none}
+.orb.think::after{animation:halo 1.8s ease-in-out infinite}
+.orb.idle::after{animation:halo 4s ease-in-out infinite}
+.orb.yay{animation:ckPop .5s var(--spring)}
+@keyframes twinkle{50%{transform:scale(.72) rotate(45deg);opacity:.75}}
+@keyframes halo{50%{opacity:1;transform:scale(1.15)}}
+/* แสงวิ่งบนข้อความสถานะ ใช้ transform (ไม่ค้างตอนระบบคำนวณ) */
+.shimmer{position:relative;display:inline-block;overflow:hidden;color:var(--mid);vertical-align:bottom}
+.shimmer::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);transform:translateX(-100%);animation:sweep 1.6s linear infinite}
+@keyframes sweep{to{transform:translateX(100%)}}
+/* ── หน้าแรก: กล่องพิมพ์ใหญ่กลางจอ ── */
+.home{position:relative;min-height:calc(100dvh - 56px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px 40px;overflow:hidden}
+.glow{position:absolute;inset:-20% -30% auto;height:70%;z-index:0;pointer-events:none;filter:blur(60px);opacity:.75;
+  background:radial-gradient(40% 50% at 30% 50%,#FFC7AE 0,transparent 70%),radial-gradient(35% 45% at 70% 40%,#FFD9C2 0,transparent 70%),radial-gradient(30% 40% at 50% 70%,#F9B79A 0,transparent 70%);
+  animation:drift 16s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate3d(4%,6%,0) scale(1.08)}}
+.home>*{position:relative;z-index:1}
+.home .orb{width:60px;height:60px;margin-bottom:14px}
+.home h1{font-size:28px;line-height:1.35;text-align:center;font-weight:700}
+.home .lead{font-size:15px;color:var(--mid);text-align:center;margin-top:6px;max-width:520px}
+.prompt{width:100%;max-width:680px;margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:12px;box-shadow:0 18px 50px rgba(211,71,36,.12),0 2px 6px rgba(21,21,26,.04);transition:border-color .2s,box-shadow .2s}
+.prompt:focus-within{border-color:#F0B9A3;box-shadow:0 18px 50px rgba(211,71,36,.18)}
+.prompt.over{border-color:var(--red);background:var(--soft)}
+.prompt textarea{width:100%;border:none;outline:none;resize:none;font:inherit;font-size:16px;line-height:1.55;padding:6px 6px;min-height:96px;max-height:240px;background:transparent;color:var(--text)}
+.prow{display:flex;align-items:center;gap:8px}
+.prow .grow{flex:1}
+.attach{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:100px;border:1px solid var(--line);background:#fff;font-size:14px;font-weight:600;color:var(--mid);transition:transform .15s,border-color .2s}
+.attach svg{width:18px;height:18px}
+.filepill{display:flex;align-items:center;gap:8px;margin:0 4px 8px;padding:8px 10px;border-radius:12px;background:var(--soft);font-size:14px;font-weight:600;animation:rise .3s var(--ease) both}
+.filepill span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.75}
+.filepill svg{color:var(--red)}
+.send{width:44px;height:44px;border-radius:50%;border:none;display:grid;place-items:center;background:linear-gradient(-135deg,var(--orange),var(--red));color:#fff;transition:transform .2s var(--spring),opacity .2s;box-shadow:0 6px 16px rgba(211,71,36,.28)}
+.send:disabled{opacity:.3;transform:scale(.9);box-shadow:none}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px;max-width:680px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:100px;border:1px solid var(--line);background:rgba(255,255,255,.85);font-size:13px;font-weight:600;color:var(--mid);transition:transform .15s,border-color .2s}
+.chip svg{width:16px;height:16px;color:var(--red)}
+.priv{display:flex;gap:6px;align-items:center;justify-content:center;color:var(--sub);font-size:12px;margin-top:16px;text-align:center}
+.priv svg{width:14px;height:14px;color:var(--ok)}
+.homeerr{margin-top:12px;padding:10px 12px;border-radius:12px;background:#FFF1F0;color:#B42318;font-size:14px;max-width:680px;width:100%}
+/* ── หน้าทำงาน: ซ้ายผู้ช่วย ขวาสไลด์ ── */
+.work{height:calc(100dvh - 56px);display:flex;flex-direction:column}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:8px 12px 0;padding:4px;border-radius:12px;background:#ECECF0;position:relative}
+.seg button{position:relative;z-index:1;border:none;background:none;height:36px;border-radius:9px;font-weight:700;font-size:14px;color:var(--mid);display:flex;align-items:center;justify-content:center;gap:6px;transition:color .2s}
+.seg button.on{color:var(--text)}
+.seg i{position:absolute;top:4px;left:4px;width:calc(50% - 6px);height:36px;border-radius:9px;background:#fff;box-shadow:0 1px 4px rgba(21,21,26,.1);transition:transform .3s var(--ease)}
+.seg.right i{transform:translateX(calc(100% + 4px))}
+.seg .dot{width:7px;height:7px;border-radius:50%;background:var(--red);transform:scale(0);transition:transform .3s var(--spring)}
+.seg .dot.on{transform:scale(1)}
+.panes{flex:1;min-height:0;display:grid}
+.pane{min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.thread{flex:1;overflow-y:auto;padding:14px 14px 16px;overscroll-behavior:contain}
+.inner{display:flex;flex-direction:column;gap:14px;max-width:640px;margin:0 auto}
+.msg{display:flex;gap:10px;align-items:flex-start;animation:rise .4s var(--ease) both}
+.msg.me{justify-content:flex-end}
+.bubble{background:#fff;border:1px solid var(--line);border-radius:4px 18px 18px 18px;padding:12px 14px;font-size:15px;max-width:calc(100% - 44px);min-width:0}
+.me .bubble{background:linear-gradient(-135deg,#FFE9DF,#FFF3EE);border-color:#F6D3C6;border-radius:18px 4px 18px 18px}
+.me .pre{white-space:pre-wrap;font-size:14px;color:var(--mid);max-height:7.8em;overflow:hidden;-webkit-mask-image:linear-gradient(#000 65%,transparent)}
+.me .pre.short{-webkit-mask-image:none}
+.filechip{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px}
+.filechip b{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:#fff;color:var(--red);flex:none}
+.filechip span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.75}
+.bubble .sub{font-size:13px;color:var(--sub)}
+.thinking{display:flex;align-items:center;gap:8px;font-size:14px;min-height:24px}
+.steps{list-style:none;display:grid;gap:6px;margin-top:8px}
+.steps li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--sub);transition:color .25s}
+.steps li .st{width:18px;height:18px;display:grid;place-items:center;flex:none}
+.steps li .st svg{width:16px;height:16px;color:var(--ok)}
+.steps li.now{color:var(--text)}.steps li.ok{color:var(--mid)}
+.steps li.ok .st svg{animation:ckPop .4s var(--ease) both}
+.found{list-style:none;display:grid;gap:8px;margin-top:6px}
+.found li{display:flex;align-items:center;gap:10px;font-size:14px;animation:rise .35s var(--ease) both;animation-delay:calc(var(--i,0) * 520ms)}
+.found li>b{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--soft);color:var(--red);flex:none;animation:ckPop .4s var(--ease) both;animation-delay:calc(var(--i,0) * 520ms + 140ms)}
+details.trail{margin-top:8px}
+details.trail summary{cursor:pointer;font-size:13px;color:var(--sub);list-style:none;display:flex;align-items:center;gap:6px}
+details.trail summary::-webkit-details-marker{display:none}
+details.trail summary svg{width:14px;height:14px;transition:transform .25s var(--ease)}
+details.trail[open] summary svg{transform:rotate(90deg)}
+.msg.past .follow,.msg.past .bar{display:none}
+.msg.past .looks{pointer-events:none;opacity:.5}
+.slide.swap .slidebox>div{animation:swapIn .5s var(--ease)}
+@keyframes swapIn{from{opacity:0;transform:scale(.96)}}
+.slide.swap::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 3px rgba(235,125,74,.7);animation:fadeOut 1.4s forwards;pointer-events:none}
+@keyframes fadeOut{to{opacity:0}}
+.slide.repaint .slidebox::before{content:'';position:absolute;inset:0;z-index:2;background:rgba(255,246,242,.6) linear-gradient(100deg,transparent 30%,rgba(255,255,255,.85) 50%,transparent 70%);background-size:100% 100%;animation:sheen 1.2s linear infinite}
+.opt .kd{display:block;padding:5px 8px 6px;font-size:12px;font-weight:700;color:var(--mid)}
+.opt.ph{aspect-ratio:16/11;background:#F1E9E5;position:relative;overflow:hidden}
+.opt.ph::before{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);animation:sheen 1.4s linear infinite}
+.found li>b svg{width:16px;height:16px}
 .found li.warn>b{background:#FFF8E6;color:#9A6700}
 .found em{font-style:normal;color:var(--sub)}
-.scan{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px;color:var(--mid)}
-.note{display:flex;gap:8px;margin-top:12px;padding:10px 12px;border-radius:12px;background:#EEF7F1;color:var(--ok);font-size:13px}
+.check{animation:ckPop .35s var(--ease) both}
+.note{display:flex;gap:8px;margin-top:10px;padding:9px 12px;border-radius:12px;background:#EEF7F1;color:var(--ok);font-size:13px;animation:rise .35s var(--ease) both}
 .note svg{width:16px;height:16px;margin-top:2px}
 .outline{list-style:none;margin-top:8px}
-.outline li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.outline li{display:flex;align-items:center;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:14px;opacity:.55;animation:rise .35s var(--ease) both;transition:opacity .25s}
 .outline li:first-child{border-top:none}
-.outline .no{width:22px;font-weight:700;color:var(--sub);font-size:13px;flex:none}
+.outline li.ok,.outline li.doing{opacity:1}
+.outline .no{width:20px;font-weight:700;color:var(--sub);font-size:13px;flex:none}
 .outline .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.75}
 .outline .k{font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border-radius:6px;padding:0 8px;line-height:1.75;white-space:nowrap}
 .outline .st{width:20px;height:20px;display:grid;place-items:center;flex:none;color:var(--ok)}
 .outline .st svg{width:18px;height:18px}
-/* หน้า 3 */
-.editor{display:flex;flex-direction:column;min-height:calc(100dvh - 56px)}
-.editor>*{min-width:0}
-.list{flex:1;display:flex;flex-direction:column;gap:14px;padding:14px 14px 18px}
-.trial{font-size:13px;color:var(--sub);padding:0 2px}
-.slide{position:relative;background:#fff;border:3px solid transparent;border-radius:12px;box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.bar{position:relative;height:5px;border-radius:5px;background:#F3E3DC;overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--orange),var(--red));transition:transform .5s var(--ease)}
+.bar::after{content:'';position:absolute;inset:0;width:35%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:sheen 1.2s cubic-bezier(.4,0,.2,1) infinite;will-change:transform}
+.bar.done::after{display:none}
+.follow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.looks{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 2px 6px;scrollbar-width:none}
+.looks::-webkit-scrollbar{display:none}
+.look{flex:0 0 46%;max-width:170px;scroll-snap-align:start;position:relative;border:2px solid transparent;border-radius:12px;overflow:hidden;background:#fff;padding:0;text-align:left;box-shadow:0 0 0 1px var(--line);transition:border-color .2s,transform .25s var(--spring);animation:pop .4s var(--spring) both;animation-delay:calc(var(--i,0) * 50ms)}
+.look img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;background:#EEE}
+.look span{display:block;padding:5px 9px 7px;font-size:13px;font-weight:700;line-height:1.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.look.on{border-color:var(--red);box-shadow:none}
+.look .ck{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;transform:scale(0);transition:transform .3s var(--spring)}
+.look .ck svg{width:14px;height:14px;stroke-width:3}
+.look.on .ck{transform:scale(1)}
+.err{padding:10px 12px;border-radius:12px;background:#FFF1F0;color:#B42318;font-size:14px}
+.err .btn{margin-top:8px}
+.mini{padding:8px 12px calc(10px + var(--safe));border-top:1px solid var(--line);background:#fff}
+.mini .box{display:flex;align-items:flex-end;gap:6px;background:var(--bg);border-radius:18px;padding:4px}
+.mini textarea{flex:1;min-width:0;border:none;outline:none;resize:none;font:inherit;font-size:15px;line-height:1.5;padding:8px 8px;max-height:120px;background:transparent}
+.mini .send{width:38px;height:38px}
+/* ฝั่งสไลด์ */
+.view{position:relative}
+.skel{display:grid;gap:12px;padding:14px;overflow:auto}
+.skel .ph{position:relative;aspect-ratio:16/9;border-radius:10px;background:#F1E9E5;overflow:hidden;animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0) * 60ms)}
+.skel .ph::before{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);animation:sheen 1.4s linear infinite}
+.skel .ph::after{content:'';position:absolute;left:8%;top:14%;width:44%;height:9%;border-radius:6px;background:rgba(255,255,255,.75);box-shadow:0 34px 0 -2px rgba(255,255,255,.55),0 58px 0 -2px rgba(255,255,255,.45)}
+.skel .ph.ok{background:#E9E4F7}
+.skel .ph b{position:absolute;right:8px;bottom:6px;font-size:12px;color:var(--sub)}
+.skelnote{display:flex;align-items:center;gap:10px;padding:14px 14px 0;font-size:14px}
+.editor{flex:1;min-height:0;display:flex;flex-direction:column}
+.list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:14px 14px 18px}
+.slide{position:relative;background:#fff;border:3px solid transparent;border-radius:12px;box-shadow:0 0 0 1px var(--line);overflow:hidden;animation:pop .45s var(--spring) both;transition:border-color .2s}
 .slide.on{border-color:var(--red);box-shadow:none}
-.slidebox{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#E9E9EE;cursor:zoom-in}
+.slidebox{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#E9E9EE}
 .slidebox>div{position:absolute;left:0;top:0;transform-origin:0 0}
+.slide .slidebox{cursor:zoom-in}
 .cap{display:flex;align-items:center;gap:8px;padding:4px 4px 4px 12px;font-size:13px;color:var(--mid)}
 .cap b{flex:none}
 .cap .why{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
 .why span{font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border-radius:6px;padding:1px 8px;margin-right:6px}
-.dock{position:sticky;bottom:0;z-index:20;display:grid;grid-template-columns:1fr;gap:10px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 14px calc(10px + var(--safe))}
-.stage,.side{display:none}
+.dock{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);padding:10px 14px calc(10px + var(--safe))}
+.stage{display:none}
 /* แผ่นล่าง */
 .sheet{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,20,26,0);pointer-events:none;visibility:hidden;transition:background .3s,visibility 0s .35s}
 .sheet.on{background:rgba(20,20,26,.45);pointer-events:auto;visibility:visible;transition:background .3s}
-.pan{width:100%;max-width:720px;max-height:86dvh;overflow:auto;background:#fff;border-radius:20px 20px 0 0;padding:8px 16px calc(16px + var(--safe));transform:translateY(100%);transition:transform .35s var(--ease)}
+.pan{width:100%;max-width:720px;max-height:86dvh;overflow:auto;background:#fff;border-radius:20px 20px 0 0;padding:8px 16px calc(16px + var(--safe));transform:translateY(100%);transition:transform .38s var(--ease)}
 .sheet.on .pan{transform:none}
+.sheet:not(.on) .pan{transition:transform .22s cubic-bezier(.4,0,1,1)}
 .grab{width:40px;height:5px;border-radius:5px;background:#DADAE0;margin:4px auto 8px}
 .pan .hd{display:flex;align-items:center;gap:8px}
 .pan h3{flex:1;font-size:17px;line-height:1.5}
+.pan .sub{font-size:13px;color:var(--sub)}
 .menu{list-style:none;margin-top:6px}
-.menu button{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;height:52px;padding:0 6px;font-size:16px;font-weight:600;border-radius:10px;text-align:left}
+.menu button{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;height:52px;padding:0 6px;font-size:16px;font-weight:600;border-radius:10px;text-align:left;transition:background .15s}
 .menu button:hover{background:var(--bg)}
 .menu button:disabled{opacity:.35}
 .menu .danger{color:#C62828}
-.menu li:last-child{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}
+.menu li.sep{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}
 .confirm{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .btn-danger{background:#C62828;color:#fff}
 .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
-.opt{position:relative;border:2px solid transparent;border-radius:10px;overflow:hidden;background:#fff;padding:0;text-align:left;box-shadow:0 0 0 1px var(--line)}
+.opt{position:relative;border:2px solid transparent;border-radius:10px;overflow:hidden;background:#fff;padding:0;text-align:left;box-shadow:0 0 0 1px var(--line);animation:pop .4s var(--spring) both}
 .opt.on{border-color:var(--red);box-shadow:none}
 .opt img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;background:#EEE}
 .opt .lb{display:block;padding:6px 9px 8px;font-size:13px;font-weight:700;line-height:1.6}
@@ -127,11 +222,10 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .opt.on .ck{display:grid}
 .empty{font-size:14px;color:var(--sub);padding:18px 0;text-align:center;grid-column:1/-1}
 .done{text-align:center;padding:4px 0}
-.done .big{display:grid;place-items:center;width:56px;height:56px;margin:2px auto 10px;border-radius:50%;background:#EEF7F1;color:var(--ok)}
+.done .big{display:grid;place-items:center;width:56px;height:56px;margin:2px auto 10px;border-radius:50%;background:#EEF7F1;color:var(--ok);animation:pop .5s var(--spring) both}
 .done .big svg{width:28px;height:28px;stroke-width:2.5}
 .done p{font-size:14px;color:var(--mid);margin-top:6px}
-.done .btn{width:100%;margin-top:12px;text-decoration:none}
-/* ดูเต็มจอ */
+.done .btn{width:100%;margin-top:12px}
 .viewer{position:fixed;inset:0;z-index:80;background:#111;display:flex;flex-direction:column;visibility:hidden;opacity:0;transition:opacity .25s,visibility 0s .25s}
 .viewer.on{visibility:visible;opacity:1;transition:opacity .25s}
 .viewer .vh{display:flex;align-items:center;gap:8px;color:#fff;padding:10px 12px}
@@ -139,51 +233,59 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .viewer .ib{color:#fff}.viewer .ib:hover{background:rgba(255,255,255,.1)}
 .viewer .ib:disabled{opacity:.3}
 .viewer .vb{flex:1;display:flex;align-items:center;justify-content:center;padding:12px;touch-action:pan-y}
-.viewer .slidebox{max-width:min(100%,calc((100dvh - 150px) * 16 / 9));border-radius:6px;cursor:default}
+.viewer .slidebox{max-width:min(100%,calc((100dvh - 150px) * 16 / 9));border-radius:6px;transform:scale(.97);transition:transform .3s var(--ease)}
+.viewer.on .slidebox{transform:none}
 .viewer .vf{display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 12px calc(14px + var(--safe));color:#bbb;font-size:13px;text-align:center}
 .busy{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:rgba(255,255,255,.7);backdrop-filter:blur(3px);visibility:hidden;opacity:0;transition:opacity .2s,visibility 0s .2s}
 .busy.on{visibility:visible;opacity:1;transition:opacity .2s}
-.busy>div{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-weight:600;box-shadow:0 10px 30px rgba(21,21,26,.1)}
-.toast{position:fixed;left:50%;top:68px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:90;background:#15151A;color:#fff;font-size:14px;border-radius:100px;padding:9px 16px;transition:opacity .3s,transform .3s var(--ease);pointer-events:none;max-width:90vw;text-align:center}
+.busy>div{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px;font-weight:600;box-shadow:0 10px 30px rgba(21,21,26,.1)}
+.toast{position:fixed;left:50%;top:68px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:90;background:#15151A;color:#fff;font-size:14px;border-radius:100px;padding:9px 16px;transition:opacity .3s,transform .35s var(--spring);pointer-events:none;max-width:90vw;text-align:center}
 .toast.on{opacity:1;transform:translateX(-50%)}
+/* มือถือ: สลับ ผู้ช่วย | สไลด์ */
+@media (max-width:899px){
+  .panes{grid-template-columns:100% 100%;overflow:hidden}
+  .pane{transition:transform .38s var(--ease)}
+  .work.right .pane{transform:translateX(-100%)}
+}
 @media (min-width:900px){
-  .home{padding-top:54px}.home h1{font-size:34px}
-  .read{max-width:960px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
-  .card+.card{margin-top:0}
-  .editor{display:grid;grid-template-columns:200px 1fr 300px;height:calc(100dvh - 56px);min-height:0}
-  .list{grid-column:1;overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:12px;gap:10px}
-  .list .trial{display:none}
+  .home h1{font-size:38px}
+  .seg{display:none}
+  .panes{grid-template-columns:380px 1fr}
+  .pchat{border-right:1px solid var(--line);background:#FBFBFC}
+  .view .editor{display:grid;grid-template-columns:170px 1fr;min-height:0}
+  .list{overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:12px;gap:10px}
   .slide{border-width:2px;border-radius:8px;cursor:pointer}
   .slide .slidebox{cursor:pointer}
   .cap{font-size:12px;padding:2px 2px 2px 8px}
   .cap .why span{display:none}
   .dock{display:none}
-  .stage{display:flex;flex-direction:column;justify-content:center;grid-column:2;padding:24px 28px;overflow:auto}
+  .stage{display:flex;flex-direction:column;justify-content:center;padding:24px 28px;overflow:auto;min-width:0}
   .stage .slidebox{border-radius:10px;box-shadow:0 8px 24px rgba(21,21,26,.10);cursor:zoom-in}
   .stage .meta{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;color:var(--mid);flex-wrap:wrap}
-  .stage .meta .why{flex:1}
-  .side{display:flex;flex-direction:column;grid-column:3;border-left:1px solid var(--line);background:#fff;min-height:0}
-  .tabs{display:grid;grid-template-columns:1fr 1fr;padding:10px;gap:6px;border-bottom:1px solid var(--line)}
-  .tab{display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:none;border-radius:9px;height:38px;font-weight:700;font-size:14px;color:var(--mid)}
-  .tab.on{background:var(--soft);color:var(--red)}
-  .sidebody{flex:1;overflow:auto;padding:12px}
-  .sidebody .grid2{grid-template-columns:1fr;margin-top:0}
-  .sidefoot{padding:12px;border-top:1px solid var(--line)}
-  .sidefoot .btn{width:100%}
+  .stage .meta .why{flex:1;min-width:140px}
+  .skel{grid-template-columns:repeat(3,1fr);align-content:start;padding:20px}
   .sheet{align-items:center}
-  .pan{border-radius:20px;transform:translateY(24px);opacity:0;transition:transform .35s var(--ease),opacity .25s}
-  .sheet.on .pan{opacity:1}
+  .pan{border-radius:20px;transform:translateY(24px) scale(.98);opacity:0;transition:transform .35s var(--ease),opacity .25s}
+  .sheet.on .pan{opacity:1;transform:none}
   .grid2{grid-template-columns:repeat(3,1fr)}
   .toast{top:auto;bottom:28px;transform:translateX(-50%) translateY(16px)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .orb.think::before{animation:none!important;opacity:.4}
+  .orb.think svg,.shimmer{animation:fadePulse 2s ease-in-out infinite!important}
+  .shimmer::after{display:none}
+  .bar::after,.skel .ph::before,.glow{display:none}
 }
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 1.5c.6 4.6 2.7 7.6 7.6 8.6-4.9 1-7 4-7.6 8.6-.6-4.6-2.7-7.6-7.6-8.6 4.9-1 7-4 7.6-8.6z"/><path d="M19.5 15.5c.25 1.9 1.1 3 3 3.4-1.9.4-2.75 1.5-3 3.4-.25-1.9-1.1-3-3-3.4 1.9-.4 2.75-1.5 3-3.4z"/></symbol>
+  <symbol id="i-clip" viewBox="0 0 24 24"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol>
+  <symbol id="i-sendup" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
-  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h6"/></symbol>
   <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="1"/><rect x="3" y="14" width="9" height="7" rx="1"/><rect x="16" y="14" width="5" height="7" rx="1"/></symbol>
   <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c.9 0 1.6-.7 1.6-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.7 1.7-1.7h2c3 0 5.5-2.5 5.5-5.5C22 6 17.5 2 12 2z"/></symbol>
   <symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></symbol>
@@ -201,87 +303,87 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
   <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
   <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
-  <symbol id="i-slides" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
   <symbol id="i-sample" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></symbol>
+  <symbol id="i-paste" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M8 12h8"/><path d="M8 16h5"/></symbol>
   <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-reload" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/></symbol>
   <symbol id="i-share" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></symbol>
   <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></symbol>
-  <symbol id="i-reload" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-slides" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
 </svg>
 
 <header class="top">
-  <button class="ib hidden" id="topback" type="button" aria-label="ย้อนกลับ"><svg class="i"><use href="#i-back"/></svg></button>
+  <button class="ib hidden" id="topback" type="button" aria-label="กลับหน้าแรก"><svg class="i"><use href="#i-back"/></svg></button>
   <a href="/" class="logo" id="toplogo" aria-label="Coach Tarn"><svg id="ct-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214.66" height="38" aria-label="Coach Tarn"><style>#ct-logo .st0{fill:#DB490E}#ct-logo .st1{fill:#DB480E}#ct-logo .st2{fill:#DA490D}#ct-logo .st3{fill:#3F3633}#ct-logo .st4{fill:#D9470D}#ct-logo .st5{fill:#DA480C}#ct-logo .st6{fill:#3D3531}#ct-logo .st7{fill:#3C3330}#ct-logo .st8{fill:#D9470C}#ct-logo .st9{fill:#3E3532}</style><g><path class="st0" d="M103.79,71.86c0-9.77-0.04-19.53,0.01-29.3c0.03-5.2,2.12-7.31,7.3-7.32c17.8-0.05,35.6-0.06,53.4-0.04c4.83,0.01,7.32,2.59,7.32,7.49c0.01,19.42,0,38.85-0.04,58.27c-0.01,5.22-2.56,7.86-7.73,7.89c-17.36,0.09-34.73,0.15-52.09,0.16c-5.58,0-8.1-2.61-8.11-8.18c-0.02-9.66,0-19.31,0-28.97C103.83,71.86,103.81,71.86,103.79,71.86z"/><path class="st1" d="M103.76,152.7c0-9.77-0.02-19.54,0.01-29.3c0.02-5.44,2.27-7.86,7.68-7.79c12.8,0.18,25.63-0.84,38.39,0.5c11.64,1.22,21.69,12.15,21.91,23.86c0.28,14.43,0.11,28.87,0.07,43.3c-0.01,3.54-2.71,5.84-6.74,5.85c-14,0.03-28.01,0.02-42.01,0.02c-4.23,0-8.47,0.03-12.7-0.03c-4.08-0.06-6.47-2.4-6.48-6.46c-0.04-9.98-0.01-19.97-0.01-29.95C103.83,152.7,103.79,152.7,103.76,152.7z"/><path class="st2" d="M96.85,152.55c0,9.66,0,19.32,0,28.98c0,5.48-2.14,7.62-7.69,7.62c-10.75,0-21.49,0.05-32.24-0.05c-15.9-0.16-27.19-11.47-27.3-27.32c-0.09-12.7-0.06-25.4-0.06-38.09c0-5.53,2.62-8.18,8.17-8.19c16.72-0.01,33.43,0,50.15,0.07c6.87,0.03,8.95,2.18,8.96,8.99C96.85,133.88,96.85,143.21,96.85,152.55z"/><path class="st0" d="M63.24,108.99c-8.36,0-16.73,0.02-25.09,0c-6.19-0.02-8.64-2.51-8.63-8.68c0.01-9.02,0-18.03,0.04-27.05c0.02-4.93,2.69-7.7,7.62-7.71c16.95-0.05,33.89-0.07,50.84,0c6.15,0.03,8.65,2.66,8.69,8.81c0.06,8.91,0.09,17.81,0.07,26.72c-0.01,5.24-2.54,7.84-7.8,7.88C80.41,109.04,71.82,108.99,63.24,108.99z"/><path class="st3" d="M436.86,60.72c5.58-6.35,12-7.23,18.84-6.41c8.46,1.02,13.94,7.01,14.62,16.12c0.85,11.38,0.37,22.8,0.47,34.2c0.02,2.85-1.61,4.27-4.55,4.36c-9.93,0.31-9.91,0.34-9.96-9.56c-0.04-8.25,0.11-16.52-0.32-24.75c-0.4-7.7-8.28-11.22-14.5-6.7c-3.38,2.46-4.27,6.19-4.33,10.1c-0.12,8.36-0.07,16.73-0.11,25.09c-0.02,4.64-1.12,5.72-5.78,5.75c-8.64,0.06-8.62,0.06-8.62-8.56c-0.01-19.77-0.07-39.54-0.07-59.31c0-5.37,0.61-5.92,6.06-5.94c8.16-0.03,8.26,0.06,8.26,8.13C436.86,48.74,436.86,54.24,436.86,60.72z"/><path class="st4" d="M358.86,138.46c4.9-6.38,11.48-7.86,18.69-7.09c8.71,0.92,13.95,5.71,15.01,14.39c1.47,12.09,0.54,24.27,0.53,36.41c0,0.53-0.07,1.17-0.37,1.56c-3,3.93-7.17,1.78-10.85,1.91c-2.6,0.1-3.33-2.04-3.34-4.31c-0.05-8.25-0.06-16.49-0.09-24.74c-0.01-1.52,0.05-3.05-0.09-4.55c-0.49-4.91-2.52-7.25-6.68-7.87c-4.85-0.72-9.03,1.3-10.85,5.27c-0.87,1.89-1.34,3.86-1.34,5.97c0,8.35-0.06,16.71-0.12,25.06c-0.03,4.34-1.01,5.28-5.39,5.4c-9.28,0.25-9.3,0.25-9.29-9.14c0.01-12.59-0.01-25.17,0.1-37.76c0.02-2.25-0.79-5.2,2.05-6.31c3.3-1.29,6.86-1.16,10.14,0.22C359.11,133.81,357.87,136.24,358.86,138.46z"/><path class="st5" d="M63.26,58.89c-8.68,0-17.36,0.01-26.03-0.01c-5.46-0.01-7.57-2.16-7.62-7.71c-0.03-3.25-0.06-6.51,0.01-9.76c0.09-4.01,2.28-6.27,6.29-6.28c18.11-0.03,36.23,0,54.34,0.07c3.76,0.01,6.33,2.54,6.47,6.3c0.14,3.57,0.13,7.16,0.03,10.73c-0.12,4.16-2.6,6.63-6.8,6.66c-8.89,0.07-17.79,0.02-26.68,0.02C63.26,58.91,63.26,58.9,63.26,58.89z"/><path class="st6" d="M368.61,83.38c0.03-5.51,0.43-10.13,1.88-14.63c2.49-7.71,7.66-12.47,15.61-14c6.5-1.25,12.99-1.13,19.18,1.52c6.05,2.6,9.69,7.16,10.47,13.79c0.42,3.59-0.66,4.85-4.2,5.01c-1.41,0.06-2.83-0.1-4.23,0.04c-2.85,0.29-4.35-0.89-5.17-3.67c-1.15-3.92-3.91-5.8-7.93-5.99c-4.23-0.2-8,1.66-9.35,5.17c-2.83,7.35-2.76,14.91-0.4,22.33c1.3,4.09,5.04,5.92,9.94,5.75c4.56-0.16,7.16-1.84,8.43-6.24c0.84-2.91,2.54-3.8,5.24-3.66c0.32,0.02,0.65,0.02,0.98-0.01c7.85-0.55,8.38,2.13,5.87,8.75c-2.83,7.48-8.83,10.92-16.41,12.09c-4.01,0.62-8,0.55-12-0.07c-9.23-1.44-15.57-8.16-17.25-18.28C368.8,88.4,368.52,85.49,368.61,83.38z"/><path class="st7" d="M207.4,82.48c0.04-5.36,0.57-10.61,2.81-15.57c3.02-6.7,7.97-11.02,15.32-12.22c7.42-1.2,14.72-1.18,21.42,2.95c4.51,2.79,7.13,6.88,8.03,12.07c0.59,3.38-0.86,5.17-4.32,5.37c-1.52,0.09-3.05-0.06-4.56,0.06c-2.5,0.2-3.85-0.94-4.43-3.3c-1.04-4.24-4.14-5.94-8.15-6.19c-4.19-0.26-8,0.91-9.69,5.07c-2.97,7.3-2.98,14.88-0.45,22.27c1.47,4.29,5.23,5.77,9.67,5.67c4.22-0.1,7.25-1.82,8.89-5.83c1.49-3.66,8.62-5.6,12.02-3.37c1.58,1.03,1.53,2.55,1.28,4.06c-1.04,6.33-4.37,11.13-10.24,13.73c-7.64,3.39-15.72,3.7-23.52,1.02c-9.2-3.16-12.73-10.85-13.81-19.92C207.45,86.4,207.48,84.43,207.4,82.48z"/><path class="st5" d="M216.47,159.73c0-4.34-0.05-8.69,0.02-13.03c0.04-2-0.48-3.1-2.76-2.76c-1.06,0.16-2.17,0.01-3.25-0.05c-1.91-0.1-3.02-1.02-3.04-3.04c-0.01-0.98-0.07-1.95-0.06-2.93c0.05-5.12,0.49-5.72,5.59-5.54c2.89,0.1,3.84-0.74,3.52-3.64c-0.3-2.79-0.14-5.64-0.14-8.46c0-2.67,0.99-4.37,4.04-4.23c2.17,0.1,4.35,0.07,6.51-0.05c2.85-0.15,3.94,1.42,3.98,3.95c0.06,3.15,0.09,6.3-0.08,9.44c-0.12,2.23,0.5,3.19,2.9,2.98c2.26-0.2,4.56-0.07,6.83,0.02c2.31,0.1,3.44,1.34,3.67,3.7c0.7,7.06-0.05,7.93-7.15,7.8c-6.01-0.11-6.01-0.11-6.01,5.89c0,5.97-0.09,11.95,0.02,17.92c0.1,5.37,1.6,6.72,6.89,6.62c5.86-0.11,8.58,4.5,5.79,9.74c-0.72,1.35-1.91,1.72-3.23,1.81c-4.55,0.29-9.13,0.55-13.66-0.05c-6.04-0.81-9.79-5.34-10.18-12.4c-0.25-4.55-0.05-9.12-0.05-13.68C216.59,159.73,216.53,159.73,216.47,159.73z"/><path class="st5" d="M318.22,139.69c3.87-6.54,9.38-8.47,16.05-7.98c2.81,0.2,4.34,1.24,4.38,4.37c0.11,9.13,0.2,9.13-8.91,9.46c-7.37,0.27-10.97,3.78-11.23,11.48c-0.26,7.7-0.19,15.42-0.23,23.13c-0.03,4.86-0.78,5.63-5.67,5.71c-8.8,0.14-8.9,0.04-8.91-8.75c-0.01-12.49-0.09-24.98,0.04-37.46c0.02-2.32-0.97-5.42,1.86-6.76c3.22-1.53,6.83-1.42,10.16-0.2C318.68,133.76,317.41,136.79,318.22,139.69z"/><path class="st8" d="M294.33,145.96c-0.08-6.04-3.87-11.09-9.62-12.96c-8.3-2.7-16.7-2.51-24.93,0.21c-4.01,1.33-7.2,3.94-8.52,8.28c-1.92,6.28-0.2,8.63,6.33,8.26c2.15-0.12,4.58,0.35,5.93-2.33c2.66-5.28,9.22-7.09,14.18-4.02c2.61,1.62,3.39,4.18,3.03,7.02c-0.35,2.79-2.86,2.57-4.81,2.87c-4.7,0.74-9.47,0.75-14.19,1.72c-11.95,2.46-15.82,11.65-11.93,23.64c1.17,3.6,3.9,6.04,7.57,6.99c8.24,2.13,16.12,1.7,23.38-4.51c0.22,4.41,2.8,4.97,5.95,4.77c1.3-0.08,2.61,0.04,3.9-0.05c2.53-0.18,3.91-1.35,3.89-4.12C294.39,169.83,294.48,157.89,294.33,145.96z M269.69,176.34c-4.57-0.06-6.79-1.64-7.35-5.22c-0.58-3.69,1.13-6.37,5.47-7.46c3.64-0.92,7.45-1.22,11.18-1.76c0.85-0.12,1.45,0.15,1.5,1.19C280.76,169.91,278.34,176.65,269.69,176.34z"/><path class="st6" d="M361.56,70.68c-0.33-8.6-5.32-13.97-13.76-15.77c-5.93-1.26-11.89-1.15-17.76,0.21c-5.4,1.26-9.82,3.99-11.81,9.59c-2.2,6.17-0.51,8.64,5.9,8.59c0.98-0.01,1.95-0.11,2.93-0.1c1.64,0.02,2.49-0.83,3.13-2.3c2.44-5.58,10.84-7.69,15.64-3.94c2.16,1.68,2.88,4.07,2.52,6.68c-0.35,2.53-2.57,2.6-4.47,2.93c-1.39,0.24-2.79,0.38-4.19,0.53c-5.39,0.58-10.81,1.02-15.84,3.31c-6.22,2.83-8.78,8.09-8.09,16.52c0.51,6.16,4.22,10.71,10.47,12.13c7.99,1.81,15.55,1.02,21.88-5.04c0.23,0.49,0.38,0.77,0.49,1.06c1.53,3.9,9.2,5.55,12.28,2.65c0.85-0.8,1.22-1.73,1.2-2.89C361.92,93.46,362,82.06,361.56,70.68z M336.79,99.86c-4.17,0.01-6.77-1.95-7.24-5.47c-0.46-3.5,1.46-6.54,5.27-7.44c3.98-0.93,8.09-1.36,12.14-2.03c1.06-0.17,1.29,0.36,1.34,1.27C348.81,94.79,344.28,99.79,336.79,99.86z"/><path class="st9" d="M310.08,72.56c-2.13-10.42-8.58-16.71-19.03-18.11c-3.2-0.43-6.52-0.38-9.75-0.12c-10.28,0.82-17.26,6.89-19.75,16.89c-0.87,3.5-1.2,7.05-1.07,10.64c0,1.52-0.08,3.04,0.01,4.56c0.87,14.83,8.44,22.53,23.2,23.64c14.27,1.08,24.18-6.29,26.71-20.02C311.47,84.21,311.26,78.36,310.08,72.56z M295.32,92.69c-1.48,4.34-4.97,6.19-10.1,6c-4.9-0.18-7.84-2.27-9.32-6.68c-1.08-3.24-1.19-6.6-1.11-9.6c-0.02-3.75,0.08-7.11,1.24-10.34c1.52-4.21,4.66-6.36,9.51-6.51c4.79-0.15,8.32,1.83,9.78,6.04C297.74,78.58,297.7,85.71,295.32,92.69z"/></g></svg></a>
   <span class="ttl" id="topttl"></span>
   <span class="tag" id="toptag">เวอร์ชันทดลอง</span>
   <button class="btn btn-red btn-sm hidden" id="topshare" data-act="share" type="button"><svg class="i"><use href="#i-share"/></svg>แชร์</button>
 </header>
 
+<!-- หน้าแรก -->
 <main class="home" id="pHome">
-  <h1>แปลงเอกสารเป็นสไลด์</h1>
-  <p class="lead">ใส่ไฟล์ Word, Excel หรือ PDF ระบบอ่านโครงเรื่องแล้วจัดลงสไลด์ Coach Tarn ให้ เนื้อหาและตัวเลขทุกตัวมาจากไฟล์ของคุณ ไม่มีการแต่งเพิ่ม</p>
-  <p class="inapp hidden" id="inapp">กำลังเปิดในแอป Facebook หรือ LINE ซึ่งโหลดไฟล์ไม่ได้ แตะปุ่ม ... มุมขวาบน แล้วเลือก "เปิดในเบราว์เซอร์" (Chrome หรือ Safari) ก่อนใช้งาน</p>
-  <div class="composer">
-    <label class="drop" id="drop">
+  <div class="glow"></div>
+  <div class="orb idle"><svg><use href="#i-spark"/></svg></div>
+  <h1>อยากทำสไลด์เรื่องอะไรดี</h1>
+  <p class="lead">พิมพ์หรือวางหัวข้อกับเนื้อหา หรือแนบไฟล์ ผู้ช่วยจะจัดเป็นสไลด์ดีไซน์ Coach Tarn ให้ เนื้อหาและตัวเลขทุกตัวมาจากของคุณ</p>
+  <div class="prompt" id="prompt">
+    <div class="filepill hidden" id="filepill"><svg class="i"><use href="#i-file"/></svg><span id="fpname"></span><button class="ib" id="fpx" type="button" aria-label="เอาไฟล์ออก" style="width:32px;height:32px"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <textarea id="ta" placeholder="เช่น สรุปผลโครงการรักการอ่าน ปี 2568&#10;เป้าหมาย&#10;- นักเรียนเข้าร่วม 412 คน"></textarea>
+    <div class="prow">
       <input type="file" id="fin" accept=".docx,.pdf,.xlsx" hidden>
-      <span class="ic"><svg class="i"><use href="#i-upload"/></svg></span>
-      <strong>แตะเพื่อเลือกไฟล์<span class="fine"> หรือลากไฟล์มาวาง</span></strong>
-      <span class="types"><i>Word</i><i>Excel</i><i>PDF</i></span>
-      <span class="priv"><svg class="i"><use href="#i-lock"/></svg>ไฟล์ของคุณไม่ถูกอัปโหลดไปที่ไหน ระบบทำงานในเครื่องคุณเอง</span>
-    </label>
-    <button class="demo" id="demo" type="button"><svg class="i"><use href="#i-sample"/></svg>ยังไม่มีไฟล์? ลองด้วยไฟล์ตัวอย่าง</button>
+      <button class="attach" id="attach" type="button"><svg class="i"><use href="#i-clip"/></svg>แนบไฟล์</button>
+      <span class="grow"></span>
+      <button class="send" id="send" type="button" aria-label="สร้างสไลด์" disabled><svg class="i"><use href="#i-sendup"/></svg></button>
+    </div>
   </div>
-  <div class="err hidden" id="err"></div>
-  <div class="steps">
-    <div><b>1</b>ใส่ไฟล์</div>
-    <div><b>2</b>ระบบอ่านและจัดหน้า</div>
-    <div><b>3</b>โหลดไปแก้ต่อ</div>
+  <div class="homeerr hidden" id="homeerr"></div>
+  <div class="chips">
+    <button class="chip" data-chip="sampletext" type="button"><svg class="i"><use href="#i-paste"/></svg>ลองวางเนื้อหาตัวอย่าง</button>
+    <button class="chip" data-chip="samplefile" type="button"><svg class="i"><use href="#i-sample"/></svg>ลองไฟล์ตัวอย่าง</button>
   </div>
-  <ul class="trust">
-    <li><svg class="i"><use href="#i-shield"/></svg>ตัวเลขคัดลอกจากไฟล์ตรง ๆ ไม่เขียนใหม่</li>
-    <li><svg class="i"><use href="#i-type"/></svg>ข้อความบนสไลด์เป็นตัวอักษรจริง ไม่ใช่รูปภาพ เปิดใน PowerPoint แล้วแก้ต่อได้เลย</li>
-    <li><svg class="i"><use href="#i-table"/></svg>ตารางจาก Word และ Excel จัดเป็นกราฟหรือตารางให้</li>
-  </ul>
-  <p class="faq">คลังเทมเพลตยังโหลดได้ไม่จำกัดเหมือนเดิมทุกอย่าง บริการแปลงไฟล์เป็นของเสริม จะใช้หรือไม่ใช้ก็ได้</p>
+  <p class="priv"><svg class="i"><use href="#i-lock"/></svg>เนื้อหาไม่ถูกส่งออกจากเครื่องคุณ ระบบทำงานในเบราว์เซอร์ทั้งหมด</p>
 </main>
 
-<main class="read hidden" id="pRead">
-  <section class="card">
-    <h2><svg class="i"><use href="#i-scan"/></svg>อ่านไฟล์</h2>
-    <div class="fileline"><svg class="i"><use href="#i-file"/></svg><span id="fname"></span></div>
-    <div class="scan" id="scan"><span class="spin"></span><span id="scant"></span></div>
-    <ul class="found" id="found"></ul>
-    <p class="note hidden" id="numnote"><svg class="i"><use href="#i-shield"/></svg>ตัวเลขทุกค่าคัดลอกจากไฟล์ตรง ๆ ไม่ปัดเศษ ไม่เขียนใหม่</p>
-  </section>
-  <section class="card hidden" id="ocard">
-    <h2><svg class="i"><use href="#i-slides"/></svg>สไลด์ที่จะได้ <span class="sub" id="ocount"></span></h2>
-    <p class="sub">ระบบดูว่าแต่ละส่วนเป็นรายการ ตัวเลข หรือตาราง แล้วเลือกหน้าที่เหมาะให้</p>
-    <ol class="outline" id="outline"></ol>
-    <div class="scan hidden" id="scan2"><span class="spin"></span><span id="scan2t"></span></div>
-  </section>
-</main>
-
-<main class="editor hidden" id="pEdit">
-  <div class="list" id="list"></div>
-  <section class="stage">
-    <div class="slidebox" id="main"></div>
-    <div class="meta"><b id="pno"></b><span class="why" id="pwhy"></span>
-      <button class="btn btn-line btn-sm" data-act="up" type="button"><svg class="i"><use href="#i-up"/></svg>เลื่อนขึ้น</button>
-      <button class="btn btn-line btn-sm" data-act="down" type="button"><svg class="i"><use href="#i-dn"/></svg>เลื่อนลง</button>
-      <button class="btn btn-line btn-sm" data-act="delask" type="button"><svg class="i"><use href="#i-trash"/></svg>ลบหน้า</button>
-    </div>
-  </section>
-  <aside class="side">
-    <div class="tabs">
-      <button class="tab on" data-tab="alt" type="button"><svg class="i"><use href="#i-layout"/></svg>เปลี่ยนแบบหน้า</button>
-      <button class="tab" data-tab="look" type="button"><svg class="i"><use href="#i-palette"/></svg>เปลี่ยนชุด</button>
-    </div>
-    <div class="sidebody"><div class="grid2" id="sideAlt"></div><div class="grid2 hidden" id="sideLook"></div></div>
-  </aside>
-  <nav class="dock">
-    <button class="btn btn-line btn-big" data-act="look" type="button"><svg class="i"><use href="#i-palette"/></svg>เปลี่ยนชุด</button>
-  </nav>
+<!-- หน้าทำงาน -->
+<main class="work hidden" id="pWork">
+  <div class="seg" id="seg"><i></i>
+    <button class="on" data-pane="chat" type="button"><svg class="i"><use href="#i-chat"/></svg>ผู้ช่วย</button>
+    <button data-pane="view" type="button"><svg class="i"><use href="#i-slides"/></svg>สไลด์<span class="dot" id="segdot"></span></button>
+  </div>
+  <div class="panes">
+    <section class="pane pchat">
+      <div class="thread" id="thread"><div class="inner" id="inner"></div></div>
+      <div class="mini">
+        <div class="box">
+          <button class="ib" id="attach2" type="button" aria-label="แนบไฟล์ใหม่"><svg class="i"><use href="#i-clip"/></svg></button>
+          <textarea id="ta2" rows="1" placeholder="ทำเรื่องใหม่ พิมพ์หรือวางเนื้อหา"></textarea>
+          <button class="send" id="send2" type="button" aria-label="ส่ง" disabled><svg class="i"><use href="#i-sendup"/></svg></button>
+        </div>
+      </div>
+    </section>
+    <section class="pane view" id="view">
+      <div id="skel"><div class="skelnote"><span class="orb think" style="width:26px;height:26px"><svg><use href="#i-spark"/></svg></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
+      <div class="editor hidden" id="editor">
+        <div class="list" id="list"></div>
+        <section class="stage">
+          <div class="slidebox" id="main"></div>
+          <div class="meta"><b id="pno"></b><span class="why" id="pwhy"></span>
+            <button class="btn btn-line btn-sm" data-act="alt" type="button"><svg class="i"><use href="#i-layout"/></svg>เปลี่ยนแบบหน้า</button>
+            <button class="btn btn-line btn-sm" data-act="up" type="button"><svg class="i"><use href="#i-up"/></svg>ขึ้น</button>
+            <button class="btn btn-line btn-sm" data-act="down" type="button"><svg class="i"><use href="#i-dn"/></svg>ลง</button>
+            <button class="btn btn-line btn-sm" data-act="delask" type="button"><svg class="i"><use href="#i-trash"/></svg>ลบ</button>
+          </div>
+        </section>
+        <nav class="dock">
+          <button class="btn btn-line btn-big" data-act="look" type="button"><svg class="i"><use href="#i-palette"/></svg>เปลี่ยนหน้าตา</button>
+          <button class="btn btn-red btn-big" data-act="share" type="button"><svg class="i"><use href="#i-share"/></svg>แชร์</button>
+        </nav>
+      </div>
+    </section>
+  </div>
 </main>
 
 <div class="sheet" id="sheet"><div class="pan">
@@ -297,73 +399,118 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
     <span>ปัดซ้ายขวาเพื่อดูหน้าอื่น<br>แก้ข้อความได้ใน PowerPoint หลังโหลด</span>
     <button class="ib" id="vN" type="button" aria-label="หน้าถัดไป"><svg class="i"><use href="#i-next"/></svg></button></div>
 </div>
-<div class="busy" id="busy"><div><span class="spin"></span><span id="busyT"></span></div></div>
+<div class="busy" id="busy"><div><span class="orb think" style="width:30px;height:30px"><svg><use href="#i-spark"/></svg></span><span id="busyT"></span></div></div>
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/pyodide/v0.28.0/full/pyodide.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261028e';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
-// เวอร์ชันที่ทดสอบแล้ว ล็อกไว้ ไลบรารีออกรุ่นใหม่เมื่อไหร่หน้านี้จะไม่พังเอง
-const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];
+const V = '20261028h';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
+const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
+const CHECK = `<svg class="i check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>`;
+const ORB = think => `<div class="orb${think ? ' think' : ''}"><svg><use href="#i-spark"/></svg></div>`;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-// ให้จอวาดก่อนคิดต่อ  rAF หยุดเมื่อแท็บถูกซ่อน (ลูกค้าสลับแอประหว่างรอ) เลยมีตัวจับเวลาสำรอง
+// ให้จอวาดก่อนคิดต่อ  rAF หยุดเมื่อแท็บถูกซ่อน เลยมีตัวจับเวลาสำรอง
 const frame = () => new Promise(r => { let d = 0; const f = () => { if (!d) { d = 1; r(); } }; requestAnimationFrame(() => setTimeout(f, 0)); setTimeout(f, 80); });
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 const wide = () => matchMedia('(min-width:900px)').matches;
-let SETS = [], file = null, slug = null, py = null, booting = null, gen = 0, lookGen = 0;
+let SETS = [], slug = null, py = null, booting = null, gen = 0, lookGen = 0, running = false, pending = null;
 let ttl = '', cur = 0, slides = [], META = [], order = [], deckBuf = null, dirty = true, busyNow = false;
 const zips = new Set(), fonts = new Set(), altCache = new Map();
-
-// ตัดคำไทยเพื่อวัดความยาวบรรทัด (Python เรียกผ่าน js.d2sSeg) ใช้พจนานุกรมของเบราว์เซอร์
-const SEG = new Intl.Segmenter('th', {granularity: 'word'});
+const SEG = new Intl.Segmenter('th', {granularity: 'word'});   // ตัดคำไทยเพื่อวัดบรรทัด (Python เรียกผ่าน js.d2sSeg)
 window.d2sSeg = t => Array.from(SEG.segment(t), s => s.segment);
-if (/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent)) $('inapp').classList.remove('hidden');
 
+const SAMPLE_TEXT = `แผนเปิดร้านกาแฟสาขาใหม่ ปี 2569
+
+เป้าหมาย
+- ยอดขายเดือนละ 450,000 บาท
+- ลูกค้าประจำ 1,200 คน ภายใน 6 เดือน
+- กำไร 18%
+
+ขั้นตอน
+1. หาทำเลใกล้มหาวิทยาลัย
+2. ตกแต่งร้านและติดตั้งเครื่อง
+3. รับสมัครพนักงาน 6 คน
+4. เปิดร้านพร้อมโปรโมชันเปิดตัว
+
+งบประมาณ
+รายการ\tบาท
+ค่าเช่า\t240000
+ตกแต่ง\t380000
+เครื่องชงกาแฟ\t210000
+การตลาด\t90000
+
+กำหนดการ
+- มี.ค. 2569: เซ็นสัญญาเช่า
+- เม.ย. 2569: ตกแต่งร้าน
+- พ.ค. 2569: เปิดร้าน`;
+
+// ── หน้าจอ ──
 function show(p, push = true) {
-  ['pHome', 'pRead', 'pEdit'].forEach(x => $(x).classList.toggle('hidden', x !== p));
-  $('topback').classList.toggle('hidden', p === 'pHome');
-  $('toplogo').classList.toggle('hidden', p !== 'pHome');
+  $('pHome').classList.toggle('hidden', p !== 'pHome'); $('pWork').classList.toggle('hidden', p !== 'pWork');
+  $('topback').classList.toggle('hidden', p === 'pHome'); $('toplogo').classList.toggle('hidden', p !== 'pHome');
   $('toptag').classList.toggle('hidden', p !== 'pHome');
-  $('topshare').classList.toggle('hidden', p !== 'pEdit');
-  $('topttl').textContent = p === 'pEdit' ? ttl : p === 'pRead' ? 'กำลังเตรียมสไลด์' : '';
-  if (push && p !== 'pHome' && history.state?.p !== p) history.pushState({p}, '');   // ปุ่มย้อนกลับของมือถือไม่หลุดออกจากเว็บ
+  if (p === 'pHome') $('topshare').classList.add('hidden');
+  $('topttl').textContent = p === 'pWork' ? (ttl || 'กำลังเตรียมสไลด์') : '';
+  if (push && p === 'pWork' && history.state?.p !== p) history.pushState({p}, '');   // ปุ่มย้อนของมือถือกลับหน้าแรก
   window.scrollTo(0, 0);
 }
-window.addEventListener('popstate', () => { gen++; closeSheet(); $('viewer').classList.remove('on'); show('pHome', false); });
-function err(m, reload) {
-  $('err').innerHTML = esc(m) + (reload ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : '');
-  $('err').classList.toggle('hidden', !m);
+window.addEventListener('popstate', () => {
+  if ($('viewer').classList.contains('on')) return closeViewer();   // ย้อนกลับตอนดูเต็มจอ = ปิดภาพ ไม่ออกจากหน้า
+  gen++; running = false; closeSheet(); show('pHome', false);
+});
+function pane(which) {                  // มือถือ: สลับ ผู้ช่วย | สไลด์
+  $('pWork').classList.toggle('right', which === 'view'); $('seg').classList.toggle('right', which === 'view');
+  document.querySelectorAll('#seg button').forEach(b => b.classList.toggle('on', b.dataset.pane === which));
+  if (which === 'view') $('segdot').classList.remove('on');
+  requestAnimationFrame(() => document.querySelectorAll('#view .slidebox').forEach(fit));
 }
+$('seg').onclick = ev => { const b = ev.target.closest('[data-pane]'); if (b) pane(b.dataset.pane); };
 function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2600); }
 function busy(m) { busyNow = !!m; $('busyT').textContent = m || ''; $('busy').classList.toggle('on', !!m); }
-// ข้อความที่เราเขียนเองเป็นไทย ถ้าไม่ใช่ไทย (error ที่ไม่ได้ดัก) ไม่โชว์ภาษาเครื่องให้ลูกค้า
-function pyErr(e, fallback) {
+function pyErr(e, fallback) {          // ข้อความของเราเป็นไทย error ที่ไม่ได้ดัก (อังกฤษ) ไม่โชว์ให้ลูกค้า
   const m = String(e && e.message || e).split('\n').map(s => s.trim()).filter(Boolean).pop() || '';
   const t = (m.match(/^\w*Error: (.*)$/) || [, m])[1];
   return /[฀-๿]/.test(t) ? t : fallback;
 }
+let stick = true;                        // ผู้ใช้เลื่อนขึ้นไปอ่าน = ไม่ดึงจอลง
+$('thread').addEventListener('scroll', () => { const t = $('thread'); stick = t.scrollHeight - t.scrollTop - t.clientHeight < 160; }, {passive: true});
+function scrollEnd(force) { const t = $('thread'); if (force) stick = true; if (stick) requestAnimationFrame(() => t.scrollTo({top: t.scrollHeight, behavior: 'smooth'})); }
+function botMsg(html, think) {
+  const m = document.createElement('div'); m.className = 'msg bot';
+  m.innerHTML = `${ORB(think)}<div class="bubble">${html}</div>`; $('inner').appendChild(m); scrollEnd(); return m;
+}
+function meMsg(html) {
+  const m = document.createElement('div'); m.className = 'msg me';
+  m.innerHTML = `<div class="bubble">${html}</div>`; $('inner').appendChild(m); scrollEnd(true); return m;
+}
+function setBot(m, html, think) { m.querySelector('.bubble').innerHTML = html; m.querySelector('.orb').classList.toggle('think', !!think); scrollEnd(); }
 
 // ── เครื่องมือ Python ในเบราว์เซอร์ ──
 const NET = 'โหลดส่วนประกอบไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วโหลดหน้าใหม่';
 async function get(url) { const r = await fetch(url + '?v=' + V); if (!r.ok) throw new Error(NET); return r; }
 async function unzip(url) { py.unpackArchive(await (await get(url)).arrayBuffer(), 'zip', {extractDir: '/'}); }
-function boot() {                       // ล้มแล้วไม่ลองซ้ำในหน้าเดิม (โหลด Pyodide สองรอบ = หน่วยความจำเบิ้ล) ให้โหลดหน้าใหม่
+let bootStep = 0; const onBoot = new Set();
+function stepTo(n) { bootStep = n; onBoot.forEach(f => f(n)); }
+function boot() {                       // ล้มแล้วไม่ลองซ้ำในหน้าเดิม (หน่วยความจำเบิ้ล) ให้โหลดหน้าใหม่
   return booting = booting || (async () => {
     if (!window.loadPyodide || !window.pptxPreview) throw new Error(NET);
     try {
-      py = await loadPyodide();
-      await py.loadPackage(['lxml', 'pillow', 'micropip']);
-      await py.pyimport('micropip').install(PKGS);
+      stepTo(1); py = await loadPyodide();
+      stepTo(2); await py.loadPackage(['lxml', 'pillow', 'micropip']); await py.pyimport('micropip').install(PKGS);
     } catch (e) { console.error(e); throw new Error(NET); }
-    await unzip('py.zip'); await unzip('kit.zip');
+    stepTo(3); await unzip('py.zip'); await unzip('kit.zip');
     py.FS.mkdirTree('/k5/fonts'); py.FS.mkdirTree('/k5/img');
     py.FS.writeFile('/k5/fonts/OFL.txt', await (await get('fonts/OFL.txt')).text());
     py.runPython(`import sys, json; sys.path.insert(0, '/k5'); import doc2slide as D`);
+    stepTo(4);
   })();
 }
+const warm = () => boot().catch(() => {});   // เริ่มโหลดตอนลูกค้าแตะกล่องพิมพ์ เวลาโหลดจะซ้อนกับเวลาที่เขาพิมพ์
+['focusin', 'paste', 'pointerdown'].forEach(e => $('prompt').addEventListener(e, warm, {once: true}));
 async function needSet(s) {
   for (const z of s.zips) if (!zips.has(z)) { await unzip('img/' + z); zips.add(z); }
   for (const f of s.fonts) if (!fonts.has(f)) { py.FS.writeFile('/k5/fonts/' + f, new Uint8Array(await (await get('fonts/' + f)).arrayBuffer())); fonts.add(f); }
@@ -376,97 +523,198 @@ fetch('fonts.json?v=' + V).then(r => r.json()).then(m => {   // ให้พร�
 });
 fetch('sets.json?v=' + V).then(r => r.json()).then(s => { SETS = s; slug = s[0].slug; });
 
-// ── หน้า 1 ──
-const drop = $('drop');
-drop.addEventListener('pointerdown', () => boot().catch(() => {}), {once: true});   // เริ่มโหลดตอนแตะ ระหว่างลูกค้าหาไฟล์
-['dragenter', 'dragover'].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add('over'); }));
-['dragleave', 'drop'].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove('over'); }));
-drop.addEventListener('drop', ev => pick(ev.dataTransfer.files[0]));
-$('fin').addEventListener('change', ev => { pick(ev.target.files[0]); ev.target.value = ''; });
-$('demo').onclick = async () => {
-  boot().catch(() => {});
-  try { pick(new File([await (await get('sample/รายงานโครงการรักการอ่าน.docx')).blob()], 'รายงานโครงการรักการอ่าน.docx')); }
-  catch (e) { err(NET, true); }
-};
-function pick(f) {
-  if (!f) return;
+// ── หน้าแรก ──
+const ta = $('ta'), ta2 = $('ta2');
+const okInput = () => !!(pending || ta.value.trim());
+function refresh() { $('send').disabled = !okInput(); ta2.style.height = 'auto'; ta2.style.height = Math.min(ta2.scrollHeight, 120) + 'px'; $('send2').disabled = !ta2.value.trim() || running; }
+ta.addEventListener('input', () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 240) + 'px'; refresh(); });
+ta2.addEventListener('input', refresh);
+[ta, ta2].forEach(t => t.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); (t === ta ? $('send') : $('send2')).click(); } }));
+function homeErr(m) { $('homeerr').textContent = m; $('homeerr').classList.toggle('hidden', !m); }
+function setFile(f) {
+  homeErr('');
   const ext = f.name.toLowerCase().split('.').pop();
   if (!['docx', 'pdf', 'xlsx'].includes(ext))
-    return err(ext === 'doc' ? 'ไฟล์ .doc แบบเก่ายังใช้ไม่ได้ เปิดใน Word แล้วบันทึกเป็น .docx ก่อน' : 'รองรับไฟล์ Word (.docx), Excel (.xlsx) และ PDF');
-  if (f.size > 15e6) return err('ไฟล์ใหญ่เกิน 15MB');
-  err(''); file = f; readAndBuild();
+    return homeErr(ext === 'doc' ? 'ไฟล์ .doc แบบเก่ายังอ่านไม่ได้ เปิดใน Word แล้วบันทึกเป็น .docx ก่อน หรือคัดลอกเนื้อหามาวางแทน' : 'อ่านได้เฉพาะ Word (.docx), Excel (.xlsx) และ PDF หรือคัดลอกเนื้อหามาวางแทน');
+  if (f.size > 15e6) return homeErr('ไฟล์ใหญ่เกิน 15MB ลองคัดลอกเฉพาะส่วนที่จะทำสไลด์มาวาง');
+  pending = f; $('fpname').textContent = f.name; $('filepill').classList.remove('hidden'); refresh();
+}
+$('fpx').onclick = () => { pending = null; $('filepill').classList.add('hidden'); refresh(); };
+$('attach').onclick = () => { warm(); $('fin').click(); };
+$('attach2').onclick = () => { warm(); $('fin').dataset.from = 'work'; $('fin').click(); };
+$('fin').addEventListener('change', ev => {
+  const f = ev.target.files[0]; ev.target.value = ''; if (!f) return;
+  if (ev.target.dataset.from === 'work') { ev.target.dataset.from = ''; return startFile(f); }
+  setFile(f);
+});
+const pr = $('prompt');
+['dragenter', 'dragover'].forEach(e => pr.addEventListener(e, ev => { ev.preventDefault(); pr.classList.add('over'); }));
+['dragleave', 'drop'].forEach(e => pr.addEventListener(e, ev => { ev.preventDefault(); pr.classList.remove('over'); }));
+pr.addEventListener('drop', ev => { const f = ev.dataTransfer.files[0]; if (f) setFile(f); });
+document.querySelector('.chips').onclick = async ev => {
+  const c = ev.target.closest('[data-chip]'); if (!c) return; warm();
+  if (c.dataset.chip === 'sampletext') { ta.value = SAMPLE_TEXT; ta.dispatchEvent(new Event('input')); ta.scrollTop = 0; }
+  if (c.dataset.chip === 'samplefile') {
+    try { setFile(new File([await (await get('sample/รายงานโครงการรักการอ่าน.docx')).blob()], 'รายงานโครงการรักการอ่าน.docx')); $('send').click(); }
+    catch (e) { homeErr(NET); }
+  }
+};
+$('send').onclick = () => {
+  if (pending) return startFile(pending);
+  const t = ta.value.trim(); if (!t) return;
+  if (t.split('\n').filter(x => x.trim()).length < 2)
+    return homeErr('ขอเนื้อหาอีกนิด พิมพ์หัวข้อบรรทัดแรก แล้วตามด้วยหัวข้อย่อยหรือรายละเอียดทีละบรรทัด');
+  startText(t);
+};
+$('send2').onclick = () => { const t = ta2.value.trim(); if (!t || running) return;
+  if (t.split('\n').filter(x => x.trim()).length < 2) { botMsg('ขอเนื้อหาอีกนิดครับ พิมพ์หัวข้อบรรทัดแรก แล้วตามด้วยรายละเอียดทีละบรรทัด'); return; }
+  ta2.value = ''; refresh(); startText(t, true); };
+function enterWork(again) {
+  if (!again) { $('inner').innerHTML = ''; }
+  ttl = ''; slides = []; $('topshare').classList.add('hidden');
+  $('editor').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา';
+  $('skelg').innerHTML = Array.from({length: 6}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
+  show('pWork'); pane('chat');
+}
+function startText(t, again) {
+  enterWork(again); ta.value = ''; ta.style.height = ''; refresh();
+  meMsg(`<div class="pre${t.split('\n').length <= 5 ? ' short' : ''}">${esc(t)}</div>`);
+  run({text: t});
+}
+function startFile(f, again) {
+  enterWork(again || !$('pWork').classList.contains('hidden'));
+  pending = null; $('filepill').classList.add('hidden'); refresh();
+  meMsg(`<div class="filechip"><b>${ico('file')}</b><span>${esc(f.name)}</span></div>`);
+  run({file: f});
 }
 
-// ── หน้า 2: อ่านไฟล์ โชว์สิ่งที่พบ แล้วจัดหน้าทีละหน้า ──
-async function readAndBuild() {
-  const my = ++gen;
-  show('pRead');
-  $('fname').textContent = file.name; $('found').innerHTML = ''; $('outline').innerHTML = '';
-  $('ocard').classList.add('hidden'); $('numnote').classList.add('hidden'); $('scan').classList.remove('hidden'); $('scan2').classList.add('hidden');
+// ── ผู้ช่วยทำงาน: อ่าน → บอกสิ่งที่พบ → โครง → จัดหน้าเองทันที ──
+async function run(src) {
+  const my = ++gen; running = true; refresh(); const t0 = performance.now();
+  document.querySelectorAll('#inner .msg.bot').forEach(x => x.classList.add('past'));
+  const ready = bootStep >= 4;
+  const STEPS = ['เตรียมผู้ช่วย (ครั้งแรกเท่านั้น)', 'โหลดตัวอ่าน Word, Excel, PDF', 'โหลดชุดดีไซน์ Coach Tarn', 'อ่านเนื้อหาของคุณ'];
+  const m = botMsg(`<div class="thinking"><span class="shimmer">${ready ? 'กำลังอ่านเนื้อหา' : 'กำลังเตรียมผู้ช่วย'}</span></div>
+    ${ready ? '' : `<ul class="steps" id="bs${my}">${STEPS.map(t => `<li><span class="st"></span>${t}</li>`).join('')}</ul><div class="bar"><i id="bb${my}"></i></div>`}`, true);
+  const paint = n => {                    // ติ๊กขั้นที่เสร็จจริง แถบวิ่งได้แค่ 85% ของขั้นที่กำลังทำ
+    const ul = document.getElementById('bs' + my); if (!ul) return;
+    [...ul.children].forEach((li, i) => { const k = i + 1;
+      li.className = k < n ? 'ok' : k === n ? 'now' : '';
+      li.firstChild.innerHTML = k < n ? CHECK : k === n ? '<span class="spin" style="width:13px;height:13px;border-width:2px"></span>' : ''; });
+    const W = [0, .45, .75, .9, 1], bb = document.getElementById('bb' + my);
+    if (bb) { const a = W[n - 1] || 0, b = W[n] || 1, ms = [0, 8000, 6000, 2000, 1500][n] || 1500;
+      bb.style.transition = 'none'; bb.style.transform = `scaleX(${a})`;
+      requestAnimationFrame(() => { bb.style.transition = `transform ${ms}ms cubic-bezier(.1,.6,.3,1)`; bb.style.transform = `scaleX(${a + (b - a) * .85})`; }); }
+  };
+  if (!ready) { paint(Math.max(bootStep, 1)); onBoot.add(paint); }
   try {
-    $('scant').textContent = py ? 'กำลังอ่านไฟล์' : 'กำลังเปิดตัวอ่านไฟล์ ครั้งแรกรอสักครู่';
-    await boot(); if (my !== gen) return;
-    $('scant').textContent = 'กำลังอ่านไฟล์'; await frame();
-    const ext = file.name.split('.').pop().toLowerCase();
-    py.FS.writeFile('/tmp/in.' + ext, new Uint8Array(await file.arrayBuffer()));
-    py.globals.set('SRC', '/tmp/in.' + ext); py.globals.set('NAME', file.name);
+    await boot(); onBoot.delete(paint); if (my !== gen) return;
+    paint(4); await frame();
+    let path, name;
+    if (src.text) { path = '/tmp/in.txt'; name = 'ข้อความ.txt'; py.FS.writeFile(path, src.text); }
+    else { const ext = src.file.name.split('.').pop().toLowerCase(); path = '/tmp/in.' + ext; name = src.file.name;
+      py.FS.writeFile(path, new Uint8Array(await src.file.arrayBuffer())); }
+    py.globals.set('SRC', path); py.globals.set('NAME', name);
     const f = JSON.parse(py.runPython('TTL, WANT = D.analyze(SRC, NAME); json.dumps(D.findings(WANT), ensure_ascii=False)'));
-    ttl = py.globals.get('TTL');
-    if (f.outline.length < 2) throw new Error('ไม่พบข้อความในไฟล์ ถ้าเป็น PDF ที่สแกนจากกระดาษ ระบบอ่านไม่ได้ ใช้ไฟล์ Word หรือ Excel ต้นฉบับแทน');
-    const rows = [['heading', `พบ <b>${f.sections}</b> หัวข้อ`, ttl]];
-    if (f.nums.length) rows.push(['hash', `พบตัวเลขพร้อมหน่วย <b>${f.nums.length}</b> ค่า`, 'จัดเป็นการ์ดตัวเลข']);
-    if (f.tables) rows.push(['table', `พบตาราง <b>${f.tables}</b> ตาราง <b>${f.rows}</b> แถว`, 'จัดเป็นกราฟหรือตาราง']);
-    if (f.dates) rows.push(['cal', `พบช่วงเวลา <b>${f.dates}</b> ช่วง`, 'จัดเป็นไทม์ไลน์']);
-    if (f.qa) rows.push(['help', `พบคำถาม-คำตอบ <b>${f.qa}</b> ข้อ`, 'จัดเป็นหน้าถาม-ตอบ']);
+    if (f.outline.length < 2) throw new Error('ไม่พบเนื้อหาที่จัดเป็นสไลด์ได้ ถ้าเป็น PDF ที่สแกนจากกระดาษ ระบบอ่านไม่ได้ ลองคัดลอกเนื้อหามาวางแทน');
+    ttl = py.globals.get('TTL'); $('topttl').textContent = ttl;
+    $('skelg').innerHTML = f.outline.map((o, i) => `<div class="ph" style="--i:${i}"><b>${i + 1}</b></div>`).join('');
+    $('skelt').textContent = `ผู้ช่วยกำลังจัด ${f.outline.length} หน้า`;
+    // ผู้ช่วยเล่าว่าเจออะไรและจะทำอะไรกับมัน ทุกบรรทัดมาจากผลอ่านจริง
+    const rows = [['heading', `แบ่งเนื้อหาได้ <b>${f.sections}</b> หัวข้อ`, '']];
+    if (f.nums.length) rows.push(['hash', `เจอตัวเลข ${esc(f.nums.slice(0, 2).join(', '))}`, 'จะทำเป็นการ์ดตัวเลขให้เด่น']);
+    if (f.tables) rows.push(['table', `เจอตาราง <b>${f.rows}</b> แถว`, 'จะทำเป็นกราฟให้เทียบง่าย']);
+    if (f.dates) rows.push(['cal', `เจอช่วงเวลา <b>${f.dates}</b> ช่วง`, 'จะเรียงเป็นไทม์ไลน์']);
+    if (f.qa) rows.push(['help', `เจอคำถาม-คำตอบ <b>${f.qa}</b> ข้อ`, 'จะทำเป็นหน้าถาม-ตอบ']);
     for (const n of f.notes) rows.push(['info', esc(n), '', 'warn']);
-    for (const [ic, a, b, cls] of rows) {
-      const li = document.createElement('li'); if (cls) li.className = cls;
-      li.innerHTML = `<b>${ico(ic)}</b><span>${a} <em>${esc(b)}</em></span>`;
-      $('found').appendChild(li); await sleep(300); li.classList.add('on');
-    }
-    $('scan').classList.add('hidden');
-    if (f.nums.length || f.tables) $('numnote').classList.remove('hidden');
-    $('ocard').classList.remove('hidden');
-    $('ocount').textContent = `${f.outline.length} หน้า`;
-    for (const [i, o] of f.outline.entries()) {
-      const li = document.createElement('li');
-      li.innerHTML = `<span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(o.th)}</span><span class="st"></span>`;
-      $('outline').appendChild(li); await sleep(80); li.classList.add('on');
-    }
-    if (my !== gen) return;
-    await build(my);
+    // วาดทุกบรรทัดครั้งเดียว ให้ CSS ทยอยโผล่ (timer ของ JS ค้างตอน Python คำนวณ)
+    setBot(m, `<p>อ่านแล้วครับ เรื่อง <b>${esc(ttl)}</b></p><ul class="found">${rows.map(([ic, a, b, cls], i) =>
+      `<li class="${cls || ''}" style="--i:${i}"><b>${ico(ic)}</b><span>${a} <em>${esc(b)}</em></span></li>`).join('')}</ul>
+      ${f.nums.length || f.tables ? `<p class="note" style="animation-delay:${rows.length * 140 + 200}ms">${ico('shield')}ตัวเลขทุกค่าคัดลอกจากเนื้อหาของคุณตรง ๆ ไม่ปัดเศษ ไม่เขียนใหม่</p>` : ''}`, true);
+    await sleep(rows.length * 520 + 500); if (my !== gen) return;
+    m.querySelector('.orb').classList.remove('think');
+    // อ่านจบแล้วย่อเหลือบรรทัดเดียว กดเปิดดูขั้นตอนได้ (แบบ "คิดเสร็จใน 8 วินาที")
+    const ul = m.querySelector('.found'); ul.querySelectorAll('li').forEach(li => li.style.animation = 'none');
+    ul.insertAdjacentHTML('beforebegin', `<details class="trail" open><summary>${ico('chev')}อ่านเสร็จใน ${((performance.now() - t0) / 1000).toFixed(1)} วินาที ดูว่าเจออะไร</summary></details>`);
+    m.querySelector('details.trail').appendChild(ul);
+    await build(my, f, slug, t0);
   } catch (e) {
     console.error(e); if (my !== gen) return;
-    const m = pyErr(e, 'อ่านไฟล์นี้ไม่สำเร็จ ลองบันทึกเป็นไฟล์ใหม่ หรือใช้ไฟล์ Word แทน');
-    show('pHome', false); history.replaceState(null, ''); err(m, m === NET);
+    const msg = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน');
+    setBot(m, `<div class="err">${esc(msg)}${msg === NET ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : ''}</div>`);
+    $('skelt').textContent = 'ยังไม่มีสไลด์'; running = false; refresh();
   }
 }
-async function build(my) {
-  const s = SETS.find(x => x.slug === slug);
-  $('scan2').classList.remove('hidden'); $('scan2t').textContent = 'กำลังโหลดดีไซน์';
-  await needSet(s); if (my !== gen) return;
-  py.globals.set('SLUG', slug);
-  py.runPython('G = D.plan_iter(WANT, SLUG)');
-  const lis = $('outline').children;
-  for (;;) {
-    const st = JSON.parse(py.runPython(`
+// จัดหน้า: ติ๊กโครงทีละหน้า ฝั่งสไลด์ช่องจองค่อยเปลี่ยนสี แล้วพรีวิวจริงขึ้นแทน
+async function build(my, f, pick, t0) {
+  running = 'build'; refresh();
+  const m = botMsg(`<p>จัดโครงสไลด์ได้ <b>${f.outline.length} หน้า</b> กำลังลงหน้าตา<b id="ln${my}"></b></p>
+    <ol class="outline" id="ol${my}">${f.outline.map((o, i) => `<li style="animation-delay:${i * 45}ms"><span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(o.th)}</span><span class="st"></span></li>`).join('')}</ol>
+    <div class="bar" id="br${my}"><i></i></div>`, true);
+  const lis = document.getElementById('ol' + my).children, bar = document.getElementById('br' + my), ph = $('skelg').children;
+  try {
+    slug = pick; const s = SETS.find(x => x.slug === slug);
+    document.getElementById('ln' + my).textContent = ' ' + s.style;
+    await needSet(s); if (my !== gen) return;
+    py.globals.set('SLUG', slug); py.runPython('G = D.plan_iter(WANT, SLUG)');
+    for (;;) {
+      const st = JSON.parse(py.runPython(`
 try:
     _st = list(next(G))
 except StopIteration as _e:
     M, OUT, LOG = _e.value; _st = None
 json.dumps(_st)`));
-    if (!st) break;
-    $('scan2t').textContent = `กำลังจัดหน้า ${Math.min(st[0] + 1, st[1])} จาก ${st[1]}`;
-    const k = Math.floor(lis.length * st[0] / Math.max(st[1], 1));   // บางหัวข้อแตกเป็นหลายหน้า เลยเทียบสัดส่วน
-    for (let j = 0; j < k; j++) lis[j].querySelector('.st').innerHTML = ico('check');
-    await frame(); if (my !== gen) return;
+      if (!st) break;
+      bar.firstChild.style.transform = `scaleX(${(st[0] / Math.max(st[1], 1)) * .85})`;
+      const k = Math.floor(lis.length * st[0] / Math.max(st[1], 1));   // บางหัวข้อแตกเป็นหลายหน้า เทียบสัดส่วน
+      for (let j = 0; j < lis.length; j++) {
+        const sEl = lis[j].querySelector('.st');
+        if (j < k && !sEl.dataset.ok) { sEl.innerHTML = CHECK; sEl.dataset.ok = 1; lis[j].className = 'ok'; if (ph[j]) ph[j].classList.add('ok'); }
+        if (j === k && !sEl.dataset.ok) { lis[j].className = 'doing'; sEl.innerHTML = '<span class="spin" style="width:14px;height:14px;border-width:2px"></span>'; }
+      }
+      const cur_ = f.outline[Math.min(k, f.outline.length - 1)];
+      $('skelt').textContent = `กำลังจัดหน้า ${Math.min(st[0] + 1, st[1])} จาก ${st[1]}${cur_ ? ' ' + cur_.t : ''}`;
+      await sleep(200); if (my !== gen) return;    // ให้แต่ละหน้าค้างจอพอเห็นว่าจัดทีละหน้า (งานจริงเร็วกว่านี้)
+    }
+    [...lis].forEach((li, j) => { const sEl = li.querySelector('.st'); li.className = 'ok'; if (!sEl.dataset.ok) { sEl.innerHTML = CHECK; sEl.dataset.ok = 1; } if (ph[j]) ph[j].classList.add('ok'); });
+    takePlan();
+    if (!order.length) throw new Error('หน้าตานี้ใส่เนื้อหานี้ไม่ได้ ลองหน้าตาอื่น');
+    // ป้ายชนิดหน้าในโครง ใช้ชนิดที่ได้จริงหลังลงหน้าตา (บางหน้าตาไม่มีการ์ดตัวเลข เลยกลายเป็นรายการ)
+    const real = JSON.parse(py.runPython('json.dumps([[x["c"].get("t",""), x["c"]["kind"]] for x in OUT])'));
+    f.outline.forEach((o, j) => { const hit = real.find(r => r[0] === o.t); if (hit && KIND[hit[1]]) lis[j].querySelector('.k').textContent = KIND[hit[1]]; });
+    $('skelt').textContent = 'ผู้ช่วยกำลังวาดสไลด์'; bar.firstChild.style.transform = 'scaleX(.95)'; await frame();
+    await renderAll(); if (my !== gen) return;
+    bar.firstChild.style.transform = 'scaleX(1)'; bar.classList.add('done'); m.querySelector('.orb').classList.remove('think');
+    $('skel').classList.add('hidden'); $('editor').classList.remove('hidden'); relayout();
+    $('topshare').classList.remove('hidden');
+    m.querySelector('.orb').classList.add('yay'); navigator.vibrate?.(12);
+    done(my, t0);
+  } catch (e) {
+    console.error(e); if (my !== gen) return;
+    m.querySelector('.orb').classList.remove('think');
+    botMsg(`<div class="err">${esc(pyErr(e, 'สร้างไม่สำเร็จครับ ลองเลือกหน้าตาอื่น'))}</div>`);
   }
-  [...lis].forEach(li => li.querySelector('.st').innerHTML = ico('check'));
-  takePlan();
-  if (!order.length) throw new Error('ดีไซน์นี้ใส่เนื้อหาไฟล์นี้ไม่ได้');
-  $('scan2t').textContent = 'กำลังวาดสไลด์'; await frame();
-  await renderAll(); if (my !== gen) return;
-  show('pEdit'); relayout();
+  running = false; refresh();
+}
+function lookCards(sel) {
+  return SETS.map((s, i) => `<button class="look${s.slug === sel ? ' on' : ''}" data-s="${s.slug}" type="button" style="--i:${i}"><img src="https://img.coachtarnslide.com/cover/${s.slug}.webp" alt="" loading="lazy"><span>${esc(s.style)}</span><i class="ck">${ico('check')}</i></button>`).join('');
+}
+function done(my, t0) {
+  const s = SETS.find(x => x.slug === slug);
+  const did = [];                          // สรุปสิ่งที่ทำ จากชนิดหน้าที่ได้จริง
+  const cnt = k => META.filter(x => x.kind === k).length;
+  if (cnt('chart')) did.push('ทำตารางเป็นกราฟ'); if (cnt('table')) did.push('จัดตารางให้อ่านง่าย');
+  if (cnt('timeline')) did.push('เรียงช่วงเวลาเป็นไทม์ไลน์'); if (cnt('stat')) did.push('ทำตัวเลขเป็นการ์ดเด่น');
+  const m = botMsg(`<p>เสร็จแล้วครับ <b>${slides.length} หน้า</b> หน้าตา${esc(s.style)} ใช้เวลา ${((performance.now() - (t0 || performance.now())) / 1000).toFixed(1)} วินาที${did.length ? ' ' + did.join(' ') : ''}${wide() ? ' ดูได้ทางขวา' : ''}</p>
+    <p class="sub">ไม่ชอบหน้าตานี้ เลือกแบบอื่นได้เลย เนื้อหาเดิมทุกหน้า</p>
+    <div class="looks">${lookCards(slug)}</div>
+    <div class="follow">${wide() ? '' : `<button class="btn btn-red btn-sm" data-f="view" type="button">${ico('slides')}ดูสไลด์</button>`}
+      <button class="btn btn-line btn-sm" data-f="share" type="button">${ico('share')}แชร์</button></div>`);
+  m.querySelector('.looks').onclick = ev => { const b = ev.target.closest('.look'); if (!b || my !== gen) return;
+    m.querySelectorAll('.look').forEach(x => x.classList.toggle('on', x === b)); changeLook(b.dataset.s); };
+  m.querySelector('.follow').onclick = ev => { const b = ev.target.closest('[data-f]'); if (!b || my !== gen) return;
+    if (b.dataset.f === 'view') pane('view'); else act('share'); };
+  if (!wide()) { $('segdot').classList.add('on'); setTimeout(() => { if (my === gen) pane('view'); }, 900); }   // เสร็จแล้วพาไปดูสไลด์ให้เอง
 }
 function takePlan() {
   py.runPython('ITEMS = [(x["layout"], x["d"]) for x in OUT]; CS = [x["c"] for x in OUT]');
@@ -474,7 +722,7 @@ function takePlan() {
   altCache.clear(); lookGen++; cur = 0;
 }
 
-// ── หน้า 3 ──
+// ── ฝั่งสไลด์ ──
 const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายการ', pairs: 'หัวข้อพร้อมคำอธิบาย', qa: 'ถาม-ตอบ', stat: 'การ์ดตัวเลข',
   timeline: 'ไทม์ไลน์', table: 'ตาราง', chart: 'กราฟ', statement: 'ข้อความเด่น', divider: 'หน้าคั่น', compare: 'เปรียบเทียบ'};
 function why(m) {                       // เหตุผลที่ระบบเลือกแบบนี้ จากข้อมูลจริงของหน้านั้น
@@ -498,21 +746,21 @@ function mount(box, node) {
   fit(box); requestAnimationFrame(() => fit(box));
 }
 function makeDeck() { py.globals.set('ORDER', py.toPy(order)); deckBuf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL)'); dirty = false; }
-async function renderAll() {            // วาดทั้งไฟล์ใหม่ (ตอนสร้าง / เปลี่ยนชุด เท่านั้น)
+async function renderAll() {
   makeDeck();
   META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or [])) for i in ORDER])'));
   slides = await preview(deckBuf);
 }
-// เลื่อน/ลบ/เปลี่ยนแบบ: จัดแผ่นที่วาดไว้แล้วใหม่ ไม่วาดทั้งไฟล์ซ้ำ (มือถือช้า) ไฟล์จริงสร้างตอนกดโหลด
+// เลื่อน/ลบ/เปลี่ยนแบบ: จัดแผ่นที่วาดไว้แล้วใหม่ ไม่วาดทั้งไฟล์ซ้ำ ไฟล์จริงสร้างตอนแชร์
 function relayout() {
-  const L = $('list');
-  L.innerHTML = wide() ? '' : '<p class="trial">เวอร์ชันทดลอง ระบบจัดหน้าให้ก่อน แตะ ... ที่หน้าไหนเพื่อเปลี่ยนแบบหรือลบ แตะภาพเพื่อดูเต็มจอ</p>';
+  const L = $('list'); L.innerHTML = '';
   slides.forEach((sl, i) => {
     const card = document.createElement('div'); card.className = 'slide' + (i === cur ? ' on' : '');
+    card.style.animationDelay = Math.min(i * 50, 500) + 'ms';
     card.innerHTML = `<div class="slidebox"></div><div class="cap"><b>${i + 1}</b><span class="why">${why(META[i])}</span>
       <button class="ib" type="button" aria-label="ตัวเลือกหน้า ${i + 1}">${ico('more')}</button></div>`;
     const box = card.firstChild;
-    box.onclick = () => { if (wide()) select(i); else { select(i); openViewer(i); } };
+    box.onclick = () => { select(i); if (!wide()) openViewer(i); };
     card.querySelector('.cap .ib').onclick = ev => { ev.stopPropagation(); select(i); slideMenu(); };
     if (wide()) card.onclick = ev => { if (!ev.target.closest('.ib')) select(i); };
     L.appendChild(card); mount(box, sl);
@@ -525,10 +773,7 @@ function select(i, keep) {
   document.querySelectorAll('[data-act=up]').forEach(b => b.disabled = i === 0);
   document.querySelectorAll('[data-act=down]').forEach(b => b.disabled = i === slides.length - 1);
   document.querySelectorAll('[data-act=delask]').forEach(b => b.disabled = slides.length < 2);
-  if (wide()) {
-    mount($('main'), slides[i]); $('pno').textContent = `หน้า ${i + 1} จาก ${slides.length}`; $('pwhy').innerHTML = why(META[i]);
-    if (!$('sideAlt').classList.contains('hidden')) altsInto($('sideAlt'));
-  }
+  if (wide() && slides[i]) { mount($('main'), slides[i]); $('pno').textContent = `หน้า ${i + 1} จาก ${slides.length}`; $('pwhy').innerHTML = why(META[i]); }
   const t = document.querySelectorAll('#list .slide')[i];
   if (t && (wide() || keep)) t.scrollIntoView({block: 'nearest', behavior: keep ? 'auto' : 'smooth'});
 }
@@ -539,12 +784,10 @@ function move(d) {
   for (const a of [order, slides, META]) [a[cur], a[j]] = [a[j], a[cur]];
   cur = j; dirty = true; relayout(); toast(`ย้ายไปเป็นหน้า ${cur + 1} แล้ว`);
 }
-
-// แบบอื่นของหน้านี้: เฉพาะแบบในชุดเดียวกันที่ใส่เนื้อหาได้พอดี
 let altToken = 0;
 async function altsInto(box) {
   const my = ++altToken, lg = lookGen, idx = order[cur], at = cur;
-  box.innerHTML = '<p class="empty"><span class="spin" style="vertical-align:middle"></span> กำลังหาแบบที่ใส่ได้</p>';
+  box.innerHTML = `<p class="empty" style="padding:4px 0 0"><span class="shimmer">ผู้ช่วยกำลังลองจัดหน้านี้หลายแบบ</span></p>` + '<div class="opt ph"></div>'.repeat(4);
   await frame(); if (my !== altToken) return;
   try {
     let a = altCache.get(idx);
@@ -552,25 +795,29 @@ async function altsInto(box) {
       py.globals.set('IDX', idx);
       const n = py.runPython(`ALTS = [x for x in D.alternatives(CS[IDX], M['slug']) if x[0] != ITEMS[IDX][0]]; len(ALTS)`);
       a = {n, json: py.runPython('json.dumps(ALTS, ensure_ascii=False)'), slides: n ? await preview(pptx('D.render(ALTS, M, TTL)')) : []};
-      if (lg !== lookGen) return;                     // เปลี่ยนชุดระหว่างรอ ทิ้งของเก่า
+      if (lg !== lookGen) return;
       altCache.set(idx, a);
     }
     if (my !== altToken) return;
     box.innerHTML = '';
     if (!a.n) {
-      box.innerHTML = `<p class="empty">ชุดนี้มีแบบเดียวที่ใส่เนื้อหาหน้านี้ได้พอดี<br><button class="btn btn-line btn-sm" type="button" style="margin-top:10px">${ico('palette')}ลองชุดอื่น</button></p>`;
-      box.querySelector('button').onclick = () => wide() ? document.querySelector('.tab[data-tab=look]').click() : act('look');
+      box.innerHTML = `<p class="empty">หน้าตานี้มีแบบเดียวที่ใส่เนื้อหาหน้านี้ได้พอดี<br><button class="btn btn-line btn-sm" type="button" style="margin-top:10px">${ico('palette')}ลองหน้าตาอื่น</button></p>`;
+      box.querySelector('button').onclick = () => act('look');
       return;
     }
     a.slides.forEach((sl, k) => {
-      const b = document.createElement('button'); b.type = 'button'; b.className = 'opt';
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.style.animationDelay = (k * 60) + 'ms';
       b.innerHTML = '<div class="slidebox"></div>'; box.appendChild(b); mount(b.firstChild, sl);
       b.onclick = () => {
         if (busyNow || lg !== lookGen || order[at] !== idx) return;
         py.globals.set('IDX', idx); py.globals.set('ALTJ', a.json); py.globals.set('K_', k);
         py.runPython('ITEMS[IDX] = tuple(json.loads(ALTJ)[K_])');
         slides[at] = sl; altCache.delete(idx); dirty = true;
-        closeSheet(); cur = at; relayout(); toast('เปลี่ยนแบบหน้านี้แล้ว');
+        closeSheet(); cur = at;
+        const card = document.querySelectorAll('#list .slide')[at];       // เปลี่ยนเฉพาะการ์ดนี้ ให้เห็นว่าหน้าไหนเปลี่ยน
+        if (card) { mount(card.firstChild, sl); card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap'); select(at); }
+        else relayout();
+        toast(`จัดหน้า ${at + 1} แบบใหม่แล้วครับ`);
       };
     });
   } catch (e) { console.error(e); box.innerHTML = '<p class="empty">หาแบบอื่นไม่สำเร็จ</p>'; }
@@ -580,7 +827,7 @@ function closeSheet() { $('sheet').classList.remove('on'); }
 $('shX').onclick = closeSheet;
 $('sheet').onclick = ev => { if (ev.target === $('sheet')) closeSheet(); };
 function lookHtml() {
-  return SETS.map(s => `<button class="opt${s.slug === slug ? ' on' : ''}" data-s="${s.slug}" type="button">
+  return SETS.map((s, i) => `<button class="opt${s.slug === slug ? ' on' : ''}" data-s="${s.slug}" type="button" style="animation-delay:${i * 40}ms">
     <img src="https://img.coachtarnslide.com/cover/${s.slug}.webp" alt="" loading="lazy"><span class="lb">${esc(s.style)}</span><i class="ck">${ico('check')}</i></button>`).join('');
 }
 function slideMenu() {
@@ -588,37 +835,39 @@ function slideMenu() {
     <li><button data-m="alt" type="button">${ico('layout')}เปลี่ยนแบบหน้านี้</button></li>
     <li><button data-m="up" type="button" ${cur === 0 ? 'disabled' : ''}>${ico('up')}เลื่อนขึ้น</button></li>
     <li><button data-m="down" type="button" ${cur === slides.length - 1 ? 'disabled' : ''}>${ico('dn')}เลื่อนลง</button></li>
-    <li><button data-m="delask" type="button" class="danger" ${slides.length < 2 ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button></li></ul>`);
+    <li class="sep"><button data-m="delask" type="button" class="danger" ${slides.length < 2 ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button></li></ul>`);
   $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (b && !b.disabled) act(b.dataset.m); };
 }
 async function changeLook(s2) {
-  closeSheet(); if (s2 === slug || busyNow) return;
-  const prev = slug; slug = s2;
-  busy('กำลังจัดเนื้อหาลงชุด ' + SETS.find(x => x.slug === slug).style); await frame();
+  closeSheet(); if (s2 === slug || busyNow || running) return;
+  const prev = slug; slug = s2; const s = SETS.find(x => x.slug === slug);
+  // เปลี่ยนในที่เดิม: การ์ดทุกใบมีแสงวิ่งระหว่างจัด แล้วค่อยแทนด้วยหน้าตาใหม่ (แบบ Canva Magic Switch)
+  busyNow = true; document.querySelectorAll('#list .slide').forEach(c => c.classList.add('repaint'));
+  toast('ผู้ช่วยกำลังจัดเนื้อหาลงหน้าตา' + s.style); await frame();
   try {
-    await needSet(SETS.find(x => x.slug === slug));
+    await needSet(s);
     py.globals.set('SLUG', slug); py.runPython('M, OUT, LOG = D.plan(WANT, SLUG)'); takePlan();
-    await renderAll(); busy(''); relayout(); toast('เปลี่ยนชุดแล้ว');
-  } catch (e) { console.error(e); slug = prev; busy(''); toast('เปลี่ยนชุดไม่สำเร็จ ลองชุดอื่น'); }
-  if (wide()) $('sideLook').innerHTML = lookHtml();
+    await renderAll(); busyNow = false; relayout(); toast('เปลี่ยนเป็นหน้าตา' + s.style + 'แล้วครับ');
+    if (!wide()) pane('view');
+  } catch (e) { console.error(e); slug = prev; busyNow = false; document.querySelectorAll('#list .slide').forEach(c => c.classList.remove('repaint')); toast('เปลี่ยนไม่สำเร็จ ลองหน้าตาอื่น'); }
 }
-// ซื้อแล้ว = เคยกรอก Code ที่ /download (ค่าเดียวกับที่หน้าคลังใช้) อ่านอย่างเดียว ไม่แตะระบบขาย
-// ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
-const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
 function save(blob, name) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
 }
+// ซื้อแล้ว = เคยกรอก Code ที่ /download (ค่าเดียวกับที่หน้าคลังใช้) อ่านอย่างเดียว ไม่แตะระบบขาย
+// ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
+const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
 async function act(a) {
   if (busyNow) return;
-  if (a === 'alt') { openSheet('แบบอื่นสำหรับหน้านี้', 'เฉพาะแบบในชุดเดียวกันที่ใส่เนื้อหาหน้านี้ได้พอดี', '<div class="grid2" id="altsSheet"></div>'); altsInto($('altsSheet')); }
-  if (a === 'look') { openSheet('เปลี่ยนชุดทั้งไฟล์', 'เนื้อหาเดิมทุกหน้า จัดลงชุดใหม่ให้อัตโนมัติ', `<div class="grid2">${lookHtml()}</div>`);
+  if (a === 'alt') { openSheet('แบบอื่นสำหรับหน้านี้', 'เฉพาะแบบในหน้าตาเดียวกันที่ใส่เนื้อหาหน้านี้ได้พอดี', '<div class="grid2" id="altsSheet"></div>'); altsInto($('altsSheet')); }
+  if (a === 'look') { openSheet('เปลี่ยนหน้าตาทั้งไฟล์', 'เนื้อหาเดิมทุกหน้า จัดลงหน้าตาใหม่ให้อัตโนมัติ', `<div class="grid2">${lookHtml()}</div>`);
     $('shBody').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); }; }
   if (a === 'up') { closeSheet(); move(-1); }
   if (a === 'down') { closeSheet(); move(1); }
   if (a === 'delask' && slides.length > 1) {
-    openSheet(`ลบหน้า ${cur + 1}?`, 'หน้านี้จะไม่อยู่ในไฟล์ที่โหลด',
+    openSheet(`ลบหน้า ${cur + 1}?`, 'หน้านี้จะไม่อยู่ในไฟล์ที่แชร์',
       `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button>
        <button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ลบหน้า</button></div>`);
     $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet(); if (b.dataset.m === 'no') return;
@@ -638,7 +887,7 @@ async function act(a) {
     openSheet('แชร์สไลด์', `${slides.length} หน้า ไฟล์ PowerPoint แก้ต่อได้`, `<ul class="menu">
       <li><button data-m="dl" type="button">${ico('down')}ดาวน์โหลดลงเครื่อง (.pptx)</button></li>
       ${canSend ? `<li><button data-m="send" type="button">${ico('send')}ส่งต่อทาง LINE อีเมล หรือแอปอื่น</button></li>` : ''}
-      <li><button data-m="fonts" type="button">${ico('type')}โหลดฟอนต์ของชุดนี้</button></li></ul>`);
+      <li class="sep"><button data-m="fonts" type="button">${ico('type')}โหลดฟอนต์ของชุดนี้</button></li></ul>`);
     $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (b) act(b.dataset.m); };
     return;
   }
@@ -667,28 +916,26 @@ async function act(a) {
     save(new Blob([pptx('D.fonts_zip(FF)')], {type: 'application/zip'}), 'ฟอนต์ ' + s.style + '.zip'); toast('โหลดฟอนต์แล้ว');
   }
 }
-const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => act(b.dataset.act));
-document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
-  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t));
-  $('sideAlt').classList.toggle('hidden', t.dataset.tab !== 'alt'); $('sideLook').classList.toggle('hidden', t.dataset.tab !== 'look');
-  if (t.dataset.tab === 'alt') altsInto($('sideAlt')); else $('sideLook').innerHTML = lookHtml();
-});
-$('sideLook').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
-$('topback').onclick = () => history.state ? history.back() : (gen++, show('pHome', false));
+$('topback').onclick = () => history.state ? history.back() : (gen++, running = false, show('pHome', false));
 
 // ── ดูเต็มจอ ปัดซ้ายขวา ──
 let vi = 0;
-function openViewer(i) { vi = i; $('viewer').classList.add('on'); vShow(); }
+function openViewer(i) { vi = i; $('viewer').classList.add('on'); vShow(); history.pushState({p: 'pWork', v: 1}, ''); }
 function vShow() { mount($('vS'), slides[vi]); $('vT').textContent = `หน้า ${vi + 1} จาก ${slides.length}`; $('vP').disabled = vi === 0; $('vN').disabled = vi === slides.length - 1; }
 function vGo(d) { const n = vi + d; if (n < 0 || n >= slides.length) return; vi = n; vShow(); }
-$('vX').onclick = () => { $('viewer').classList.remove('on'); select(vi, true); };
+$('vX').onclick = () => history.state?.v ? history.back() : closeViewer();
+function closeViewer() { $('viewer').classList.remove('on'); select(vi, true); }
 $('vP').onclick = () => vGo(-1); $('vN').onclick = () => vGo(1);
 let sx = null;
 $('vB').addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, {passive: true});
 $('vB').addEventListener('touchend', e => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) vGo(dx < 0 ? 1 : -1); sx = null; });
 document.addEventListener('keydown', e => { if (!$('viewer').classList.contains('on')) return;
   if (e.key === 'ArrowRight') vGo(1); if (e.key === 'ArrowLeft') vGo(-1); if (e.key === 'Escape') $('vX').click(); });
+// ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย ใช้ส่งให้คนอื่นดูว่าทำงานยังไง
+if (location.hash === '#demo') { warm(); fetch('sets.json?v=' + V).then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
+if (/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent))
+  homeErr('กำลังเปิดในแอป Facebook หรือ LINE ซึ่งโหลดไฟล์ไม่ได้ แตะปุ่ม ... มุมขวาบน แล้วเลือก "เปิดในเบราว์เซอร์" ก่อนใช้งาน');
 </script>
 </body>
 </html>
