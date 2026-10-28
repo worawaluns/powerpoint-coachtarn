@@ -192,6 +192,18 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .cap b{flex:none}
 .cap .why{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
 .why span{font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border-radius:6px;padding:1px 8px;margin-right:6px}
+.src{display:flex;align-items:center;gap:5px;padding:0 12px 6px;font-size:12px;color:var(--sub);min-width:0}
+.src svg{width:13px;height:13px;flex:none}
+.src span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
+.slide::before{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(100deg,transparent 35%,rgba(255,214,196,.55) 50%,transparent 65%);transform:translateX(-100%);animation:arrive 1.4s var(--ease) both;animation-delay:inherit}
+@keyframes arrive{to{transform:translateX(100%)}}
+.skel .ph.doing{box-shadow:0 0 0 2px rgba(235,125,74,.7)}
+.skel .ph .lab{position:absolute;left:8%;bottom:10%;font-size:12px;font-weight:700;color:var(--red);display:flex;align-items:center;gap:6px}
+.freeline{display:flex;gap:6px;align-items:center;justify-content:center;color:var(--mid);font-size:13px;margin-top:8px;text-align:center}
+.freeline svg{width:14px;height:14px;color:var(--red)}
+.undo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.paycover{margin:4px auto 12px;max-width:320px;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(21,21,26,.14)}
+@media (min-width:600px) and (max-width:899px){.list{display:grid;grid-template-columns:1fr 1fr;align-content:start}}
 .dock{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);padding:10px 14px calc(10px + var(--safe))}
 .stage{display:none}
 /* แผ่นล่าง */
@@ -263,6 +275,8 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .stage .slidebox{border-radius:10px;box-shadow:0 8px 24px rgba(21,21,26,.10);cursor:zoom-in}
   .stage .meta{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;color:var(--mid);flex-wrap:wrap}
   .stage .meta .why{flex:1;min-width:140px}
+  .stage .src{padding:6px 0 0;font-size:13px}
+  .list .src{display:none}
   .skel{grid-template-columns:repeat(3,1fr);align-content:start;padding:20px}
   .sheet{align-items:center}
   .pan{border-radius:20px;transform:translateY(24px) scale(.98);opacity:0;transition:transform .35s var(--ease),opacity .25s}
@@ -345,6 +359,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
     <button class="chip" data-chip="samplefile" type="button"><svg class="i"><use href="#i-sample"/></svg>ลองไฟล์ตัวอย่าง</button>
   </div>
   <p class="priv"><svg class="i"><use href="#i-lock"/></svg>เนื้อหาไม่ถูกส่งออกจากเครื่องคุณ ระบบทำงานในเบราว์เซอร์ทั้งหมด</p>
+  <p class="freeline"><svg class="i"><use href="#i-slides"/></svg>ลองทำและดูสไลด์ได้ฟรีทุกหน้า โหลดไฟล์ PowerPoint ได้เมื่อมี Code จากคลัง Coach Tarn</p>
 </main>
 
 <!-- หน้าทำงาน -->
@@ -376,6 +391,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
             <button class="btn btn-line btn-sm" data-act="down" type="button"><svg class="i"><use href="#i-dn"/></svg>ลง</button>
             <button class="btn btn-line btn-sm" data-act="delask" type="button"><svg class="i"><use href="#i-trash"/></svg>ลบ</button>
           </div>
+          <div class="src" id="psrc"></div>
         </section>
         <nav class="dock">
           <button class="btn btn-line btn-big" data-act="look" type="button"><svg class="i"><use href="#i-palette"/></svg>เปลี่ยนหน้าตา</button>
@@ -406,7 +422,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261028h';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261028i';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -418,6 +434,7 @@ const frame = () => new Promise(r => { let d = 0; const f = () => { if (!d) { d 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 const wide = () => matchMedia('(min-width:900px)').matches;
 let SETS = [], slug = null, py = null, booting = null, gen = 0, lookGen = 0, running = false, pending = null;
+let SRCNAME = '';                          // ชื่อไฟล์หรือ "ข้อความที่คุณวาง" ไว้บอกที่มาใต้สไลด์
 let ttl = '', cur = 0, slides = [], META = [], order = [], deckBuf = null, dirty = true, busyNow = false;
 const zips = new Set(), fonts = new Set(), altCache = new Map();
 const SEG = new Intl.Segmenter('th', {granularity: 'word'});   // ตัดคำไทยเพื่อวัดบรรทัด (Python เรียกผ่าน js.d2sSeg)
@@ -577,11 +594,13 @@ function enterWork(again) {
   show('pWork'); pane('chat');
 }
 function startText(t, again) {
+  SRCNAME = 'ข้อความที่คุณวาง';
   enterWork(again); ta.value = ''; ta.style.height = ''; refresh();
   meMsg(`<div class="pre${t.split('\n').length <= 5 ? ' short' : ''}">${esc(t)}</div>`);
   run({text: t});
 }
 function startFile(f, again) {
+  SRCNAME = 'ไฟล์ ' + f.name;
   enterWork(again || !$('pWork').classList.contains('hidden'));
   pending = null; $('filepill').classList.add('hidden'); refresh();
   meMsg(`<div class="filechip"><b>${ico('file')}</b><span>${esc(f.name)}</span></div>`);
@@ -640,7 +659,7 @@ async function run(src) {
     await build(my, f, slug, t0);
   } catch (e) {
     console.error(e); if (my !== gen) return;
-    const msg = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน');
+    const msg = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน');
     setBot(m, `<div class="err">${esc(msg)}${msg === NET ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : ''}</div>`);
     $('skelt').textContent = 'ยังไม่มีสไลด์'; running = false; refresh();
   }
@@ -670,12 +689,15 @@ json.dumps(_st)`));
       for (let j = 0; j < lis.length; j++) {
         const sEl = lis[j].querySelector('.st');
         if (j < k && !sEl.dataset.ok) { sEl.innerHTML = CHECK; sEl.dataset.ok = 1; lis[j].className = 'ok'; if (ph[j]) ph[j].classList.add('ok'); }
-        if (j === k && !sEl.dataset.ok) { lis[j].className = 'doing'; sEl.innerHTML = '<span class="spin" style="width:14px;height:14px;border-width:2px"></span>'; }
+        if (j === k && !sEl.dataset.ok) { lis[j].className = 'doing'; sEl.innerHTML = '<span class="spin" style="width:14px;height:14px;border-width:2px"></span>';
+          if (ph[j] && !ph[j].classList.contains('doing')) { [...ph].forEach(x => { x.classList.remove('doing'); x.querySelector('.lab')?.remove(); });
+            ph[j].classList.add('doing'); ph[j].insertAdjacentHTML('beforeend', `<span class="lab"><span class="spin" style="width:12px;height:12px;border-width:2px"></span>กำลังจัดหน้า ${j + 1}</span>`); } }
       }
       const cur_ = f.outline[Math.min(k, f.outline.length - 1)];
       $('skelt').textContent = `กำลังจัดหน้า ${Math.min(st[0] + 1, st[1])} จาก ${st[1]}${cur_ ? ' ' + cur_.t : ''}`;
       await sleep(200); if (my !== gen) return;    // ให้แต่ละหน้าค้างจอพอเห็นว่าจัดทีละหน้า (งานจริงเร็วกว่านี้)
     }
+    [...ph].forEach(x => { x.classList.remove('doing'); x.querySelector('.lab')?.remove(); });
     [...lis].forEach((li, j) => { const sEl = li.querySelector('.st'); li.className = 'ok'; if (!sEl.dataset.ok) { sEl.innerHTML = CHECK; sEl.dataset.ok = 1; } if (ph[j]) ph[j].classList.add('ok'); });
     takePlan();
     if (!order.length) throw new Error('หน้าตานี้ใส่เนื้อหานี้ไม่ได้ ลองหน้าตาอื่น');
@@ -692,7 +714,7 @@ json.dumps(_st)`));
   } catch (e) {
     console.error(e); if (my !== gen) return;
     m.querySelector('.orb').classList.remove('think');
-    botMsg(`<div class="err">${esc(pyErr(e, 'สร้างไม่สำเร็จครับ ลองเลือกหน้าตาอื่น'))}</div>`);
+    botMsg(`<div class="err">${esc(pyErr(e, 'สร้างไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองเลือกหน้าตาอื่นได้เลย'))}</div>`);
   }
   running = false; refresh();
 }
@@ -725,6 +747,8 @@ function takePlan() {
 // ── ฝั่งสไลด์ ──
 const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายการ', pairs: 'หัวข้อพร้อมคำอธิบาย', qa: 'ถาม-ตอบ', stat: 'การ์ดตัวเลข',
   timeline: 'ไทม์ไลน์', table: 'ตาราง', chart: 'กราฟ', statement: 'ข้อความเด่น', divider: 'หน้าคั่น', compare: 'เปรียบเทียบ'};
+// บรรทัดที่มา: บอกว่าเนื้อหาหน้านี้มาจากไฟล์ไหน หัวข้อไหน (จุดขาย: ทุกคำมาจากของลูกค้า)
+const srcHtml = m => `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`;
 function why(m) {                       // เหตุผลที่ระบบเลือกแบบนี้ จากข้อมูลจริงของหน้านั้น
   const n = m.n, r = {stat: `ตัวเลข ${n} ค่า`, chart: `จากตาราง ${n} แถว`, table: `${n} แถว`, timeline: `${n} ช่วงเวลา`,
     qa: `${n} คำถาม`, list: `${n} ข้อ`, pairs: `${n} ข้อ`, agenda: `${n} หัวข้อ`}[m.kind];
@@ -748,7 +772,7 @@ function mount(box, node) {
 function makeDeck() { py.globals.set('ORDER', py.toPy(order)); deckBuf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL)'); dirty = false; }
 async function renderAll() {
   makeDeck();
-  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or [])) for i in ORDER])'));
+  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "") for i in ORDER])'));
   slides = await preview(deckBuf);
 }
 // เลื่อน/ลบ/เปลี่ยนแบบ: จัดแผ่นที่วาดไว้แล้วใหม่ ไม่วาดทั้งไฟล์ซ้ำ ไฟล์จริงสร้างตอนแชร์
@@ -758,7 +782,7 @@ function relayout() {
     const card = document.createElement('div'); card.className = 'slide' + (i === cur ? ' on' : '');
     card.style.animationDelay = Math.min(i * 50, 500) + 'ms';
     card.innerHTML = `<div class="slidebox"></div><div class="cap"><b>${i + 1}</b><span class="why">${why(META[i])}</span>
-      <button class="ib" type="button" aria-label="ตัวเลือกหน้า ${i + 1}">${ico('more')}</button></div>`;
+      <button class="ib" type="button" aria-label="ตัวเลือกหน้า ${i + 1}">${ico('more')}</button></div><div class="src">${srcHtml(META[i])}</div>`;
     const box = card.firstChild;
     box.onclick = () => { select(i); if (!wide()) openViewer(i); };
     card.querySelector('.cap .ib').onclick = ev => { ev.stopPropagation(); select(i); slideMenu(); };
@@ -773,7 +797,7 @@ function select(i, keep) {
   document.querySelectorAll('[data-act=up]').forEach(b => b.disabled = i === 0);
   document.querySelectorAll('[data-act=down]').forEach(b => b.disabled = i === slides.length - 1);
   document.querySelectorAll('[data-act=delask]').forEach(b => b.disabled = slides.length < 2);
-  if (wide() && slides[i]) { mount($('main'), slides[i]); $('pno').textContent = `หน้า ${i + 1} จาก ${slides.length}`; $('pwhy').innerHTML = why(META[i]); }
+  if (wide() && slides[i]) { mount($('main'), slides[i]); $('pno').textContent = `หน้า ${i + 1} จาก ${slides.length}`; $('pwhy').innerHTML = why(META[i]); $('psrc').innerHTML = srcHtml(META[i]); }
   const t = document.querySelectorAll('#list .slide')[i];
   if (t && (wide() || keep)) t.scrollIntoView({block: 'nearest', behavior: keep ? 'auto' : 'smooth'});
 }
@@ -842,14 +866,23 @@ async function changeLook(s2) {
   closeSheet(); if (s2 === slug || busyNow || running) return;
   const prev = slug; slug = s2; const s = SETS.find(x => x.slug === slug);
   // เปลี่ยนในที่เดิม: การ์ดทุกใบมีแสงวิ่งระหว่างจัด แล้วค่อยแทนด้วยหน้าตาใหม่ (แบบ Canva Magic Switch)
+  const prevJs = {slug: prev, order: [...order], slides: [...slides], META: [...META], cur};
+  py.runPython('PREV = (M, OUT, list(ITEMS), list(CS))');
   busyNow = true; document.querySelectorAll('#list .slide').forEach(c => c.classList.add('repaint'));
   toast('ผู้ช่วยกำลังจัดเนื้อหาลงหน้าตา' + s.style); await frame();
   try {
     await needSet(s);
     py.globals.set('SLUG', slug); py.runPython('M, OUT, LOG = D.plan(WANT, SLUG)'); takePlan();
     await renderAll(); busyNow = false; relayout(); toast('เปลี่ยนเป็นหน้าตา' + s.style + 'แล้วครับ');
+    // ปุ่มกลับแบบเดิม: คืนทุกอย่างรวมหน้าที่เปลี่ยนแบบหรือลบไว้
+    const um = botMsg(`<div class="undo"><span>เปลี่ยนเป็นหน้าตา<b>${esc(s.style)}</b>แล้วครับ</span><button class="btn btn-line btn-sm" type="button">${ico('reload')}กลับแบบเดิม</button></div>`);
+    um.querySelector('button').onclick = () => {
+      if (busyNow || slug !== s2) return;
+      py.runPython('M, OUT, ITEMS, CS = PREV'); slug = prevJs.slug; order = prevJs.order; slides = prevJs.slides; META = prevJs.META; cur = prevJs.cur;
+      altCache.clear(); lookGen++; dirty = true; relayout(); um.remove(); toast('กลับเป็นหน้าตาเดิมแล้ว'); if (!wide()) pane('view');
+    };
     if (!wide()) pane('view');
-  } catch (e) { console.error(e); slug = prev; busyNow = false; document.querySelectorAll('#list .slide').forEach(c => c.classList.remove('repaint')); toast('เปลี่ยนไม่สำเร็จ ลองหน้าตาอื่น'); }
+  } catch (e) { console.error(e); slug = prev; busyNow = false; py.runPython('M, OUT, ITEMS, CS = PREV'); document.querySelectorAll('#list .slide').forEach(c => c.classList.remove('repaint')); toast('เปลี่ยนไม่สำเร็จ ไม่เสียสิทธิ์อะไร ลองหน้าตาอื่นได้'); }
 }
 function save(blob, name) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
@@ -875,11 +908,12 @@ async function act(a) {
       dirty = true; cur = Math.min(cur, slides.length - 1); relayout(); toast('ลบหน้าแล้ว'); };
   }
   if ((a === 'share' || a === 'dl' || a === 'send' || a === 'fonts') && !member()) {
-    openSheet('', '', `<div class="done"><span class="big" style="background:var(--soft);color:var(--red)">${ico('lock')}</span>
-      <h3>ดูสไลด์ได้ฟรีทุกหน้า โหลดไฟล์ได้เมื่อมี Code</h3>
+    openSheet('', '', `<div class="done"><div class="paycover"><div class="slidebox" id="paycv"></div></div>
+      <h3>สไลด์ของคุณพร้อมแล้ว ${slides.length} หน้า</h3><p>ดูได้ฟรีทุกหน้า โหลดไฟล์ PowerPoint ได้เมื่อมี Code</p>
       <p>สำหรับลูกค้าที่ซื้อคลังเทมเพลต Coach Tarn แล้ว กรอก Code ที่ได้ทางอีเมลครั้งเดียว แล้วกลับมากดแชร์ที่หน้านี้ได้เลย</p>
       <a class="btn btn-red btn-big" href="/download" target="_blank" rel="noopener">${ico('lock')}กรอก Code</a>
       <a class="btn btn-line btn-big" href="/" target="_blank" rel="noopener">ดูคลังเทมเพลต</a></div>`);
+    if (slides[0]) mount($('paycv'), slides[0]);        // ใช้ปกงานของลูกค้าเองเป็นภาพ (เห็นของก่อนแล้วค่อยขอ)
     return;
   }
   if (a === 'share') {
