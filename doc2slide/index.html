@@ -197,7 +197,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .skelnote{display:flex;align-items:center;gap:10px;padding:14px 14px 0;font-size:14px}
 .editor{flex:1;min-height:0;display:flex;flex-direction:column}
 .list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:14px 14px 18px}
-.slide{position:relative;background:#fff;border:3px solid transparent;border-radius:12px;box-shadow:0 0 0 1px var(--line);overflow:hidden;animation:pop .45s var(--spring) both;transition:border-color .2s,transform .2s var(--ease)}
+.slide{position:relative;flex:none;background:#fff;border:3px solid transparent;border-radius:12px;box-shadow:0 0 0 1px var(--line);overflow:hidden;animation:pop .45s var(--spring) both;transition:border-color .2s,transform .2s var(--ease)}
 .slide.on{border-color:var(--red);box-shadow:none;transform:translateX(3px)}
 .rz{animation:rise .25s var(--ease)}
 #busyT.rz{animation-duration:.2s}   /* ข้อความขั้น/คำอธิบายหน้าเปลี่ยน: ขึ้นใหม่ทุกครั้ง */
@@ -443,7 +443,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261028k';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261028l';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -517,7 +517,10 @@ window.addEventListener('popstate', () => {
   if ($('viewer').classList.contains('on')) return closeViewer();   // ย้อนกลับตอนดูเต็มจอ = ปิดภาพ ไม่ออกจากหน้า
   gen++; running = false; closeSheet(); show('pHome', false);
 });
+// ยังไม่มีบันทึกอัตโนมัติ: มีสไลด์แล้วรีโหลดหรือปิดแท็บ ให้เบราว์เซอร์ถามก่อน
+window.addEventListener('beforeunload', e => { if (slides.length) { e.preventDefault(); e.returnValue = ''; } });
 function pane(which) {                  // มือถือ: สลับ ผู้ช่วย | สไลด์
+  document.querySelector('.panes').scrollLeft = 0;   // แผงเลื่อนด้วย transform เท่านั้น ห้ามมี scrollLeft ค้าง
   $('pWork').classList.toggle('right', which === 'view'); $('seg').classList.toggle('right', which === 'view');
   document.querySelectorAll('#seg button').forEach(b => b.classList.toggle('on', b.dataset.pane === which));
   if (which === 'view') $('segdot').classList.remove('on');
@@ -711,7 +714,8 @@ async function run(src) {
     m.querySelector('details.trail').appendChild(ul);
     await build(my, f, slug, t0);
   } catch (e) {
-    console.error(e); if (my !== gen) return;
+    (/ValueError: .*[฀-๿]/.test(String(e && e.message || e)) ? console.warn : console.error)(e);   // ไฟล์ลูกค้าที่อ่านไม่ได้ (ข้อความไทยของตัวอ่าน) ไม่ใช่บั๊ก
+    if (my !== gen) return;
     const msg = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน');
     setBot(m, `<div class="err">${esc(msg)}${msg === NET ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : ''}</div>`);
     $('skelt').textContent = 'ยังไม่มีสไลด์'; running = false; refresh();
@@ -861,14 +865,40 @@ function select(i, keep) {
   document.querySelectorAll('[data-act=delask]').forEach(b => b.disabled = slides.length < 2);
   if (wide() && slides[i]) { mount($('main'), slides[i]); if (!keep) ani($('main'), [{opacity: .4, transform: 'scale(.985)'}, {opacity: 1, transform: 'none'}], {duration: 220}); $('pno').textContent = `หน้า ${i + 1} จาก ${slides.length}`; $('pwhy').innerHTML = why(META[i]); $('psrc').innerHTML = srcHtml(META[i]); if (!keep && !calm.matches) ['pno', 'pwhy', 'psrc'].forEach(k => retrig($(k), 'rz')); }
   const t = document.querySelectorAll('#list .slide')[i];
-  if (t && (wide() || keep)) t.scrollIntoView({block: 'nearest', behavior: keep ? 'auto' : 'smooth'});
+  // เลื่อนเฉพาะ #list (scrollIntoView เลื่อน .panes ด้วยตอนแผงอยู่นอกจอ แผงสไลด์มือถือเยื้องไปซ้าย)
+  const L = $('list');
+  if (t && L.clientHeight) { const r = t.getBoundingClientRect(), lr = L.getBoundingClientRect(), d = r.top < lr.top ? r.top - lr.top : r.bottom > lr.bottom ? r.bottom - lr.bottom : 0;
+    if (d) L.scrollBy({top: d, behavior: keep ? 'auto' : 'smooth'}); }
 }
 $('main').onclick = () => openViewer(cur);
 window.addEventListener('resize', () => document.querySelectorAll('.slidebox').forEach(fit));
 function move(d) {
   const j = cur + d; if (j < 0 || j >= slides.length) return;
   flip(() => { for (const a of [order, slides, META]) [a[cur], a[j]] = [a[j], a[cur]]; cur = j; dirty = true; });
-  toast(`ย้ายไปเป็นหน้า ${cur + 1} แล้ว`);
+  toast(`ย้ายไปเป็นหน้า ${cur + 1} แล้ว`); syncAgenda();
+}
+// ย้าย/ลบหน้าแล้ว สารบัญต้องตรงกับหน้าที่เหลือ: หัวข้อเดิมที่ยังมีหน้า เรียงตามลำดับปัจจุบัน ไม่เหลือหัวข้อก็เอาหน้าสารบัญออก
+async function syncAgenda() {
+  const k = META.findIndex(m => m.kind === 'agenda'); if (k < 0) return;
+  const secs = META.filter(m => !['cover', 'agenda'].includes(m.kind) && m.sec).map(m => m.sec);
+  py.globals.set('IDX', order[k]); py.globals.set('SECS', py.toPy(secs));
+  const st = py.runPython(`C2, PK = D.reagenda(CS[IDX], list(SECS), M['slug'], ITEMS[IDX][0])
+_same = PK is not None and list(map(tuple, C2['items'])) == list(map(tuple, CS[IDX]['items'])) and PK[0] == ITEMS[IDX][0]
+CS[IDX] = C2
+if PK: ITEMS[IDX] = tuple(PK)
+0 if _same else (1 if PK else 2)`);
+  if (!st) return;
+  altCache.delete(order[k]); const lg = lookGen;
+  if (st === 2) { flip(() => { for (const x of [order, slides, META]) x.splice(k, 1); if (cur > k || cur === slides.length) cur--; }); return; }
+  busyNow = true;
+  try {
+    const [node] = await preview(pptx('D.render([ITEMS[IDX]], M, TTL)'));
+    if (lg !== lookGen || META[k]?.kind !== 'agenda' || !node) return;
+    slides[k] = node; META[k].n = py.runPython('len(CS[IDX]["items"])');
+    const card = $('list').children[k];
+    if (card) { mount(card.firstChild, node); card.querySelector('.cap .why').innerHTML = why(META[k]); }
+    if (cur === k) select(k, true);
+  } catch (e) { console.error(e); } finally { busyNow = false; }
 }
 let altToken = 0;
 async function altsInto(box) {
@@ -974,7 +1004,7 @@ async function act(a) {
       after(ani($('list').children[cur], [{opacity: 1, transform: 'none'}, {opacity: 0, transform: 'scale(.92)'}], {duration: 200, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'})).then(() => {
         busyNow = false;
         flip(() => { for (const x of [order, slides, META]) x.splice(cur, 1); dirty = true; cur = Math.min(cur, slides.length - 1); });
-        toast('ลบหน้าแล้ว'); }); };
+        toast('ลบหน้าแล้ว'); syncAgenda(); }); };
   }
   if ((a === 'share' || a === 'dl' || a === 'send' || a === 'fonts') && !member()) {
     openSheet('', '', `<div class="done"><div class="paycover"><div class="slidebox" id="paycv"></div></div>
