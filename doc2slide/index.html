@@ -153,6 +153,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .edit.saving::after{content:'';position:absolute;left:0;right:0;top:0;height:var(--th,100%);border-radius:6px;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.8) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) infinite;pointer-events:none}
 .edit .acts{transition:opacity .2s}
 .edit.saving .acts{opacity:.5;pointer-events:none}
+.edit.checking::after,.medit.checking::after{content:'';position:absolute;left:0;right:0;top:0;height:var(--th,100%);background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) infinite;pointer-events:none}
 .medit{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + var(--safe));box-shadow:0 -6px 20px rgba(20,20,26,.08);animation:mIn .26s var(--ease) both}
 @keyframes mIn{from{transform:translateY(100%)}}
 .medit .mh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
@@ -163,7 +164,8 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .medit.saving::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) infinite;pointer-events:none}
 .working .bsel button,.working .ftb>button{opacity:.45;transition:opacity .1s}
 .sheet.on ~ .toast{top:68px;bottom:auto}
-.tip{position:absolute;z-index:7;left:6%;top:calc(100% - 22px);max-width:300px;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 8px 28px rgba(20,20,26,.18);display:grid;gap:10px;animation:pop .4s var(--spring) both}
+@media (max-width:767px){body.panelon .toast{top:116px;bottom:auto}}
+.tip{position:absolute;z-index:7;left:6%;top:calc(100% + 6px);max-width:300px;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 8px 28px rgba(20,20,26,.18);display:grid;gap:10px;animation:pop .4s var(--spring) both}
 .pg:has(.tip){z-index:5}
 .tip p{display:flex;gap:8px;align-items:center;font-size:15px;font-weight:600}
 .tip p svg{color:var(--red)}
@@ -421,7 +423,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .bsel span{white-space:nowrap;line-height:1.5}
   .ftb{display:none}
   .pages{padding:16px 16px calc(96px + var(--safe))}
-  .tip{left:4%;right:4%;max-width:none}
+  .tip{position:fixed;left:12px;right:12px;top:auto;bottom:calc(70px + var(--safe));max-width:none;z-index:47}   /* มือถือ: ลอยเหนือแถบล่าง ไม่ทับสไลด์หรือบรรทัดที่มา */
   .vbar>span{flex-basis:100%}.vbar .btn{flex:1}
   .pbadge{bottom:calc(84px + var(--safe))}
 }
@@ -431,6 +433,8 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .thumbs{display:block;overflow-y:auto;padding:12px 8px 24px 4px;background:#fff;border-right:1px solid var(--line)}
   .pages{padding:24px 76px 48px 24px}
   .pg{margin-bottom:48px}
+  .tip{display:flex;align-items:center;gap:12px;padding:6px 8px 6px 14px;max-width:none;top:calc(100% + 2px)}   /* แถวเดียวในช่องว่างระหว่างหน้า ไม่ทับบรรทัดที่มาหรือหน้าถัดไป */
+  .tip p{font-size:14px}
   .rail{flex-direction:column;gap:4px;padding:8px 4px;border-left:1px solid var(--line);grid-column:3;grid-row:1}
   .rail button{width:48px;height:52px}
   .rp{top:56px;bottom:0;right:56px;width:360px;transform:translateX(calc(100% + 56px));border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(20,20,26,.08)}
@@ -457,7 +461,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .orb.think svg,.shimmer{animation:fadePulse 2s ease-in-out infinite!important}
   .shimmer::after{display:none}
   .bar::after,.skel .ph::before,.glow{display:none}
-  .edit.saving::after,.medit.saving::after,.slide.repaint .slidebox::after{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
+  .edit.saving::after,.medit.saving::after,.edit.checking::after,.medit.checking::after,.slide.repaint .slidebox::after{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
   .edit.no,.medit.no{animation:none!important}
 }
 </style>
@@ -613,7 +617,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029b';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029c';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -863,10 +867,10 @@ async function run(src) {
     if (f.outline.length < 2) throw new Error('ไม่พบเนื้อหาที่จัดเป็นสไลด์ได้ ถ้าเป็น PDF ที่สแกนจากกระดาษ ระบบอ่านไม่ได้ ลองคัดลอกเนื้อหามาวางแทน');
     ttl = py.globals.get('TTL'); $('topttl').textContent = ttl; retrig($('topttl'), 'in');
     $('skelg').innerHTML = f.outline.map((o, i) => `<div class="ph" style="--i:${i}"><b>${i + 1}</b></div>`).join('');
-    $('skelt').textContent = `ผู้ช่วยกำลังจัด ${f.outline.length} หน้า`;
+    $('skelt').textContent = 'ผู้ช่วยกำลังจัดหน้า';
     // ผู้ช่วยเล่าว่าเจออะไรและจะทำอะไรกับมัน ทุกบรรทัดมาจากผลอ่านจริง
     const nIt = f.outline.filter(o => o.kind !== 'cover' && o.kind !== 'agenda').reduce((a, o) => a + (o.n || 1), 0);
-    const rows = [['heading', f.sections >= 2 ? `แบ่งเนื้อหาได้ <b>${f.sections}</b> หัวข้อ` : `แบ่งเนื้อหาเป็น <b>${nIt}</b> ข้อ`, '']];
+    const rows = [['heading', `<span id="fr${my}">${f.sections >= 2 ? `แบ่งเนื้อหาได้ <b>${f.sections}</b> หัวข้อ` : `แบ่งเนื้อหาเป็น <b>${nIt}</b> ข้อ`}</span>`, '']];
     if (f.nums.length) rows.push(['hash', `เจอตัวเลข ${esc(f.nums.slice(0, 2).join(', '))}`, '']);
     if (f.tables) rows.push(['table', `เจอตาราง <b>${f.rows}</b> แถว`, '']);
     if (f.dates) rows.push(['cal', `เจอช่วงเวลา <b>${f.dates}</b> ช่วง`, '']);
@@ -933,6 +937,8 @@ json.dumps(_st)`));
     // โครงในแชท = หน้าจริงหลังจัด (จำนวน ชื่อ ชนิด) ตัวเลขทุกตัวที่ผู้ช่วยพูดมาจากผลจัดหน้าสุดท้าย
     const P = JSON.parse(py.runPython('json.dumps(D.plan_summary(OUT), ensure_ascii=False)'));
     document.getElementById('oh' + my).innerHTML = `จัดโครงสไลด์ได้ <b>${P.pages} หน้า</b> หน้าตา${esc(s.style)}`;
+    const fr = document.getElementById('fr' + my), body = P.outline.filter(o => !['cover', 'agenda'].includes(o.kind)).length;
+    if (fr) fr.innerHTML = P.sections >= 2 ? `แบ่งเนื้อหาได้ <b>${P.sections}</b> หัวข้อ` : `จัดเนื้อหาเป็น <b>${body}</b> หน้า`;   // ตรงกับหน้าที่ลูกค้าเห็นจริง
     document.getElementById('ol' + my).innerHTML = P.outline.map((o, i) => `<li class="ok" style="animation:none"><span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(KIND[o.kind] || o.th)}</span><span class="st">${CHECK}</span></li>`).join('');
     $('skelt').textContent = 'ผู้ช่วยกำลังวาดสไลด์'; bar.firstChild.style.transform = 'scaleX(.95)'; await frame();
     LOST = 0; arranged = false; await paint(); if (my !== gen) return;
@@ -1267,10 +1273,13 @@ function setEditState(st) {
   ED.el.querySelector('.emsg').innerHTML = MSG[st] || '';
   ED.el.querySelector('[data-e=ok]').disabled = st === 'over' || st === 'empty';
 }
-function checkEdit() {                   // ระหว่างพิมพ์ (หยุด 0.5 วิ): ลงกล่องได้ไหม ใช้ตัววัดตัวเดียวกับตอนจัดหน้า
+async function checkEdit() {             // ระหว่างพิมพ์ (หยุด 0.5 วิ): ลงกล่องได้ไหม ใช้ตัววัดตัวเดียวกับตอนจัดหน้า
   if (!ED || ED.saving) return; const v = ED.ta.value;
   if (!v.trim()) return setEditState(['t', 't1'].includes(ED.b.p[0]) ? 'empty' : 'ok');
   if (v === ED.orig) return setEditState('ok');
+  const E = ED; E.el.classList.add('checking'); await frame(); await frame();   // แสงจาง ๆ ก่อน Python วัด (มือถือช้าค้างได้ ~0.3 วิ)
+  E.el.classList.remove('checking');
+  if (ED !== E || E.saving || E.ta.value !== v) return;   // กดเสร็จระหว่างนี้: saveEdit ทำงานต่อพร้อมแสงวิ่งของมันเอง
   try {
     py.globals.set('IDX', order[ED.k]); py.globals.set('PATH', py.toPy(ED.b.p)); py.globals.set('NEW', v);
     setEditState(JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M, dry=True))'))[0]);
@@ -1307,8 +1316,9 @@ async function saveEdit() {
     // ป้ายประวัติบอกส่วนที่เปลี่ยนจริง (คำยาวที่แก้ท้ายประโยค ตัดส่วนต้นที่เหมือนกันออก)
     const A = E.orig.replace(/\s+/g, ' ').trim(), B = E.ta.value.replace(/\s+/g, ' ').trim();
     let i = 0; while (i < A.length && A[i] === B[i]) i++;
-    const st0 = Math.max(0, Math.min(i - 6, Math.max(A.length, B.length) - 18));
-    const sh = x => { const y = x.slice(st0); return (st0 ? '…' : '') + (y.length > 18 ? y.slice(0, 17) + '…' : y); };
+    let st0 = Math.max(0, Math.min(i - 6, Math.max(A.length, B.length) - 18));
+    if (st0) st0 = A.lastIndexOf(' ', st0) + 1;            // เริ่มที่ต้นคำ ไม่ตัดกลางสระ/วรรณยุกต์
+    const sh = x => { const y = x.slice(st0); return (st0 ? '…' : '') + (y.length > 26 ? y.slice(0, 25).replace(/\s+\S*$/, '') + '…' : y); };
     commit(`แก้หน้า ${k + 1}: "${sh(A)}" เป็น "${sh(B)}"`);
   } catch (e) { console.error(e); E.saving = false; E.el.classList.remove('saving'); toast('แก้ไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   finally { busyNow = false; }
@@ -1321,12 +1331,12 @@ document.addEventListener('pointerdown', ev => {   // คลิกนอกช�
 // ป้ายแนะนำครั้งแรก (จำในเครื่อง ไม่ขึ้นซ้ำ)
 function showTip() {
   try { if (localStorage.getItem('d2s_tip')) return; } catch (e) { return; }
-  const pg = pgs()[0]; if (!pg || pg.querySelector('.tip')) return;
+  const pg = pgs()[0]; if (!pg || document.querySelector('.tip')) return;
   const b = BOX[0][0];
   const t = document.createElement('div'); t.className = 'tip';
   t.innerHTML = `<p>${ico('type')}${wide() ? 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย' : 'แตะสไลด์ แล้วแตะข้อความอีกครั้งเพื่อแก้'}</p><button class="btn btn-red btn-sm" type="button">เข้าใจแล้ว</button>`;
   t.querySelector('button').onclick = ev => { ev.stopPropagation(); dropTip(); };
-  pg.appendChild(t);
+  (wide() ? pg : document.body).appendChild(t);   // มือถือลอยเหนือแถบล่าง (หน้าสไลด์มี transform ทำให้ fixed เพี้ยน)
 }
 function dropTip() { document.querySelectorAll('.tip').forEach(t => t.remove()); try { localStorage.setItem('d2s_tip', '1'); } catch (e) {} }
 
@@ -1418,7 +1428,7 @@ $('lookg').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeL
 const PANEL_T = {chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข'};
 function openPanel(p) {
   const rp = $('rp'); if (rp.dataset.p !== p) { rp.dataset.p = p; }
-  $('rpT').textContent = PANEL_T[p]; rp.classList.add('on'); $('pWork').classList.add('rpon');
+  $('rpT').textContent = PANEL_T[p]; rp.classList.add('on'); $('pWork').classList.add('rpon'); document.body.classList.add('panelon');
   document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.toggle('on', b.dataset.p === p));
   if (p === 'chat') { $('chatdot').classList.remove('on'); scrollEnd(true); }
   if (p === 'look') paintLooks();
@@ -1426,7 +1436,7 @@ function openPanel(p) {
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
 }
 function closePanel() {
-  $('rp').classList.remove('on'); $('pWork').classList.remove('rpon');
+  $('rp').classList.remove('on'); $('pWork').classList.remove('rpon'); document.body.classList.remove('panelon');
   document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.remove('on'));
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
 }
@@ -1460,7 +1470,8 @@ function commit(label) {
 }
 function urState() { $('undo').disabled = SP <= 0 || !!viewing; $('redo').disabled = SP >= STACK.length - 1 || !!viewing; }
 async function undoRedo(d) {
-  if (busyNow || viewing || ED || running) return;
+  if (ED) { if (finishEdit(true)) toast('ใช้คำที่พิมพ์ไว้แล้ว กดอีกครั้งเพื่อ' + (d < 0 ? 'เลิกทำ' : 'ทำซ้ำ')); return; }
+  if (busyNow || viewing || running) return;
   const to = SP + d; if (to < 0 || to >= STACK.length) return;
   const lab = (d < 0 ? STACK[SP] : STACK[to]).label.replace(/^(เลิกทำ|ทำซ้ำ): /, ''); SP = to; urState();
   const b = d < 0 ? $('undo') : $('redo'); b.classList.remove('kick', 'r'); void b.offsetWidth; b.classList.add('kick'); if (d > 0) b.classList.add('r');
@@ -1594,12 +1605,12 @@ async function resume(v, vs = [v]) {
   $('skelg').innerHTML = Array.from({length: Math.min(v.n || 6, 9)}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
   show('pWork'); $('topttl').textContent = ttl;
   try {
-    await boot(); await setsReady; if (my !== gen) return;
+    await frame(); await boot(); await setsReady; if (my !== gen) return;
     busyNow = true; await restore(v); busyNow = false; if (my !== gen) return;
     STACK = vs.slice(-40); SP = STACK.length - 1; urState(); setSave('ok');   // เลิกทำหลังรีโหลด = ย้อนตามเวอร์ชันที่เก็บในเครื่อง
     $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(); $('tact').classList.remove('hidden');
     const s = SETS.find(x => x.slug === slug);
-    const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">${wide() ? 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย' : 'แตะสไลด์ แล้วแตะข้อความอีกครั้งเพื่อแก้'} ทุกการแก้เก็บในเครื่องนี้ให้เอง</p>`);
+    const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">${wide() ? 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย' : 'แตะสไลด์ แล้วแตะข้อความอีกครั้งเพื่อแก้'} ${saveSt === 'no' ? 'เครื่องนี้เก็บงานไม่ได้ กดบันทึกเมื่อแก้เสร็จ (ต้องมี Code)' : 'ทุกการแก้เก็บในเครื่องนี้ให้เอง'}</p>`);
     if (!wide()) $('chatdot').classList.add('on');
     toast('เปิดงานล่าสุดของคุณแล้ว'); showTip();
   } catch (e) { console.error(e); busyNow = false; if (my !== gen) return;
@@ -1676,9 +1687,9 @@ const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib')
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
 let lastFile = null;
 async function act(a) {
+  if (ED) { if (finishEdit(true)) toast('ใช้คำที่พิมพ์ไว้แล้ว กดอีกครั้งได้เลย'); return; }   // ใช้คำที่พิมพ์ก่อน ไม่นำเสนอ/บันทึกด้วยคำเก่า
   if (a === 'present') return present();  // ต้องอยู่ในคลิกตรง ๆ ไม่งั้นขอเต็มจอไม่ได้
   if (busyNow || (viewing && a !== 'look')) return;
-  if (ED) { finishEdit(true); return; }   // ใช้คำที่พิมพ์ก่อน แล้วค่อยกดอีกครั้ง (ไม่บันทึกไฟล์ด้วยคำเก่า)
   if (a === 'look') { panelOpen('look') ? closePanel() : openPanel('look'); return; }
   if (a === 'save' && !member()) {
     openSheet('', '', `<div class="done"><div class="paycover"><div class="slidebox" id="paycv"></div></div>
@@ -1725,7 +1736,7 @@ $('topback').onclick = () => history.state ? history.back() : goHome();
 function goHome() { gen++; running = false; closeSheet(); if (ED) finishEdit(false); show('pHome', false); paintResume(); }
 // ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย ใช้ส่งให้คนอื่นดูว่าทำงานยังไง / ไม่ใช่ #demo: มีงานเดิมในเครื่องก็เปิดต่อเลย
 if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
-else versions().then(vs => { if (vs.length) { warm(); resume(vs[vs.length - 1], vs); } }).catch(() => {});
+else versions().then(vs => { if (vs.length) resume(vs[vs.length - 1], vs); }).catch(() => {});   // โครงเทาขึ้นก่อน แล้ว resume เริ่ม Python เอง
 if (/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent))
   homeErr('กำลังเปิดในแอป Facebook หรือ LINE ซึ่งโหลดไฟล์ไม่ได้ แตะปุ่ม ... มุมขวาบน แล้วเลือก "เปิดในเบราว์เซอร์" ก่อนใช้งาน');
 </script>
