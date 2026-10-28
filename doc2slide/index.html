@@ -219,7 +219,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .freeline svg{width:14px;height:14px;color:var(--red)}
 .undo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .paycover{margin:4px auto 12px;max-width:320px;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(21,21,26,.14)}
-@media (min-width:600px) and (max-width:899px){.list{display:grid;grid-template-columns:1fr 1fr;align-content:start}}
+@media (min-width:600px) and (max-width:899px){.list{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:max-content;align-content:start}}
 .dock{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);padding:10px 14px calc(10px + var(--safe))}
 .stage{display:none}
 .shead{display:none}
@@ -443,7 +443,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261028l';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261028m';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
