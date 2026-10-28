@@ -95,7 +95,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .pages{max-width:960px;margin:0 auto;padding:16px 16px calc(88px + var(--safe))}
 .pg{position:relative;margin-bottom:56px;animation:pop .45s var(--spring) both}
 .pages.settled .pg,.pages.swapin .pg{animation:none}
-.slide{position:relative;border-radius:8px;background:#fff;box-shadow:0 1px 3px rgba(21,21,26,.08),0 0 0 1px var(--line);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.slide{position:relative;border-radius:8px;background:#fff;touch-action:manipulation;box-shadow:0 1px 3px rgba(21,21,26,.08),0 0 0 1px var(--line);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .slide .slidebox{border-radius:8px}
 /* กรอบเลือก/ชี้ ใช้ ::after + opacity (motion ข้อ 1-2) ไม่ใช้ border-color */
 .slide::after{content:'';position:absolute;inset:-4px;border-radius:11px;box-shadow:0 0 0 2px var(--red);opacity:0;transform:scale(1.01);transition:opacity .15s,transform .22s var(--ease);pointer-events:none;z-index:4}
