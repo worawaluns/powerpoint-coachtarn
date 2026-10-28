@@ -34,7 +34,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .tag{margin-left:auto;font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border:1px solid #F6D3C6;border-radius:100px;padding:1px 10px;line-height:1.75;white-space:nowrap}
 .ib{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;border:none;background:none;flex:none;transition:background .15s,transform .15s}
 .ib:hover{background:var(--bg)}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;font-weight:700;font-size:15px;height:44px;padding:0 16px;line-height:1.5;text-decoration:none;transition:opacity .2s,transform .2s var(--ease),box-shadow .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;border:none;border-radius:12px;font-weight:700;font-size:15px;height:44px;padding:0 16px;line-height:1.5;text-decoration:none;transition:opacity .2s,transform .2s var(--ease),box-shadow .2s}
 .btn:active,.look:active,.th:active,.ib:active,.chip:active{transform:scale(.96);transition-duration:.08s}
 .btn:disabled{opacity:.4}
 .btn-red{background:linear-gradient(-135deg,var(--orange),var(--red));color:#fff;box-shadow:0 6px 16px rgba(211,71,36,.24)}
@@ -89,17 +89,149 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .priv{display:flex;gap:6px;align-items:center;justify-content:center;color:var(--sub);font-size:12px;margin-top:16px;text-align:center}
 .priv svg{width:14px;height:14px;color:var(--ok)}
 .homeerr{margin-top:12px;padding:10px 12px;border-radius:12px;background:#FFF1F0;color:#B42318;font-size:14px;max-width:680px;width:100%}
-/* ── หน้าทำงาน: ซ้ายผู้ช่วย ขวาสไลด์ ── */
-.work{height:calc(100dvh - 56px);display:flex;flex-direction:column}
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:8px 12px 0;padding:4px;border-radius:12px;background:#ECECF0;position:relative}
-.seg button{position:relative;z-index:1;border:none;background:none;height:36px;border-radius:9px;font-weight:700;font-size:14px;color:var(--mid);display:flex;align-items:center;justify-content:center;gap:6px;transition:color .2s}
-.seg button.on{color:var(--text)}
-.seg i{position:absolute;top:4px;left:4px;width:calc(50% - 6px);height:36px;border-radius:9px;background:#fff;box-shadow:0 1px 4px rgba(21,21,26,.1);transition:transform .3s var(--ease)}
-.seg.right i{transform:translateX(calc(100% + 4px))}
-.seg .dot{width:7px;height:7px;border-radius:50%;background:var(--red);transform:scale(0);transition:transform .3s var(--spring)}
-.seg .dot.on{transform:scale(1)}
-.panes{flex:1;min-height:0;display:grid}
-.pane{min-height:0;overflow:hidden;display:flex;flex-direction:column}
+/* ── หน้าทำงาน: ตัวแก้สไลด์ (ใบงาน 003) ภาพย่อซ้าย / canvas เลื่อนต่อกัน / แผงขวา + แถบไอคอนขวา  มือถือ: canvas + แถบล่าง ── */
+.work{position:relative;height:calc(100dvh - 56px);display:grid;grid-template-columns:1fr;min-height:0}
+.canvas{position:relative;min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);overscroll-behavior:contain;overflow-anchor:none}
+.pages{max-width:960px;margin:0 auto;padding:16px 16px calc(88px + var(--safe))}
+.pg{position:relative;margin-bottom:56px;animation:pop .45s var(--spring) both}
+.pages.settled .pg,.pages.swapin .pg{animation:none}
+.slide{position:relative;border-radius:8px;background:#fff;box-shadow:0 1px 3px rgba(21,21,26,.08),0 0 0 1px var(--line);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.slide .slidebox{border-radius:8px}
+/* กรอบเลือก/ชี้ ใช้ ::after + opacity (motion ข้อ 1-2) ไม่ใช้ border-color */
+.slide::after{content:'';position:absolute;inset:-4px;border-radius:11px;box-shadow:0 0 0 2px var(--red);opacity:0;transform:scale(1.01);transition:opacity .15s,transform .22s var(--ease);pointer-events:none;z-index:4}
+@media (hover:hover){.slide:hover::after{opacity:.45;transform:none}}
+.pg.on .slide::after{opacity:1;transform:none}
+.slide.swap .hits::before{content:'';position:absolute;inset:0;border-radius:8px;box-shadow:inset 0 0 0 3px rgba(235,125,74,.7);animation:fadeOut 1.4s forwards;pointer-events:none;z-index:3}
+.hits{position:absolute;inset:0;z-index:2}
+.hit{position:absolute;border-radius:3px;cursor:text}
+.hit::after{content:'';position:absolute;inset:-2px;border:1px dashed var(--orange);border-radius:3px;opacity:0;pointer-events:none}
+.pg.on .hit::after{animation:hitIn .3s var(--ease) both;animation-delay:min(calc(var(--i,0) * 40ms),320ms)}
+@keyframes hitIn{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+@media (hover:hover){.pg.on .hit:hover{background:rgba(235,125,74,.12)}}
+.viewing .hits,.viewing .ftb,.viewing .bsel{pointer-events:none}
+.viewing .ftb{opacity:.4}
+.src{display:flex;align-items:center;gap:5px;padding:6px 4px 0;font-size:12px;color:var(--sub);min-width:0}
+.src svg{width:13px;height:13px;flex:none}
+.src span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
+.slidebox{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#E9E9EE}
+.slidebox>div{position:absolute;left:0;top:0;transform-origin:0 0}
+.slidebox>.next{opacity:0;transition:opacity .2s ease}
+.slidebox>.next.in{opacity:1}
+/* แถบเครื่องมือของหน้า (768+) ขวานอกสไลด์ */
+.ftb{position:absolute;top:0;right:-56px;z-index:6;display:flex;flex-direction:column;gap:2px;padding:4px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(20,20,26,.12);animation:slideL .26s var(--ease) both}
+@keyframes slideL{from{opacity:0;transform:translateX(-8px)}}
+.ftb>button{width:36px;height:36px;border:none;background:none;border-radius:8px;display:grid;place-items:center;transition:background .15s,opacity .2s;animation:rise .22s var(--ease) both;animation-delay:calc(var(--i,0) * 30ms)}
+.ftb>button:hover:not(:disabled){background:var(--bg)}
+.ftb>button:disabled{opacity:.35}
+.ftb>button.on{background:var(--soft);color:var(--red)}
+.ftb hr{border:none;border-top:1px solid var(--line);margin:3px 4px}
+.fmenu{position:absolute;right:44px;bottom:0;width:250px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(20,20,26,.16);padding:6px;animation:pop .2s var(--ease) both}
+.fmenu button{display:flex;align-items:center;gap:10px;width:100%;height:40px;border:none;background:none;border-radius:8px;padding:0 10px;font-size:14px;font-weight:600;text-align:left}
+.fmenu button:hover:not(:disabled){background:var(--bg)}
+.fmenu button:disabled{opacity:.4}
+.fmenu .danger{color:#D92D20}
+.fmenu p{font-size:13px;color:var(--mid);padding:6px 8px;line-height:1.6}
+.fmenu .row{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px}
+.fmenu .row .btn{height:36px;font-size:14px;justify-content:center;padding:0 10px}
+.fmenu .row .btn-line{border:1px solid var(--line)}
+.fmenu .row .btn-danger,.fmenu .row .btn-danger:hover{background:#D92D20;color:#fff}
+.btn-danger{background:#D92D20;color:#fff}
+/* แก้ข้อความ: คอมทับกล่องเดิม / มือถือแถบล่างเหนือคีย์บอร์ด */
+.edit{position:absolute;z-index:8;transform-origin:center;animation:edIn .18s var(--ease) both}
+@keyframes edIn{from{opacity:0;transform:scale(.98)}}
+.edit textarea,.medit textarea{display:block;width:100%;resize:none;border:none;outline:none;font:inherit;line-height:1.6;color:var(--text);background:#fff;border-radius:6px;padding:4px 8px;box-shadow:0 0 0 2px #fff,0 0 0 4px var(--red);overflow:hidden}
+.edit textarea{max-height:min(40vh,260px);overflow-y:auto}
+.edit.over textarea,.medit.over textarea{box-shadow:0 0 0 2px #fff,0 0 0 4px #D92D20;background:#FEF3F2}
+.edit .acts{display:flex;align-items:center;gap:8px;margin-top:10px;padding:6px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(20,20,26,.12);width:max-content;max-width:min(520px,90vw);animation:rise .22s var(--ease) .06s both}
+.emsg{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--sub);line-height:1.5;min-width:0}
+.emsg svg{width:16px;height:16px;flex:none}
+.emsg:empty{display:none}
+.over .emsg{color:#D92D20}
+.edit .emsg{padding:0 4px;max-width:300px}
+.edit.no,.medit.no{animation:nope .28s ease-in-out}
+@keyframes nope{25%,75%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
+.edit.saving::after{content:'';position:absolute;left:0;right:0;top:0;height:var(--th,100%);border-radius:6px;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.8) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) infinite;pointer-events:none}
+.edit.saving .acts{opacity:.5;pointer-events:none}
+.medit{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + var(--safe));box-shadow:0 -6px 20px rgba(20,20,26,.08);animation:mIn .26s var(--ease) both}
+@keyframes mIn{from{transform:translateY(100%)}}
+.medit .mh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.medit .mh span{flex:1;font-size:14px;color:var(--sub);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
+.medit textarea{font-size:16px;padding:8px 12px;border-radius:12px;max-height:calc(1.6em * 4 + 16px);overflow-y:auto}
+.medit .emsg{margin-top:8px}
+.medit.saving{opacity:.7;pointer-events:none}
+.tip{position:absolute;z-index:7;left:6%;top:30%;max-width:300px;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 8px 28px rgba(20,20,26,.18);display:grid;gap:10px;animation:pop .4s var(--spring) both}
+.tip p{display:flex;gap:8px;align-items:center;font-size:15px;font-weight:600}
+.tip p svg{color:var(--red)}
+.tip .btn{justify-self:end}
+/* ภาพย่อ (768+) */
+.thumbs{display:none}
+.th{display:flex;gap:6px;align-items:flex-start;width:100%;border:none;background:none;padding:4px 0;text-align:left}
+.th b{width:16px;font-size:12px;color:var(--sub);text-align:right;flex:none;line-height:1.6}
+.th .slidebox{flex:1;border-radius:6px;box-shadow:0 0 0 1px var(--line);transition:box-shadow .2s}
+.th.near .slidebox{box-shadow:0 0 0 1px #F0B9A3}
+.th.on .slidebox{box-shadow:0 0 0 2px var(--red)}
+.th.on b{color:var(--red)}
+/* แผงขวา: ผู้ช่วย / หน้าตา / ประวัติ */
+.rp{position:fixed;z-index:40;background:#fff;display:flex;flex-direction:column;min-height:0;visibility:hidden;transition:transform .22s cubic-bezier(.4,0,1,1),visibility 0s .22s}
+.rp.on{visibility:visible;transform:none;transition:transform .38s var(--ease)}
+.rph{display:flex;align-items:center;gap:8px;height:52px;padding:0 8px 0 16px;border-bottom:1px solid var(--line);flex:none}
+.rph h3{flex:1;font-size:16px}
+.rps{display:none;flex:1;min-height:0;flex-direction:column}
+.rp[data-p=chat] .rps[data-p=chat],.rp[data-p=look] .rps[data-p=look],.rp[data-p=hist] .rps[data-p=hist]{display:flex;animation:rise .22s var(--ease) both}
+.rps[data-p=look]{overflow-y:auto;padding:12px 16px}
+.rail{display:flex;z-index:45;background:#fff}
+.rail button{position:relative;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--mid);border-radius:10px;transition:background .15s,color .15s}
+.rail button.on{background:var(--soft);color:var(--red)}
+.rail .dot{position:absolute;top:6px;right:calc(50% - 16px);width:8px;height:8px;border-radius:50%;background:var(--red);transform:scale(0);transition:transform .3s var(--spring)}
+.rail .dot.on{transform:scale(1)}
+.bsel{display:none}
+.pgc{position:fixed;right:14px;bottom:calc(70px + var(--safe));z-index:44;background:rgba(21,21,26,.82);color:#fff;font-size:13px;font-weight:600;border-radius:100px;padding:2px 10px;opacity:0;transition:opacity .3s;pointer-events:none}
+.pgc.on{opacity:1;transition-duration:.15s}
+#vbarslot{position:sticky;top:0;z-index:20}
+.vbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px;background:#FFFBEB;border-bottom:1px solid #F5E6B8;font-size:14px;animation:dropIn .26s var(--ease) both}
+@keyframes dropIn{from{opacity:0;transform:translateY(-100%)}}
+.vbar>span{flex:1 1 auto;min-width:180px;display:flex;align-items:center;gap:8px}
+.vbar svg{color:#9A6700}
+/* ประวัติ */
+.hist{flex:1;overflow-y:auto;padding:8px 12px}
+.hist h4{font-size:13px;color:var(--sub);font-weight:600;padding:10px 6px 4px}
+.hrow{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:48px;border:1px solid transparent;background:none;border-radius:12px;padding:8px 10px;text-align:left;font-size:14px;transition:background .15s}
+.hrow:hover{background:var(--bg)}
+.hrow i{width:7px;height:7px;border-radius:50%;background:#D0D0D8;flex:none}
+.hrow b{width:44px;flex:none;font-size:14px}
+.hrow span{flex:1;min-width:0;line-height:1.5}
+.hrow.now i{background:var(--ok)}.hrow.now b{color:var(--ok)}
+.hrow.now{background:var(--bg)}
+.hrow.sel{border-color:var(--red);background:var(--soft)}.hrow.sel b{color:var(--red)}.hrow.sel i{background:var(--red)}
+.hfoot{flex:none;border-top:1px solid var(--line);padding:12px 16px calc(12px + var(--safe));font-size:13px;color:var(--sub);display:grid;gap:8px}
+.hfoot p{display:flex;gap:6px}.hfoot p svg{width:16px;height:16px;flex:none;margin-top:2px}
+.linkred{display:inline-flex;align-items:center;gap:6px;border:none;background:none;color:#D92D20;font-weight:600;font-size:14px;padding:6px 0;justify-self:start}
+.linkred svg{width:16px;height:16px}
+.wipe{background:#FEF3F2;border-radius:12px;padding:10px 12px;color:var(--text);display:grid;gap:8px;animation:rise .22s var(--ease) both}
+.wipe .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wipe .btn{height:40px;font-size:14px}
+/* แถบบน: สถานะการเก็บ + เลิกทำ/ทำซ้ำ */
+.tmeta{display:flex;flex-direction:column;min-width:0;flex:0 1 auto}
+.trow{display:flex;align-items:center;gap:8px;min-width:0}
+.trow .tag{margin-left:0}
+.savest{display:inline-flex;align-items:center;gap:5px;border:none;background:none;font-size:12px;color:var(--sub);padding:0;height:20px;line-height:1.5;white-space:nowrap}
+.savest svg{width:15px;height:15px}
+.savest.no{color:#B54708}
+.savest.no svg{animation:pop .4s var(--spring)}
+.ur{display:flex;gap:2px;align-items:center}
+.ib:disabled{opacity:.35;cursor:not-allowed}
+.ib.kick svg{animation:kick .22s var(--spring)}
+.ib.kick.r svg{animation-name:kickR}
+@keyframes kick{from{transform:rotate(-25deg)}}
+@keyframes kickR{from{transform:rotate(25deg)}}
+.grow{flex:1}
+.tact{display:flex;gap:8px;align-items:center}
+[data-tip]{position:relative}
+@media (hover:hover){[data-tip]:hover::after{content:attr(data-tip);position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#15151A;color:#fff;font-size:12px;font-weight:600;padding:3px 9px;border-radius:7px;white-space:nowrap;pointer-events:none;z-index:99;animation:rise .15s var(--ease) both}}
+.ftb [data-tip]:hover::after,.ftb>button[data-tip]:hover::after{top:50%;left:auto;right:calc(100% + 8px);transform:translateY(-50%)}
+.resume{width:100%;max-width:680px;margin:22px 0 -8px;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 10px 10px 14px;animation:rise .35s var(--ease) both}
+.resume span{flex:1;min-width:0;font-size:14px;line-height:1.5}
+.resume small{display:block;color:var(--sub);font-size:12px}
 .thread{flex:1;overflow-y:auto;padding:14px 14px 16px;overscroll-behavior:contain}
 .inner{display:flex;flex-direction:column;gap:14px;max-width:640px;margin:0 auto}
 .msg{display:flex;gap:10px;align-items:flex-start;animation:rise .4s var(--ease) both}
@@ -129,18 +261,15 @@ details.trail summary svg{width:14px;height:14px;transition:transform .25s var(-
 details.trail[open] summary svg{transform:rotate(90deg)}
 .msg.past .follow,.msg.past .bar{display:none}
 .msg.past .looks{pointer-events:none;opacity:.5}
-.list .slide.swap .slidebox{animation:swapIn .5s var(--ease)}
 @keyframes swapIn{from{opacity:0;transform:scale(.96)}}
-.slide.swap::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 3px rgba(235,125,74,.7);animation:fadeOut 1.4s forwards;pointer-events:none}
 @keyframes fadeOut{to{opacity:0}}
 .slide.repaint .slidebox::before{content:'';position:absolute;inset:0;z-index:2;background:rgba(255,246,242,.6)}
 .slide.repaint .slidebox::after{content:'';position:absolute;inset:0;z-index:3;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.85) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) infinite;animation-delay:calc(var(--i,0) * 90ms)}
 /* เลื่อน/ลบหน้า: การ์ดเลื่อนไปที่ใหม่ (FLIP ใน JS) ไม่เด้งใหม่ทั้งรายการ / เปลี่ยนหน้าตา: ของใหม่ค่อยชัดขึ้นไล่ทีละใบ */
-.list.settled .slide,.list.settled .slide::before,.list.swapin .slide,.list.swapin .slide::before{animation:none}
 @keyframes lookIn{from{opacity:0;transform:scale(.96)}}
-.list.swapin .slidebox{animation:lookIn .5s var(--ease) both;animation-delay:min(calc(var(--i,0) * 70ms),700ms)}
+.pages.swapin .slide .slidebox{animation:lookIn .5s var(--ease) both;animation-delay:min(calc(var(--i,0) * 70ms),700ms)}
 .top .ttl.in{animation:rise .3s var(--ease)}
-#topshare:not(.hidden){animation:pop .45s var(--spring) both}
+#tact:not(.hidden){animation:pop .45s var(--spring) both}
 .orb.idle svg{animation:twinkle 3.2s ease-in-out infinite}
 .busy:not(.on) .orb,.busy:not(.on) .orb svg,.busy:not(.on) .orb::before,.busy:not(.on) .orb::after{animation-play-state:paused}   /* ลูกแก้วที่ซ่อนอยู่ไม่ต้องหมุน */
 .send:active,.attach:active{transform:scale(.92);transition-duration:.08s}
@@ -186,7 +315,6 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .mini .box{display:flex;align-items:flex-end;gap:6px;background:var(--bg);border-radius:18px;padding:4px}
 .mini textarea{flex:1;min-width:0;border:none;outline:none;resize:none;font:inherit;font-size:15px;line-height:1.5;padding:8px 8px;max-height:120px;background:transparent}
 .mini .send{width:38px;height:38px}
-/* ฝั่งสไลด์ */
 .view{position:relative}
 .skel{display:grid;gap:12px;padding:14px;overflow:auto}
 .skel .ph{position:relative;aspect-ratio:16/9;border-radius:10px;background:#F1E9E5;overflow:hidden;transition:background-color .3s,box-shadow .3s;animation:rise .4s var(--ease) both;animation-delay:calc(var(--i,0) * 60ms)}
@@ -195,36 +323,14 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .skel .ph.ok{background:#E9E4F7}
 .skel .ph b{position:absolute;right:8px;bottom:6px;font-size:12px;color:var(--sub)}
 .skelnote{display:flex;align-items:center;gap:10px;padding:14px 14px 0;font-size:14px}
-.editor{flex:1;min-height:0;display:flex;flex-direction:column}
-.list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding:14px 14px 18px}
-.slide{position:relative;flex:none;background:#fff;border:3px solid transparent;border-radius:12px;box-shadow:0 0 0 1px var(--line);overflow:hidden;animation:pop .45s var(--spring) both;transition:border-color .2s,transform .2s var(--ease)}
-.slide.on{border-color:var(--red);box-shadow:none;transform:translateX(3px)}
-.rz{animation:rise .25s var(--ease)}
-#busyT.rz{animation-duration:.2s}   /* ข้อความขั้น/คำอธิบายหน้าเปลี่ยน: ขึ้นใหม่ทุกครั้ง */
-.slidebox{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#E9E9EE}
-.slidebox>div{position:absolute;left:0;top:0;transform-origin:0 0}
-.slide .slidebox{cursor:zoom-in}
-.cap{display:flex;align-items:center;gap:8px;padding:4px 4px 4px 12px;font-size:13px;color:var(--mid)}
-.cap b{flex:none}
-.cap .why{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
-.why span{font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border-radius:6px;padding:1px 8px;margin-right:6px}
-.src{display:flex;align-items:center;gap:5px;padding:0 12px 6px;font-size:12px;color:var(--sub);min-width:0}
-.src svg{width:13px;height:13px;flex:none}
-.src span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
-.slide::before{content:'';position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(100deg,transparent 35%,rgba(255,214,196,.55) 50%,transparent 65%);transform:translateX(-100%);animation:arrive 1.4s var(--ease) both;animation-delay:inherit}
-@keyframes arrive{to{transform:translateX(100%)}}
 .skel .ph.doing{box-shadow:0 0 0 2px rgba(235,125,74,.7)}
 .skel .ph .lab{position:absolute;left:8%;bottom:10%;font-size:12px;font-weight:700;color:var(--red);display:flex;align-items:center;gap:6px}
 .freeline{display:flex;gap:6px;align-items:center;justify-content:center;color:var(--mid);font-size:13px;margin-top:8px;text-align:center}
 .freeline svg{width:14px;height:14px;color:var(--red)}
 .undo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .paycover{margin:4px auto 12px;max-width:320px;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(21,21,26,.14)}
-@media (min-width:600px) and (max-width:899px){.list{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:max-content;align-content:start}}
-.dock{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:rgba(255,255,255,.96);border-top:1px solid var(--line);padding:10px 14px calc(10px + var(--safe))}
-.stage{display:none}
-.shead{display:none}
 /* แผ่นล่าง */
-.sheet{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,20,26,0);pointer-events:none;visibility:hidden;transition:background .3s,visibility 0s .35s}
+.sheet{position:fixed;inset:0;z-index:65;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,20,26,0);pointer-events:none;visibility:hidden;transition:background .3s,visibility 0s .35s}
 .sheet.on{background:rgba(20,20,26,.45);pointer-events:auto;visibility:visible;transition:background .3s}
 .pan{width:100%;max-width:720px;max-height:86dvh;overflow:auto;background:#fff;border-radius:20px 20px 0 0;padding:8px 16px calc(16px + var(--safe));transform:translateY(100%);transition:transform .38s var(--ease)}
 .sheet.on .pan{transform:none}
@@ -255,54 +361,77 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .done .big svg{width:28px;height:28px;stroke-width:2.5}
 .done p{font-size:14px;color:var(--mid);margin-top:6px}
 .done .btn{width:100%;margin-top:12px}
-.viewer{position:fixed;inset:0;z-index:80;background:#111;display:flex;flex-direction:column;visibility:hidden;opacity:0;transition:opacity .25s,visibility 0s .25s}
-.viewer.on{visibility:visible;opacity:1;transition:opacity .25s}
-.viewer .vh{display:flex;align-items:center;gap:8px;color:#fff;padding:10px 12px}
-.viewer .vh span{flex:1;font-weight:600}
-.viewer .ib{color:#fff}.viewer .ib:hover{background:rgba(255,255,255,.1)}
-.viewer .ib:disabled{opacity:.3}
-.viewer .vb{flex:1;display:flex;align-items:center;justify-content:center;padding:12px;touch-action:pan-y}
-.viewer .slidebox{max-width:min(100%,calc((100dvh - 150px) * 16 / 9));border-radius:6px;transform:scale(.97);transition:transform .3s var(--ease)}
-.viewer.on .slidebox{transform:none}
-.viewer .vf{display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 12px calc(14px + var(--safe));color:#bbb;font-size:13px;text-align:center}
+/* นำเสนอ: พื้นดำ สไลด์พอดีจอ แคปซูลล่างกลาง */
+.pres{position:fixed;inset:0;z-index:100;background:#000;display:grid;place-items:center;animation:fadeIn .3s var(--ease) both;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+@keyframes fadeIn{from{opacity:0}}
+.pres .slidebox{animation:swapIn .36s var(--ease) both;background:#000}
+.pres .slidebox.nx{animation:nx .26s var(--ease) both}
+.pres .slidebox.pv{animation:pv .26s var(--ease) both}
+@keyframes nx{from{opacity:0;transform:translateX(24px)}}
+@keyframes pv{from{opacity:0;transform:translateX(-24px)}}
+.pcap{position:absolute;left:50%;bottom:calc(20px + var(--safe));transform:translateX(-50%);display:flex;align-items:center;gap:4px;background:rgba(30,30,36,.88);color:#fff;border-radius:100px;padding:4px 6px;transition:opacity .3s,transform .3s var(--ease)}
+.pres.idle .pcap{opacity:0;transform:translateX(-50%) translateY(8px)}
+.pcap .ib{color:#fff;width:44px;height:44px}
+.pcap .ib:hover{background:rgba(255,255,255,.12)}
+.pcap .ib:disabled{opacity:.3}
+.pcap span{min-width:56px;text-align:center;font-size:14px;font-weight:600}
+.pcap i{width:1px;height:22px;background:rgba(255,255,255,.25);margin:0 2px}
+.pcap [data-tip]:hover::after{top:auto;bottom:calc(100% + 10px)}
+.pbadge{position:absolute;left:16px;bottom:calc(20px + var(--safe));background:rgba(30,30,36,.88);color:#ddd;font-size:12px;border-radius:100px;padding:3px 10px;pointer-events:none}
+.prot{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:rgba(30,30,36,.9);color:#fff;font-size:13px;border-radius:100px;padding:6px 14px;white-space:nowrap;animation:fadeIn .3s both;pointer-events:none}
 .busy{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:rgba(255,255,255,.7);backdrop-filter:blur(3px);visibility:hidden;opacity:0;transition:opacity .2s,visibility 0s .2s}
 .busy.on{visibility:visible;opacity:1;transition:opacity .2s}
 .busy>div{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 18px;font-weight:600;box-shadow:0 10px 30px rgba(21,21,26,.1)}
 .toast{position:fixed;left:50%;top:68px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:90;background:#15151A;color:#fff;font-size:14px;border-radius:100px;padding:9px 16px;transition:opacity .3s,transform .35s var(--spring);pointer-events:none;max-width:90vw;text-align:center}
 .toast.on{opacity:1;transform:translateX(-50%)}
-/* มือถือ: สลับ ผู้ช่วย | สไลด์ */
-@media (max-width:899px){
-  .panes{grid-template-columns:100% 100%;overflow:hidden}
-  .pane{transition:transform .38s var(--ease)}
-  .work.right .pane{transform:translateX(-100%)}
-  .work:not(.right) .slide,.work:not(.right) .slide *,.work:not(.right) .slide::before{animation-play-state:paused}   /* แผงสไลด์ยังไม่เข้าจอ ค้างเฟรมแรกไว้ก่อน */
+/* มือถือ: canvas เต็มกว้าง แถบล่าง (ผู้ช่วย หน้าตา ประวัติ / เครื่องมือของหน้าที่เลือก) แผงเต็มจอจากล่าง */
+@media (max-width:767px){
+  .top .tmeta{order:3}
+  .top .tmeta .trow,.top .savest span{display:none}
+  .top .ur{order:2}
+  .top .tact{order:5}.top .grow{order:4}
+  .top .wonly,#present .lbl{display:none}
+  #present{width:40px;padding:0;border:none;background:none}
+  .rp{inset:56px 0 0 0;transform:translateY(100%);z-index:55}
+  .rail{position:fixed;left:0;right:0;bottom:0;height:calc(58px + var(--safe));padding:2px 8px var(--safe);border-top:1px solid var(--line);justify-content:space-around}
+  .rail button{flex:1;max-width:120px;height:54px;font-size:12px}
+  .bsel{position:fixed;left:0;right:0;bottom:0;z-index:46;height:calc(58px + var(--safe));padding:2px 4px var(--safe);background:#fff;border-top:1px solid var(--line);align-items:stretch}
+  .bsel.on{display:flex;animation:rise .22s var(--ease) both}
+  .bsel button{flex:1;min-width:0;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--mid);border-radius:10px;animation:rise .22s var(--ease) both;animation-delay:calc(var(--i,0) * 25ms)}
+  .bsel button:disabled{opacity:.35}
+  .bsel .x{color:var(--red);flex:0 0 58px;border-right:1px solid var(--line);border-radius:0}
+  .bsel span{white-space:nowrap;line-height:1.5}
+  .ftb{display:none}
+  .pages{padding:16px 16px calc(96px + var(--safe))}
+  .tip{left:4%;right:4%;max-width:none;top:auto;bottom:-24px}
+  .vbar>span{flex-basis:100%}.vbar .btn{flex:1}
+  .pbadge{bottom:calc(84px + var(--safe))}
 }
-@media (min-width:900px){
+@media (min-width:768px){
   .home h1{font-size:38px}
-  .seg{display:none}
-  .panes{grid-template-columns:380px 1fr}
-  .pchat{border-right:1px solid var(--line);background:#FBFBFC}
-  .view .editor{display:grid;grid-template-columns:170px 1fr;min-height:0}
-  .list{overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:12px;gap:10px}
-  .slide{border-width:2px;border-radius:8px;cursor:pointer}
-  .slide .slidebox{cursor:pointer}
-  .cap{font-size:12px;padding:2px 2px 2px 8px}
-  .cap .why span{display:none}
-  .dock{display:none}
-  .stage{display:flex;flex-direction:column;justify-content:center;padding:24px 28px;overflow:auto;min-width:0}
-  .stage .slidebox{border-radius:10px;box-shadow:0 8px 24px rgba(21,21,26,.10);cursor:zoom-in;animation:swapIn .5s var(--ease) both}
-  .stage .meta{animation:rise .4s var(--ease) .15s both}
-  .stage .shead{display:flex;justify-content:flex-end;margin-bottom:12px}
-  .stage .meta{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;color:var(--mid);flex-wrap:wrap}
-  .stage .meta .why{flex:1;min-width:140px}
-  .stage .src{padding:6px 0 0;font-size:13px}
-  .list .src{display:none}
-  .skel{grid-template-columns:repeat(3,1fr);align-content:start;padding:20px}
+  .work{grid-template-columns:112px minmax(0,1fr) 56px}
+  .thumbs{display:block;overflow-y:auto;padding:12px 8px 24px 4px;background:#fff;border-right:1px solid var(--line)}
+  .pages{padding:24px 76px 48px 24px}
+  .pg{margin-bottom:48px}
+  .rail{flex-direction:column;gap:4px;padding:8px 4px;border-left:1px solid var(--line);grid-column:3;grid-row:1}
+  .rail button{width:48px;height:52px}
+  .rp{top:56px;bottom:0;right:56px;width:360px;transform:translateX(calc(100% + 56px));border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(20,20,26,.08)}
+  .pgc{display:none}
   .sheet{align-items:center}
   .pan{border-radius:20px;transform:translateY(24px) scale(.98);opacity:0;transition:transform .35s var(--ease),opacity .25s}
   .sheet.on .pan{opacity:1;transform:none}
   .grid2{grid-template-columns:repeat(3,1fr)}
+  .rps .grid2{grid-template-columns:repeat(2,1fr)}
   .toast{top:auto;bottom:28px;transform:translateX(-50%) translateY(16px)}
+  .skel{grid-template-columns:repeat(2,1fr);padding:20px}
+}
+@media (min-width:1200px){
+  .work{grid-template-columns:140px minmax(0,1fr) 56px}
+  .work.rpon{grid-template-columns:140px minmax(0,1fr) 340px 56px}
+  .work.rpon .rail{grid-column:4}
+  .rp{position:relative;top:auto;bottom:auto;right:auto;width:auto;grid-column:3;grid-row:1;box-shadow:none;transform:none;display:none}
+  .rp.on{display:flex}
+  .skel{grid-template-columns:repeat(3,1fr)}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
@@ -310,6 +439,8 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .orb.think svg,.shimmer{animation:fadePulse 2s ease-in-out infinite!important}
   .shimmer::after{display:none}
   .bar::after,.skel .ph::before,.glow{display:none}
+  .edit.saving::after,.slide.repaint .slidebox::after{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
+  .edit.no,.medit.no{animation:none!important}
 }
 </style>
 </head>
@@ -342,19 +473,38 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
   <symbol id="i-reload" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/></symbol>
-  <symbol id="i-share" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></symbol>
   <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></symbol>
   <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
   <symbol id="i-slides" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></symbol>
+  <symbol id="i-cloudck" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/><path d="M9.5 13.5l2 2 3.5-3.5"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></symbol>
+  <symbol id="i-cloudoff" viewBox="0 0 24 24"><path d="M2 2l20 20"/><path d="M5.8 5.8A7 7 0 0 0 9 19h8.5a4.5 4.5 0 0 0 1.3-.2"/><path d="M21.5 15.5A4.5 4.5 0 0 0 17.5 10h-1.8A7 7 0 0 0 10 5.1"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
 </svg>
 
 <header class="top">
-  <button class="ib hidden" id="topback" type="button" aria-label="กลับหน้าแรก"><svg class="i"><use href="#i-back"/></svg></button>
   <a href="/" class="logo" id="toplogo" aria-label="Coach Tarn"><svg id="ct-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214.66" height="38" aria-label="Coach Tarn"><style>#ct-logo .st0{fill:#DB490E}#ct-logo .st1{fill:#DB480E}#ct-logo .st2{fill:#DA490D}#ct-logo .st3{fill:#3F3633}#ct-logo .st4{fill:#D9470D}#ct-logo .st5{fill:#DA480C}#ct-logo .st6{fill:#3D3531}#ct-logo .st7{fill:#3C3330}#ct-logo .st8{fill:#D9470C}#ct-logo .st9{fill:#3E3532}</style><g><path class="st0" d="M103.79,71.86c0-9.77-0.04-19.53,0.01-29.3c0.03-5.2,2.12-7.31,7.3-7.32c17.8-0.05,35.6-0.06,53.4-0.04c4.83,0.01,7.32,2.59,7.32,7.49c0.01,19.42,0,38.85-0.04,58.27c-0.01,5.22-2.56,7.86-7.73,7.89c-17.36,0.09-34.73,0.15-52.09,0.16c-5.58,0-8.1-2.61-8.11-8.18c-0.02-9.66,0-19.31,0-28.97C103.83,71.86,103.81,71.86,103.79,71.86z"/><path class="st1" d="M103.76,152.7c0-9.77-0.02-19.54,0.01-29.3c0.02-5.44,2.27-7.86,7.68-7.79c12.8,0.18,25.63-0.84,38.39,0.5c11.64,1.22,21.69,12.15,21.91,23.86c0.28,14.43,0.11,28.87,0.07,43.3c-0.01,3.54-2.71,5.84-6.74,5.85c-14,0.03-28.01,0.02-42.01,0.02c-4.23,0-8.47,0.03-12.7-0.03c-4.08-0.06-6.47-2.4-6.48-6.46c-0.04-9.98-0.01-19.97-0.01-29.95C103.83,152.7,103.79,152.7,103.76,152.7z"/><path class="st2" d="M96.85,152.55c0,9.66,0,19.32,0,28.98c0,5.48-2.14,7.62-7.69,7.62c-10.75,0-21.49,0.05-32.24-0.05c-15.9-0.16-27.19-11.47-27.3-27.32c-0.09-12.7-0.06-25.4-0.06-38.09c0-5.53,2.62-8.18,8.17-8.19c16.72-0.01,33.43,0,50.15,0.07c6.87,0.03,8.95,2.18,8.96,8.99C96.85,133.88,96.85,143.21,96.85,152.55z"/><path class="st0" d="M63.24,108.99c-8.36,0-16.73,0.02-25.09,0c-6.19-0.02-8.64-2.51-8.63-8.68c0.01-9.02,0-18.03,0.04-27.05c0.02-4.93,2.69-7.7,7.62-7.71c16.95-0.05,33.89-0.07,50.84,0c6.15,0.03,8.65,2.66,8.69,8.81c0.06,8.91,0.09,17.81,0.07,26.72c-0.01,5.24-2.54,7.84-7.8,7.88C80.41,109.04,71.82,108.99,63.24,108.99z"/><path class="st3" d="M436.86,60.72c5.58-6.35,12-7.23,18.84-6.41c8.46,1.02,13.94,7.01,14.62,16.12c0.85,11.38,0.37,22.8,0.47,34.2c0.02,2.85-1.61,4.27-4.55,4.36c-9.93,0.31-9.91,0.34-9.96-9.56c-0.04-8.25,0.11-16.52-0.32-24.75c-0.4-7.7-8.28-11.22-14.5-6.7c-3.38,2.46-4.27,6.19-4.33,10.1c-0.12,8.36-0.07,16.73-0.11,25.09c-0.02,4.64-1.12,5.72-5.78,5.75c-8.64,0.06-8.62,0.06-8.62-8.56c-0.01-19.77-0.07-39.54-0.07-59.31c0-5.37,0.61-5.92,6.06-5.94c8.16-0.03,8.26,0.06,8.26,8.13C436.86,48.74,436.86,54.24,436.86,60.72z"/><path class="st4" d="M358.86,138.46c4.9-6.38,11.48-7.86,18.69-7.09c8.71,0.92,13.95,5.71,15.01,14.39c1.47,12.09,0.54,24.27,0.53,36.41c0,0.53-0.07,1.17-0.37,1.56c-3,3.93-7.17,1.78-10.85,1.91c-2.6,0.1-3.33-2.04-3.34-4.31c-0.05-8.25-0.06-16.49-0.09-24.74c-0.01-1.52,0.05-3.05-0.09-4.55c-0.49-4.91-2.52-7.25-6.68-7.87c-4.85-0.72-9.03,1.3-10.85,5.27c-0.87,1.89-1.34,3.86-1.34,5.97c0,8.35-0.06,16.71-0.12,25.06c-0.03,4.34-1.01,5.28-5.39,5.4c-9.28,0.25-9.3,0.25-9.29-9.14c0.01-12.59-0.01-25.17,0.1-37.76c0.02-2.25-0.79-5.2,2.05-6.31c3.3-1.29,6.86-1.16,10.14,0.22C359.11,133.81,357.87,136.24,358.86,138.46z"/><path class="st5" d="M63.26,58.89c-8.68,0-17.36,0.01-26.03-0.01c-5.46-0.01-7.57-2.16-7.62-7.71c-0.03-3.25-0.06-6.51,0.01-9.76c0.09-4.01,2.28-6.27,6.29-6.28c18.11-0.03,36.23,0,54.34,0.07c3.76,0.01,6.33,2.54,6.47,6.3c0.14,3.57,0.13,7.16,0.03,10.73c-0.12,4.16-2.6,6.63-6.8,6.66c-8.89,0.07-17.79,0.02-26.68,0.02C63.26,58.91,63.26,58.9,63.26,58.89z"/><path class="st6" d="M368.61,83.38c0.03-5.51,0.43-10.13,1.88-14.63c2.49-7.71,7.66-12.47,15.61-14c6.5-1.25,12.99-1.13,19.18,1.52c6.05,2.6,9.69,7.16,10.47,13.79c0.42,3.59-0.66,4.85-4.2,5.01c-1.41,0.06-2.83-0.1-4.23,0.04c-2.85,0.29-4.35-0.89-5.17-3.67c-1.15-3.92-3.91-5.8-7.93-5.99c-4.23-0.2-8,1.66-9.35,5.17c-2.83,7.35-2.76,14.91-0.4,22.33c1.3,4.09,5.04,5.92,9.94,5.75c4.56-0.16,7.16-1.84,8.43-6.24c0.84-2.91,2.54-3.8,5.24-3.66c0.32,0.02,0.65,0.02,0.98-0.01c7.85-0.55,8.38,2.13,5.87,8.75c-2.83,7.48-8.83,10.92-16.41,12.09c-4.01,0.62-8,0.55-12-0.07c-9.23-1.44-15.57-8.16-17.25-18.28C368.8,88.4,368.52,85.49,368.61,83.38z"/><path class="st7" d="M207.4,82.48c0.04-5.36,0.57-10.61,2.81-15.57c3.02-6.7,7.97-11.02,15.32-12.22c7.42-1.2,14.72-1.18,21.42,2.95c4.51,2.79,7.13,6.88,8.03,12.07c0.59,3.38-0.86,5.17-4.32,5.37c-1.52,0.09-3.05-0.06-4.56,0.06c-2.5,0.2-3.85-0.94-4.43-3.3c-1.04-4.24-4.14-5.94-8.15-6.19c-4.19-0.26-8,0.91-9.69,5.07c-2.97,7.3-2.98,14.88-0.45,22.27c1.47,4.29,5.23,5.77,9.67,5.67c4.22-0.1,7.25-1.82,8.89-5.83c1.49-3.66,8.62-5.6,12.02-3.37c1.58,1.03,1.53,2.55,1.28,4.06c-1.04,6.33-4.37,11.13-10.24,13.73c-7.64,3.39-15.72,3.7-23.52,1.02c-9.2-3.16-12.73-10.85-13.81-19.92C207.45,86.4,207.48,84.43,207.4,82.48z"/><path class="st5" d="M216.47,159.73c0-4.34-0.05-8.69,0.02-13.03c0.04-2-0.48-3.1-2.76-2.76c-1.06,0.16-2.17,0.01-3.25-0.05c-1.91-0.1-3.02-1.02-3.04-3.04c-0.01-0.98-0.07-1.95-0.06-2.93c0.05-5.12,0.49-5.72,5.59-5.54c2.89,0.1,3.84-0.74,3.52-3.64c-0.3-2.79-0.14-5.64-0.14-8.46c0-2.67,0.99-4.37,4.04-4.23c2.17,0.1,4.35,0.07,6.51-0.05c2.85-0.15,3.94,1.42,3.98,3.95c0.06,3.15,0.09,6.3-0.08,9.44c-0.12,2.23,0.5,3.19,2.9,2.98c2.26-0.2,4.56-0.07,6.83,0.02c2.31,0.1,3.44,1.34,3.67,3.7c0.7,7.06-0.05,7.93-7.15,7.8c-6.01-0.11-6.01-0.11-6.01,5.89c0,5.97-0.09,11.95,0.02,17.92c0.1,5.37,1.6,6.72,6.89,6.62c5.86-0.11,8.58,4.5,5.79,9.74c-0.72,1.35-1.91,1.72-3.23,1.81c-4.55,0.29-9.13,0.55-13.66-0.05c-6.04-0.81-9.79-5.34-10.18-12.4c-0.25-4.55-0.05-9.12-0.05-13.68C216.59,159.73,216.53,159.73,216.47,159.73z"/><path class="st5" d="M318.22,139.69c3.87-6.54,9.38-8.47,16.05-7.98c2.81,0.2,4.34,1.24,4.38,4.37c0.11,9.13,0.2,9.13-8.91,9.46c-7.37,0.27-10.97,3.78-11.23,11.48c-0.26,7.7-0.19,15.42-0.23,23.13c-0.03,4.86-0.78,5.63-5.67,5.71c-8.8,0.14-8.9,0.04-8.91-8.75c-0.01-12.49-0.09-24.98,0.04-37.46c0.02-2.32-0.97-5.42,1.86-6.76c3.22-1.53,6.83-1.42,10.16-0.2C318.68,133.76,317.41,136.79,318.22,139.69z"/><path class="st8" d="M294.33,145.96c-0.08-6.04-3.87-11.09-9.62-12.96c-8.3-2.7-16.7-2.51-24.93,0.21c-4.01,1.33-7.2,3.94-8.52,8.28c-1.92,6.28-0.2,8.63,6.33,8.26c2.15-0.12,4.58,0.35,5.93-2.33c2.66-5.28,9.22-7.09,14.18-4.02c2.61,1.62,3.39,4.18,3.03,7.02c-0.35,2.79-2.86,2.57-4.81,2.87c-4.7,0.74-9.47,0.75-14.19,1.72c-11.95,2.46-15.82,11.65-11.93,23.64c1.17,3.6,3.9,6.04,7.57,6.99c8.24,2.13,16.12,1.7,23.38-4.51c0.22,4.41,2.8,4.97,5.95,4.77c1.3-0.08,2.61,0.04,3.9-0.05c2.53-0.18,3.91-1.35,3.89-4.12C294.39,169.83,294.48,157.89,294.33,145.96z M269.69,176.34c-4.57-0.06-6.79-1.64-7.35-5.22c-0.58-3.69,1.13-6.37,5.47-7.46c3.64-0.92,7.45-1.22,11.18-1.76c0.85-0.12,1.45,0.15,1.5,1.19C280.76,169.91,278.34,176.65,269.69,176.34z"/><path class="st6" d="M361.56,70.68c-0.33-8.6-5.32-13.97-13.76-15.77c-5.93-1.26-11.89-1.15-17.76,0.21c-5.4,1.26-9.82,3.99-11.81,9.59c-2.2,6.17-0.51,8.64,5.9,8.59c0.98-0.01,1.95-0.11,2.93-0.1c1.64,0.02,2.49-0.83,3.13-2.3c2.44-5.58,10.84-7.69,15.64-3.94c2.16,1.68,2.88,4.07,2.52,6.68c-0.35,2.53-2.57,2.6-4.47,2.93c-1.39,0.24-2.79,0.38-4.19,0.53c-5.39,0.58-10.81,1.02-15.84,3.31c-6.22,2.83-8.78,8.09-8.09,16.52c0.51,6.16,4.22,10.71,10.47,12.13c7.99,1.81,15.55,1.02,21.88-5.04c0.23,0.49,0.38,0.77,0.49,1.06c1.53,3.9,9.2,5.55,12.28,2.65c0.85-0.8,1.22-1.73,1.2-2.89C361.92,93.46,362,82.06,361.56,70.68z M336.79,99.86c-4.17,0.01-6.77-1.95-7.24-5.47c-0.46-3.5,1.46-6.54,5.27-7.44c3.98-0.93,8.09-1.36,12.14-2.03c1.06-0.17,1.29,0.36,1.34,1.27C348.81,94.79,344.28,99.79,336.79,99.86z"/><path class="st9" d="M310.08,72.56c-2.13-10.42-8.58-16.71-19.03-18.11c-3.2-0.43-6.52-0.38-9.75-0.12c-10.28,0.82-17.26,6.89-19.75,16.89c-0.87,3.5-1.2,7.05-1.07,10.64c0,1.52-0.08,3.04,0.01,4.56c0.87,14.83,8.44,22.53,23.2,23.64c14.27,1.08,24.18-6.29,26.71-20.02C311.47,84.21,311.26,78.36,310.08,72.56z M295.32,92.69c-1.48,4.34-4.97,6.19-10.1,6c-4.9-0.18-7.84-2.27-9.32-6.68c-1.08-3.24-1.19-6.6-1.11-9.6c-0.02-3.75,0.08-7.11,1.24-10.34c1.52-4.21,4.66-6.36,9.51-6.51c4.79-0.15,8.32,1.83,9.78,6.04C297.74,78.58,297.7,85.71,295.32,92.69z"/></g></svg></a>
-  <span class="ttl" id="topttl"></span>
+  <button class="ib hidden" id="topback" type="button" aria-label="กลับหน้าแรก"><svg class="i"><use href="#i-back"/></svg></button>
+  <div class="tmeta hidden" id="tmeta"><div class="trow"><span class="ttl" id="topttl"></span><span class="tag">เวอร์ชันทดลอง</span></div>
+    <button class="savest" id="savest" type="button" aria-label="สถานะการเก็บงาน"><svg class="i"><use href="#i-cloudck"/></svg><span id="savet">เก็บในเครื่องนี้แล้ว</span></button></div>
+  <div class="ur hidden" id="ur">
+    <button class="ib" id="undo" type="button" aria-label="เลิกทำ" disabled><svg class="i"><use href="#i-undo"/></svg></button>
+    <button class="ib" id="redo" type="button" aria-label="ทำซ้ำ" disabled><svg class="i"><use href="#i-redo"/></svg></button>
+  </div>
   <span class="tag" id="toptag">เวอร์ชันทดลอง</span>
-  <button class="btn btn-red btn-sm hidden" id="topshare" data-act="share" type="button"><svg class="i"><use href="#i-share"/></svg>แชร์</button>
+  <span class="grow hidden" id="topgrow"></span>
+  <div class="tact hidden" id="tact">
+    <button class="btn btn-line btn-sm wonly" data-act="look" type="button"><svg class="i"><use href="#i-palette"/></svg>หน้าตา</button>
+    <button class="btn btn-line btn-sm" id="present" data-act="present" type="button" aria-label="นำเสนอ"><svg class="i"><use href="#i-play"/></svg><span class="lbl">นำเสนอ</span></button>
+    <button class="btn btn-red btn-sm" id="savebtn" data-act="save" type="button"><svg class="i"><use href="#i-down"/></svg><span id="savelbl">บันทึก</span></button>
+  </div>
 </header>
 
 <!-- หน้าแรก -->
@@ -382,14 +532,17 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   <p class="freeline"><svg class="i"><use href="#i-slides"/></svg>ลองทำและดูสไลด์ได้ฟรีทุกหน้า โหลดไฟล์ PowerPoint ได้เมื่อมี Code จากคลัง Coach Tarn</p>
 </main>
 
-<!-- หน้าทำงาน -->
+<!-- หน้าทำงาน: ตัวแก้สไลด์ -->
 <main class="work hidden" id="pWork">
-  <div class="seg" id="seg"><i></i>
-    <button class="on" data-pane="chat" type="button"><svg class="i"><use href="#i-chat"/></svg>ผู้ช่วย</button>
-    <button data-pane="view" type="button"><svg class="i"><use href="#i-slides"/></svg>สไลด์<span class="dot" id="segdot"></span></button>
-  </div>
-  <div class="panes">
-    <section class="pane pchat">
+  <nav class="thumbs" id="thumbs" aria-label="ภาพย่อสไลด์"></nav>
+  <section class="canvas" id="canvas">
+    <div id="vbarslot"></div>
+    <div id="skel"><div class="skelnote"><span class="orb think" style="width:26px;height:26px"><svg><use href="#i-spark"/></svg></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
+    <div class="pages hidden" id="pages"></div>
+  </section>
+  <aside class="rp" id="rp" data-p="chat">
+    <div class="rph"><h3 id="rpT">ผู้ช่วย</h3><button class="ib" id="rpX" type="button" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
+    <section class="rps pchat" data-p="chat">
       <div class="thread" id="thread"><div class="inner" id="inner"></div></div>
       <div class="mini">
         <div class="box">
@@ -399,28 +552,26 @@ details.trail[open] summary svg{transform:rotate(90deg)}
         </div>
       </div>
     </section>
-    <section class="pane view" id="view">
-      <div id="skel"><div class="skelnote"><span class="orb think" style="width:26px;height:26px"><svg><use href="#i-spark"/></svg></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
-      <div class="editor hidden" id="editor">
-        <div class="list" id="list"></div>
-        <section class="stage">
-          <div class="shead"><button class="btn btn-line btn-sm" data-act="look" type="button"><svg class="i"><use href="#i-palette"/></svg>เปลี่ยนหน้าตา</button></div>
-          <div class="slidebox" id="main"></div>
-          <div class="meta"><b id="pno"></b><span class="why" id="pwhy"></span>
-            <button class="btn btn-line btn-sm" data-act="alt" type="button"><svg class="i"><use href="#i-layout"/></svg>เปลี่ยนแบบหน้า</button>
-            <button class="btn btn-line btn-sm" data-act="up" type="button"><svg class="i"><use href="#i-up"/></svg>ขึ้น</button>
-            <button class="btn btn-line btn-sm" data-act="down" type="button"><svg class="i"><use href="#i-dn"/></svg>ลง</button>
-            <button class="btn btn-line btn-sm" data-act="delask" type="button"><svg class="i"><use href="#i-trash"/></svg>ลบ</button>
-          </div>
-          <div class="src" id="psrc"></div>
-        </section>
-        <nav class="dock">
-          <button class="btn btn-line btn-big" data-act="look" type="button"><svg class="i"><use href="#i-palette"/></svg>เปลี่ยนหน้าตา</button>
-          <button class="btn btn-red btn-big" data-act="share" type="button"><svg class="i"><use href="#i-share"/></svg>แชร์</button>
-        </nav>
-      </div>
+    <section class="rps" data-p="look"><p class="sub" style="font-size:13px;color:var(--sub)">จัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย</p><div class="grid2" id="lookg"></div></section>
+    <section class="rps" data-p="hist"><div class="hist" id="hist"></div>
+      <div class="hfoot"><p><svg class="i"><use href="#i-info"/></svg>ประวัติเก็บในเครื่องนี้เท่านั้น ล้างข้อมูลเบราว์เซอร์แล้วหาย กดบันทึกเพื่อเก็บเป็นไฟล์</p>
+        <div id="wipebox"><button class="linkred" id="wipeask" type="button"><svg class="i"><use href="#i-trash"/></svg>ลบงานออกจากเครื่องนี้</button></div></div>
     </section>
-  </div>
+  </aside>
+  <nav class="rail" id="rail">
+    <button type="button" data-p="chat" aria-label="ผู้ช่วย"><svg class="i"><use href="#i-spark"/></svg>ผู้ช่วย<i class="dot" id="chatdot"></i></button>
+    <button type="button" data-p="look" aria-label="หน้าตา"><svg class="i"><use href="#i-palette"/></svg>หน้าตา</button>
+    <button type="button" data-p="hist" aria-label="ประวัติ"><svg class="i"><use href="#i-history"/></svg>ประวัติ</button>
+  </nav>
+  <nav class="bsel" id="bsel" aria-label="เครื่องมือของหน้าที่เลือก">
+    <button class="x" type="button" data-b="x" id="bselx"><svg class="i"><use href="#i-x"/></svg><span id="bseln">หน้า 1</span></button>
+    <button type="button" data-b="alt" style="--i:1"><svg class="i"><use href="#i-layout"/></svg><span>เปลี่ยนแบบหน้า</span></button>
+    <button type="button" data-b="dup" style="--i:2"><svg class="i"><use href="#i-copy"/></svg><span>ทำสำเนา</span></button>
+    <button type="button" data-b="up" style="--i:3"><svg class="i"><use href="#i-up"/></svg><span>ขึ้น</span></button>
+    <button type="button" data-b="down" style="--i:4"><svg class="i"><use href="#i-dn"/></svg><span>ลง</span></button>
+    <button type="button" data-b="more" style="--i:5"><svg class="i"><use href="#i-more"/></svg><span>เพิ่มเติม</span></button>
+  </nav>
+  <div class="pgc" id="pgc"></div>
 </main>
 
 <div class="sheet" id="sheet"><div class="pan">
@@ -429,12 +580,12 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   <p class="sub" id="shS"></p>
   <div id="shBody"></div>
 </div></div>
-<div class="viewer" id="viewer">
-  <div class="vh"><span id="vT"></span><button class="ib" id="vX" type="button" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
-  <div class="vb" id="vB"><div class="slidebox" id="vS"></div></div>
-  <div class="vf"><button class="ib" id="vP" type="button" aria-label="หน้าก่อน"><svg class="i"><use href="#i-back"/></svg></button>
-    <span>ปัดหรือกดลูกศรเพื่อดูหน้าอื่น<br>แก้ข้อความได้ใน PowerPoint หลังโหลด</span>
-    <button class="ib" id="vN" type="button" aria-label="หน้าถัดไป"><svg class="i"><use href="#i-next"/></svg></button></div>
+<div class="pres hidden" id="pres">
+  <div class="slidebox" id="pbox"></div>
+  <div class="pcap"><button class="ib" id="pP" type="button" aria-label="หน้าก่อน (←)" data-tip="หน้าก่อน (←)"><svg class="i"><use href="#i-back"/></svg></button><span id="pcnt"></span>
+    <button class="ib" id="pN" type="button" aria-label="หน้าถัดไป (→)" data-tip="หน้าถัดไป (→)"><svg class="i"><use href="#i-next"/></svg></button><i></i>
+    <button class="ib" id="pX" type="button" aria-label="ออก (Esc)" data-tip="ออก (Esc)"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <span class="pbadge hidden" id="pbadge">ทำด้วย Coach Tarn</span>
 </div>
 <div class="busy" id="busy"><div><span class="orb think" style="width:30px;height:30px"><svg><use href="#i-spark"/></svg></span><span id="busyT"></span></div></div>
 <div class="toast" id="toast"></div>
@@ -443,7 +594,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261028m';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261028n';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -459,7 +610,7 @@ const retrig = (el, c) => { el.classList.remove(c); void el.offsetWidth; el.clas
 // ให้จอวาดก่อนคิดต่อ  rAF หยุดเมื่อแท็บถูกซ่อน เลยมีตัวจับเวลาสำรอง
 const frame = () => new Promise(r => { let d = 0; const f = () => { if (!d) { d = 1; r(); } }; requestAnimationFrame(() => setTimeout(f, 0)); setTimeout(f, 80); });
 const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
-const wide = () => matchMedia('(min-width:900px)').matches;
+const wide = () => matchMedia('(min-width:768px)').matches;
 let SETS = [], slug = null, py = null, booting = null, gen = 0, lookGen = 0, running = false, pending = null;
 let SRCNAME = '';                          // ชื่อไฟล์หรือ "ข้อความที่คุณวาง" ไว้บอกที่มาใต้สไลด์
 let ttl = '', cur = 0, slides = [], META = [], order = [], deckBuf = null, dirty = true, busyNow = false;
@@ -505,28 +656,22 @@ function morph(fn) {                    // กดส่งจากหน้า�
   morphing = Promise.race([t.finished.catch(() => {}), sleep(600)]).then(() => document.querySelectorAll('#inner .bubble').forEach(b => b.style.viewTransitionName = ''));
 }
 function show(p, push = true) {
-  $('pHome').classList.toggle('hidden', p !== 'pHome'); $('pWork').classList.toggle('hidden', p !== 'pWork');
-  $('topback').classList.toggle('hidden', p === 'pHome'); $('toplogo').classList.toggle('hidden', p !== 'pHome');
-  $('toptag').classList.toggle('hidden', p !== 'pHome');
-  if (p === 'pHome') $('topshare').classList.add('hidden');
-  $('topttl').textContent = p === 'pWork' ? (ttl || 'กำลังเตรียมสไลด์') : '';
+  const w = p === 'pWork';
+  $('pHome').classList.toggle('hidden', w); $('pWork').classList.toggle('hidden', !w);
+  $('topback').classList.toggle('hidden', !w); $('toplogo').classList.toggle('hidden', w && !matchMedia('(min-width:1200px)').matches);
+  $('toptag').classList.toggle('hidden', w);
+  ['tmeta', 'ur', 'topgrow'].forEach(k => $(k).classList.toggle('hidden', !w));
+  if (!w) $('tact').classList.add('hidden');
+  $('topttl').textContent = w ? (ttl || 'กำลังเตรียมสไลด์') : '';
   if (push && p === 'pWork' && history.state?.p !== p) history.pushState({p}, '');   // ปุ่มย้อนของมือถือกลับหน้าแรก
   window.scrollTo(0, 0);
 }
 window.addEventListener('popstate', () => {
-  if ($('viewer').classList.contains('on')) return closeViewer();   // ย้อนกลับตอนดูเต็มจอ = ปิดภาพ ไม่ออกจากหน้า
-  gen++; running = false; closeSheet(); show('pHome', false);
+  if (!$('pres').classList.contains('hidden')) return closePres(true);   // ย้อนกลับตอนนำเสนอ = ออกจากนำเสนอ ไม่ออกจากหน้า
+  goHome();
 });
-// ยังไม่มีบันทึกอัตโนมัติ: มีสไลด์แล้วรีโหลดหรือปิดแท็บ ให้เบราว์เซอร์ถามก่อน
-window.addEventListener('beforeunload', e => { if (slides.length) { e.preventDefault(); e.returnValue = ''; } });
-function pane(which) {                  // มือถือ: สลับ ผู้ช่วย | สไลด์
-  document.querySelector('.panes').scrollLeft = 0;   // แผงเลื่อนด้วย transform เท่านั้น ห้ามมี scrollLeft ค้าง
-  $('pWork').classList.toggle('right', which === 'view'); $('seg').classList.toggle('right', which === 'view');
-  document.querySelectorAll('#seg button').forEach(b => b.classList.toggle('on', b.dataset.pane === which));
-  if (which === 'view') $('segdot').classList.remove('on');
-  requestAnimationFrame(() => document.querySelectorAll('#view .slidebox').forEach(fit));
-}
-$('seg').onclick = ev => { const b = ev.target.closest('[data-pane]'); if (b) pane(b.dataset.pane); };
+// งานเก็บในเครื่องอัตโนมัติ ถามก่อนปิดเฉพาะตอนเครื่องนี้เก็บไม่ได้
+window.addEventListener('beforeunload', e => { if (slides.length && saveSt === 'no') { e.preventDefault(); e.returnValue = ''; } });
 function toast(m, stay) { const t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._h); if (!stay) t._h = setTimeout(() => t.classList.remove('on'), 2600); }   // stay = ค้างจนงานเสร็จ
 function busy(m) { busyNow = !!m; const t = $('busyT'); if (m && t.textContent !== m) { t.textContent = m; retrig(t, 'rz'); } else if (!m) t.textContent = ''; $('busy').classList.toggle('on', !!m); }
 function pyErr(e, fallback) {          // ข้อความของเราเป็นไทย error ที่ไม่ได้ดัก (อังกฤษ) ไม่โชว์ให้ลูกค้า
@@ -539,7 +684,9 @@ $('thread').addEventListener('scroll', () => { const t = $('thread'); stick = t.
 function scrollEnd(force) { const t = $('thread'); if (force) stick = true; if (stick) requestAnimationFrame(() => t.scrollTo({top: t.scrollHeight, behavior: 'smooth'})); }
 function botMsg(html, think) {
   const m = document.createElement('div'); m.className = 'msg bot';
-  m.innerHTML = `${ORB(think)}<div class="bubble">${html}</div>`; $('inner').appendChild(m); idleLatest(); scrollEnd(); return m;
+  m.innerHTML = `${ORB(think)}<div class="bubble">${html}</div>`; $('inner').appendChild(m); idleLatest(); scrollEnd();
+  if (!panelOpen('chat')) $('chatdot').classList.add('on');   // จุดแดงบน "ผู้ช่วย" เมื่อมีข้อความใหม่
+  return m;
 }
 function meMsg(html) {
   const m = document.createElement('div'); m.className = 'msg me';
@@ -567,7 +714,7 @@ function boot() {                       // ล้มแล้วไม่ลอ�
     stepTo(3); await unzip('py.zip'); await unzip('kit.zip');
     py.FS.mkdirTree('/k5/fonts'); py.FS.mkdirTree('/k5/img');
     py.FS.writeFile('/k5/fonts/OFL.txt', await (await get('fonts/OFL.txt')).text());
-    py.runPython(`import sys, json; sys.path.insert(0, '/k5'); import doc2slide as D`);
+    py.runPython(`import sys, json, ast; sys.path.insert(0, '/k5'); import doc2slide as D`);
     stepTo(4);
   })();
 }
@@ -583,7 +730,7 @@ fetch('fonts.json?v=' + V).then(r => r.json()).then(m => {   // ให้พร�
     return `@font-face{font-family:'${n}';src:url('fonts/${f}?v=${V}');font-weight:${b ? 700 : 400};font-display:swap}`; }).join('');
   document.head.appendChild(st);
 });
-fetch('sets.json?v=' + V).then(r => r.json()).then(s => { SETS = s; slug = s[0].slug; });
+const setsReady = fetch('sets.json?v=' + V).then(r => r.json()).then(s => { SETS = s; slug = s[0].slug; });
 
 // ── หน้าแรก ──
 const ta = $('ta'), ta2 = $('ta2');
@@ -639,10 +786,12 @@ $('send2').onclick = () => { const t = ta2.value.trim(); if (!t || running) retu
   ta2.value = ''; refresh(); startText(t, true); };
 function enterWork(again) {
   if (!again) { $('inner').innerHTML = ''; }
-  ttl = ''; slides = []; $('topshare').classList.add('hidden');
-  $('editor').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา';
+  if (ED) finishEdit(false);
+  ttl = ''; slides = []; KEYS = []; cur = 0; $('tact').classList.add('hidden'); $('pages').innerHTML = ''; $('thumbs').innerHTML = '';
+  if (viewing) { viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; }
+  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา';
   $('skelg').innerHTML = Array.from({length: 6}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
-  show('pWork'); pane('chat');
+  show('pWork'); openPanel('chat');
 }
 function startText(t, again) {
   SRCNAME = 'ข้อความที่คุณวาง';
@@ -762,11 +911,11 @@ json.dumps(_st)`));
     const real = JSON.parse(py.runPython('json.dumps([[x["c"].get("t",""), x["c"]["kind"]] for x in OUT])'));
     f.outline.forEach((o, j) => { const hit = real.find(r => r[0] === o.t); if (hit && KIND[hit[1]]) lis[j].querySelector('.k').textContent = KIND[hit[1]]; });
     $('skelt').textContent = 'ผู้ช่วยกำลังวาดสไลด์'; bar.firstChild.style.transform = 'scaleX(.95)'; await frame();
-    await renderAll(); if (my !== gen) return;
+    LOST = 0; arranged = false; await paint(); if (my !== gen) return;
     bar.firstChild.style.transform = 'scaleX(1)'; bar.classList.add('done'); m.querySelector('.orb').classList.remove('think');
     if (wide()) { await after(ani($('skel'), [{opacity: 1}, {opacity: 0}], {duration: 180, easing: 'ease-out', fill: 'forwards'})); if (my !== gen) return; }
-    $('skel').classList.add('hidden'); $('skel').getAnimations().forEach(a => a.cancel()); $('editor').classList.remove('hidden'); relayout();
-    $('topshare').classList.remove('hidden');
+    $('skel').classList.add('hidden'); $('skel').getAnimations().forEach(a => a.cancel()); $('pages').classList.remove('hidden'); cur = -1; relayout();
+    $('tact').classList.remove('hidden'); commit(`สร้างสไลด์ ${slides.length} หน้า`);
     m.querySelector('.orb').classList.add('yay'); navigator.vibrate?.(12);
     done(my, t0);
   } catch (e) {
@@ -787,33 +936,30 @@ function done(my, t0) {
   const cnt = k => META.filter(x => x.kind === k).length;
   if (cnt('chart')) did.push('ทำตารางเป็นกราฟ'); if (cnt('table')) did.push('จัดตารางให้อ่านง่าย');
   if (cnt('timeline')) did.push('เรียงช่วงเวลาเป็นไทม์ไลน์'); if (cnt('stat')) did.push('ทำตัวเลขเป็นการ์ดเด่น');
-  const m = botMsg(`<p>เสร็จแล้วครับ <b>${slides.length} หน้า</b> หน้าตา${esc(s.style)} ใช้เวลา ${((performance.now() - (t0 || performance.now())) / 1000).toFixed(1)} วินาที${did.length ? ' สิ่งที่ทำ: ' + did.join(' ') : ''}${wide() ? ' ดูได้ทางขวา' : ''}</p>
-    <p class="sub">ไม่ชอบหน้าตานี้ เลือกแบบอื่นได้เลย ระบบจัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ หน้าที่ลบ ย้าย หรือเปลี่ยนแบบไว้จะกลับเป็นแบบเริ่มต้น</p>
+  const m = botMsg(`<p>เสร็จแล้วครับ <b>${slides.length} หน้า</b> หน้าตา${esc(s.style)} ใช้เวลา ${((performance.now() - (t0 || performance.now())) / 1000).toFixed(1)} วินาที${did.length ? ' สิ่งที่ทำ: ' + did.join(' ') : ''}</p>
+    <p>แตะข้อความบนสไลด์เพื่อแก้ได้เลย พร้อมแล้วกดบันทึกเพื่อโหลดไฟล์</p>
+    <p class="sub">ไม่ชอบหน้าตานี้ เลือกแบบอื่นได้เลย ระบบจัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย</p>
     <div class="looks">${lookCards(slug)}</div>
-    <div class="follow">${wide() ? '' : `<button class="btn btn-red btn-sm" data-f="view" type="button">${ico('slides')}ดูสไลด์</button>`}
-      <button class="btn btn-line btn-sm" data-f="share" type="button">${ico('share')}แชร์</button></div>`);
+    <div class="follow"><button class="btn btn-line btn-sm" data-f="view" type="button">${ico('slides')}ดูสไลด์</button>
+      <button class="btn btn-red btn-sm" data-f="save" type="button">${ico('down')}บันทึก</button></div>`);
   m.querySelector('.looks').onclick = ev => { const b = ev.target.closest('.look'); if (!b || my !== gen) return;
     m.querySelectorAll('.look').forEach(x => x.classList.toggle('on', x === b)); changeLook(b.dataset.s); };
   m.querySelector('.follow').onclick = ev => { const b = ev.target.closest('[data-f]'); if (!b || my !== gen) return;
-    if (b.dataset.f === 'view') pane('view'); else act('share'); };
-  if (!wide()) { $('segdot').classList.add('on'); setTimeout(() => { if (my === gen) pane('view'); }, 900); }   // เสร็จแล้วพาไปดูสไลด์ให้เอง
+    if (b.dataset.f === 'view') { if (!matchMedia('(min-width:1200px)').matches) closePanel(); select(0, {scroll: true}); } else act('save'); };
+  // เสร็จแล้วพาไปดูสไลด์ให้เอง (จอกว้างแผงผู้ช่วยเปิดค้างได้)
+  if (!matchMedia('(min-width:1200px)').matches) setTimeout(() => { if (my === gen && !running) { closePanel(); showTip(); } }, 900); else showTip();
 }
 function takePlan() {
   py.runPython('ITEMS = [(x["layout"], x["d"]) for x in OUT]; CS = [x["c"] for x in OUT]');
   order = Array.from({length: py.runPython('len(ITEMS)')}, (_, i) => i);
-  altCache.clear(); lookGen++; cur = 0;
+  altCache.clear(); lookGen++; cur = -1;
 }
 
-// ── ฝั่งสไลด์ ──
+// ── ฝั่งสไลด์: canvas เลื่อนต่อกันทุกหน้า + ภาพย่อ + เลือกหน้า + แก้ข้อความบนสไลด์ (ใบงาน 003) ──
 const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายการ', pairs: 'หัวข้อพร้อมคำอธิบาย', qa: 'ถาม-ตอบ', stat: 'การ์ดตัวเลข',
   timeline: 'ไทม์ไลน์', table: 'ตาราง', chart: 'กราฟ', statement: 'ข้อความเด่น', divider: 'หน้าคั่น', compare: 'เปรียบเทียบ'};
 // บรรทัดที่มา: บอกว่าเนื้อหาหน้านี้มาจากไฟล์ไหน หัวข้อไหน (จุดขาย: ทุกคำมาจากของลูกค้า)
 const srcHtml = m => `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`;
-function why(m) {                       // เหตุผลที่ระบบเลือกแบบนี้ จากข้อมูลจริงของหน้านั้น
-  const n = m.n, r = {stat: `ตัวเลข ${n} ค่า`, chart: `จากตาราง ${n} แถว`, table: `${n} แถว`, timeline: `${n} ช่วงเวลา`,
-    qa: `${n} คำถาม`, list: `${n} ข้อ`, pairs: `${n} ข้อ`, agenda: `${n} หัวข้อ`}[m.kind];
-  return `<span>${KIND[m.kind] || ''}</span>${r || ''}`;
-}
 function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); return u.buffer; }
 async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
   const tmp = document.createElement('div'); tmp.style.cssText = 'position:fixed;left:-99999px;top:0;width:960px';
@@ -829,77 +975,321 @@ function mount(box, node) {
   box.innerHTML = ''; const inner = document.createElement('div'); inner.appendChild(node.cloneNode(true)); box.appendChild(inner);
   fit(box); requestAnimationFrame(() => fit(box));
 }
+// แผ่นที่วาดแล้วจำไว้ตามลายนิ้วมือของหน้า (layout + เนื้อหา) เลิกทำ/ย้อนเวอร์ชันใช้ภาพเดิม วาดใหม่เฉพาะหน้าที่ต่าง
+// ponytail: ลายนิ้วมือไม่รวมเลขหน้า ย้ายหน้าแล้วเลขหน้าบนจออาจเป็นของเดิม ไฟล์ที่บันทึกวาดใหม่ทั้งไฟล์ ถูกเสมอ
+const nodeCache = new Map();
+let KEYS = [], BOX = [];
+async function paint() {
+  py.globals.set('ORDER', py.toPy(order));
+  KEYS = JSON.parse(py.runPython('json.dumps(D.keys(ITEMS, ORDER, TTL, M["slug"]))'));
+  const need = KEYS.map((k, i) => nodeCache.has(k) ? -1 : i).filter(i => i >= 0);
+  if (need.length) {
+    py.globals.set('ONLY', py.toPy(need));
+    const buf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL, only=set(ONLY))');
+    const bx = JSON.parse(py.runPython('json.dumps(D.BOXES, ensure_ascii=False)'));
+    const nodes = await preview(buf);
+    need.forEach((pos, j) => { if (nodes[j]) nodeCache.set(KEYS[pos], {node: nodes[j], boxes: bx[j] || []}); });
+    while (nodeCache.size > 240) nodeCache.delete(nodeCache.keys().next().value);
+  }
+  slides = KEYS.map(k => nodeCache.get(k)?.node); BOX = KEYS.map(k => nodeCache.get(k)?.boxes || []);
+  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "") for i in ORDER], ensure_ascii=False)'));
+  dirty = true;
+  return need;
+}
 function makeDeck() { py.globals.set('ORDER', py.toPy(order)); deckBuf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL)'); dirty = false; }
-async function renderAll() {
-  makeDeck();
-  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "") for i in ORDER])'));
-  slides = await preview(deckBuf);
+const pgs = () => [...$('pages').children].filter(x => x.classList.contains('pg'));
+function hitsHtml(k) {
+  return BOX[k].map((b, j) => `<div class="hit" data-j="${j}" style="--i:${j};left:${b.x / 9.6}%;top:${b.y / 5.4}%;width:${b.w / 9.6}%;height:${b.h / 5.4}%"></div>`).join('');
 }
-// เลื่อน/ลบ/เปลี่ยนแบบ: จัดแผ่นที่วาดไว้แล้วใหม่ ไม่วาดทั้งไฟล์ซ้ำ ไฟล์จริงสร้างตอนแชร์
-function relayout(mode) {               // mode: (ไม่ใส่) เด้งขึ้น / 'settled' ไม่เด้ง (FLIP เลื่อนให้) / 'swap' ค่อยชัดไล่ทีละใบ
-  const L = $('list'); L.innerHTML = ''; L.classList.toggle('settled', mode === 'settled'); L.classList.toggle('swapin', mode === 'swap');
-  slides.forEach((sl, i) => {
-    const card = document.createElement('div'); card.className = 'slide' + (i === cur ? ' on' : '');
-    card.style.animationDelay = Math.min(i * 50, 500) + 'ms'; card.style.setProperty('--i', i);
-    card.innerHTML = `<div class="slidebox"></div><div class="cap"><b>${i + 1}</b><span class="why">${why(META[i])}</span>
-      <button class="ib" type="button" aria-label="ตัวเลือกหน้า ${i + 1}">${ico('more')}</button></div><div class="src">${srcHtml(META[i])}</div>`;
-    const box = card.firstChild;
-    box.onclick = () => { select(i); if (!wide()) openViewer(i); };
-    card.querySelector('.cap .ib').onclick = ev => { ev.stopPropagation(); select(i); slideMenu(); };
-    if (wide()) card.onclick = ev => { if (!ev.target.closest('.ib')) select(i); };
-    L.appendChild(card); mount(box, sl);
-  });
-  select(Math.min(cur, slides.length - 1), true);
+function pageEl(k) {
+  const pg = document.createElement('div'); pg.className = 'pg'; pg.style.animationDelay = Math.min(k * 50, 500) + 'ms'; pg.style.setProperty('--i', k);
+  pg.innerHTML = `<div class="slide"><div class="slidebox"></div><div class="hits">${hitsHtml(k)}</div></div><div class="src">${srcHtml(META[k])}</div>`;
+  mount(pg.querySelector('.slidebox'), slides[k]);
+  return pg;
 }
-function flip(fn) {                     // เลื่อน/ลบ: การ์ดเลื่อนจากที่เดิมไปที่ใหม่ ตาตามได้ว่าใบไหนไปไหน
-  const was = new Map([...$('list').children].map((c, k) => [slides[k], c.getBoundingClientRect()]));
-  fn(); relayout('settled');
-  [...$('list').children].forEach((c, k) => { const a = was.get(slides[k]); if (!a) return; const b = c.getBoundingClientRect();
-    if (a.left !== b.left || a.top !== b.top) ani(c, [{transform: `translate(${a.left - b.left}px,${a.top - b.top}px)`}, {transform: 'none'}], {duration: 320}); });
+function thumbEl(k) {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'th'; b.setAttribute('aria-label', `ไปหน้า ${k + 1}`);
+  b.innerHTML = `<b>${k + 1}</b><div class="slidebox"></div>`; mount(b.lastChild, slides[k]); return b;
 }
-function select(i, keep) {
+// วาด canvas + ภาพย่อใหม่ทั้งชุด  mode: (ไม่ใส่) เด้งขึ้น / 'settled' ไม่เด้ง / 'swap' ค่อยชัดไล่ทีละใบ (เปลี่ยนหน้าตา)
+function relayout(mode) {
+  const C = $('canvas'), top = C.scrollTop, P = $('pages');
+  P.classList.toggle('settled', mode === 'settled'); P.classList.toggle('swapin', mode === 'swap');
+  P.replaceChildren(...slides.map((_, k) => pageEl(k)));
+  $('thumbs').replaceChildren(...slides.map((_, k) => thumbEl(k)));
+  C.scrollTop = top; observePages();
+  if (cur >= slides.length) cur = slides.length - 1;
+  select(cur, {quiet: true});
+}
+// แก้หน้าเดียว/เลิกทำที่จำนวนหน้าเท่าเดิม: สลับเฉพาะเนื้อในของหน้าที่เปลี่ยน ภาพเก่าอยู่จนภาพใหม่พร้อม (motion ข้อ 5)
+function swapPage(k, ring = true) {
+  const pg = pgs()[k]; if (!pg) return;
+  const box = pg.querySelector('.slidebox'), old = box.firstChild;
+  const nx = document.createElement('div'); nx.className = 'next'; nx.appendChild(slides[k].cloneNode(true)); box.appendChild(nx);
+  if (box.clientWidth) nx.style.transform = `scale(${box.clientWidth / 960})`;
+  if (calm.matches || !old) { old?.remove(); nx.className = ''; }
+  else { requestAnimationFrame(() => { nx.classList.add('in'); setTimeout(() => { old.remove(); nx.className = ''; }, 230); }); }
+  pg.querySelector('.hits').innerHTML = hitsHtml(k); pg.querySelector('.src').innerHTML = srcHtml(META[k]);
+  const sl = pg.querySelector('.slide'); if (ring) { sl.classList.remove('swap'); void sl.offsetWidth; sl.classList.add('swap'); }
+  const th = $('thumbs').children[k]; if (th) mount(th.lastChild, slides[k]);
+}
+// หลังเปลี่ยน state ของ Python: จำนวนหน้าเท่าเดิม = สลับเฉพาะหน้าที่ต่าง / ไม่เท่า = วาดใหม่ทั้ง canvas
+function settle(oldKeys) {
+  if (oldKeys.length !== KEYS.length || !pgs().length) { relayout('settled'); return KEYS.findIndex((k, i) => k !== oldKeys[i]); }
+  let first = -1;
+  KEYS.forEach((k, i) => { if (k !== oldKeys[i]) { swapPage(i); if (first < 0) first = i; } });
+  pgs().forEach((pg, k) => { pg.querySelector('.src').innerHTML = srcHtml(META[k]); });
+  return first;
+}
+let io_ = null;
+function observePages() {                 // เลื่อน canvas แล้วภาพย่อที่ใกล้กลางจอไฮไลต์ตาม / มือถือป้าย "3 / 12"
+  io_?.disconnect(); const vis = new Map();
+  io_ = new IntersectionObserver(es => {
+    es.forEach(e => vis.set(e.target, e.intersectionRatio));
+    let best = null, br = 0; vis.forEach((r, el) => { if (r > br) { br = r; best = el; } });
+    const k = pgs().indexOf(best); if (k < 0) return; near = k;
+    [...$('thumbs').children].forEach((t, j) => t.classList.toggle('near', j === k));
+    const t = $('thumbs').children[k], T = $('thumbs');
+    if (t && T.clientHeight && (t.offsetTop < T.scrollTop || t.offsetTop + t.offsetHeight > T.scrollTop + T.clientHeight)) T.scrollTo({top: t.offsetTop - T.clientHeight / 2, behavior: 'smooth'});
+  }, {root: $('canvas'), threshold: [0, .25, .5, .75, 1]});
+  pgs().forEach(p => io_.observe(p));
+}
+let near = 0, pgcT = 0;
+$('canvas').addEventListener('scroll', () => {
+  if (wide() || !slides.length) return;
+  const C = $('canvas').getBoundingClientRect(), mid = C.top + C.height / 2;
+  let d = 1e9; pgs().forEach((p, k) => { const r = p.getBoundingClientRect(), x = Math.abs(r.top + r.height / 2 - mid); if (x < d) { d = x; near = k; } });
+  const c = $('pgc'); c.textContent = `${near + 1} / ${slides.length}`; c.classList.add('on');
+  clearTimeout(pgcT); pgcT = setTimeout(() => c.classList.remove('on'), 1000);
+}, {passive: true});
+new ResizeObserver(() => { document.querySelectorAll('#pages .slidebox').forEach(fit); placeEdit(); }).observe($('pages'));
+window.addEventListener('resize', () => { document.querySelectorAll('.slidebox').forEach(fit); presFit(); });
+
+// ── เลือกหน้า + แถบเครื่องมือ ──
+const FTB = document.createElement('div'); FTB.className = 'ftb';
+FTB.innerHTML = `<button type="button" data-b="alt" aria-label="เปลี่ยนแบบหน้า" data-tip="เปลี่ยนแบบหน้า" style="--i:0">${ico('layout')}</button>
+  <button type="button" data-b="dup" aria-label="ทำสำเนา" data-tip="ทำสำเนา" style="--i:1">${ico('copy')}</button>
+  <button type="button" data-b="up" aria-label="เลื่อนขึ้น" data-tip="เลื่อนขึ้น" style="--i:2">${ico('up')}</button>
+  <button type="button" data-b="down" aria-label="เลื่อนลง" data-tip="เลื่อนลง" style="--i:3">${ico('dn')}</button><hr>
+  <button type="button" data-b="more" aria-label="เพิ่มเติม" data-tip="เพิ่มเติม" style="--i:4">${ico('more')}</button>`;
+function select(i, o = {}) {
   cur = i;
-  document.querySelectorAll('#list .slide').forEach((t, k) => t.classList.toggle('on', k === i));
-  document.querySelectorAll('[data-act=up]').forEach(b => b.disabled = i === 0);
-  document.querySelectorAll('[data-act=down]').forEach(b => b.disabled = i === slides.length - 1);
-  document.querySelectorAll('[data-act=delask]').forEach(b => b.disabled = slides.length < 2);
-  if (wide() && slides[i]) { mount($('main'), slides[i]); if (!keep) ani($('main'), [{opacity: .4, transform: 'scale(.985)'}, {opacity: 1, transform: 'none'}], {duration: 220}); $('pno').textContent = `หน้า ${i + 1} จาก ${slides.length}`; $('pwhy').innerHTML = why(META[i]); $('psrc').innerHTML = srcHtml(META[i]); if (!keep && !calm.matches) ['pno', 'pwhy', 'psrc'].forEach(k => retrig($(k), 'rz')); }
-  const t = document.querySelectorAll('#list .slide')[i];
-  // เลื่อนเฉพาะ #list (scrollIntoView เลื่อน .panes ด้วยตอนแผงอยู่นอกจอ แผงสไลด์มือถือเยื้องไปซ้าย)
-  const L = $('list');
-  if (t && L.clientHeight) { const r = t.getBoundingClientRect(), lr = L.getBoundingClientRect(), d = r.top < lr.top ? r.top - lr.top : r.bottom > lr.bottom ? r.bottom - lr.bottom : 0;
-    if (d) L.scrollBy({top: d, behavior: keep ? 'auto' : 'smooth'}); }
+  pgs().forEach((p, k) => p.classList.toggle('on', k === i));
+  [...$('thumbs').children].forEach((t, k) => t.classList.toggle('on', k === i));
+  FTB.querySelector('.fmenu')?.remove(); FTB.querySelector('[data-b=more]').classList.remove('on');
+  const pg = pgs()[i];
+  if (pg && wide()) { if (FTB.parentNode !== pg) { pg.appendChild(FTB); FTB.style.animation = 'none'; void FTB.offsetWidth; FTB.style.animation = ''; } }
+  else FTB.remove();
+  const n = slides.length;
+  document.querySelectorAll('.ftb [data-b=up],#bsel [data-b=up]').forEach(b => b.disabled = i <= 0);
+  document.querySelectorAll('.ftb [data-b=down],#bsel [data-b=down]').forEach(b => b.disabled = i >= n - 1);
+  const bs = $('bsel'), on = i >= 0 && !wide() && !!pg;
+  if (on) { const t = `หน้า ${i + 1}`; if ($('bseln').textContent !== t) { $('bseln').textContent = t; retrig($('bseln'), 'rz'); } $('bselx').setAttribute('aria-label', `เลิกเลือกหน้า ${i + 1}`); }
+  bs.classList.toggle('on', on);
+  if (o.scroll && pg) pg.scrollIntoView({behavior: calm.matches || o.jump ? 'auto' : 'smooth', block: 'center'});
 }
-$('main').onclick = () => openViewer(cur);
-window.addEventListener('resize', () => document.querySelectorAll('.slidebox').forEach(fit));
+$('pages').addEventListener('click', ev => {
+  if (viewing) return;
+  const pg = ev.target.closest('.pg'); if (!pg) { if (ev.target.closest('.ftb')) return; return select(-1); }
+  if (ev.target.closest('.ftb,.edit,.tip')) return;
+  const k = pgs().indexOf(pg), hit = ev.target.closest('.hit');
+  // มือถือ: แตะครั้งแรกแค่เลือกหน้า (กันแก้พลาดตอนเลื่อนนิ้ว) แตะคำบนหน้าที่เลือกแล้วจึงแก้
+  if (hit && (wide() || k === cur)) { if (k !== cur) select(k); openEdit(k, +hit.dataset.j); return; }
+  if (k !== cur) select(k);
+});
+$('canvas').addEventListener('click', ev => { if (ev.target === $('canvas') || ev.target === $('pages')) select(-1); });
+$('thumbs').addEventListener('click', ev => { const t = ev.target.closest('.th'); if (!t) return; select([...$('thumbs').children].indexOf(t), {scroll: true}); });
+FTB.addEventListener('click', ev => {
+  const b = ev.target.closest('[data-b]'); if (!b || b.disabled) return;
+  if (b.dataset.b === 'more') return moreMenu(b);
+  if (ev.target.closest('.fmenu')) return;
+  pageAct(b.dataset.b);
+});
+$('bsel').addEventListener('click', ev => { const b = ev.target.closest('[data-b]'); if (!b || b.disabled) return; if (b.dataset.b === 'x') return select(-1); pageAct(b.dataset.b); });
+function moreMenu(btn) {
+  const had = FTB.querySelector('.fmenu'); had?.remove(); btn.classList.toggle('on', !had); if (had) return;
+  const m = document.createElement('div'); m.className = 'fmenu';
+  const one = slides.length < 2;
+  m.innerHTML = `<button type="button" data-m="del" class="danger" ${one ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button>${one ? '<p>ต้องมีอย่างน้อย 1 หน้า</p>' : ''}`;
+  m.onclick = ev => {
+    ev.stopPropagation(); const b = ev.target.closest('[data-m]'); if (!b || b.disabled) return;
+    if (b.dataset.m === 'del') { m.innerHTML = `<p>ลบหน้า ${cur + 1}? หน้านี้จะไม่อยู่ในไฟล์</p><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-m="yes" type="button">ลบหน้า</button></div>`; return; }
+    m.remove(); btn.classList.remove('on'); if (b.dataset.m === 'yes') delPage();
+  };
+  FTB.appendChild(m);
+}
+function pageAct(a) {
+  if (busyNow || cur < 0 || viewing) return;
+  if (a === 'alt') { openSheet('แบบอื่นสำหรับหน้านี้', 'เฉพาะแบบในหน้าตาเดียวกันที่ใส่เนื้อหาหน้านี้ได้พอดี', '<div class="grid2" id="altsSheet"></div>'); altsInto($('altsSheet')); }
+  if (a === 'dup') dupPage();
+  if (a === 'up') move(-1);
+  if (a === 'down') move(1);
+  if (a === 'more') {                    // มือถือ: แผ่นล่าง ยืนยันในแผ่นเดิม
+    const one = slides.length < 2;
+    openSheet(`หน้า ${cur + 1}`, '', `<ul class="menu"><li><button data-m="delask" type="button" class="danger" ${one ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button></li></ul>${one ? '<p class="sub">ต้องมีอย่างน้อย 1 หน้า</p>' : ''}`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b || b.disabled) return;
+      if (b.dataset.m === 'delask') { $('shT').textContent = `ลบหน้า ${cur + 1}?`; $('shS').textContent = 'หน้านี้จะไม่อยู่ในไฟล์';
+        $('shBody').innerHTML = `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ลบหน้า</button></div>`; return; }
+      closeSheet(); if (b.dataset.m === 'yes') delPage(); };
+  }
+}
+// ย้าย/ลบ/ทำสำเนา: เปลี่ยนลำดับ → สารบัญตาม → หน้าเลื่อนไปที่ใหม่ (FLIP) ตาตามได้ว่าใบไหนไปไหน
+async function reflow(mutate, label, sel) {
+  if (busyNow) return; busyNow = true;
+  const was = new Map(); pgs().forEach((p, k) => { if (!was.has(KEYS[k])) was.set(KEYS[k], p.getBoundingClientRect()); });
+  const oldSet = new Set(KEYS);
+  try {
+    mutate(); agendaPy(); await paint();
+    if (sel != null) cur = Math.max(0, Math.min(sel, slides.length - 1));
+    relayout('settled');
+    pgs().forEach((p, k) => { const a = was.get(KEYS[k]); if (!oldSet.has(KEYS[k])) { const s = p.querySelector('.slide'); s.classList.add('swap'); }
+      if (!a) return; const b = p.getBoundingClientRect(); if (a.top !== b.top) ani(p, [{transform: `translateY(${a.top - b.top}px)`}, {transform: 'none'}], {duration: 360}); });
+    arranged = true; commit(label);
+  } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); }
+  finally { busyNow = false; }
+}
 function move(d) {
-  const j = cur + d; if (j < 0 || j >= slides.length) return;
-  flip(() => { for (const a of [order, slides, META]) [a[cur], a[j]] = [a[j], a[cur]]; cur = j; dirty = true; });
-  toast(`ย้ายไปเป็นหน้า ${cur + 1} แล้ว`); syncAgenda();
+  const i = cur, j = cur + d; if (j < 0 || j >= slides.length) return;
+  reflow(() => { [order[i], order[j]] = [order[j], order[i]]; }, `ย้ายหน้า ${i + 1} ${d < 0 ? 'ขึ้น' : 'ลง'}`, j).then(() => { select(cur); toast(`ย้ายไปเป็นหน้า ${cur + 1} แล้ว`); });
+}
+function dupPage() {
+  const i = cur;
+  reflow(() => { py.globals.set('IDX', order[i]); const n = py.runPython('ITEMS.append(ITEMS[IDX]); CS.append(CS[IDX]); len(ITEMS) - 1'); order.splice(i + 1, 0, n); },
+    `ทำสำเนาหน้า ${i + 1}`, i + 1).then(() => { select(cur, {scroll: true}); toast(`ทำสำเนาเป็นหน้า ${cur + 1} แล้ว`); });
+}
+async function delPage() {
+  if (busyNow || slides.length < 2) return; const i = cur;
+  await after(ani(pgs()[i], [{opacity: 1, transform: 'none'}, {opacity: 0, transform: 'scale(.96)'}], {duration: 220, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}));
+  await reflow(() => { order.splice(i, 1); }, `ลบหน้า ${i + 1}`, Math.min(i, slides.length - 2));
+  toast(`ลบหน้า ${i + 1} แล้ว กดเลิกทำเพื่อเอาคืนได้`);
 }
 // ย้าย/ลบหน้าแล้ว สารบัญต้องตรงกับหน้าที่เหลือ: หัวข้อเดิมที่ยังมีหน้า เรียงตามลำดับปัจจุบัน ไม่เหลือหัวข้อก็เอาหน้าสารบัญออก
-async function syncAgenda() {
-  const k = META.findIndex(m => m.kind === 'agenda'); if (k < 0) return;
-  const secs = META.filter(m => !['cover', 'agenda'].includes(m.kind) && m.sec).map(m => m.sec);
-  py.globals.set('IDX', order[k]); py.globals.set('SECS', py.toPy(secs));
-  const st = py.runPython(`C2, PK = D.reagenda(CS[IDX], list(SECS), M['slug'], ITEMS[IDX][0])
-_same = PK is not None and list(map(tuple, C2['items'])) == list(map(tuple, CS[IDX]['items'])) and PK[0] == ITEMS[IDX][0]
+function agendaPy() {
+  py.globals.set('ORDER', py.toPy(order));
+  const k = py.runPython(`next((p for p, i in enumerate(ORDER) if CS[i]['kind'] == 'agenda'), -1)`); if (k < 0) return;
+  py.globals.set('IDX', order[k]);
+  const st = py.runPython(`_secs = [((CS[i].get('s') if CS[i]['kind'] == 'statement' else CS[i].get('t')) or '') for i in ORDER if CS[i]['kind'] not in ('cover', 'agenda')]
+C2, PK = D.reagenda(CS[IDX], [s for s in _secs if s], M['slug'], ITEMS[IDX][0])
 CS[IDX] = C2
 if PK: ITEMS[IDX] = tuple(PK)
-0 if _same else (1 if PK else 2)`);
-  if (!st) return;
-  altCache.delete(order[k]); const lg = lookGen;
-  if (st === 2) { flip(() => { for (const x of [order, slides, META]) x.splice(k, 1); if (cur > k || cur === slides.length) cur--; }); return; }
-  busyNow = true;
-  try {
-    const [node] = await preview(pptx('D.render([ITEMS[IDX]], M, TTL)'));
-    if (lg !== lookGen || META[k]?.kind !== 'agenda' || !node) return;
-    slides[k] = node; META[k].n = py.runPython('len(CS[IDX]["items"])');
-    const card = $('list').children[k];
-    if (card) { mount(card.firstChild, node); card.querySelector('.cap .why').innerHTML = why(META[k]); }
-    if (cur === k) select(k, true);
-  } catch (e) { console.error(e); } finally { busyNow = false; }
+1 if PK else 2`);
+  altCache.delete(order[k]);
+  if (st === 2) order.splice(k, 1);
 }
+
+// ── แก้ข้อความบนสไลด์ ──
+let ED = null;                            // {k, j, box, el, ta, orig}
+const FIELD = p => ({t: 'หัวเรื่อง', t1: 'หัวเรื่อง', s: 'หัวรอง', note: 'หมายเหตุ', head: 'หัวตาราง', cats: 'ป้ายกราฟ'})[p[0]]
+  || (p[0] === 'items' ? `ข้อ ${p[1] + 1}` : p[0] === 'rows' ? `ตาราง แถว ${p[1] + 1}` : 'ข้อความ');
+function curText(k, b) { py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(b.p)); return py.runPython('D._get(ITEMS[IDX][1], list(PATH))'); }
+function openEdit(k, j) {
+  if (ED) { if (ED.k === k && ED.j === j) return; if (!finishEdit(true)) return; }
+  if (busyNow || viewing) return;
+  dropTip();
+  const b = BOX[k][j]; if (!b) return;
+  const orig = curText(k, b);
+  const m = !wide();
+  const el = document.createElement('div'); el.className = m ? 'medit' : 'edit';
+  el.innerHTML = m
+    ? `<div class="mh"><span>หน้า ${k + 1} · ${FIELD(b.p)}</span><button class="btn btn-line btn-sm" data-e="no" type="button">${ico('x')}ยกเลิก</button><button class="btn btn-red btn-sm" data-e="ok" type="button">${ico('check')}เสร็จ</button></div><textarea rows="1" aria-label="${FIELD(b.p)} หน้า ${k + 1}"></textarea><div class="emsg"></div>`
+    : `<textarea rows="1" aria-label="${FIELD(b.p)} หน้า ${k + 1}"></textarea><div class="acts"><div class="emsg"></div><button class="btn btn-line btn-sm" data-e="no" type="button">${ico('x')}ยกเลิก</button><button class="btn btn-red btn-sm" data-e="ok" type="button">${ico('check')}เสร็จ</button></div>`;
+  const ta_ = el.querySelector('textarea'); ta_.value = orig;
+  ED = {k, j, b, el, ta: ta_, orig, st: 'ok'};
+  if (m) { document.body.appendChild(el); $('rail').style.visibility = 'hidden'; $('bsel').style.visibility = 'hidden'; kbFit(); pgs()[k].scrollIntoView({block: 'start', behavior: 'smooth'}); }
+  else { pgs()[k].appendChild(el); placeEdit(); }
+  grow(); ta_.focus({preventScroll: true});
+  if (!m) { const r = ta_.value.length; ta_.setSelectionRange(r, r); }
+  el.addEventListener('click', ev => { const x = ev.target.closest('[data-e]'); if (!x) return; ev.stopPropagation(); x.dataset.e === 'ok' ? finishEdit(true) : finishEdit(false); });
+  ta_.addEventListener('input', () => { grow(); clearTimeout(ED?.chk); if (ED) { ED.chk = setTimeout(checkEdit, 500); } });
+  ta_.addEventListener('keydown', ev => {
+    if (ev.isComposing || ev.keyCode === 229) return;   // กำลังประกอบคำไทย ห้ามจับ Enter
+    if (ev.key === 'Escape') { ev.preventDefault(); finishEdit(false); }
+    if (ev.key === 'Enter' && !ev.shiftKey && !b.multi) { ev.preventDefault(); finishEdit(true); }
+  });
+}
+function grow() { if (!ED) return; const t = ED.ta; t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; ED.el.style.setProperty('--th', t.offsetHeight + 'px'); }
+function placeEdit() {                   // คอม: ช่องพิมพ์ทับกล่องเดิมพอดี ตัวอักษรเท่าบนจอ (ไม่ต่ำกว่า 14px)
+  if (!ED || !ED.el.classList.contains('edit')) return;
+  const sl = pgs()[ED.k]?.querySelector('.slide'); if (!sl) return;
+  const W = sl.clientWidth, s = W / 960, b = ED.b;
+  const w = Math.min(Math.max(b.w * s + 16, 240), W), x = Math.max(0, Math.min(b.x * s - 8, W - w));
+  Object.assign(ED.el.style, {left: x + 'px', top: Math.max(0, b.y * s - 4) + 'px', width: w + 'px'});
+  ED.ta.style.fontSize = Math.max(14, b.pt * s) + 'px'; grow();
+}
+function kbFit() {                        // มือถือ: แถบพิมพ์ชิดเหนือคีย์บอร์ด (iPhone ไม่ย่อหน้าต่างตามคีย์บอร์ด)
+  if (!ED || !ED.el.classList.contains('medit') || !window.visualViewport) return;
+  const v = visualViewport, kb = Math.max(0, innerHeight - v.height - v.offsetTop);
+  ED.el.style.transform = kb ? `translateY(${-kb}px)` : '';
+}
+window.visualViewport?.addEventListener('resize', kbFit); window.visualViewport?.addEventListener('scroll', kbFit);
+const MSG = {shrink: `${ico('info')}ตัวอักษรจะเล็กลงเล็กน้อยให้พอดีกล่อง`, over: `${ico('alert')}ยาวเกินกล่องนี้ ลองตัดให้สั้นลงอีกนิด`, empty: `${ico('alert')}หัวเรื่องว่างไม่ได้`};
+function setEditState(st) {
+  if (!ED) return; ED.st = st;
+  ED.el.classList.toggle('over', st === 'over' || st === 'empty');
+  ED.el.querySelector('.emsg').innerHTML = MSG[st] || '';
+  ED.el.querySelector('[data-e=ok]').disabled = st === 'over' || st === 'empty';
+}
+function checkEdit() {                   // ระหว่างพิมพ์ (หยุด 0.5 วิ): ลงกล่องได้ไหม ใช้ตัววัดตัวเดียวกับตอนจัดหน้า
+  if (!ED || ED.saving) return; const v = ED.ta.value;
+  if (!v.trim()) return setEditState(['t', 't1'].includes(ED.b.p[0]) ? 'empty' : 'ok');
+  if (v === ED.orig) return setEditState('ok');
+  try {
+    py.globals.set('IDX', order[ED.k]); py.globals.set('PATH', py.toPy(ED.b.p)); py.globals.set('NEW', v);
+    setEditState(JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M, dry=True))'))[0]);
+  } catch (e) { console.error(e); }
+}
+function closeEdit() {
+  if (!ED) return; const el = ED.el; clearTimeout(ED.chk); ED = null;
+  $('rail').style.visibility = ''; $('bsel').style.visibility = '';
+  const a = ani(el, [{opacity: 1}, {opacity: 0}], {duration: 140, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'});
+  a ? after(a).then(() => el.remove()) : el.remove();
+}
+// คืน false = ยังปิดไม่ได้ (ยาวเกินกล่อง) ช่องพิมพ์ค้าง สั่นเบา ๆ ไม่ทิ้งคำ
+function finishEdit(apply) {
+  if (!ED || ED.saving) return !ED;
+  if (!apply || ED.ta.value === ED.orig) { closeEdit(); return true; }
+  checkEdit();
+  if (ED.st === 'over' || ED.st === 'empty') { retrig(ED.el, 'no'); ED.ta.focus(); return false; }
+  saveEdit(); return true;
+}
+async function saveEdit() {
+  const E = ED; E.saving = true; E.el.classList.add('saving'); busyNow = true;
+  await frame(); await frame();          // ให้แสงวิ่งถึง compositor ก่อน Python บล็อกจอ
+  const k = E.k, oldKeys = KEYS.slice();
+  try {
+    py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(E.b.p)); py.globals.set('NEW', E.ta.value);
+    const [st, follow] = JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M))'));
+    if (st === 'over') { E.saving = false; E.el.classList.remove('saving'); setEditState('over'); retrig(E.el, 'no'); return; }
+    if (!follow) LOST++;
+    if (k === 0 && ['t', 't1'].includes(E.b.p[0])) {   // ชื่อเรื่องบนปก = ชื่อไฟล์ + ท้ายกระดาษทุกหน้า
+      py.runPython('TTL = NEW'); ttl = E.ta.value.replace(/\s+/g, ' ').trim(); $('topttl').textContent = ttl;
+    }
+    await paint();
+    E.el.classList.remove('saving'); ED = E; closeEdit();
+    settle(oldKeys); select(cur);
+    commit(`แก้ข้อความหน้า ${k + 1}`);
+  } catch (e) { console.error(e); E.saving = false; E.el.classList.remove('saving'); toast('แก้ไม่สำเร็จ ลองใหม่อีกครั้ง'); }
+  finally { busyNow = false; }
+}
+document.addEventListener('pointerdown', ev => {   // คลิกนอกช่องพิมพ์ = เสร็จ
+  if (!ED || ED.el.contains(ev.target) || ev.target.closest('.sheet,.top')) return;
+  if (ev.target.closest('.hit')) return;  // คลิกกล่องอื่น: openEdit จัดการ
+  finishEdit(true);
+}, true);
+// ป้ายแนะนำครั้งแรก (จำในเครื่อง ไม่ขึ้นซ้ำ)
+function showTip() {
+  try { if (localStorage.getItem('d2s_tip')) return; } catch (e) { return; }
+  const pg = pgs()[0]; if (!pg || pg.querySelector('.tip')) return;
+  const b = BOX[0][0];
+  const t = document.createElement('div'); t.className = 'tip';
+  if (b && wide()) t.style.top = `calc(${(b.y + b.h) / 5.4}% + 10px)`;
+  t.innerHTML = `<p>${ico('type')}แตะข้อความบนสไลด์เพื่อแก้ได้เลย</p><button class="btn btn-red btn-sm" type="button">เข้าใจแล้ว</button>`;
+  t.querySelector('button').onclick = ev => { ev.stopPropagation(); dropTip(); };
+  pg.appendChild(t);
+}
+function dropTip() { document.querySelectorAll('.tip').forEach(t => t.remove()); try { localStorage.setItem('d2s_tip', '1'); } catch (e) {} }
+
+// ── เปลี่ยนแบบหน้า ──
 let altToken = 0;
 async function altsInto(box) {
   const my = ++altToken, lg = lookGen, idx = order[cur], at = cur;
@@ -918,22 +1308,21 @@ async function altsInto(box) {
     box.innerHTML = '';
     if (!a.n) {
       box.innerHTML = `<p class="empty">หน้าตานี้มีแบบเดียวที่ใส่เนื้อหาหน้านี้ได้พอดี<br><button class="btn btn-line btn-sm" type="button" style="margin-top:10px">${ico('palette')}ลองหน้าตาอื่น</button></p>`;
-      box.querySelector('button').onclick = () => act('look');
+      box.querySelector('button').onclick = () => { closeSheet(); openPanel('look'); };
       return;
     }
     a.slides.forEach((sl, k) => {
       const b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.style.animationDelay = (k * 60) + 'ms';
       b.innerHTML = '<div class="slidebox"></div>'; box.appendChild(b); mount(b.firstChild, sl);
-      b.onclick = () => {
+      b.onclick = async () => {
         if (busyNow || lg !== lookGen || order[at] !== idx) return;
-        py.globals.set('IDX', idx); py.globals.set('ALTJ', a.json); py.globals.set('K_', k);
-        py.runPython('ITEMS[IDX] = tuple(json.loads(ALTJ)[K_])');
-        slides[at] = sl; altCache.delete(idx); dirty = true;
-        closeSheet(); cur = at;
-        const card = document.querySelectorAll('#list .slide')[at];       // เปลี่ยนเฉพาะการ์ดนี้ ให้เห็นว่าหน้าไหนเปลี่ยน
-        if (card) { mount(card.firstChild, sl); card.classList.remove('swap'); void card.offsetWidth; card.classList.add('swap'); select(at); }
-        else relayout();
-        toast(`จัดหน้า ${at + 1} แบบใหม่แล้วครับ`);
+        closeSheet(); busyNow = true; const oldKeys = KEYS.slice();
+        try {
+          py.globals.set('IDX', idx); py.globals.set('ALTJ', a.json); py.globals.set('K_', k);
+          py.runPython('ITEMS[IDX] = tuple(json.loads(ALTJ)[K_])');
+          altCache.delete(idx); await paint(); cur = at; settle(oldKeys); select(at);
+          arranged = true; commit(`เปลี่ยนแบบหน้า ${at + 1}`); toast(`จัดหน้า ${at + 1} แบบใหม่แล้วครับ`);
+        } catch (e) { console.error(e); toast('เปลี่ยนไม่สำเร็จ ลองแบบอื่นได้'); } finally { busyNow = false; }
       };
     });
   } catch (e) { console.error(e); box.innerHTML = '<p class="empty">หาแบบอื่นไม่สำเร็จ</p>'; }
@@ -946,40 +1335,292 @@ function lookHtml() {
   return SETS.map((s, i) => `<button class="opt${s.slug === slug ? ' on' : ''}" data-s="${s.slug}" type="button" style="animation-delay:${i * 40}ms">
     <img src="${peek(s)}" alt="" loading="lazy"><span class="lb">${esc(s.style)}</span><i class="ck">${ico('check')}</i></button>`).join('');
 }
-function slideMenu() {
-  openSheet(`หน้า ${cur + 1}`, '', `<ul class="menu">
-    <li><button data-m="alt" type="button">${ico('layout')}เปลี่ยนแบบหน้านี้</button></li>
-    <li><button data-m="up" type="button" ${cur === 0 ? 'disabled' : ''}>${ico('up')}เลื่อนขึ้น</button></li>
-    <li><button data-m="down" type="button" ${cur === slides.length - 1 ? 'disabled' : ''}>${ico('dn')}เลื่อนลง</button></li>
-    <li class="sep"><button data-m="delask" type="button" class="danger" ${slides.length < 2 ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button></li></ul>`);
-  $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (b && !b.disabled) act(b.dataset.m); };
-}
-async function changeLook(s2) {
-  closeSheet(); if (s2 === slug || busyNow || running) return;
-  const prev = slug; slug = s2; const s = SETS.find(x => x.slug === slug);
-  // เปลี่ยนในที่เดิม: การ์ดทุกใบมีแสงวิ่งระหว่างจัด แล้วค่อยแทนด้วยหน้าตาใหม่ (แบบ Canva Magic Switch)
-  const prevJs = {slug: prev, order: [...order], slides: [...slides], META: [...META], cur};
-  py.runPython('PREV = (M, OUT, list(ITEMS), list(CS))');
-  busyNow = true; document.querySelectorAll('#list .slide').forEach(c => c.classList.add('repaint'));
-  // ฟองเดียวตั้งแต่เริ่มจนเสร็จ: ตอนจัดมีลูกแก้วหมุน เสร็จแล้วเปลี่ยนข้อความในฟองเดิม  toast ค้างจนเสร็จ
+// ── เปลี่ยนหน้าตาทั้งไฟล์: คำที่แก้ตามไป (แก้ใน WANT แล้ว) ที่ตามไม่ได้บอกก่อน ──
+async function changeLook(s2, sure) {
+  if (s2 === slug || busyNow || running || viewing) return;
+  if (!sure && (LOST || arranged)) {
+    const s = SETS.find(x => x.slug === s2), lines = [];
+    if (LOST) lines.push(`คำที่แก้ไว้ ${LOST} จุดอยู่ในข้อความที่ระบบรวมหรือแบ่งเอง จะไม่ตามไปหน้าตาใหม่`);
+    if (arranged) lines.push('หน้าที่ย้าย ลบ ทำสำเนา หรือเปลี่ยนแบบไว้ จะกลับเป็นแบบที่ระบบจัด');
+    lines.push(`คำที่แก้ไว้${LOST ? 'จุดอื่น' : ''}ตามไปหน้าตาใหม่ กดเลิกทำเพื่อกลับมาแบบนี้ได้`);
+    openSheet(`เปลี่ยนเป็นหน้าตา${s.style}?`, '', `<ul class="found" style="margin:8px 0 4px">${lines.map(l => `<li><b>${ico('info')}</b><span>${esc(l)}</span></li>`).join('')}</ul>
+      <div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button><button class="btn btn-red btn-big" data-m="yes" type="button">${ico('palette')}เปลี่ยนหน้าตา</button></div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet(); if (b.dataset.m === 'yes') changeLook(s2, true); };
+    return;
+  }
+  closeSheet(); if (!wide()) closePanel();
+  const prev = STACK[SP], s = SETS.find(x => x.slug === s2);
+  busyNow = true; document.querySelectorAll('#pages .slide').forEach(c => c.classList.add('repaint'));
   const um = botMsg(`<div class="thinking"><span class="shimmer">กำลังจัดลงหน้าตา${esc(s.style)}…</span></div>`, true);
   toast('ผู้ช่วยกำลังจัดเนื้อหาลงหน้าตา' + s.style, true); await frame();
   try {
     await needSet(s);
-    py.globals.set('SLUG', slug); py.runPython('M, OUT, LOG = D.plan(WANT, SLUG)'); takePlan();
-    await renderAll(); busyNow = false; relayout('swap'); toast('เปลี่ยนเป็นหน้าตา' + s.style + 'แล้วครับ');
-    document.querySelectorAll('.undo button').forEach(b => b.remove());   // ปุ่มกลับของฟองเก่าใช้ไม่ได้แล้วหลังเปลี่ยนซ้ำ
-    // ปุ่มกลับหน้าตาเดิม: คืนทุกอย่างรวมหน้าที่เปลี่ยนแบบหรือลบไว้
+    py.globals.set('SLUG', s2); py.runPython('M, OUT, LOG = D.plan(WANT, SLUG)'); slug = s2; takePlan(); LOST = 0; arranged = false;
+    await paint(); busyNow = false; relayout('swap'); toast('เปลี่ยนเป็นหน้าตา' + s.style + 'แล้วครับ');
+    commit(`เปลี่ยนเป็นหน้าตา${s.style}`); paintLooks();
+    document.querySelectorAll('.undo button').forEach(b => b.remove());
     setBot(um, `<div class="undo"><span>เปลี่ยนเป็นหน้าตา<b>${esc(s.style)}</b>แล้วครับ</span><button class="btn btn-line btn-sm" type="button">${ico('reload')}กลับหน้าตาเดิม</button></div>`);
-    um.querySelector('button').onclick = () => {
-      if (busyNow || slug !== s2) return;
-      py.runPython('M, OUT, ITEMS, CS = PREV'); slug = prevJs.slug; order = prevJs.order; slides = prevJs.slides; META = prevJs.META; cur = prevJs.cur;
-      altCache.clear(); lookGen++; dirty = true; relayout('swap'); um.remove(); idleLatest(); toast('กลับเป็นหน้าตาเดิมแล้ว'); if (!wide()) pane('view');
+    um.querySelector('button').onclick = async () => {
+      if (busyNow || slug !== s2 || !prev) return;
+      await restore(prev); commit('กลับหน้าตาเดิม'); um.remove(); idleLatest(); toast('กลับเป็นหน้าตาเดิมแล้ว');
     };
-    if (!wide()) pane('view');
-  } catch (e) { console.error(e); slug = prev; busyNow = false; py.runPython('M, OUT, ITEMS, CS = PREV'); document.querySelectorAll('#list .slide').forEach(c => c.classList.remove('repaint'));
-    setBot(um, `<div class="err">เปลี่ยนไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองหน้าตาอื่นได้</div>`); toast('เปลี่ยนไม่สำเร็จ ไม่เสียสิทธิ์อะไร ลองหน้าตาอื่นได้'); }
+  } catch (e) {
+    console.error(e); busyNow = false; document.querySelectorAll('#pages .slide').forEach(c => c.classList.remove('repaint'));
+    if (prev) await restore(prev).catch(() => {});
+    setBot(um, `<div class="err">เปลี่ยนไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองหน้าตาอื่นได้</div>`); toast('เปลี่ยนไม่สำเร็จ ไม่เสียสิทธิ์อะไร ลองหน้าตาอื่นได้');
+  }
 }
+function paintLooks() { $('lookg').innerHTML = lookHtml(); }
+$('lookg').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
+
+// ── แผงขวา (คอม) / แผ่นเต็มจอ (มือถือ): ผู้ช่วย หน้าตา ประวัติ ──
+const PANEL_T = {chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข'};
+function openPanel(p) {
+  const rp = $('rp'); if (rp.dataset.p !== p) { rp.dataset.p = p; }
+  $('rpT').textContent = PANEL_T[p]; rp.classList.add('on'); $('pWork').classList.add('rpon');
+  document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.toggle('on', b.dataset.p === p));
+  if (p === 'chat') { $('chatdot').classList.remove('on'); scrollEnd(true); }
+  if (p === 'look') paintLooks();
+  if (p === 'hist') paintHist();
+  requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
+}
+function closePanel() {
+  $('rp').classList.remove('on'); $('pWork').classList.remove('rpon');
+  document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.remove('on'));
+  requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
+}
+const panelOpen = p => $('rp').classList.contains('on') && (!p || $('rp').dataset.p === p);
+$('rail').onclick = ev => { const b = ev.target.closest('[data-p]'); if (!b) return; panelOpen(b.dataset.p) ? closePanel() : openPanel(b.dataset.p); };
+$('rpX').onclick = closePanel;
+$('canvas').addEventListener('pointerdown', () => { if (!wide() || matchMedia('(min-width:1200px)').matches) return; if (panelOpen() && !running) closePanel(); });
+
+// ── เลิกทำ / ทำซ้ำ / เก็บในเครื่อง / ประวัติ ──
+// หนึ่งสถานะ = ข้อความ repr ของเนื้อหาใน Python (tuple ยังเป็น tuple) + ลำดับหน้า + ชุด  ไม่เก็บไฟล์ .pptx
+let STACK = [], SP = -1, LOST = 0, arranged = false, viewing = null, saveSt = 'ok';
+function snap(label) {
+  return {py: py.runPython('repr((WANT, CS, ITEMS, TTL))'), slug, order: [...order], src: SRCNAME, lost: LOST, arranged, label, t: Date.now(), n: slides.length, ttl};
+}
+async function restore(s) {
+  const st = SETS.find(x => x.slug === s.slug); if (st) await needSet(st);
+  py.globals.set('SNAP', s.py); py.globals.set('SLUG', s.slug);
+  py.runPython('WANT, CS, ITEMS, TTL = ast.literal_eval(SNAP); M = D.pool_of(SLUG)[0]');
+  slug = s.slug; order = [...s.order]; SRCNAME = s.src; LOST = s.lost || 0; arranged = !!s.arranged; ttl = s.ttl || py.globals.get('TTL');
+  $('topttl').textContent = ttl; altCache.clear(); lookGen++;
+  const oldKeys = KEYS.slice(); await paint();
+  if (cur >= slides.length) cur = slides.length - 1;
+  const k = settle(oldKeys); select(cur, {quiet: true});
+  if (k >= 0) pgs()[k]?.scrollIntoView({behavior: calm.matches ? 'auto' : 'smooth', block: 'center'});
+  return k;
+}
+function commit(label) {
+  const s = snap(label);
+  STACK = STACK.slice(0, SP + 1); STACK.push(s); if (STACK.length > 60) STACK.shift(); SP = STACK.length - 1;
+  urState(); store(s);
+}
+function urState() { $('undo').disabled = SP <= 0 || !!viewing; $('redo').disabled = SP >= STACK.length - 1 || !!viewing; }
+async function undoRedo(d) {
+  if (busyNow || viewing || ED || running) return;
+  const to = SP + d; if (to < 0 || to >= STACK.length) return;
+  const lab = (d < 0 ? STACK[SP] : STACK[to]).label; SP = to; urState();
+  const b = d < 0 ? $('undo') : $('redo'); b.classList.remove('kick', 'r'); void b.offsetWidth; b.classList.add('kick'); if (d > 0) b.classList.add('r');
+  busyNow = true;
+  try { await restore(STACK[SP]); } catch (e) { console.error(e); } finally { busyNow = false; }
+  const word = d < 0 ? 'เลิกทำ' : 'ทำซ้ำ';
+  toast(`${word}: ${lab}`); store({...STACK[SP], label: `${word}: ${lab}`, t: Date.now()});
+}
+$('undo').onclick = () => undoRedo(-1); $('redo').onclick = () => undoRedo(1);
+const MAC = /Mac|iPhone|iPad/.test(navigator.platform);
+$('undo').dataset.tip = `เลิกทำ (${MAC ? '⌘' : 'Ctrl+'}Z)`; $('redo').dataset.tip = `ทำซ้ำ (${MAC ? '⌘⇧' : 'Ctrl+Shift+'}Z)`;
+document.addEventListener('keydown', ev => {
+  if (!$('pres').classList.contains('hidden')) return presKey(ev);
+  if ($('pWork').classList.contains('hidden') || !slides.length) return;
+  const typing = ev.target.closest?.('textarea,input,[contenteditable]');
+  if (typing) return;                     // ในช่องพิมพ์: Ctrl+Z ของเบราว์เซอร์ย้อนตัวอักษรตามปกติ
+  const mod = ev.metaKey || ev.ctrlKey, k = ev.key.toLowerCase();
+  if (mod && k === 'z') { ev.preventDefault(); undoRedo(ev.shiftKey ? 1 : -1); return; }
+  if (ev.ctrlKey && k === 'y') { ev.preventDefault(); undoRedo(1); return; }
+  if (!mod && wide() && cur >= 0 && (ev.key === 'ArrowUp' || ev.key === 'ArrowDown') && !$('sheet').classList.contains('on')) {
+    ev.preventDefault(); select(Math.max(0, Math.min(slides.length - 1, cur + (ev.key === 'ArrowUp' ? -1 : 1))), {scroll: true});
+  }
+  if (ev.key === 'Escape' && cur >= 0 && !$('sheet').classList.contains('on')) select(-1);
+});
+// IndexedDB: เก็บทุกเวอร์ชัน (ล่าสุด 50) ของงานในเครื่องนี้  เก็บไม่ได้ (โหมดไม่ระบุตัวตน/พื้นที่เต็ม) แก้ต่อได้ แต่บอกตรง ๆ
+let dbP = null;
+const DB = () => dbP = dbP || new Promise((res, rej) => {
+  if (!window.indexedDB) return rej(new Error('no idb'));
+  const r = indexedDB.open('d2s', 1);
+  r.onupgradeneeded = () => r.result.createObjectStore('v', {keyPath: 'id', autoIncrement: true});
+  r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); r.onblocked = () => rej(new Error('blocked'));
+});
+const req = r => new Promise((res, rej) => { r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
+async function versions() { const db = await DB(); return req(db.transaction('v').objectStore('v').getAll()); }
+let saving = 0, saveT = 0;
+async function store(s) {
+  const my = ++saving; clearTimeout(saveT); saveT = setTimeout(() => { if (saving === my && saveSt !== 'no') setSave('ing'); }, 300);
+  try {
+    const db = await DB(), t = db.transaction('v', 'readwrite'), os = t.objectStore('v');
+    const {id, ...rec} = s; os.add(rec);          // เวอร์ชันที่ย้อนมา (มี id เดิม) เก็บเป็นเวอร์ชันใหม่
+    const ks = await req(os.getAllKeys()); ks.slice(0, Math.max(0, ks.length - 50)).forEach(k => os.delete(k));
+    await new Promise((res, rej) => { t.oncomplete = res; t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
+    if (saving === my) { clearTimeout(saveT); setSave('ok'); }
+  } catch (e) { console.warn(e); clearTimeout(saveT); setSave('no'); }
+}
+function setSave(st) {
+  const was = saveSt; saveSt = st; const b = $('savest');
+  b.classList.toggle('no', st === 'no');
+  b.querySelector('use').setAttribute('href', st === 'no' ? '#i-cloudoff' : st === 'ing' ? '#i-cloud' : '#i-cloudck');
+  const t = {ok: 'เก็บในเครื่องนี้แล้ว', ing: 'กำลังเก็บ…', no: 'ยังไม่ได้เก็บ'}[st];
+  if ($('savet').textContent !== t) { $('savet').textContent = t; retrig($('savet'), 'rz'); }
+  $('savet').classList.toggle('shimmer', st === 'ing');
+  if (st === 'ok' && was === 'ing') retrig(b.querySelector('svg'), 'check');
+}
+$('savest').onclick = () => {
+  if (saveSt === 'no') {
+    openSheet('ยังไม่ได้เก็บงาน', 'เครื่องนี้เก็บงานไม่ได้ ปิดหน้าแล้วงานหาย กดบันทึกเพื่อเก็บเป็นไฟล์',
+      `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">เข้าใจแล้ว</button><button class="btn btn-red btn-big" data-m="save" type="button">${ico('down')}บันทึกเป็นไฟล์</button></div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet(); if (b.dataset.m === 'save') act('save'); };
+  } else openPanel('hist');
+};
+const hhmm = t => new Date(t).toLocaleTimeString('th-TH', {hour: '2-digit', minute: '2-digit', hour12: false});
+function dayName(t) {
+  const d = new Date(t), n = new Date(), y = new Date(Date.now() - 864e5), same = (a, b) => a.toDateString() === b.toDateString();
+  return same(d, n) ? 'วันนี้' : same(d, y) ? 'เมื่อวาน' : d.toLocaleDateString('th-TH', {day: 'numeric', month: 'short'});
+}
+async function paintHist() {
+  const H = $('hist'); let vs = [];
+  try { vs = (await versions()).reverse(); } catch (e) {}
+  if (!vs.length) { H.innerHTML = `<p class="empty">ยังไม่มีประวัติในเครื่องนี้${saveSt === 'no' ? ' เพราะเครื่องนี้เก็บงานไม่ได้' : ''}</p>`; return; }
+  let day = '', html = '';
+  vs.forEach((v, i) => {
+    const dn = dayName(v.t); if (dn !== day) { day = dn; html += `<h4>${dn}</h4>`; }
+    html += `<button class="hrow${i === 0 ? ' now' : ''}${viewing && viewing.id === v.id ? ' sel' : ''}" data-id="${v.id}" type="button"><i></i><b>${i === 0 ? 'ตอนนี้' : hhmm(v.t)}</b><span>${esc(v.label)}</span>${viewing && viewing.id === v.id ? ico('eye') : ''}</button>`;
+  });
+  H.innerHTML = html;
+  H.onclick = async ev => {
+    const r = ev.target.closest('.hrow'); if (!r || busyNow) return;
+    const v = vs.find(x => x.id === +r.dataset.id); if (!v) return;
+    if (r.classList.contains('now')) { if (viewing) backToLatest(); return; }
+    viewVersion(v);
+  };
+}
+// ดูเวอร์ชันเก่าแบบดูอย่างเดียว แล้วเลือก "ใช้เวอร์ชันนี้" (= เวอร์ชันใหม่ เวอร์ชันหลังจากนั้นยังอยู่ครบ) หรือ "กลับไปล่าสุด"
+async function viewVersion(v) {
+  if (ED) finishEdit(false);
+  busyNow = true; select(-1);
+  try {
+    if (!viewing) viewing = {base: STACK[SP]};
+    viewing.id = v.id; viewing.v = v; $('pWork').classList.add('viewing'); urState();
+    if (!matchMedia('(min-width:1200px)').matches) closePanel();   // แผงทับ canvas อยู่ ปิดให้เห็นเวอร์ชันนั้นเต็ม ๆ
+    await restore(v);
+    $('vbarslot').innerHTML = `<div class="vbar"><span>${ico('eye')}<span><b>กำลังดูเวอร์ชัน ${hhmm(v.t)}</b> · ดูอย่างเดียว แก้ไม่ได้</span></span>
+      <button class="btn btn-line btn-sm" data-v="back" type="button">${ico('back')}กลับไปล่าสุด</button><button class="btn btn-red btn-sm" data-v="use" type="button">${ico('history')}ใช้เวอร์ชันนี้</button></div>`;
+    $('vbarslot').querySelector('.vbar').onclick = ev => { const b = ev.target.closest('[data-v]'); if (!b) return; b.dataset.v === 'use' ? useVersion() : backToLatest(); };
+    paintHist();
+  } catch (e) { console.error(e); toast('เปิดเวอร์ชันนี้ไม่สำเร็จ'); } finally { busyNow = false; }
+}
+async function leaveView() {
+  const bar = $('vbarslot').firstChild; viewing = null; $('pWork').classList.remove('viewing'); urState();
+  if (bar) { await after(ani(bar, [{}, {opacity: 0, transform: 'translateY(-8px)'}], {duration: 180, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'})); bar.remove(); }
+}
+async function backToLatest() {
+  if (!viewing || busyNow) return; const base = viewing.base; busyNow = true;
+  try { await restore(base); } finally { busyNow = false; }
+  await leaveView(); if (panelOpen('hist')) paintHist();
+}
+async function useVersion() {
+  if (!viewing) return; const t = hhmm(viewing.v.t);
+  await leaveView(); commit(`กลับไปใช้เวอร์ชัน ${t}`); toast(`กลับไปใช้เวอร์ชัน ${t} แล้ว`); if (panelOpen('hist')) paintHist();
+}
+function wipeAsk() {
+  $('wipebox').innerHTML = `<div class="wipe"><b>ลบงานนี้และประวัติทั้งหมดออกจากเครื่องนี้? เอาคืนไม่ได้</b><div class="row"><button class="btn btn-line" data-w="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-w="yes" type="button">ลบออกจากเครื่องนี้</button></div></div>`;
+  $('wipebox').onclick = async ev => {
+    const b = ev.target.closest('[data-w]'); if (!b) return;
+    if (b.dataset.w === 'yes') { try { const db = await DB(); await req(db.transaction('v', 'readwrite').objectStore('v').clear()); } catch (e) {}
+      STACK = []; SP = -1; slides = []; KEYS = []; viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; closePanel(); gen++; running = false; show('pHome', false); toast('ลบงานออกจากเครื่องนี้แล้ว'); paintResume(); }
+    $('wipebox').innerHTML = `<button class="linkred" id="wipeask" type="button">${ico('trash')}ลบงานออกจากเครื่องนี้</button>`; $('wipebox').onclick = null; $('wipeask').onclick = wipeAsk;
+  };
+}
+$('wipeask').onclick = wipeAsk;
+// เปิดหน้าใหม่ในเครื่องเดิม: กลับมาที่งานล่าสุด
+async function resume(v) {
+  SRCNAME = v.src; gen++; const my = gen;
+  $('inner').innerHTML = ''; ttl = v.ttl || ''; slides = []; KEYS = []; STACK = []; SP = -1;
+  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'กำลังเปิดงานล่าสุดของคุณ';
+  $('skelg').innerHTML = Array.from({length: Math.min(v.n || 6, 9)}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
+  show('pWork'); $('topttl').textContent = ttl;
+  try {
+    await boot(); await setsReady; if (my !== gen) return;
+    busyNow = true; await restore(v); busyNow = false; if (my !== gen) return;
+    STACK = [v]; SP = 0; urState(); setSave('ok');
+    $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(); $('tact').classList.remove('hidden');
+    const s = SETS.find(x => x.slug === slug);
+    const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">แตะข้อความบนสไลด์เพื่อแก้ได้เลย ทุกการแก้เก็บในเครื่องนี้ให้เอง</p>`);
+    if (!wide()) $('chatdot').classList.add('on');
+    toast('เปิดงานล่าสุดของคุณแล้ว'); showTip();
+  } catch (e) { console.error(e); busyNow = false; if (my !== gen) return;
+    botMsg(`<div class="err">${esc(pyErr(e, 'เปิดงานเดิมไม่สำเร็จ ลองโหลดหน้าใหม่'))}<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button></div>`); openPanel('chat'); }
+}
+async function paintResume() {            // หน้าแรก: การ์ด "ทำต่อ"
+  $('resume')?.remove(); let vs = [];
+  try { vs = await versions(); } catch (e) { return; }
+  const v = vs[vs.length - 1]; if (!v) return;
+  const c = document.createElement('div'); c.className = 'resume'; c.id = 'resume';
+  c.innerHTML = `<span>ทำต่อ: <b>${esc(v.ttl || 'งานล่าสุด')}</b><small>แก้ล่าสุด ${dayName(v.t) === 'วันนี้' ? '' : dayName(v.t) + ' '}${hhmm(v.t)}</small></span><button class="btn btn-red btn-sm" type="button">${ico('next')}ทำต่อ</button>`;
+  c.querySelector('button').onclick = () => resume(v);
+  $('prompt').before(c);
+}
+
+// ── นำเสนอ: เต็มจอ เริ่มจากหน้าที่เลือก ──
+let pi = 0, pIdle = 0;
+function present() {
+  if (!slides.length) return;
+  pi = cur >= 0 ? cur : near;
+  const P = $('pres'); P.classList.remove('hidden', 'idle');
+  try { const r = P.requestFullscreen?.() || P.webkitRequestFullscreen?.(); r?.catch?.(() => {}); } catch (e) {}   // iPhone: ไม่มี Fullscreen กับ div ใช้ชั้นเต็มหน้าต่างแทน
+  $('pbadge').classList.toggle('hidden', member());
+  pShow(0); presWake();
+  history.pushState({p: 'pWork', pr: 1}, '');
+  if (innerHeight > innerWidth && !sessionStorage.getItem('d2s_rot')) {
+    sessionStorage.setItem('d2s_rot', '1');
+    const r = document.createElement('span'); r.className = 'prot'; r.textContent = 'หมุนจอแนวนอนเพื่อดูใหญ่ขึ้น'; P.appendChild(r); setTimeout(() => r.remove(), 3000);
+  }
+}
+function presFit() { const b = $('pbox'); if ($('pres').classList.contains('hidden')) return; b.style.width = Math.min(innerWidth, innerHeight * 16 / 9) + 'px'; fit(b); }
+function pShow(d) {
+  const b = $('pbox'); mount(b, slides[pi]); presFit();
+  b.classList.remove('nx', 'pv'); if (d) { void b.offsetWidth; b.classList.add(d > 0 ? 'nx' : 'pv'); }
+  const t = `${pi + 1} / ${slides.length}`; $('pcnt').textContent = t; if (d) retrig($('pcnt'), 'rz');
+  $('pP').disabled = pi === 0; $('pN').disabled = pi === slides.length - 1;
+}
+function pGo(d) { const n = pi + d; if (n < 0 || n >= slides.length) return; pi = n; pShow(d); }
+function presWake() { const P = $('pres'); P.classList.remove('idle'); clearTimeout(pIdle); pIdle = setTimeout(() => P.classList.add('idle'), 2500); }
+function closePres(fromPop) {
+  const P = $('pres'); if (P.classList.contains('hidden') || P.dataset.c) return; P.dataset.c = 1;
+  if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
+  const a = ani(P, [{opacity: 1}, {opacity: 0}], {duration: 220, easing: 'cubic-bezier(.4,0,1,1)'});
+  const end = () => { P.classList.add('hidden'); delete P.dataset.c; };
+  select(pi, {scroll: true, jump: true});
+  a ? after(a).then(end) : end();
+  if (!fromPop && history.state?.pr) history.back();
+}
+function presKey(ev) {
+  if (['ArrowRight', ' ', 'PageDown', 'Enter'].includes(ev.key)) { ev.preventDefault(); pGo(1); }
+  else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(ev.key)) { ev.preventDefault(); pGo(-1); }
+  else if (ev.key === 'Home') { pi = 0; pShow(-1); } else if (ev.key === 'End') { pi = slides.length - 1; pShow(1); }
+  else if (ev.key === 'Escape') closePres();
+  presWake();
+}
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && !$('pres').classList.contains('hidden')) closePres(); });
+$('pP').onclick = ev => { ev.stopPropagation(); pGo(-1); }; $('pN').onclick = ev => { ev.stopPropagation(); pGo(1); };
+$('pX').onclick = ev => { ev.stopPropagation(); closePres(); };
+$('pres').addEventListener('click', ev => { if (ev.target.closest('.pcap')) return; pGo(ev.clientX < innerWidth / 2 ? -1 : 1); presWake(); });
+$('pres').addEventListener('pointermove', presWake);
+let psx = null;
+$('pres').addEventListener('touchstart', e => { psx = e.touches[0].clientX; presWake(); }, {passive: true});
+$('pres').addEventListener('touchend', e => { if (psx == null) return; const dx = e.changedTouches[0].clientX - psx; psx = null;
+  if (Math.abs(dx) > 50) { e.preventDefault(); pGo(dx < 0 ? 1 : -1); } });
+
+// ── บันทึก: มี Code โหลด .pptx ทันที แล้วแผ่น ส่งต่อ/ฟอนต์ / ไม่มี Code หน้าขอ Code เดิม ──
 function save(blob, name) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
@@ -988,59 +1629,44 @@ function save(blob, name) {
 // ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
 const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
+let lastFile = null;
 async function act(a) {
-  if (busyNow) return;
-  if (a === 'alt') { openSheet('แบบอื่นสำหรับหน้านี้', 'เฉพาะแบบในหน้าตาเดียวกันที่ใส่เนื้อหาหน้านี้ได้พอดี', '<div class="grid2" id="altsSheet"></div>'); altsInto($('altsSheet')); }
-  if (a === 'look') { openSheet('เปลี่ยนหน้าตาทั้งไฟล์', 'จัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ หน้าที่ลบ ย้าย หรือเปลี่ยนแบบไว้จะกลับเป็นแบบเริ่มต้น', `<div class="grid2">${lookHtml()}</div>`);
-    $('shBody').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); }; }
-  if (a === 'up') { closeSheet(); move(-1); }
-  if (a === 'down') { closeSheet(); move(1); }
-  if (a === 'delask' && slides.length > 1) {
-    openSheet(`ลบหน้า ${cur + 1}?`, 'หน้านี้จะไม่อยู่ในไฟล์ที่แชร์',
-      `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button>
-       <button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ลบหน้า</button></div>`);
-    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet(); if (b.dataset.m === 'no') return;
-      busyNow = true;                     // ใบที่ลบยุบหายก่อน แล้วใบอื่นเลื่อนขึ้นมาแทน
-      after(ani($('list').children[cur], [{opacity: 1, transform: 'none'}, {opacity: 0, transform: 'scale(.92)'}], {duration: 200, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'})).then(() => {
-        busyNow = false;
-        flip(() => { for (const x of [order, slides, META]) x.splice(cur, 1); dirty = true; cur = Math.min(cur, slides.length - 1); });
-        toast('ลบหน้าแล้ว'); syncAgenda(); }); };
-  }
-  if ((a === 'share' || a === 'dl' || a === 'send' || a === 'fonts') && !member()) {
+  if (a === 'present') return present();  // ต้องอยู่ในคลิกตรง ๆ ไม่งั้นขอเต็มจอไม่ได้
+  if (busyNow || (viewing && a !== 'look')) return;
+  if (ED && !finishEdit(true)) return;
+  if (a === 'look') { panelOpen('look') ? closePanel() : openPanel('look'); return; }
+  if (a === 'save' && !member()) {
     openSheet('', '', `<div class="done"><div class="paycover"><div class="slidebox" id="paycv"></div></div>
       <h3>สไลด์ของคุณพร้อมแล้ว ${slides.length} หน้า</h3><p>ดูได้ฟรีทุกหน้า โหลดไฟล์ PowerPoint ได้เมื่อมี Code</p>
-      <p>สำหรับลูกค้าที่ซื้อคลังเทมเพลต Coach Tarn แล้ว กรอก Code ที่ได้ทางอีเมลครั้งเดียว แล้วกลับมากดแชร์ที่หน้านี้ได้เลย</p>
+      <p>สำหรับลูกค้าที่ซื้อคลังเทมเพลต Coach Tarn แล้ว กรอก Code ที่ได้ทางอีเมลครั้งเดียว แล้วกลับมากดบันทึกที่หน้านี้ได้เลย</p>
+      ${saveSt === 'no' ? '' : '<p>งานที่แก้ไว้เก็บในเครื่องนี้ กลับมาทำต่อได้</p>'}
       <a class="btn btn-red btn-big" href="/download" target="_blank" rel="noopener">${ico('lock')}กรอก Code</a>
       <a class="btn btn-line btn-big" href="/" target="_blank" rel="noopener">ดูคลังเทมเพลต</a></div>`);
     if (slides[0]) mount($('paycv'), slides[0]);        // ใช้ปกงานของลูกค้าเองเป็นภาพ (เห็นของก่อนแล้วค่อยขอ)
     return;
   }
-  if (a === 'share') {
-    const canSend = !!(navigator.canShare && navigator.canShare({files: [new File([''], 'a.pptx', {type: PPTX})]}));
-    openSheet('แชร์สไลด์', `${slides.length} หน้า ไฟล์ PowerPoint แก้ต่อได้`, `<ul class="menu">
-      <li><button data-m="dl" type="button">${ico('down')}ดาวน์โหลดลงเครื่อง (.pptx)</button></li>
-      ${canSend ? `<li><button data-m="send" type="button">${ico('send')}ส่งต่อทาง LINE อีเมล หรือแอปอื่น</button></li>` : ''}
-      <li class="sep"><button data-m="fonts" type="button">${ico('type')}โหลดฟอนต์ของชุดนี้</button></li></ul>`);
-    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (b) act(b.dataset.m); };
-    return;
-  }
-  if (a === 'dl' || a === 'send') {
-    if (dirty) { busy('กำลังสร้างไฟล์'); await frame(); try { makeDeck(); } finally { busy(''); } }
-    const f = new File([deckBuf], fname() + '.pptx', {type: PPTX});
-    if (a === 'send') {
-      try { await navigator.share({files: [f], title: ttl}); closeSheet(); toast('ส่งไฟล์แล้ว'); }
-      catch (e) { if (e.name !== 'AbortError') toast('ส่งไม่สำเร็จ ลองดาวน์โหลดลงเครื่องแทน'); }
-      return;
-    }
+  if (a === 'save') {
+    const lb = $('savelbl'); lb.textContent = 'กำลังทำไฟล์…'; $('savebtn').disabled = true; busyNow = true;
+    await frame(); await frame();
+    try { if (dirty) makeDeck(); } catch (e) { console.error(e); toast('ทำไฟล์ไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+    finally { lb.textContent = 'บันทึก'; $('savebtn').disabled = false; busyNow = false; }
+    const f = lastFile = new File([deckBuf], fname() + '.pptx', {type: PPTX});
     save(f, f.name);
+    const canSend = !!(navigator.canShare && navigator.canShare({files: [f]}));
     const s = SETS.find(x => x.slug === slug);
     const fam = [...new Set(s.faces.map(x => x.split(':')[0].replace(/ (Light|SemiBold|Medium|ExtraBold)$/, '')))].join(', ');
-    openSheet('', '', `<div class="done"><span class="big">${ico('check')}</span><h3>โหลดไฟล์ PowerPoint แล้ว</h3>
-      <p>ไฟล์ "${esc(f.name)}" อยู่ในโฟลเดอร์ดาวน์โหลดของเครื่อง</p>
+    openSheet('', '', `<div class="done"><span class="big">${ico('check')}</span><h3>บันทึกเป็นไฟล์แล้ว</h3>
+      <p>"${esc(f.name)}" อยู่ในโฟลเดอร์ดาวน์โหลดของเครื่อง</p>
       <p>สไลด์ชุดนี้ใช้ฟอนต์ ${esc(fam)} ติดตั้งฟอนต์ก่อนเปิดไฟล์ ตัวอักษรไทยจะได้หน้าตาเหมือนที่เห็นนี้</p>
-      <button class="btn btn-red btn-big" data-m="fonts" type="button">${ico('type')}โหลดฟอนต์พร้อมวิธีติดตั้ง</button>
-      <button class="btn btn-line btn-big" data-m="close" type="button">กลับไปแก้สไลด์</button></div>`);
-    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; if (b.dataset.m === 'close') return closeSheet(); act('fonts'); };
+      ${canSend ? `<button class="btn btn-red btn-big" data-m="send" type="button">${ico('send')}ส่งต่อทาง LINE หรืออีเมล</button>` : ''}
+      <button class="btn ${canSend ? 'btn-line' : 'btn-red'} btn-big" data-m="fonts" type="button">${ico('type')}โหลดฟอนต์ที่ใช้</button>
+      <button class="btn btn-line btn-big" data-m="close" type="button">ปิด</button></div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; if (b.dataset.m === 'close') return closeSheet(); act(b.dataset.m); };
+    return;
+  }
+  if (a === 'send' && lastFile) {
+    try { await navigator.share({files: [lastFile], title: ttl}); closeSheet(); toast('ส่งไฟล์แล้ว'); }
+    catch (e) { if (e.name !== 'AbortError') toast('ส่งไม่สำเร็จ ไฟล์อยู่ในเครื่องแล้ว ส่งจากโฟลเดอร์ดาวน์โหลดได้'); }
     return;
   }
   if (a === 'fonts') {
@@ -1050,24 +1676,11 @@ async function act(a) {
   }
 }
 document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => act(b.dataset.act));
-$('topback').onclick = () => history.state ? history.back() : (gen++, running = false, show('pHome', false));
-
-// ── ดูเต็มจอ ปัดซ้ายขวา ──
-let vi = 0;
-function openViewer(i) { vi = i; $('viewer').classList.add('on'); vShow(); history.pushState({p: 'pWork', v: 1}, ''); }
-function vShow() { mount($('vS'), slides[vi]); $('vT').textContent = `หน้า ${vi + 1} จาก ${slides.length}`; $('vP').disabled = vi === 0; $('vN').disabled = vi === slides.length - 1; }
-function vGo(d) { const n = vi + d; if (n < 0 || n >= slides.length) return; vi = n; vShow();
-  ani($('vS'), [{opacity: 0, transform: `translateX(${d * 40}px)`}, {opacity: 1, transform: 'none'}], {duration: 260}); }   // เลื่อนตามทิศ รู้ว่าไปหน้าหน้าหรือย้อน
-$('vX').onclick = () => history.state?.v ? history.back() : closeViewer();
-function closeViewer() { $('viewer').classList.remove('on'); select(vi, true); }
-$('vP').onclick = () => vGo(-1); $('vN').onclick = () => vGo(1);
-let sx = null;
-$('vB').addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, {passive: true});
-$('vB').addEventListener('touchend', e => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) vGo(dx < 0 ? 1 : -1); sx = null; });
-document.addEventListener('keydown', e => { if (!$('viewer').classList.contains('on')) return;
-  if (e.key === 'ArrowRight') vGo(1); if (e.key === 'ArrowLeft') vGo(-1); if (e.key === 'Escape') $('vX').click(); });
-// ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย ใช้ส่งให้คนอื่นดูว่าทำงานยังไง
-if (location.hash === '#demo') { warm(); fetch('sets.json?v=' + V).then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
+$('topback').onclick = () => history.state ? history.back() : goHome();
+function goHome() { gen++; running = false; closeSheet(); if (ED) finishEdit(false); show('pHome', false); paintResume(); }
+// ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย ใช้ส่งให้คนอื่นดูว่าทำงานยังไง / ไม่ใช่ #demo: มีงานเดิมในเครื่องก็เปิดต่อเลย
+if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
+else versions().then(vs => { if (vs.length) { warm(); resume(vs[vs.length - 1]); } }).catch(() => {});
 if (/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent))
   homeErr('กำลังเปิดในแอป Facebook หรือ LINE ซึ่งโหลดไฟล์ไม่ได้ แตะปุ่ม ... มุมขวาบน แล้วเลือก "เปิดในเบราว์เซอร์" ก่อนใช้งาน');
 </script>
