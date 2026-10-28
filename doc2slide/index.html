@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#ffffff">
+<title>แปลงเอกสารเป็นสไลด์ (ทดลอง) | Coach Tarn</title>
+<link rel="icon" href="/img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--red:#D34724;--orange:#EB7D4A;--text:#15151A;--mid:#4A4A55;--sub:#8A8A96;--line:#ECECF0;--soft:#FFF6F2;--bg:#F6F6F8;--ok:#2E7D4F;--ease:cubic-bezier(.16,1,.3,1);--safe:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6}
+button{font-family:inherit;cursor:pointer;color:inherit}
+button:disabled{cursor:not-allowed}
+svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hidden{display:none!important}
+.spin{width:18px;height:18px;border-radius:50%;border:2.5px solid #F2D6CC;border-top-color:var(--red);animation:sp .8s linear infinite;flex:none;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.top{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:8px;height:56px;padding:0 12px;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;height:30px}.logo svg{height:30px;width:auto}
+.top .ttl{flex:1;min-width:0;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
+.tag{margin-left:auto;font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border:1px solid #F6D3C6;border-radius:100px;padding:1px 10px;line-height:1.75;white-space:nowrap}
+.ib{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;border:none;background:none;flex:none}
+.ib:hover{background:var(--bg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;font-weight:700;font-size:15px;height:44px;padding:0 16px;line-height:1.5;transition:opacity .2s,transform .2s var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.4}
+.btn-red{background:linear-gradient(-135deg,var(--orange),var(--red));color:#fff;box-shadow:0 6px 16px rgba(211,71,36,.24)}
+.btn-line{background:#fff;border:1px solid var(--line)}
+.btn-big{height:52px;font-size:16px;border-radius:14px}
+.btn-sm{height:36px;font-size:14px;padding:0 12px;border-radius:10px}
+/* หน้า 1 */
+.home{max-width:620px;margin:0 auto;padding:26px 16px 40px}
+.home h1{font-size:27px;line-height:1.35;font-weight:700;text-align:center}
+.home .lead{color:var(--mid);text-align:center;margin-top:8px;font-size:15px}
+.inapp{margin-top:16px;padding:12px 14px;border-radius:12px;background:#FFF8E6;color:#7A5300;font-size:14px}
+.composer{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 10px 30px rgba(21,21,26,.06)}
+.drop{display:flex;flex-direction:column;align-items:center;gap:10px;border:2px dashed #E7CFC5;border-radius:14px;background:var(--soft);padding:26px 16px 18px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.drop.over{border-color:var(--red);background:#FFEDE6}
+.drop .ic{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:#fff;color:var(--red);box-shadow:0 2px 8px rgba(211,71,36,.12)}
+.drop strong{font-size:16px}
+.drop .fine{display:none}
+@media (pointer:fine){.drop .fine{display:inline}}
+.types{display:flex;justify-content:center;gap:8px}
+.types i{font-style:normal;font-size:12px;font-weight:700;padding:1px 9px;border-radius:6px;background:#fff;border:1px solid var(--line);color:var(--mid);line-height:1.75}
+.priv{display:flex;gap:6px;align-items:flex-start;justify-content:center;color:var(--ok);font-size:13px;line-height:1.6;max-width:320px}
+.priv svg{width:16px;height:16px;margin-top:2px}
+.demo{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:8px;background:none;border:none;color:var(--red);font-weight:700;font-size:14px;height:44px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);margin-top:24px;text-align:center;font-size:13px;color:var(--mid);line-height:1.5}
+.steps b{display:grid;place-items:center;width:28px;height:28px;margin:0 auto 6px;border-radius:50%;background:#fff;border:1px solid var(--line);color:var(--red);font-size:13px}
+.trust{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 16px;font-size:14px;color:var(--mid)}
+.trust li{display:flex;gap:8px;list-style:none;padding:5px 0}
+.trust li svg{color:var(--ok);width:18px;height:18px;margin-top:2px}
+.faq{margin-top:14px;font-size:13px;color:var(--sub);text-align:center}
+.err{margin-top:14px;padding:12px 14px;border-radius:12px;background:#FFF1F0;color:#B42318;font-size:14px}
+.err .btn{margin-top:10px}
+/* หน้า 2 */
+.read{max-width:620px;margin:0 auto;padding:22px 16px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
+.card+.card{margin-top:14px}
+.card h2{display:flex;align-items:center;gap:8px;font-size:17px;line-height:1.5}
+.card h2 svg{color:var(--red)}
+.sub{font-size:13px;color:var(--sub)}
+.fileline{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--bg);margin-top:12px;font-weight:600;font-size:14px}
+.fileline span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.75}
+.found{list-style:none;margin-top:12px;display:grid;gap:8px}
+.found li,.outline li{opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s var(--ease)}
+.found li.on,.outline li.on{opacity:1;transform:none}
+.found li{display:flex;align-items:center;gap:10px;font-size:14px}
+.found li>b{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--soft);color:var(--red);flex:none}
+.found li>b svg{width:17px;height:17px}
+.found li.warn>b{background:#FFF8E6;color:#9A6700}
+.found em{font-style:normal;color:var(--sub)}
+.scan{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px;color:var(--mid)}
+.note{display:flex;gap:8px;margin-top:12px;padding:10px 12px;border-radius:12px;background:#EEF7F1;color:var(--ok);font-size:13px}
+.note svg{width:16px;height:16px;margin-top:2px}
+.outline{list-style:none;margin-top:8px}
+.outline li{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line);font-size:14px}
+.outline li:first-child{border-top:none}
+.outline .no{width:22px;font-weight:700;color:var(--sub);font-size:13px;flex:none}
+.outline .t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.75}
+.outline .k{font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border-radius:6px;padding:0 8px;line-height:1.75;white-space:nowrap}
+.outline .st{width:20px;height:20px;display:grid;place-items:center;flex:none;color:var(--ok)}
+.outline .st svg{width:18px;height:18px}
+/* หน้า 3 */
+.editor{display:flex;flex-direction:column;min-height:calc(100dvh - 56px)}
+.editor>*{min-width:0}
+.list{flex:1;display:flex;flex-direction:column;gap:14px;padding:14px 14px 18px}
+.trial{font-size:13px;color:var(--sub);padding:0 2px}
+.slide{position:relative;background:#fff;border:3px solid transparent;border-radius:12px;box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.slide.on{border-color:var(--red);box-shadow:none}
+.slidebox{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#E9E9EE;cursor:zoom-in}
+.slidebox>div{position:absolute;left:0;top:0;transform-origin:0 0}
+.cap{display:flex;align-items:center;gap:8px;padding:4px 4px 4px 12px;font-size:13px;color:var(--mid)}
+.cap b{flex:none}
+.cap .why{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
+.why span{font-size:12px;font-weight:700;color:var(--red);background:var(--soft);border-radius:6px;padding:1px 8px;margin-right:6px}
+.dock{position:sticky;bottom:0;z-index:20;display:grid;grid-template-columns:1fr;gap:10px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 14px calc(10px + var(--safe))}
+.stage,.side{display:none}
+/* แผ่นล่าง */
+.sheet{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,20,26,0);pointer-events:none;visibility:hidden;transition:background .3s,visibility 0s .35s}
+.sheet.on{background:rgba(20,20,26,.45);pointer-events:auto;visibility:visible;transition:background .3s}
+.pan{width:100%;max-width:720px;max-height:86dvh;overflow:auto;background:#fff;border-radius:20px 20px 0 0;padding:8px 16px calc(16px + var(--safe));transform:translateY(100%);transition:transform .35s var(--ease)}
+.sheet.on .pan{transform:none}
+.grab{width:40px;height:5px;border-radius:5px;background:#DADAE0;margin:4px auto 8px}
+.pan .hd{display:flex;align-items:center;gap:8px}
+.pan h3{flex:1;font-size:17px;line-height:1.5}
+.menu{list-style:none;margin-top:6px}
+.menu button{display:flex;align-items:center;gap:12px;width:100%;border:none;background:none;height:52px;padding:0 6px;font-size:16px;font-weight:600;border-radius:10px;text-align:left}
+.menu button:hover{background:var(--bg)}
+.menu button:disabled{opacity:.35}
+.menu .danger{color:#C62828}
+.menu li:last-child{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}
+.confirm{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.btn-danger{background:#C62828;color:#fff}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.opt{position:relative;border:2px solid transparent;border-radius:10px;overflow:hidden;background:#fff;padding:0;text-align:left;box-shadow:0 0 0 1px var(--line)}
+.opt.on{border-color:var(--red);box-shadow:none}
+.opt img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;background:#EEE}
+.opt .lb{display:block;padding:6px 9px 8px;font-size:13px;font-weight:700;line-height:1.6}
+.opt .ck{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;display:none;place-items:center}
+.opt .ck svg{width:14px;height:14px;stroke-width:3}
+.opt.on .ck{display:grid}
+.empty{font-size:14px;color:var(--sub);padding:18px 0;text-align:center;grid-column:1/-1}
+.done{text-align:center;padding:4px 0}
+.done .big{display:grid;place-items:center;width:56px;height:56px;margin:2px auto 10px;border-radius:50%;background:#EEF7F1;color:var(--ok)}
+.done .big svg{width:28px;height:28px;stroke-width:2.5}
+.done p{font-size:14px;color:var(--mid);margin-top:6px}
+.done .btn{width:100%;margin-top:12px;text-decoration:none}
+/* ดูเต็มจอ */
+.viewer{position:fixed;inset:0;z-index:80;background:#111;display:flex;flex-direction:column;visibility:hidden;opacity:0;transition:opacity .25s,visibility 0s .25s}
+.viewer.on{visibility:visible;opacity:1;transition:opacity .25s}
+.viewer .vh{display:flex;align-items:center;gap:8px;color:#fff;padding:10px 12px}
+.viewer .vh span{flex:1;font-weight:600}
+.viewer .ib{color:#fff}.viewer .ib:hover{background:rgba(255,255,255,.1)}
+.viewer .ib:disabled{opacity:.3}
+.viewer .vb{flex:1;display:flex;align-items:center;justify-content:center;padding:12px;touch-action:pan-y}
+.viewer .slidebox{max-width:min(100%,calc((100dvh - 150px) * 16 / 9));border-radius:6px;cursor:default}
+.viewer .vf{display:flex;align-items:center;justify-content:center;gap:12px;padding:10px 12px calc(14px + var(--safe));color:#bbb;font-size:13px;text-align:center}
+.busy{position:fixed;inset:0;z-index:70;display:grid;place-items:center;background:rgba(255,255,255,.7);backdrop-filter:blur(3px);visibility:hidden;opacity:0;transition:opacity .2s,visibility 0s .2s}
+.busy.on{visibility:visible;opacity:1;transition:opacity .2s}
+.busy>div{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;font-weight:600;box-shadow:0 10px 30px rgba(21,21,26,.1)}
+.toast{position:fixed;left:50%;top:68px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:90;background:#15151A;color:#fff;font-size:14px;border-radius:100px;padding:9px 16px;transition:opacity .3s,transform .3s var(--ease);pointer-events:none;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%)}
+@media (min-width:900px){
+  .home{padding-top:54px}.home h1{font-size:34px}
+  .read{max-width:960px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+  .card+.card{margin-top:0}
+  .editor{display:grid;grid-template-columns:200px 1fr 300px;height:calc(100dvh - 56px);min-height:0}
+  .list{grid-column:1;overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:12px;gap:10px}
+  .list .trial{display:none}
+  .slide{border-width:2px;border-radius:8px;cursor:pointer}
+  .slide .slidebox{cursor:pointer}
+  .cap{font-size:12px;padding:2px 2px 2px 8px}
+  .cap .why span{display:none}
+  .dock{display:none}
+  .stage{display:flex;flex-direction:column;justify-content:center;grid-column:2;padding:24px 28px;overflow:auto}
+  .stage .slidebox{border-radius:10px;box-shadow:0 8px 24px rgba(21,21,26,.10);cursor:zoom-in}
+  .stage .meta{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:14px;color:var(--mid);flex-wrap:wrap}
+  .stage .meta .why{flex:1}
+  .side{display:flex;flex-direction:column;grid-column:3;border-left:1px solid var(--line);background:#fff;min-height:0}
+  .tabs{display:grid;grid-template-columns:1fr 1fr;padding:10px;gap:6px;border-bottom:1px solid var(--line)}
+  .tab{display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:none;border-radius:9px;height:38px;font-weight:700;font-size:14px;color:var(--mid)}
+  .tab.on{background:var(--soft);color:var(--red)}
+  .sidebody{flex:1;overflow:auto;padding:12px}
+  .sidebody .grid2{grid-template-columns:1fr;margin-top:0}
+  .sidefoot{padding:12px;border-top:1px solid var(--line)}
+  .sidefoot .btn{width:100%}
+  .sheet{align-items:center}
+  .pan{border-radius:20px;transform:translateY(24px);opacity:0;transition:transform .35s var(--ease),opacity .25s}
+  .sheet.on .pan{opacity:1}
+  .grid2{grid-template-columns:repeat(3,1fr)}
+  .toast{top:auto;bottom:28px;transform:translateX(-50%) translateY(16px)}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8h10"/><path d="M7 12h10"/><path d="M7 16h6"/></symbol>
+  <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="1"/><rect x="3" y="14" width="9" height="7" rx="1"/><rect x="16" y="14" width="5" height="7" rx="1"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c.9 0 1.6-.7 1.6-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.7 1.7-1.7h2c3 0 5.5-2.5 5.5-5.5C22 6 17.5 2 12 2z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></symbol>
+  <symbol id="i-dn" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M19 12l-7 7-7-7"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></symbol>
+  <symbol id="i-heading" viewBox="0 0 24 24"><path d="M6 12h12"/><path d="M6 20V4"/><path d="M18 20V4"/></symbol>
+  <symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M12 3v18"/></symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 3L8 21"/><path d="M16 3l-2 18"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="i-slides" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="i-sample" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></symbol>
+  <symbol id="i-type" viewBox="0 0 24 24"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="M16 6l-4-4-4 4"/><path d="M12 2v13"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></symbol>
+  <symbol id="i-reload" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/><path d="M8 16H3v5"/></symbol>
+</svg>
+
+<header class="top">
+  <button class="ib hidden" id="topback" type="button" aria-label="ย้อนกลับ"><svg class="i"><use href="#i-back"/></svg></button>
+  <a href="/" class="logo" id="toplogo" aria-label="Coach Tarn"><svg id="ct-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 214.66" height="38" aria-label="Coach Tarn"><style>#ct-logo .st0{fill:#DB490E}#ct-logo .st1{fill:#DB480E}#ct-logo .st2{fill:#DA490D}#ct-logo .st3{fill:#3F3633}#ct-logo .st4{fill:#D9470D}#ct-logo .st5{fill:#DA480C}#ct-logo .st6{fill:#3D3531}#ct-logo .st7{fill:#3C3330}#ct-logo .st8{fill:#D9470C}#ct-logo .st9{fill:#3E3532}</style><g><path class="st0" d="M103.79,71.86c0-9.77-0.04-19.53,0.01-29.3c0.03-5.2,2.12-7.31,7.3-7.32c17.8-0.05,35.6-0.06,53.4-0.04c4.83,0.01,7.32,2.59,7.32,7.49c0.01,19.42,0,38.85-0.04,58.27c-0.01,5.22-2.56,7.86-7.73,7.89c-17.36,0.09-34.73,0.15-52.09,0.16c-5.58,0-8.1-2.61-8.11-8.18c-0.02-9.66,0-19.31,0-28.97C103.83,71.86,103.81,71.86,103.79,71.86z"/><path class="st1" d="M103.76,152.7c0-9.77-0.02-19.54,0.01-29.3c0.02-5.44,2.27-7.86,7.68-7.79c12.8,0.18,25.63-0.84,38.39,0.5c11.64,1.22,21.69,12.15,21.91,23.86c0.28,14.43,0.11,28.87,0.07,43.3c-0.01,3.54-2.71,5.84-6.74,5.85c-14,0.03-28.01,0.02-42.01,0.02c-4.23,0-8.47,0.03-12.7-0.03c-4.08-0.06-6.47-2.4-6.48-6.46c-0.04-9.98-0.01-19.97-0.01-29.95C103.83,152.7,103.79,152.7,103.76,152.7z"/><path class="st2" d="M96.85,152.55c0,9.66,0,19.32,0,28.98c0,5.48-2.14,7.62-7.69,7.62c-10.75,0-21.49,0.05-32.24-0.05c-15.9-0.16-27.19-11.47-27.3-27.32c-0.09-12.7-0.06-25.4-0.06-38.09c0-5.53,2.62-8.18,8.17-8.19c16.72-0.01,33.43,0,50.15,0.07c6.87,0.03,8.95,2.18,8.96,8.99C96.85,133.88,96.85,143.21,96.85,152.55z"/><path class="st0" d="M63.24,108.99c-8.36,0-16.73,0.02-25.09,0c-6.19-0.02-8.64-2.51-8.63-8.68c0.01-9.02,0-18.03,0.04-27.05c0.02-4.93,2.69-7.7,7.62-7.71c16.95-0.05,33.89-0.07,50.84,0c6.15,0.03,8.65,2.66,8.69,8.81c0.06,8.91,0.09,17.81,0.07,26.72c-0.01,5.24-2.54,7.84-7.8,7.88C80.41,109.04,71.82,108.99,63.24,108.99z"/><path class="st3" d="M436.86,60.72c5.58-6.35,12-7.23,18.84-6.41c8.46,1.02,13.94,7.01,14.62,16.12c0.85,11.38,0.37,22.8,0.47,34.2c0.02,2.85-1.61,4.27-4.55,4.36c-9.93,0.31-9.91,0.34-9.96-9.56c-0.04-8.25,0.11-16.52-0.32-24.75c-0.4-7.7-8.28-11.22-14.5-6.7c-3.38,2.46-4.27,6.19-4.33,10.1c-0.12,8.36-0.07,16.73-0.11,25.09c-0.02,4.64-1.12,5.72-5.78,5.75c-8.64,0.06-8.62,0.06-8.62-8.56c-0.01-19.77-0.07-39.54-0.07-59.31c0-5.37,0.61-5.92,6.06-5.94c8.16-0.03,8.26,0.06,8.26,8.13C436.86,48.74,436.86,54.24,436.86,60.72z"/><path class="st4" d="M358.86,138.46c4.9-6.38,11.48-7.86,18.69-7.09c8.71,0.92,13.95,5.71,15.01,14.39c1.47,12.09,0.54,24.27,0.53,36.41c0,0.53-0.07,1.17-0.37,1.56c-3,3.93-7.17,1.78-10.85,1.91c-2.6,0.1-3.33-2.04-3.34-4.31c-0.05-8.25-0.06-16.49-0.09-24.74c-0.01-1.52,0.05-3.05-0.09-4.55c-0.49-4.91-2.52-7.25-6.68-7.87c-4.85-0.72-9.03,1.3-10.85,5.27c-0.87,1.89-1.34,3.86-1.34,5.97c0,8.35-0.06,16.71-0.12,25.06c-0.03,4.34-1.01,5.28-5.39,5.4c-9.28,0.25-9.3,0.25-9.29-9.14c0.01-12.59-0.01-25.17,0.1-37.76c0.02-2.25-0.79-5.2,2.05-6.31c3.3-1.29,6.86-1.16,10.14,0.22C359.11,133.81,357.87,136.24,358.86,138.46z"/><path class="st5" d="M63.26,58.89c-8.68,0-17.36,0.01-26.03-0.01c-5.46-0.01-7.57-2.16-7.62-7.71c-0.03-3.25-0.06-6.51,0.01-9.76c0.09-4.01,2.28-6.27,6.29-6.28c18.11-0.03,36.23,0,54.34,0.07c3.76,0.01,6.33,2.54,6.47,6.3c0.14,3.57,0.13,7.16,0.03,10.73c-0.12,4.16-2.6,6.63-6.8,6.66c-8.89,0.07-17.79,0.02-26.68,0.02C63.26,58.91,63.26,58.9,63.26,58.89z"/><path class="st6" d="M368.61,83.38c0.03-5.51,0.43-10.13,1.88-14.63c2.49-7.71,7.66-12.47,15.61-14c6.5-1.25,12.99-1.13,19.18,1.52c6.05,2.6,9.69,7.16,10.47,13.79c0.42,3.59-0.66,4.85-4.2,5.01c-1.41,0.06-2.83-0.1-4.23,0.04c-2.85,0.29-4.35-0.89-5.17-3.67c-1.15-3.92-3.91-5.8-7.93-5.99c-4.23-0.2-8,1.66-9.35,5.17c-2.83,7.35-2.76,14.91-0.4,22.33c1.3,4.09,5.04,5.92,9.94,5.75c4.56-0.16,7.16-1.84,8.43-6.24c0.84-2.91,2.54-3.8,5.24-3.66c0.32,0.02,0.65,0.02,0.98-0.01c7.85-0.55,8.38,2.13,5.87,8.75c-2.83,7.48-8.83,10.92-16.41,12.09c-4.01,0.62-8,0.55-12-0.07c-9.23-1.44-15.57-8.16-17.25-18.28C368.8,88.4,368.52,85.49,368.61,83.38z"/><path class="st7" d="M207.4,82.48c0.04-5.36,0.57-10.61,2.81-15.57c3.02-6.7,7.97-11.02,15.32-12.22c7.42-1.2,14.72-1.18,21.42,2.95c4.51,2.79,7.13,6.88,8.03,12.07c0.59,3.38-0.86,5.17-4.32,5.37c-1.52,0.09-3.05-0.06-4.56,0.06c-2.5,0.2-3.85-0.94-4.43-3.3c-1.04-4.24-4.14-5.94-8.15-6.19c-4.19-0.26-8,0.91-9.69,5.07c-2.97,7.3-2.98,14.88-0.45,22.27c1.47,4.29,5.23,5.77,9.67,5.67c4.22-0.1,7.25-1.82,8.89-5.83c1.49-3.66,8.62-5.6,12.02-3.37c1.58,1.03,1.53,2.55,1.28,4.06c-1.04,6.33-4.37,11.13-10.24,13.73c-7.64,3.39-15.72,3.7-23.52,1.02c-9.2-3.16-12.73-10.85-13.81-19.92C207.45,86.4,207.48,84.43,207.4,82.48z"/><path class="st5" d="M216.47,159.73c0-4.34-0.05-8.69,0.02-13.03c0.04-2-0.48-3.1-2.76-2.76c-1.06,0.16-2.17,0.01-3.25-0.05c-1.91-0.1-3.02-1.02-3.04-3.04c-0.01-0.98-0.07-1.95-0.06-2.93c0.05-5.12,0.49-5.72,5.59-5.54c2.89,0.1,3.84-0.74,3.52-3.64c-0.3-2.79-0.14-5.64-0.14-8.46c0-2.67,0.99-4.37,4.04-4.23c2.17,0.1,4.35,0.07,6.51-0.05c2.85-0.15,3.94,1.42,3.98,3.95c0.06,3.15,0.09,6.3-0.08,9.44c-0.12,2.23,0.5,3.19,2.9,2.98c2.26-0.2,4.56-0.07,6.83,0.02c2.31,0.1,3.44,1.34,3.67,3.7c0.7,7.06-0.05,7.93-7.15,7.8c-6.01-0.11-6.01-0.11-6.01,5.89c0,5.97-0.09,11.95,0.02,17.92c0.1,5.37,1.6,6.72,6.89,6.62c5.86-0.11,8.58,4.5,5.79,9.74c-0.72,1.35-1.91,1.72-3.23,1.81c-4.55,0.29-9.13,0.55-13.66-0.05c-6.04-0.81-9.79-5.34-10.18-12.4c-0.25-4.55-0.05-9.12-0.05-13.68C216.59,159.73,216.53,159.73,216.47,159.73z"/><path class="st5" d="M318.22,139.69c3.87-6.54,9.38-8.47,16.05-7.98c2.81,0.2,4.34,1.24,4.38,4.37c0.11,9.13,0.2,9.13-8.91,9.46c-7.37,0.27-10.97,3.78-11.23,11.48c-0.26,7.7-0.19,15.42-0.23,23.13c-0.03,4.86-0.78,5.63-5.67,5.71c-8.8,0.14-8.9,0.04-8.91-8.75c-0.01-12.49-0.09-24.98,0.04-37.46c0.02-2.32-0.97-5.42,1.86-6.76c3.22-1.53,6.83-1.42,10.16-0.2C318.68,133.76,317.41,136.79,318.22,139.69z"/><path class="st8" d="M294.33,145.96c-0.08-6.04-3.87-11.09-9.62-12.96c-8.3-2.7-16.7-2.51-24.93,0.21c-4.01,1.33-7.2,3.94-8.52,8.28c-1.92,6.28-0.2,8.63,6.33,8.26c2.15-0.12,4.58,0.35,5.93-2.33c2.66-5.28,9.22-7.09,14.18-4.02c2.61,1.62,3.39,4.18,3.03,7.02c-0.35,2.79-2.86,2.57-4.81,2.87c-4.7,0.74-9.47,0.75-14.19,1.72c-11.95,2.46-15.82,11.65-11.93,23.64c1.17,3.6,3.9,6.04,7.57,6.99c8.24,2.13,16.12,1.7,23.38-4.51c0.22,4.41,2.8,4.97,5.95,4.77c1.3-0.08,2.61,0.04,3.9-0.05c2.53-0.18,3.91-1.35,3.89-4.12C294.39,169.83,294.48,157.89,294.33,145.96z M269.69,176.34c-4.57-0.06-6.79-1.64-7.35-5.22c-0.58-3.69,1.13-6.37,5.47-7.46c3.64-0.92,7.45-1.22,11.18-1.76c0.85-0.12,1.45,0.15,1.5,1.19C280.76,169.91,278.34,176.65,269.69,176.34z"/><path class="st6" d="M361.56,70.68c-0.33-8.6-5.32-13.97-13.76-15.77c-5.93-1.26-11.89-1.15-17.76,0.21c-5.4,1.26-9.82,3.99-11.81,9.59c-2.2,6.17-0.51,8.64,5.9,8.59c0.98-0.01,1.95-0.11,2.93-0.1c1.64,0.02,2.49-0.83,3.13-2.3c2.44-5.58,10.84-7.69,15.64-3.94c2.16,1.68,2.88,4.07,2.52,6.68c-0.35,2.53-2.57,2.6-4.47,2.93c-1.39,0.24-2.79,0.38-4.19,0.53c-5.39,0.58-10.81,1.02-15.84,3.31c-6.22,2.83-8.78,8.09-8.09,16.52c0.51,6.16,4.22,10.71,10.47,12.13c7.99,1.81,15.55,1.02,21.88-5.04c0.23,0.49,0.38,0.77,0.49,1.06c1.53,3.9,9.2,5.55,12.28,2.65c0.85-0.8,1.22-1.73,1.2-2.89C361.92,93.46,362,82.06,361.56,70.68z M336.79,99.86c-4.17,0.01-6.77-1.95-7.24-5.47c-0.46-3.5,1.46-6.54,5.27-7.44c3.98-0.93,8.09-1.36,12.14-2.03c1.06-0.17,1.29,0.36,1.34,1.27C348.81,94.79,344.28,99.79,336.79,99.86z"/><path class="st9" d="M310.08,72.56c-2.13-10.42-8.58-16.71-19.03-18.11c-3.2-0.43-6.52-0.38-9.75-0.12c-10.28,0.82-17.26,6.89-19.75,16.89c-0.87,3.5-1.2,7.05-1.07,10.64c0,1.52-0.08,3.04,0.01,4.56c0.87,14.83,8.44,22.53,23.2,23.64c14.27,1.08,24.18-6.29,26.71-20.02C311.47,84.21,311.26,78.36,310.08,72.56z M295.32,92.69c-1.48,4.34-4.97,6.19-10.1,6c-4.9-0.18-7.84-2.27-9.32-6.68c-1.08-3.24-1.19-6.6-1.11-9.6c-0.02-3.75,0.08-7.11,1.24-10.34c1.52-4.21,4.66-6.36,9.51-6.51c4.79-0.15,8.32,1.83,9.78,6.04C297.74,78.58,297.7,85.71,295.32,92.69z"/></g></svg></a>
+  <span class="ttl" id="topttl"></span>
+  <span class="tag" id="toptag">เวอร์ชันทดลอง</span>
+  <button class="btn btn-red btn-sm hidden" id="topshare" data-act="share" type="button"><svg class="i"><use href="#i-share"/></svg>แชร์</button>
+</header>
+
+<main class="home" id="pHome">
+  <h1>แปลงเอกสารเป็นสไลด์</h1>
+  <p class="lead">ใส่ไฟล์ Word, Excel หรือ PDF ระบบอ่านโครงเรื่องแล้วจัดลงสไลด์ Coach Tarn ให้ เนื้อหาและตัวเลขทุกตัวมาจากไฟล์ของคุณ ไม่มีการแต่งเพิ่ม</p>
+  <p class="inapp hidden" id="inapp">กำลังเปิดในแอป Facebook หรือ LINE ซึ่งโหลดไฟล์ไม่ได้ แตะปุ่ม ... มุมขวาบน แล้วเลือก "เปิดในเบราว์เซอร์" (Chrome หรือ Safari) ก่อนใช้งาน</p>
+  <div class="composer">
+    <label class="drop" id="drop">
+      <input type="file" id="fin" accept=".docx,.pdf,.xlsx" hidden>
+      <span class="ic"><svg class="i"><use href="#i-upload"/></svg></span>
+      <strong>แตะเพื่อเลือกไฟล์<span class="fine"> หรือลากไฟล์มาวาง</span></strong>
+      <span class="types"><i>Word</i><i>Excel</i><i>PDF</i></span>
+      <span class="priv"><svg class="i"><use href="#i-lock"/></svg>ไฟล์ของคุณไม่ถูกอัปโหลดไปที่ไหน ระบบทำงานในเครื่องคุณเอง</span>
+    </label>
+    <button class="demo" id="demo" type="button"><svg class="i"><use href="#i-sample"/></svg>ยังไม่มีไฟล์? ลองด้วยไฟล์ตัวอย่าง</button>
+  </div>
+  <div class="err hidden" id="err"></div>
+  <div class="steps">
+    <div><b>1</b>ใส่ไฟล์</div>
+    <div><b>2</b>ระบบอ่านและจัดหน้า</div>
+    <div><b>3</b>โหลดไปแก้ต่อ</div>
+  </div>
+  <ul class="trust">
+    <li><svg class="i"><use href="#i-shield"/></svg>ตัวเลขคัดลอกจากไฟล์ตรง ๆ ไม่เขียนใหม่</li>
+    <li><svg class="i"><use href="#i-type"/></svg>ข้อความบนสไลด์เป็นตัวอักษรจริง ไม่ใช่รูปภาพ เปิดใน PowerPoint แล้วแก้ต่อได้เลย</li>
+    <li><svg class="i"><use href="#i-table"/></svg>ตารางจาก Word และ Excel จัดเป็นกราฟหรือตารางให้</li>
+  </ul>
+  <p class="faq">คลังเทมเพลตยังโหลดได้ไม่จำกัดเหมือนเดิมทุกอย่าง บริการแปลงไฟล์เป็นของเสริม จะใช้หรือไม่ใช้ก็ได้</p>
+</main>
+
+<main class="read hidden" id="pRead">
+  <section class="card">
+    <h2><svg class="i"><use href="#i-scan"/></svg>อ่านไฟล์</h2>
+    <div class="fileline"><svg class="i"><use href="#i-file"/></svg><span id="fname"></span></div>
+    <div class="scan" id="scan"><span class="spin"></span><span id="scant"></span></div>
+    <ul class="found" id="found"></ul>
+    <p class="note hidden" id="numnote"><svg class="i"><use href="#i-shield"/></svg>ตัวเลขทุกค่าคัดลอกจากไฟล์ตรง ๆ ไม่ปัดเศษ ไม่เขียนใหม่</p>
+  </section>
+  <section class="card hidden" id="ocard">
+    <h2><svg class="i"><use href="#i-slides"/></svg>สไลด์ที่จะได้ <span class="sub" id="ocount"></span></h2>
+    <p class="sub">ระบบดูว่าแต่ละส่วนเป็นรายการ ตัวเลข หรือตาราง แล้วเลือกหน้าที่เหมาะให้</p>
+    <ol class="outline" id="outline"></ol>
+    <div class="scan hidden" id="scan2"><span class="spin"></span><span id="scan2t"></span></div>
+  </section>
+</main>
+
+<main class="editor hidden" id="pEdit">
+  <div class="list" id="list"></div>
+  <section class="stage">
+    <div class="slidebox" id="main"></div>
+    <div class="meta"><b id="pno"></b><span class="why" id="pwhy"></span>
+      <button class="btn btn-line btn-sm" data-act="up" type="button"><svg class="i"><use href="#i-up"/></svg>เลื่อนขึ้น</button>
+      <button class="btn btn-line btn-sm" data-act="down" type="button"><svg class="i"><use href="#i-dn"/></svg>เลื่อนลง</button>
+      <button class="btn btn-line btn-sm" data-act="delask" type="button"><svg class="i"><use href="#i-trash"/></svg>ลบหน้า</button>
+    </div>
+  </section>
+  <aside class="side">
+    <div class="tabs">
+      <button class="tab on" data-tab="alt" type="button"><svg class="i"><use href="#i-layout"/></svg>เปลี่ยนแบบหน้า</button>
+      <button class="tab" data-tab="look" type="button"><svg class="i"><use href="#i-palette"/></svg>เปลี่ยนชุด</button>
+    </div>
+    <div class="sidebody"><div class="grid2" id="sideAlt"></div><div class="grid2 hidden" id="sideLook"></div></div>
+  </aside>
+  <nav class="dock">
+    <button class="btn btn-line btn-big" data-act="look" type="button"><svg class="i"><use href="#i-palette"/></svg>เปลี่ยนชุด</button>
+  </nav>
+</main>
+
+<div class="sheet" id="sheet"><div class="pan">
+  <div class="grab"></div>
+  <div class="hd"><h3 id="shT"></h3><button class="ib" id="shX" type="button" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <p class="sub" id="shS"></p>
+  <div id="shBody"></div>
+</div></div>
+<div class="viewer" id="viewer">
+  <div class="vh"><span id="vT"></span><button class="ib" id="vX" type="button" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="vb" id="vB"><div class="slidebox" id="vS"></div></div>
+  <div class="vf"><button class="ib" id="vP" type="button" aria-label="หน้าก่อน"><svg class="i"><use href="#i-back"/></svg></button>
+    <span>ปัดซ้ายขวาเพื่อดูหน้าอื่น<br>แก้ข้อความได้ใน PowerPoint หลังโหลด</span>
+    <button class="ib" id="vN" type="button" aria-label="หน้าถัดไป"><svg class="i"><use href="#i-next"/></svg></button></div>
+</div>
+<div class="busy" id="busy"><div><span class="spin"></span><span id="busyT"></span></div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.28.0/full/pyodide.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const V = '20261028e';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+// เวอร์ชันที่ทดสอบแล้ว ล็อกไว้ ไลบรารีออกรุ่นใหม่เมื่อไหร่หน้านี้จะไม่พังเอง
+const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];
+const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+// ให้จอวาดก่อนคิดต่อ  rAF หยุดเมื่อแท็บถูกซ่อน (ลูกค้าสลับแอประหว่างรอ) เลยมีตัวจับเวลาสำรอง
+const frame = () => new Promise(r => { let d = 0; const f = () => { if (!d) { d = 1; r(); } }; requestAnimationFrame(() => setTimeout(f, 0)); setTimeout(f, 80); });
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const wide = () => matchMedia('(min-width:900px)').matches;
+let SETS = [], file = null, slug = null, py = null, booting = null, gen = 0, lookGen = 0;
+let ttl = '', cur = 0, slides = [], META = [], order = [], deckBuf = null, dirty = true, busyNow = false;
+const zips = new Set(), fonts = new Set(), altCache = new Map();
+
+// ตัดคำไทยเพื่อวัดความยาวบรรทัด (Python เรียกผ่าน js.d2sSeg) ใช้พจนานุกรมของเบราว์เซอร์
+const SEG = new Intl.Segmenter('th', {granularity: 'word'});
+window.d2sSeg = t => Array.from(SEG.segment(t), s => s.segment);
+if (/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent)) $('inapp').classList.remove('hidden');
+
+function show(p, push = true) {
+  ['pHome', 'pRead', 'pEdit'].forEach(x => $(x).classList.toggle('hidden', x !== p));
+  $('topback').classList.toggle('hidden', p === 'pHome');
+  $('toplogo').classList.toggle('hidden', p !== 'pHome');
+  $('toptag').classList.toggle('hidden', p !== 'pHome');
+  $('topshare').classList.toggle('hidden', p !== 'pEdit');
+  $('topttl').textContent = p === 'pEdit' ? ttl : p === 'pRead' ? 'กำลังเตรียมสไลด์' : '';
+  if (push && p !== 'pHome' && history.state?.p !== p) history.pushState({p}, '');   // ปุ่มย้อนกลับของมือถือไม่หลุดออกจากเว็บ
+  window.scrollTo(0, 0);
+}
+window.addEventListener('popstate', () => { gen++; closeSheet(); $('viewer').classList.remove('on'); show('pHome', false); });
+function err(m, reload) {
+  $('err').innerHTML = esc(m) + (reload ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : '');
+  $('err').classList.toggle('hidden', !m);
+}
+function toast(m) { const t = $('toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('on'), 2600); }
+function busy(m) { busyNow = !!m; $('busyT').textContent = m || ''; $('busy').classList.toggle('on', !!m); }
+// ข้อความที่เราเขียนเองเป็นไทย ถ้าไม่ใช่ไทย (error ที่ไม่ได้ดัก) ไม่โชว์ภาษาเครื่องให้ลูกค้า
+function pyErr(e, fallback) {
+  const m = String(e && e.message || e).split('\n').map(s => s.trim()).filter(Boolean).pop() || '';
+  const t = (m.match(/^\w*Error: (.*)$/) || [, m])[1];
+  return /[฀-๿]/.test(t) ? t : fallback;
+}
+
+// ── เครื่องมือ Python ในเบราว์เซอร์ ──
+const NET = 'โหลดส่วนประกอบไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วโหลดหน้าใหม่';
+async function get(url) { const r = await fetch(url + '?v=' + V); if (!r.ok) throw new Error(NET); return r; }
+async function unzip(url) { py.unpackArchive(await (await get(url)).arrayBuffer(), 'zip', {extractDir: '/'}); }
+function boot() {                       // ล้มแล้วไม่ลองซ้ำในหน้าเดิม (โหลด Pyodide สองรอบ = หน่วยความจำเบิ้ล) ให้โหลดหน้าใหม่
+  return booting = booting || (async () => {
+    if (!window.loadPyodide || !window.pptxPreview) throw new Error(NET);
+    try {
+      py = await loadPyodide();
+      await py.loadPackage(['lxml', 'pillow', 'micropip']);
+      await py.pyimport('micropip').install(PKGS);
+    } catch (e) { console.error(e); throw new Error(NET); }
+    await unzip('py.zip'); await unzip('kit.zip');
+    py.FS.mkdirTree('/k5/fonts'); py.FS.mkdirTree('/k5/img');
+    py.FS.writeFile('/k5/fonts/OFL.txt', await (await get('fonts/OFL.txt')).text());
+    py.runPython(`import sys, json; sys.path.insert(0, '/k5'); import doc2slide as D`);
+  })();
+}
+async function needSet(s) {
+  for (const z of s.zips) if (!zips.has(z)) { await unzip('img/' + z); zips.add(z); }
+  for (const f of s.fonts) if (!fonts.has(f)) { py.FS.writeFile('/k5/fonts/' + f, new Uint8Array(await (await get('fonts/' + f)).arrayBuffer())); fonts.add(f); }
+}
+fetch('fonts.json?v=' + V).then(r => r.json()).then(m => {   // ให้พรีวิวแสดงฟอนต์จริงของชุด
+  const st = document.createElement('style');
+  st.textContent = Object.entries(m).map(([q, f]) => { const [n, b] = q.split(':');
+    return `@font-face{font-family:'${n}';src:url('fonts/${f}?v=${V}');font-weight:${b ? 700 : 400};font-display:swap}`; }).join('');
+  document.head.appendChild(st);
+});
+fetch('sets.json?v=' + V).then(r => r.json()).then(s => { SETS = s; slug = s[0].slug; });
+
+// ── หน้า 1 ──
+const drop = $('drop');
+drop.addEventListener('pointerdown', () => boot().catch(() => {}), {once: true});   // เริ่มโหลดตอนแตะ ระหว่างลูกค้าหาไฟล์
+['dragenter', 'dragover'].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(e => drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', ev => pick(ev.dataTransfer.files[0]));
+$('fin').addEventListener('change', ev => { pick(ev.target.files[0]); ev.target.value = ''; });
+$('demo').onclick = async () => {
+  boot().catch(() => {});
+  try { pick(new File([await (await get('sample/รายงานโครงการรักการอ่าน.docx')).blob()], 'รายงานโครงการรักการอ่าน.docx')); }
+  catch (e) { err(NET, true); }
+};
+function pick(f) {
+  if (!f) return;
+  const ext = f.name.toLowerCase().split('.').pop();
+  if (!['docx', 'pdf', 'xlsx'].includes(ext))
+    return err(ext === 'doc' ? 'ไฟล์ .doc แบบเก่ายังใช้ไม่ได้ เปิดใน Word แล้วบันทึกเป็น .docx ก่อน' : 'รองรับไฟล์ Word (.docx), Excel (.xlsx) และ PDF');
+  if (f.size > 15e6) return err('ไฟล์ใหญ่เกิน 15MB');
+  err(''); file = f; readAndBuild();
+}
+
+// ── หน้า 2: อ่านไฟล์ โชว์สิ่งที่พบ แล้วจัดหน้าทีละหน้า ──
+async function readAndBuild() {
+  const my = ++gen;
+  show('pRead');
+  $('fname').textContent = file.name; $('found').innerHTML = ''; $('outline').innerHTML = '';
+  $('ocard').classList.add('hidden'); $('numnote').classList.add('hidden'); $('scan').classList.remove('hidden'); $('scan2').classList.add('hidden');
+  try {
+    $('scant').textContent = py ? 'กำลังอ่านไฟล์' : 'กำลังเปิดตัวอ่านไฟล์ ครั้งแรกรอสักครู่';
+    await boot(); if (my !== gen) return;
+    $('scant').textContent = 'กำลังอ่านไฟล์'; await frame();
+    const ext = file.name.split('.').pop().toLowerCase();
+    py.FS.writeFile('/tmp/in.' + ext, new Uint8Array(await file.arrayBuffer()));
+    py.globals.set('SRC', '/tmp/in.' + ext); py.globals.set('NAME', file.name);
+    const f = JSON.parse(py.runPython('TTL, WANT = D.analyze(SRC, NAME); json.dumps(D.findings(WANT), ensure_ascii=False)'));
+    ttl = py.globals.get('TTL');
+    if (f.outline.length < 2) throw new Error('ไม่พบข้อความในไฟล์ ถ้าเป็น PDF ที่สแกนจากกระดาษ ระบบอ่านไม่ได้ ใช้ไฟล์ Word หรือ Excel ต้นฉบับแทน');
+    const rows = [['heading', `พบ <b>${f.sections}</b> หัวข้อ`, ttl]];
+    if (f.nums.length) rows.push(['hash', `พบตัวเลขพร้อมหน่วย <b>${f.nums.length}</b> ค่า`, 'จัดเป็นการ์ดตัวเลข']);
+    if (f.tables) rows.push(['table', `พบตาราง <b>${f.tables}</b> ตาราง <b>${f.rows}</b> แถว`, 'จัดเป็นกราฟหรือตาราง']);
+    if (f.dates) rows.push(['cal', `พบช่วงเวลา <b>${f.dates}</b> ช่วง`, 'จัดเป็นไทม์ไลน์']);
+    if (f.qa) rows.push(['help', `พบคำถาม-คำตอบ <b>${f.qa}</b> ข้อ`, 'จัดเป็นหน้าถาม-ตอบ']);
+    for (const n of f.notes) rows.push(['info', esc(n), '', 'warn']);
+    for (const [ic, a, b, cls] of rows) {
+      const li = document.createElement('li'); if (cls) li.className = cls;
+      li.innerHTML = `<b>${ico(ic)}</b><span>${a} <em>${esc(b)}</em></span>`;
+      $('found').appendChild(li); await sleep(300); li.classList.add('on');
+    }
+    $('scan').classList.add('hidden');
+    if (f.nums.length || f.tables) $('numnote').classList.remove('hidden');
+    $('ocard').classList.remove('hidden');
+    $('ocount').textContent = `${f.outline.length} หน้า`;
+    for (const [i, o] of f.outline.entries()) {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(o.th)}</span><span class="st"></span>`;
+      $('outline').appendChild(li); await sleep(80); li.classList.add('on');
+    }
+    if (my !== gen) return;
+    await build(my);
+  } catch (e) {
+    console.error(e); if (my !== gen) return;
+    const m = pyErr(e, 'อ่านไฟล์นี้ไม่สำเร็จ ลองบันทึกเป็นไฟล์ใหม่ หรือใช้ไฟล์ Word แทน');
+    show('pHome', false); history.replaceState(null, ''); err(m, m === NET);
+  }
+}
+async function build(my) {
+  const s = SETS.find(x => x.slug === slug);
+  $('scan2').classList.remove('hidden'); $('scan2t').textContent = 'กำลังโหลดดีไซน์';
+  await needSet(s); if (my !== gen) return;
+  py.globals.set('SLUG', slug);
+  py.runPython('G = D.plan_iter(WANT, SLUG)');
+  const lis = $('outline').children;
+  for (;;) {
+    const st = JSON.parse(py.runPython(`
+try:
+    _st = list(next(G))
+except StopIteration as _e:
+    M, OUT, LOG = _e.value; _st = None
+json.dumps(_st)`));
+    if (!st) break;
+    $('scan2t').textContent = `กำลังจัดหน้า ${Math.min(st[0] + 1, st[1])} จาก ${st[1]}`;
+    const k = Math.floor(lis.length * st[0] / Math.max(st[1], 1));   // บางหัวข้อแตกเป็นหลายหน้า เลยเทียบสัดส่วน
+    for (let j = 0; j < k; j++) lis[j].querySelector('.st').innerHTML = ico('check');
+    await frame(); if (my !== gen) return;
+  }
+  [...lis].forEach(li => li.querySelector('.st').innerHTML = ico('check'));
+  takePlan();
+  if (!order.length) throw new Error('ดีไซน์นี้ใส่เนื้อหาไฟล์นี้ไม่ได้');
+  $('scan2t').textContent = 'กำลังวาดสไลด์'; await frame();
+  await renderAll(); if (my !== gen) return;
+  show('pEdit'); relayout();
+}
+function takePlan() {
+  py.runPython('ITEMS = [(x["layout"], x["d"]) for x in OUT]; CS = [x["c"] for x in OUT]');
+  order = Array.from({length: py.runPython('len(ITEMS)')}, (_, i) => i);
+  altCache.clear(); lookGen++; cur = 0;
+}
+
+// ── หน้า 3 ──
+const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายการ', pairs: 'หัวข้อพร้อมคำอธิบาย', qa: 'ถาม-ตอบ', stat: 'การ์ดตัวเลข',
+  timeline: 'ไทม์ไลน์', table: 'ตาราง', chart: 'กราฟ', statement: 'ข้อความเด่น', divider: 'หน้าคั่น', compare: 'เปรียบเทียบ'};
+function why(m) {                       // เหตุผลที่ระบบเลือกแบบนี้ จากข้อมูลจริงของหน้านั้น
+  const n = m.n, r = {stat: `ตัวเลข ${n} ค่า`, chart: `จากตาราง ${n} แถว`, table: `${n} แถว`, timeline: `${n} ช่วงเวลา`,
+    qa: `${n} คำถาม`, list: `${n} ข้อ`, pairs: `${n} ข้อ`, agenda: `${n} หัวข้อ`}[m.kind];
+  return `<span>${KIND[m.kind] || ''}</span>${r || ''}`;
+}
+function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); return u.buffer; }
+async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
+  const tmp = document.createElement('div'); tmp.style.cssText = 'position:fixed;left:-99999px;top:0;width:960px';
+  document.body.appendChild(tmp);
+  try {
+    const pv = pptxPreview.init(tmp, {width: 960, height: 540, mode: 'list'});
+    await pv.preview(buf);
+    return [...tmp.querySelectorAll('.pptx-preview-slide-wrapper')].map(s => s.cloneNode(true));
+  } finally { tmp.remove(); }
+}
+function fit(box) { const inner = box.firstChild; if (inner && box.clientWidth) inner.style.transform = `scale(${box.clientWidth / 960})`; }
+function mount(box, node) {
+  box.innerHTML = ''; const inner = document.createElement('div'); inner.appendChild(node.cloneNode(true)); box.appendChild(inner);
+  fit(box); requestAnimationFrame(() => fit(box));
+}
+function makeDeck() { py.globals.set('ORDER', py.toPy(order)); deckBuf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL)'); dirty = false; }
+async function renderAll() {            // วาดทั้งไฟล์ใหม่ (ตอนสร้าง / เปลี่ยนชุด เท่านั้น)
+  makeDeck();
+  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or [])) for i in ORDER])'));
+  slides = await preview(deckBuf);
+}
+// เลื่อน/ลบ/เปลี่ยนแบบ: จัดแผ่นที่วาดไว้แล้วใหม่ ไม่วาดทั้งไฟล์ซ้ำ (มือถือช้า) ไฟล์จริงสร้างตอนกดโหลด
+function relayout() {
+  const L = $('list');
+  L.innerHTML = wide() ? '' : '<p class="trial">เวอร์ชันทดลอง ระบบจัดหน้าให้ก่อน แตะ ... ที่หน้าไหนเพื่อเปลี่ยนแบบหรือลบ แตะภาพเพื่อดูเต็มจอ</p>';
+  slides.forEach((sl, i) => {
+    const card = document.createElement('div'); card.className = 'slide' + (i === cur ? ' on' : '');
+    card.innerHTML = `<div class="slidebox"></div><div class="cap"><b>${i + 1}</b><span class="why">${why(META[i])}</span>
+      <button class="ib" type="button" aria-label="ตัวเลือกหน้า ${i + 1}">${ico('more')}</button></div>`;
+    const box = card.firstChild;
+    box.onclick = () => { if (wide()) select(i); else { select(i); openViewer(i); } };
+    card.querySelector('.cap .ib').onclick = ev => { ev.stopPropagation(); select(i); slideMenu(); };
+    if (wide()) card.onclick = ev => { if (!ev.target.closest('.ib')) select(i); };
+    L.appendChild(card); mount(box, sl);
+  });
+  select(Math.min(cur, slides.length - 1), true);
+}
+function select(i, keep) {
+  cur = i;
+  document.querySelectorAll('#list .slide').forEach((t, k) => t.classList.toggle('on', k === i));
+  document.querySelectorAll('[data-act=up]').forEach(b => b.disabled = i === 0);
+  document.querySelectorAll('[data-act=down]').forEach(b => b.disabled = i === slides.length - 1);
+  document.querySelectorAll('[data-act=delask]').forEach(b => b.disabled = slides.length < 2);
+  if (wide()) {
+    mount($('main'), slides[i]); $('pno').textContent = `หน้า ${i + 1} จาก ${slides.length}`; $('pwhy').innerHTML = why(META[i]);
+    if (!$('sideAlt').classList.contains('hidden')) altsInto($('sideAlt'));
+  }
+  const t = document.querySelectorAll('#list .slide')[i];
+  if (t && (wide() || keep)) t.scrollIntoView({block: 'nearest', behavior: keep ? 'auto' : 'smooth'});
+}
+$('main').onclick = () => openViewer(cur);
+window.addEventListener('resize', () => document.querySelectorAll('.slidebox').forEach(fit));
+function move(d) {
+  const j = cur + d; if (j < 0 || j >= slides.length) return;
+  for (const a of [order, slides, META]) [a[cur], a[j]] = [a[j], a[cur]];
+  cur = j; dirty = true; relayout(); toast(`ย้ายไปเป็นหน้า ${cur + 1} แล้ว`);
+}
+
+// แบบอื่นของหน้านี้: เฉพาะแบบในชุดเดียวกันที่ใส่เนื้อหาได้พอดี
+let altToken = 0;
+async function altsInto(box) {
+  const my = ++altToken, lg = lookGen, idx = order[cur], at = cur;
+  box.innerHTML = '<p class="empty"><span class="spin" style="vertical-align:middle"></span> กำลังหาแบบที่ใส่ได้</p>';
+  await frame(); if (my !== altToken) return;
+  try {
+    let a = altCache.get(idx);
+    if (!a) {
+      py.globals.set('IDX', idx);
+      const n = py.runPython(`ALTS = [x for x in D.alternatives(CS[IDX], M['slug']) if x[0] != ITEMS[IDX][0]]; len(ALTS)`);
+      a = {n, json: py.runPython('json.dumps(ALTS, ensure_ascii=False)'), slides: n ? await preview(pptx('D.render(ALTS, M, TTL)')) : []};
+      if (lg !== lookGen) return;                     // เปลี่ยนชุดระหว่างรอ ทิ้งของเก่า
+      altCache.set(idx, a);
+    }
+    if (my !== altToken) return;
+    box.innerHTML = '';
+    if (!a.n) {
+      box.innerHTML = `<p class="empty">ชุดนี้มีแบบเดียวที่ใส่เนื้อหาหน้านี้ได้พอดี<br><button class="btn btn-line btn-sm" type="button" style="margin-top:10px">${ico('palette')}ลองชุดอื่น</button></p>`;
+      box.querySelector('button').onclick = () => wide() ? document.querySelector('.tab[data-tab=look]').click() : act('look');
+      return;
+    }
+    a.slides.forEach((sl, k) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'opt';
+      b.innerHTML = '<div class="slidebox"></div>'; box.appendChild(b); mount(b.firstChild, sl);
+      b.onclick = () => {
+        if (busyNow || lg !== lookGen || order[at] !== idx) return;
+        py.globals.set('IDX', idx); py.globals.set('ALTJ', a.json); py.globals.set('K_', k);
+        py.runPython('ITEMS[IDX] = tuple(json.loads(ALTJ)[K_])');
+        slides[at] = sl; altCache.delete(idx); dirty = true;
+        closeSheet(); cur = at; relayout(); toast('เปลี่ยนแบบหน้านี้แล้ว');
+      };
+    });
+  } catch (e) { console.error(e); box.innerHTML = '<p class="empty">หาแบบอื่นไม่สำเร็จ</p>'; }
+}
+function openSheet(t, s, html) { $('shT').textContent = t; $('shS').textContent = s || ''; $('shBody').innerHTML = html || ''; $('shBody').onclick = null; $('sheet').classList.add('on'); }
+function closeSheet() { $('sheet').classList.remove('on'); }
+$('shX').onclick = closeSheet;
+$('sheet').onclick = ev => { if (ev.target === $('sheet')) closeSheet(); };
+function lookHtml() {
+  return SETS.map(s => `<button class="opt${s.slug === slug ? ' on' : ''}" data-s="${s.slug}" type="button">
+    <img src="https://img.coachtarnslide.com/cover/${s.slug}.webp" alt="" loading="lazy"><span class="lb">${esc(s.style)}</span><i class="ck">${ico('check')}</i></button>`).join('');
+}
+function slideMenu() {
+  openSheet(`หน้า ${cur + 1}`, '', `<ul class="menu">
+    <li><button data-m="alt" type="button">${ico('layout')}เปลี่ยนแบบหน้านี้</button></li>
+    <li><button data-m="up" type="button" ${cur === 0 ? 'disabled' : ''}>${ico('up')}เลื่อนขึ้น</button></li>
+    <li><button data-m="down" type="button" ${cur === slides.length - 1 ? 'disabled' : ''}>${ico('dn')}เลื่อนลง</button></li>
+    <li><button data-m="delask" type="button" class="danger" ${slides.length < 2 ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button></li></ul>`);
+  $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (b && !b.disabled) act(b.dataset.m); };
+}
+async function changeLook(s2) {
+  closeSheet(); if (s2 === slug || busyNow) return;
+  const prev = slug; slug = s2;
+  busy('กำลังจัดเนื้อหาลงชุด ' + SETS.find(x => x.slug === slug).style); await frame();
+  try {
+    await needSet(SETS.find(x => x.slug === slug));
+    py.globals.set('SLUG', slug); py.runPython('M, OUT, LOG = D.plan(WANT, SLUG)'); takePlan();
+    await renderAll(); busy(''); relayout(); toast('เปลี่ยนชุดแล้ว');
+  } catch (e) { console.error(e); slug = prev; busy(''); toast('เปลี่ยนชุดไม่สำเร็จ ลองชุดอื่น'); }
+  if (wide()) $('sideLook').innerHTML = lookHtml();
+}
+// ซื้อแล้ว = เคยกรอก Code ที่ /download (ค่าเดียวกับที่หน้าคลังใช้) อ่านอย่างเดียว ไม่แตะระบบขาย
+// ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
+const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
+function save(blob, name) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
+async function act(a) {
+  if (busyNow) return;
+  if (a === 'alt') { openSheet('แบบอื่นสำหรับหน้านี้', 'เฉพาะแบบในชุดเดียวกันที่ใส่เนื้อหาหน้านี้ได้พอดี', '<div class="grid2" id="altsSheet"></div>'); altsInto($('altsSheet')); }
+  if (a === 'look') { openSheet('เปลี่ยนชุดทั้งไฟล์', 'เนื้อหาเดิมทุกหน้า จัดลงชุดใหม่ให้อัตโนมัติ', `<div class="grid2">${lookHtml()}</div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); }; }
+  if (a === 'up') { closeSheet(); move(-1); }
+  if (a === 'down') { closeSheet(); move(1); }
+  if (a === 'delask' && slides.length > 1) {
+    openSheet(`ลบหน้า ${cur + 1}?`, 'หน้านี้จะไม่อยู่ในไฟล์ที่โหลด',
+      `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button>
+       <button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ลบหน้า</button></div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet(); if (b.dataset.m === 'no') return;
+      for (const x of [order, slides, META]) x.splice(cur, 1);
+      dirty = true; cur = Math.min(cur, slides.length - 1); relayout(); toast('ลบหน้าแล้ว'); };
+  }
+  if ((a === 'share' || a === 'dl' || a === 'send' || a === 'fonts') && !member()) {
+    openSheet('', '', `<div class="done"><span class="big" style="background:var(--soft);color:var(--red)">${ico('lock')}</span>
+      <h3>ดูสไลด์ได้ฟรีทุกหน้า โหลดไฟล์ได้เมื่อมี Code</h3>
+      <p>สำหรับลูกค้าที่ซื้อคลังเทมเพลต Coach Tarn แล้ว กรอก Code ที่ได้ทางอีเมลครั้งเดียว แล้วกลับมากดแชร์ที่หน้านี้ได้เลย</p>
+      <a class="btn btn-red btn-big" href="/download" target="_blank" rel="noopener">${ico('lock')}กรอก Code</a>
+      <a class="btn btn-line btn-big" href="/" target="_blank" rel="noopener">ดูคลังเทมเพลต</a></div>`);
+    return;
+  }
+  if (a === 'share') {
+    const canSend = !!(navigator.canShare && navigator.canShare({files: [new File([''], 'a.pptx', {type: PPTX})]}));
+    openSheet('แชร์สไลด์', `${slides.length} หน้า ไฟล์ PowerPoint แก้ต่อได้`, `<ul class="menu">
+      <li><button data-m="dl" type="button">${ico('down')}ดาวน์โหลดลงเครื่อง (.pptx)</button></li>
+      ${canSend ? `<li><button data-m="send" type="button">${ico('send')}ส่งต่อทาง LINE อีเมล หรือแอปอื่น</button></li>` : ''}
+      <li><button data-m="fonts" type="button">${ico('type')}โหลดฟอนต์ของชุดนี้</button></li></ul>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (b) act(b.dataset.m); };
+    return;
+  }
+  if (a === 'dl' || a === 'send') {
+    if (dirty) { busy('กำลังสร้างไฟล์'); await frame(); try { makeDeck(); } finally { busy(''); } }
+    const f = new File([deckBuf], fname() + '.pptx', {type: PPTX});
+    if (a === 'send') {
+      try { await navigator.share({files: [f], title: ttl}); closeSheet(); toast('ส่งไฟล์แล้ว'); }
+      catch (e) { if (e.name !== 'AbortError') toast('ส่งไม่สำเร็จ ลองดาวน์โหลดลงเครื่องแทน'); }
+      return;
+    }
+    save(f, f.name);
+    const s = SETS.find(x => x.slug === slug);
+    const fam = [...new Set(s.faces.map(x => x.split(':')[0].replace(/ (Light|SemiBold|Medium|ExtraBold)$/, '')))].join(', ');
+    openSheet('', '', `<div class="done"><span class="big">${ico('check')}</span><h3>โหลดไฟล์ PowerPoint แล้ว</h3>
+      <p>ไฟล์ "${esc(f.name)}" อยู่ในโฟลเดอร์ดาวน์โหลดของเครื่อง</p>
+      <p>สไลด์ชุดนี้ใช้ฟอนต์ ${esc(fam)} ติดตั้งฟอนต์ก่อนเปิดไฟล์ ตัวอักษรไทยจะได้หน้าตาเหมือนที่เห็นนี้</p>
+      <button class="btn btn-red btn-big" data-m="fonts" type="button">${ico('type')}โหลดฟอนต์พร้อมวิธีติดตั้ง</button>
+      <button class="btn btn-line btn-big" data-m="close" type="button">กลับไปแก้สไลด์</button></div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; if (b.dataset.m === 'close') return closeSheet(); act('fonts'); };
+    return;
+  }
+  if (a === 'fonts') {
+    const s = SETS.find(x => x.slug === slug);
+    py.globals.set('FF', py.toPy(s.fonts));
+    save(new Blob([pptx('D.fonts_zip(FF)')], {type: 'application/zip'}), 'ฟอนต์ ' + s.style + '.zip'); toast('โหลดฟอนต์แล้ว');
+  }
+}
+const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
+document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => act(b.dataset.act));
+document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+  document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t));
+  $('sideAlt').classList.toggle('hidden', t.dataset.tab !== 'alt'); $('sideLook').classList.toggle('hidden', t.dataset.tab !== 'look');
+  if (t.dataset.tab === 'alt') altsInto($('sideAlt')); else $('sideLook').innerHTML = lookHtml();
+});
+$('sideLook').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
+$('topback').onclick = () => history.state ? history.back() : (gen++, show('pHome', false));
+
+// ── ดูเต็มจอ ปัดซ้ายขวา ──
+let vi = 0;
+function openViewer(i) { vi = i; $('viewer').classList.add('on'); vShow(); }
+function vShow() { mount($('vS'), slides[vi]); $('vT').textContent = `หน้า ${vi + 1} จาก ${slides.length}`; $('vP').disabled = vi === 0; $('vN').disabled = vi === slides.length - 1; }
+function vGo(d) { const n = vi + d; if (n < 0 || n >= slides.length) return; vi = n; vShow(); }
+$('vX').onclick = () => { $('viewer').classList.remove('on'); select(vi, true); };
+$('vP').onclick = () => vGo(-1); $('vN').onclick = () => vGo(1);
+let sx = null;
+$('vB').addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, {passive: true});
+$('vB').addEventListener('touchend', e => { if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) vGo(dx < 0 ? 1 : -1); sx = null; });
+document.addEventListener('keydown', e => { if (!$('viewer').classList.contains('on')) return;
+  if (e.key === 'ArrowRight') vGo(1); if (e.key === 'ArrowLeft') vGo(-1); if (e.key === 'Escape') $('vX').click(); });
+</script>
+</body>
+</html>
