@@ -680,7 +680,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029n';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029o';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1071,6 +1071,15 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
       await new Promise(r => setTimeout(r, 1100));
       // กราฟที่ไม่มีชื่อ pptx-preview ใส่ชื่อตั้งต้นภาษาจีนเอง ("图表标题") ไม่ใช่คำของลูกค้า และไม่มีในไฟล์ → ลบออกจากจอ
       tmp.querySelectorAll('.chart-node text').forEach(t => { if (t.textContent.trim() === '图表标题') t.remove(); });
+      // echarts ของ pptx-preview ไม่อ่านสีตัวอักษรจากไฟล์ ใช้สีเข้มตั้งต้นเสมอ หน้าพื้นเข้ม (coldchain โดนัท) อ่านไม่ออก
+      // ใช้สีของหัวเรื่อง (ตัวใหญ่สุดในหน้า) ถ้าเป็นสีอ่อน = หน้าพื้นเข้ม → ตัวอักษรในกราฟใช้สีนั้น
+      tmp.querySelectorAll('.pptx-preview-slide-wrapper').forEach(sl => {
+        const ct = sl.querySelectorAll('.chart-node text'); if (!ct.length) return;
+        let big = null, bs = 0;
+        sl.querySelectorAll('span').forEach(s => { if (!s.textContent.trim() || s.closest('.chart-node')) return; const f = parseFloat(getComputedStyle(s).fontSize); if (f > bs) { bs = f; big = s; } });
+        const col = big && getComputedStyle(big).color, m = col && col.match(/\d+/g);
+        if (m && (0.299 * m[0] + 0.587 * m[1] + 0.114 * m[2]) / 255 > 0.6) ct.forEach(t => { t.style.fill = col; t.style.stroke = 'none'; });   // ขอบตัวอักษรเข้มของ echarts ทำให้ตัวขาวเบลอ
+      });
     }
     return [...tmp.querySelectorAll('.pptx-preview-slide-wrapper')].map(s => s.cloneNode(true));
   } finally { tmp.remove(); }
