@@ -129,6 +129,49 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .slidebox>div{position:absolute;left:0;top:0;transform-origin:0 0}
 .slidebox>.next{opacity:0;transition:opacity .2s ease}
 .slidebox>.next.in{opacity:1}
+/* แทรกหน้า (เฟส 2): ⊕ ในช่องว่างใต้หน้า  คอม: ขึ้นตอนชี้ช่องหรือหน้าที่เลือก / จอสัมผัส: โชว์ตลอด  ลอยในช่องว่างเดิม ไม่ดันเลย์เอาต์ */
+.gap{position:absolute;left:0;right:0;top:100%;height:56px;display:flex;align-items:center;justify-content:center;z-index:3}
+.gap::before{content:'';position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:var(--red);border-radius:2px;opacity:0;transform:scaleX(.4);transition:opacity .15s,transform .22s var(--ease)}
+.gap button{position:relative;width:36px;height:36px;border-radius:50%;border:none;background:#fff;color:var(--red);display:grid;place-items:center;box-shadow:0 2px 8px rgba(20,20,26,.14),0 0 0 1px var(--line);opacity:0;transform:scale(.7);transition:opacity .15s,transform .22s var(--spring),background .15s,color .15s}
+.gap button svg{width:20px;height:20px;stroke-width:2.4}
+.gap:hover button,.gap button:focus-visible,.pg.on>.gap button{opacity:1;transform:none}
+.gap:hover::before,.gap.act::before{opacity:.85;transform:none}
+.gap:hover button,.gap.act button{background:var(--red);color:#fff;box-shadow:0 4px 12px rgba(200,75,47,.35)}
+.gap.act button{opacity:1;transform:none}
+@media (hover:none){.gap button{width:44px;height:44px;opacity:1;transform:none}.gap::before{opacity:.25;transform:none}}
+.viewing .gap,.pages.settled .pg:last-child>.gap::before{display:none}
+/* แผงแทรกหน้า: มือถือแผ่นเต็มจอ ชิปหมวด / คอม แผงลอยกลาง หมวดซ้าย */
+.sheet.ins .pan{max-width:760px}
+.insp{margin-top:6px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none;margin:0 -16px;padding-left:16px;padding-right:16px}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;display:flex;align-items:center;gap:7px;height:40px;padding:0 14px;border-radius:100px;border:1px solid var(--line);background:#fff;font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
+.cat svg{width:18px;height:18px}
+.cat em{font-style:normal;font-size:12px;color:var(--sub);font-weight:600}
+.cat.on{background:#FFF1EC;border-color:#F6C9BA;color:var(--red)}
+.ingrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-content:start}
+.opt.lay{display:block;width:100%;cursor:pointer}
+.opt.lay:hover,.opt.lay:focus-visible{border-color:var(--red);box-shadow:none}
+.opt.lay .slidebox{pointer-events:none}
+.opt.lay .slidebox span{-webkit-text-fill-color:transparent;color:transparent;background:rgba(154,163,175,.5);border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}   /* คำใบ้ในภาพตัวอย่างเป็นแถบเทา ไม่ใช่ตัวหนังสือ */
+.ingrid .opt.ph{aspect-ratio:16/9}
+.inote{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--sub);margin-top:12px;line-height:1.6}
+.inote svg{width:15px;height:15px;flex:none}
+@media (min-width:768px){
+  .gap{height:48px}
+  .sheet.ins .pan{padding:8px 0 0;max-height:min(640px,88dvh);display:flex;flex-direction:column;overflow:hidden}
+  .sheet.ins .grab{display:none}
+  .sheet.ins .hd{padding:6px 12px 8px 20px}
+  .sheet.ins #shS{display:none}
+  .sheet.ins #shBody{flex:1;min-height:0;display:flex;flex-direction:column}
+  .sheet.ins .insp{flex:1;min-height:0;display:grid;grid-template-columns:220px 1fr;border-top:1px solid var(--line);margin:0}
+  .sheet.ins .cats{flex-direction:column;overflow:auto;margin:0;padding:10px;border-right:1px solid var(--line);gap:2px}
+  .sheet.ins .cat{width:100%;border:none;border-radius:10px;height:40px;padding:0 10px}
+  .sheet.ins .cat em{margin-left:auto}
+  .sheet.ins .cat:hover:not(.on){background:var(--bg)}
+  .sheet.ins .ingrid{overflow:auto;padding:12px;min-height:300px}
+  .sheet.ins .inote{margin:0;padding:10px 16px 14px;border-top:1px solid var(--line)}
+}
 /* แถบเครื่องมือของหน้า (768+) ขวานอกสไลด์ */
 .ftb{position:absolute;top:0;right:-56px;z-index:6;display:flex;flex-direction:column;gap:2px;padding:4px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(20,20,26,.12);animation:slideL .26s var(--ease) both}
 @keyframes slideL{from{opacity:0;transform:translateX(-8px)}}
@@ -178,6 +221,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .working .bsel button,.working .ftb>button{opacity:.45;transition:opacity .1s}
 .sheet.on ~ .toast{top:68px;bottom:auto}
 @media (max-width:767px){body.panelon .toast{top:auto;bottom:calc(120px + var(--safe))}}
+@media (max-width:767px){body:has(.medit) .toast{top:64px;bottom:auto;transform:translateX(-50%) translateY(-16px)}body:has(.medit) .toast.on{transform:translateX(-50%)}}   /* แถบพิมพ์ล่างเปิดอยู่: toast ขึ้นบน ไม่ทับช่องพิมพ์ */
 .tip{position:absolute;z-index:7;left:6%;top:calc(100% + 6px);max-width:300px;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 8px 28px rgba(20,20,26,.18);display:grid;gap:10px;animation:pop .4s var(--spring) both}
 .pg:has(.tip){z-index:5}
 .tip p{display:flex;gap:8px;align-items:center;font-size:15px;font-weight:600}
@@ -522,6 +566,8 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></symbol>
   <symbol id="i-cloudoff" viewBox="0 0 24 24"><path d="M2 2l20 20"/><path d="M5.8 5.8A7 7 0 0 0 9 19h8.5a4.5 4.5 0 0 0 1.3-.2"/><path d="M21.5 15.5A4.5 4.5 0 0 0 17.5 10h-1.8A7 7 0 0 0 10 5.1"/></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11"/><path d="M9 12h11"/><path d="M9 18h11"/><path d="M4 6h.01"/><path d="M4 12h.01"/><path d="M4 18h.01"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
   <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
@@ -634,7 +680,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029k';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029l';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1011,7 +1057,7 @@ function takePlan() {
 const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายการ', pairs: 'หัวข้อพร้อมคำอธิบาย', qa: 'ถาม-ตอบ', stat: 'การ์ดตัวเลข',
   timeline: 'ไทม์ไลน์', table: 'ตาราง', chart: 'กราฟ', statement: 'ข้อความเด่น', divider: 'หน้าคั่น', compare: 'เปรียบเทียบ'};
 // บรรทัดที่มา: บอกว่าเนื้อหาหน้านี้มาจากไฟล์ไหน หัวข้อไหน (จุดขาย: ทุกคำมาจากของลูกค้า)
-const srcHtml = m => `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`;
+const srcHtml = m => m.ins ? `${ico('plus')}<span>หน้าที่คุณเพิ่มเอง</span>` : `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`;
 function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); return u.buffer; }
 async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
   const tmp = document.createElement('div'); tmp.style.cssText = 'position:fixed;left:-99999px;top:0;width:960px';
@@ -1037,25 +1083,30 @@ async function paint() {
   const need = KEYS.map((k, i) => nodeCache.has(k) ? -1 : i).filter(i => i >= 0);
   if (need.length) {
     py.globals.set('ONLY', py.toPy(need));
-    const buf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL, only=set(ONLY))');
+    const buf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL, only=set(ONLY), ins={p: CS[i]["kind"] for p, i in enumerate(ORDER) if CS[i].get("_ins")}, hint=True)');   // หน้าที่แทรก: ช่องว่างโชว์คำใบ้
     const bx = JSON.parse(py.runPython('json.dumps(D.BOXES, ensure_ascii=False)'));
     const nodes = await preview(buf);
     need.forEach((pos, j) => { if (nodes[j]) nodeCache.set(KEYS[pos], {node: nodes[j], boxes: bx[j] || []}); });
     while (nodeCache.size > 240) nodeCache.delete(nodeCache.keys().next().value);
   }
   slides = KEYS.map(k => nodeCache.get(k)?.node); BOX = KEYS.map(k => nodeCache.get(k)?.boxes || []);
-  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "") for i in ORDER], ensure_ascii=False)'));
+  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins"))) for i in ORDER], ensure_ascii=False)'));
   dirty = true;
   return need;
 }
-function makeDeck() { py.globals.set('ORDER', py.toPy(order)); deckBuf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL)'); dirty = false; }
+// ไฟล์จริง: คำใบ้ไม่ลง ข้อที่ปล่อยว่างในหน้าที่แทรกไม่ลง  skip = ตำแหน่งหน้าที่ลูกค้าเลือกไม่เอา (หน้าแทรกที่ยังว่าง)
+function makeDeck(skip = []) {
+  py.globals.set('ORDER', py.toPy(order.filter((_, k) => !skip.includes(k))));
+  deckBuf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL, ins={p for p, i in enumerate(ORDER) if CS[i].get("_ins")})'); dirty = skip.length > 0;
+}
 const pgs = () => [...$('pages').children].filter(x => x.classList.contains('pg'));
 function hitsHtml(k) {
   return BOX[k].map((b, j) => `<div class="hit" data-j="${j}" style="--i:${j};left:${b.x / 9.6}%;top:${b.y / 5.4}%;width:${b.w / 9.6}%;height:${b.h / 5.4}%"></div>`).join('');
 }
 function pageEl(k) {
   const pg = document.createElement('div'); pg.className = 'pg'; pg.style.animationDelay = Math.min(k * 50, 500) + 'ms'; pg.style.setProperty('--i', k);
-  pg.innerHTML = `<div class="slide"><div class="slidebox"></div><div class="hits">${hitsHtml(k)}</div></div><div class="src">${srcHtml(META[k])}</div>`;
+  pg.innerHTML = `<div class="slide"><div class="slidebox"></div><div class="hits">${hitsHtml(k)}</div></div><div class="src">${srcHtml(META[k])}</div>
+    <div class="gap"><button type="button" aria-label="เพิ่มหน้าตรงนี้ (ต่อจากหน้า ${k + 1})" data-tip="เพิ่มหน้าตรงนี้">${ico('plus')}</button></div>`;
   mount(pg.querySelector('.slidebox'), slides[k]);
   return pg;
 }
@@ -1159,6 +1210,8 @@ function select(i, o = {}) {
 let eatClick = 0;
 $('pages').addEventListener('click', ev => {
   if (viewing || Date.now() - eatClick < 600) return;
+  const gp = ev.target.closest('.gap');
+  if (gp) { if (ev.target.closest('button')) openIns(pgs().indexOf(gp.parentNode)); return; }
   const pg = ev.target.closest('.pg'); if (!pg) { if (ev.target.closest('.ftb')) return; return select(-1); }
   if (ev.target.closest('.ftb,.edit,.tip')) return;
   const k = pgs().indexOf(pg), hit = ev.target.closest('.hit');
@@ -1179,9 +1232,10 @@ function moreMenu(btn) {
   const had = FTB.querySelector('.fmenu'); had?.remove(); btn.classList.toggle('on', !had); if (had) return;
   const m = document.createElement('div'); m.className = 'fmenu';
   const one = slides.length < 2;
-  m.innerHTML = `<button type="button" data-m="del" class="danger" ${one ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button>${one ? '<p>ต้องมีอย่างน้อย 1 หน้า</p>' : ''}`;
+  m.innerHTML = `<button type="button" data-m="ins">${ico('plus')}เพิ่มหน้าใหม่ต่อจากหน้านี้</button><button type="button" data-m="del" class="danger" ${one ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button>${one ? '<p>ต้องมีอย่างน้อย 1 หน้า</p>' : ''}`;
   m.onclick = ev => {
     ev.stopPropagation(); const b = ev.target.closest('[data-m]'); if (!b || b.disabled) return;
+    if (b.dataset.m === 'ins') { m.remove(); btn.classList.remove('on'); return openIns(cur); }
     if (b.dataset.m === 'del') { m.innerHTML = `<p>ลบหน้า ${cur + 1}? หน้านี้จะไม่อยู่ในไฟล์</p><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-m="yes" type="button">ลบหน้า</button></div>`; return; }
     m.remove(); btn.classList.remove('on'); if (b.dataset.m === 'yes') delPage();
   };
@@ -1195,15 +1249,16 @@ function pageAct(a) {
   if (a === 'down') move(1);
   if (a === 'more') {                    // มือถือ: แผ่นล่าง ยืนยันในแผ่นเดิม
     const one = slides.length < 2;
-    openSheet(`หน้า ${cur + 1}`, '', `<ul class="menu"><li><button data-m="delask" type="button" class="danger" ${one ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button></li>${one ? '<li><p class="sub">ต้องมีอย่างน้อย 1 หน้า</p></li>' : ''}<li class="sep"><button data-m="hist" type="button">${ico('history')}ประวัติการแก้ไข</button></li></ul>`);
+    openSheet(`หน้า ${cur + 1}`, '', `<ul class="menu"><li><button data-m="ins" type="button">${ico('plus')}เพิ่มหน้าใหม่ต่อจากหน้านี้</button></li><li><button data-m="delask" type="button" class="danger" ${one ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button></li>${one ? '<li><p class="sub">ต้องมีอย่างน้อย 1 หน้า</p></li>' : ''}<li class="sep"><button data-m="hist" type="button">${ico('history')}ประวัติการแก้ไข</button></li></ul>`);
     $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b || b.disabled) return;
+      if (b.dataset.m === 'ins') return openIns(cur);
       if (b.dataset.m === 'delask') { $('shT').textContent = `ลบหน้า ${cur + 1}?`; $('shS').textContent = 'หน้านี้จะไม่อยู่ในไฟล์';
         $('shBody').innerHTML = `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ลบหน้า</button></div>`; return; }
       closeSheet(); if (b.dataset.m === 'yes') delPage(); if (b.dataset.m === 'hist') { select(-1); openPanel('hist'); } };
   }
 }
 // ย้าย/ลบ/ทำสำเนา: เปลี่ยนลำดับ → สารบัญตาม → หน้าเลื่อนไปที่ใหม่ (FLIP) ตาตามได้ว่าใบไหนไปไหน
-async function reflow(mutate, label, sel) {
+async function reflow(mutate, label, sel, arr = true) {   // arr: หน้าที่ระบบจัดถูกย้าย/ลบ (เปลี่ยนหน้าตาแล้วกลับเป็นแบบระบบ) แทรกหน้าไม่นับ (ตามไปหน้าตาใหม่เอง)
   if (busyNow) return; busyNow = true;
   const was = new Map(), wth = new Map();
   pgs().forEach((p, k) => { if (!was.has(KEYS[k])) was.set(KEYS[k], p.getBoundingClientRect()); });
@@ -1220,7 +1275,7 @@ async function reflow(mutate, label, sel) {
       after(ani(el, [{transform: `translateY(${a.top - b.top}px)`}, {transform: 'none'}], {duration: 360})).then(() => { el.style.zIndex = ''; }); };
     pgs().forEach((p, k) => { if (!oldSet.has(KEYS[k])) p.querySelector('.slide').classList.add('swap'); fl(p, was.get(KEYS[k]), k); });
     [...$('thumbs').children].forEach((t, k) => fl(t, wth.get(KEYS[k]), k));
-    arranged = true; commit(label);
+    if (arr) arranged = true; commit(label);
   } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   finally { busyNow = false; $('pWork').classList.remove('working'); pgs().forEach(p => p.querySelector('.slide').classList.remove('repaint')); }
 }
@@ -1262,7 +1317,7 @@ function openEdit(k, j) {
   el.innerHTML = m
     ? `<div class="mh"><span>หน้า ${k + 1}: ${FIELD(b.p)}</span><button class="btn btn-line btn-sm" data-e="no" type="button">${ico('x')}ยกเลิก</button><button class="btn btn-red btn-sm" data-e="ok" type="button">${ico('check')}เสร็จ</button></div><div class="emsg"></div><textarea rows="1" aria-label="${FIELD(b.p)} หน้า ${k + 1}"></textarea>`
     : `<textarea rows="1" aria-label="${FIELD(b.p)} หน้า ${k + 1}"></textarea><div class="acts"><div class="emsg"></div><button class="btn btn-line btn-sm" data-e="no" type="button">${ico('x')}ยกเลิก</button><button class="btn btn-red btn-sm" data-e="ok" type="button">${ico('check')}เสร็จ</button></div>`;
-  const ta_ = el.querySelector('textarea'); ta_.value = orig;
+  const ta_ = el.querySelector('textarea'); ta_.value = orig; if (b.ph) ta_.placeholder = b.ph;   // หน้าที่แทรก: ช่องว่างมีคำใบ้ ไม่ลงไฟล์
   ED = {k, j, b, el, ta: ta_, orig, st: 'ok'};
   if (m) { document.body.appendChild(el); $('rail').style.visibility = 'hidden'; $('bsel').style.visibility = 'hidden'; kbFit(); pgs()[k].scrollIntoView({block: 'start', behavior: 'smooth'}); }
   else { pgs()[k].appendChild(el); placeEdit(); }
@@ -1300,7 +1355,7 @@ function setEditState(st) {
 }
 async function checkEdit() {             // ระหว่างพิมพ์ (หยุด 0.5 วิ): ลงกล่องได้ไหม ใช้ตัววัดตัวเดียวกับตอนจัดหน้า
   if (!ED || ED.saving) return; const v = ED.ta.value;
-  if (!v.trim()) return setEditState(['t', 't1'].includes(ED.b.p[0]) ? 'empty' : 'ok');
+  if (!v.trim()) return setEditState(['t', 't1'].includes(ED.b.p[0]) && !META[ED.k]?.ins ? 'empty' : 'ok');   // หน้าที่แทรกเองปล่อยหัวเรื่องว่างได้ (คำใบ้กลับมา)
   if (v === ED.orig) return setEditState('ok');
   const E = ED; E.el.classList.add('checking'); await frame(); await frame();   // แสงจาง ๆ ก่อน Python วัด (มือถือช้าค้างได้ ~0.3 วิ)
   if (ED !== E || E.saving || E.ta.value !== v) { E.el.classList.remove('checking'); return; }   // กดเสร็จระหว่างนี้: saveEdit ทำต่อพร้อมแสงวิ่งของมันเอง
@@ -1319,7 +1374,7 @@ function closeEdit() {
 function finishEdit(apply) {
   if (!ED || ED.saving) return !ED;
   if (!apply || ED.ta.value === ED.orig) { closeEdit(); return true; }
-  if (!ED.ta.value.trim() && ['t', 't1'].includes(ED.b.p[0])) { setEditState('empty'); retrig(ED.el, 'no'); ED.ta.focus(); return false; }
+  if (!ED.ta.value.trim() && ['t', 't1'].includes(ED.b.p[0]) && !META[ED.k]?.ins) { setEditState('empty'); retrig(ED.el, 'no'); ED.ta.focus(); return false; }
   ED.p = saveEdit(); return true;         // แสงวิ่ง + 2 เฟรมก่อน แล้ว edit_text ตัดสินเองว่าล้นไหม
 }
 // ใช้คำที่พิมพ์ค้างอยู่ก่อนทำคำสั่งอื่น (นำเสนอ บันทึก เลิกทำ) คืน true เมื่อช่องพิมพ์ปิดแล้ว / false = ยาวเกินกล่อง ช่องยังเปิดให้แก้
@@ -1351,7 +1406,7 @@ async function saveEdit() {
     let st0 = Math.max(0, i - 10);
     if (st0) { const w = A.lastIndexOf(' ', st0) + 1; if (w && i - w <= 20) st0 = w; else while (st0 && /[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/.test(A[st0])) st0--; }   // ต้นคำ หรืออย่างน้อยไม่เริ่มที่สระบน/วรรณยุกต์
     const sh = x => { const y = x.slice(st0); return (st0 ? '…' : '') + (y.length > 26 ? y.slice(0, 25).replace(/\s+\S*$/, '') + '…' : y); };
-    commit(`แก้หน้า ${k + 1}: "${sh(A)}" เป็น "${sh(B)}"`);
+    commit(A ? `แก้หน้า ${k + 1}: "${sh(A)}" เป็น "${sh(B)}"` : `พิมพ์ในหน้า ${k + 1}: "${sh(B)}"`);
   } catch (e) { console.error(e); E.saving = false; E.el.classList.remove('saving'); toast('แก้ไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   finally { busyNow = false; }
 }
@@ -1382,8 +1437,10 @@ async function altsInto(box) {
     let a = altCache.get(idx);
     if (!a) {
       py.globals.set('IDX', idx);
-      const n = py.runPython(`ALTS = [x for x in D.alternatives(CS[IDX], M['slug']) if x[0] != ITEMS[IDX][0]]; len(ALTS)`);
-      a = {n, json: py.runPython('json.dumps(ALTS, ensure_ascii=False)'), slides: n ? await preview(pptx('D.render(ALTS, M, TTL)')) : []};
+      // หน้าที่แทรกเอง: เนื้อหา = คำที่พิมพ์ไว้ในหน้า ภาพตัวอย่างโชว์คำใบ้เหมือนบน canvas
+      const n = py.runPython(`_c = D.content_of(ITEMS[IDX][1], CS[IDX]) if CS[IDX].get('_ins') else CS[IDX]
+ALTS = [x for x in D.alternatives(_c, M['slug']) if x[0] != ITEMS[IDX][0]]; len(ALTS)`);
+      a = {n, json: py.runPython('json.dumps(ALTS, ensure_ascii=False)'), slides: n ? await preview(pptx(`D.render(ALTS, M, TTL, ins={k: CS[IDX]['kind'] for k in range(len(ALTS))} if CS[IDX].get('_ins') else (), hint=True)`)) : []};
       if (lg !== lookGen) return;
       altCache.set(idx, a);
     }
@@ -1410,8 +1467,84 @@ async function altsInto(box) {
     });
   } catch (e) { console.error(e); box.innerHTML = '<p class="empty">หาแบบอื่นไม่สำเร็จ</p>'; }
 }
-function openSheet(t, s, html) { $('shT').textContent = t; $('shS').textContent = s || ''; $('shBody').innerHTML = html || ''; $('shBody').onclick = null; $('sheet').classList.add('on'); }
-function closeSheet() { $('sheet').classList.remove('on'); }
+// ── แทรกหน้าใหม่ (ใบงาน 003 เฟส 2): แบบหน้าของชุดที่ใช้อยู่ ภาพตัวอย่างวาดจริงครั้งเดียวต่อชุด ช่องว่างให้ลูกค้าพิมพ์เอง ──
+const MAXP = 30;                           // เท่ากับ D.MAXSLIDES (มือถือรับไม่ไหวถ้าเกินนี้)
+const INSG = {cover: ['ปก', 'slides'], agenda: ['สารบัญ', 'list'], list: ['รายการ', 'list'], pairs: ['หัวข้อพร้อมคำอธิบาย', 'heading'], faq: ['ถาม-ตอบ', 'help'],
+  stat: ['การ์ดตัวเลข', 'hash'], timeline: ['ไทม์ไลน์', 'cal'], compare: ['เปรียบเทียบ', 'layout'], statement: ['ข้อความเด่น', 'type'], divider: ['หน้าคั่น', 'slides']};
+const insCache = new Map();                // ชุด → [{i, kd, node}]  node: null ยังไม่วาด / false วาดไม่ได้ (ไม่โชว์)
+let insAt = -1, insTab = null, insTok = 0;
+function openIns(at) {
+  if (busyNow || viewing || running || at < 0) return;
+  if (ED && !finishEdit(true)) return;
+  if (slides.length >= MAXP) {
+    openSheet('เพิ่มหน้าไม่ได้แล้ว', `ไฟล์นี้มีครบ ${MAXP} หน้า ซึ่งเป็นจำนวนสูงสุดที่ทำบนเว็บได้ ลบหน้าที่ไม่ใช้ก่อน แล้วค่อยเพิ่มหน้าใหม่`,
+      `<div class="confirm" style="grid-template-columns:1fr"><button class="btn btn-line btn-big" type="button">เข้าใจแล้ว</button></div>`);
+    $('shBody').onclick = ev => { if (ev.target.closest('button')) closeSheet(); };
+    return;
+  }
+  insAt = at; insTab = null; const my = ++insTok;
+  document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act')); pgs()[at]?.querySelector('.gap')?.classList.add('act');
+  openSheet(`หน้าใหม่ต่อจากหน้า ${at + 1}`, '', `<div class="insp"><div class="cats" id="insc" role="tablist" aria-label="ชนิดหน้า"></div><div class="ingrid" id="insg">${'<div class="opt ph"></div>'.repeat(4)}</div></div>
+    <p class="inote">${ico('info')}แบบหน้าจากดีไซน์ที่ใช้อยู่ ${wide() ? 'คลิก' : 'แตะ'}แบบที่ชอบเพื่อเพิ่มได้เลย</p>`);
+  $('sheet').classList.add('ins');
+  $('shBody').onclick = ev => {
+    const c = ev.target.closest('.cat'); if (c) { insTab = c.dataset.k; paintIns(insCache.get(slug)); return; }
+    const t = ev.target.closest('.opt.lay'); if (t) insertPage(insAt, +t.dataset.i);
+  };
+  loadIns(my);
+}
+function paintIns(P) {
+  if (!P || !$('sheet').classList.contains('ins')) return;
+  const ok = P.filter(e => e.node !== false), ks = [...new Set(ok.map(e => e.kd))];
+  if (!ks.includes(insTab)) {               // เปิดครั้งแรก: หมวดเดียวกับหน้าที่อยู่ก่อนช่องนี้ ถ้าชุดนี้มี
+    const mk = META[insAt]?.kind, want = {qa: 'faq', chart: 'list', table: 'list'}[mk] || mk;
+    insTab = ks.includes(want) ? want : ks.find(k => k !== 'cover') || ks[0];
+  }
+  $('insc').innerHTML = ks.map(k => `<button class="cat${k === insTab ? ' on' : ''}" data-k="${k}" type="button" role="tab" aria-selected="${k === insTab}">${ico(INSG[k][1])}${INSG[k][0]}<em>${ok.filter(e => e.kd === k).length}</em></button>`).join('');
+  const g = $('insg'); g.innerHTML = '';
+  ok.filter(e => e.kd === insTab).forEach((e, n) => {
+    if (!e.node) { g.insertAdjacentHTML('beforeend', '<div class="opt ph"></div>'); return; }
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'opt lay'; b.dataset.i = e.i; b.style.animationDelay = (n * 50) + 'ms';
+    b.setAttribute('aria-label', `เพิ่มหน้า${INSG[e.kd][0]} แบบที่ ${n + 1}`);
+    b.innerHTML = '<div class="slidebox"></div>'; g.appendChild(b); mount(b.firstChild, e.node);
+  });
+}
+// วาดภาพตัวอย่างทีละแบบ ให้จอวาดทันระหว่าง Python ทำงาน (ปิดแผงกลางทาง = หยุด เปิดใหม่วาดต่อจากที่ค้าง)
+async function loadIns(my) {
+  const sl = slug; let P = insCache.get(sl);
+  await frame(); if (my !== insTok) return;
+  try {
+    if (!P) { py.globals.set('S_', sl); P = JSON.parse(py.runPython('json.dumps([x[3] for x in D.ins_pool(S_)])')).map((kd, i) => ({i, kd, node: null})); insCache.set(sl, P); }
+  } catch (e) { console.error(e); $('insg').innerHTML = '<p class="empty">เปิดแบบหน้าไม่สำเร็จ ลองใหม่อีกครั้ง</p>'; return; }
+  paintIns(P);
+  const order_ = [...P.filter(e => e.kd === insTab), ...P.filter(e => e.kd !== insTab)];   // หมวดที่เปิดอยู่วาดก่อน
+  for (const e of order_) {
+    if (e.node !== null) continue;
+    await frame(); if (my !== insTok || !$('sheet').classList.contains('on') || slug !== sl) return;
+    try {
+      py.globals.set('S_', sl); py.globals.set('J_', e.i);
+      e.node = (await preview(pptx('_e = D.ins_pool(S_)[J_]; D.render([_e[:2]], M, "", ins={0: _e[2]["kind"]}, hint=True)')))[0] || false;
+    } catch (err) { console.warn(err); e.node = false; }
+    if (my === insTok) paintIns(P);
+  }
+}
+async function insertPage(at, j) {
+  if (busyNow || slides.length >= MAXP) return;
+  closeSheet(); insTok++;
+  py.globals.set('S_', slug); py.globals.set('J_', j);
+  const kd = insCache.get(slug)?.find(e => e.i === j)?.kd;
+  await reflow(() => {
+    const n = py.runPython('_e = D.ins_pool(S_)[J_]; ITEMS.append(tuple(_e[:2])); CS.append(dict(_e[2])); len(ITEMS) - 1');
+    order.splice(at + 1, 0, n);
+  }, `เพิ่มหน้า${kd ? INSG[kd][0] : ''}เป็นหน้า ${at + 2}`, at + 1, false);
+  document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act'));
+  const k = cur; if (!META[k]?.ins) return;   // reflow ไม่สำเร็จ (บอกแล้ว)
+  select(k, {scroll: true}); toast(`เพิ่มหน้า ${k + 1} แล้ว`);
+  const f = BOX[k].findIndex(b => ['t', 't1'].includes(b.p[0]));
+  if (BOX[k].length) setTimeout(() => { if (cur === k && !ED) openEdit(k, Math.max(0, f)); }, calm.matches ? 0 : 420);   // เปิดกล่องแรกหลังเลื่อนถึง
+}
+function openSheet(t, s, html) { $('sheet').classList.remove('ins'); $('shT').textContent = t; $('shS').textContent = s || ''; $('shBody').innerHTML = html || ''; $('shBody').onclick = null; $('sheet').classList.add('on'); }
+function closeSheet() { $('sheet').classList.remove('on'); document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act')); }
 $('shX').onclick = closeSheet;
 $('sheet').onclick = ev => { if (ev.target === $('sheet')) closeSheet(); };
 function lookHtml() {
@@ -1438,8 +1571,11 @@ async function changeLook(s2, sure) {
   toast('ผู้ช่วยกำลังจัดเนื้อหาลงหน้าตา' + s.style, true); await frame();
   try {
     await needSet(s);
+    py.globals.set('ORDER', py.toPy(order)); py.runPython('_OI, _OC, _OO = ITEMS, CS, list(ORDER)');
     py.globals.set('SLUG', s2); py.runPython('M, OUT, LOG = D.plan(WANT, SLUG)'); slug = s2; takePlan(); LOST = 0; arranged = false;
-    await paint(); busyNow = false; relayout('swap'); toast('เปลี่ยนเป็นหน้าตา' + s.style + 'แล้วครับ');
+    const [o2, gone] = JSON.parse(py.runPython('json.dumps(D.carry_ins(_OI, _OC, _OO, ITEMS, CS, SLUG))')); order = o2;   // หน้าที่แทรกเองตามไปด้วย
+    await paint(); busyNow = false; relayout('swap');
+    toast(gone ? `เปลี่ยนเป็นหน้าตา${s.style}แล้ว หน้าที่เพิ่มเอง ${gone} หน้าใส่ในหน้าตานี้ไม่ได้ กดกลับหน้าตาเดิมเพื่อเอาคืนได้` : 'เปลี่ยนเป็นหน้าตา' + s.style + 'แล้วครับ', !!gone); if (gone) setTimeout(() => $('toast').classList.remove('on'), 6000);
     commit(`เปลี่ยนเป็นหน้าตา${s.style}`); paintLooks();
     document.querySelectorAll('.undo button').forEach(b => b.remove());
     setBot(um, `<div class="undo"><span>เปลี่ยนเป็นหน้าตา<b>${esc(s.style)}</b>แล้วครับ</span><button class="btn btn-line btn-sm" type="button">${ico('reload')}กลับหน้าตาเดิม</button></div>`);
@@ -1724,7 +1860,7 @@ function save(blob, name) {
 const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
 let lastFile = null;
-async function act(a) {
+async function act(a, skip) {
   if (ED && !(await applyEdit())) return;   // ใช้คำที่พิมพ์ก่อน แล้วทำคำสั่งต่อในครั้งเดียว ไม่นำเสนอ/บันทึกด้วยคำเก่า
   if (a === 'present') return present();  // ต้องอยู่ในคลิกตรง ๆ ไม่งั้นขอเต็มจอไม่ได้
   if (busyNow || (viewing && a !== 'look')) return;
@@ -1739,10 +1875,22 @@ async function act(a) {
     if (slides[0]) mount($('paycv'), slides[0]);        // ใช้ปกงานของลูกค้าเองเป็นภาพ (เห็นของก่อนแล้วค่อยขอ)
     return;
   }
+  if (a === 'save' && !skip) {              // หน้าที่แทรกแล้วยังไม่ได้พิมพ์อะไร: ถามก่อน ไม่ส่งหน้าเปล่าไปในไฟล์เงียบ ๆ
+    const bl = JSON.parse(py.runPython(`json.dumps([p for p, i in enumerate(${JSON.stringify(order)}) if CS[i].get('_ins') and D.blank_page(ITEMS[i][1])])`));
+    if (bl.length) {
+      const nm = bl.map(k => k + 1).join(', '), one = bl.length === 1;
+      openSheet(`หน้า ${nm} ยังไม่มีข้อความ`, one ? 'หน้านี้เพิ่มไว้แต่ยังไม่ได้พิมพ์ ถ้าบันทึกตอนนี้จะเป็นหน้าเปล่าในไฟล์' : 'หน้าเหล่านี้เพิ่มไว้แต่ยังไม่ได้พิมพ์ ถ้าบันทึกตอนนี้จะเป็นหน้าเปล่าในไฟล์',
+        `<div class="confirm"><button class="btn btn-line btn-big" data-m="type" type="button">${ico('type')}ไปพิมพ์</button><button class="btn btn-red btn-big" data-m="skip" type="button">${ico('down')}บันทึกโดยไม่เอา${one ? 'หน้านี้' : 'หน้าเหล่านี้'}</button></div>`);
+      $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
+        if (b.dataset.m === 'skip') return act('save', bl);
+        select(bl[0], {scroll: true}); const j = BOX[bl[0]].findIndex(x => ['t', 't1'].includes(x.p[0])); if (BOX[bl[0]].length) setTimeout(() => openEdit(bl[0], Math.max(0, j)), 380); };
+      return;
+    }
+  }
   if (a === 'save') {
     const lb = $('savelbl'); lb.textContent = 'กำลังทำไฟล์…'; $('savebtn').disabled = true; busyNow = true;
     await frame(); await frame();
-    try { if (dirty) makeDeck(); } catch (e) { console.error(e); toast('ทำไฟล์ไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+    try { if (dirty || skip) makeDeck(skip || []); } catch (e) { console.error(e); toast('ทำไฟล์ไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
     finally { lb.textContent = 'บันทึก'; $('savebtn').disabled = false; busyNow = false; }
     const f = lastFile = new File([deckBuf], fname() + '.pptx', {type: PPTX});
     save(f, f.name);
