@@ -37,7 +37,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;border:none;border-radius:12px;font-weight:700;font-size:15px;height:44px;padding:0 16px;line-height:1.5;text-decoration:none;transition:opacity .2s,transform .2s var(--ease),box-shadow .2s}
 .btn:active,.look:active,.th:active,.ib:active,.chip:active{transform:scale(.96);transition-duration:.08s}
 .btn:disabled{opacity:.4}
-.btn-red{background:linear-gradient(-135deg,var(--orange),var(--red));color:#fff;box-shadow:0 6px 16px rgba(211,71,36,.24)}
+.btn-red{background:var(--text);color:#fff}   /* ปุ่มหลักทุกปุ่ม: ดำ #15151A แบน ตัวขาว ไม่ไล่สี ไม่มีเงา (กฎไอซ์ 29 ต.ค. 2569) ชื่อคลาสเดิมไว้ไม่ต้องไล่แก้ทุกจุด */
 .btn-line{background:#fff;border:1px solid var(--line);color:var(--text)}
 .btn-big{height:52px;font-size:16px;border-radius:14px}
 .btn-sm{height:36px;font-size:14px;padding:0 12px;border-radius:10px}
@@ -252,6 +252,7 @@ body:has(.etb.kb) #pgc{display:none}
 .tip p{display:flex;gap:8px;align-items:center;font-size:15px;font-weight:600}
 .tip p svg{color:var(--red)}
 .tip .btn{justify-self:end}
+@media (hover:none){.tip .btn{height:44px}}
 /* ภาพย่อ (768+) */
 .thumbs{display:none}
 .th{display:flex;gap:6px;align-items:flex-start;width:100%;border:none;background:none;padding:4px 0;text-align:left}
@@ -711,7 +712,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029r';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029s';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -820,9 +821,20 @@ const NET = 'โหลดส่วนประกอบไม่สำเร็�
 async function get(url) { const r = await fetch(url + '?v=' + V); if (!r.ok) throw new Error(NET); return r; }
 async function unzip(url) { py.unpackArchive(await (await get(url)).arrayBuffer(), 'zip', {extractDir: '/'}); }
 let bootStep = 0, zipsP = null; const onBoot = new Set();
+// โหลดค้าง (ไม่ตอบ ไม่ error) = promise ไม่จบเลย จอโครงเทาค้างตลอด: 90 วิไม่มีไฟล์ไหนโหลดเสร็จ = ล้ม ขึ้นข้อความ NET + ปุ่มโหลดหน้าใหม่ที่มีอยู่
+// ponytail: นับ "คืบ" จากไฟล์ที่โหลดเสร็จ (PerformanceObserver) ไฟล์เดียวที่ใช้เกิน 90 วิ (เน็ตช้ากว่า ~1 Mbps กับไฟล์ 9MB) จะนับว่าค้าง
+const STALL = 90000; let lastProg = Date.now();
+try { new PerformanceObserver(() => { lastProg = Date.now(); }).observe({type: 'resource'}); } catch (e) {}
+function guard(p) {
+  lastProg = Date.now();
+  return new Promise((ok, no) => {
+    const t = setInterval(() => { if (Date.now() - lastProg > STALL) { clearInterval(t); no(new Error(NET)); } }, 2000);
+    p.then(v => { clearInterval(t); ok(v); }, e => { clearInterval(t); no(e); });
+  });
+}
 function stepTo(n) { bootStep = n; onBoot.forEach(f => f(n)); }
 function boot() {                       // ล้มแล้วไม่ลองซ้ำในหน้าเดิม (หน่วยความจำเบิ้ล) ให้โหลดหน้าใหม่
-  return booting = booting || (async () => {
+  return booting = booting || guard((async () => {
     if (!window.loadPyodide || !window.pptxPreview) throw new Error(NET);
     try {
       stepTo(1);
@@ -835,13 +847,15 @@ function boot() {                       // ล้มแล้วไม่ลอ�
     py.FS.writeFile('/k5/fonts/OFL.txt', await (await get('fonts/OFL.txt')).text());
     py.runPython(`import sys, json, ast; sys.path.insert(0, '/k5'); import doc2slide as D`);
     stepTo(4);
-  })();
+  })());
 }
 const warm = () => boot().catch(() => {});   // เริ่มโหลดตอนลูกค้าแตะกล่องพิมพ์ เวลาโหลดจะซ้อนกับเวลาที่เขาพิมพ์
 ['focusin', 'paste', 'pointerdown'].forEach(e => $('prompt').addEventListener(e, warm, {once: true}));
-async function needSet(s) {
-  for (const z of s.zips) if (!zips.has(z)) { await unzip('img/' + z); zips.add(z); }
-  for (const f of s.fonts) if (!fonts.has(f)) { py.FS.writeFile('/k5/fonts/' + f, new Uint8Array(await (await get('fonts/' + f)).arrayBuffer())); fonts.add(f); }
+function needSet(s) {
+  return guard((async () => {
+    for (const z of s.zips) if (!zips.has(z)) { await unzip('img/' + z); zips.add(z); }
+    for (const f of s.fonts) if (!fonts.has(f)) { py.FS.writeFile('/k5/fonts/' + f, new Uint8Array(await (await get('fonts/' + f)).arrayBuffer())); fonts.add(f); }
+  })());
 }
 fetch('fonts.json?v=' + V).then(r => r.json()).then(m => {   // ให้พรีวิวแสดงฟอนต์จริงของชุด
   const st = document.createElement('style');
@@ -1088,7 +1102,7 @@ function takePlan() {
 const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายการ', pairs: 'หัวข้อพร้อมคำอธิบาย', qa: 'ถาม-ตอบ', stat: 'การ์ดตัวเลข',
   timeline: 'ไทม์ไลน์', table: 'ตาราง', chart: 'กราฟ', statement: 'ข้อความเด่น', divider: 'หน้าคั่น', compare: 'เปรียบเทียบ'};
 // บรรทัดที่มา: บอกว่าเนื้อหาหน้านี้มาจากไฟล์ไหน หัวข้อไหน (จุดขาย: ทุกคำมาจากของลูกค้า)
-const OVB = `<i class="ovb">${ico('alert')}ข้อความล้นกล่อง</i>`;   // ออกจากกล่องตอนยังล้น: คำครบ หน้านี้ติดป้ายจนแก้ให้พอดี
+const OVB = `<i class="ovb">${ico('alert')}ข้อความล้นกรอบ</i>`;   // ออกจากกล่องตอนยังล้น: คำครบ หน้านี้ติดป้ายจนแก้ให้พอดี
 const srcHtml = m => (m.ins ? `${ico('plus')}<span>หน้าที่คุณเพิ่มเอง</span>` : `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`) + (m.ov ? OVB : '');
 function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); return u.buffer; }
 async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
@@ -1472,7 +1486,7 @@ function openEdit(k, j, at) {
   });
   if (m) ed.addEventListener('blur', () => { if (ED?.ed === ed && !ED.saving && document.hasFocus()) finishEdit(true); });   // ซ่อนคีย์บอร์ด/แตะที่อื่น = ใช้คำใหม่
 }
-const BDG = {shrink: ['info', 'ตัวอักษรจะเล็กลงเล็กน้อย'], over: ['alert', 'ยาวเกินกล่อง ลบออกอีกนิด'], overn: ['alert', 'ยาวเกินประมาณ N บรรทัด'], empty: ['alert', 'หัวเรื่องว่างไม่ได้'], nobr: ['info', 'หัวเรื่องปกแบบนี้ขึ้นบรรทัดใหม่ไม่ได้']};
+const BDG = {shrink: ['info', 'ตัวอักษรจะย่อลงเล็กน้อย'], over: ['alert', 'ข้อความยาวเกินกรอบ ลบออกอีกนิด'], overn: ['alert', 'เกินกรอบประมาณ N บรรทัด ลบออกอีกนิด'], empty: ['alert', 'หัวเรื่องว่างไม่ได้'], nobr: ['info', 'หัวเรื่องปกแบบนี้ขึ้นบรรทัดใหม่ไม่ได้']};
 function badge(st) {                      // ป้ายนอกกล่อง ใต้ข้อความจริง (คำที่เกินยังเห็น ไม่ทับ) ล่างไม่พอ = เหนือกล่อง
   const E = ED; E.el.querySelector('.bdg')?.remove();
   const n = st === 'over' && E.ovn, m = BDG[n ? 'overn' : st]; if (!m) return null;
@@ -1569,7 +1583,7 @@ window.visualViewport?.addEventListener('resize', () => {
   else if (ED.kbUp && h > ED.h0 - 60) { finishEdit(true); return; }   // คีย์บอร์ดหุบ (ปุ่มซ่อนของ iPad / ย้อนกลับ Android) = ใช้คำใหม่
   edVis();
 });
-const MSG = {shrink: `${ico('info')}ตัวอักษรจะเล็กลงเล็กน้อยให้พอดีกล่อง`, over: `${ico('alert')}ข้อความยาวเกินพื้นที่ของสไลด์นี้ กดเสร็จได้ คำยังอยู่ครบ แต่หน้านี้จะติดป้ายข้อความล้นกล่อง`, empty: `${ico('alert')}หัวเรื่องว่างไม่ได้ กดเสร็จจะใช้คำเดิม`};
+const MSG = {shrink: `${ico('info')}ตัวอักษรจะย่อลงเล็กน้อยให้พอดีกรอบ`, over: `${ico('alert')}ข้อความยาวเกินกรอบของสไลด์นี้ กดเสร็จได้ คำไม่หาย แต่ในไฟล์ข้อความจะล้นออกนอกกรอบ`, empty: `${ico('alert')}หัวเรื่องว่างไม่ได้ กดเสร็จจะใช้คำเดิม`};
 function setEditState(st) {
   if (!ED) return; ED.st = st;
   ED.el.classList.toggle('over', st === 'over' || st === 'empty');
@@ -1653,7 +1667,7 @@ async function saveEdit() {
     commit(A ? `แก้หน้า ${k + 1}: "${clip(A, i)}" เป็น "${clip(B, i)}"` : `พิมพ์ในหน้า ${k + 1}: "${clip(B, 0)}"`);
     // แก้หัวเรื่องแล้วสารบัญ/หน้าต่อเปลี่ยนตาม: บอกตรง ๆ ว่าหน้าไหน (ภาพย่อกะพริบพีชจาก swapPage)
     const also = oldN ? KEYS.map((x, q) => x !== oldKeys[q] && q !== k ? q + 1 : 0).filter(Boolean) : [];
-    const msg = [META[k]?.ov ? `หน้า ${k + 1} ข้อความยังล้นกล่อง คำยังอยู่ครบ` : '', also.length ? `อัปเดตหน้า ${thaiList(also)} ตามด้วย` : ''].filter(Boolean);
+    const msg = [META[k]?.ov ? `หน้า ${k + 1} ข้อความยังล้นกรอบ คำไม่หาย` : '', also.length ? `อัปเดตหน้า ${thaiList(also)} ให้ด้วย` : ''].filter(Boolean);
     if (msg.length) toast(msg.join(' / '));
   } catch (e) { console.error(e); back(); toast('แก้ไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   finally { busyNow = false; }
@@ -1745,17 +1759,20 @@ function openIns(at) {
 }
 function paintIns(P) {
   if (!P || !$('sheet').classList.contains('ins')) return;
-  const ok = P.filter(e => e.node !== false), ks = [...new Set(ok.map(e => e.kd))];
+  const ag = py.runPython('any(c["kind"] == "agenda" for c in WANT)');   // เอกสารไม่มีหัวข้อพอทำสารบัญ: ไม่โชว์หมวดสารบัญ
+  const ok = P.filter(e => e.node !== false && (ag || e.kd !== 'agenda')), ks = [...new Set(ok.map(e => e.kd))];
+  const agK = ['agenda', 'list', 'pairs'].find(k => ks.includes(k)), inTab = (e, k) => e.kd === (k === 'agenda' ? agK : k);   // ชุดที่ไม่มีแบบสารบัญ: หมวดสารบัญใช้แบบรายการ/หัวข้อพร้อมคำอธิบายของชุด (ลำดับเดียวกับ FIT ของสารบัญ)
+  if (ag && agK && agK !== 'agenda') ks.splice(ks[0] === 'cover' ? 1 : 0, 0, 'agenda');
   if (!ks.includes(insTab)) {               // เปิดครั้งแรก: หมวดเดียวกับหน้าที่อยู่ก่อนช่องนี้ ถ้าชุดนี้มี
     const mk = META[insAt]?.kind, want = {qa: 'faq', chart: 'list', table: 'list'}[mk] || mk;
     insTab = ks.includes(want) ? want : ks.find(k => k !== 'cover') || ks[0];
   }
-  $('insc').innerHTML = ks.map(k => `<button class="cat${k === insTab ? ' on' : ''}" data-k="${k}" type="button" role="tab" aria-selected="${k === insTab}">${ico(INSG[k][1])}${INSG[k][0]}<em>${ok.filter(e => e.kd === k).length}</em></button>`).join('');
+  $('insc').innerHTML = ks.map(k => `<button class="cat${k === insTab ? ' on' : ''}" data-k="${k}" type="button" role="tab" aria-selected="${k === insTab}">${ico(INSG[k][1])}${INSG[k][0]}<em>${ok.filter(e => inTab(e, k)).length}</em></button>`).join('');
   const g = $('insg'); g.innerHTML = '';
-  ok.filter(e => e.kd === insTab).forEach((e, n) => {
+  ok.filter(e => inTab(e, insTab)).forEach((e, n) => {
     if (!e.node) { g.insertAdjacentHTML('beforeend', '<div class="opt ph"></div>'); return; }
     const b = document.createElement('button'); b.type = 'button'; b.className = 'opt lay'; b.dataset.i = e.i; b.style.animationDelay = (n * 50) + 'ms';
-    b.setAttribute('aria-label', `เพิ่มหน้า${INSG[e.kd][0]} แบบที่ ${n + 1}`);
+    b.setAttribute('aria-label', `เพิ่มหน้า${INSG[insTab][0]} แบบที่ ${n + 1}`);
     b.innerHTML = '<div class="slidebox"></div>'; g.appendChild(b); mount(b.firstChild, e.node);
   });
 }
@@ -1783,6 +1800,7 @@ async function insertPage(at, j) {
   closeSheet(); insTok++;
   py.globals.set('S_', slug); py.globals.set('J_', j);
   const kd = insCache.get(slug)?.find(e => e.i === j)?.kd;
+  if (kd === 'agenda' || insTab === 'agenda') return addAgenda(j);
   await reflow(() => {
     const n = py.runPython('_e = D.ins_pool(S_)[J_]; ITEMS.append(tuple(_e[:2])); CS.append(dict(_e[2])); len(ITEMS) - 1');
     order.splice(at + 1, 0, n);
@@ -1792,6 +1810,19 @@ async function insertPage(at, j) {
   select(k, {scroll: true}); toast(`เพิ่มหน้า ${k + 1} แล้ว`);
   const f = BOX[k].findIndex(b => ['t', 't1'].includes(b.p[0]));
   if (BOX[k].length) setTimeout(() => { if (cur === k && !ED) openEdit(k, Math.max(0, f)); }, calm.matches ? 0 : 420);   // เปิดกล่องแรกหลังเลื่อนถึง
+}
+// สารบัญ: ปิดไว้ตั้งต้น ลูกค้ากดใส่เอง (ไอซ์ 29 ต.ค. 2569) หัวข้อจากหน้าที่มีอยู่ วางต่อจากปกเสมอ แก้หัวเรื่อง/ย้าย/ลบหน้าแล้วตามเอง (D.add_agenda → sync_agenda)
+async function addAgenda(j) {
+  const ex = META.findIndex(m => m?.kind === 'agenda');
+  if (ex >= 0) { select(ex, {scroll: true}); toast(`มีสารบัญอยู่แล้วที่หน้า ${ex + 1}`); return; }
+  let at = -1;
+  await reflow(() => {
+    py.globals.set('ORDER', py.toPy(order));
+    [order, at] = JSON.parse(py.runPython('json.dumps(D.add_agenda(WANT, ITEMS, CS, list(ORDER), S_, D.ins_pool(S_)[J_][0]))'));
+  }, 'เพิ่มสารบัญ', Math.max(0, at), false);
+  document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act'));
+  if (at < 0) { toast('ยังไม่มีหัวข้อพอทำสารบัญ หรือหน้าตานี้ใส่สารบัญไม่ได้'); return; }
+  select(at, {scroll: true}); toast(`เพิ่มสารบัญเป็นหน้า ${at + 1} แล้ว หัวข้อดึงจากหน้าที่มีอยู่`);
 }
 function openSheet(t, s, html) { $('sheet').classList.remove('ins'); $('shT').textContent = t; $('shS').textContent = s || ''; $('shBody').innerHTML = html || ''; $('shBody').onclick = null; $('sheet').classList.add('on'); }
 function closeSheet() { $('sheet').classList.remove('on'); document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act')); }
@@ -2024,12 +2055,14 @@ $('wipeask').onclick = wipeAsk;
 async function resume(v, vs = [v]) {
   SRCNAME = v.src; gen++; const my = gen;
   $('inner').innerHTML = ''; ttl = v.ttl || ''; slides = []; KEYS = []; STACK = []; SP = -1;
-  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'กำลังเปิดงานล่าสุดของคุณ' + (v.ttl ? `: ${v.ttl}` : '') + (v.n ? ` ${v.n} หน้า` : '');
+  const head = 'กำลังเปิดงานล่าสุดของคุณ' + (v.ttl ? `: ${v.ttl}` : '') + (v.n ? ` ${v.n} หน้า` : '');
+  const sk = n => { $('skelt').textContent = n === 1 ? 'กำลังโหลดเครื่องมือ… ครั้งแรกอาจใช้เวลา 1-2 นาที' : n === 2 ? 'กำลังเตรียมเครื่องมือ… ครั้งแรกอาจใช้เวลา 1-2 นาที' : head; };   // เน็ตช้า: เห็นว่ายังโหลดอยู่ทีละขั้น
+  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); sk(bootStep); onBoot.add(sk);
   $('skelg').classList.add('all');
   $('skelg').innerHTML = Array.from({length: Math.min(v.n || 6, 30)}, (_, i) => `<div class="ph" style="--i:${Math.min(i, 12)}"><b>${i + 1}</b></div>`).join('');
   show('pWork'); $('topttl').textContent = ttl;
   try {
-    await frame(); await boot(); await setsReady; if (my !== gen) return;
+    await frame(); await boot(); onBoot.delete(sk); await setsReady; if (my !== gen) return;
     busyNow = true; await restore(v); busyNow = false; if (my !== gen) return;
     STACK = vs.slice(-40); SP = STACK.length - 1; urState(); setSave('ok');   // เลิกทำหลังรีโหลด = ย้อนตามเวอร์ชันที่เก็บในเครื่อง
     $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(); $('tact').classList.remove('hidden');
@@ -2037,7 +2070,7 @@ async function resume(v, vs = [v]) {
     const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">${wide() ? 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย' : 'แตะสไลด์ แล้วแตะข้อความอีกครั้งเพื่อแก้'} ${saveSt === 'no' ? 'เครื่องนี้เก็บงานไม่ได้ กดบันทึกเมื่อแก้เสร็จ (ต้องมี Code)' : 'ทุกการแก้เก็บในเครื่องนี้ให้เอง'}</p>`);
     if (!wide()) $('chatdot').classList.add('on');
     toast('เปิดงานล่าสุดของคุณแล้ว'); showTip();
-  } catch (e) { console.error(e); busyNow = false; if (my !== gen) return;
+  } catch (e) { console.error(e); busyNow = false; onBoot.delete(sk); if (my !== gen) return;
     botMsg(`<div class="err">${esc(pyErr(e, 'เปิดงานเดิมไม่สำเร็จ ลองโหลดหน้าใหม่'))}<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button></div>`); openPanel('chat'); }
 }
 async function paintResume() {            // หน้าแรก: การ์ด "ทำต่อ"
@@ -2125,12 +2158,12 @@ async function act(a, skip) {
     if (slides[0]) mount($('paycv'), slides[0]);        // ใช้ปกงานของลูกค้าเองเป็นภาพ (เห็นของก่อนแล้วค่อยขอ)
     return;
   }
-  if (a === 'save') {                       // หน้าที่ข้อความล้นกล่อง (ออกจากกล่องตอนยังยาวเกิน): เตือนครั้งเดียวต่อชุดหน้าที่ล้น ไม่บล็อก
+  if (a === 'save') {                       // หน้าที่ข้อความล้นกรอบ (ออกจากกล่องตอนยังยาวเกิน): เตือนครั้งเดียวต่อชุดหน้าที่ล้น ไม่บล็อก
     const ov = META.map((m, q) => m.ov && !(skip || []).includes(q) ? q : -1).filter(q => q >= 0), key = ov.join(',');
     if (ov.length && ovOk !== key) {
       const one = ov.length === 1;
-      openSheet(`หน้า ${thaiList(ov.map(q => q + 1))} มีข้อความล้นกล่อง`, `คำยังอยู่ครบ แต่ในไฟล์ข้อความจะเลยกรอบของ${one ? 'หน้านี้' : 'หน้าเหล่านี้'} ลบออกอีกนิดให้พอดีก่อนก็ได้`,
-        `<div class="confirm"><button class="btn btn-line btn-big" data-m="fix" type="button">${ico('type')}ไปแก้</button><button class="btn btn-red btn-big" data-m="go" type="button">${ico('down')}บันทึกต่อ</button></div>`);
+      openSheet(`หน้า ${thaiList(ov.map(q => q + 1))} มีข้อความล้นกรอบ`, `คำยังอยู่ครบ แต่ในไฟล์ PowerPoint ข้อความจะล้นออกนอกกรอบของ${one ? 'หน้านี้' : 'หน้าเหล่านี้'} อยากให้พอดี กดกลับไปแก้แล้วลบข้อความออกอีกนิด`,
+        `<div class="confirm"><button class="btn btn-line btn-big" data-m="fix" type="button">${ico('type')}กลับไปแก้ข้อความ</button><button class="btn btn-red btn-big" data-m="go" type="button">${ico('down')}บันทึกไฟล์เลย</button></div>`);
       $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
         if (b.dataset.m === 'go') { ovOk = key; return act('save', skip); }
         const q = ov[0]; select(q, {scroll: true}); const j = BOX[q].findIndex(x => x.f); if (j >= 0 && !touch()) setTimeout(() => openEdit(q, j), 380); };
@@ -2142,7 +2175,7 @@ async function act(a, skip) {
     if (bl.length) {
       const nm = bl.map(k => k + 1).join(', '), one = bl.length === 1;
       openSheet(`หน้า ${nm} ยังไม่มีข้อความ`, one ? 'หน้านี้เพิ่มไว้แต่ยังไม่ได้พิมพ์ ถ้าบันทึกตอนนี้จะเป็นหน้าเปล่าในไฟล์' : 'หน้าเหล่านี้เพิ่มไว้แต่ยังไม่ได้พิมพ์ ถ้าบันทึกตอนนี้จะเป็นหน้าเปล่าในไฟล์',
-        `<div class="confirm"><button class="btn btn-line btn-big" data-m="type" type="button">${ico('type')}ไปพิมพ์</button><button class="btn btn-red btn-big" data-m="skip" type="button">${ico('down')}บันทึกโดยไม่เอา${one ? 'หน้านี้' : 'หน้าเหล่านี้'}</button></div>`);
+        `<div class="confirm"><button class="btn btn-line btn-big" data-m="type" type="button">${ico('type')}กลับไปพิมพ์ข้อความ</button><button class="btn btn-red btn-big" data-m="skip" type="button">${ico('down')}บันทึกโดยไม่เอา${one ? 'หน้านี้' : 'หน้าเหล่านี้'}</button></div>`);
       $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
         if (b.dataset.m === 'skip') return act('save', bl);
         select(bl[0], {scroll: true}); const j = BOX[bl[0]].findIndex(x => ['t', 't1'].includes(x.p[0])); if (BOX[bl[0]].length) setTimeout(() => openEdit(bl[0], Math.max(0, j)), 380); };
@@ -2181,7 +2214,7 @@ async function act(a, skip) {
 }
 document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => act(b.dataset.act));
 $('topback').onclick = () => history.state ? history.back() : goHome();
-function goHome() { gen++; running = false; closeSheet(); if (ED) finishEdit(false); show('pHome', false); paintResume(); }
+function goHome() { gen++; running = false; closeSheet(); if (ED) finishEdit(false); document.querySelectorAll('.tip').forEach(t => t.remove()); show('pHome', false); paintResume(); }   // ป้ายแนะนำของหน้าแก้ไม่ค้างบนหน้าแรก (ยังไม่นับว่าเห็นแล้ว)
 // ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย ใช้ส่งให้คนอื่นดูว่าทำงานยังไง / ไม่ใช่ #demo: มีงานเดิมในเครื่องก็เปิดต่อเลย
 if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
 else versions().then(vs => { if (vs.length) resume(vs[vs.length - 1], vs); }).catch(() => {});   // โครงเทาขึ้นก่อน แล้ว resume เริ่ม Python เอง
