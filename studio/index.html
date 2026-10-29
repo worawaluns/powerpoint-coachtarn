@@ -680,7 +680,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029m';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029n';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1065,6 +1065,13 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
   try {
     const pv = pptxPreview.init(tmp, {width: 960, height: 540, mode: 'list'});
     await pv.preview(buf);
+    // กราฟจริง (ใบ 008): pptx-preview วาดกราฟด้วย echarts ใน setTimeout แล้วเล่นแอนิเมชัน ~1 วิ ต้องรอให้วาดเสร็จก่อนคัดลอก ไม่งั้นหน้ากราฟว่าง
+    // ponytail: รอคงที่ 1.1 วิ เฉพาะไฟล์ที่มีกราฟ ถ้าช้าไปค่อยหาทางปิดแอนิเมชันของ echarts
+    if (tmp.querySelector('.chart-node')) {
+      await new Promise(r => setTimeout(r, 1100));
+      // กราฟที่ไม่มีชื่อ pptx-preview ใส่ชื่อตั้งต้นภาษาจีนเอง ("图表标题") ไม่ใช่คำของลูกค้า และไม่มีในไฟล์ → ลบออกจากจอ
+      tmp.querySelectorAll('.chart-node text').forEach(t => { if (t.textContent.trim() === '图表标题') t.remove(); });
+    }
     return [...tmp.querySelectorAll('.pptx-preview-slide-wrapper')].map(s => s.cloneNode(true));
   } finally { tmp.remove(); }
 }
