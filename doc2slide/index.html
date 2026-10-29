@@ -428,6 +428,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .bsel span{white-space:nowrap;line-height:1.5}
   .ftb{display:none}
   .pages{padding:16px 16px calc(96px + var(--safe))}
+  .canvas{margin-bottom:calc(58px + var(--safe));scroll-padding:8px 0 12px}   /* มือถือ: canvas จบเหนือแถบล่าง สไลด์ไม่อยู่ใต้แถบ */
   .tip{position:fixed;left:12px;right:12px;top:auto;bottom:calc(70px + var(--safe));max-width:none;z-index:47}   /* มือถือ: ลอยเหนือแถบล่าง ไม่ทับสไลด์หรือบรรทัดที่มา */
   .vbar>span{flex-basis:100%}.vbar .btn{flex:1}
   .pbadge{bottom:calc(84px + var(--safe))}
@@ -622,7 +623,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029h';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029i';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -906,7 +907,7 @@ async function run(src) {
 async function build(my, f, pick, t0) {
   running = 'build'; refresh();
   const m = botMsg(`<p id="oh${my}">กำลังจัดโครงสไลด์ลงหน้าตา<b id="ln${my}"></b></p>
-    <ol class="outline" id="ol${my}">${f.outline.map((o, i) => `<li style="animation-delay:${i * 45}ms"><span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(o.th)}</span><span class="st"></span></li>`).join('')}</ol>
+    <ol class="outline" id="ol${my}">${f.outline.map((o, i) => `<li style="animation-delay:${i * 45}ms"><span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(o.kind === 'chart' ? 'ตาราง/กราฟ' : o.th)}</span><span class="st"></span></li>`).join('')}</ol>
     <div class="bar" id="br${my}"><i></i></div>`, true);
   const lis = document.getElementById('ol' + my).children, bar = document.getElementById('br' + my), ph = $('skelg').children;
   try {
