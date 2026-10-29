@@ -41,21 +41,32 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .btn-line{background:#fff;border:1px solid var(--line);color:var(--text)}
 .btn-big{height:52px;font-size:16px;border-radius:14px}
 .btn-sm{height:36px;font-size:14px;padding:0 12px;border-radius:10px}
-/* ไอคอนผู้ช่วย: ลูกแก้วไล่สี ตอนคิดมีวงแสงหมุน + ประกายกะพริบ (CSS ล้วน ลื่นแม้ระบบกำลังคำนวณ) */
-.orb{position:relative;width:34px;height:34px;flex:none;border-radius:50%;display:grid;place-items:center;color:#fff;
-  background:radial-gradient(circle at 30% 25%,#FFC09F 0,#EB7D4A 45%,#D34724 100%);box-shadow:0 4px 12px rgba(211,71,36,.28)}
-.orb svg{width:52%;height:52%;fill:currentColor;stroke:none;position:relative;z-index:1}
-.orb::before{content:'';position:absolute;inset:-4px;border-radius:50%;opacity:0;
-  background:conic-gradient(from 0deg,transparent 0 55%,#FFB38F 70%,#D34724 85%,transparent 100%);
-  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));transition:opacity .3s}
-.orb.think::before{opacity:1;animation:sp 1.1s linear infinite;will-change:transform}
-.orb.think svg{animation:twinkle 1.4s ease-in-out infinite}
-.orb::after{content:'';position:absolute;inset:-7px;border-radius:50%;background:radial-gradient(rgba(235,125,74,.45),transparent 70%);opacity:0;transform:scale(.8);pointer-events:none}
-.orb.think::after{animation:halo 1.8s ease-in-out infinite}
-.orb.idle::after{animation:halo 4s ease-in-out infinite}
-.orb.yay{animation:ckPop .5s var(--spring)}
-@keyframes twinkle{50%{transform:scale(.72) rotate(45deg);opacity:.75}}
-@keyframes halo{50%{opacity:1;transform:scale(1.15)}}
+/* ไอคอนผู้ช่วย (งาน 006 แบบ A ลูกแก้วของเหลว): สีเขียวน้ำทะเล คู่ตรงข้ามของส้ม ขยับแค่ transform/opacity บนชั้นที่เบลอไว้แล้ว ลื่นแม้ Python บล็อก */
+:root{--t1:#0B6E80;--t2:#1F9FB0;--t3:#7DD9E0;--t4:#DDF6F7;--tpeach:rgba(255,199,174,.6)}   /* --tpeach: จุดพีชจางใน .b2 ถ้าไอซ์เอาเขียวล้วน เปลี่ยนเป็น rgba(63,193,201,.6) */
+.orb{--s:34px;position:relative;width:var(--s);height:var(--s);flex:none;display:grid;place-items:center;border-radius:50%;isolation:isolate;
+  box-shadow:0 calc(var(--s)*.1) calc(var(--s)*.3) rgba(31,159,176,.32)}
+.orb .core{position:absolute;inset:0;border-radius:50%;overflow:hidden;clip-path:circle(50%);background:radial-gradient(circle at 50% 110%,var(--t1),#168A9C 55%,var(--t2))}
+.orb .b{position:absolute;inset:-30%;filter:blur(calc(var(--s)*.09))}
+.orb .b1{background:radial-gradient(34% 34% at 36% 38%,var(--t3),transparent),radial-gradient(30% 30% at 66% 66%,#3FC1C9,transparent);animation:orbRot 11s linear infinite}
+.orb .b2{background:radial-gradient(30% 30% at 64% 34%,rgba(221,246,247,.95),transparent),radial-gradient(22% 22% at 32% 70%,var(--tpeach),transparent);animation:orbRot 15s linear infinite reverse}
+.orb .b3{background:radial-gradient(28% 28% at 40% 30%,#BFF1F4,transparent),radial-gradient(26% 26% at 62% 70%,var(--t3),transparent);opacity:0;transition:opacity .22s ease;animation:orbRot 2.2s linear infinite;animation-play-state:paused}
+.orb .gl{position:absolute;inset:0;border-radius:50%;z-index:2;background:radial-gradient(55% 40% at 34% 20%,rgba(255,255,255,.7),transparent 70%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+.orb svg{position:relative;z-index:3;width:50%;height:50%;fill:#fff;stroke:none}
+.orb::after{content:'';position:absolute;inset:-28%;border-radius:50%;z-index:-1;background:radial-gradient(closest-side,rgba(125,217,224,.7),transparent);opacity:0;transition:opacity .22s ease;pointer-events:none}
+.orb .orp{position:absolute;inset:0;border-radius:50%;border:2px solid var(--t2);opacity:0;pointer-events:none}
+.orb.idle .core{animation:orbBreathe 4s ease-in-out infinite alternate}
+.orb.think .core{animation:orbBreathe 1.4s ease-in-out infinite alternate}
+.orb.think .b3{opacity:1;animation-play-state:running;transition:opacity .4s var(--ease)}
+.orb.think::after{animation:orbHalo 1.6s ease-in-out infinite;transition:opacity .4s var(--ease)}
+.orb.yay{animation:orbPop .5s var(--spring)}
+.orb.yay .orp{animation:orbRipple .6s var(--ease)}
+.orb:not(.idle):not(.think) .b{animation-play-state:paused}   /* ลูกเก่าในแชทหยุดวน */
+.orb.s26{--s:26px}.orb.s30{--s:30px}
+@keyframes orbRot{to{transform:rotate(360deg)}}
+@keyframes orbBreathe{from{transform:scale(1)}to{transform:scale(1.045)}}
+@keyframes orbHalo{0%,100%{opacity:.3;transform:scale(.92)}50%{opacity:.85;transform:scale(1.06)}}
+@keyframes orbPop{40%{transform:scale(1.12)}}
+@keyframes orbRipple{from{opacity:.7;transform:scale(.95)}to{opacity:0;transform:scale(1.7)}}
 /* แสงวิ่งบนข้อความสถานะ ใช้ transform (ไม่ค้างตอนระบบคำนวณ) */
 .shimmer{position:relative;display:inline-block;overflow:hidden;color:var(--mid);vertical-align:bottom}
 .shimmer::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);transform:translateX(-100%);animation:sweep 1.6s linear infinite}
@@ -67,7 +78,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
   animation:drift 16s ease-in-out infinite alternate}
 @keyframes drift{to{transform:translate3d(4%,6%,0) scale(1.08)}}
 .home>*{position:relative;z-index:1}
-.home .orb{width:60px;height:60px;margin-bottom:14px}
+.home .orb{--s:60px;margin-bottom:14px}
 .home h1{font-size:28px;line-height:1.35;text-align:center;font-weight:700}
 .home .lead{font-size:15px;color:var(--mid);text-align:center;margin-top:6px;max-width:520px}
 .prompt{width:100%;max-width:680px;margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:12px;box-shadow:0 18px 50px rgba(211,71,36,.12),0 2px 6px rgba(21,21,26,.04);transition:border-color .2s,box-shadow .2s}
@@ -284,8 +295,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .pages.swapin .slide .slidebox{animation:lookIn .5s var(--ease) both;animation-delay:min(calc(var(--i,0) * 70ms),700ms)}
 .top .ttl.in{animation:rise .3s var(--ease)}
 #tact:not(.hidden){animation:pop .45s var(--spring) both}
-.orb.idle svg{animation:twinkle 3.2s ease-in-out infinite}
-.busy:not(.on) .orb,.busy:not(.on) .orb svg,.busy:not(.on) .orb::before,.busy:not(.on) .orb::after{animation-play-state:paused}   /* ลูกแก้วที่ซ่อนอยู่ไม่ต้องหมุน */
+.busy:not(.on) .orb,.busy:not(.on) .orb *,.busy:not(.on) .orb::after,.busy:not(.on) .orb .b{animation-play-state:paused}   /* ลูกแก้วที่ซ่อนอยู่ไม่ต้องหมุน */
 .send:active,.attach:active{transform:scale(.92);transition-duration:.08s}
 .send.go svg{animation:shoot .35s cubic-bezier(.4,0,1,1) forwards}
 @keyframes shoot{to{transform:translateY(-140%);opacity:0}}
@@ -463,8 +473,8 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .orb.think::before{animation:none!important;opacity:.4}
-  .orb.think svg,.shimmer{animation:fadePulse 2s ease-in-out infinite!important}
+  .orb,.orb *,.orb::after{animation:none!important}
+  .orb.think .b3,.shimmer{animation:fadePulse 2s ease-in-out infinite!important}
   .shimmer::after{display:none}
   .bar::after,.skel .ph::before,.glow{display:none}
   .edit.saving::after,.medit.saving::after,.edit.checking::after,.medit.checking::after,.slide.repaint .slidebox::after{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
@@ -474,6 +484,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-orb" viewBox="0 0 24 24"><path d="M11 4C11.7 9 15 12.3 20 13C15 13.7 11.7 17 11 22C10.3 17 7 13.7 2 13C7 12.3 10.3 9 11 4Z"/><path d="M19.5 1.5C19.7 3.2 20.8 4.3 22.5 4.5C20.8 4.7 19.7 5.8 19.5 7.5C19.3 5.8 18.2 4.7 16.5 4.5C18.2 4.3 19.3 3.2 19.5 1.5Z"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 1.5c.6 4.6 2.7 7.6 7.6 8.6-4.9 1-7 4-7.6 8.6-.6-4.6-2.7-7.6-7.6-8.6 4.9-1 7-4 7.6-8.6z"/><path d="M19.5 15.5c.25 1.9 1.1 3 3 3.4-1.9.4-2.75 1.5-3 3.4-.25-1.9-1.1-3-3-3.4 1.9-.4 2.75-1.5 3-3.4z"/></symbol>
   <symbol id="i-clip" viewBox="0 0 24 24"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol>
   <symbol id="i-sendup" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></symbol>
@@ -538,7 +549,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <!-- หน้าแรก -->
 <main class="home" id="pHome">
   <div class="glow"></div>
-  <div class="orb idle"><svg><use href="#i-spark"/></svg></div>
+  <div class="orb idle"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></div>
   <h1>อยากทำสไลด์เรื่องอะไรดี</h1>
   <p class="lead">พิมพ์หรือวางหัวข้อกับเนื้อหา หรือแนบไฟล์ ผู้ช่วยจะจัดเป็นสไลด์ดีไซน์ Coach Tarn ให้ เนื้อหาและตัวเลขทุกตัวมาจากของคุณ</p>
   <div class="prompt" id="prompt">
@@ -565,7 +576,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   <nav class="thumbs" id="thumbs" aria-label="ภาพย่อสไลด์"></nav>
   <section class="canvas" id="canvas">
     <div id="vbarslot"></div>
-    <div id="skel"><div class="skelnote"><span class="orb think" style="width:26px;height:26px"><svg><use href="#i-spark"/></svg></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
+    <div id="skel"><div class="skelnote"><span class="orb think s26"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
     <div class="pages hidden" id="pages"></div>
   </section>
   <aside class="rp" id="rp" data-p="chat">
@@ -616,19 +627,19 @@ details.trail[open] summary svg{transform:rotate(90deg)}
     <button class="ib" id="pX" type="button" aria-label="ออก (Esc)" data-tip="ออก (Esc)"><svg class="i"><use href="#i-x"/></svg></button></div>
   <span class="pbadge hidden" id="pbadge">ทำด้วย Coach Tarn</span>
 </div>
-<div class="busy" id="busy"><div><span class="orb think" style="width:30px;height:30px"><svg><use href="#i-spark"/></svg></span><span id="busyT"></span></div></div>
+<div class="busy" id="busy"><div><span class="orb think s30"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></span><span id="busyT"></span></div></div>
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/pyodide/v0.28.0/full/pyodide.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029j';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029k';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
 const CHECK = `<svg class="i check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>`;
-const ORB = think => `<div class="orb${think ? ' think' : ''}"><svg><use href="#i-spark"/></svg></div>`;
+const ORB = think => `<div class="orb${think ? ' think' : ''}"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></div>`;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 // motion ที่สั่งจาก JS: transform/opacity เท่านั้น ปิดเองเมื่อเครื่องตั้งลดการเคลื่อนไหว
 const calm = matchMedia('(prefers-reduced-motion:reduce)');
@@ -953,7 +964,7 @@ json.dumps(_st)`));
     if (wide()) { await after(ani($('skel'), [{opacity: 1}, {opacity: 0}], {duration: 180, easing: 'ease-out', fill: 'forwards'})); if (my !== gen) return; }
     $('skel').classList.add('hidden'); $('skel').getAnimations().forEach(a => a.cancel()); $('pages').classList.remove('hidden'); cur = -1; relayout();
     $('tact').classList.remove('hidden'); commit(`สร้างสไลด์ ${slides.length} หน้า`);
-    m.querySelector('.orb').classList.add('yay'); navigator.vibrate?.(12);
+    const o = m.querySelector('.orb'); o.classList.add('yay'); o.addEventListener('animationend', function f(e) { if (e.target === o) { o.classList.remove('yay'); o.removeEventListener('animationend', f); } }); navigator.vibrate?.(12);
     done(my, t0);
   } catch (e) {
     console.error(e); if (my !== gen) return;
