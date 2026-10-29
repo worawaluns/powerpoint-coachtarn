@@ -262,6 +262,11 @@ body:has(.etb.kb) #pgc{display:none}
 .th.near .slidebox::after{opacity:.35}
 .th.on .slidebox::after{opacity:1}
 .th.on b{color:var(--red)}
+.th.swap .slidebox::before{content:'';position:absolute;inset:0;border-radius:6px;box-shadow:inset 0 0 0 3px rgba(235,125,74,.7);animation:fadeOut 1.4s forwards;pointer-events:none;z-index:3}   /* หน้าที่ตามไปด้วย (สารบัญ หน้าต่อ) กะพริบพีชแบบเดียวกับบน canvas */
+.ovb{display:inline-flex;align-items:center;gap:4px;flex:none;margin-left:auto;padding:1px 8px;border-radius:100px;background:#FEF3F2;color:#B42318;box-shadow:0 0 0 1px #FDA29B;font-size:12px;font-weight:600;font-style:normal;line-height:1.75;white-space:nowrap}
+.ovb svg{width:12px;height:12px}
+.th .ovb{position:absolute;left:24px;right:2px;bottom:6px;z-index:3;justify-content:center;font-size:9px;padding:0 3px;line-height:1.6;overflow:hidden}   /* ภาพย่อแคบ (768 ราว 78px): ไม่มีไอคอน คำครบในกรอบ */
+.th .ovb svg{display:none}
 /* แผงขวา: ผู้ช่วย / หน้าตา / ประวัติ */
 .rp{position:fixed;z-index:40;background:#fff;display:flex;flex-direction:column;min-height:0;visibility:hidden;transition:transform .22s cubic-bezier(.4,0,1,1),visibility 0s .22s}
 .rp.on{visibility:visible;transform:none;transition:transform .38s var(--ease)}
@@ -706,7 +711,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029p';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029r';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1083,7 +1088,8 @@ function takePlan() {
 const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายการ', pairs: 'หัวข้อพร้อมคำอธิบาย', qa: 'ถาม-ตอบ', stat: 'การ์ดตัวเลข',
   timeline: 'ไทม์ไลน์', table: 'ตาราง', chart: 'กราฟ', statement: 'ข้อความเด่น', divider: 'หน้าคั่น', compare: 'เปรียบเทียบ'};
 // บรรทัดที่มา: บอกว่าเนื้อหาหน้านี้มาจากไฟล์ไหน หัวข้อไหน (จุดขาย: ทุกคำมาจากของลูกค้า)
-const srcHtml = m => m.ins ? `${ico('plus')}<span>หน้าที่คุณเพิ่มเอง</span>` : `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`;
+const OVB = `<i class="ovb">${ico('alert')}ข้อความล้นกล่อง</i>`;   // ออกจากกล่องตอนยังล้น: คำครบ หน้านี้ติดป้ายจนแก้ให้พอดี
+const srcHtml = m => (m.ins ? `${ico('plus')}<span>หน้าที่คุณเพิ่มเอง</span>` : `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`) + (m.ov ? OVB : '');
 function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); return u.buffer; }
 async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
   const tmp = document.createElement('div'); tmp.style.cssText = 'position:fixed;left:-99999px;top:0;width:960px';
@@ -1132,7 +1138,7 @@ async function paint() {
     while (nodeCache.size > 240) nodeCache.delete(nodeCache.keys().next().value);
   }
   slides = KEYS.map(k => nodeCache.get(k)?.node); BOX = KEYS.map(k => nodeCache.get(k)?.boxes || []);
-  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins"))) for i in ORDER], ensure_ascii=False)'));
+  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins")), ov=bool(ITEMS[i][1].get("_ov"))) for i in ORDER], ensure_ascii=False)'));
   dirty = true;
   return need;
 }
@@ -1152,9 +1158,10 @@ function pageEl(k) {
   mount(pg.querySelector('.slidebox'), slides[k]);
   return pg;
 }
+function thOv(th, k) { th.querySelector('.ovb')?.remove(); if (META[k]?.ov) th.insertAdjacentHTML('beforeend', OVB); }
 function thumbEl(k) {
   const b = document.createElement('button'); b.type = 'button'; b.className = 'th'; b.setAttribute('aria-label', `ไปหน้า ${k + 1}`);
-  b.innerHTML = `<b>${k + 1}</b><div class="slidebox"></div>`; mount(b.lastChild, slides[k]); return b;
+  b.innerHTML = `<b>${k + 1}</b><div class="slidebox"></div>`; mount(b.lastChild, slides[k]); thOv(b, k); return b;
 }
 // วาด canvas + ภาพย่อใหม่ทั้งชุด  mode: (ไม่ใส่) เด้งขึ้น / 'settled' ไม่เด้ง / 'swap' ค่อยชัดไล่ทีละใบ (เปลี่ยนหน้าตา)
 function relayout(mode) {
@@ -1186,7 +1193,7 @@ function swapPage(k, ring = true) {
   });
   pg.querySelector('.hits').innerHTML = hitsHtml(k); pg.querySelector('.src').innerHTML = srcHtml(META[k]);
   const sl = pg.querySelector('.slide'); if (ring) { sl.classList.remove('swap', 'repaint'); void sl.offsetWidth; sl.classList.add('swap'); }
-  const th = $('thumbs').children[k]; if (th) mount(th.lastChild, slides[k]);
+  const th = $('thumbs').children[k]; if (th) { mount(th.lastChild, slides[k]); thOv(th, k); if (ring) retrig(th, 'swap'); }
 }
 // หลังเปลี่ยน state ของ Python: จำนวนหน้าเท่าเดิม = สลับเฉพาะหน้าที่ต่าง / ไม่เท่า = วาดใหม่ทั้ง canvas
 function settle(oldKeys) {
@@ -1194,6 +1201,7 @@ function settle(oldKeys) {
   let first = -1;
   KEYS.forEach((k, i) => { if (k !== oldKeys[i]) { swapPage(i); if (first < 0) first = i; } });
   pgs().forEach((pg, k) => { pg.querySelector('.src').innerHTML = srcHtml(META[k]); });
+  [...$('thumbs').children].forEach(thOv);
   return first;
 }
 let io_ = null;
@@ -1356,7 +1364,20 @@ function curText(k, b) { py.globals.set('IDX', order[k]); py.globals.set('PATH',
 const edText = ed => { const t = ed.innerText.replace(/\r/g, ''); return t.endsWith('\n') ? t.slice(0, -1) : t; };
 const val = E => E.ta ? E.ta.value : edText(E.ed);
 const edLines = E => Math.round((E.ed.offsetHeight - (parseFloat(getComputedStyle(E.ed).paddingTop) || 0)) / E.pitch);   // บรรทัดที่เบราว์เซอร์ตัดจริง
-const hintOf = E => E.ed ? py.toPy([E.b.pt, edLines(E)]) : null;   // ตัดสินล้น = ค่ามากกว่าระหว่าง PIL กับเบราว์เซอร์ (เฟส 0 ข้อ c)
+// ตัดสินล้น = ค่ามากกว่าระหว่าง PIL กับเบราว์เซอร์ (เฟส 0 ข้อ c) วัดบรรทัดของชั้นพิมพ์ทุกขนาดที่ Python จะลองย่อ (ขนาดดีไซน์ ลงทีละ 5% ถึง 80% ไม่ต่ำกว่า 10pt)
+// ponytail: เปลี่ยนขนาดชั่วคราวแล้วคืนใน task เดียว จอไม่วาดตัวกลาง สูตรปัดต้องตรงกับ fsize() ใน doc2slide.py
+function hintOf(E) {
+  if (!E.ed) return null;
+  const ed = E.ed, fs = ed.style.fontSize, lh = ed.style.lineHeight, pad = parseFloat(getComputedStyle(ed).paddingTop) || 0, px = parseFloat(fs), dpt = E.b.pt / (E.b.f || 1), out = [];
+  for (const f of [1, .95, .9, .85, .8]) {
+    const pt = f === 1 ? dpt : dpt > 10 ? Math.max(10, Math.round(dpt * f * 2) / 2) : dpt, r = pt / E.b.pt;
+    if (out.some(o => Math.abs(o[0] - pt) < .3)) continue;
+    ed.style.fontSize = px * r + 'px'; ed.style.lineHeight = E.pitch * r + 'px';
+    out.push([pt, Math.round((ed.offsetHeight - pad) / (E.pitch * r))]);
+  }
+  ed.style.fontSize = fs; ed.style.lineHeight = lh;
+  return py.toPy(out);
+}
 function nlines(root) {                   // แถวของกล่องตัวอักษรที่ top ต่างกัน [[top, h]]
   const tops = [], w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT), rg = document.createRange();
   for (let n; (n = w.nextNode());) { if (!n.textContent.length) continue; rg.selectNodeContents(n); for (const r of rg.getClientRects()) if (r.width > .3) tops.push([r.top, r.height]); }
@@ -1451,15 +1472,18 @@ function openEdit(k, j, at) {
   });
   if (m) ed.addEventListener('blur', () => { if (ED?.ed === ed && !ED.saving && document.hasFocus()) finishEdit(true); });   // ซ่อนคีย์บอร์ด/แตะที่อื่น = ใช้คำใหม่
 }
-const BDG = {shrink: ['info', 'ตัวอักษรจะเล็กลงเล็กน้อย'], over: ['alert', 'ยาวเกินกล่อง ลบออกอีกนิด'], empty: ['alert', 'หัวเรื่องว่างไม่ได้'], nobr: ['info', 'หัวเรื่องปกแบบนี้ขึ้นบรรทัดใหม่ไม่ได้']};
+const BDG = {shrink: ['info', 'ตัวอักษรจะเล็กลงเล็กน้อย'], over: ['alert', 'ยาวเกินกล่อง ลบออกอีกนิด'], overn: ['alert', 'ยาวเกินประมาณ N บรรทัด'], empty: ['alert', 'หัวเรื่องว่างไม่ได้'], nobr: ['info', 'หัวเรื่องปกแบบนี้ขึ้นบรรทัดใหม่ไม่ได้']};
 function badge(st) {                      // ป้ายนอกกล่อง ใต้ข้อความจริง (คำที่เกินยังเห็น ไม่ทับ) ล่างไม่พอ = เหนือกล่อง
   const E = ED; E.el.querySelector('.bdg')?.remove();
-  const m = BDG[st]; if (!m) return null;
-  const d = document.createElement('div'); d.className = 'bdg' + (st === 'over' || st === 'empty' ? ' bad' : ''); d.setAttribute('role', 'status'); d.innerHTML = ico(m[0]) + m[1];
+  const n = st === 'over' && E.ovn, m = BDG[n ? 'overn' : st]; if (!m) return null;
+  const d = document.createElement('div'); d.className = 'bdg' + (st === 'over' || st === 'empty' ? ' bad' : ''); d.setAttribute('role', 'status'); d.innerHTML = ico(m[0]) + m[1].replace('N', n);
   const hr = E.el.getBoundingClientRect(), z = +$('pages').style.zoom || 1, sr = E.el.closest('.slide').getBoundingClientRect();
   d.style.zoom = 1 / z;                   // มือถือซูมอยู่: ป้ายขนาดเท่าเดิมบนจอ (ระยะของป้ายเป็น px จอ)
   const y = Math.max(hr.bottom, E.ed.getBoundingClientRect().bottom) + 6;
-  if (y + 30 > sr.bottom + 40) { d.style.top = 'auto'; d.style.bottom = `${hr.height + 6}px`; } else d.style.setProperty('--bt', (y - hr.top) + 'px');
+  // ใต้สไลด์คือบรรทัด "ที่มา:" ห้ามทับ: ล่างไม่พอ = เหนือกล่อง / กล่องสูงเกือบเต็มหน้า = มุมล่างในสไลด์
+  if (y + 32 <= sr.bottom) d.style.setProperty('--bt', (y - hr.top) + 'px');
+  else if (hr.top - 36 >= sr.top) { d.style.top = 'auto'; d.style.bottom = `${hr.height + 6}px`; }
+  else d.style.setProperty('--bt', (sr.bottom - 34 - hr.top) + 'px');
   E.el.appendChild(d); return d;
 }
 function note(st) { if (!ED?.ed) return; const d = badge(st); clearTimeout(ED.nt); ED.nt = setTimeout(() => { if (ED?.ed && d?.isConnected) badge(ED.st); }, 2500); }
@@ -1490,6 +1514,9 @@ function edVis(first) {                   // กล่อง + คำที่�
   if (hr.width <= cr.width - 24) { if (hr.right > cr.right - 12) dx = hr.right - cr.right + 12; if (hr.left - dx < cr.left + 12) dx = hr.left - cr.left - 12; }
   else if (cx.left < cr.left + 12 || cx.right > cr.right - 12) dx = cx.left - cr.left - cr.width / 2;   // กล่องกว้างกว่าจอ: เลื่อนซ้ายขวาตามเคอร์เซอร์
   C.scrollTop += dy; C.scrollLeft += dx;
+  const bd = ED.el.querySelector('.bdg');   // กล่องกว้างกว่าจอ (เลื่อนตามเคอร์เซอร์): ป้ายเลื่อนเข้ามาในจอให้อ่านครบ
+  if (bd) { bd.style.left = ''; const r = bd.getBoundingClientRect(), L = cr.left + 8, R = cr.right - 8;
+    const sx = r.left < L ? L - r.left : r.right > R ? Math.max(L - r.left, R - r.right) : 0; if (sx) bd.style.left = (sx - 3) + 'px'; }
 }
 // ── ช่องตาราง: ช่องพิมพ์เดิม (คอมทับกล่อง / มือถือแถบล่าง) จนกว่าจะทำชั้นพิมพ์ของ <table> ──
 function openTa(k, j, b, orig) {
@@ -1508,8 +1535,8 @@ function openTa(k, j, b, orig) {
   ta_.addEventListener('input', () => { grow(); clearTimeout(ED?.chk); if (ED) { ED.chk = setTimeout(checkEdit, 500); } });
   ta_.addEventListener('keydown', ev => {
     if (ev.isComposing || ev.keyCode === 229) return;   // กำลังประกอบคำไทย ห้ามจับ Enter
-    if (ev.key === 'Escape') { ev.preventDefault(); finishEdit(false); }
-    if (ev.key === 'Enter' && !ev.shiftKey && !b.multi) { ev.preventDefault(); finishEdit(true); }
+    if (ev.key === 'Escape') { ev.preventDefault(); finishEdit(true); }   // เหมือนกล่องข้อความ: Esc เก็บคำ อยากได้คำเดิมกดเลิกทำ
+    if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); finishEdit(true); }   // Enter จบ Shift+Enter ขึ้นบรรทัดใหม่
   });
 }
 function grow() { if (!ED?.ta) return; const t = ED.ta; t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; ED.el.style.setProperty('--th', t.offsetHeight + 'px'); }
@@ -1542,13 +1569,12 @@ window.visualViewport?.addEventListener('resize', () => {
   else if (ED.kbUp && h > ED.h0 - 60) { finishEdit(true); return; }   // คีย์บอร์ดหุบ (ปุ่มซ่อนของ iPad / ย้อนกลับ Android) = ใช้คำใหม่
   edVis();
 });
-const MSG = {shrink: `${ico('info')}ตัวอักษรจะเล็กลงเล็กน้อยให้พอดีกล่อง`, over: `${ico('alert')}ข้อความยาวเกินพื้นที่ของสไลด์นี้ ตัดให้สั้นลงอีกนิดแล้วกดเสร็จ`, empty: `${ico('alert')}หัวเรื่องว่างไม่ได้`};
+const MSG = {shrink: `${ico('info')}ตัวอักษรจะเล็กลงเล็กน้อยให้พอดีกล่อง`, over: `${ico('alert')}ข้อความยาวเกินพื้นที่ของสไลด์นี้ กดเสร็จได้ คำยังอยู่ครบ แต่หน้านี้จะติดป้ายข้อความล้นกล่อง`, empty: `${ico('alert')}หัวเรื่องว่างไม่ได้ กดเสร็จจะใช้คำเดิม`};
 function setEditState(st) {
   if (!ED) return; ED.st = st;
   ED.el.classList.toggle('over', st === 'over' || st === 'empty');
   if (ED.ed) { clearTimeout(ED.nt); badge(st); edVis(); return; }
-  ED.el.querySelector('.emsg').innerHTML = MSG[st] || '';
-  ED.el.querySelector('[data-e=ok]').disabled = st === 'over' || st === 'empty';
+  ED.el.querySelector('.emsg').innerHTML = MSG[st] || '';   // ออกได้ทุกทางเสมอ ไม่ปิดปุ่มเสร็จ
 }
 async function checkEdit() {             // หยุดพิมพ์ 0.5 วิ: ลงกล่องได้ไหม ใช้ตัววัดตัวเดียวกับตอนจัดหน้า
   if (!ED || ED.saving) return; const v = val(ED);
@@ -1559,7 +1585,8 @@ async function checkEdit() {             // หยุดพิมพ์ 0.5 ว�
   try {
     CHK++;
     py.globals.set('IDX', order[E.k]); py.globals.set('PATH', py.toPy(E.b.p)); py.globals.set('NEW', v); py.globals.set('HINT', hintOf(E));
-    setEditState(JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M, dry=True, hint=HINT))'))[0]);
+    const st = JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M, dry=True, hint=HINT))'))[0];
+    E.ovn = py.runPython('D.EXTRA.get("lines", 0)'); setEditState(st);
   } catch (e) { console.error(e); } finally { E.el.classList.remove('checking'); }
 }
 function dropLayer(E) { E.lay.remove(); E.tw.style.visibility = ''; }
@@ -1574,21 +1601,34 @@ function closeEdit(keep) {                // keep: ชั้นที่พิ�
   }
   fade(E.el);
 }
-// คืน false = ยังปิดไม่ได้ (ยาวเกินกล่อง/หัวเรื่องว่าง) คำค้างในกล่อง ป้ายสั่นเบา ๆ ไม่ทิ้งคำ
+// ออกจากกล่องได้ทุกทางเสมอ (persona: ล้นแล้วกดอะไรไม่ได้ นึกว่าค้าง) ยาวเกิน = saveEdit ย่อตัวเอง ยังล้นก็เก็บคำครบ ติดป้ายที่หน้า
+// คืน false เฉพาะตอนกำลังบันทึกอยู่
 function finishEdit(apply) {
   if (!ED || ED.saving) return !ED;
   const v = val(ED);
   if (!apply || v === ED.orig) { closeEdit(); return true; }
-  if (!v.trim() && ['t', 't1'].includes(ED.b.p[0]) && !META[ED.k]?.ins) { setEditState('empty'); shake(); (ED.ta || ED.ed).focus(); return false; }
+  if (!v.trim() && ['t', 't1'].includes(ED.b.p[0]) && !META[ED.k]?.ins) { closeEdit(); toast('หัวเรื่องว่างไม่ได้ ใช้คำเดิม'); return true; }   // ไม่มีคำที่พิมพ์ให้หาย
   ED.p = saveEdit(); return true;         // แสงวิ่ง + 2 เฟรมก่อน แล้ว edit_text ตัดสินเองว่าล้นไหม
 }
-// ใช้คำที่พิมพ์ค้างอยู่ก่อนทำคำสั่งอื่น (นำเสนอ บันทึก เลิกทำ) คืน true เมื่อปิดแล้ว / false = ยาวเกินกล่อง ยังเปิดให้แก้
+// ใช้คำที่พิมพ์ค้างอยู่ก่อนทำคำสั่งอื่น (นำเสนอ บันทึก เลิกทำ) คืน true เมื่อปิดแล้ว / false = บันทึกไม่สำเร็จ ยังเปิดให้แก้
 async function applyEdit() {
   if (!ED) return true;
   const E = ED;
   if (!E.saving && !finishEdit(true)) return false;
   if (E.p) await E.p;
   return ED !== E;
+}
+const thaiList = ns => ns.length < 2 ? `${ns[0]}` : `${ns.slice(0, -1).join(', ')} และ ${ns[ns.length - 1]}`;
+// ข้อความสั้นรอบจุดที่แก้ เริ่มและจบที่ขอบคำ (Intl.Segmenter ไทย) ไม่หั่นกลางคำ ("ผน" แทน "แผน") จุดไข่ปลาเฉพาะท้ายที่ถูกตัด
+function clip(x, at, max = 24) {
+  const ws = d2sSeg(x);   // SEG ตัวเดียวกับที่ Python ใช้วัดบรรทัด
+  let pos = 0, j = 0;
+  while (j < ws.length && pos + ws[j].length <= at) pos += ws[j++].length;   // คำที่มีจุดแรกที่ต่าง
+  while (j > 0 && at - pos < 8 && x.length - pos > max) pos -= ws[--j].length;   // เก็บคำข้างหน้าไว้ให้อ่านรู้เรื่อง
+  if (x.length - pos <= max) { while (j > 0 && x.length - pos + ws[j - 1].length <= max) pos -= ws[--j].length; }   // สั้นพอ: เอาตั้งแต่ต้นได้
+  let out = '';
+  for (; j < ws.length; j++) { if (out.trim() && (out + ws[j]).trim().length > max) break; out += ws[j]; }
+  return out.trim() + (j < ws.length ? '…' : '');
 }
 async function saveEdit() {
   const E = ED, v = val(E), hint = hintOf(E); E.saving = true; E.el.classList.add('saving'); if (E.ed) E.ed.contentEditable = 'false'; busyNow = true;
@@ -1597,23 +1637,24 @@ async function saveEdit() {
   const k = E.k, oldKeys = KEYS.slice();
   try {
     py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(E.b.p)); py.globals.set('NEW', v); py.globals.set('HINT', hint);
-    const [st, follow] = JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M, hint=HINT))'));
-    if (st === 'over') { back(); setEditState('over'); shake(); if (E.ta) E.ta.focus(); return; }
+    const [st, follow] = JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M, hint=HINT, force=True))'));   // ล้น: ย่อถึง 80% แล้วยังล้น = คำครบ ติดป้าย
     if (!follow) LOST++;
     if (k === 0 && ['t', 't1', 't2'].includes(E.b.p[0])) {   // ชื่อเรื่องบนปก = ชื่อไฟล์ + ท้ายกระดาษทุกหน้า (ปกสองบรรทัด t1 + t2)
       ttl = py.runPython(`_d = ITEMS[IDX][1]; TTL = ' '.join(' '.join(str(_d.get(k, '')).split()) for k in ('t', 't1', 't2') if _d.get(k)); TTL`); $('topttl').textContent = ttl;
     }
     await paint();
     E.el.classList.remove('saving'); ED = E; closeEdit(true);
+    const oldN = oldKeys.length === KEYS.length;
     settle(oldKeys); if (E.ed && KEYS[k] === oldKeys[k]) dropLayer(E);   // หน้าไม่ต้องวาดใหม่: เอาชั้นพิมพ์ออกเลย
     select(k);                              // หน้าที่แก้ยังถูกเลือกอยู่
-    // ป้ายประวัติบอกส่วนที่เปลี่ยนจริง (คำยาวที่แก้ท้ายประโยค ตัดส่วนต้นที่เหมือนกันออก)
+    // ป้ายประวัติบอกส่วนที่เปลี่ยนจริง (คำยาวที่แก้ท้ายประโยค ตัดส่วนต้นที่เหมือนกันออก) ตัดที่ขอบคำไทยเสมอ
     const A = E.orig.replace(/\s+/g, ' ').trim(), B = v.replace(/\s+/g, ' ').trim();
     let i = 0; while (i < A.length && A[i] === B[i]) i++;
-    let st0 = Math.max(0, i - 10);
-    if (st0) { const w = A.lastIndexOf(' ', st0) + 1; if (w && i - w <= 20) st0 = w; else while (st0 && /[ัิ-ฺ็-๎]/.test(A[st0])) st0--; }   // ต้นคำ หรืออย่างน้อยไม่เริ่มที่สระบน/วรรณยุกต์
-    const sh = x => { const y = x.slice(st0); return (st0 ? '…' : '') + (y.length > 26 ? y.slice(0, 25).replace(/\s+\S*$/, '') + '…' : y); };
-    commit(A ? `แก้หน้า ${k + 1}: "${sh(A)}" เป็น "${sh(B)}"` : `พิมพ์ในหน้า ${k + 1}: "${sh(B)}"`);
+    commit(A ? `แก้หน้า ${k + 1}: "${clip(A, i)}" เป็น "${clip(B, i)}"` : `พิมพ์ในหน้า ${k + 1}: "${clip(B, 0)}"`);
+    // แก้หัวเรื่องแล้วสารบัญ/หน้าต่อเปลี่ยนตาม: บอกตรง ๆ ว่าหน้าไหน (ภาพย่อกะพริบพีชจาก swapPage)
+    const also = oldN ? KEYS.map((x, q) => x !== oldKeys[q] && q !== k ? q + 1 : 0).filter(Boolean) : [];
+    const msg = [META[k]?.ov ? `หน้า ${k + 1} ข้อความยังล้นกล่อง คำยังอยู่ครบ` : '', also.length ? `อัปเดตหน้า ${thaiList(also)} ตามด้วย` : ''].filter(Boolean);
+    if (msg.length) toast(msg.join(' / '));
   } catch (e) { console.error(e); back(); toast('แก้ไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   finally { busyNow = false; }
 }
@@ -1867,7 +1908,7 @@ const MAC = /Mac|iPhone|iPad/.test(navigator.platform);
 $('undo').dataset.tip = `เลิกทำ (${MAC ? '⌘' : 'Ctrl+'}Z)`; $('redo').dataset.tip = `ทำซ้ำ (${MAC ? '⌘⇧' : 'Ctrl+Shift+'}Z)`;
 document.addEventListener('keydown', ev => {
   if (!$('pres').classList.contains('hidden')) return presKey(ev);
-  if (ED && ev.key === 'Escape' && !ev.target.closest?.('textarea')) { ev.preventDefault(); finishEdit(!!ED.ed); return; }   // Esc เก็บคำ (ช่องตารางยังเป็นแบบเดิม)
+  if (ED && ev.key === 'Escape' && !ev.target.closest?.('textarea')) { ev.preventDefault(); finishEdit(true); return; }   // Esc เก็บคำ ทุกกล่องรวมช่องตาราง
   if ($('pWork').classList.contains('hidden') || !slides.length) return;
   const typing = ev.target.closest?.('textarea,input,[contenteditable]');
   if (typing) return;                     // ในช่องพิมพ์: Ctrl+Z ของเบราว์เซอร์ย้อนตัวอักษรตามปกติ
@@ -2068,7 +2109,7 @@ function save(blob, name) {
 // ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
 const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
-let lastFile = null;
+let lastFile = null, ovOk = '';
 async function act(a, skip) {
   if (ED && !(await applyEdit())) return;   // ใช้คำที่พิมพ์ก่อน แล้วทำคำสั่งต่อในครั้งเดียว ไม่นำเสนอ/บันทึกด้วยคำเก่า
   if (a === 'present') return present();  // ต้องอยู่ในคลิกตรง ๆ ไม่งั้นขอเต็มจอไม่ได้
@@ -2083,6 +2124,18 @@ async function act(a, skip) {
       <a class="btn btn-line btn-big" href="/" target="_blank" rel="noopener">ดูคลังเทมเพลต</a></div>`);
     if (slides[0]) mount($('paycv'), slides[0]);        // ใช้ปกงานของลูกค้าเองเป็นภาพ (เห็นของก่อนแล้วค่อยขอ)
     return;
+  }
+  if (a === 'save') {                       // หน้าที่ข้อความล้นกล่อง (ออกจากกล่องตอนยังยาวเกิน): เตือนครั้งเดียวต่อชุดหน้าที่ล้น ไม่บล็อก
+    const ov = META.map((m, q) => m.ov && !(skip || []).includes(q) ? q : -1).filter(q => q >= 0), key = ov.join(',');
+    if (ov.length && ovOk !== key) {
+      const one = ov.length === 1;
+      openSheet(`หน้า ${thaiList(ov.map(q => q + 1))} มีข้อความล้นกล่อง`, `คำยังอยู่ครบ แต่ในไฟล์ข้อความจะเลยกรอบของ${one ? 'หน้านี้' : 'หน้าเหล่านี้'} ลบออกอีกนิดให้พอดีก่อนก็ได้`,
+        `<div class="confirm"><button class="btn btn-line btn-big" data-m="fix" type="button">${ico('type')}ไปแก้</button><button class="btn btn-red btn-big" data-m="go" type="button">${ico('down')}บันทึกต่อ</button></div>`);
+      $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
+        if (b.dataset.m === 'go') { ovOk = key; return act('save', skip); }
+        const q = ov[0]; select(q, {scroll: true}); const j = BOX[q].findIndex(x => x.f); if (j >= 0 && !touch()) setTimeout(() => openEdit(q, j), 380); };
+      return;
+    }
   }
   if (a === 'save' && !skip) {              // หน้าที่แทรกแล้วยังไม่ได้พิมพ์อะไร: ถามก่อน ไม่ส่งหน้าเปล่าไปในไฟล์เงียบ ๆ
     const bl = JSON.parse(py.runPython(`json.dumps([p for p, i in enumerate(${JSON.stringify(order)}) if CS[i].get('_ins') and D.blank_page(ITEMS[i][1])])`));
