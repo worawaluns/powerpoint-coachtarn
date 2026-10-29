@@ -109,7 +109,8 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 @keyframes hitIn{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
 @media (hover:hover){.pg.on .hit:hover{background:rgba(235,125,74,.12)}}
 .viewing .hits,.viewing .ftb,.viewing .bsel{pointer-events:none}
-.viewing .ftb{opacity:.4}
+.viewing .ftb,.viewing .bsel{opacity:.4}
+.viewing .hits{opacity:0}   /* ดูเวอร์ชันเก่า: หน้าที่เลือกยังค้าง แต่ไม่มีกรอบแก้ */
 .src{display:flex;align-items:center;gap:5px;padding:6px 4px 0;font-size:12px;color:var(--sub);min-width:0}
 .src svg{width:13px;height:13px;flex:none}
 .src span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
@@ -621,7 +622,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029g';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029h';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -689,7 +690,7 @@ function show(p, push = true) {
   $('toptag').classList.toggle('hidden', w);
   ['tmeta', 'ur', 'topgrow'].forEach(k => $(k).classList.toggle('hidden', !w));
   if (!w) $('tact').classList.add('hidden');
-  $('topttl').textContent = w ? (ttl || 'กำลังเตรียมสไลด์') : '';
+  $('topttl').textContent = w ? (ttl || (running ? 'กำลังเตรียมสไลด์' : 'ยังไม่มีสไลด์')) : '';
   if (push && p === 'pWork' && history.state?.p !== p) history.pushState({p}, '');   // ปุ่มย้อนของมือถือกลับหน้าแรก
   window.scrollTo(0, 0);
 }
@@ -818,7 +819,7 @@ function enterWork(again) {
   if (ED) finishEdit(false);
   ttl = ''; slides = []; KEYS = []; cur = 0; $('tact').classList.add('hidden'); $('pages').innerHTML = ''; $('thumbs').innerHTML = '';
   if (viewing) { viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; }
-  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา';
+  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา'; $('skelt').classList.add('shimmer'); $('skel').querySelector('.orb')?.classList.add('think');
   $('skelg').classList.remove('all'); $('skelg').innerHTML = Array.from({length: 6}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
   show('pWork'); openPanel('chat');
 }
@@ -893,11 +894,12 @@ async function run(src) {
     m.querySelector('details.trail').appendChild(ul);
     await build(my, f, slug, t0);
   } catch (e) {
-    (/ValueError: .*[฀-๿]/.test(String(e && e.message || e)) ? console.warn : console.error)(e);   // ไฟล์ลูกค้าที่อ่านไม่ได้ (ข้อความไทยของตัวอ่าน) ไม่ใช่บั๊ก
+    console.warn(e);                                     // ขั้นอ่านไฟล์: ไฟล์ลูกค้าเสีย/อ่านไม่ได้เป็นเรื่องปกติ ไม่ใช่บั๊ก (ขั้นจัดหน้ามี catch ของตัวเอง)   // ไฟล์ลูกค้าที่อ่านไม่ได้ (ข้อความไทยของตัวอ่าน) ไม่ใช่บั๊ก
     if (my !== gen) return;
     const msg = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน');
     setBot(m, `<div class="err">${esc(msg)}${msg === NET ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : ''}</div>`);
-    $('skelt').textContent = 'ยังไม่มีสไลด์'; running = false; refresh();
+    $('skelt').textContent = 'ยังไม่มีสไลด์'; $('skelt').classList.remove('shimmer'); $('skel').querySelector('.orb')?.classList.remove('think');
+    $('skelg').innerHTML = ''; running = false; busyNow = false; $('topttl').textContent = 'ยังไม่มีสไลด์'; refresh();   // ไม่มีงานค้าง: หยุดโครงเทาและป้ายกำลังเตรียม
   }
 }
 // จัดหน้า: ติ๊กโครงทีละหน้า ฝั่งสไลด์ช่องจองค่อยเปลี่ยนสี แล้วพรีวิวจริงขึ้นแทน
@@ -1582,7 +1584,7 @@ async function paintHist() {
 // ดูเวอร์ชันเก่าแบบดูอย่างเดียว แล้วเลือก "ใช้เวอร์ชันนี้" (= เวอร์ชันใหม่ เวอร์ชันหลังจากนั้นยังอยู่ครบ) หรือ "กลับไปล่าสุด"
 async function viewVersion(v) {
   if (ED) finishEdit(false);
-  busyNow = true; select(-1);
+  const keep = cur; busyNow = true;
   document.querySelectorAll('.hrow').forEach(r => r.classList.toggle('sel', +r.dataset.id === v.id));
   pgs().forEach(p => p.querySelector('.slide').classList.add('repaint'));
   await frame(); await frame();
@@ -1590,7 +1592,7 @@ async function viewVersion(v) {
     if (!viewing) viewing = {base: STACK[SP]};
     viewing.id = v.id; viewing.v = v; $('pWork').classList.add('viewing'); urState();
     if (!matchMedia('(min-width:1200px)').matches) closePanel();   // แผงทับ canvas อยู่ ปิดให้เห็นเวอร์ชันนั้นเต็ม ๆ
-    await restore(v);
+    cur = keep; await restore(v);                          // หน้าที่เลือกไว้ยังอยู่ = เลือกค้างไว้ (restore เลือกหน้าเดิมถ้ายังมี)
     $('vbarslot').innerHTML = `<div class="vbar"><span>${ico('eye')}<span><b>กำลังดูเวอร์ชัน ${hhmm(v.t)}</b> ดูอย่างเดียว แก้ไม่ได้</span></span>
       <button class="btn btn-line btn-sm" data-v="back" type="button">${ico('back')}กลับไปล่าสุด</button><button class="btn btn-red btn-sm" data-v="use" type="button">${ico('history')}ใช้เวอร์ชันนี้</button></div>`;
     $('vbarslot').querySelector('.vbar').onclick = ev => { const b = ev.target.closest('[data-v]'); if (!b) return; b.dataset.v === 'use' ? useVersion() : backToLatest(); };
