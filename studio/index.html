@@ -288,7 +288,7 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .gbar .dim{opacity:.35}
 body.typing .tring,body.typing .tcard{visibility:hidden}
 /* วิธีใช้ครั้งแรก: วงเรืองแสงรอบจุด (ไม่มีฉากมืด) + การ์ดคำอธิบาย */
-.tring{position:fixed;left:0;top:0;z-index:80;border-radius:12px;pointer-events:none;box-shadow:0 0 0 2px var(--red),0 0 18px 4px rgba(235,125,74,.45);transition:transform .32s var(--ease),width .32s var(--ease),height .32s var(--ease)}
+.tring{position:fixed;left:0;top:0;z-index:80;border-radius:12px;pointer-events:none;box-shadow:0 0 0 2px var(--red),0 0 18px 4px rgba(235,125,74,.45)}
 .tring::after{content:'';position:absolute;inset:-2px;border-radius:inherit;box-shadow:0 0 0 2px var(--red);opacity:0}.tring.go::after{animation:orbRipple 1.2s var(--ease) 3}   /* วนแค่ 3 รอบ ไม่วนค้าง */
 .tcard{position:fixed;z-index:81;left:12px;right:12px;max-width:340px;margin:0 auto;background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 8px 28px rgba(20,20,26,.2);display:grid;gap:10px;animation:pop .3s var(--spring) both}
 .tcard p{font-size:15px;font-weight:600;line-height:1.55}
@@ -551,7 +551,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .toast{top:auto;bottom:calc(76px + var(--safe));transform:translateX(-50%) translateY(16px)}
   .medit .emsg{margin:0 0 8px}
   .rp{inset:56px 0 0 0;transform:translateY(100%);z-index:55}
-  .rail{position:fixed;left:0;right:0;bottom:0;height:calc(58px + var(--safe));padding:2px 8px var(--safe);border-top:1px solid var(--line);justify-content:space-around;transition:opacity .14s cubic-bezier(.4,0,1,1)}
+  .rail{position:fixed;left:0;right:0;bottom:0;height:calc(58px + var(--safe));padding:2px 8px var(--safe);border-top:1px solid var(--line);justify-content:space-around;transition:opacity .1s cubic-bezier(.4,0,1,1)}
   .rail button{flex:1;max-width:120px;height:54px;font-size:12px}
   .rail [data-p=add]{display:flex}.rail [data-p=hist]{display:none}
   .work.boxon .rail,body.gridon .rail{opacity:0;pointer-events:none}
@@ -597,6 +597,10 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .thumbs .th .ovb{left:4px;right:4px;bottom:30px}
   .thumbs.sorting .th{transition:transform .2s var(--ease)}
   .thumbs .th.lift{z-index:3;transition:none!important}
+  .thumbs .th.near .slidebox::after{opacity:0}   /* motion 2: ไฮไลต์ "ใกล้จอ" ของคอม ไม่ซ้อนบนมือถือ */
+  .thumbs.first .th{animation:none}               /* motion 10 */
+  .thumbs .th.nw{animation:pop .32s var(--spring) .1s both}   /* motion 3: การ์ดใหม่ (สำเนา แทรก) เด้งเข้า */
+  .gbar>*{animation:rz .18s var(--ease) both}     /* motion 6: เปลี่ยนเนื้อแถบ (ยืนยันลบ) ไม่วูบ */
   .thumbs .th.lift .slidebox{box-shadow:0 10px 28px rgba(20,20,26,.22),0 0 0 1px var(--line)}
   .gbar{position:fixed;left:16px;right:16px;bottom:calc(12px + var(--safe));z-index:48;display:flex;align-items:center;gap:2px;height:64px;padding:0 6px;background:#fff;border-radius:18px;box-shadow:0 6px 24px rgba(20,20,26,.14);opacity:0;transform:translateY(12px);visibility:hidden;pointer-events:none;transition:opacity .14s cubic-bezier(.4,0,1,1),transform .14s cubic-bezier(.4,0,1,1),visibility 0s .14s}
   body.gridon .gbar{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition:opacity .22s var(--ease),transform .22s var(--ease)}
@@ -611,7 +615,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   body.gridon .toast{bottom:calc(92px + var(--safe))}
   /* แถบกล่อง (ใบ 017): แทนแถบล่างตอนเลือกกล่อง */
   .bbar{position:fixed;left:0;right:0;bottom:0;z-index:46;height:calc(58px + var(--safe));padding:2px 8px var(--safe);background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(8px);visibility:hidden;pointer-events:none;transition:opacity .14s cubic-bezier(.4,0,1,1),transform .14s cubic-bezier(.4,0,1,1),visibility 0s .14s}
-  .work.boxon .bbar{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition:opacity .22s var(--ease),transform .22s var(--ease)}
+  .work.boxon .bbar{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition:opacity .22s var(--ease) .06s,transform .22s var(--ease) .06s}   /* motion 5: แถบล่างออกก่อน แถบกล่องตามมา ไม่ซ้อน */
   .bbar .bx{flex:0 0 52px;height:54px;border:none;background:none;border-right:1px solid var(--line);border-radius:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--red)}
   .bbar .bm{flex:1;min-width:0;font-size:13px;color:var(--sub);line-height:1.4}
   .bbar .btn{height:44px;font-size:14px;padding:0 12px}
@@ -817,7 +821,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030a';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030b';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -828,7 +832,12 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 const calm = matchMedia('(prefers-reduced-motion:reduce)');
 const ani = (el, kf, o) => el && !calm.matches ? el.animate(kf, {easing: 'cubic-bezier(.16,1,.3,1)', ...o}) : null;
 // แท็บถูกซ่อน finished ไม่ resolve (เบราว์เซอร์หยุดวาด) เลยมีตัวจับเวลาสำรอง ไม่งั้นงานค้าง
-const after = a => a ? Promise.race([a.finished.catch(() => {}), sleep(a.effect.getTiming().duration + 80).then(() => { try { a.finish(); } catch (e) {} })]) : Promise.resolve();
+// ห้าม finish() ภาพที่ถูกยกเลิกหรือจบแล้ว (fill:'forwards' จะกลับมาค้าง เช่นสไลด์ค้าง scale .46 หลังปิดตาราง QA B1) และล้างตัวจับเวลาเมื่อจบเอง
+const after = a => !a ? Promise.resolve() : new Promise(res => {
+  const t = setTimeout(() => { if (a.playState === 'running') try { a.finish(); } catch (e) {} res(); }, a.effect.getTiming().duration + 80);
+  a.finished.catch(() => {}).then(() => { clearTimeout(t); res(); });
+});
+const SMOOTH = () => calm.matches ? 'auto' : 'smooth';   // เลื่อนจอแบบนุ่มเฉพาะเครื่องที่ไม่ได้ตั้งลดการเคลื่อนไหว
 const retrig = (el, c) => { el.classList.remove(c); void el.offsetWidth; el.classList.add(c); };
 // ให้จอวาดก่อนคิดต่อ  rAF หยุดเมื่อแท็บถูกซ่อน เลยมีตัวจับเวลาสำรอง
 const frame = () => new Promise(r => { let d = 0; const f = () => { if (!d) { d = 1; r(); } }; requestAnimationFrame(() => setTimeout(f, 0)); setTimeout(f, 80); });
@@ -910,7 +919,7 @@ function pyErr(e, fallback) {          // ข้อความของเร�
 }
 let stick = true;                        // ผู้ใช้เลื่อนขึ้นไปอ่าน = ไม่ดึงจอลง
 $('thread').addEventListener('scroll', () => { const t = $('thread'); stick = t.scrollHeight - t.scrollTop - t.clientHeight < 160; }, {passive: true});
-function scrollEnd(force) { const t = $('thread'); if (force) stick = true; if (stick) requestAnimationFrame(() => t.scrollTo({top: t.scrollHeight, behavior: 'smooth'})); }
+function scrollEnd(force) { const t = $('thread'); if (force) stick = true; if (stick) requestAnimationFrame(() => t.scrollTo({top: t.scrollHeight, behavior: SMOOTH()})); }
 function botMsg(html, think) {
   const m = document.createElement('div'); m.className = 'msg bot';
   m.innerHTML = `${ORB(think)}<div class="bubble">${html}</div>`; $('inner').appendChild(m); idleLatest(); scrollEnd();
@@ -1038,8 +1047,9 @@ function enterWork(again) {
   $('skelg').classList.remove('all'); $('skelg').innerHTML = Array.from({length: 6}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
   show('pWork'); openPanel('chat');
 }
+let lastAsk = '';                          // ย้อนกลับระหว่างสร้าง: ข้อความที่วางยังอยู่ในกล่องพิมพ์
 function startText(t, again) {
-  SRCNAME = 'ข้อความที่คุณวาง';
+  SRCNAME = 'ข้อความที่คุณวาง'; lastAsk = t;
   morph(() => {
     enterWork(again); ta.value = ''; ta.style.height = ''; $('send').classList.remove('go'); refresh();
     meMsg(`<div class="pre${t.split('\n').length <= 5 ? ' short' : ''}">${esc(t)}</div>`);
@@ -1190,7 +1200,7 @@ function done(my, t0) {
   if (P.timelines) did.push(`เรียง ${P.timelines} ช่วงเวลาเป็นไทม์ไลน์`);
   const notes = P.notes.filter(n => /ยังไม่ได้ทำเป็นสไลด์|ใส่ในหน้าตานี้ไม่ได้|กล่องข้อความเล็ก/.test(n));   // ส่วนที่ไม่ได้ทำเป็นสไลด์ (Excel เกิน 8x8, เอกสารเกิน 30 หน้า, ใส่ไม่ได้) บอกตรง ๆ ในฟองจบ
   const m = botMsg(`<p>เสร็จแล้วครับ <b>${slides.length} หน้า</b> หน้าตา${esc(s.style)} ใช้เวลา ${((performance.now() - (t0 || performance.now())) / 1000).toFixed(1)} วินาที${did.length ? ' สิ่งที่ทำ: ' + did.join(' / ') : ''}</p>${notes.map(n => `<p class="sub">${esc(n)}</p>`).join('')}
-    <p>${touch() ? 'แตะข้อความเพื่อเลือก ลากเพื่อย้าย แตะอีกครั้งเพื่อแก้' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย กดค้างแล้วลากเพื่อย้ายกล่อง'} ถ้ามี Code กดบันทึกเพื่อโหลดไฟล์ได้เลย</p>
+    <p>${touch() ? 'แตะข้อความเพื่อเลือก ลากเพื่อย้าย แตะอีกครั้งเพื่อแก้ข้อความ' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย กดที่กล่องแล้วลากเพื่อย้าย'} ถ้ามี Code กดบันทึกเพื่อโหลดไฟล์ได้เลย</p>
     <p class="sub">ไม่ชอบหน้าตานี้ เลือกแบบอื่นได้เลย ระบบจัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย ถ้ามีจุดที่ตามไปไม่ได้ จะบอกก่อนเปลี่ยน</p>
     <div class="looks">${lookCards(slug)}</div>
     <div class="follow"><button class="btn btn-line btn-sm" data-f="view" type="button">${ico('slides')}ดูสไลด์</button>
@@ -1352,7 +1362,7 @@ function observePages() {                 // คอม: ภาพย่อที
     const k = pgs().indexOf(best); if (k < 0) return; near = k;
     [...$('thumbs').children].forEach((t, j) => t.classList.toggle('near', j === k));
     const t = $('thumbs').children[k], T = $('thumbs');
-    if (t && T.clientHeight && (t.offsetTop < T.scrollTop || t.offsetTop + t.offsetHeight > T.scrollTop + T.clientHeight)) T.scrollTo({top: t.offsetTop - T.clientHeight / 2, behavior: 'smooth'});
+    if (t && T.clientHeight && (t.offsetTop < T.scrollTop || t.offsetTop + t.offsetHeight > T.scrollTop + T.clientHeight)) T.scrollTo({top: t.offsetTop - T.clientHeight / 2, behavior: SMOOTH()});
   }, {root: o ? $('pages') : $('canvas'), threshold: o ? [0, .6, 1] : [0, .25, .5, .75, 1]});
   [...$('pages').children].forEach(p => io_.observe(p));
 }
@@ -1386,7 +1396,7 @@ function select(i, o = {}) {
   if (gridOn) paintGbar();
   if (o.scroll && pg) { if (one()) pagesTo(i, calm.matches || o.jump || gridOn); else pg.scrollIntoView({behavior: calm.matches || o.jump ? 'auto' : 'smooth', block: 'center'}); }
 }
-function pagesTo(i, jump) { const P = $('pages'); P.scrollTo({left: i * P.clientWidth, behavior: jump ? 'auto' : 'smooth'}); if (jump) { near = i; paintDots(); } }
+function pagesTo(i, jump) { const P = $('pages'); P.scrollTo({left: i * P.clientWidth, behavior: jump ? 'auto' : SMOOTH()}); if (jump) { near = i; paintDots(); } }
 let eatClick = 0;
 $('pages').addEventListener('click', ev => {
   if (viewing || Date.now() - eatClick < 600) return;
@@ -1455,7 +1465,7 @@ async function reflow(mutate, label, sel, arr = true) {   // arr: หน้า�
       if (KEYS[k] === mk) { el.style.zIndex = 2; }                 // หน้าที่ย้ายวิ่งทับหน้าข้างเคียง
       after(ani(el, [{transform: `translate(${a.left - b.left}px,${a.top - b.top}px)`}, {transform: 'none'}], {duration: 360})).then(() => { el.style.zIndex = ''; }); };
     pgs().forEach((p, k) => { if (!oldSet.has(KEYS[k])) { p.querySelector('.slide').classList.add('swap'); p.classList.add('nw'); } if (!one()) fl(p, was.get(KEYS[k]), k); });
-    [...$('thumbs').children].forEach((t, k) => fl(t, wth.get(KEYS[k]), k));
+    [...$('thumbs').children].forEach((t, k) => { if (!oldSet.has(KEYS[k])) t.classList.add('nw'); fl(t, wth.get(KEYS[k]), k); });
     if (arr) arranged = true; commit(label);
   } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); }
   finally { busyNow = false; $('pWork').classList.remove('working'); pgs().forEach(p => p.querySelector('.slide').classList.remove('repaint')); }
@@ -1663,7 +1673,7 @@ function openTa(k, j, b, orig) {
     : `<textarea rows="1" aria-label="${FIELD(b.p)} หน้า ${k + 1}"></textarea><div class="acts"><div class="emsg"></div><button class="btn btn-line btn-sm" data-e="no" type="button">${ico('x')}ยกเลิก</button><button class="btn btn-red btn-sm" data-e="ok" type="button">${ico('check')}เสร็จ</button></div>`;
   const ta_ = el.querySelector('textarea'); ta_.value = orig; if (b.ph) ta_.placeholder = b.ph;
   ED = {k, j, b, el, ta: ta_, orig, st: 'ok'};
-  if (m) { document.body.appendChild(el); $('rail').style.visibility = 'hidden'; document.body.classList.add('typing'); kbFit(); if (!one()) pgs()[k].scrollIntoView({block: 'start', behavior: 'smooth'}); }
+  if (m) { document.body.appendChild(el); $('rail').style.visibility = 'hidden'; document.body.classList.add('typing'); kbFit(); if (!one()) pgs()[k].scrollIntoView({block: 'start', behavior: SMOOTH()}); }
   else { pgs()[k].appendChild(el); placeEdit(); }
   grow(); ta_.focus({preventScroll: true});
   if (!m) { const r = ta_.value.length; ta_.setSelectionRange(r, r); }
@@ -2203,7 +2213,7 @@ async function resume(v, vs = [v]) {
     STACK = vs.slice(-40); SP = STACK.length - 1; urState(); setSave('ok');   // เลิกทำหลังรีโหลด = ย้อนตามเวอร์ชันที่เก็บในเครื่อง
     $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(); $('tact').classList.remove('hidden');
     const s = SETS.find(x => x.slug === slug);
-    const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">${touch() ? 'แตะข้อความเพื่อเลือก แตะอีกครั้งเพื่อแก้' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย'} ${saveSt === 'no' ? 'เครื่องนี้เก็บงานไม่ได้ กดบันทึกเมื่อแก้เสร็จ (ต้องมี Code)' : 'ทุกการแก้เก็บในเครื่องนี้ให้เอง'}</p>`);
+    const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">${touch() ? 'แตะข้อความเพื่อเลือก แตะอีกครั้งเพื่อแก้ข้อความ' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย'} ${saveSt === 'no' ? 'เครื่องนี้เก็บงานไม่ได้ กดบันทึกเมื่อแก้เสร็จ (ต้องมี Code)' : 'ทุกการแก้เก็บในเครื่องนี้ให้เอง'}</p>`);
     if (!wide()) $('chatdot').classList.add('on');
     toast('เปิดงานล่าสุดของคุณแล้ว'); tour();
   } catch (e) { console.error(e); busyNow = false; onBoot.delete(sk); if (my !== gen) return;
@@ -2506,10 +2516,10 @@ function paintSel() {
 function paintBar(b, pg, sc) {
   const reset = b.m ? `<button class="btn btn-line" type="button" data-x="reset">${ico('undo')}คืนตำแหน่งเดิม</button>` : '';
   if (one()) {
-    const h = `<button class="bx" type="button" data-x="x" aria-label="เลิกเลือกกล่อง">${ico('x')}<span>ปิด</span></button>${reset}<span class="bm">${b.can ? '' : 'กล่องนี้ย้ายไม่ได้ แก้ข้อความได้'}</span><button class="btn btn-red" type="button" data-x="edit">${ico('type')}แก้ข้อความ</button>`;
+    const h = `<button class="bx" type="button" data-x="x" aria-label="เลิกเลือกกล่อง">${ico('x')}<span>เลิกเลือก</span></button>${reset}<span class="bm">${b.can ? '' : 'กล่องนี้ย้ายหรือปรับขนาดไม่ได้ แก้ข้อความได้'}</span><button class="btn btn-red" type="button" data-x="edit">${ico('type')}แก้ข้อความ</button>`;
     const B = $('bbar'); if (B.dataset.h !== h) { B.innerHTML = h; B.dataset.h = h; } $('pWork').classList.add('boxon'); return;
   }
-  let bar = pg.querySelector('.selbar'); const h = reset + (!b.can && touch() ? '<span>กล่องนี้ย้ายไม่ได้ แตะอีกครั้งเพื่อพิมพ์</span>' : '');
+  let bar = pg.querySelector('.selbar'); const h = reset + (!b.can && touch() ? '<span>กล่องนี้ย้ายหรือปรับขนาดไม่ได้ แตะอีกครั้งเพื่อแก้ข้อความ</span>' : '');
   if (!h) { bar?.remove(); return; }
   if (!bar) { bar = mk('selbar'); bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', 'เครื่องมือกล่อง'); bar.onclick = barClick; pg.appendChild(bar); }
   if (bar.dataset.h !== h) { bar.innerHTML = h; bar.dataset.h = h; }
@@ -2727,7 +2737,7 @@ async function closeGrid(k, instant) {
   gridOn = false; $('gridb').classList.remove('on'); $('gridb').setAttribute('aria-label', 'ดูทุกหน้า');
   const b = !instant && T.children[k]?.querySelector('.slidebox')?.getBoundingClientRect();
   if (slides.length) { select(k); pagesTo(k, true); }
-  const fin = () => { B.classList.remove('gridon', 'gpz'); T.getAnimations().forEach(x => x.cancel()); T.style.opacity = ''; };
+  const fin = () => { B.classList.remove('gridon', 'gpz'); T.getAnimations().forEach(x => x.cancel()); T.style.opacity = ''; clearSlideFx(); };
   if (instant || !b?.width) return fin();
   if (calm.matches) { await after(T.animate([{opacity: 1}, {opacity: 0}], {duration: 120, fill: 'forwards'})); return fin(); }
   B.classList.add('gpz'); B.classList.remove('gridon');   // หน้าอยู่เหนือตาราง ขยายจากการ์ดกลับเป็นเต็มจอ
@@ -2736,11 +2746,15 @@ async function closeGrid(k, instant) {
   T.animate([{opacity: 1}, {opacity: 0}], {duration: 240, easing: EASE, fill: 'forwards'});
   await after(an); sl.style.transformOrigin = ''; fin();
 }
+function clearSlideFx() {                   // ท่าเปิด/ปิดตาราง/บีบนิ้วที่ค้างกลางทาง: สไลด์กลับขนาดจริงเสมอ
+  document.querySelectorAll('#pages .slide').forEach(sl => { sl.getAnimations().forEach(x => x.cancel()); sl.style.transform = ''; sl.style.transformOrigin = ''; sl.style.willChange = ''; });
+}
 function paintGbar(conf) {
   const g = $('gbar'), solo = slides.length < 2;
-  g.innerHTML = conf
-    ? `<p>ลบหน้า ${cur + 1} ใช่ไหม</p><button class="gno" type="button" data-g="no">ยกเลิก</button><button class="gyes" type="button" data-g="yes">${ico('trash')}ลบหน้านี้</button>`
+  const h = conf
+    ? `<p>ลบหน้า ${cur + 1} ใช่ไหม กดเลิกทำเพื่อเอากลับได้</p><button class="gno" type="button" data-g="no">ยกเลิก</button><button class="gyes" type="button" data-g="yes">${ico('trash')}ลบหน้านี้</button>`
     : `<button type="button" data-g="ins" aria-label="เพิ่มหน้าใหม่ต่อจากหน้า ${cur + 1}">${ico('plus')}เพิ่มหน้า</button><button type="button" data-g="dup">${ico('copy')}ทำสำเนา</button><button type="button" data-g="alt" aria-label="เปลี่ยนแบบหน้า">${ico('layout')}แบบหน้า</button><button type="button" data-g="del"${solo ? ' class="dim"' : ''}>${ico('trash')}ลบ</button><button class="gdone" type="button" data-g="done" aria-label="เสร็จ กลับไปแก้หน้า ${cur + 1}">${ico('check')}เสร็จ</button>`;
+  if (g.dataset.h !== h) { g.innerHTML = h; g.dataset.h = h; }
 }
 $('gbar').onclick = ev => {
   const b = ev.target.closest('[data-g]'); if (!b || busyNow) return; const a = b.dataset.g;
@@ -2841,6 +2855,7 @@ function workMenu() {
     const b = ev.target.closest('[data-m]'); if (!b) return; const m = b.dataset.m;
     if (m === 'wipe') { $('renm')?.remove(); $('shT').textContent = 'ลบงานนี้ออกจากเครื่องใช่ไหม'; $('shS').textContent = 'ลบแล้วกู้คืนไม่ได้';
       $('shBody').innerHTML = `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ลบงานนี้</button></div>`; return; }
+    if (m === 'no') return workMenu();          // ยกเลิกลบงาน = กลับเมนูเดิม
     closeSheet();
     if (m === 'save') act('save'); else if (m === 'grid') openGrid(); else if (m === 'hist') openPanel('hist'); else if (m === 'tour') tour(true); else if (m === 'yes') wipeAll();
   };
@@ -2855,7 +2870,7 @@ function renameAsk() {
 }
 const saveAria = () => one() ? $('savebtn').setAttribute('aria-label', 'ดาวน์โหลดหรือส่งไฟล์ PowerPoint') : $('savebtn').removeAttribute('aria-label');
 saveAria();
-oneMQ.addEventListener('change', () => { closeGrid(-1, true); deselectBox(); saveAria(); dotsSig = ''; if (slides.length && !$('pWork').classList.contains('hidden')) relayout('settled'); });
+oneMQ.addEventListener('change', () => { PZ = null; closeGrid(-1, true); clearSlideFx(); document.body.classList.remove('gpz'); deselectBox(); saveAria(); dotsSig = ''; if (slides.length && !$('pWork').classList.contains('hidden')) relayout('settled'); });
 
 // ══ วิธีใช้ครั้งแรก (ไอซ์ 29 ต.ค.: รวมเป็น tour เดียว ไม่ทำป้ายแยก) วงเรืองแสง ไม่มีฉากมืด ══════════════
 let TR = null;
@@ -2863,19 +2878,22 @@ function tour(force) {
   try { if (!force && localStorage.getItem('d2s_tour')) return; } catch (e) { return; }
   if (TR || !slides.length || viewing) return;
   const t = touch(), hb = () => pgs()[cur >= 0 ? cur : 0]?.querySelector('.hit.can') || pgs()[cur >= 0 ? cur : 0]?.querySelector('.hit');
-  const steps = [{el: hb, ps: t ? ['แตะกล่องเพื่อเลือก', 'ลากเพื่อย้าย', 'แตะอีกครั้งเพื่อพิมพ์'] : ['คลิกที่ข้อความเพื่อพิมพ์', 'กดค้างแล้วลากเพื่อย้ายกล่อง']}];
-  if (one()) steps.push({el: () => $('gridb'), ps: ['ปัดซ้ายขวาเพื่อเปลี่ยนหน้า', 'กดตรงนี้เพื่อดูทุกหน้า', 'หรือบีบสองนิ้ว']});
-  steps.push({el: () => $('savebtn'), ps: ['กดตรงนี้เพื่อโหลดไฟล์ PowerPoint']});
+  const steps = [{el: hb, ps: t ? ['แตะกล่องเพื่อเลือก', 'ลากเพื่อย้าย', 'แตะอีกครั้งเพื่อแก้ข้อความ'] : ['คลิกที่ข้อความเพื่อพิมพ์', 'กดที่กล่องแล้วลากเพื่อย้าย']}];
+  if (one()) steps.push({el: () => $('gridb'), ps: ['ปัดซ้ายขวาเพื่อเปลี่ยนหน้า', 'กดตรงนี้เพื่อดูทุกหน้า', 'หรือบีบสองนิ้วเพื่อดูทุกหน้า']});
+  steps.push({el: () => $('savebtn'), ps: ['กดตรงนี้เพื่อโหลดหรือส่งไฟล์ PowerPoint']});
   TR = {steps, i: 0, ring: mk('tring'), card: mk('tcard')};
   TR.card.setAttribute('role', 'dialog'); TR.card.setAttribute('aria-label', 'วิธีใช้');
-  TR.card.onclick = ev => { const b = ev.target.closest('[data-t]'); if (!b) return; if (b.dataset.t === 'skip' || TR.i >= TR.steps.length - 1) return endTour(true); TR.i++; tourStep(); };
+  // ปุ่มทำงานตั้งแต่แตะครั้งแรก: กดที่การ์ดไม่ส่งต่อให้ตัวจับแตะของหน้า (เดิมแตะแรกถูกตัวปิดกล่อง/เลือกหน้ากินไป) และไม่ให้ click ที่ตามมาไปโดนของใต้การ์ดที่ย้ายตำแหน่งแล้ว
+  ['pointerdown', 'touchstart', 'mousedown'].forEach(t => TR.card.addEventListener(t, ev => ev.stopPropagation(), {passive: true}));
+  TR.card.onclick = ev => { ev.stopPropagation(); const b = ev.target.closest('[data-t]'); if (!b || !TR) return; eatClick = Date.now();
+    if (b.dataset.t === 'skip' || TR.i >= TR.steps.length - 1) return endTour(true); TR.i++; tourStep(); };
   document.body.append(TR.ring, TR.card); tourStep();
 }
 function tourStep() {
   const T = TR, st = T.steps[T.i], el = st.el(); if (!el) return endTour(true);
   const r = el.getBoundingClientRect(), pad = 6, last = T.i === T.steps.length - 1;
   Object.assign(T.ring.style, {width: r.width + pad * 2 + 'px', height: r.height + pad * 2 + 'px', transform: `translate(${r.left - pad}px,${r.top - pad}px)`});
-  retrig(T.ring, 'go');
+  retrig(T.ring, 'go'); T.ring.animate?.([{opacity: 0}, {opacity: 1}], {duration: calm.matches ? 0 : 180, easing: 'ease-out'});   // ขึ้นที่จุดใหม่เลย ไม่บินผ่านที่ว่าง
   T.card.innerHTML = `<p>${st.ps.map(x => `<span>${x}</span>`).join(' ')}</p><div class="row"><small>${T.i + 1} / ${T.steps.length}</small>${last ? '' : '<button class="btn btn-line btn-sm" type="button" data-t="skip">ข้าม</button>'}<button class="btn btn-red btn-sm" type="button" data-t="next">${last ? 'เข้าใจแล้ว' : 'ถัดไป'}</button></div>`;
   const below = r.bottom + 12 + 150 < innerHeight;
   Object.assign(T.card.style, below ? {top: r.bottom + pad + 10 + 'px', bottom: 'auto'} : {top: 'auto', bottom: innerHeight - r.top + pad + 10 + 'px'});
@@ -2884,7 +2902,9 @@ function tourStep() {
 function endTour(seen) { if (TR) { TR.ring.remove(); TR.card.remove(); TR = null; } if (seen) try { localStorage.setItem('d2s_tour', '1'); localStorage.setItem('d2s_tip', '1'); } catch (e) {} }
 document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => act(b.dataset.act));
 $('topback').onclick = () => history.state ? history.back() : goHome();
-function goHome() { gen++; running = false; closeSheet(); if (ED) finishEdit(false); deselectBox(); closeGrid(-1, true); endTour(false); show('pHome', false); paintResume(); }   // ป้ายแนะนำของหน้าแก้ไม่ค้างบนหน้าแรก (ยังไม่นับว่าเห็นแล้ว)
+function goHome() {
+  if (running && !slides.length && lastAsk && !ta.value.trim()) { ta.value = lastAsk; ta.dispatchEvent(new Event('input')); }
+  gen++; running = false; closeSheet(); if (ED) finishEdit(false); deselectBox(); closeGrid(-1, true); endTour(false); show('pHome', false); paintResume(); }   // ป้ายแนะนำของหน้าแก้ไม่ค้างบนหน้าแรก (ยังไม่นับว่าเห็นแล้ว)
 // ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย ใช้ส่งให้คนอื่นดูว่าทำงานยังไง / ไม่ใช่ #demo: มีงานเดิมในเครื่องก็เปิดต่อเลย
 if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
 else versions().then(vs => { if (vs.length) resume(vs[vs.length - 1], vs); }).catch(() => {});   // โครงเทาขึ้นก่อน แล้ว resume เริ่ม Python เอง
