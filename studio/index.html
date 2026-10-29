@@ -2056,7 +2056,7 @@ async function resume(v, vs = [v]) {
   SRCNAME = v.src; gen++; const my = gen;
   $('inner').innerHTML = ''; ttl = v.ttl || ''; slides = []; KEYS = []; STACK = []; SP = -1;
   const head = 'กำลังเปิดงานล่าสุดของคุณ' + (v.ttl ? `: ${v.ttl}` : '') + (v.n ? ` ${v.n} หน้า` : '');
-  const sk = n => { $('skelt').textContent = n === 1 ? 'กำลังโหลดเครื่องมือ… ครั้งแรกอาจใช้เวลา 1-2 นาที' : n === 2 ? 'กำลังเตรียมเครื่องมือ… ครั้งแรกอาจใช้เวลา 1-2 นาที' : head; };   // เน็ตช้า: เห็นว่ายังโหลดอยู่ทีละขั้น
+  const sk = n => { $('skelt').textContent = n === 1 ? 'กำลังโหลดเครื่องมือ… ครั้งแรกอาจใช้เวลาสักครู่' : n === 2 ? 'กำลังเตรียมเครื่องมือ… ครั้งแรกอาจใช้เวลาสักครู่' : head; };   // เน็ตช้า: เห็นว่ายังโหลดอยู่ทีละขั้น
   $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); sk(bootStep); onBoot.add(sk);
   $('skelg').classList.add('all');
   $('skelg').innerHTML = Array.from({length: Math.min(v.n || 6, 30)}, (_, i) => `<div class="ph" style="--i:${Math.min(i, 12)}"><b>${i + 1}</b></div>`).join('');
