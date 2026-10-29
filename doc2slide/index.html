@@ -150,18 +150,19 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .edit .emsg{padding:0 4px;max-width:300px}
 .edit.no,.medit.no{animation:nope .28s ease-in-out}
 @keyframes nope{25%,75%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
-.edit.saving::after{content:'';position:absolute;left:0;right:0;top:0;height:var(--th,100%);border-radius:6px;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.8) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) -.55s infinite;pointer-events:none}
+.edit.saving::after{content:'';position:absolute;left:0;right:0;top:0;height:var(--th,100%);border-radius:6px;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.8) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) -.37s infinite;pointer-events:none}
 .edit .acts{transition:opacity .2s}
 .edit.saving .acts{opacity:.5;pointer-events:none}
-.edit.checking::after,.medit.checking::after{content:'';position:absolute;left:0;right:0;top:0;height:var(--th,100%);background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) -.55s infinite;pointer-events:none}
+.edit.checking::after,.medit.checking::after{content:'';position:absolute;left:0;right:0;top:0;height:var(--th,100%);background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) -.37s infinite;pointer-events:none}
 .medit{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + var(--safe));box-shadow:0 -6px 20px rgba(20,20,26,.08);animation:mIn .26s var(--ease) both}
 @keyframes mIn{from{transform:translateY(100%)}}
 .medit .mh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .medit .mh span{flex:1;font-size:14px;color:var(--sub);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
 .medit textarea{font-size:16px;padding:8px 12px;border-radius:12px;height:calc(1.6em * 3 + 16px)!important;overflow-y:auto}   /* สูงคงที่ ปุ่มเสร็จไม่เลื่อนตามจำนวนบรรทัด */
 .medit .emsg{margin-top:8px}
+.medit .emsg:empty{display:flex;visibility:hidden}.medit .emsg{min-height:1.5em}   /* จองที่บรรทัดคำเตือนเสมอ ปุ่มเสร็จไม่เลื่อน */
 .medit.saving{pointer-events:none}
-.medit.saving::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) -.55s infinite;pointer-events:none}
+.medit.saving::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) -.37s infinite;pointer-events:none}
 .working .bsel button,.working .ftb>button{opacity:.45;transition:opacity .1s}
 .sheet.on ~ .toast{top:68px;bottom:auto}
 @media (max-width:767px){body.panelon .toast{top:auto;bottom:calc(120px + var(--safe))}}
@@ -617,7 +618,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261029e';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261029f';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -967,7 +968,7 @@ function done(my, t0) {
   for (const x of P.stats) did.push(`ทำการ์ดตัวเลขหัวข้อ "${esc(x.t)}" (${esc(x.vals.join(', '))})`);
   if (P.charts.length) did.push(`ทำตาราง "${esc(P.charts[0])}" เป็นกราฟ`); if (P.tables.length) did.push('จัดตารางให้อ่านง่าย');
   if (P.timelines) did.push(`เรียง ${P.timelines} ช่วงเวลาเป็นไทม์ไลน์`);
-  const notes = P.notes.filter(n => /ยังไม่ได้ทำเป็นสไลด์/.test(n));   // ส่วนที่ไม่ได้ทำเป็นสไลด์ บอกตรง ๆ ในฟองจบ
+  const notes = P.notes.filter(n => /ยังไม่ได้ทำเป็นสไลด์|ใส่ในหน้าตานี้ไม่ได้/.test(n));   // ส่วนที่ไม่ได้ทำเป็นสไลด์ (Excel เกิน 8x8, เอกสารเกิน 30 หน้า, ใส่ไม่ได้) บอกตรง ๆ ในฟองจบ
   const m = botMsg(`<p>เสร็จแล้วครับ <b>${slides.length} หน้า</b> หน้าตา${esc(s.style)} ใช้เวลา ${((performance.now() - (t0 || performance.now())) / 1000).toFixed(1)} วินาที${did.length ? ' สิ่งที่ทำ: ' + did.join(' / ') : ''}</p>${notes.map(n => `<p class="sub">${esc(n)}</p>`).join('')}
     <p>${wide() ? 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย' : 'แตะสไลด์ แล้วแตะข้อความอีกครั้งเพื่อแก้'} ถ้ามี Code กดบันทึกเพื่อโหลดไฟล์ได้เลย</p>
     <p class="sub">ไม่ชอบหน้าตานี้ เลือกแบบอื่นได้เลย ระบบจัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย ถ้ามีจุดที่ตามไปไม่ได้ จะบอกก่อนเปลี่ยน</p>
