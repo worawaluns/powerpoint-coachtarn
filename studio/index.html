@@ -1001,6 +1001,16 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .tpop .ly .ic{width:40px;height:40px;border:none;background:none;border-radius:8px;display:grid;place-items:center;color:var(--text);padding:0}.tpop .ly .ic:disabled{color:#C4C4CC}.tpop .ly svg.i{display:block;width:20px;height:20px}
 .mpill .btn.ic{width:44px;padding:0;justify-content:center}
 @media (prefers-reduced-motion:reduce){.sel .hx{transition:none}}
+/* QA 007: แผงแบรนด์/ทรานซิชัน/ตำแหน่ง บนมือถือ+แท็บเล็ต = แผ่นล่าง 62% สไลด์อยู่ด้านบน ไม่มีพื้นมืด */
+@media (max-width:1023px){
+  .rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
+  .rp.on[data-p=brand],.rp.on[data-p=trans],.rp.on[data-p=pos]{transform:none}
+  .work.bsheet .canvas{margin-bottom:62dvh}
+  .work.bsheet{--tw:0px!important}.work.bsheet .thumbs,.work.bsheet .thd,.work.bsheet .tgrip{visibility:hidden;padding:0;border:0}
+  .work.bsheet .pbar{display:none}
+}
+@media (min-width:768px) and (max-width:1023px){.rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos]{right:56px}}
+@media (max-width:767px), (pointer:coarse) and (max-height:500px){.work.bsheet .pages .slide{width:min(100%,calc((38dvh - 56px - 44px - 16px) * 16 / 9))}.work.bsheet .dots{display:none}}
 </style>
 </head>
 <body>
@@ -1235,7 +1245,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030i';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030j';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1541,7 +1551,7 @@ async function run(src) {
     const msg = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน');
     setBot(m, `<div class="err">${esc(msg)}${msg === NET ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : ''}</div>`);
     $('skelt').textContent = 'ยังไม่มีสไลด์'; $('skelt').classList.remove('shimmer'); $('skel').querySelector('.orb')?.classList.remove('think');
-    $('skelg').classList.add('fail'); running = false; busyNow = false; setTtl('', 'ยังไม่มีสไลด์'); refresh();   // A10: โครงจางลง ไม่หายวูบ   // ไม่มีงานค้าง: หยุดโครงเทาและป้ายกำลังเตรียม
+    $('skelg').classList.add('fail'); running = false; busyNow = false; setTtl('', 'ยังไม่มีสไลด์'); refresh(); if (msg === NET) failMain(msg);   // A10: โครงจางลง ไม่หายวูบ   // ไม่มีงานค้าง: หยุดโครงเทาและป้ายกำลังเตรียม
   }
 }
 // จัดหน้า: ติ๊กโครงทีละหน้า ฝั่งสไลด์ช่องจองค่อยเปลี่ยนสี แล้วพรีวิวจริงขึ้นแทน
@@ -1589,7 +1599,7 @@ json.dumps(_st)`));
     if (fr) fr.innerHTML = P.sections >= 2 ? `แบ่งเนื้อหาได้ <b>${P.sections}</b> หัวข้อ` : `จัดเป็น <b>${P.pages}</b> หน้า`;   // ตัวเลขเดียวกับจำนวนหน้าทั้งหมดที่ลูกค้าเห็น
     document.getElementById('ol' + my).innerHTML = P.outline.map((o, i) => `<li class="ok" style="animation:none"><span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(KIND[o.kind] || o.th)}</span><span class="st">${CHECK}</span></li>`).join('');
     $('skelt').textContent = 'ผู้ช่วยกำลังวาดสไลด์'; bar.firstChild.style.transform = 'scaleX(.95)'; await frame();
-    LOST = 0; arranged = false; await paint(); if (my !== gen) return;
+    LOST = 0; arranged = false; await guard(paint()); if (my !== gen) return;   // วาดครั้งแรกค้าง (pptx-preview/รูป) = จบที่ข้อความผิดพลาด
     bar.firstChild.style.transform = 'scaleX(1)'; bar.classList.add('done'); m.querySelector('.orb').classList.remove('think');
     if (wide()) { await after(ani($('skel'), [{opacity: 1}, {opacity: 0}], {duration: 180, easing: 'ease-out', fill: 'forwards'})); if (my !== gen) return; }
     $('skel').classList.add('hidden'); $('skel').getAnimations().forEach(a => a.cancel()); $('pages').classList.remove('hidden'); cur = -1; relayout();
@@ -1599,7 +1609,8 @@ json.dumps(_st)`));
   } catch (e) {
     console.error(e); if (my !== gen) return;
     m.querySelector('.orb').classList.remove('think');
-    botMsg(`<div class="err">${esc(pyErr(e, 'สร้างไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองเลือกหน้าตาอื่นได้เลย'))}</div>`);
+    const em = pyErr(e, 'สร้างไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองเลือกหน้าตาอื่นได้เลย');
+    botMsg(`<div class="err">${esc(em)}</div>`); if (!slides.length) failMain(em);
   }
   running = false; refresh();
 }
@@ -1644,9 +1655,10 @@ const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายก
 const OVB = `<i class="ovb">${ico('alert')}ข้อความล้นกรอบ</i>`;   // ออกจากกล่องตอนยังล้น: คำครบ หน้านี้ติดป้ายจนแก้ให้พอดี
 const srcHtml = m => (m.ins ? `${ico('plus')}<span>หน้าที่คุณเพิ่มเอง</span>` : `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`) + (m.ov ? OVB : '');
 let lastCC = [];                           // สีตัวอักษรกราฟจากไฟล์ (D.CHARTC) ของ render ล่าสุด ให้ preview() ใช้
-function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); if (expr.includes('render')) { try { lastCC = JSON.parse(py.runPython('json.dumps(D.CHARTC)')); } catch (e) { lastCC = []; } } return u.buffer; }
+function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); if (expr.includes('render')) { try { lastCC = JSON.parse(py.runPython('json.dumps(D.CHARTC)')); lastCL = JSON.parse(py.runPython('json.dumps(D.CHARTL, ensure_ascii=False)')); } catch (e) { lastCC = []; lastCL = []; } } return u.buffer; }
+let lastCL = [];
 async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
-  const cc = lastCC;
+  const cc = lastCC, cl = lastCL;
   const tmp = document.createElement('div'); tmp.style.cssText = 'position:fixed;left:-99999px;top:0;width:960px';
   document.body.appendChild(tmp);
   try {
@@ -1663,7 +1675,8 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
       tmp.querySelectorAll('.pptx-preview-slide-wrapper').forEach((sl, si) => {
         const nodes = [...sl.querySelectorAll('.chart-node')];
         // สีตัวอักษรกราฟจากไฟล์ (render ส่งมา): pptx-preview บังคับขาวทุกตัว แบบ B (แผงสีข้าง) จึงเป็นขาวบนพื้นขาว (QA 30 ต.ค.)
-        if (nodes.length && nodes.every((n, j) => cc[si]?.[j])) { nodes.forEach((n, j) => n.querySelectorAll('text').forEach(t => { t.style.fill = '#' + cc[si][j]; t.style.stroke = 'none'; })); return; }
+        if (nodes.length && nodes.every((n, j) => cc[si]?.[j])) { nodes.forEach((n, j) => { n.querySelectorAll('text').forEach(t => { t.style.fill = '#' + cc[si][j]; t.style.stroke = 'none'; }); try { chartLabels(n, cl[si]?.[j]); } catch (e) { console.warn(e); } }); return; }
+        sl.querySelectorAll('.chart-node').forEach((n, j) => { try { chartLabels(n, cl[si]?.[j]); } catch (e) { console.warn(e); } });
         const ct = sl.querySelectorAll('.chart-node text'); if (!ct.length) return;
         let big = null, bs = 0;
         sl.querySelectorAll('span').forEach(s => { if (!s.textContent.trim() || s.closest('.chart-node')) return; const f = parseFloat(getComputedStyle(s).fontSize); if (f > bs) { bs = f; big = s; } });
@@ -1673,6 +1686,43 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
     }
     return [...tmp.querySelectorAll('.pptx-preview-slide-wrapper')].map(s => s.cloneNode(true));
   } finally { tmp.remove(); }
+}
+// QA 30g: pptx-preview ไม่อ่านป้ายค่า (c:dLbls) เลย กราฟบนจอไม่มีตัวเลข / วงกลมโชว์ชื่อหมวดตัดเป็น "ค่า…" -> วาดป้ายเองจาก D.CHARTL (ข้อความเดียวกับในไฟล์)
+// ponytail: หาแท่ง/ชิ้น/จุดจาก SVG ของ echarts ด้วยสี + ฐานร่วม ถ้านับไม่ตรงจำนวนจุดก็ไม่วาด (ดีกว่าวาดผิดที่)
+function chartLabels(node, L) {
+  const svg = node.querySelector('svg'); if (!svg || !L) return;
+  const S = svg.getBoundingClientRect(), ns = 'http://www.w3.org/2000/svg', inv = svg.getScreenCTM()?.inverse(); if (!inv) return;
+  const hex = c => { const m = String(c || '').match(/\d+(\.\d+)?/g); return m && m.length >= 3 ? m.slice(0, 3).map(v => (+v | 0).toString(16).padStart(2, '0')).join('').toUpperCase() : String(c || '').replace('#', '').toUpperCase(); };
+  const paths = [...svg.querySelectorAll('path')].map(p => ({p, f: hex(p.getAttribute('fill') || p.style.fill), r: p.getBoundingClientRect()}));
+  const put = (x, y, t, col, z, anc = 'middle', bold) => { if (!t) return; const pt = new DOMPoint(x, y).matrixTransform(inv);
+    String(t).split('\n').forEach((ln, q, a) => { const e = document.createElementNS(ns, 'text'); e.setAttribute('x', pt.x); e.setAttribute('y', pt.y + (q - (a.length - 1) / 2) * z * 1.15); e.setAttribute('text-anchor', anc); e.setAttribute('dominant-baseline', 'central');
+      e.setAttribute('class', 'd2slab'); e.style.cssText = `fill:#${col || '15151A'};font-size:${z}px;font-weight:${bold ? 700 : 600};font-family:'IBM Plex Sans Thai',sans-serif;stroke:none`; e.textContent = ln; svg.appendChild(e); }); };
+  if (L.k === 'pie' || L.k === 'donut') {
+    const s0 = L.s[0], sl = s0.pc.map(c => paths.find(o => o.f === c && o.r.width > 4)); if (sl.some(x => !x)) return;
+    const u = sl.reduce((a, o) => ({l: Math.min(a.l, o.r.left), t: Math.min(a.t, o.r.top), r: Math.max(a.r, o.r.right), b: Math.max(a.b, o.r.bottom)}), {l: 1e9, t: 1e9, r: -1e9, b: -1e9});
+    const cx = (u.l + u.r) / 2, cy = (u.t + u.b) / 2, R = (u.r - u.l) / 2, rr = R * (L.k === 'donut' ? .8 : .62);
+    svg.querySelectorAll('text:not(.d2slab)').forEach(t => { const r = t.getBoundingClientRect(); if (r.top < u.b + 2 && r.bottom > u.t - 2) t.remove(); });   // ชื่อหมวดที่ echarts ตัดเป็น "ค่า…" (คำอธิบายสีอยู่ใต้วง ไม่โดน)
+    paths.forEach(o => { if (o.f === 'NONE' && o.p.getAttribute('stroke') && o.r.top < u.b && o.r.bottom > u.t && !sl.includes(o)) o.p.remove(); });   // เส้นโยงป้าย
+    const tot = s0.l.length; let a0 = -Math.PI / 2; const vals = sl.map(o => 1);   // มุมจากจุดกลางชิ้น (กล่องรอบชิ้น) แม่นพอสำหรับวางป้าย
+    sl.forEach((o, j) => { const mx = (o.r.left + o.r.right) / 2 - cx, my = (o.r.top + o.r.bottom) / 2 - cy, d = Math.hypot(mx, my) || 1;
+      put(cx + mx / d * rr, cy + my / d * rr, s0.l[j], s0.pl?.[j] || s0.lc, s0.z, 'middle', j === 0); });
+    return;
+  }
+  L.s.forEach((s0, si) => {
+    if (!s0.l.some(Boolean)) return;
+    const n = s0.l.length, cs = new Set([s0.c, ...(s0.pc || [])].filter(Boolean)); let c = paths.filter(o => cs.has(o.f) && o.r.width > 1 && o.r.height > 1);
+    if (L.k === 'line' || L.k === 'area') { const lc = new Set([s0.c, s0.ln].filter(Boolean)); c = paths.filter(o => o.r.width < 20 && o.r.height < 20 && Math.abs(o.r.width - o.r.height) < 2 && o.r.width > 1 && (lc.has(hex(o.p.getAttribute('stroke'))) || lc.has(o.f)));
+      const g = {}; c.forEach(o => (g[Math.round(o.r.width)] = g[Math.round(o.r.width)] || []).push(o)); c = Object.values(g).find(x => x.length === n) || c; }   // ไอคอนคำอธิบายสีขนาดต่างจากจุด   // จุดของเส้นนี้ (ขอบสีเดียวกับเส้น)   // จุดของเส้นแรกเท่านั้น (เส้นอื่นไม่มีจุด)
+    if (L.k === 'col' || L.k === 'bar') {                // แท่งของชุดเดียวกันมีฐานร่วม (ไอคอนคำอธิบายสีไม่ร่วม)
+      const key = o => Math.round(L.k === 'col' ? o.r.bottom : o.r.left), cnt = {}; c.forEach(o => cnt[key(o)] = (cnt[key(o)] || 0) + 1);
+      const best = +Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0]; c = c.filter(o => Math.abs(key(o) - best) <= 1.5);
+    }
+    if (c.length !== n) return;
+    c.sort((a, b) => L.k === 'bar' ? a.r.top - b.r.top : a.r.left - b.r.left);
+    c.forEach((o, j) => { const r = o.r;
+      if (L.k === 'bar') put(r.right + 6, (r.top + r.bottom) / 2, s0.l[j], s0.pl?.[j] || s0.lc, s0.z, 'start');
+      else put((r.left + r.right) / 2, r.top - s0.z * .75, s0.l[j], s0.pl?.[j] || s0.lc, s0.z); });
+  });
 }
 function fit(box) { const inner = box.firstChild; if (inner && box.clientWidth) inner.style.transform = `scale(${box.clientWidth / 960})`; }
 function mount(box, node) {
@@ -2463,6 +2513,7 @@ const PANEL_T = {pos: 'ตำแหน่ง', chat: 'ผู้ช่วย', lo
 function openPanel(p) {
   const rp = $('rp'); if (rp.dataset.p !== p) { rp.dataset.p = p; }
   $('rpT').textContent = PANEL_T[p]; rp.classList.add('on'); $('pWork').classList.add('rpon'); document.body.classList.add('panelon');
+  $('pWork').classList.toggle('bsheet', ['brand', 'trans', 'pos'].includes(p));   // QA 007: มือถือ/แท็บเล็ต = แผ่นล่าง 62% เห็นสไลด์ด้านบน
   document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.toggle('on', b.dataset.p === p));
   if (p === 'chat') { $('chatdot').classList.remove('on'); scrollEnd(true); }
   if (p === 'look') paintLooks();
@@ -2473,14 +2524,14 @@ function openPanel(p) {
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
 }
 function closePanel() {
-  $('rp').classList.remove('on'); $('pWork').classList.remove('rpon'); document.body.classList.remove('panelon');
+  $('rp').classList.remove('on'); $('pWork').classList.remove('rpon', 'bsheet'); document.body.classList.remove('panelon');
   document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.remove('on'));
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
 }
 const panelOpen = p => $('rp').classList.contains('on') && (!p || $('rp').dataset.p === p);
 $('rail').onclick = ev => { const b = ev.target.closest('[data-p]'); if (!b) return; if (b.dataset.p === 'add') return openIns(Math.max(0, cur)); panelOpen(b.dataset.p) ? closePanel() : openPanel(b.dataset.p); };
 $('rpX').onclick = closePanel;
-$('canvas').addEventListener('pointerdown', () => { if (!wide() || matchMedia('(min-width:1200px)').matches) return; if (panelOpen() && !running) closePanel(); });
+$('canvas').addEventListener('pointerdown', () => { if (!wide() || matchMedia('(min-width:1024px)').matches) return; if (panelOpen() && !running && !$('pWork').classList.contains('bsheet')) closePanel(); });   // แผ่นล่างแบรนด์/ทรานซิชัน/ตำแหน่ง: แตะสไลด์ไม่ปิด
 
 // ── เลิกทำ / ทำซ้ำ / เก็บในเครื่อง / ประวัติ ──
 // หนึ่งสถานะ = ข้อความ repr ของเนื้อหาใน Python (tuple ยังเป็น tuple) + ลำดับหน้า + ชุด  ไม่เก็บไฟล์ .pptx
@@ -2680,6 +2731,11 @@ async function wipeAll() {                 // ใบ 009: ย้ายงาน�
   if (w) htoast('ย้ายไปถังขยะแล้ว', async () => { await putW({...w, del: null}); await paintResume(); htoast('เลิกทำแล้ว'); });
 }
 // เปิดหน้าใหม่ในเครื่องเดิม: กลับมาที่งานล่าสุด
+function failMain(msg) {                  // พื้นที่สไลด์: เลิกโครงเทาที่กะพริบ บอกตรง ๆ + ปุ่มโหลดหน้าใหม่ (ไม่ต้องเปิดแผงผู้ช่วย)
+  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelg').classList.add('fail'); $('skel').querySelector('.orb')?.classList.remove('think');
+  const t = $('skelt'); t.classList.remove('shimmer'); t.innerHTML = `<span>${esc(msg)}</span> <button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>`;
+  setTtl(ttl || '', ttl ? '' : 'ยังไม่มีสไลด์');
+}
 async function resume(v, vs = [v]) {
   SRCNAME = v.src; gen++; const my = gen;
   $('inner').innerHTML = ''; ttl = v.ttl || ''; slides = []; KEYS = []; STACK = []; SP = -1;
@@ -2690,8 +2746,8 @@ async function resume(v, vs = [v]) {
   $('skelg').innerHTML = Array.from({length: Math.min(v.n || 6, 30)}, (_, i) => `<div class="ph" style="--i:${Math.min(i, 12)}"><b>${i + 1}</b></div>`).join('');
   show('pWork'); setTtl(ttl);
   try {
-    await frame(); await boot(); onBoot.delete(sk); await setsReady; if (my !== gen) return;
-    busyNow = true; await restore(v); busyNow = false; if (my !== gen) return;
+    await frame(); await boot(); onBoot.delete(sk); await guard(setsReady); if (my !== gen) return;
+    busyNow = true; await guard(restore(v)); busyNow = false; if (my !== gen) return;   // ค้างที่ไหนก็จบที่ข้อความผิดพลาดภายใน ~90 วิ
     STACK = vs.slice(-40); SP = STACK.length - 1; urState(); setSave('ok'); coverNow();   // เลิกทำหลังรีโหลด = ย้อนตามเวอร์ชันที่เก็บในเครื่อง
     $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(); $('tact').classList.remove('hidden');
     const s = SETS.find(x => x.slug === slug);
@@ -2699,6 +2755,7 @@ async function resume(v, vs = [v]) {
     if (!wide()) $('chatdot').classList.add('on');
     toast('เปิดงานล่าสุดของคุณแล้ว'); tour();
   } catch (e) { console.error(e); busyNow = false; onBoot.delete(sk); if (my !== gen) return;
+    failMain(pyErr(e, 'เปิดงานเดิมไม่สำเร็จ ลองโหลดหน้าใหม่'));   // ไอซ์เจอบนเว็บจริง: โครงเทา "กำลังเปิดงาน…" ค้าง ข้อความผิดพลาดอยู่แค่แผงผู้ช่วยที่อาจปิดอยู่
     botMsg(`<div class="err">${esc(pyErr(e, 'เปิดงานเดิมไม่สำเร็จ ลองโหลดหน้าใหม่'))}<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button></div>`); openPanel('chat'); }
 }
 
@@ -2767,6 +2824,11 @@ let lastFile = null, ovOk = '', fontToolsOK = false;
 async function act(a, skip) {
   if (ED && !(await applyEdit())) return;   // ใช้คำที่พิมพ์ก่อน แล้วทำคำสั่งต่อในครั้งเดียว ไม่นำเสนอ/บันทึกด้วยคำเก่า
   if (a === 'present') return present();  // ต้องอยู่ในคลิกตรง ๆ ไม่งั้นขอเต็มจอไม่ได้
+  if (busyNow && a === 'save' && !viewing) {   // QA 007: กดบันทึกตอนกำลังวาด = รอแล้วบันทึกต่อเอง ไม่เงียบ
+    toast('กำลังทำอยู่ รอสักครู่ แล้วจะบันทึกให้'); const t0 = Date.now();
+    while (busyNow && Date.now() - t0 < 30000) await new Promise(r => setTimeout(r, 150));
+    if (ED && !(await applyEdit())) return;
+  }
   if (busyNow || (viewing && a !== 'look')) return;
   if (a === 'look') { panelOpen('look') ? closePanel() : openPanel('look'); return; }
   if (a === 'save' && !member()) {
@@ -2847,7 +2909,8 @@ async function imgGet(hash) { const db = await DB(); return req(db.transaction('
 async function ensureLogo() {             // เปิดงาน/เลิกทำ: ไฟล์โลโก้ที่งานนี้ใช้อยู่ในเครื่อง Python ก่อนวาด
   const br = readBR();
   for (const k of ['logo', 'logow']) { const p = br[k]; if (!p) continue;
-    try { py.FS.stat(p); } catch (e) { try { const b = await imgGet(p.split('/').pop().replace('.png', '')); if (b) { py.FS.mkdirTree('/k5/logo'); py.FS.writeFile(p, new Uint8Array(b)); } } catch (e2) {} } }
+    try { py.FS.stat(p); } catch (e) { let ok = false; try { const b = await imgGet(p.split('/').pop().replace('.png', '')); if (b) { py.FS.mkdirTree('/k5/logo'); py.FS.writeFile(p, new Uint8Array(b)); ok = true; } } catch (e2) {}
+      if (!ok && k === 'logo') toast('ไม่พบไฟล์โลโก้ในเครื่องนี้ ใส่โลโก้ใหม่ได้ที่แผงแบรนด์'); } }   // QA 007: ไม่หายเงียบ
 }
 async function toPng(file) {               // PNG / JPG / SVG -> PNG ไม่เกิน 1000px ในเครื่อง (ไม่ส่งไฟล์ออก) SVG ลงไฟล์เป็น PNG (ponytail: ยังไม่ฝัง svgBlip)
   const url = URL.createObjectURL(file);
@@ -2903,7 +2966,7 @@ function paintBrand() {
     if (x.dataset.sc) return setBR({scope: x.dataset.sc}, `แสดงโลโก้: ${x.textContent}`);
     if (x.dataset.pos) return setBR({pos: x.dataset.pos}, `โลโก้มุม${x.textContent}`);
     if (x.dataset.sz) return setBR({size: x.dataset.sz}, `โลโก้ขนาด${x.textContent}`);
-    if (x.dataset.st) { const v = Math.max(0, Math.min(999, (b.start || 1) + +x.dataset.st)); return setBR({start: v, num: b.num !== false}, `เลขหน้าเริ่มที่ ${v}`); }
+    if (x.dataset.st) { const v = Math.max(1, Math.min(999, (b.start || 1) + +x.dataset.st)); return setBR({start: v, num: b.num !== false}, `เลขหน้าเริ่มที่ ${v}`); }
   };
   P.onchange = async ev => {
     const t = ev.target;
