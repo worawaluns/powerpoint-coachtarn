@@ -313,6 +313,24 @@ body.typing .tring,body.typing .tcard{visibility:hidden}
 .frow.ld .fsp{grid-row:1/3;grid-column:2;align-self:center;width:14px;height:14px;border-radius:50%;border:2px solid #F2D6CC;border-top-color:var(--red);animation:sp .8s linear infinite}
 .ffoot{border-top:1px solid var(--line);padding:8px 12px 10px;display:grid;gap:6px}.ffoot:empty{display:none}.ffoot p{font-size:13px;font-weight:600}.ffoot small{font-size:12px;color:var(--sub)}.ffoot .row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .lcard{display:grid;gap:10px;padding:10px 4px;font-size:14px;color:var(--mid)}.lwarn{font-size:13px;color:#9A6700;background:#FFF8E6;border-radius:10px;padding:8px 10px;display:grid;gap:6px}
+/* แผงแบรนด์ / ทรานซิชัน (ใบ 007) */
+.rps[data-p=brand],.rps[data-p=trans]{overflow-y:auto}
+.bpan{padding:12px 16px 24px;display:grid;gap:14px;font-size:14px;align-content:start}
+.bpan h4{font-size:13px;color:var(--sub);font-weight:600}
+.bpan .lgbox{display:flex;align-items:center;gap:10px;border:1px dashed #CFCFD6;border-radius:12px;padding:10px;min-height:64px}
+.bpan .lgbox img{max-height:44px;max-width:140px;object-fit:contain}.bpan .lgbox.dk{background:#15151A}
+.bpan .lgbox p{flex:1;color:var(--sub);font-size:13px}
+.bpan input[type=text]{width:100%;height:40px;border:1px solid var(--line);border-radius:10px;padding:0 10px;font:inherit}
+.bpan .seg{display:grid;gap:6px}.bpan .seg.c4,.bpan .seg.c2{grid-template-columns:1fr 1fr}.bpan .seg.c3{grid-template-columns:1fr 1fr 1fr}
+.bpan .seg button{height:40px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:14px;font-weight:600}
+.bpan .seg button.on{border:2px solid var(--text)}.bpan .seg button:disabled{opacity:.4}
+.bpan .tg{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:40px}
+.bpan .tg input{width:22px;height:22px;accent-color:var(--text)}
+.bpan .num{display:flex;align-items:center;gap:6px}.bpan .num button{width:36px;height:36px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:16px}
+.bpan .pg1{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:8px}
+.bpan .note{display:flex;gap:6px;font-size:12px;color:var(--sub);line-height:1.5}.bpan .note svg{width:14px;height:14px;flex:none;margin-top:2px}
+.rail [data-p=brand],.rail [data-p=trans]{display:none}
+@media (min-width:768px) and (pointer:fine), (min-width:768px) and (min-height:501px){.rail [data-p=brand],.rail [data-p=trans]{display:flex}}   /* มือถือ: อยู่ในเมนู … (แถบล่างมี 3 ปุ่มตามใบ 018) */
 /* วิธีใช้ครั้งแรก: วงเรืองแสงรอบจุด (ไม่มีฉากมืด) + การ์ดคำอธิบาย */
 .tring{position:fixed;left:0;top:0;z-index:80;border-radius:12px;pointer-events:none;box-shadow:0 0 0 2px var(--red),0 0 18px 4px rgba(235,125,74,.45)}
 .tring::after{content:'';position:absolute;inset:-2px;border-radius:inherit;box-shadow:0 0 0 2px var(--red);opacity:0}.tring.go::after{animation:orbRipple 1.2s var(--ease) 3}   /* วนแค่ 3 รอบ ไม่วนค้าง */
@@ -344,7 +362,7 @@ body.typing .tring,body.typing .tcard{visibility:hidden}
 .rph{display:flex;align-items:center;gap:8px;height:52px;padding:0 8px 0 16px;border-bottom:1px solid var(--line);flex:none}
 .rph h3{flex:1;font-size:16px}
 .rps{display:none;flex:1;min-height:0;flex-direction:column}
-.rp[data-p=chat] .rps[data-p=chat],.rp[data-p=look] .rps[data-p=look],.rp[data-p=hist] .rps[data-p=hist]{display:flex;animation:rise .22s var(--ease) both}
+.rp[data-p=chat] .rps[data-p=chat],.rp[data-p=look] .rps[data-p=look],.rp[data-p=hist] .rps[data-p=hist],.rp[data-p=brand] .rps[data-p=brand],.rp[data-p=trans] .rps[data-p=trans]{display:flex;animation:rise .22s var(--ease) both}
 .rps[data-p=look]{overflow-y:auto;padding:12px 16px}
 .rail{display:flex;z-index:45;background:#fff}
 .rail button{position:relative;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--mid);border-radius:10px;transition:background .15s,color .15s}
@@ -542,6 +560,8 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .pres .slidebox{animation:swapIn .36s var(--ease) both;background:#000}
 .pres .slidebox.nx{animation:nx .26s var(--ease) both}
 .pres .slidebox.pv{animation:pv .26s var(--ease) both}
+.pres .slidebox.tf{animation:fadeIn .6s ease both}.pres .slidebox.tp{animation:tpush .6s var(--ease) both}.pres .slidebox.tw{animation:twipe .6s var(--ease) both}
+@keyframes tpush{from{transform:translateX(100%)}}@keyframes twipe{from{opacity:0;transform:translateX(-6%)}}
 @keyframes nx{from{opacity:0;transform:translateX(24px)}}
 @keyframes pv{from{opacity:0;transform:translateX(-24px)}}
 .pcap{position:absolute;left:50%;bottom:calc(20px + var(--safe));transform:translateX(-50%);display:flex;align-items:center;gap:4px;background:rgba(30,30,36,.88);color:#fff;border-radius:100px;padding:4px 6px;transition:opacity .2s,transform .2s var(--ease)}
@@ -901,6 +921,8 @@ textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:i
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
   <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-stamp" viewBox="0 0 24 24"><path d="M5 22h14"/><path d="M19.27 13.73A2.5 2.5 0 0 0 17.5 13h-11A2.5 2.5 0 0 0 4 15.5V17a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-1.5c0-.66-.26-1.3-.73-1.77Z"/><path d="M14 13V8.5C14 7 15 7 15 5a3 3 0 0 0-6 0c0 2 1 2 1 3.5V13"/></symbol>
+  <symbol id="i-trans" viewBox="0 0 24 24"><rect x="2" y="7" width="8" height="10" rx="1"/><rect x="14" y="7" width="8" height="10" rx="1"/><path d="M10 12h4"/></symbol>
   <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9v11a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9"/></symbol>
   <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></symbol>
   <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
@@ -1010,6 +1032,8 @@ textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:i
       </div>
     </section>
     <section class="rps" data-p="look"><p class="sub" style="font-size:13px;color:var(--sub)">จัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย</p><div class="grid2" id="lookg"></div></section>
+    <section class="rps" data-p="brand"><div class="bpan" id="brandp"></div></section>
+    <section class="rps" data-p="trans"><div class="bpan" id="transp"></div></section>
     <section class="rps" data-p="hist"><div class="hist" id="hist"></div>
       <div class="hfoot"><p><svg class="i"><use href="#i-info"/></svg>ประวัติเก็บในเครื่องนี้เท่านั้น ล้างข้อมูลเบราว์เซอร์แล้วหาย ถ้ามี Code กดบันทึกเพื่อเก็บเป็นไฟล์ได้</p>
         <div id="wipebox"><button class="linkred" id="wipeask" type="button"><svg class="i"><use href="#i-trash"/></svg>ย้ายงานนี้ไปถังขยะ</button></div></div>
@@ -1019,6 +1043,8 @@ textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:i
     <button type="button" data-p="chat" aria-label="ผู้ช่วย"><svg class="i"><use href="#i-spark"/></svg>ผู้ช่วย<i class="dot" id="chatdot"></i></button>
     <button type="button" data-p="look" aria-label="หน้าตา"><svg class="i"><use href="#i-palette"/></svg>หน้าตา</button>
     <button type="button" data-p="add" aria-label="เพิ่มหน้าใหม่ต่อจากหน้านี้"><svg class="i"><use href="#i-plus"/></svg>เพิ่มหน้า</button>
+    <button type="button" data-p="brand" aria-label="แบรนด์และเลขหน้า"><svg class="i"><use href="#i-stamp"/></svg>แบรนด์</button>
+    <button type="button" data-p="trans" aria-label="ทรานซิชัน"><svg class="i"><use href="#i-trans"/></svg>ทรานซิชัน</button>
     <button type="button" data-p="hist" aria-label="ประวัติ"><svg class="i"><use href="#i-history"/></svg>ประวัติ</button>
   </nav>
   <nav class="gbar" id="gbar" aria-label="เครื่องมือของหน้าที่เลือก"></nav>
@@ -1045,7 +1071,7 @@ textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:i
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030g';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030h';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1505,8 +1531,8 @@ async function paint() {
     while (nodeCache.size > 240) nodeCache.delete(nodeCache.keys().next().value);
   }
   slides = KEYS.map(k => nodeCache.get(k)?.node); BOX = KEYS.map(k => nodeCache.get(k)?.boxes || []);
-  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins")), ov=bool(ITEMS[i][1].get("_ov")), mv=bool(ITEMS[i][1].get("mv"))) for i in ORDER], ensure_ascii=False)'));
-  dirty = true;
+  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins")), ov=bool(ITEMS[i][1].get("_ov")), mv=bool(ITEMS[i][1].get("mv")), tr=ITEMS[i][1].get("_tr", ""), lg=ITEMS[i][1].get("_lg"), pn=ITEMS[i][1].get("_pn")) for i in ORDER], ensure_ascii=False)'));
+  dirty = true; readBR();
   return need;
 }
 // ไฟล์จริง: คำใบ้ไม่ลง ข้อที่ปล่อยว่างในหน้าที่แทรกไม่ลง  skip = ตำแหน่งหน้าที่ลูกค้าเลือกไม่เอา (หน้าแทรกที่ยังว่าง)
@@ -2258,7 +2284,7 @@ function paintLooks() { $('lookg').innerHTML = lookHtml(); }
 $('lookg').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
 
 // ── แผงขวา (คอม) / แผ่นเต็มจอ (มือถือ): ผู้ช่วย หน้าตา ประวัติ ──
-const PANEL_T = {chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข'};
+const PANEL_T = {chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข', brand: 'แบรนด์และเลขหน้า', trans: 'ทรานซิชัน'};
 function openPanel(p) {
   const rp = $('rp'); if (rp.dataset.p !== p) { rp.dataset.p = p; }
   $('rpT').textContent = PANEL_T[p]; rp.classList.add('on'); $('pWork').classList.add('rpon'); document.body.classList.add('panelon');
@@ -2266,6 +2292,8 @@ function openPanel(p) {
   if (p === 'chat') { $('chatdot').classList.remove('on'); scrollEnd(true); }
   if (p === 'look') paintLooks();
   if (p === 'hist') paintHist();
+  if (p === 'brand') paintBrand();
+  if (p === 'trans') paintTrans();
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
 }
 function closePanel() {
@@ -2282,12 +2310,12 @@ $('canvas').addEventListener('pointerdown', () => { if (!wide() || matchMedia('(
 // หนึ่งสถานะ = ข้อความ repr ของเนื้อหาใน Python (tuple ยังเป็น tuple) + ลำดับหน้า + ชุด  ไม่เก็บไฟล์ .pptx
 let STACK = [], SP = -1, LOST = 0, arranged = false, viewing = null, saveSt = 'ok';
 function snap(label, r) {                  // r = repr ที่ได้มาพร้อมคำสั่งก่อนหน้า (ย้ายกล่อง: เรียก Python ครั้งเดียวตอนปล่อย)
-  return {py: r || py.runPython('repr((WANT, CS, ITEMS, TTL))'), slug, order: [...order], src: SRCNAME, lost: LOST, arranged, label, t: Date.now(), n: slides.length, ttl};
+  return {py: r || py.runPython('repr((WANT, CS, ITEMS, TTL, D.BR))'), slug, order: [...order], src: SRCNAME, lost: LOST, arranged, label, t: Date.now(), n: slides.length, ttl};
 }
 async function restore(s) {
   const st = SETS.find(x => x.slug === s.slug), was = slug; if (st) await needSet(st);
   py.globals.set('SNAP', s.py); py.globals.set('SLUG', s.slug);
-  py.runPython('WANT, CS, ITEMS, TTL = ast.literal_eval(SNAP); M = D.pool_of(SLUG)[0]');
+  py.runPython('_s = ast.literal_eval(SNAP); WANT, CS, ITEMS, TTL = _s[:4]; D.BR.clear(); D.BR.update(_s[4] if len(_s) > 4 else {}); M = D.pool_of(SLUG)[0]'); await ensureLogo();
   slug = s.slug; order = [...s.order]; SRCNAME = s.src; LOST = s.lost || 0; arranged = !!s.arranged; ttl = s.ttl || py.globals.get('TTL');
   $('topttl').textContent = ttl; altCache.clear(); lookGen++;
   await ensureFonts();
@@ -2351,9 +2379,10 @@ let PID = null, NEWF = null;               // งานที่เปิดอ�
 const uid = () => 'w' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const DB = () => dbP = dbP || new Promise((res, rej) => {
   if (!window.indexedDB) return rej(new Error('no idb'));
-  const r = indexedDB.open('d2s', 2);
+  const r = indexedDB.open('d2s', 3);
   r.onupgradeneeded = e => {
     const db = r.result, v = e.oldVersion < 1 ? db.createObjectStore('v', {keyPath: 'id', autoIncrement: true}) : r.transaction.objectStore('v');
+    if (!db.objectStoreNames.contains('img')) db.createObjectStore('img');   // ใบ 007: รูป/โลโก้ตาม hash แยกจาก snapshot (ประวัติไม่บวม)
     if (e.oldVersion >= 2) return;
     v.createIndex('pid', 'pid'); const ps = db.createObjectStore('p', {keyPath: 'id'}); db.createObjectStore('f', {keyPath: 'id'});
     if (e.oldVersion !== 1) return;
@@ -2511,7 +2540,9 @@ function present() {
 function presFit() { const b = $('pbox'); if ($('pres').classList.contains('hidden')) return; b.style.width = Math.min(innerWidth, innerHeight * 16 / 9) + 'px'; fit(b); }
 function pShow(d) {
   const b = $('pbox'); mount(b, slides[pi]); presFit();
-  b.classList.remove('nx', 'pv'); if (d) { void b.offsetWidth; b.classList.add(d > 0 ? 'nx' : 'pv'); }
+  b.classList.remove('nx', 'pv', 'tf', 'tp', 'tw'); b.style.animationDuration = '';
+  const tr = META[pi]?.tr || BRJ.tr || 'none';   // ใบ 007: เล่นทรานซิชันแบบเดียวกับที่ตั้ง (transform/opacity) ไม่ตั้ง = ท่าเดิม
+  if (d) { void b.offsetWidth; if (tr === 'none') b.classList.add(d > 0 ? 'nx' : 'pv'); else { b.classList.add({fade: 'tf', push: 'tp', wipe: 'tw'}[tr]); b.style.animationDuration = {slow: '.9s', fast: '.35s'}[BRJ.spd] || '.6s'; } }
   const t = `${pi + 1} / ${slides.length}`; $('pcnt').textContent = t; if (d) retrig($('pcnt'), 'rz');
   $('pP').disabled = pi === 0; $('pN').disabled = pi === slides.length - 1;
 }
@@ -2624,6 +2655,111 @@ async function act(a, skip) {
     py.globals.set('FF', py.toPy(s.fonts));
     save(new Blob([pptx('D.fonts_zip(FF)')], {type: 'application/zip'}), 'ฟอนต์ ' + s.style + '.zip'); toast('โหลดฟอนต์แล้ว');
   }
+}
+
+// ══ ใบ 007 เฟส 1-2: แบรนด์ (โลโก้ ชื่อบริษัท) เลขหน้า ทรานซิชัน ══════════════════════════════════
+// ค่าทั้งไฟล์อยู่ใน D.BR (อยู่ใน snapshot ประวัติ/เลิกทำ) รายหน้าอยู่ใน d (_lg _pn _tr) รูปโลโก้อยู่ใน IndexedDB 'img' ตาม hash ไม่อยู่ใน snapshot
+// ทุกค่าลงไฟล์เป็นของจริงของ PowerPoint: รูป (Logo) / ช่องเลขหน้าอัตโนมัติ slidenum + firstSlideNum / <p:transition>
+let BRJ = {};
+const readBR = () => { try { BRJ = JSON.parse(py.runPython('json.dumps(D.BR)')); } catch (e) { BRJ = {}; } return BRJ; };
+async function imgPut(hash, bytes) { const db = await DB(), t = db.transaction('img', 'readwrite'); t.objectStore('img').put(bytes, hash); await new Promise((r, j) => { t.oncomplete = r; t.onerror = () => j(t.error); }); }
+async function imgGet(hash) { const db = await DB(); return req(db.transaction('img').objectStore('img').get(hash)); }
+async function ensureLogo() {             // เปิดงาน/เลิกทำ: ไฟล์โลโก้ที่งานนี้ใช้อยู่ในเครื่อง Python ก่อนวาด
+  const br = readBR();
+  for (const k of ['logo', 'logow']) { const p = br[k]; if (!p) continue;
+    try { py.FS.stat(p); } catch (e) { try { const b = await imgGet(p.split('/').pop().replace('.png', '')); if (b) { py.FS.mkdirTree('/k5/logo'); py.FS.writeFile(p, new Uint8Array(b)); } } catch (e2) {} } }
+}
+async function toPng(file) {               // PNG / JPG / SVG -> PNG ไม่เกิน 1000px ในเครื่อง (ไม่ส่งไฟล์ออก) SVG ลงไฟล์เป็น PNG (ponytail: ยังไม่ฝัง svgBlip)
+  const url = URL.createObjectURL(file);
+  try {
+    const im = new Image(); im.src = url; await im.decode();
+    const w0 = im.naturalWidth || 800, h0 = im.naturalHeight || 400, k = Math.min(1, 1000 / Math.max(w0, h0)), w = Math.max(1, Math.round(w0 * k)), h = Math.max(1, Math.round(h0 * k));
+    const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(im, 0, 0, w, h);
+    const blob = await new Promise(r => c.toBlob(r, 'image/png')); return {bytes: new Uint8Array(await blob.arrayBuffer()), w, h};
+  } finally { URL.revokeObjectURL(url); }
+}
+async function hashOf(bytes) { const h = new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)); return [...h.slice(0, 12)].map(x => x.toString(16).padStart(2, '0')).join(''); }
+async function setBR(patch, label) {       // ค่าทั้งไฟล์: เปลี่ยนแล้ววาดใหม่ทันที (ไม่มีปุ่มใช้) เลิกทำได้
+  if (busyNow || viewing) return; busyNow = true; const oldKeys = KEYS.slice();
+  try {
+    py.globals.set('BRP', JSON.stringify(patch));
+    py.runPython('_p = json.loads(BRP)\nfor _k, _v in _p.items():\n    if _v is None: D.BR.pop(_k, None)\n    else: D.BR[_k] = _v');
+    await frame(); await paint(); settle(oldKeys, -1); commit(label); readBR();
+  } catch (e) { console.error(e); toast('ตั้งค่าไม่สำเร็จ ลองใหม่อีกครั้ง'); } finally { busyNow = false; }
+  if (panelOpen('brand')) paintBrand(); if (panelOpen('trans')) paintTrans();
+}
+async function setPageOpt(key, val, label) {   // รายหน้า: แสดงโลโก้ / เลขหน้า / ทรานซิชันหน้านี้ (null = ตามทุกหน้า)
+  const k = Math.max(0, cur); if (busyNow || viewing || !slides.length) return; busyNow = true; const oldKeys = KEYS.slice();
+  try {
+    py.globals.set('IDX', order[k]); py.globals.set('KEY', key); py.globals.set('VAL', JSON.stringify(val));
+    py.runPython('_v = json.loads(VAL); _d = {x: y for x, y in ITEMS[IDX][1].items() if x != KEY}\nif _v is not None: _d[KEY] = _v\nITEMS[IDX] = (ITEMS[IDX][0], _d)');
+    await frame(); await paint(); settle(oldKeys, -1); commit(label.replace('N', k + 1));
+  } catch (e) { console.error(e); toast('ตั้งค่าไม่สำเร็จ ลองใหม่อีกครั้ง'); } finally { busyNow = false; }
+  if (panelOpen('brand')) paintBrand(); if (panelOpen('trans')) paintTrans();
+}
+const TOG = (id, on, t, dis) => `<label class="tg"><span>${t}</span><input type="checkbox" data-tg="${id}"${on ? ' checked' : ''}${dis ? ' disabled' : ''}></label>`;
+function paintBrand() {
+  const b = readBR(), P = $('brandp'), k = Math.max(0, cur), m = META[k] || {}, has = !!b.logo;
+  const img = async (p, el) => { try { const x = await imgGet(p.split('/').pop().replace('.png', '')); if (x && el) el.src = URL.createObjectURL(new Blob([x], {type: 'image/png'})); } catch (e) {} };
+  P.innerHTML = `<h4>โลโก้</h4>
+    <div class="lgbox">${has ? '<img id="lg1" alt="โลโก้">' : ''}<p>${has ? 'โลโก้ของคุณ' : 'PNG พื้นใส, SVG หรือ JPG ไม่เกิน 2MB ไฟล์ไม่ถูกส่งออกจากเครื่อง'}</p>
+      <button class="btn ${has ? 'btn-line' : 'btn-red'} btn-sm" type="button" data-b="pick">${has ? 'เปลี่ยน' : 'เลือกไฟล์โลโก้'}</button>${has ? `<button class="btn btn-line btn-sm" type="button" data-b="del">ลบ</button>` : ''}</div>
+    ${has ? `<div class="lgbox dk">${b.logow ? '<img id="lg2" alt="โลโก้สีขาว">' : ''}<p style="color:#ccc">${b.logow ? 'โลโก้สีขาว ใช้บนหน้าที่พื้นเข้ม' : 'ใส่โลโก้สีขาวสำหรับหน้าที่พื้นเข้ม (ไม่ใส่ก็ได้)'}</p><button class="btn btn-line btn-sm" type="button" data-b="pickw">${b.logow ? 'เปลี่ยน' : 'ใส่โลโก้สีขาว'}</button></div>` : ''}
+    <input type="file" id="lgin" accept=".png,.jpg,.jpeg,.svg,image/png,image/jpeg,image/svg+xml" hidden>
+    <h4>ชื่อบริษัท</h4><input type="text" id="cmp" maxlength="60" placeholder="ไม่ใส่ก็ได้ ขึ้นแทนช่องชื่อบริษัทของดีไซน์" value="${esc(b.company || '')}">
+    <h4>แสดงโลโก้</h4><div class="seg">${[['all', 'ทุกหน้า'], ['nocover', 'ทุกหน้ายกเว้นปก'], ['cover', 'เฉพาะปก']].map(([v, t]) => `<button type="button" data-sc="${v}" class="${(b.scope || 'nocover') === v ? 'on' : ''}"${has ? '' : ' disabled'}>${t}</button>`).join('')}</div>
+    <h4>มุม</h4><div class="seg c4">${[['tl', 'ซ้ายบน'], ['tr', 'ขวาบน'], ['bl', 'ซ้ายล่าง'], ['br', 'ขวาล่าง']].map(([v, t]) => `<button type="button" data-pos="${v}" class="${(b.pos || 'tr') === v ? 'on' : ''}"${has ? '' : ' disabled'}>${t}</button>`).join('')}</div>
+    <h4>ขนาด</h4><div class="seg c2">${[['s', 'เล็ก'], ['m', 'กลาง']].map(([v, t]) => `<button type="button" data-sz="${v}" class="${(b.size || 's') === v ? 'on' : ''}"${has ? '' : ' disabled'}>${t}</button>`).join('')}</div>
+    <h4>เลขหน้า</h4>${TOG('num', b.num !== false, 'แสดงเลขหน้า')}
+    <div class="tg"><span>เริ่มนับที่</span><span class="num"><button type="button" data-st="-1" aria-label="ลดเลขเริ่ม">−</button><b>${b.start || 1}</b><button type="button" data-st="1" aria-label="เพิ่มเลขเริ่ม">+</button></span></div>
+    ${TOG('numcover', !b.numcover, 'ไม่แสดงบนปก', b.num === false)}
+    <p class="note">${ico('info')}เลขหน้าในไฟล์เป็นช่องเลขหน้าอัตโนมัติของ PowerPoint ย้ายหน้าใน PowerPoint แล้วเลขเลื่อนตาม</p>
+    <div class="pg1"><h4>หน้านี้ (หน้า ${k + 1})</h4>${TOG('lg', m.lg == null ? true : !!m.lg, 'แสดงโลโก้หน้านี้', !has)}${TOG('pn', m.pn == null ? b.num !== false : !!m.pn, 'แสดงเลขหน้าหน้านี้')}</div>`;
+  if (has) { img(b.logo, $('lg1')); if (b.logow) img(b.logow, $('lg2')); }
+  P.onclick = ev => {
+    const x = ev.target.closest('button'); if (!x) return;
+    if (x.dataset.b === 'pick' || x.dataset.b === 'pickw') { const i = $('lgin'); i.dataset.w = x.dataset.b === 'pickw' ? 1 : ''; return i.click(); }
+    if (x.dataset.b === 'del') return setBR({logo: null, logow: null, lr: null}, 'ลบโลโก้');
+    if (x.dataset.sc) return setBR({scope: x.dataset.sc}, `แสดงโลโก้: ${x.textContent}`);
+    if (x.dataset.pos) return setBR({pos: x.dataset.pos}, `โลโก้มุม${x.textContent}`);
+    if (x.dataset.sz) return setBR({size: x.dataset.sz}, `โลโก้ขนาด${x.textContent}`);
+    if (x.dataset.st) { const v = Math.max(0, Math.min(999, (b.start || 1) + +x.dataset.st)); return setBR({start: v, num: b.num !== false}, `เลขหน้าเริ่มที่ ${v}`); }
+  };
+  P.onchange = async ev => {
+    const t = ev.target;
+    if (t.id === 'cmp') return setBR({company: t.value.trim() || null}, t.value.trim() ? `ชื่อบริษัท: ${t.value.trim()}` : 'ลบชื่อบริษัท');
+    if (t.dataset.tg === 'num') return setBR({num: t.checked}, t.checked ? 'แสดงเลขหน้า' : 'ซ่อนเลขหน้า');
+    if (t.dataset.tg === 'numcover') return setBR({numcover: !t.checked, num: b.num !== false}, t.checked ? 'ไม่แสดงเลขหน้าบนปก' : 'แสดงเลขหน้าบนปก');
+    if (t.dataset.tg === 'lg') return setPageOpt('_lg', t.checked ? null : 0, t.checked ? 'แสดงโลโก้หน้า N' : 'ซ่อนโลโก้หน้า N');
+    if (t.dataset.tg === 'pn') return setPageOpt('_pn', t.checked === (b.num !== false) ? null : (t.checked ? 1 : 0), t.checked ? 'แสดงเลขหน้าหน้า N' : 'ซ่อนเลขหน้าหน้า N');
+    if (t.id === 'lgin' && t.files[0]) {
+      const f = t.files[0], w = !!t.dataset.w; t.value = '';
+      if (!/\.(png|jpe?g|svg)$/i.test(f.name)) return toast('ใช้ได้เฉพาะไฟล์ PNG, JPG หรือ SVG');
+      if (f.size > 2e6) return toast('ไฟล์โลโก้ใหญ่เกิน 2MB ลองย่อรูปก่อน');
+      try {
+        const {bytes, w: iw, h: ih} = await toPng(f), h = await hashOf(bytes), p = `/k5/logo/${h}.png`;
+        await imgPut(h, bytes).catch(() => {}); py.FS.mkdirTree('/k5/logo'); py.FS.writeFile(p, bytes);
+        setBR(w ? {logow: p} : {logo: p, lr: Math.round(iw / ih * 1000) / 1000, ...(b.scope ? {} : {scope: 'nocover'})}, w ? 'ใส่โลโก้สีขาว' : 'ใส่โลโก้');
+      } catch (e) { console.error(e); toast('อ่านไฟล์โลโก้ไม่ได้ ลองไฟล์อื่น'); }
+    }
+  };
+}
+const TRN = [['none', 'ไม่มี'], ['fade', 'ค่อยๆ ปรากฏ'], ['push', 'เลื่อน'], ['wipe', 'เช็ด']];
+function paintTrans() {
+  const b = readBR(), P = $('transp'), k = Math.max(0, cur), m = META[k] || {}, diff = META.map((x, i) => x?.tr ? i + 1 : 0).filter(Boolean);
+  P.innerHTML = `<h4>ทุกหน้า</h4><div class="seg c2">${TRN.map(([v, t]) => `<button type="button" data-tr="${v}" class="${(b.tr || 'none') === v ? 'on' : ''}">${t}</button>`).join('')}</div>
+    <h4>ความเร็ว</h4><div class="seg c3">${[['slow', 'ช้า'], ['med', 'กลาง'], ['fast', 'เร็ว']].map(([v, t]) => `<button type="button" data-spd="${v}" class="${(b.spd || 'med') === v ? 'on' : ''}">${t}</button>`).join('')}</div>
+    <button class="btn btn-line btn-sm" type="button" data-pv style="justify-self:start">${ico('play')}ดูตัวอย่างที่หน้า ${Math.min(k + 2, slides.length)}</button>
+    <div class="pg1"><h4>หน้านี้ (หน้า ${k + 1})</h4><div class="seg c2"><button type="button" data-ptr="" class="${!m.tr ? 'on' : ''}">ตามทุกหน้า</button>${TRN.map(([v, t]) => `<button type="button" data-ptr="${v}" class="${m.tr === v ? 'on' : ''}">${t}</button>`).join('')}</div>
+    ${diff.length ? `<p class="note">${ico('info')}หน้าที่ตั้งต่างจากทุกหน้า: ${thaiList(diff)}</p>` : ''}</div>
+    <p class="note">${ico('info')}ทรานซิชันอยู่ในไฟล์ PowerPoint จริง เล่นใน PowerPoint ได้ทุกแบบ โปรแกรมอื่นอาจแสดงต่างไป</p>`;
+  P.onclick = ev => {
+    const x = ev.target.closest('button'); if (!x) return;
+    if (x.dataset.tr) return setBR({tr: x.dataset.tr === 'none' ? null : x.dataset.tr}, `ทรานซิชันทุกหน้า: ${x.textContent}`);
+    if (x.dataset.spd) return setBR({spd: x.dataset.spd === 'med' ? null : x.dataset.spd}, `ความเร็วทรานซิชัน: ${x.textContent}`);
+    if (x.dataset.ptr != null) return setPageOpt('_tr', x.dataset.ptr || null, `ทรานซิชันหน้า N: ${x.textContent}`);
+    if (x.hasAttribute('data-pv')) { const at = Math.min(k + 1, slides.length - 1); cur = Math.max(0, at - 1); present(); setTimeout(() => pGo(1), 400); }
+  };
 }
 
 // ══ ใบ 015 เฟส 2-5: ขนาดตัวอักษร / ฟอนต์ไทยฟรี / ฟอนต์ในเครื่อง / ฝังฟอนต์ ══════════════════════════════
@@ -3102,7 +3238,7 @@ async function commitMove(D, un) {
   try {
     const me = nb[D.j];
     py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(b.p)); py.globals.set('RECT', py.toPy([me.x, me.y, me.w, me.h])); py.globals.set('DROP', py.toPy(drop)); py.globals.set('ORDER', py.toPy(order));
-    const [[, n], keys, rp] = JSON.parse(py.runPython('json.dumps([D.move_box(ITEMS, IDX, list(PATH), list(RECT), M, drop=list(DROP)), D.keys(ITEMS, ORDER, TTL, M["slug"]), repr((WANT, CS, ITEMS, TTL))])'));
+    const [[, n], keys, rp] = JSON.parse(py.runPython('json.dumps([D.move_box(ITEMS, IDX, list(PATH), list(RECT), M, drop=list(DROP)), D.keys(ITEMS, ORDER, TTL, M["slug"]), repr((WANT, CS, ITEMS, TTL, D.BR))])'));
     const node = pg.querySelector('.slidebox').lastElementChild.firstElementChild.cloneNode(true);
     KEYS = keys; nodeCache.set(KEYS[k], {node, boxes: nb}); slides[k] = node; META[k] = {...META[k], mv: n > 0}; dirty = true;
     const th = $('thumbs').children[k]; if (th) mount(th.lastChild, node);
@@ -3300,6 +3436,8 @@ function workMenu() {
     <li><button data-m="save" type="button">${ico('down')}ดาวน์โหลด PowerPoint</button></li>
     <li class="sep"><button data-m="grid" type="button">${ico('grid')}ดูทุกหน้า</button></li>
     <li class="sep"><button data-m="hist" type="button">${ico('history')}ประวัติการแก้ไข<span class="mst ${st[2]}">${ico(st[0])}${st[1]}</span></button></li>
+    <li class="sep"><button data-m="brand" type="button">${ico('stamp')}แบรนด์และเลขหน้า</button></li>
+    <li><button data-m="trans" type="button">${ico('trans')}ทรานซิชัน</button></li>
     <li class="sep"><button data-m="tour" type="button">${ico('help')}ดูวิธีใช้อีกครั้ง</button></li>
     <li class="sep"><button data-m="wipe" type="button" class="danger">${ico('trash')}ย้ายงานนี้ไปถังขยะ</button></li></ul>`);
   $('shT').insertAdjacentHTML('afterend', `<button class="ib xtra" id="renm" type="button" aria-label="แก้ชื่องาน">${ico('pen')}</button>`);
@@ -3310,6 +3448,7 @@ function workMenu() {
       $('shBody').innerHTML = `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ย้ายไปถังขยะ</button></div>`; return; }
     if (m === 'no') return workMenu();          // ยกเลิกลบงาน = กลับเมนูเดิม
     closeSheet();
+    if (m === 'brand' || m === 'trans') return openPanel(m);
     if (m === 'save') act('save'); else if (m === 'grid') openGrid(); else if (m === 'hist') openPanel('hist'); else if (m === 'tour') tour(true); else if (m === 'yes') wipeAll();
   };
 }
