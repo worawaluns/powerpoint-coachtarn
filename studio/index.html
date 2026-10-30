@@ -1253,7 +1253,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030l';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030m';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2597,6 +2597,7 @@ async function undoRedo(d) {
   const b = d < 0 ? $('undo') : $('redo'); b.classList.remove('kick', 'r'); void b.offsetWidth; b.classList.add('kick'); if (d > 0) b.classList.add('r');
   busyNow = true; await frame(); await frame();
   try { await restore(STACK[SP]); } catch (e) { console.error(e); } finally { busyNow = false; }
+  paintTools();                           // แผงตำแหน่ง/เลเยอร์อ่านค่าหลังเลิกทำ (ล็อก ลำดับ) ไม่ค้างของเก่า
   const word = d < 0 ? 'เลิกทำ' : 'ทำซ้ำ';
   toast(`${word}: ${lab}`); store({...STACK[SP], label: `${word}: ${lab}`, t: Date.now()});
 }
