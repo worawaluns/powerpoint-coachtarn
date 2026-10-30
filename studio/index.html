@@ -981,11 +981,12 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .sel .hx button::after{content:'';position:absolute;inset:-6px}.sel .hx svg.i{display:block;width:16px;height:16px;stroke-width:2.5}
 .sel .rth{cursor:grab}.sel .mvh{cursor:move;display:none!important}
 @media (pointer:coarse){.sel .mvh{display:grid!important}.sel .hx button{width:36px;height:36px}.sel .hx button::after{inset:-4px}}
-.sel.norot .rth,.sel.lock .hx,.sel.rot .k{display:none}
+.sel.norot .rth,.sel.lock .hx{display:none}
 .sel.lk{box-shadow:none;outline:2px dashed var(--red);outline-offset:1px}.sel.lk .k,.sel.lk .hx{display:none}
 .sztip{position:fixed;left:0;top:0;z-index:95;background:#15151A;color:#fff;font-size:12px;font-weight:600;padding:3px 8px;border-radius:7px;white-space:pre;pointer-events:none;opacity:0;font-variant-numeric:tabular-nums}.sztip.on{opacity:1}
 .tpop.p-pos{width:340px}.tpop.msh{width:auto}
 .tpop.inrp{position:static;width:auto;max-height:none;box-shadow:none;padding:4px 0;animation:none;overflow:visible;border-radius:0}
+.tpop.inrp{grid-template-columns:minmax(0,1fr)}.tpop .lys,.tpop .ly{min-width:0}   /* ชื่อแถวยาว (nowrap) ห้ามดันแผงกว้างเกิน 360 */
 .tpop .ptabs{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--bg);border-radius:12px;padding:3px;margin-bottom:8px}
 .tpop .ptabs button{height:40px;border:none;background:none;border-radius:10px;font-size:14px;font-weight:600;color:var(--mid)}.tpop .ptabs button.on{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(20,20,26,.12)}
 .tpop .pg2{display:grid;grid-template-columns:1fr 1fr;gap:6px}.tpop .pg2.c3{grid-template-columns:1fr 1fr}
@@ -995,8 +996,14 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .tpop .adv .num{width:72px}.tpop .adv .rat{width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;display:grid;place-items:center;color:var(--sub)}.tpop .adv .rat.on{color:var(--text)}.tpop .adv svg.i{display:block;width:20px;height:20px}
 .tpop .pflt{display:flex;gap:6px;margin-bottom:4px}.tpop .pflt button{height:36px;padding:0 14px;border:1px solid var(--line);background:#fff;border-radius:18px;font-size:13px;font-weight:600;color:var(--mid)}.tpop .pflt button.on{background:#15151A;border-color:#15151A;color:#fff}
 .tpop .lys{display:flex;flex-direction:column;gap:4px;margin-top:6px}
-.tpop .ly{display:flex;align-items:center;gap:2px;border:1px solid var(--line);border-radius:10px;padding:2px}.tpop .ly.on{border-color:var(--text);box-shadow:inset 0 0 0 1px var(--text)}
-.tpop .ly .lyn{flex:1;min-width:0;min-height:44px;border:none;background:none;text-align:left;padding:2px 8px;display:flex;flex-direction:column;justify-content:center}
+.tpop .ly{display:flex;align-items:center;gap:2px;border:1px solid var(--line);border-radius:12px;padding:2px;background:#fff;position:relative}.tpop .ly.on{border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red);background:var(--soft)}
+.tpop .ly .lyg{flex:none;width:32px;height:44px;border:none;background:none;display:grid;place-items:center;color:var(--sub);padding:0;cursor:grab;touch-action:none}.tpop .ly .lyg:disabled{visibility:hidden}
+.tpop .ly .lyp{flex:none;width:72px;height:40px;border-radius:6px;overflow:hidden;position:relative;background:var(--bg);box-shadow:inset 0 0 0 1px rgba(20,20,26,.06)}
+.tpop .ly .lysp{flex:none;width:40px}.tpop .ly .lyk{color:#C4C4CC}.tpop .ly .lyk.on{color:var(--text)}.tpop .ly .zud{display:flex}
+.tpop .lys.dragging .ly:not(.drag){transition:transform .15s var(--ease)}.tpop .ly.drag{z-index:2;box-shadow:0 8px 20px rgba(20,20,26,.18);cursor:grabbing}
+@media (pointer:coarse){.tpop .ly .zud{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.tpop .ly .zud:focus-within{position:static;width:auto;height:auto;clip-path:none}.tpop .ly .lyg{width:44px}}
+@media (prefers-reduced-motion:reduce){.tpop .lys.dragging .ly:not(.drag){transition:none}}
+.tpop .ly .lyn{flex:1;min-width:0;min-height:44px;border:none;background:none;text-align:left;padding:2px 8px;display:flex;flex-direction:column;justify-content:center;color:var(--text)}
 .tpop .ly .lyn b{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tpop .ly .lyn small{font-size:12px;color:var(--sub)}
 .tpop .ly .ic{width:40px;height:40px;border:none;background:none;border-radius:8px;display:grid;place-items:center;color:var(--text);padding:0}.tpop .ly .ic:disabled{color:#C4C4CC}.tpop .ly svg.i{display:block;width:20px;height:20px}
 .mpill .btn.ic{width:44px;padding:0;justify-content:center}
@@ -1094,6 +1101,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
   <symbol id="i-zfront" viewBox="0 0 24 24"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M4 10a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2"/><path d="M14 20a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2"/></symbol>
   <symbol id="i-zback" viewBox="0 0 24 24"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
   <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
   <symbol id="i-move" viewBox="0 0 24 24"><path d="M12 2v20"/><path d="m15 19-3 3-3-3"/><path d="m19 9 3 3-3 3"/><path d="M2 12h20"/><path d="m5 9-3 3 3 3"/><path d="m9 5 3-3 3 3"/></symbol>
   <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></symbol>
@@ -1245,7 +1253,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030k';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030l';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2573,6 +2581,7 @@ async function restore(s) {
   return k;
 }
 function commit(label, r) {
+  if (MERGE != null && SP === MERGE + 1 && STACK[SP]) { label = `${STACK[SP].label} และ${label}`; SP = MERGE; MERGE = null; }   // ขั้นคำที่พิมพ์ถูกรวมเข้าขั้นนี้
   const s = snap(label, r);
   STACK = STACK.slice(0, SP + 1); STACK.push(s); if (STACK.length > 60) STACK.shift(); SP = STACK.length - 1;
   urState(); store(s);
@@ -2607,7 +2616,7 @@ document.addEventListener('keydown', ev => {
     const ar = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]}[ev.key];
     if (ar && !mod) { ev.preventDefault(); nudge(ar[0] * nudgeStep(ev.altKey), ar[1] * nudgeStep(ev.altKey)); return; }
     if (ev.key === 'Enter') { const s_ = selBox(); if (s_) { ev.preventDefault(); openEdit(SEL.k, s_.j); } return; }
-    if (ev.key === 'Escape') { if (POP) closeTP(); else deselectBox(); return; }
+    if (ev.key === 'Escape') { if (FP) closePicker(); else if (POP) closeTP(); else deselectBox(); return; }
     if (mod && !ev.altKey && ['b', 'i', 'u'].includes(k) && !ev.shiftKey) { ev.preventDefault(); toggleFmt(k); return; }   // ใบ 019 (Ctrl+U ของ Chrome Windows = ดูซอร์ส กันได้ด้วย preventDefault)
     if (mod && (ev.code === 'BracketRight' || ev.code === 'BracketLeft')) { ev.preventDefault(); zPy(ev.code === 'BracketRight' ? (ev.shiftKey ? 'front' : 'fwd') : (ev.shiftKey ? 'back' : 'bwd')); return; }   // ชั้นแบบ PowerPoint
     if (mod && ev.shiftKey && (ev.code === 'Period' || ev.code === 'Comma')) { ev.preventDefault(); const t_ = tgt(); if (t_) sizeTo(ptOf(t_) + (ev.code === 'Period' ? 1 : -1)); return; }
@@ -3187,6 +3196,7 @@ function fitBar(bar, html) {           // แถบกว้างกว่า�
 function paintPos() {                  // แผงตำแหน่งบนคอม (.rp data-p=pos): ของกล่องที่เลือก ไม่มี = บอกให้เลือก
   const P = $('posp'), t = tgt(); if (!P) return;
   P.innerHTML = t && !t.typing ? posBody(t) : '<p class="help" style="text-align:left">เลือกกล่องบนสไลด์ก่อน แล้วจัดเรียง จัดชิด หรือดูเลเยอร์ได้ที่นี่</p>';
+  if (t) layFill(P, t.k);
 }
 function paintTools() {                // ค่าที่เปลี่ยน (ขนาดกดค้าง สีใหม่) แถบ + การ์ดที่เปิดอยู่
   if (panelOpen('pos')) paintPos();
@@ -3212,6 +3222,7 @@ function paintPop() {
   const sh2 = m && (OPEN === 'fmt' || OPEN === 'pos'); POP.className = 'tpop' + (m ? sh2 ? ' msh' : ' card' : '') + ' p-' + OPEN; POP.setAttribute('aria-label', {num: 'ขนาดตัวอักษร', col: 'สีตัวอักษร', fmt: 'รูปแบบ', pos: 'ตำแหน่ง'}[OPEN]);
   const sc = POP.querySelector('.tbody')?.scrollTop || 0, ae = document.activeElement, keepZ = POP.contains(ae) && ae.matches('input.zv') ? ae.value : null;
   POP.innerHTML = (sheet ? `<div class="hh"><span></span><b>${OPEN === 'pos' ? 'ตำแหน่ง' : 'รูปแบบ'}</b><button class="ib" type="button" data-q="close" aria-label="ปิด">${ico('check')}</button></div>` : '') + `<div class="tbody">${OPEN === 'num' ? sizeBody(t) : OPEN === 'col' ? colBody(t) : OPEN === 'pos' ? posBody(t) : fmtBody(t)}</div>`;
+  if (OPEN === 'pos') layFill(POP, t.k);
   POP.querySelector('.tbody').scrollTop = sc;
   if (keepZ != null) { const z = POP.querySelector('input.zv'); z.value = keepZ; z.focus(); }
   if (m) { liftPg(POP.getBoundingClientRect().top); return; }
@@ -3257,10 +3268,12 @@ function fmtBody(t) {
 const ZL = {front: 'ยกขึ้นบนสุด', fwd: 'ยกขึ้นหนึ่งชั้น', bwd: 'ส่งลงหนึ่งชั้น', back: 'ส่งไปล่างสุด'}, ZS = {front: 'บนสุด', fwd: 'ขึ้น', bwd: 'ลง', back: 'ล่างสุด'};
 const ZI = {front: 'zfront', fwd: 'up', bwd: 'dn', back: 'zback'}, ZK = {front: `${KM}⇧]`, fwd: `${KM}]`, bwd: `${KM}[`, back: `${KM}⇧[`};
 // ── ลงมือ: ตอนพิมพ์ = เก็บคำก่อนแล้วเลือกกล่องเดิม / เลือกอยู่ = Python ทันที ──
+let MERGE = null;                       // ตอนพิมพ์แล้วกดแต่ง: คำที่พิมพ์ + การแต่ง = 1 ขั้นเลิกทำ (commit ถัดไปทับขั้นของคำ)
 async function viaSel(fn) {
-  const t = tgt(); if (!t) return;
-  if (t.typing) { const p = t.b.p, k = t.k; if (!(await applyEdit())) return; const j = BOX[k]?.findIndex(x => pk(x.p) === pk(p)); if (j >= 0) selectBox(k, j); }
-  if (SEL) return fn();
+  const t = tgt(); if (!t) return; let sp = null;
+  if (t.typing) { const p = t.b.p, k = t.k, sp0 = SP; if (!(await applyEdit())) return; if (SP === sp0 + 1) sp = sp0; const j = BOX[k]?.findIndex(x => pk(x.p) === pk(p)); if (j >= 0) selectBox(k, j); }
+  if (!SEL) return; MERGE = sp;
+  try { return await fn(); } finally { MERGE = null; }
 }
 const fieldAt = (k, b) => `หน้า ${k + 1}: ${FIELD(b.p)}`;
 async function stylePy(o, label, msg) {
@@ -3270,7 +3283,7 @@ async function stylePy(o, label, msg) {
   let st = 'over';
   try {
     py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(b.p)); py.globals.set('SJ', JSON.stringify(o));
-    st = py.runPython('_o = json.loads(SJ); D.EXTRA.pop("fit", None); D.set_style(ITEMS, IDX, list(PATH), M, size=_o.get("size"), fmt=_o.get("fmt"), reset=bool(_o.get("reset")), lo=_o.get("lo"), step=_o.get("step"))');
+    st = py.runPython('_o = json.loads(SJ); D.EXTRA.pop("fit", None); D.set_style(ITEMS, IDX, list(PATH), M, size=_o.get("size"), font=_o.get("font"), fmt=_o.get("fmt"), reset=bool(_o.get("reset")), lo=_o.get("lo"), step=_o.get("step"))');
     const fit = st === 'fit' ? py.runPython('D.EXTRA.get("fit")') : null;
     if (st !== 'over') { await paint(); settle(oldKeys, k); commit(label(fit)); }
     const m = msg?.(st, fit); if (m) toast(m);
@@ -3336,7 +3349,7 @@ function toolClick(ev) {
   if (x.disabled) return;
   if (e === 'ok') { closeTP(); if (t.typing) { ED.keep = true; finishEdit(true); } else deselectBox(); return; }
   if (e === 'edit') { closeTP(); openEdit(t.k, t.j); return; }
-  if (e === 'font') { closeTP(); if (!t.typing) openEdit(t.k, t.j); fontPicker(); return; }
+  if (e === 'font') { closeTP(); if (t.b.lk && !t.typing) return toast('กล่องนี้ล็อกอยู่ กดปลดล็อกก่อน'); fontPicker(); return; }   // เลือกอยู่: เปิดรายการฟอนต์เลย ไม่เข้าโหมดพิมพ์ (มือถือไม่มีคีย์บอร์ดขึ้น)
   if (e === 'dn' || e === 'up') { if (t.typing) sizeStep(e === 'up' ? 1 : -1); else sizeTo(ptOf(t) + (e === 'up' ? 1 : -1)); return; }
   if (e === 'num' && t.typing && ED.tb.classList.contains('kb')) return sizeMenu(x);
   if (e === 'lock') return setLock(!t.b.lk);
@@ -3382,7 +3395,7 @@ document.addEventListener('pointerdown', ev => {   // คลิกนอกก�
 }, true);
 // ══ ใบ 019b: มุมขยายกรอบ+ตัวอักษร / ป้ายขนาด / ที่จับย้าย (จอสัมผัส) / หมุน / ล็อก / แผงตำแหน่ง (จัดเรียง จัดชิด ขนาด เลเยอร์) ══
 // ทุกค่าลงไฟล์เป็นของจริงของ PowerPoint: usz + xfrm (scale_box) / rot (a:xfrm rot) / spLocks (lock) / ลำดับ spTree (z_box)
-// ponytail: กล่องที่หมุนแล้วย้ายได้ แต่ย่อขยายกรอบไม่ได้ (ที่จับซ่อน) จนกว่าจะพอร์ต resize แบบหมุนของ deckcraft / การ์ดหมุนไม่ได้ / แผงเลเยอร์เรียงด้วยปุ่มขึ้นลง ยังไม่ลาก
+// รอบ 2: กล่องที่หมุนย่อขยายได้ (resizeBoxRot พอร์ตจาก deckcraft) / การ์ดหมุนไม่ได้ = toast บอกเหตุผล (CARDROT) / เลเยอร์ทุกชิ้น + ลาก (บล็อก "เลเยอร์" ด้านล่าง)
 let TIP = null;
 function sizeTip(x, y, t) { if (!TIP) { TIP = document.createElement('div'); TIP.className = 'sztip'; } if (!TIP.isConnected) document.body.appendChild(TIP); TIP.textContent = t; TIP.style.transform = `translate(${Math.round(x + 14)}px,${Math.round(y + 18)}px)`; TIP.classList.add('on'); }
 function tipOff() { TIP?.classList.remove('on'); }
@@ -3417,7 +3430,7 @@ window.addEventListener('pointerup', ev => {
   py.globals.set('IDX', order[R0.k]); py.globals.set('PATH', py.toPy(R0.b.p)); py.globals.set('ROT', R0.cur);
   boxCall(R0.k, 'D.set_box(ITEMS, IDX, list(PATH), rot=ROT)', `หมุน หน้า ${R0.k + 1}: ${FIELD(R0.b.p)} ${R0.cur}°`).then(v => { if (v == null) R0.nodes.forEach(n => n.style.rotate = ''); });
 }, true);
-function setRot(a) { const s = selBox(); if (!s || !s.b.can || s.b.g) return; a = ((Math.round(+a) % 360) + 360) % 360; if (a === (s.b.rot || 0)) return;
+function setRot(a) { const s = selBox(); if (!s || !s.b.can) return; if (s.b.g) return toast(CARDROT); a = ((Math.round(+a) % 360) + 360) % 360; if (a === (s.b.rot || 0)) return;
   py.globals.set('IDX', order[SEL.k]); py.globals.set('PATH', py.toPy(s.b.p)); py.globals.set('ROT', a); boxCall(SEL.k, 'D.set_box(ITEMS, IDX, list(PATH), rot=ROT)', `หมุน ${fieldAt(SEL.k, s.b)} ${a}°`); }
 function setLock(on) {
   viaSel(() => { const s = selBox(); if (!s) return; py.globals.set('IDX', order[SEL.k]); py.globals.set('PATH', py.toPy(s.b.p)); py.globals.set('LK', !!on);
@@ -3447,17 +3460,9 @@ function posBody(t) {
       <p class="lb">จัดชิดหน้า</p><div class="pg2 c3">${ab('T', 'aT', 'บน')}${ab('L', 'aL', 'ซ้าย')}${ab('M', 'aM', 'กลางแนวตั้ง')}${ab('C', 'aC', 'กึ่งกลาง')}${ab('B', 'aB', 'ล่าง')}${ab('R', 'aR', 'ขวา')}</div>
       <p class="lb">ขั้นสูง</p><div class="adv"><label>กว้าง<input class="num pw" type="text" inputmode="numeric" value="${Math.round(R.w * 2)}"${dis || b.g ? ' disabled' : ''}></label><label>สูง<input class="num ph2" type="text" inputmode="numeric" value="${Math.round(R.h * 2)}"${dis || b.g ? ' disabled' : ''}></label>
       <button type="button" class="rat${POS.ratio ? ' on' : ''}" data-rat="1" aria-pressed="${POS.ratio}" aria-label="ล็อกสัดส่วน" data-tip="ล็อกสัดส่วน">${ico(POS.ratio ? 'lock' : 'unlock')}</button>
-      <label>หมุน<input class="num prr" type="text" inputmode="numeric" value="${b.rot || 0}"${dis || b.g ? ' disabled' : ''}></label></div>
+      <label>หมุน<input class="num prr" type="text" inputmode="numeric" value="${b.rot || 0}"${dis ? ' disabled' : ''}></label></div>
       <button class="reset" type="button" data-lk="${b.lk ? 0 : 1}">${ico(b.lk ? 'unlock' : 'lock')}${b.lk ? 'ปลดล็อกกล่องนี้' : 'ล็อกกล่องนี้'}</button>`;
-  } else {
-    const all = BOX[t.k].map((x, j) => ({x, j})).filter(o => o.x.zi != null).sort((a, c) => c.x.zi - a.x.zi);
-    const list = POS.flt === 'all' ? all : all.filter(o => all.some(q => q !== o && ovl(rectOf(q.x), rectOf(o.x))));
-    const fl = (k, l) => `<button type="button" data-pf="${k}"${POS.flt === k ? ' class="on"' : ''} aria-pressed="${POS.flt === k}">${l}</button>`;
-    h += `<div class="pflt">${fl('all', 'ทั้งหมด')}${fl('ov', 'ที่ซ้อนกัน')}</div><p class="help" style="text-align:left">บนสุดอยู่บรรทัดแรก ข้อความเท่านั้น รูปและรูปทรงของดีไซน์ไม่อยู่ในรายการ</p>
-      <div class="lys">${list.map(({x, j}, n) => `<div class="ly${j === t.j ? ' on' : ''}"><button type="button" class="lyn" data-ly="${j}"><b>${esc(clip(String(curText(t.k, x) || '').replace(/\s+/g, ' '), 0, 28))}</b><small>${FIELD(x.p)}</small></button>
-        ${x.lk ? `<button type="button" class="ic" data-lyk="${j}" aria-label="ปลดล็อก" data-tip="ปลดล็อก">${ico('lock')}</button>` : ''}
-        <button type="button" class="ic" data-lyz="${j}:fwd" aria-label="ยกขึ้นหนึ่งชั้น"${n === 0 || x.lk ? ' disabled' : ''}>${ico('up')}</button><button type="button" class="ic" data-lyz="${j}:bwd" aria-label="ส่งลงหนึ่งชั้น"${n === list.length - 1 || x.lk ? ' disabled' : ''}>${ico('dn')}</button></div>`).join('') || '<p class="help">ไม่มีกล่องที่ซ้อนกัน</p>'}</div>`;
-  }
+  } else h += layBody(t);
   return h;
 }
 $('posp').addEventListener('click', ev => { posClick(ev); });
@@ -3472,9 +3477,9 @@ function posClick(ev) {
   if ((v = g('data-z4'))) return zPy(v);
   if ((v = g('data-al')) && !ev.target.closest('[data-al]').disabled) return alignTo(v);
   if ((v = g('data-lk')) != null) return setLock(v === '1');
-  if ((v = g('data-ly')) != null) { selectBox(t.k, +v); return; }
-  if ((v = g('data-lyk')) != null) { selectBox(t.k, +v); return setLock(false); }
-  if ((v = g('data-lyz'))) { const [j, op] = v.split(':'); selectBox(t.k, +j); return zPy(op); }
+  if ((v = g('data-ly')) != null) { const r = LAYV[+v]; if (r?.j != null) selectBox(t.k, r.j); return; }
+  if ((v = g('data-lyk')) != null) { const r = LAYV[+v]; if (r && !ev.target.closest('[data-lyk]').disabled) layLock(t.k, r); return; }
+  if ((v = g('data-lyz'))) { const [n, op] = v.split(':'), r = LAYV[+n]; if (r && !ev.target.closest('[data-lyz]').disabled) layZ(t.k, r, op); return; }
   return true;
 }
 function posChange(ev) {
@@ -3484,6 +3489,126 @@ function posChange(ev) {
     sizeBox(w, h); }
   if (i.matches('.prr')) setRot(i.value);
 }
+// ══ ใบ 019b รอบ 2: เลเยอร์ = ทุกชิ้นบนหน้า (ข้อความ การ์ด รูป กราฟ ตาราง รูปทรง เลขหน้า) ภาพย่อโคลนชิ้นจริง ลากที่จุดหกจุดเพื่อเรียง ══
+// ลูกของ .slide-wrapper ที่ pptx-preview วาด เรียงตาม spTree (ตรวจแล้ว 1:1) = b.zi ของกล่องข้อความ / shape_id + ชื่อ shape มาจากการวาดหน้านั้นใน Python 1 ครั้ง แคชตามลายนิ้วมือหน้า
+// ข้อความ/การ์ด เลื่อนด้วย D.z_box เดิม (กันข้อความถูกบัง) / รูป รูปทรง กราฟ ใช้ช่อง '#shape_id' ซึ่งต้องมี D.ZOBJ ในตัวจัดสไลด์ (ยังไม่มี = แถวโชว์ แต่ลาก/ล็อกไม่ได้)
+// ponytail: ลากไปหลายชั้น = เล่น fwd/bwd ซ้ำจนผ่านแถวเป้าหมาย (วาดหน้า 2 ครั้งต่อชั้น) ถ้าช้าค่อยเพิ่ม op 'above' ใน z_box
+const LYC = new Map(); let LAYV = [], LD = null;
+function layInfo(k) {
+  const key = KEYS[k]; if (LYC.has(key)) return LYC.get(key); let v = null;
+  try { py.globals.set('ORDER', py.toPy(order)); py.globals.set('K', k);
+    v = JSON.parse(py.runPython('D.render([ITEMS[i] for i in ORDER], M, TTL, only={K}, ins={p: CS[i]["kind"] for p, i in enumerate(ORDER) if CS[i].get("_ins")}, hint=True)\njson.dumps({"s": [[x.shape_id, x.name] for x in D.LASTPRS[0].slides[0].shapes], "lk": [q[1:] for q in (ITEMS[ORDER[K]][1].get("lock") or {}) if q.startswith("#")], "obj": bool(getattr(D, "ZOBJ", False))})')); }
+  catch (e) { console.error(e); }
+  if (LYC.size > 60) LYC.delete(LYC.keys().next().value);
+  LYC.set(key, v); return v;
+}
+const PRST = {rect: 'สี่เหลี่ยม', roundRect: 'สี่เหลี่ยมมุมมน', ellipse: 'วงกลม', donut: 'วงแหวน', triangle: 'สามเหลี่ยม', rtTriangle: 'สามเหลี่ยม', line: 'เส้น', straightConnector1: 'เส้น', chevron: 'ลูกศร', homePlate: 'ลูกศร', rightArrow: 'ลูกศร', arc: 'เส้นโค้ง', blockArc: 'เส้นโค้ง', pie: 'ชิ้นวงกลม', hexagon: 'หกเหลี่ยม', diamond: 'ข้าวหลามตัด'};   // ชื่อแถวรูปทรงตาม prst ที่ pptx-preview ใส่เป็นคลาส
+const wrapOf = k => { const n = slides[k]; return n?.classList?.contains('slide-wrapper') ? n : n?.querySelector('.slide-wrapper'); };   // ภาพที่วาดล่าสุด (บนจอภาพเก่ายังค้างระหว่าง fade)
+const kidRect = c => ({x: parseFloat(c.style.left) || 0, y: parseFloat(c.style.top) || 0, w: parseFloat(c.style.width) || c.offsetWidth || 0, h: parseFloat(c.style.height) || c.offsetHeight || 0});
+const isFull = r => r.x <= 5 && r.y <= 5 && r.w >= 950 && r.h >= 530;
+function layRows(k) {
+  const w = wrapOf(k); if (!w) return [];
+  const kids = [...w.children], rc = kids.map(kidRect), info = layInfo(k), sh = info && info.s.length === kids.length ? info.s : null, obj = !!(sh && info.obj);
+  const used = new Set(), rows = [], txt = j => clip(String(curText(k, BOX[k][j]) || '').replace(/\s+/g, ' '), 0, 28);
+  BOX[k].forEach((b, j) => {
+    if (b.zi == null) return;
+    if (b.g) {
+      const r0 = rows.find(r => r.gi === b.gi); if (r0) { r0.lk = r0.lk || !!b.lk; return; }
+      const [gx, gy, gw, gh] = b.g, ids = kids.map((_, i) => i).filter(i => { const r = rc[i]; return r.x >= gx - 2 && r.y >= gy - 2 && r.x + r.w <= gx + gw + 2 && r.y + r.h <= gy + gh + 2; });
+      if (!ids.includes(b.zi)) ids.push(b.zi); ids.forEach(i => used.add(i));
+      rows.push({j, gi: b.gi, ids, top: Math.max(...ids), lk: !!b.lk, name: txt(j), type: 'การ์ด', can: true});
+    } else { used.add(b.zi); rows.push({j, ids: [b.zi], top: b.zi, lk: !!b.lk, name: txt(j), type: FIELD(b.p), can: true}); }
+  });
+  kids.forEach((c, i) => {
+    if (used.has(i)) return; const r = rc[i], nm = sh?.[i]?.[1] || '', t = (c.textContent || '').trim(), sid = sh?.[i]?.[0];
+    const [name, type] = nm === 'Logo' ? ['โลโก้', 'รูปภาพ'] : nm === 'PageNo' ? ['เลขหน้า', 'ข้อความ'] : c.querySelector('img') ? [isFull(r) ? 'รูปพื้นหลัง' : 'รูปภาพ', 'รูปภาพ']
+      : c.classList.contains('chart-node') ? ['กราฟ', 'กราฟ'] : c.querySelector('table') ? ['ตาราง', 'ตาราง'] : t ? [clip(t.replace(/\s+/g, ' '), 0, 28), 'ข้อความ']
+      : isFull(r) ? ['พื้นหลัง', 'รูปทรง'] : [PRST[(c.className.match(/shape-(?!wrapper)(\w+)/) || [])[1]] || (/line|connector/i.test(c.className) ? 'เส้น' : 'รูปทรง'), 'รูปทรง'];
+    const lk = !!(sid != null && info?.lk.includes(String(sid)));
+    rows.push({ids: [i], top: i, sid, lk, name, type, obj: true, can: obj && sid != null});
+  });
+  rows.forEach(r => { const xs = r.ids.map(i => rc[i]); r.x = Math.min(...xs.map(q => q.x)); r.y = Math.min(...xs.map(q => q.y)); r.w = Math.max(...xs.map(q => q.x + q.w)) - r.x; r.h = Math.max(...xs.map(q => q.y + q.h)) - r.y; r.bg = isFull(r); });
+  return rows.sort((a, b) => b.top - a.top);
+}
+function layBody(t) {
+  const all = layRows(t.k), cb = t.b.gi;
+  LAYV = POS.flt === 'all' ? all : all.filter(o => !o.bg && all.some(q => q !== o && !q.bg && ovl(q, o)));
+  const fl = (k, l) => `<button type="button" data-pf="${k}"${POS.flt === k ? ' class="on"' : ''} aria-pressed="${POS.flt === k}">${l}</button>`;
+  const row = (r, n) => { const on = r.j === t.j || (cb != null && r.gi === cb), mv = r.can && !r.lk, nm = esc(r.name);
+    return `<div class="ly${on ? ' on' : ''}${r.lk ? ' lkd' : ''}">
+      <button type="button" class="lyg" aria-label="ลากหรือกดลูกศรขึ้นลงเพื่อเลื่อนชั้น ${nm}" data-n="${n}"${mv ? '' : ' disabled'}>${ico('grip')}</button><span class="lyp" data-n="${n}" aria-hidden="true"></span>
+      ${r.j != null ? `<button type="button" class="lyn" data-ly="${n}">` : '<span class="lyn">'}<b>${nm}</b><small>${r.type}${r.lk ? ' · ล็อกอยู่' : ''}</small>${r.j != null ? '</button>' : '</span>'}
+      <span class="zud"><button type="button" class="ic" data-lyz="${n}:fwd" aria-label="ยกขึ้นหนึ่งชั้น ${nm}"${n === 0 || !mv ? ' disabled' : ''}>${ico('up')}</button><button type="button" class="ic" data-lyz="${n}:bwd" aria-label="ส่งลงหนึ่งชั้น ${nm}"${n === LAYV.length - 1 || !mv ? ' disabled' : ''}>${ico('dn')}</button></span>
+      ${r.can ? `<button type="button" class="ic lyk${r.lk ? ' on' : ''}" data-lyk="${n}" aria-pressed="${r.lk}" aria-label="${r.lk ? 'ปลดล็อก' : 'ล็อก'} ${nm}" data-tip="${r.lk ? 'ปลดล็อก' : 'ล็อก'}">${ico(r.lk ? 'lock' : 'unlock')}</button>` : '<i class="lysp"></i>'}</div>`; };
+  return `<div class="pflt">${fl('all', 'ทั้งหมด')}${fl('ov', 'ที่ซ้อนกัน')}</div><p class="help" style="text-align:left">บนสุดของรายการ = อยู่หน้าสุดบนสไลด์ ลากที่จุดหกจุดเพื่อเลื่อนชั้น</p>
+    <div class="lys">${LAYV.map(row).join('') || '<p class="help">ไม่มีชิ้นที่ซ้อนกัน</p>'}</div>`;
+}
+function layFill(root, k) {             // ภาพย่อ 72×40: โคลนชิ้นจริง + พื้นหลังของหน้าใต้มัน (cloneSlide = id ไม่ซ้ำ ไล่สีไม่หาย)
+  const ps = root.querySelectorAll('.lyp'); if (!ps.length) return;
+  const w = wrapOf(k); if (!w) return; const kids = w.children, bgi = [...kids].findIndex(c => isFull(kidRect(c)));
+  ps.forEach(p => { const r = LAYV[+p.dataset.n]; if (!r) return;
+    const s = Math.min(1, 72 / Math.max(r.w, 1), 40 / Math.max(r.h, 1)), ox = (72 - r.w * s) / 2, oy = (40 - r.h * s) / 2, d = w.cloneNode(false);
+    d.style.cssText += `;position:absolute;left:0;top:0;width:960px;height:540px;transform-origin:0 0;transform:translate(${ox}px,${oy}px) scale(${s}) translate(${-r.x}px,${-r.y}px)`;
+    for (const i of (bgi >= 0 && bgi < Math.min(...r.ids) ? [bgi] : []).concat(r.ids)) d.appendChild(cloneSlide(kids[i]));
+    p.appendChild(d); });
+}
+async function layZ(k, r, op, to) {     // ขึ้น/ลงหนึ่งชั้น หรือ ลากไปเหนือ/ใต้แถวอื่น (to = ชิ้นของแถวนั้น) = 1 ขั้นเลิกทำ กันข้อความถูกบังด้วย z_box เดิม
+  if (busyNow || !r.can || r.lk) return; const info = layInfo(k), oldKeys = KEYS.slice();
+  const path = r.j != null ? BOX[k][r.j].p : ['#' + r.sid], T = to && info ? to.map(i => info.s[i]?.[0]).filter(x => x != null) : [];
+  busyNow = true; if (to) toast('กำลังเลื่อนชั้น', true); await frame(); await frame();
+  try {
+    py.globals.set('K', k); py.globals.set('PATH', py.toPy(path)); py.globals.set('OP', op); py.globals.set('T', py.toPy(T)); py.globals.set('N', to ? 24 : 1); py.globals.set('ORDER', py.toPy(order));
+    const st = py.runPython(`def _zto():
+    key, n = '.'.join(map(str, PATH)), 0
+    for _ in range(N):
+        r = D.z_box(ITEMS, list(ORDER), K, list(PATH), OP, M, TTL, ins={p: CS[i]["kind"] for p, i in enumerate(ORDER) if CS[i].get("_ins")})
+        if r != 'ok': return 'ok' if n and r == 'same' else ('part' if n else r)
+        n += 1
+        if not T: break
+        sl = D.LASTPRS[0].slides[0]; ids = [x.shape_id for x in sl.shapes]
+        me = [ids.index(u.shape_id) for u in D._zunit(sl, ITEMS[ORDER[K]][1], key)[1]]; tt = [ids.index(t) for t in T if t in ids]
+        if not me or not tt or (OP == 'fwd' and min(me) > max(tt)) or (OP == 'bwd' and max(me) < min(tt)): break
+    return 'ok'
+_zto()`);
+    if (st === 'ok' || st === 'part') { await paint(); settle(oldKeys, k); commit(`${ZL[op]} หน้า ${k + 1}: ${r.name}`); toast(st === 'part' ? 'เลื่อนได้ถึงตรงนี้ เลื่อนต่อข้อความจะถูกบัง' : ZL[op]); }
+    else toast(st === 'hidden' ? 'ข้อความจะถูกบังทั้งหมด' : to ? 'สองชิ้นนี้ไม่ได้ซ้อนกัน ลำดับไม่เปลี่ยนภาพ' : op === 'fwd' ? 'อยู่บนสุดแล้ว' : 'อยู่ล่างสุดแล้ว');
+  } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); } finally { busyNow = false; paintTools(); }
+}
+function layLock(k, r) {                // ข้อความ/การ์ด = ล็อกกล่องเดิม (019b) / ชิ้นอื่น = ช่อง '#shape_id' (spLocks ในไฟล์)
+  if (r.j != null) { selectBox(k, r.j); return setLock(!r.lk); }
+  py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(['#' + r.sid])); py.globals.set('LK', !r.lk);
+  boxCall(k, 'D.set_box(ITEMS, IDX, list(PATH), lock=LK)', `${r.lk ? 'ปลดล็อก' : 'ล็อก'} หน้า ${k + 1}: ${r.name}`, () => toast(r.lk ? 'ปลดล็อกแล้ว' : 'ล็อกแล้ว'));
+}
+const scrollerOf = el => { for (let e = el.parentElement; e; e = e.parentElement) { const o = getComputedStyle(e).overflowY; if ((o === 'auto' || o === 'scroll') && e.scrollHeight > e.clientHeight) return e; } return document.scrollingElement; };
+document.addEventListener('pointerdown', ev => {      // ลากแถว: เมาส์ + นิ้ว (touch-action:none ที่จุดหกจุด) ใกล้ขอบบน/ล่าง = เลื่อนรายการเอง
+  const g = ev.target.closest('.lys .lyg'); if (!g || g.disabled || busyNow || ev.button > 0) return;
+  ev.preventDefault(); const row = g.closest('.ly'), list = row.parentElement, rows = [...list.querySelectorAll(':scope > .ly')], sc = scrollerOf(list), a = rows.indexOf(row);
+  LD = {id: ev.pointerId, row, list, rows, a, b: a, y0: ev.clientY, y: ev.clientY, sc, s0: sc.scrollTop, tops: rows.map(x => x.offsetTop), hs: rows.map(x => x.offsetHeight), gap: 4, raf: 0};
+  try { g.setPointerCapture(ev.pointerId); } catch (e) {} row.classList.add('drag'); list.classList.add('dragging');
+});
+document.addEventListener('pointermove', ev => { if (!LD || ev.pointerId !== LD.id) return; LD.y = ev.clientY; if (!LD.raf) LD.raf = requestAnimationFrame(layFrame); });
+function layFrame() {
+  const D = LD; if (!D) return; D.raf = 0;
+  const R = D.sc === document.scrollingElement ? {top: 0, bottom: innerHeight} : D.sc.getBoundingClientRect(), e = 48;
+  const v = D.y < R.top + e ? Math.max(-14, (D.y - R.top - e) / 3) : D.y > R.bottom - e ? Math.min(14, (D.y - R.bottom + e) / 3) : 0;
+  if (v) D.sc.scrollTop += v;
+  const dy = D.y - D.y0 + D.sc.scrollTop - D.s0, c = D.tops[D.a] + dy + D.hs[D.a] / 2, h = D.hs[D.a] + D.gap;
+  D.b = D.rows.filter((x, i) => i !== D.a && c > D.tops[i] + D.hs[i] / 2).length;
+  D.row.style.transform = `translateY(${dy}px)`;
+  D.rows.forEach((x, i) => { if (i !== D.a) x.style.transform = D.a < D.b && i > D.a && i <= D.b ? `translateY(${-h}px)` : D.b < D.a && i >= D.b && i < D.a ? `translateY(${h}px)` : ''; });
+  if (v && LD) LD.raf = requestAnimationFrame(layFrame);
+}
+function layUp(ev, cancel) {
+  const D = LD; if (!D || ev.pointerId !== D.id) return; LD = null; cancelAnimationFrame(D.raf);
+  D.rows.forEach(x => x.style.transform = ''); D.row.classList.remove('drag'); D.list.classList.remove('dragging');
+  const t = tgt(); if (cancel || D.b === D.a || !t) return;
+  const me = LAYV[D.a], to = LAYV[D.b]; if (me && to) layZ(t.k, me, D.b < D.a ? 'fwd' : 'bwd', to.ids);
+}
+document.addEventListener('pointerup', ev => layUp(ev, false)); document.addEventListener('pointercancel', ev => layUp(ev, true));
+document.addEventListener('keydown', ev => {          // จุดหกจุดที่โฟกัสอยู่: ลูกศรขึ้นลง = เลื่อนชั้น (ไม่ไปขยับกล่องบนสไลด์)
+  const g = ev.target.closest?.('.lys .lyg'); if (!g || !['ArrowUp', 'ArrowDown'].includes(ev.key)) return;
+  ev.preventDefault(); ev.stopPropagation(); const r = LAYV[+g.dataset.n], t = tgt(); if (r && t && !g.disabled) layZ(t.k, r, ev.key === 'ArrowUp' ? 'fwd' : 'bwd');
+}, true);
 // pptx-preview ไม่วาดขีดฆ่า (ไฟล์มี strike="sngStrike" แล้ว LibreOffice/PowerPoint เห็น) เติม CSS ให้จอตรงไฟล์
 function patchNode(node, bx) {
   for (const b of bx) {
@@ -3497,8 +3622,8 @@ const CATS = [['all', 'ทั้งหมด'], ['nohead', 'ไม่มีห�
 let FP = null;
 const canLocal = () => 'queryLocalFonts' in window && !touch();   // Chrome / Edge บนคอมเท่านั้น (ที่อื่นซ่อนแท็บ)
 async function fontPicker() {
-  const E = ED; if (!E?.ed) return; if (FP) return closePicker();
-  await gfReady; E.picking = true;
+  const E = ED; if (E ? !E.ed : !selBox()) return; if (FP) return closePicker();
+  await gfReady; if (E) E.picking = true;
   const el = document.createElement('div'); el.className = 'fpick' + (one() ? ' sheetm' : ''); el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'ฟอนต์');
   FP = {el, tab: 'free', cat: 'all', q: '', applied: null};
   // ภาพตัวอย่าง: ไฟล์ย่อยของ Google Fonts เฉพาะตัวอักษรของประโยคตัวอย่าง+ชื่อ (ไม่กี่ KB ไม่ส่งคำลูกค้า)
@@ -3520,13 +3645,13 @@ async function fontPicker() {
   });
 }
 function placePicker() {
-  if (!FP || one()) return; const r = ED?.tb?.getBoundingClientRect(); if (!r) return;
+  if (!FP || one()) return; const r = (ED ? ED.tb : SEL && pgs()[SEL.k]?.querySelector('.selbar'))?.getBoundingClientRect(); if (!r) return;
   const h = Math.min(440, innerHeight - 24), below = r.bottom + 8 + h < innerHeight;
   Object.assign(FP.el.style, {left: Math.max(8, Math.min(r.left, innerWidth - 328)) + 'px', top: (below ? r.bottom + 8 : Math.max(8, r.top - 8 - h)) + 'px', maxHeight: h + 'px'});
 }
 function closePicker() { if (!FP) return; FP.el.remove(); FP = null; if (ED) { ED.picking = false; ED.ed?.focus({preventScroll: true}); } }
 function paintPicker() {
-  if (!FP) return; const B = FP.el.querySelector('.fbody'), cur = ED?.fam || ED?.b.ff || setFont();
+  if (!FP) return; const B = FP.el.querySelector('.fbody'), cur = ED ? ED.fam || ED.b.ff || setFont() : selBox()?.b.ff || setFont();
   if (FP.tab === 'local') return paintLocal(B, cur);
   const used = (() => { try { return JSON.parse(py.runPython('json.dumps(D.fonts_used(ITEMS))')); } catch (e) { return []; } })(), q = FP.q.trim().toLowerCase();
   const row = g => `<button type="button" class="frow${g.name === cur ? ' on' : ''}" data-fn="${esc(g.name)}"><span class="fn">${esc(g.name)}</span><span class="fs" style="font-family:'${esc(g.name)}',sans-serif">${SAMPLE}</span>${g.name === cur ? ico('check') : '<i class="fsp"></i>'}</button>`;
@@ -3545,7 +3670,7 @@ function paintFoot() {
   f.innerHTML = a ? `<p>ใช้ ${esc(a)} กับ</p><div class="row"><button class="btn btn-line btn-sm" type="button" data-all="page">ทั้งหน้านี้</button><button class="btn btn-line btn-sm" type="button" data-all="all">ทุกหน้า</button></div><small>กล่องที่ตั้งฟอนต์เองไว้ไม่เปลี่ยน</small>` : '';
 }
 async function pickFont(name, row) {        // แตะแถว = กล่องนี้เปลี่ยนทันที รายการยังเปิด (แบบ Canva) โหลดยังไม่เสร็จ กล่องคงฟอนต์เดิม (ไม่แวบฟอนต์สำรอง)
-  const E = ED; if (!E?.ed) return; const design = name === setFont();
+  const E = ED; if (!E) return pickFontSel(name, row); if (!E.ed) return; const design = name === setFont();
   row?.classList.add('ld');
   try { if (!design && !localF.has(name)) await loadFont(name); }
   catch (e) { row?.classList.remove('ld'); if (row) row.querySelector('.fs').textContent = 'โหลดไม่สำเร็จ แตะเพื่อลองอีกครั้ง'; return; }
@@ -3562,8 +3687,19 @@ async function pickFont(name, row) {        // แตะแถว = กล่อ
   if (FP) { FP.applied = E.fam || null; const sc = FP.el.querySelector('.fbody').scrollTop; paintPicker(); FP.el.querySelector('.fbody').scrollTop = sc; }
   if (localF.has(name) && !localWarned && FP) FP.el.querySelector(`[data-fn="${CSS.escape(name)}"]`)?.insertAdjacentHTML('afterend', `<div class="lwarn">ฟอนต์นี้มีแค่ในเครื่องนี้ เปิดไฟล์ในเครื่องอื่นจะเปลี่ยนเป็นฟอนต์อื่น <button class="btn btn-line btn-sm" type="button" data-loc="ok">เข้าใจแล้ว</button></div>`);
 }
+async function pickFontSel(name, row) {    // เลือกกล่องอยู่ ไม่พิมพ์: ลงไฟล์ทันทีผ่าน set_style(font=) 1 แตะ = 1 ขั้นเลิกทำ ล้น = ย่อ 0.95-0.8 ยังล้น = ฟอนต์เดิม
+  const s = selBox(); if (!s) return closePicker(); const design = name === setFont(), fa = fieldAt(SEL.k, s.b);
+  row?.classList.add('ld');
+  try { if (!design && !localF.has(name)) await loadFont(name); }
+  catch (e) { row?.classList.remove('ld'); if (row) row.querySelector('.fs').textContent = 'โหลดไม่สำเร็จ แตะเพื่อลองอีกครั้ง'; return; }
+  row?.classList.remove('ld');
+  const st = await stylePy({font: design ? '' : name}, () => `ฟอนต์ ${fa}: ${name}`, st => st === 'over' ? 'ฟอนต์นี้กว้างกว่า ข้อความไม่พอดีกล่อง ใช้ฟอนต์เดิม' : st === 'shrink' ? 'ตัวอักษรเล็กลงเล็กน้อยให้พอดีกล่อง' : '');
+  if (!FP || st === 'over' || st === 'busy') return;
+  FP.applied = design ? null : name; const sc = FP.el.querySelector('.fbody').scrollTop; paintPicker(); FP.el.querySelector('.fbody').scrollTop = sc; placePicker();
+  if (localF.has(name) && !localWarned) FP.el.querySelector(`[data-fn="${CSS.escape(name)}"]`)?.insertAdjacentHTML('afterend', `<div class="lwarn">ฟอนต์นี้มีแค่ในเครื่องนี้ เปิดไฟล์ในเครื่องอื่นจะเปลี่ยนเป็นฟอนต์อื่น <button class="btn btn-line btn-sm" type="button" data-loc="ok">เข้าใจแล้ว</button></div>`);
+}
 async function fontScope(scope) {           // ทั้งหน้านี้ / ทุกหน้า: ใช้คำที่พิมพ์ก่อน แล้วเปลี่ยนทีละหน้าเบื้องหลัง หน้าที่ไม่พอดีใช้ฟอนต์เดิมและบอกตรง ๆ
-  const fam = FP?.applied, k = ED?.k; if (!fam || k == null) return;
+  const fam = FP?.applied, k = ED ? ED.k : SEL?.k; if (!fam || k == null) return;
   closePicker(); if (!(await applyEdit())) return; if (busyNow) return;
   busyNow = true; const oldKeys = KEYS.slice(), ks = scope === 'page' ? [k] : slides.map((_, i) => i), bad = [];
   try {
@@ -3608,7 +3744,7 @@ window.addEventListener('resize', placePicker);
 // ══ ใบ 017: เลือก ลากย้าย ย่อขยายกรอบกล่อง (แบบ Canva) ══════════════════════════════════════
 // ระหว่างลาก: CSS translate + rAF ไม่อ่าน layout ไม่เรียก Python / ปล่อยแล้ว Python ครั้งเดียว (move_box + keys + repr)
 // เรขาคณิต: ฝังจาก docs/doc2slide/research/editgeo.js ทั้งไฟล์ (ไม่เขียนใหม่) หัว MIT อยู่ข้างใน
-const {snapLines, snapEdges, moveBox, resizeBox, snapResize, editZone, nudgeStep, boxHandles} = (() => {
+const {snapLines, snapEdges, moveBox, resizeBox, resizeBoxRot, placeLocal, snapResize, editZone, nudgeStep, boxHandles} = (() => {
 // Slide Studio: move / resize / smart-guide geometry. Inline into studio/index.html (task 017); no extra request.
 // Ported from deckcraft (https://github.com/storytold/deckcraft, commit f893f6a):
 //   crates/engine/src/tools/geometry.rs  snap_edges, snap_resize
@@ -3621,8 +3757,8 @@ const {snapLines, snapEdges, moveBox, resizeBox, snapResize, editZone, nudgeStep
 // permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright
 // notice and this permission notice shall be included in all copies or substantial portions of the Software.
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
-// Changes from the original: JS, unrotated/unflipped boxes only, no grid snap, no drawing guides,
-// clamp to a minimum size instead of flipping past the opposite edge, keep box inside the slide.
+// Changes from the original: JS, unflipped boxes only (rotation: resize only, task 019b round 2), no grid snap,
+// no drawing guides, clamp to a minimum size instead of flipping past the opposite edge, keep box inside the slide.
 //
 // Units: slide units, 960 x 540 (= points). Box = {x, y, w, h}. Handles: 0 TL,1 T,2 TR,3 R,4 BR,5 B,6 BL,7 L.
 
@@ -3679,6 +3815,19 @@ function resizeBox(o, h, dx, dy, min = { w: 24, h: 14 }) {
   return { x: o.x + l, y: o.y + t, w: r - l, h: b - t };
 }
 
+// deckcraft resize_box, rotated part: pointer delta into the box's own frame, resize there with the opposite edge fixed,
+// then new centre = old centre + rotated change of the local centre. rot = degrees clockwise (pptx a:xfrm rot), box = unrotated xfrm.
+function placeLocal(o, rot, l) {                  // rect in o's own frame (0,0 = o's top-left) -> unrotated xfrm with the same rot
+  const a = rot * Math.PI / 180, c = Math.cos(a), s = Math.sin(a), ux = l.x + l.w / 2 - o.w / 2, uy = l.y + l.h / 2 - o.h / 2;
+  const cx = o.x + o.w / 2 + ux * c - uy * s, cy = o.y + o.h / 2 + ux * s + uy * c;
+  return { x: cx - l.w / 2, y: cy - l.h / 2, w: l.w, h: l.h };
+}
+function resizeBoxRot(o, h, dx, dy, rot, min) {
+  if (!rot) return resizeBox(o, h, dx, dy, min);
+  const a = rot * Math.PI / 180, c = Math.cos(a), s = Math.sin(a);
+  return placeLocal(o, rot, resizeBox({ x: 0, y: 0, w: o.w, h: o.h }, h, dx * c + dy * s, -dx * s + dy * c, min));
+}
+
 // deckcraft snap_resize: only the dragged edges look for a line (a fixed edge already on a line must not win).
 function snapResize(x, h, L, snapTol) {
   const left = h === 0 || h === 6 || h === 7, right = h >= 2 && h <= 4, top = h <= 2, bottom = h >= 4 && h <= 6;
@@ -3730,9 +3879,17 @@ if (typeof module !== 'undefined' && require.main === module) {
   assert.strictEqual(editZone(o, { x: 12, y: 30 }, 6), 'frame');
   assert.strictEqual(editZone(o, { x: 60, y: 30 }, 6), 'inside');
   assert.strictEqual(nudgeStep(true), 1);
+  // rotated: 0 deg = plain resize / 90 deg: pointer down = local right edge grows, local left edge (world top) stays
+  assert.deepStrictEqual(resizeBoxRot(o, 3, 30, 0, 0), resizeBox(o, 3, 30, 0));
+  const q = resizeBoxRot({ x: 0, y: 0, w: 100, h: 40 }, 3, 0, 10, 90);
+  assert.ok(Math.abs(q.w - 110) < 1e-9 && Math.abs(q.h - 40) < 1e-9 && Math.abs(q.x + 5) < 1e-9 && Math.abs(q.y - 5) < 1e-9);
+  // 30 deg corner: the opposite corner (local TL) stays at the same world point
+  const wp = (b, lx, ly, r) => { const A = r * Math.PI / 180; return [b.x + b.w / 2 + (lx - b.w / 2) * Math.cos(A) - (ly - b.h / 2) * Math.sin(A), b.y + b.h / 2 + (lx - b.w / 2) * Math.sin(A) + (ly - b.h / 2) * Math.cos(A)]; };
+  const b0 = { x: 200, y: 100, w: 120, h: 60 }, b1 = resizeBoxRot(b0, 4, 25, 18, 30);
+  wp(b0, 0, 0, 30).forEach((v, i) => assert.ok(Math.abs(v - wp(b1, 0, 0, 30)[i]) < 1e-9));
   console.log('editgeo ok');
 }
-return {snapLines, snapEdges, moveBox, resizeBox, snapResize, editZone, nudgeStep, boxHandles};
+return {snapLines, snapEdges, moveBox, resizeBox, resizeBoxRot, placeLocal, snapResize, editZone, nudgeStep, boxHandles};
 })();
 let SEL = null, DR = null, NU = null;      // SEL = กล่องที่เลือกอยู่ ไม่พิมพ์ {k, p} / DR = กำลังลาก / NU = ลูกศรที่ยังไม่บันทึก
 const pk = p => p.join('.');
@@ -3746,17 +3903,21 @@ function selectBox(k, j) { const b = BOX[k]?.[j]; if (!b || ED || viewing) retur
 function deselectBox() {
   if (NU) nudgeCommit();
   if (PZS) { const P = PZS; clearTimeout(P.t); sizeCommit(); }   // ขนาดที่กดค้างไว้: บันทึกก่อนเลิกเลือก (stylePy อ่าน SEL ทันที)
+  if (FP && !ED) closePicker();
   if (!SEL) return; SEL = null;
   SELD.classList.remove('on', 'lift'); document.querySelectorAll('.hit.selx').forEach(h => h.classList.remove('selx'));
   $('pWork').classList.remove('boxon'); document.querySelectorAll('.selbar,.mpill').forEach(x => x.remove()); $('bbar').classList.remove('tx'); closeTP();
 }
+const KCUR = ['nwse-resize', 'ns-resize', 'nesw-resize', 'ew-resize'];
+const CARDROT = 'กล่องบนการ์ดหมุนไม่ได้ ต้องหมุนทั้งการ์ด ซึ่งตอนนี้ไฟล์ PowerPoint จะวางข้อความไม่ตรงกับจอ';
 function paintSel() {
   const s = selBox(), pg = s && pgs()[SEL.k];
   if (!s || !pg || ED) { if (SEL && (!s || !pg)) deselectBox(); return; }
   const hs = pg.querySelector('.hits'), sc = pg.querySelector('.slide').clientWidth / 960, r = rectOf(s.b);
   if (SELD.parentNode !== hs) hs.append(GHOST, SELD, GV, GH);
   Object.assign(SELD.style, {transform: selTf(r.x * sc, r.y * sc, r.w * sc, r.h * sc, s.b.rot), width: r.w * sc + 'px', height: r.h * sc + 'px'});
-  SELD.classList.toggle('lock', !s.b.can && !s.b.lk); SELD.classList.toggle('lk', !!s.b.lk); SELD.classList.toggle('rot', !!s.b.rot); SELD.classList.toggle('norot', !s.b.can || !!s.b.g);
+  SELD.classList.toggle('lock', !s.b.can && !s.b.lk); SELD.classList.toggle('lk', !!s.b.lk); SELD.classList.toggle('rot', !!s.b.rot); SELD.classList.toggle('norot', !s.b.can);
+  SELD.querySelectorAll('.k').forEach(e => e.style.cursor = s.b.rot ? KCUR[(+e.dataset.h + Math.round(s.b.rot / 45)) % 4] : '');   // ที่จับหมุนตามกรอบ เคอร์เซอร์หมุนตาม
   SELD.classList.toggle('nok', !!s.b.g || (touch() && (r.w * sc < 88 || r.h * sc < 44)));   // ที่จับ: ไม่ใช่การ์ด และบนจอสัมผัสกล่องต้องใหญ่พอ 88×44
   if (!SELD.classList.contains('on')) requestAnimationFrame(() => { if (SEL) SELD.classList.add('on'); });
   hs.querySelectorAll('.hit').forEach((h, i) => h.classList.toggle('selx', i === s.j && !!s.b.can));
@@ -3799,7 +3960,7 @@ $('pages').addEventListener('pointerdown', ev => {
   const pg = ev.target.closest('.pg'); if (!pg) return;
   const k = pgs().indexOf(pg), kh = ev.target.closest('.sel .k');
   let j, h = null;
-  if (ev.target.closest('.sel .rth')) { const s = selBox(); if (s?.b.can && !s.b.g) { ev.preventDefault(); ev.stopPropagation(); rotStart(ev, k, s.b); } return; }
+  if (ev.target.closest('.sel .rth')) { const s = selBox(); if (s?.b.g) { ev.preventDefault(); toast(CARDROT); } else if (s?.b.can) { ev.preventDefault(); ev.stopPropagation(); rotStart(ev, k, s.b); } return; }
   if (ev.target.closest('.sel .mvh')) { const s = selBox(); if (!s?.b.can) return; ev.preventDefault(); return armDrag(ev, k, s.j, s.b, null); }
   if (kh) { const s = selBox(); if (!s) return; j = s.j; h = +kh.dataset.h; }
   else { const hit = ev.target.closest('.hit'); if (!hit || hit.classList.contains('ing')) return; j = +hit.dataset.j; }
@@ -3850,13 +4011,14 @@ function dragFrame() {
     SELD.style.transform = selTf(r.x * D.s, r.y * D.s, r.w * D.s, r.h * D.s, D.b.rot);
   } else {
     if (!D.moved) { if (Math.hypot(p.x - D.start.x, p.y - D.start.y) < (D.t ? 4 : 2) / D.s) return; lift(D); }
-    let r = resizeBox(D.ob, D.h, p.x - D.start.x, p.y - D.start.y, {w: Math.max(24, D.b.pt * 1.2), h: 14});   // เล็กสุด: กว้าง 1 ตัวอักษรใหญ่สุด สูง 1 บรรทัดที่ 10pt
+    const rot = D.b.rot || 0;                // หมุนอยู่: ลากในกรอบของกล่องเอง (resizeBoxRot) ด้านตรงข้ามอยู่ที่เดิม ไม่ดูดเส้น
+    let r = resizeBoxRot(D.ob, D.h, p.x - D.start.x, p.y - D.start.y, rot, {w: Math.max(24, D.b.pt * 1.2), h: 14});   // เล็กสุด: กว้าง 1 ตัวอักษรใหญ่สุด สูง 1 บรรทัดที่ 10pt
     if (D.h % 2 === 0) {                     // ใบ 019b มุม = ขยายกรอบและตัวอักษรเท่ากัน (แบบ Canva) หนีบตามช่วงขนาด 019
       const [lo, hi] = zRange(D.b); let f = Math.max(r.w / D.ob.w, r.h / D.ob.h); f = Math.min(hi / D.b.pt, Math.max(lo / D.b.pt, f, 0.05));
-      const w = D.ob.w * f, h = D.ob.h * f, ax = D.h === 0 || D.h === 6 ? D.ob.x + D.ob.w - w : D.ob.x, ay = D.h === 0 || D.h === 2 ? D.ob.y + D.ob.h - h : D.ob.y;
-      D.f = f; D.gx = D.gy = null; r = {x: ax, y: ay, w, h};
-    } else if (D.alt) D.gx = D.gy = null; else { const q = snapResize(r, D.h, D.L, D.si); r = q.box; D.gx = q.guides.find(g => g.v)?.pos ?? null; D.gy = q.guides.find(g => !g.v)?.pos ?? null; }
-    if (r.x < 0) { r.w += r.x; r.x = 0; } r.w = Math.min(r.w, 960 - r.x); r.h = Math.min(r.h, 540 - r.y);
+      const w = D.ob.w * f, h = D.ob.h * f;
+      D.f = f; D.gx = D.gy = null; r = placeLocal(D.ob, rot, {x: D.h === 0 || D.h === 6 ? D.ob.w - w : 0, y: D.h === 0 || D.h === 2 ? D.ob.h - h : 0, w, h});
+    } else if (D.alt || rot) D.gx = D.gy = null; else { const q = snapResize(r, D.h, D.L, D.si); r = q.box; D.gx = q.guides.find(g => g.v)?.pos ?? null; D.gy = q.guides.find(g => !g.v)?.pos ?? null; }
+    if (!rot) { if (r.x < 0) { r.w += r.x; r.x = 0; } r.w = Math.min(r.w, 960 - r.x); r.h = Math.min(r.h, 540 - r.y); }
     D.cur = r;
     Object.assign(SELD.style, {transform: selTf(r.x * D.s, r.y * D.s, r.w * D.s, r.h * D.s, D.b.rot), width: r.w * D.s + 'px', height: r.h * D.s + 'px'});
     if (D.f) liveSz(D.k, D.b, D.b.pt * D.f);
