@@ -109,5 +109,75 @@
 "th": "ชลบุรี",
 "r": "Chonburi-Regular.ttf",
 "kb": 164
+},
+{
+"name": "Prompt",
+"cat": "nohead",
+"th": "พรอมต์",
+"r": "Prompt-Regular.ttf",
+"kb": 164,
+"b": "Prompt-Bold.ttf"
+},
+{
+"name": "Chakra Petch",
+"cat": "nohead",
+"th": "จักรเพชร",
+"r": "ChakraPetch-Regular.ttf",
+"kb": 76,
+"b": "ChakraPetch-Bold.ttf"
+},
+{
+"name": "Krub",
+"cat": "nohead",
+"th": "กรุบ",
+"r": "Krub-Regular.ttf",
+"kb": 87,
+"b": "Krub-Bold.ttf"
+},
+{
+"name": "Niramit",
+"cat": "nohead",
+"th": "นิรมิต",
+"r": "Niramit-Regular.ttf",
+"kb": 95,
+"b": "Niramit-Bold.ttf"
+},
+{
+"name": "Trirong",
+"cat": "head",
+"th": "ไตรรงค์",
+"r": "Trirong-Regular.ttf",
+"kb": 193,
+"b": "Trirong-Bold.ttf"
+},
+{
+"name": "Taviraj",
+"cat": "head",
+"th": "ทวิราช",
+"r": "Taviraj-Regular.ttf",
+"kb": 215,
+"b": "Taviraj-Bold.ttf"
+},
+{
+"name": "Itim",
+"cat": "hand",
+"th": "อิ่ม",
+"r": "Itim-Regular.ttf",
+"kb": 362
+},
+{
+"name": "Charm",
+"cat": "hand",
+"th": "ชาม",
+"r": "Charm-Regular.ttf",
+"kb": 134,
+"b": "Charm-Bold.ttf"
+},
+{
+"name": "Sriracha",
+"cat": "hand",
+"th": "ศรีราชา",
+"r": "Sriracha-Regular.ttf",
+"kb": 312
 }
 ]
