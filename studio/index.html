@@ -691,6 +691,169 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .edit.no,.medit.no,.bdg.no{animation:none!important}
   .hit.saving::before,.hit.checking::before{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
 }
+/* ── งานของฉัน (ใบ 009): โฟลเดอร์ ป้ายสี ถังขยะ เมนูโปรไฟล์ / ขยับแค่ transform กับ opacity เงาเป็นชั้น ::after ── */
+:root{--eo:cubic-bezier(.2,.8,.2,1);--ei:cubic-bezier(.4,0,1,1)}
+body.onlist{background:#fff}
+body.onlist .top{display:none}
+.home>.hback{position:absolute;top:12px;left:12px;z-index:2;height:44px}
+.lst{min-height:100dvh;background:#fff}
+.lbar{position:sticky;top:0;z-index:20;height:56px;display:flex;align-items:center;gap:6px;padding:0 12px 0 16px;background:#fff;border-bottom:1px solid var(--line)}
+.lbar .grow{flex:1}
+.lg{display:flex;align-items:center;height:44px;flex:none}.lg img{height:22px;width:auto;display:block}
+.lsearch{display:none;align-items:center;gap:8px;height:44px;padding:0 10px 0 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--sub);flex:1;max-width:400px;margin-left:20px;transition:border-color .15s}
+.lsearch:focus-within{border-color:var(--text)}
+.lsearch input{flex:1;min-width:0;border:none;outline:none;font:inherit;font-size:15px;color:var(--text);background:none;height:42px}
+.lsearch input::-webkit-search-cancel-button{display:none}
+.lsearch kbd{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:6px;padding:0 6px;line-height:1.6;color:var(--sub)}
+.lbar.srch .lg,.lbar.srch .lsq,.lbar.srch .lnew2{display:none}.lbar.srch .lsearch{display:flex;margin-left:0;max-width:none}.lbar.srch .lsearch kbd{display:none}
+.lnew2{display:none}
+.av{position:relative;width:44px;height:44px;border-radius:50%;border:none;background:none;display:grid;place-items:center;flex:none;-webkit-tap-highlight-color:transparent}
+.av b{width:34px;height:34px;border-radius:50%;background:#E3EADF;color:#43573C;font-size:15px;display:grid;place-items:center;transition:transform .16s var(--eo)}
+.av::before{content:'';position:absolute;inset:1px;border-radius:50%;border:3px solid var(--line);opacity:0;transition:opacity .16s}
+.av.on::before{opacity:1}.av:active b{transform:scale(.94)}
+.gb{position:absolute;right:3px;bottom:3px;width:16px;height:16px;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.2 0 24 0 14.6 0 6.6 5.4 2.7 13.3l7.9 6.2C12.5 13.6 17.8 9.5 24 9.5z'/%3E%3Cpath fill='%234285F4' d='M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.4c-.5 2.9-2.2 5.3-4.6 7l7.4 5.7c4.3-4 6.9-9.9 6.9-17.2z'/%3E%3Cpath fill='%23FBBC05' d='M10.5 28.6c-.5-1.4-.8-3-.8-4.6s.3-3.2.8-4.6l-7.9-6.2C1 16.6 0 20.2 0 24s1 7.4 2.7 10.7l7.8-6.1z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.4-5.7c-2.1 1.4-4.8 2.2-8.5 2.2-6.2 0-11.5-4.1-13.4-9.8l-7.9 6.1C6.6 42.6 14.6 48 24 48z'/%3E%3C/svg%3E") center/10px no-repeat;box-shadow:0 0 0 1px var(--line)}
+.lbody{display:block}
+.side{display:none}
+.lmain{min-width:0;padding:12px 16px calc(110px + var(--safe))}
+.mh{display:flex;align-items:center;gap:4px;min-height:48px}
+.mh h1{font-size:24px;line-height:1.5;font-weight:700;display:flex;align-items:center;gap:6px;min-width:0;flex:1}
+.mh h1 .cr{color:var(--sub);font-weight:600;background:none;border:none;font:inherit;padding:0;white-space:nowrap;min-height:44px}
+.mh h1 .sep{color:var(--sub);width:18px;height:18px}
+.mh h1 .nm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:8px;min-width:0}
+.mh .ib{width:44px;height:44px}
+.srt{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 10px;border:none;background:none;border-radius:10px;font-size:14px;color:var(--mid);white-space:nowrap;flex:none}
+.srt:hover{background:var(--bg)}.srt .lb{display:none}
+.hchips{display:flex;gap:6px;overflow-x:auto;margin:6px -16px 0;padding:6px 16px;scrollbar-width:none;background:var(--bg)}
+.hchips::-webkit-scrollbar{display:none}
+.hc{display:inline-flex;align-items:center;gap:7px;height:40px;padding:0 14px;border-radius:100px;border:1px solid transparent;background:none;font-size:14px;white-space:nowrap;color:var(--mid);flex:none;transition:background .2s var(--eo),border-color .2s}
+.hc svg.i{width:16px;height:16px}
+.hc.on{background:#fff;border-color:#D4D4DA;color:var(--text);font-weight:600}
+.ld{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;display:inline-block}
+.lnote{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:14px;color:var(--mid);line-height:1.6}
+.lnote>span{flex:1;min-width:180px;display:flex;gap:8px;align-items:center}
+.lnote svg.i{color:var(--sub)}
+.wgrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
+.wk{position:relative;display:grid;grid-template-columns:112px minmax(0,1fr);align-items:center;gap:12px;padding:10px 46px 10px 10px;background:#fff;border:1px solid var(--line);border-radius:12px;cursor:pointer;outline:none;
+  animation:wkIn .24s var(--eo) both;animation-delay:calc(var(--i,0) * 15ms);transition:transform .12s var(--eo);-webkit-tap-highlight-color:transparent}
+.wk::after{content:'';position:absolute;inset:-1px;border-radius:12px;box-shadow:0 10px 28px rgba(21,21,26,.10),0 2px 6px rgba(21,21,26,.06);opacity:0;transition:opacity .12s;pointer-events:none}
+.wk:focus-visible{box-shadow:0 0 0 2px var(--text)}
+.wk:active{transform:scale(.985)}
+@keyframes wkIn{from{opacity:0;transform:translateY(4px)}}
+.cv{position:relative;aspect-ratio:16/9;border-radius:8px;overflow:hidden;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line)}
+.cv .zz{position:absolute;inset:0;transition:transform .24s var(--eo)}
+.cv .sc{position:absolute;left:0;top:0;width:960px;height:540px;transform-origin:0 0;pointer-events:none}
+.tcv{position:absolute;inset:0;background:var(--a);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:9%;container-type:inline-size}
+.tcv i{display:block;width:14%;height:3%;min-height:2px;background:var(--b);margin-bottom:5%;border-radius:2px}
+.tcv b{font-size:7.5cqw;line-height:1.35;font-weight:700;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.cv .cph{position:absolute;inset:0;display:grid;place-items:center;color:#C9C9D0}.cv .cph svg.i{width:28px;height:28px}
+.wb{min-width:0}
+.wt{font-size:15px;font-weight:700;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:inherit;font-size:15px;font-weight:700;line-height:1.5;height:3em;padding:0 2px;background:#ECECF0;border-radius:4px;box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--text);overflow:hidden;cursor:text}
+.wm{font-size:13px;color:var(--sub);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wf{display:flex;align-items:center;gap:6px;margin-top:4px;min-height:24px;font-size:13px;color:var(--sub);min-width:0}
+.wf>span{display:flex;align-items:center;gap:5px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wf svg.i{width:16px;height:16px}
+.pills{margin-left:auto;display:flex;gap:4px;flex:none}
+.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:100px;font-size:12.5px;color:#3A3A42;background:color-mix(in srgb,var(--c) 15%,#fff);white-space:nowrap;animation:pillIn .28s var(--spring) both}
+.pill .ld{width:8px;height:8px}.pill.more{background:var(--bg);color:var(--mid);animation:none}
+@keyframes pillIn{from{opacity:0;transform:scale(.7)}}
+.wk .wmo{position:absolute;right:2px;top:50%;margin-top:-22px;width:44px;height:44px;color:var(--mid)}
+.wk.del .cv{opacity:.55}
+.wk.go{pointer-events:none}
+.lempty{grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--mid);font-size:15px;line-height:1.7}
+.lempty svg.big{width:40px;height:40px;color:#C9C9D0;fill:none;stroke:currentColor;stroke-width:1.6;margin:0 auto 8px;display:block}
+.lempty .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+.fab{position:fixed;right:16px;bottom:calc(16px + var(--safe));z-index:25;height:52px;border-radius:16px;padding:0 18px 0 16px;font-size:16px}
+.fab svg.i{transition:transform .2s var(--eo)}.fab.on svg.i{transform:rotate(45deg)}
+/* เมนูลอย: จอใหญ่เด้งจากปุ่ม / มือถือเป็นแผ่นล่าง */
+.hscrim{position:fixed;inset:0;z-index:79;background:rgba(21,21,26,.32);opacity:0;pointer-events:none;transition:opacity .2s var(--eo)}
+.hscrim.on{pointer-events:auto;opacity:1}
+.hp{position:fixed;z-index:80;left:0;right:0;bottom:0;max-height:85dvh;overflow:auto;background:#fff;border-radius:16px 16px 0 0;padding:6px 8px calc(12px + var(--safe));display:none;overscroll-behavior:contain}
+.hp.on{display:block;animation:hpUp .26s var(--eo) both}
+.hp.off{display:block;animation:hpDown .16s var(--ei) both;pointer-events:none}
+.hp::before{content:'';display:block;width:36px;height:4px;border-radius:4px;background:#D9D9DE;margin:4px auto 6px}
+@keyframes hpUp{from{transform:translateY(100%)}}
+@keyframes hpDown{to{transform:translateY(100%)}}
+.hr{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;padding:0 12px;border:none;background:none;border-radius:10px;font-size:15px;text-align:left;color:var(--text);text-decoration:none;line-height:1.5}
+.hr:hover,.hr:focus-visible{background:var(--bg);outline:none}
+.hr svg.i{color:var(--mid)}.hr .k{margin-left:auto;font-size:12px;color:var(--sub)}.hr .ck{margin-left:auto;color:var(--text)}
+.hr.red,.hr.red svg.i{color:#C62828}
+.hr .chev{margin-left:auto;width:16px;height:16px}
+.hp hr{border:none;border-top:1px solid var(--line);margin:4px 0}
+.hp h5{font-size:13px;font-weight:600;color:var(--sub);padding:8px 12px 4px;display:flex;align-items:center;gap:6px;line-height:1.6}
+.hp h5 .ib{width:44px;height:44px;margin:-8px 0 -8px -12px}
+.hcf{padding:10px 12px 6px}.hcf b{display:block;font-size:15px;line-height:1.5}.hcf p{font-size:14px;color:var(--mid);margin-top:2px}
+.hcf .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}.hcf .row .btn{height:44px}
+.hin{display:block;width:100%;height:44px;border:1px solid var(--line);border-radius:10px;padding:0 12px;font:inherit;font-size:16px;outline:none;background:#fff}
+.hin:focus{border-color:var(--text)}
+.lbe{display:flex;align-items:center;gap:10px;padding:4px 12px}.lbe .hin{flex:1}
+.pfh{display:flex;align-items:center;gap:14px;padding:10px 12px 12px}
+.pfh .av{width:52px;height:52px;pointer-events:none}.pfh .av b{width:48px;height:48px;font-size:20px}
+.pfh b.n{display:block;font-size:16px;line-height:1.5}.pfh small{color:var(--sub);font-size:13px}
+.pbox{margin:6px 4px;padding:12px;border:1px solid var(--line);border-radius:12px;font-size:14px}
+.pbox .h{display:flex;align-items:center;gap:8px;color:var(--sub);font-size:13px}.pbox .h svg.i{width:18px;height:18px}
+.pbox .c{font-size:16px;font-weight:700;letter-spacing:.04em;margin-top:6px}.pbox .d{color:var(--mid);font-size:13px}
+.pbox a{display:inline-flex;align-items:center;gap:6px;margin-top:6px;color:var(--text);font-weight:600;text-decoration:underline;text-underline-offset:3px;min-height:44px}
+.hr .v{margin-left:auto;font-size:14px;color:var(--mid);display:flex;align-items:center;gap:6px}
+@media (hover:hover){
+  .wk:hover{transform:translateY(-2px);transition-duration:.16s}
+  .wk:hover::after{opacity:1;transition-duration:.16s}
+  .wk:hover .cv .zz{transform:scale(1.03)}
+}
+@media (min-width:640px){
+  .wgrid{grid-template-columns:repeat(auto-fill,minmax(208px,1fr));gap:18px}
+  .wk{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:8px}
+  .wb{padding:10px 6px 2px}
+  .wt{min-height:3em;padding-right:30px}
+  textarea.wt{width:calc(100% - 30px)}
+  .wb{position:relative}
+  .wk .wmo{right:-6px;top:-2px;margin-top:0;width:40px;height:40px}
+  .hp{left:auto;right:auto;bottom:auto;width:264px;max-height:min(560px,80dvh);border-radius:12px;padding:6px;border:1px solid var(--line);box-shadow:0 16px 40px rgba(21,21,26,.14),0 2px 8px rgba(21,21,26,.06)}
+  .hp.wide{width:328px}
+  .hp::before{display:none}
+  .hp.on{animation:hpIn .16s var(--eo) both}
+  .hp.off{animation:hpOut .12s var(--ei) both}
+  .hr{min-height:40px;font-size:14.5px}
+  .hscrim,.hscrim.on{background:none}
+}
+@keyframes hpIn{from{opacity:0;transform:scale(.96)}}
+@keyframes hpOut{to{opacity:0;transform:scale(.96)}}
+@media (min-width:768px){
+  .lsearch{display:flex}.lsq{display:none}
+  .lnew2{display:inline-flex;height:44px}
+  .fab{display:none}
+  .lmain{padding:20px 24px 48px}
+  .mh h1{font-size:26px}
+  .srt .lb{display:inline}
+  .hchips{margin:8px 0 0;padding:6px;border-radius:100px}
+}
+@media (min-width:1024px){
+  .lbody{display:grid;grid-template-columns:240px minmax(0,1fr)}
+  .lg img{height:20px}
+  .lnew2,.hchips{display:none}
+  .side{display:flex;flex-direction:column;gap:2px;position:sticky;top:56px;height:calc(100dvh - 56px);overflow:auto;padding:16px 12px 12px;border-right:1px solid var(--line)}
+  .side .new{align-self:flex-start;height:40px;padding:0 12px 0 14px;margin-bottom:14px;font-size:15px}
+  .side .new .cr{width:16px;height:16px;margin-left:2px}
+  .sn{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border:none;background:none;border-radius:10px;font-size:15px;color:var(--text);text-align:left;width:100%;position:relative;z-index:0;flex:none}
+  .sn::before{content:'';position:absolute;inset:0;border-radius:10px;background:var(--bg);opacity:0;transition:opacity .16s var(--eo);z-index:-1}
+  .sn:hover::before{opacity:.7}.sn.on::before{opacity:1}.sn.on{font-weight:600}
+  .sn svg.i{color:var(--mid)}
+  .sn span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sn small{color:var(--sub);font-size:13px;font-weight:400}
+  .sh{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--sub);padding:14px 2px 2px 12px;flex:none}
+  .sh .ib{width:32px;height:32px;color:var(--sub)}.sh .ib svg.i{width:18px;height:18px}
+  .side .sgrow{flex:1;min-height:16px}
+  .side .snote{display:flex;gap:8px;font-size:12.5px;color:var(--sub);line-height:1.6;padding:12px 8px 0;border-top:1px solid var(--line);margin-top:8px;flex:none}
+  .side .snote svg.i{width:16px;height:16px;margin-top:2px}
+  .lmain{padding:24px 32px 48px}
+  .mh h1{font-size:28px}
+}
+.lbar .ib{width:44px;height:44px}.srt{min-width:44px;justify-content:center}
+@media (pointer:coarse){.hr{min-height:48px}.hc{height:44px}.hchips{padding-top:4px;padding-bottom:4px}.wk .wmo{width:44px;height:44px}}
+@media (prefers-reduced-motion:reduce){
+  @keyframes wkIn{from{opacity:0}} @keyframes hpUp{from{opacity:0}} @keyframes hpDown{to{opacity:0}} @keyframes hpIn{from{opacity:0}} @keyframes hpOut{to{opacity:0}} @keyframes pillIn{from{opacity:0}}
+  .wk,.hp.on,.hp.off,.pill{animation-duration:.12s!important;animation-delay:0s!important}
+  .wk:hover,.wk:active{transform:none!important}.wk:hover .cv .zz{transform:none!important}.fab.on svg.i{transform:none}
+}
 </style>
 </head>
 <body>
@@ -743,6 +906,17 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3"/><path d="M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></symbol>
   <symbol id="i-pres" viewBox="0 0 24 24"><path d="M2 4h20"/><rect x="4" y="4" width="16" height="11" rx="1"/><path d="M12 15v2"/><path d="M8 21l4-4 4 4"/></symbol>
   <symbol id="i-pen" viewBox="0 0 24 24"><path d="M17 3l4 4L8 20H4v-4z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h4.6l2 2.2h8.4A1.5 1.5 0 0 1 21 8.7v9.8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18.5z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+  <symbol id="i-sort" viewBox="0 0 24 24"><path d="M7 4v16"/><path d="M3 8l4-4 4 4"/><path d="M17 20V4"/><path d="M13 16l4 4 4-4"/></symbol>
+  <symbol id="i-caret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><path d="M7.5 7.5h.01"/></symbol>
+  <symbol id="i-open" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 8a2 2 0 0 0 2-2h14a2 2 0 0 0 2 2v8a2 2 0 0 0-2 2H5a2 2 0 0 0-2-2z"/><path d="M9 6v12" stroke-dasharray="2 2"/></symbol>
+  <symbol id="i-drive" viewBox="0 0 24 24"><rect x="3" y="12" width="18" height="7" rx="2"/><path d="M5 12l2.5-6h9L19 12"/><path d="M7 15.5h.01"/><path d="M10 15.5h.01"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
 </svg>
 
@@ -766,9 +940,32 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   </div>
 </header>
 
+<!-- งานของฉัน (ใบ 009) -->
+<main class="lst hidden" id="pList">
+  <header class="lbar">
+    <a href="#" class="lg" id="lglogo" aria-label="Slide Studio งานของฉัน"><img src="img/slide-studio.svg" alt="Slide Studio" width="164" height="22"></a>
+    <label class="lsearch" id="lsearch"><svg class="i"><use href="#i-search"/></svg><input id="lq" type="search" placeholder="ค้นหาชื่องาน" autocomplete="off" aria-label="ค้นหาชื่องาน"><kbd>/</kbd></label>
+    <span class="grow"></span>
+    <button class="ib lsq" id="lsq" type="button" aria-label="ค้นหา"><svg class="i"><use href="#i-search"/></svg></button>
+    <button class="btn btn-red btn-sm lnew2" data-new type="button"><svg class="i"><use href="#i-plus"/></svg>สร้างใหม่</button>
+    <button class="av" id="avb" type="button" aria-label="บัญชีของฉัน"><b id="avl"></b><i class="gb"></i></button>
+  </header>
+  <div class="lbody">
+    <aside class="side" id="side"></aside>
+    <section class="lmain">
+      <div class="mh" id="mh"></div>
+      <div class="hchips" id="hchips"></div>
+      <div class="lnote hidden" id="lnote"></div>
+      <div class="wgrid" id="wgrid"></div>
+    </section>
+  </div>
+  <button class="btn btn-red fab" data-new type="button"><svg class="i"><use href="#i-plus"/></svg><span>สร้างใหม่</span></button>
+</main>
+
 <!-- หน้าแรก -->
 <main class="home" id="pHome">
   <div class="glow"></div>
+  <button class="btn btn-line btn-sm hback hidden" id="hback" type="button"><svg class="i"><use href="#i-home"/></svg>งานของฉัน</button>
   <div class="orb idle"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></div>
   <h1>อยากทำสไลด์เรื่องอะไรดี</h1>
   <p class="lead">พิมพ์หรือวางหัวข้อกับเนื้อหา หรือแนบไฟล์ ผู้ช่วยจะจัดเป็นสไลด์ดีไซน์ Coach Tarn ให้ เนื้อหาและตัวเลขทุกตัวมาจากของคุณ</p>
@@ -815,7 +1012,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
     <section class="rps" data-p="look"><p class="sub" style="font-size:13px;color:var(--sub)">จัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย</p><div class="grid2" id="lookg"></div></section>
     <section class="rps" data-p="hist"><div class="hist" id="hist"></div>
       <div class="hfoot"><p><svg class="i"><use href="#i-info"/></svg>ประวัติเก็บในเครื่องนี้เท่านั้น ล้างข้อมูลเบราว์เซอร์แล้วหาย ถ้ามี Code กดบันทึกเพื่อเก็บเป็นไฟล์ได้</p>
-        <div id="wipebox"><button class="linkred" id="wipeask" type="button"><svg class="i"><use href="#i-trash"/></svg>ลบงานออกจากเครื่องนี้</button></div></div>
+        <div id="wipebox"><button class="linkred" id="wipeask" type="button"><svg class="i"><use href="#i-trash"/></svg>ย้ายงานนี้ไปถังขยะ</button></div></div>
     </section>
   </aside>
   <nav class="rail" id="rail">
@@ -841,6 +1038,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
     <button class="ib" id="pX" type="button" aria-label="ออก (Esc)" data-tip="ออก (Esc)"><svg class="i"><use href="#i-x"/></svg></button></div>
   <span class="pbadge hidden" id="pbadge">ทำด้วย Coach Tarn</span>
 </div>
+<div class="hscrim" id="hscrim"></div><div class="hp" id="hp" role="menu"></div>
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/pyodide/v0.28.0/full/pyodide.js"></script>
@@ -917,7 +1115,7 @@ function morph(fn) {                    // กดส่งจากหน้า�
 }
 function show(p, push = true) {
   const w = p === 'pWork';
-  $('pHome').classList.toggle('hidden', w); $('pWork').classList.toggle('hidden', !w);
+  $('pHome').classList.toggle('hidden', w); $('pWork').classList.toggle('hidden', !w); $('pList').classList.add('hidden'); document.body.classList.remove('onlist');
   $('topback').classList.toggle('hidden', !w); $('toplogo').classList.toggle('hidden', w && !matchMedia('(min-width:1200px)').matches);
   $('toptag').classList.toggle('hidden', w);
   ['tmeta', 'ur', 'topgrow'].forEach(k => $(k).classList.toggle('hidden', !w));
@@ -1075,6 +1273,7 @@ function enterWork(again) {
 }
 let lastAsk = '';                          // ย้อนกลับระหว่างสร้าง: ข้อความที่วางยังอยู่ในกล่องพิมพ์
 function startText(t, again) {
+  PID = null;                              // ใบ 009: เนื้อหาใหม่ = งานใหม่เสมอ ไม่ทับงานที่เปิดอยู่
   SRCNAME = 'ข้อความที่คุณวาง'; lastAsk = t;
   morph(() => {
     enterWork(again); ta.value = ''; ta.style.height = ''; $('send').classList.remove('go'); refresh();
@@ -1083,6 +1282,7 @@ function startText(t, again) {
   });
 }
 function startFile(f, again) {
+  PID = null;
   SRCNAME = 'ไฟล์ ' + f.name;
   morph(() => {
     enterWork(again || !$('pWork').classList.contains('hidden'));
@@ -2146,21 +2346,40 @@ document.addEventListener('keydown', ev => {
 });
 // IndexedDB: เก็บทุกเวอร์ชัน (ล่าสุด 50) ของงานในเครื่องนี้  เก็บไม่ได้ (โหมดไม่ระบุตัวตน/พื้นที่เต็ม) แก้ต่อได้ แต่บอกตรง ๆ
 let dbP = null;
+// รุ่น 2 (ใบ 009): หลายงาน  v = เวอร์ชัน (+pid ของงาน)  p = งาน  f = โฟลเดอร์ / เครื่องที่มีรุ่น 1: เวอร์ชันเดิมทั้งหมดรวมเป็นงานแรก ไม่หาย
+let PID = null, NEWF = null;               // งานที่เปิดอยู่ / โฟลเดอร์ของงานใหม่ (กดสร้างตอนอยู่ในโฟลเดอร์)
+const uid = () => 'w' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const DB = () => dbP = dbP || new Promise((res, rej) => {
   if (!window.indexedDB) return rej(new Error('no idb'));
-  const r = indexedDB.open('d2s', 1);
-  r.onupgradeneeded = () => r.result.createObjectStore('v', {keyPath: 'id', autoIncrement: true});
+  const r = indexedDB.open('d2s', 2);
+  r.onupgradeneeded = e => {
+    const db = r.result, v = e.oldVersion < 1 ? db.createObjectStore('v', {keyPath: 'id', autoIncrement: true}) : r.transaction.objectStore('v');
+    if (e.oldVersion >= 2) return;
+    v.createIndex('pid', 'pid'); const ps = db.createObjectStore('p', {keyPath: 'id'}); db.createObjectStore('f', {keyPath: 'id'});
+    if (e.oldVersion !== 1) return;
+    const id = uid(); let first = null, last = null;
+    v.openCursor().onsuccess = ev => {
+      const c = ev.target.result;
+      if (c) { const x = c.value; x.pid = id; c.update(x); first = first || x; last = x; return c.continue(); }
+      if (last) ps.put({id, ttl: last.ttl || 'งานล่าสุด', n: last.n || 0, slug: last.slug, t: last.t, c: first.t, fid: null, lb: [], del: null, cover: ''});
+    };
+  };
   r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); r.onblocked = () => rej(new Error('blocked'));
 });
 const req = r => new Promise((res, rej) => { r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); });
-async function versions() { const db = await DB(); return req(db.transaction('v').objectStore('v').getAll()); }
+async function versions(pid = PID) { if (!pid) return []; const db = await DB(); return req(db.transaction('v').objectStore('v').index('pid').getAll(pid)); }   // เฉพาะงานนี้ (แผงประวัติไม่ปนงานอื่น)
 let saving = 0, saveT = 0;
 async function store(s) {
   const my = ++saving; clearTimeout(saveT); saveT = setTimeout(() => { if (saving === my && saveSt !== 'no') setSave('ing'); }, 300);
   try {
-    const db = await DB(), t = db.transaction('v', 'readwrite'), os = t.objectStore('v');
-    const {id, ...rec} = s; os.add(rec);          // เวอร์ชันที่ย้อนมา (มี id เดิม) เก็บเป็นเวอร์ชันใหม่
-    const ks = await req(os.getAllKeys()); ks.slice(0, Math.max(0, ks.length - 50)).forEach(k => os.delete(k));
+    const pid = PID = PID || uid(), fid = NEWF; NEWF = null;   // ครั้งแรกของงานใหม่ = สร้างงานในงานของฉัน
+    if (!$('pWork').classList.contains('hidden') && location.hash !== '#p=' + pid) history.replaceState(history.state, '', '#p=' + pid);   // URL ตามงานบนจอ (รีเฟรชแล้วอยู่งานนี้)
+    const db = await DB(), t = db.transaction(['v', 'p'], 'readwrite'), os = t.objectStore('v'), ps = t.objectStore('p');
+    const {id, ...rec} = s; rec.pid = pid; os.add(rec);          // เวอร์ชันที่ย้อนมา (มี id เดิม) เก็บเป็นเวอร์ชันใหม่
+    const ks = await req(os.index('pid').getAllKeys(pid)); ks.slice(0, Math.max(0, ks.length - 50)).forEach(k => os.delete(k));   // 50 เวอร์ชันต่องาน
+    const w = await req(ps.get(pid)) || {id: pid, c: s.t, fid, lb: [], del: null}, cv = slides[0]?.outerHTML;
+    Object.assign(w, {ttl: w.nm ? w.ttl : (s.ttl || w.ttl || 'งานไม่มีชื่อ'), n: s.n, slug: s.slug, t: s.t}); if (cv && cv.length < 4e5) w.cover = cv;
+    ps.put(w);
     await new Promise((res, rej) => { t.oncomplete = res; t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
     if (saving === my) { clearTimeout(saveT); setSave('ok'); }
   } catch (e) { console.warn(e); clearTimeout(saveT); setSave('no'); }
@@ -2236,17 +2455,20 @@ async function useVersion() {
   await leaveView(); commit(`กลับไปใช้เวอร์ชัน ${t}`); toast(`กลับไปใช้เวอร์ชัน ${t} แล้ว`); if (panelOpen('hist')) paintHist();
 }
 function wipeAsk() {
-  $('wipebox').innerHTML = `<div class="wipe"><b>ลบงานนี้และประวัติทั้งหมดออกจากเครื่องนี้? เอาคืนไม่ได้</b><div class="row"><button class="btn btn-line" data-w="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-w="yes" type="button">ลบออกจากเครื่องนี้</button></div></div>`;
+  $('wipebox').innerHTML = `<div class="wipe"><b>ย้ายงานนี้ไปถังขยะ? กู้คืนได้ภายใน 30 วัน</b><div class="row"><button class="btn btn-line" data-w="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-w="yes" type="button">ย้ายไปถังขยะ</button></div></div>`;
   $('wipebox').onclick = async ev => {
     const b = ev.target.closest('[data-w]'); if (!b) return;
     if (b.dataset.w === 'yes') await wipeAll();
-    $('wipebox').innerHTML = `<button class="linkred" id="wipeask" type="button">${ico('trash')}ลบงานออกจากเครื่องนี้</button>`; $('wipebox').onclick = null; $('wipeask').onclick = wipeAsk;
+    $('wipebox').innerHTML = `<button class="linkred" id="wipeask" type="button">${ico('trash')}ย้ายงานนี้ไปถังขยะ</button>`; $('wipebox').onclick = null; $('wipeask').onclick = wipeAsk;
   };
 }
 $('wipeask').onclick = wipeAsk;
-async function wipeAll() {
-  try { const db = await DB(); await req(db.transaction('v', 'readwrite').objectStore('v').clear()); } catch (e) {}
-  STACK = []; SP = -1; slides = []; KEYS = []; viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; closePanel(); closeGrid(-1, true); deselectBox(); gen++; running = false; show('pHome', false); toast('ลบงานออกจากเครื่องนี้แล้ว'); paintResume();
+async function wipeAll() {                 // ใบ 009: ย้ายงานที่เปิดอยู่ไปถังขยะ เหมือนการ์ด (กู้คืนได้ 30 วัน + เลิกทำ) งานอื่นไม่โดน
+  let w = null;
+  try { const db = await DB(), t = db.transaction('p', 'readwrite'), ps = t.objectStore('p'); w = PID && await req(ps.get(PID)); if (w) { w.del = Date.now(); ps.put(w); } await tdone(t); } catch (e) { w = null; }
+  STACK = []; SP = -1; slides = []; KEYS = []; viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; closePanel(); closeGrid(-1, true); deselectBox(); gen++; running = false; show('pHome', false);
+  await paintResume();
+  if (w) htoast('ย้ายไปถังขยะแล้ว', async () => { await putW({...w, del: null}); await paintResume(); htoast('เลิกทำแล้ว'); });
 }
 // เปิดหน้าใหม่ในเครื่องเดิม: กลับมาที่งานล่าสุด
 async function resume(v, vs = [v]) {
@@ -2261,7 +2483,7 @@ async function resume(v, vs = [v]) {
   try {
     await frame(); await boot(); onBoot.delete(sk); await setsReady; if (my !== gen) return;
     busyNow = true; await restore(v); busyNow = false; if (my !== gen) return;
-    STACK = vs.slice(-40); SP = STACK.length - 1; urState(); setSave('ok');   // เลิกทำหลังรีโหลด = ย้อนตามเวอร์ชันที่เก็บในเครื่อง
+    STACK = vs.slice(-40); SP = STACK.length - 1; urState(); setSave('ok'); coverNow();   // เลิกทำหลังรีโหลด = ย้อนตามเวอร์ชันที่เก็บในเครื่อง
     $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(); $('tact').classList.remove('hidden');
     const s = SETS.find(x => x.slug === slug);
     const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">${touch() ? 'แตะข้อความเพื่อเลือก แตะอีกครั้งเพื่อแก้ข้อความ' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย'} ${saveSt === 'no' ? 'เครื่องนี้เก็บงานไม่ได้ กดบันทึกเมื่อแก้เสร็จ (ต้องมี Code)' : 'ทุกการแก้เก็บในเครื่องนี้ให้เอง'}</p>`);
@@ -2269,15 +2491,6 @@ async function resume(v, vs = [v]) {
     toast('เปิดงานล่าสุดของคุณแล้ว'); tour();
   } catch (e) { console.error(e); busyNow = false; onBoot.delete(sk); if (my !== gen) return;
     botMsg(`<div class="err">${esc(pyErr(e, 'เปิดงานเดิมไม่สำเร็จ ลองโหลดหน้าใหม่'))}<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button></div>`); openPanel('chat'); }
-}
-async function paintResume() {            // หน้าแรก: การ์ด "ทำต่อ"
-  $('resume')?.remove(); let vs = [];
-  try { vs = await versions(); } catch (e) { return; }
-  const v = vs[vs.length - 1]; if (!v) return;
-  const c = document.createElement('div'); c.className = 'resume'; c.id = 'resume';
-  c.innerHTML = `<span>ทำต่อ: <b>${esc(v.ttl || 'งานล่าสุด')}</b><small>แก้ล่าสุด ${dayName(v.t) === 'วันนี้' ? '' : dayName(v.t) + ' '}${hhmm(v.t)}</small></span><button class="btn btn-red btn-sm" type="button">${ico('next')}ทำต่อ</button>`;
-  c.querySelector('button').onclick = () => resume(v, vs);
-  $('prompt').before(c);
 }
 
 // ── นำเสนอ: เต็มจอ เริ่มจากหน้าที่เลือก ──
@@ -3088,13 +3301,13 @@ function workMenu() {
     <li class="sep"><button data-m="grid" type="button">${ico('grid')}ดูทุกหน้า</button></li>
     <li class="sep"><button data-m="hist" type="button">${ico('history')}ประวัติการแก้ไข<span class="mst ${st[2]}">${ico(st[0])}${st[1]}</span></button></li>
     <li class="sep"><button data-m="tour" type="button">${ico('help')}ดูวิธีใช้อีกครั้ง</button></li>
-    <li class="sep"><button data-m="wipe" type="button" class="danger">${ico('trash')}ลบงานออกจากเครื่องนี้</button></li></ul>`);
+    <li class="sep"><button data-m="wipe" type="button" class="danger">${ico('trash')}ย้ายงานนี้ไปถังขยะ</button></li></ul>`);
   $('shT').insertAdjacentHTML('afterend', `<button class="ib xtra" id="renm" type="button" aria-label="แก้ชื่องาน">${ico('pen')}</button>`);
   $('renm').onclick = renameAsk;
   $('shBody').onclick = ev => {
     const b = ev.target.closest('[data-m]'); if (!b) return; const m = b.dataset.m;
-    if (m === 'wipe') { $('renm')?.remove(); $('shT').textContent = 'ลบงานนี้ออกจากเครื่องใช่ไหม'; $('shS').textContent = 'ลบแล้วกู้คืนไม่ได้';
-      $('shBody').innerHTML = `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ลบงานนี้</button></div>`; return; }
+    if (m === 'wipe') { $('renm')?.remove(); $('shT').textContent = 'ย้ายงานนี้ไปถังขยะ?'; $('shS').textContent = 'กู้คืนได้ภายใน 30 วัน จากถังขยะในงานของฉัน';
+      $('shBody').innerHTML = `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ย้ายไปถังขยะ</button></div>`; return; }
     if (m === 'no') return workMenu();          // ยกเลิกลบงาน = กลับเมนูเดิม
     closeSheet();
     if (m === 'save') act('save'); else if (m === 'grid') openGrid(); else if (m === 'hist') openPanel('hist'); else if (m === 'tour') tour(true); else if (m === 'yes') wipeAll();
@@ -3144,10 +3357,334 @@ document.querySelectorAll('[data-act]').forEach(b => b.onclick = () => act(b.dat
 $('topback').onclick = () => history.state ? history.back() : goHome();
 function goHome() {
   if (running && !slides.length && lastAsk && !ta.value.trim()) { ta.value = lastAsk; ta.dispatchEvent(new Event('input')); }
-  gen++; running = false; closeSheet(); if (ED) finishEdit(false); deselectBox(); closeGrid(-1, true); endTour(false); show('pHome', false); paintResume(); }   // ป้ายแนะนำของหน้าแก้ไม่ค้างบนหน้าแรก (ยังไม่นับว่าเห็นแล้ว)
-// ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย ใช้ส่งให้คนอื่นดูว่าทำงานยังไง / ไม่ใช่ #demo: มีงานเดิมในเครื่องก็เปิดต่อเลย
+  gen++; running = false; closeSheet(); if (ED) finishEdit(false); deselectBox(); closeGrid(-1, true); endTour(false); paintResume(); }   // ป้ายแนะนำของหน้าแก้ไม่ค้างบนหน้าแรก (ยังไม่นับว่าเห็นแล้ว)
+// ── งานของฉัน (ใบ 009): หลายงานในเครื่องนี้ โฟลเดอร์ ป้ายสี 6 สี ถังขยะ 30 วัน เมนูโปรไฟล์ ──
+// ข้อมูล: IndexedDB d2s รุ่น 2  p = งาน {id, ttl, nm(ชื่อที่ลูกค้าตั้งเอง), n, slug, t แก้ล่าสุด, c สร้างเมื่อ, fid, lb[], del, cover}  f = โฟลเดอร์ {id, name, c}
+// ชื่อป้าย / การเรียง เก็บใน localStorage d2s_home  ไม่มี Python ในหน้านี้ รายการขึ้นทันที
+const LBC = ['#B4705A', '#A88A3D', '#768F6D', '#6A84A0', '#917595', '#8B8B94'];
+const HS = (() => { try { return JSON.parse(localStorage.getItem('d2s_home')) || {}; } catch (e) { return {}; } })();
+HS.sort = HS.sort || 't'; HS.lb = HS.lb || ['ด่วน', 'รอตรวจ', 'ส่งแล้ว', 'ลูกค้า', 'ไอเดีย', 'เก็บไว้ดู'];
+const saveHS = () => { try { localStorage.setItem('d2s_home', JSON.stringify(HS)); } catch (e) {} };
+// ponytail: โปรไฟล์ยังเป็นหน้าตาอย่างเดียว ยังไม่มีล็อกอิน (ใบ 011 จะเปลี่ยนเป็นข้อมูลบัญชีจริง) ส่วน Code อ่านจากที่ลูกค้ากรอกไว้จริง
+const PROF = {name: 'สมใจ รักงาน', email: 'somjai.r@gmail.com', via: 'Google'};
+const DAY = 864e5, SORTS = {t: 'แก้ล่าสุด', c: 'สร้างล่าสุด', n: 'ชื่อ ก-ฮ'};
+let W = [], F = [], VW = {k: 'all'}, Q = '';
+const tdone = t => new Promise((res, rej) => { t.oncomplete = res; t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
+async function loadHome() {
+  const db = await DB(), t = db.transaction(['p', 'f']);
+  [W, F] = await Promise.all([req(t.objectStore('p').getAll()), req(t.objectStore('f').getAll())]);
+  const old = W.filter(w => w.del && Date.now() - w.del > 30 * DAY);   // ครบ 30 วันในถัง ลบตอนเปิดแอป (ไม่มีเซิร์ฟเวอร์)
+  for (const w of old) await delForever(w.id);
+  F.sort((a, b) => a.name.localeCompare(b.name, 'th'));
+}
+async function putW(w) { const db = await DB(), t = db.transaction('p', 'readwrite'); t.objectStore('p').put(w); await tdone(t); const i = W.findIndex(x => x.id === w.id); if (i >= 0) W[i] = w; else W.push(w); }
+async function delForever(id) {
+  const db = await DB(), t = db.transaction(['v', 'p'], 'readwrite'), os = t.objectStore('v');
+  (await req(os.index('pid').getAllKeys(id))).forEach(k => os.delete(k)); t.objectStore('p').delete(id);
+  await tdone(t); W = W.filter(w => w.id !== id);
+}
+async function dupWork(w) {
+  const db = await DB(), t = db.transaction(['v', 'p'], 'readwrite'), os = t.objectStore('v'), id = uid(), now = Date.now();
+  (await req(os.index('pid').getAll(w.id))).forEach(({id: _, ...x}) => os.add({...x, pid: id}));
+  const c = {...w, id, ttl: ('สำเนา ' + w.ttl).slice(0, 80), nm: 1, c: now, t: now, del: null}; t.objectStore('p').put(c);
+  await tdone(t); W.push(c); return c;
+}
+async function coverNow() {          // เปิดงานแล้ว: ภาพปกการ์ดเป็นหน้า 1 ล่าสุด (งานที่ย้ายมาจากรุ่นเก่ายังไม่มีภาพปก)
+  const id = PID, html = slides[0]?.outerHTML; if (!id || !html || html.length > 4e5) return;
+  try { const db = await DB(), t = db.transaction('p', 'readwrite'), ps = t.objectStore('p'), w = await req(ps.get(id)); if (w && w.cover !== html) { w.cover = html; ps.put(w); } await tdone(t); } catch (e) {}
+}
+// ── หน้าจอ ──
+// หน้าแรก: มีงานในเครื่อง = งานของฉัน / ยังไม่เคยมีงาน (หรือเครื่องเก็บไม่ได้) = หน้าสร้างงานใหม่แบบเดิม ไม่มีปุ่มกลับ
+async function paintResume() {
+  PID = null; if (location.hash.startsWith('#p=')) history.replaceState(history.state, '', location.pathname + location.search);
+  try { await Promise.all([loadHome(), setsReady.catch(() => {})]); } catch (e) { W = []; F = []; }
+  if (!W.length) return showCreate(false);
+  show('pHome', false); $('pHome').classList.add('hidden'); $('pList').classList.remove('hidden'); document.body.classList.add('onlist');
+  $('avl').textContent = PROF.name[0]; renderList();
+}
+function showCreate(push) {
+  closePop(); show('pHome', false); $('hback').classList.toggle('hidden', !W.length);
+  if (push) history.pushState({p: 'pHome'}, '');           // ย้อนกลับของเบราว์เซอร์ = กลับงานของฉัน
+}
+$('hback').onclick = () => history.state?.p === 'pHome' ? history.back() : paintResume();
+$('lglogo').onclick = ev => { ev.preventDefault(); go({k: 'all'}); };
+$('toplogo').addEventListener('click', ev => { if (!W.length && !PID) return; ev.preventDefault(); history.state ? history.back() : goHome(); });   // โลโก้ในหน้าสร้าง/ตัวแก้ = กลับงานของฉัน ไม่ออกไปหน้าขาย
+const live = () => W.filter(w => !w.del);
+const lbl = i => `<i class="ld" style="--c:${LBC[i]}"></i>`;
+function inView(w) {
+  if (VW.k === 'trash') return !!w.del;
+  if (w.del) return false;
+  if (VW.k === 'f') return w.fid === VW.id;
+  if (VW.k === 'lb') return (w.lb || []).includes(VW.i);
+  return true;
+}
+function go(v) { VW = v; Q = ''; $('lq').value = ''; $('pList').querySelector('.lbar').classList.remove('srch'); renderList(); window.scrollTo(0, 0); }
+function sideHtml() {
+  const L = live(), n = f => L.filter(f).length, on = (k, x) => VW.k === k && (x == null || VW.id === x || VW.i === x) ? ' on' : '';
+  return `<button class="btn btn-red new" data-new type="button">${ico('plus')}สร้างใหม่<svg class="i cr"><use href="#i-caret"/></svg></button>
+    <button class="sn${on('all')}" data-go="all" type="button">${ico('home')}<span>งานของฉัน</span><small>${L.length}</small></button>
+    <div class="sh">โฟลเดอร์<button class="ib" data-nf type="button" aria-label="สร้างโฟลเดอร์" title="สร้างโฟลเดอร์">${ico('plus')}</button></div>
+    ${F.map(f => `<button class="sn${on('f', f.id)}" data-go="f" data-id="${f.id}" type="button">${ico('folder')}<span>${esc(f.name)}</span><small>${n(w => w.fid === f.id)}</small></button>`).join('')}
+    <div class="sh">ป้าย<button class="ib" data-lbe type="button" aria-label="แก้ไขชื่อป้าย" title="แก้ไขชื่อป้าย">${ico('pen')}</button></div>
+    ${HS.lb.map((nm, i) => nm ? `<button class="sn${on('lb', i)}" data-go="lb" data-i="${i}" type="button">${lbl(i)}<span>${esc(nm)}</span><small>${n(w => (w.lb || []).includes(i))}</small></button>` : '').join('')}
+    <span class="sgrow"></span>
+    <button class="sn${on('trash')}" data-go="trash" type="button">${ico('trash')}<span>ถังขยะ</span>${VW.k === 'trash' ? `<small>${W.length - L.length}</small>` : ''}</button>
+    <p class="snote">${ico('info')}<span>งานเก็บในเบราว์เซอร์นี้ เปิดจากเครื่องอื่นจะไม่เห็น</span></p>`;
+}
+function chipsHtml() {
+  const on = (k, x) => VW.k === k && (x == null || VW.id === x || VW.i === x) ? ' on' : '';
+  return `<button class="hc${on('all')}" data-go="all" type="button">${ico('home')}งานของฉัน</button>`
+    + F.map(f => `<button class="hc${on('f', f.id)}" data-go="f" data-id="${f.id}" type="button">${ico('folder')}${esc(f.name)}</button>`).join('')
+    + HS.lb.map((nm, i) => nm ? `<button class="hc${on('lb', i)}" data-go="lb" data-i="${i}" type="button">${lbl(i)}${esc(nm)}</button>` : '').join('')
+    + `<button class="hc" data-nf type="button">${ico('plus')}โฟลเดอร์</button><button class="hc${on('trash')}" data-go="trash" type="button">${ico('trash')}ถังขยะ</button>`;
+}
+function headHtml() {
+  const f = VW.k === 'f' && F.find(x => x.id === VW.id);
+  const nm = VW.k === 'trash' ? 'ถังขยะ' : f ? `${ico('folder')}${esc(f.name)}` : VW.k === 'lb' ? `${lbl(VW.i)}${esc(HS.lb[VW.i])}` : '';
+  const h = nm ? `<button class="cr" data-go="all" type="button">งานของฉัน</button><svg class="i sep"><use href="#i-next"/></svg><span class="nm">${nm}</span>` : 'งานของฉัน';
+  return `<h1>${h}</h1>${f ? `<button class="ib" data-fm type="button" aria-label="เมนูโฟลเดอร์">${ico('more')}</button>` : ''}
+    ${VW.k === 'trash' ? '' : `<button class="srt" data-sort type="button" aria-label="เรียงตาม ${SORTS[HS.sort]}">${ico('sort')}<span class="lb">${SORTS[HS.sort]}</span></button>`}`;
+}
+const when = t => dayName(t) + ' ' + hhmm(t);
+// งานที่ยังไม่มีภาพปก (ย้ายมาจากรุ่นเก่า รุ่น 1 ไม่ได้เก็บภาพหน้า): ปกชื่องานในสีของชุดนั้น ไม่ต้องรอ Python / เปิดงานครั้งแรกแล้วได้ปกจริง
+function tcard(w) {
+  const st = SETS.find(x => x.slug === w.slug) || SETS[0]; if (!st) return `<div class="cph">${ico('slides')}</div>`;
+  return `<div class="tcv" style="--a:#${st.c1};--b:#${st.c2};font-family:'${st.faces[1] || st.faces[0]}',inherit"><i></i><b>${esc(w.ttl)}</b></div>`;
+}
+function cardHtml(w, i) {
+  const f = F.find(x => x.id === w.fid), L = (w.lb || []).filter(j => HS.lb[j]);
+  const meta = w.del ? `เหลือ ${Math.max(1, 30 - Math.floor((Date.now() - w.del) / DAY))} วัน` : `${w.n ? w.n + ' หน้า ' : ''}แก้ล่าสุด ${when(w.t)}`;
+  return `<article class="wk${w.del ? ' del' : ''}" data-w="${w.id}" tabindex="0" style="--i:${Math.min(i, 8)}" aria-label="${esc(w.ttl)}">
+    <div class="cv"><div class="zz">${w.cover ? `<div class="sc">${w.cover}</div>` : tcard(w)}</div></div>
+    <div class="wb"><div class="wt">${esc(w.ttl)}</div><div class="wm">${meta}</div>
+      <div class="wf">${f && VW.k !== 'f' ? `<span>${ico('folder')}${esc(f.name)}</span>` : ''}<span class="pills">${L.length ? `<span class="pill" style="--c:${LBC[L[0]]}">${lbl(L[0])}${esc(HS.lb[L[0]])}</span>${L.length > 1 ? `<span class="pill more">+${L.length - 1}</span>` : ''}` : ''}</span></div>
+      <button class="ib wmo" data-wm type="button" aria-label="เมนูงาน ${esc(w.ttl)}">${ico('more')}</button></div></article>`;
+}
+function fitCovers() { document.querySelectorAll('#wgrid .cv').forEach(c => { const s = c.querySelector('.sc'); if (s && c.clientWidth) s.style.transform = `scale(${c.clientWidth / 960})`; }); }
+addEventListener('resize', () => { if (!$('pList').classList.contains('hidden')) fitCovers(); });
+function renderList() {
+  if (VW.k === 'f' && !F.some(f => f.id === VW.id)) VW = {k: 'all'};
+  $('side').innerHTML = sideHtml(); $('hchips').innerHTML = chipsHtml(); $('mh').innerHTML = headHtml();
+  const q = Q.trim().toLowerCase(), cmp = {t: (a, b) => b.t - a.t, c: (a, b) => (b.c || 0) - (a.c || 0), n: (a, b) => a.ttl.localeCompare(b.ttl, 'th')}[VW.k === 'trash' ? 't' : HS.sort];
+  const list = W.filter(inView).filter(w => !q || w.ttl.toLowerCase().includes(q)).sort(VW.k === 'trash' ? (a, b) => b.del - a.del : cmp);
+  const N = $('lnote');
+  N.classList.toggle('hidden', VW.k !== 'trash');
+  if (VW.k === 'trash') N.innerHTML = `<span>${ico('info')}งานในถังขยะจะหายถาวรเมื่อครบ 30 วัน</span>${list.length ? `<button class="btn btn-line btn-sm" data-empty type="button">${ico('trash')}ล้างถังขยะ</button>` : ''}`;
+  let empty = '';
+  if (!list.length) {
+    if (q) empty = `${ico('search')}<p>ไม่พบงานที่ชื่อมีคำว่า "${esc(Q.trim())}"</p><div class="row"><button class="btn btn-line" data-clearq type="button">${ico('x')}ล้างคำค้นหา</button></div>`;
+    else if (VW.k === 'trash') empty = `${ico('trash')}<p>ถังขยะว่าง งานที่ลบจะอยู่ที่นี่ 30 วันก่อนหายถาวร</p>`;
+    else if (VW.k === 'f') empty = `${ico('folder')}<p>โฟลเดอร์นี้ยังว่าง กด ... บนงานแล้วเลือก ย้ายไปโฟลเดอร์</p><div class="row"><button class="btn btn-red" data-new type="button">${ico('plus')}สร้างงานในโฟลเดอร์นี้</button></div>`;
+    else if (VW.k === 'lb') empty = `${ico('tag')}<p>ยังไม่มีงานที่ติดป้ายนี้ กด ... บนงานแล้วเลือก ใส่ป้าย</p>`;
+    else empty = `${ico('slides')}<p>ยังไม่มีงาน งานที่ลบไว้อยู่ในถังขยะ</p><div class="row"><button class="btn btn-red" data-new type="button">${ico('plus')}สร้างใหม่</button><button class="btn btn-line" data-go="trash" type="button">${ico('trash')}เปิดถังขยะ</button></div>`;
+  }
+  $('wgrid').innerHTML = empty ? `<div class="lempty">${empty.replace('<svg class="i">', '<svg class="i big">')}</div>` : list.map(cardHtml).join('');
+  fitCovers();
+}
+// ── เมนูลอย ──
+let popA = null, popFn = null;
+function pop(anchor, html, fn, wide) {
+  const P = $('hp'); popA = anchor; popFn = fn; P.innerHTML = html; P.className = 'hp on' + (wide ? ' wide' : '');
+  $('hscrim').classList.add('on'); document.querySelectorAll('.av.on,.fab.on').forEach(b => b.classList.remove('on'));
+  if (anchor?.matches?.('.av,.fab')) anchor.classList.add('on');
+  if (matchMedia('(min-width:640px)').matches && anchor) {     // จอใหญ่: เด้งจากปุ่ม (transform-origin มุมที่ติดปุ่ม)
+    const r = anchor.getBoundingClientRect(), w = P.offsetWidth, h = P.offsetHeight;
+    const left = r.right - w < 8 ? Math.min(r.left, innerWidth - w - 8) : r.right - w, up = r.bottom + 6 + h > innerHeight - 8 && r.top - 6 - h > 8;
+    const top = up ? r.top - 6 - h : Math.max(8, Math.min(r.bottom + 6, innerHeight - h - 8));
+    Object.assign(P.style, {left: left + 'px', top: top + 'px', transformOrigin: `${left === r.left || left < r.left ? 'left' : 'right'} ${up ? 'bottom' : 'top'}`});
+  } else Object.assign(P.style, {left: '', top: '', transformOrigin: ''});
+  P.querySelector('input')?.focus(); P.querySelector('input')?.select();
+}
+function closePop() {
+  const P = $('hp'); if (!P.classList.contains('on')) return;
+  P.classList.remove('on'); P.classList.add('off'); $('hscrim').classList.remove('on'); popFn = null;
+  document.querySelectorAll('.av.on,.fab.on').forEach(b => b.classList.remove('on'));
+  setTimeout(() => { if (P.classList.contains('off')) P.className = 'hp'; }, calm.matches ? 120 : 260);
+  if (popA?.isConnected && popA.focus && !matchMedia('(pointer:coarse)').matches) popA.focus({preventScroll: true});
+}
+$('hscrim').onclick = closePop;
+$('hp').onclick = ev => { const b = ev.target.closest('[data-m]'); if (b && popFn) popFn(b.dataset.m, b, ev); };
+$('hp').addEventListener('keydown', ev => {
+  if (ev.key === 'Escape') { ev.stopPropagation(); closePop(); }
+  if (ev.key === 'Enter' && ev.target.matches('input')) { ev.preventDefault(); popFn?.('ok', ev.target, ev); }
+});
+const row = (m, ic, t, x = '') => `<button class="hr${m === 'trash' || m === 'kill' ? ' red' : ''}" data-m="${m}" type="button">${ic.startsWith('<') ? ic : ico(ic)}<span>${t}</span>${x}</button>`;
+const CK = `<svg class="i ck"><use href="#i-check"/></svg>`, CHEV = `<svg class="i chev"><use href="#i-next"/></svg>`;
+let toastUndo = null;
+function htoast(m, undo) {
+  const t = $('toast'); t.textContent = m; t.classList.toggle('u', !!undo); clearTimeout(t._h);
+  if (undo) { const b = document.createElement('button'); b.type = 'button'; b.textContent = 'เลิกทำ'; b.onclick = () => { t.classList.remove('on'); undo(); }; t.appendChild(b); }
+  t.classList.add('on'); t._h = setTimeout(() => t.classList.remove('on'), undo ? 6000 : 2600);
+}
+async function leave(id) {            // การ์ดออกจากหน้า (ถังขยะ / ย้ายออก / ลบถาวร): จาง + ย่อ แล้ววาดใหม่
+  const c = document.querySelector(`.wk[data-w="${id}"]`);
+  if (c) { c.classList.add('go'); await after(ani(c, [{opacity: 1, transform: 'none'}, {opacity: 0, transform: 'scale(.96)'}], {duration: 180, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'})); }
+}
+// ── เมนูสร้างใหม่ ──
+function newMenu(a) {
+  const into = VW.k === 'f' ? VW.id : null;
+  pop(a, `<h5>สร้างใหม่</h5>${row('text', 'paste', 'วางข้อความ')}${row('file', 'clip', 'แนบไฟล์ Word Excel PDF')}${row('sample', 'spark', 'ลองจากตัวอย่าง')}`, m => {
+    NEWF = into; closePop(); showCreate(true);
+    if (m === 'text') ta.focus();
+    if (m === 'file') { warm(); $('fin').click(); }
+    if (m === 'sample') { const c = document.querySelector('.chips'); c.scrollIntoView({block: 'center', behavior: calm.matches ? 'auto' : 'smooth'}); ani(c, [{transform: 'scale(1)'}, {transform: 'scale(1.04)'}, {transform: 'scale(1)'}], {duration: 420, delay: 200}); }
+  });
+}
+// ── เมนูการ์ด ──
+function cardMenu(a, w, page) {
+  if (w.del) return pop(a, page === 'kill'
+    ? `<div class="hcf"><b>ลบถาวร? เอาคืนไม่ได้</b><p>${esc(w.ttl)}</p><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-m="yes" type="button">${ico('trash')}ลบถาวร</button></div></div>`
+    : `<h5>${esc(w.ttl)}</h5>${row('restore', 'undo', 'กู้คืน')}<hr>${row('kill', 'trash', 'ลบถาวร')}`, async m => {
+      if (m === 'kill') return cardMenu(a, w, 'kill');
+      if (m === 'no') return closePop();
+      closePop(); await leave(w.id);
+      if (m === 'restore') { await putW({...w, del: null, fid: F.some(f => f.id === w.fid) ? w.fid : null}); htoast('กู้คืนแล้ว'); }
+      if (m === 'yes') { await delForever(w.id); htoast('ลบถาวรแล้ว'); }
+      renderList();
+    });
+  const fid = w.fid, L = w.lb || [];
+  const html = page === 'lb' ? `<h5><button class="ib" data-m="back" type="button" aria-label="กลับ">${ico('back')}</button>ใส่ป้าย (เลือกได้หลายอัน)</h5>${HS.lb.map((nm, i) => nm ? row('l' + i, lbl(i), esc(nm), L.includes(i) ? CK : '') : '').join('')}<hr>${row('lbe', 'pen', 'แก้ไขชื่อป้าย')}`
+    : page === 'mv' ? `<h5><button class="ib" data-m="back" type="button" aria-label="กลับ">${ico('back')}</button>ย้ายไปโฟลเดอร์</h5>${F.map(f => row('f' + f.id, 'folder', esc(f.name), f.id === fid ? CK : '')).join('')}${fid ? row('out', 'x', 'เอาออกจากโฟลเดอร์') : ''}<hr>${row('nf', 'plus', 'โฟลเดอร์ใหม่')}`
+    : page === 'trash' ? `<div class="hcf"><b>ย้ายงานนี้ไปถังขยะ?</b><p>กู้คืนได้ภายใน 30 วัน</p><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-m="yes" type="button">${ico('trash')}ย้ายไปถังขยะ</button></div></div>`
+    : `${row('open', 'open', 'เปิด', '<span class="k">Enter</span>')}${row('ren', 'pen', 'เปลี่ยนชื่อ', '<span class="k">F2</span>')}${row('dup', 'copy', 'ทำสำเนา')}${row('lb', 'tag', 'ใส่ป้าย', CHEV)}${row('mv', 'folder', 'ย้ายไปโฟลเดอร์', CHEV)}<hr>${row('trash', 'trash', 'ย้ายไปถังขยะ')}`;
+  pop(a, html, async (m, b) => {
+    if (m === 'back') return cardMenu(a, w);
+    if (m === 'lb' || m === 'mv' || m === 'trash') return cardMenu(a, w, m);
+    if (m === 'no') return closePop();
+    if (m === 'open') { closePop(); return openWork(w.id); }
+    if (m === 'ren') { closePop(); return renameCard(w.id); }
+    if (m === 'dup') { closePop(); const c = await dupWork(w); renderList(); htoast('ทำสำเนาแล้ว'); return c; }
+    if (m === 'lbe') return labelEdit(a);
+    if (m[0] === 'l') {                // ติ๊กป้าย: เมนูยังเปิด ติ๊กต่อได้
+      const i = +m.slice(1), lb = L.includes(i) ? L.filter(x => x !== i) : [...L, i].sort();
+      const nw = {...w, lb}; await putW(nw); renderList(); return cardMenu(a.isConnected ? a : document.querySelector(`.wk[data-w="${w.id}"] .wmo`), nw, 'lb');
+    }
+    if (m === 'nf') return askName(a, 'โฟลเดอร์ใหม่', 'โฟลเดอร์ใหม่', 40, async name => { const f = await newFolder(name); await moveWork(w, f.id); });
+    if (m === 'out' || m[0] === 'f') { closePop(); return moveWork(w, m === 'out' ? null : m.slice(1)); }
+    if (m === 'yes') {
+      closePop(); await leave(w.id); await putW({...w, del: Date.now()}); renderList();
+      htoast('ย้ายไปถังขยะแล้ว', async () => { await putW({...w, del: null}); renderList(); htoast('เลิกทำแล้ว'); });
+    }
+  });
+}
+async function moveWork(w, fid) {
+  if (w.fid === fid) return closePop();
+  const gone = VW.k === 'f' && VW.id !== fid; if (gone) await leave(w.id);
+  await putW({...w, fid}); renderList(); closePop();
+  const f = F.find(x => x.id === fid);
+  htoast(f ? `ย้ายไป "${f.name}" แล้ว` : 'เอาออกจากโฟลเดอร์แล้ว', async () => { await putW({...w}); renderList(); });
+}
+function askName(a, title, val, max, ok) {
+  pop(a, `<h5>${title}</h5><div class="lbe"><input class="hin" maxlength="${max}" value="${esc(val)}" aria-label="${title}"></div><div class="hcf"><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-red" data-m="ok" type="button">${ico('check')}บันทึก</button></div></div>`, async m => {
+    if (m === 'no') return closePop();
+    const v = $('hp').querySelector('input').value.trim(); if (!v) return closePop();   // ชื่อว่าง = ไม่บันทึก
+    await ok(v); closePop();
+  });
+}
+async function newFolder(name) {
+  const f = {id: uid(), name, c: Date.now()}, db = await DB(), t = db.transaction('f', 'readwrite'); t.objectStore('f').put(f); await tdone(t);
+  F.push(f); F.sort((a, b) => a.name.localeCompare(b.name, 'th')); htoast('สร้างโฟลเดอร์แล้ว'); return f;
+}
+function folderMenu(a, f, page) {
+  const inside = live().filter(w => w.fid === f.id).length;
+  pop(a, page === 'del' ? `<div class="hcf"><b>ลบโฟลเดอร์ "${esc(f.name)}"?</b><p>${inside ? `งาน ${inside} งานข้างในไม่หาย จะอยู่ใน งานของฉัน` : 'โฟลเดอร์นี้ไม่มีงาน'}</p><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-m="yes" type="button">${ico('trash')}ลบโฟลเดอร์</button></div></div>`
+    : `${row('ren', 'pen', 'เปลี่ยนชื่อโฟลเดอร์')}${row('del', 'trash', 'ลบโฟลเดอร์')}`, async m => {
+    if (m === 'del') return folderMenu(a, f, 'del');
+    if (m === 'no') return closePop();
+    if (m === 'ren') return askName(a, 'เปลี่ยนชื่อโฟลเดอร์', f.name, 40, async name => {
+      const db = await DB(), t = db.transaction('f', 'readwrite'); f.name = name; t.objectStore('f').put(f); await tdone(t); F.sort((x, y) => x.name.localeCompare(y.name, 'th')); renderList(); htoast('เปลี่ยนชื่อแล้ว'); });
+    if (m === 'yes') {                 // transaction เดียว: ลบโฟลเดอร์ + งานข้างในกลับไปอยู่งานของฉัน
+      const db = await DB(), t = db.transaction(['f', 'p'], 'readwrite');
+      t.objectStore('f').delete(f.id); W.filter(w => w.fid === f.id).forEach(w => { w.fid = null; t.objectStore('p').put(w); });
+      await tdone(t); F = F.filter(x => x.id !== f.id); closePop(); go({k: 'all'}); htoast('ลบโฟลเดอร์แล้ว');
+    }
+  });
+}
+function labelEdit(a) {
+  pop(a, `<h5>แก้ไขชื่อป้าย</h5>${HS.lb.map((nm, i) => `<div class="lbe">${lbl(i)}<input class="hin" maxlength="20" value="${esc(nm)}" placeholder="ไม่ใช้ป้ายสีนี้" aria-label="ชื่อป้ายสีที่ ${i + 1}"></div>`).join('')}
+    <div class="hcf"><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-red" data-m="ok" type="button">${ico('check')}บันทึก</button></div></div>`, m => {
+    if (m === 'no') return closePop();
+    HS.lb = [...$('hp').querySelectorAll('input')].map(x => x.value.trim()); saveHS();   // ลบชื่อ = ไม่แสดงป้ายนั้น
+    if (VW.k === 'lb' && !HS.lb[VW.i]) VW = {k: 'all'};
+    closePop(); renderList(); htoast('บันทึกชื่อป้ายแล้ว');
+  }, true);
+}
+function sortMenu(a) {
+  pop(a, `<h5>เรียงตาม</h5>${Object.entries(SORTS).map(([k, t]) => row('s' + k, 'sort', t, HS.sort === k ? CK : '')).join('')}`, m => { HS.sort = m.slice(1); saveHS(); closePop(); renderList(); });
+}
+function profMenu(a) {
+  let code = ''; try { code = (JSON.parse(localStorage.getItem('ct_lib') || 'null') || {}).code || ''; } catch (e) {}
+  pop(a, `<div class="pfh"><span class="av"><b>${esc(PROF.name[0])}</b><i class="gb"></i></span><span><b class="n">${esc(PROF.name)}</b><small>${esc(PROF.email)}</small></span></div><hr>
+    <div class="hr" style="cursor:default">${ico('link')}<span>บัญชีที่เชื่อม</span><span class="v"><i class="gb" style="position:static;box-shadow:none"></i>${PROF.via}</span></div>
+    <div class="pbox"><div class="h">${ico('ticket')}เทมเพลตที่ซื้อแล้ว</div>${code ? `<div class="c">TARN-••••${esc(String(code).slice(-4).toUpperCase())}</div>` : '<div class="d" style="margin-top:6px">ยังไม่ได้กรอก Code ในเบราว์เซอร์นี้</div>'}
+      <a href="/download" target="_blank" rel="noopener">${ico('open')}${code ? 'เปิดคลังของฉัน' : 'กรอก Code'}</a></div>
+    <div class="hr" style="cursor:default">${ico('drive')}<span>พื้นที่ที่ใช้</span><span class="v">${live().length} งาน ในเบราว์เซอร์นี้</span></div><hr>
+    ${row('set', 'gear', 'ตั้งค่า')}${row('out', 'logout', 'ออกจากระบบ')}`, () => closePop(), true);
+}
+// ── เปลี่ยนชื่อในที่: ดับเบิลคลิกชื่อ / F2 / ... > เปลี่ยนชื่อ  Enter หรือคลิกนอก = บันทึก  Esc = ยกเลิก  ว่างหรือเหมือนเดิม = ชื่อเดิมเงียบ ๆ ──
+function renameCard(id) {
+  const c = document.querySelector(`.wk[data-w="${id}"]`), w = W.find(x => x.id === id); if (!c || !w) return;
+  const t = c.querySelector('.wt'), m = c.querySelector('.wm'), was = m.textContent, inp = document.createElement('textarea');
+  inp.className = 'wt'; inp.value = w.ttl; inp.maxLength = 80; inp.rows = 2; inp.setAttribute('aria-label', 'ชื่องาน');
+  t.replaceWith(inp); m.textContent = 'Enter บันทึก  Esc ยกเลิก'; inp.focus(); inp.select();
+  let done = false;
+  const fin = async ok => {
+    if (done) return; done = true; const v = inp.value.replace(/\s+/g, ' ').trim();
+    if (ok && v && v !== w.ttl) { await putW({...w, ttl: v, nm: 1}); renderList(); htoast('เปลี่ยนชื่อแล้ว'); c.isConnected || document.querySelector(`.wk[data-w="${id}"]`)?.focus(); }
+    else { inp.replaceWith(t); m.textContent = was; c.focus(); }
+  };
+  inp.onkeydown = e => { e.stopPropagation(); if (e.key === 'Enter') { e.preventDefault(); fin(true); } if (e.key === 'Escape') { e.preventDefault(); fin(false); } };
+  inp.onblur = () => fin(true); inp.onclick = e => e.stopPropagation();
+}
+async function openWork(id) {
+  const w = W.find(x => x.id === id); let vs = [];
+  try { vs = await versions(id); } catch (e) {}
+  if (!w || !vs.length) return htoast('เปิดงานนี้ไม่ได้ ไม่มีข้อมูลงานในเครื่องนี้');
+  if (w.nm) vs = vs.map(x => ({...x, ttl: w.ttl}));        // ชื่อที่ลูกค้าตั้งเองใช้ในตัวแก้และชื่อไฟล์
+  closePop(); PID = id; resume(vs[vs.length - 1], vs);
+  history.replaceState(history.state, '', '#p=' + id);      // รีเฟรชแล้วอยู่งานเดิม
+}
+// ── คลิก / แป้นพิมพ์ ──
+let openT = 0;
+$('pList').addEventListener('click', ev => {
+  const g = ev.target.closest('[data-go]');
+  if (g) return go({k: g.dataset.go, id: g.dataset.id, i: g.dataset.i != null ? +g.dataset.i : undefined});
+  if (ev.target.closest('[data-new]')) return newMenu(ev.target.closest('[data-new]'));
+  if (ev.target.closest('[data-nf]')) return askName(ev.target.closest('[data-nf]'), 'โฟลเดอร์ใหม่', 'โฟลเดอร์ใหม่', 40, async name => { const f = await newFolder(name); go({k: 'f', id: f.id}); });
+  if (ev.target.closest('[data-lbe]')) return labelEdit(ev.target.closest('[data-lbe]'));
+  if (ev.target.closest('[data-sort]')) return sortMenu(ev.target.closest('[data-sort]'));
+  if (ev.target.closest('[data-fm]')) return folderMenu(ev.target.closest('[data-fm]'), F.find(f => f.id === VW.id));
+  if (ev.target.closest('[data-clearq]')) { Q = ''; $('lq').value = ''; return renderList(); }
+  if (ev.target.closest('[data-empty]')) {
+    const b = ev.target.closest('[data-empty]');
+    return pop(b, `<div class="hcf"><b>ล้างถังขยะ? เอาคืนไม่ได้</b><p>งาน ${W.filter(w => w.del).length} งานจะหายถาวร</p><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-m="yes" type="button">${ico('trash')}ล้างถังขยะ</button></div></div>`, async m => {
+      closePop(); if (m !== 'yes') return; for (const w of W.filter(x => x.del)) await delForever(w.id); renderList(); htoast('ล้างถังขยะแล้ว'); });
+  }
+  const c = ev.target.closest('.wk'); if (!c || ev.target.closest('textarea')) return;
+  const w = W.find(x => x.id === c.dataset.w); if (!w) return;
+  if (ev.target.closest('[data-wm]') || w.del) return cardMenu(c.querySelector('.wmo'), w);   // ถังขยะ: คลิกการ์ด = เมนู กู้คืน / ลบถาวร ไม่เปิดงาน
+  clearTimeout(openT);
+  if (ev.target.closest('.wt') && matchMedia('(hover:hover)').matches) openT = setTimeout(() => openWork(w.id), 260);   // รอดูว่าเป็นดับเบิลคลิกเปลี่ยนชื่อไหม
+  else openWork(w.id);
+});
+$('pList').addEventListener('dblclick', ev => { const t = ev.target.closest('.wk:not(.del) .wt'); if (!t) return; clearTimeout(openT); renameCard(t.closest('.wk').dataset.w); });
+$('pList').addEventListener('pointerdown', ev => { if (ev.target.closest('.wk')) warm(); }, {passive: true});   // แตะงาน = เริ่มโหลดเครื่องมือระหว่างนิ้วยังไม่ปล่อย
+$('avb').onclick = () => profMenu($('avb'));
+$('lsq').onclick = () => { $('pList').querySelector('.lbar').classList.add('srch'); $('lq').focus(); };
+$('lq').addEventListener('input', () => { Q = $('lq').value; renderList(); });
+$('lq').addEventListener('blur', () => { if (!$('lq').value) $('pList').querySelector('.lbar').classList.remove('srch'); });
+document.addEventListener('keydown', ev => {
+  if ($('pList').classList.contains('hidden')) return;
+  if (ev.key === 'Escape' && $('hp').classList.contains('on')) return closePop();
+  if (ev.target.closest('input,textarea')) { if (ev.key === 'Escape' && ev.target === $('lq')) { $('lq').value = ''; Q = ''; renderList(); $('lq').blur(); } return; }
+  if (ev.key === '/') { ev.preventDefault(); $('pList').querySelector('.lbar').classList.add('srch'); $('lq').focus(); return; }
+  const c = ev.target.closest?.('.wk'); if (!c) return;
+  if (ev.key === 'Enter') { ev.preventDefault(); c.click(); }
+  if (ev.key === 'F2' && !c.classList.contains('del')) { ev.preventDefault(); renameCard(c.dataset.w); }
+});
+// ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย (เป็นงานใหม่หนึ่งงาน) / #p=<id> เปิดงานนั้นต่อ (รีเฟรชในตัวแก้) / ไม่มี: งานของฉัน
 if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
-else versions().then(vs => { if (vs.length) resume(vs[vs.length - 1], vs); }).catch(() => {});   // โครงเทาขึ้นก่อน แล้ว resume เริ่ม Python เอง
+else { const h = (location.hash.match(/^#p=(.+)$/) || [])[1]; paintResume().then(() => { if (h && W.some(w => w.id === h && !w.del)) openWork(h); }); }
 if (/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent))
   homeErr('กำลังเปิดในแอป Facebook หรือ LINE ซึ่งโหลดไฟล์ไม่ได้ แตะปุ่ม ... มุมขวาบน แล้วเลือก "เปิดในเบราว์เซอร์" ก่อนใช้งาน');
 </script>
