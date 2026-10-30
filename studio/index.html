@@ -314,7 +314,7 @@ body.typing .tring,body.typing .tcard{visibility:hidden}
 .ffoot{border-top:1px solid var(--line);padding:8px 12px 10px;display:grid;gap:6px}.ffoot:empty{display:none}.ffoot p{font-size:13px;font-weight:600}.ffoot small{font-size:12px;color:var(--sub)}.ffoot .row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .lcard{display:grid;gap:10px;padding:10px 4px;font-size:14px;color:var(--mid)}.lwarn{font-size:13px;color:#9A6700;background:#FFF8E6;border-radius:10px;padding:8px 10px;display:grid;gap:6px}
 /* แผงแบรนด์ / ทรานซิชัน (ใบ 007) */
-.rps[data-p=brand],.rps[data-p=trans]{overflow-y:auto}
+.rps[data-p=brand],.rps[data-p=trans],.rps[data-p=text],.rps[data-p=img]{overflow-y:auto}
 .bpan{padding:12px 16px 24px;display:grid;gap:14px;font-size:14px;align-content:start}
 .bpan h4{font-size:13px;color:var(--sub);font-weight:600}
 .bpan .lgbox{display:flex;align-items:center;gap:10px;border:1px dashed #CFCFD6;border-radius:12px;padding:10px;min-height:64px}
@@ -329,8 +329,6 @@ body.typing .tring,body.typing .tcard{visibility:hidden}
 .bpan .num{display:flex;align-items:center;gap:6px}.bpan .num button{width:36px;height:36px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:16px}
 .bpan .pg1{border-top:1px solid var(--line);padding-top:12px;display:grid;gap:8px}
 .bpan .note{display:flex;gap:6px;font-size:12px;color:var(--sub);line-height:1.5}.bpan .note svg{width:16px;height:16px;flex:none;margin-top:2px;stroke-width:2.5}
-.rail [data-p=brand],.rail [data-p=trans]{display:none}
-@media (min-width:768px) and (pointer:fine), (min-width:768px) and (min-height:501px){.rail [data-p=brand],.rail [data-p=trans]{display:flex}}   /* มือถือ: อยู่ในเมนู … (แถบล่างมี 3 ปุ่มตามใบ 018) */
 /* วิธีใช้ครั้งแรก: วงเรืองแสงรอบจุด (ไม่มีฉากมืด) + การ์ดคำอธิบาย */
 .tring{position:fixed;left:0;top:0;z-index:80;border-radius:12px;pointer-events:none;box-shadow:0 0 0 2px var(--red),0 0 18px 4px rgba(235,125,74,.45)}
 .tring::after{content:'';position:absolute;inset:-2px;border-radius:inherit;box-shadow:0 0 0 2px var(--red);opacity:0}.tring.go::after{animation:orbRipple 1.2s var(--ease) 3}   /* วนแค่ 3 รอบ ไม่วนค้าง */
@@ -362,7 +360,7 @@ body.typing .tring,body.typing .tcard{visibility:hidden}
 .rph{display:flex;align-items:center;gap:8px;height:52px;padding:0 8px 0 16px;border-bottom:1px solid var(--line);flex:none}
 .rph h3{flex:1;font-size:16px}
 .rps{display:none;flex:1;min-height:0;flex-direction:column}
-.rp[data-p=chat] .rps[data-p=chat],.rp[data-p=look] .rps[data-p=look],.rp[data-p=hist] .rps[data-p=hist],.rp[data-p=brand] .rps[data-p=brand],.rp[data-p=pos] .rps[data-p=pos],.rp[data-p=trans] .rps[data-p=trans]{display:flex;animation:rise .22s var(--ease) both}
+.rp[data-p=chat] .rps[data-p=chat],.rp[data-p=look] .rps[data-p=look],.rp[data-p=hist] .rps[data-p=hist],.rp[data-p=brand] .rps[data-p=brand],.rp[data-p=pos] .rps[data-p=pos],.rp[data-p=trans] .rps[data-p=trans],.rp[data-p=text] .rps[data-p=text],.rp[data-p=img] .rps[data-p=img]{display:flex;animation:rise .22s var(--ease) both}
 .rps[data-p=look]{overflow-y:auto;padding:12px 16px}
 .rail{display:flex;z-index:45;background:#fff}
 .rail button{position:relative;border:none;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:600;color:var(--mid);border-radius:10px;transition:background .15s,color .15s}
@@ -607,7 +605,11 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .medit .emsg{margin:0 0 8px}
   .rp{inset:56px 0 0 0;transform:translateY(100%);z-index:55}
   .rail{position:fixed;left:0;right:0;bottom:0;height:calc(58px + var(--safe));padding:2px 8px var(--safe);border-top:1px solid var(--line);justify-content:space-around;transition:opacity .1s cubic-bezier(.4,0,1,1)}
-  .rail button{flex:1;max-width:120px;height:54px;font-size:12px}
+  .rail button{flex:0 0 auto;width:max(64px,calc((100vw - 4px) / 5.5));height:54px;font-size:12px}
+  .rail{justify-content:flex-start;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding-left:2px;padding-right:2px}.rail::-webkit-scrollbar{display:none}
+  .rail.fr{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent)}
+  .rail.fl{-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px);mask-image:linear-gradient(90deg,transparent,#000 40px)}
+  .rail.fl.fr{-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent)}
   .rail [data-p=add]{display:flex}.rail [data-p=hist]{display:none}
   .work.boxon .rail,body.gridon .rail{opacity:0;pointer-events:none}
   .chip{height:40px}
@@ -1008,15 +1010,37 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .tpop .ly .ic{width:40px;height:40px;border:none;background:none;border-radius:8px;display:grid;place-items:center;color:var(--text);padding:0}.tpop .ly .ic:disabled{color:#C4C4CC}.tpop .ly svg.i{display:block;width:20px;height:20px}
 .mpill .btn.ic{width:44px;padding:0;justify-content:center}
 @media (prefers-reduced-motion:reduce){.sel .hx{transition:none}}
+/* ══ ใบ 022 ซูม ══ */
+.pbar .zm{display:flex;align-items:center;height:36px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-left:auto;margin-right:8px}
+.pbar .zm button{height:34px;border:none;background:none;display:grid;place-items:center;color:var(--text);padding:0}.pbar .zm .zb{width:36px;border-radius:11px}.pbar .zm svg.i{display:block;width:20px;height:20px}
+.pbar .zm .zv{min-width:58px;padding:0 6px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;border-left:1px solid var(--line);border-right:1px solid var(--line);border-radius:0}
+.pbar .zm button:hover{background:var(--bg)}.pbar .zm button:disabled{color:#C4C4CC;background:none}
+.zmenu2{position:fixed;z-index:90;width:200px;background:#fff;border-radius:14px;box-shadow:0 8px 28px rgba(20,20,26,.18);padding:6px;animation:rz .16s var(--ease) both}
+.zmenu2 button{display:flex;align-items:center;gap:10px;width:100%;height:44px;border:none;background:none;border-radius:10px;padding:0 12px;font-size:14px;font-weight:600;color:var(--text);text-align:left}
+.zmenu2 button:hover,.zmenu2 button.on{background:var(--bg)}.zmenu2 svg.i{display:block;width:20px;height:20px}.zmenu2 kbd{margin-left:auto;font:inherit;font-size:12px;color:var(--sub)}.zmenu2 hr{border:none;border-top:1px solid var(--line);margin:4px 0}
+.zlbl{position:absolute;left:50%;top:12px;z-index:20;transform:translateX(-50%);background:#15151A;color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .3s var(--ease);font-variant-numeric:tabular-nums}.zlbl.on{opacity:1;transition-duration:.12s}
+.work.zoomed .pages{touch-action:none;overflow:hidden!important}.work.zoomed .dots,.work.zoomed .ftb{visibility:hidden}.work.zoomed .canvas{overflow:hidden}
+.sel{--iz:1}.sel .k,.sel .hx{scale:var(--iz)}.sel .hx{transform-origin:0 50%}
+@media (prefers-reduced-motion:reduce){.zlbl{transition:none}}
+/* ══ ใบ 022 แผงข้อความ / รูปภาพ / รูปที่เลือก ══ */
+.bpan .addt{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:60px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:6px 16px;text-align:left;cursor:grab;line-height:1.3}
+.bpan .addt svg.i{display:block;width:20px;height:20px;flex:none;color:var(--sub)}.bpan .addt:active{background:var(--bg)}
+.bpan .drop{border:1.5px dashed #CFCFD6;border-radius:14px;padding:20px 16px;display:grid;gap:12px;justify-items:center;text-align:center;color:var(--mid);font-size:14px}
+.bpan .drop svg.i{display:block;width:20px;height:20px}.bpan .drop.on{border-color:var(--text);background:var(--bg)}.bpan .drop .btn{width:100%;height:52px}
+.bpan .inote{font-size:13px;color:var(--sub);line-height:1.6}
+.sel.pic .k.l,.sel.pic .k.r{display:none}
+.pages.dropon .slide{outline:2px dashed var(--text);outline-offset:4px}
 /* QA 007: แผงแบรนด์/ทรานซิชัน/ตำแหน่ง บนมือถือ+แท็บเล็ต = แผ่นล่าง 62% สไลด์อยู่ด้านบน ไม่มีพื้นมืด */
 @media (max-width:1023px){
+  .rp[data-p=text]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:auto;max-height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
+  .rp.on[data-p=text]{transform:none}
   .rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
   .rp.on[data-p=brand],.rp.on[data-p=trans],.rp.on[data-p=pos]{transform:none}
   .work.bsheet .canvas{margin-bottom:62dvh}
   .work.bsheet{--tw:0px!important}.work.bsheet .thumbs,.work.bsheet .thd,.work.bsheet .tgrip{visibility:hidden;padding:0;border:0}
   .work.bsheet .pbar{display:none}
 }
-@media (min-width:768px) and (max-width:1023px){.rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos]{right:56px}}
+@media (min-width:768px) and (max-width:1023px){.rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos],.rp[data-p=text]{right:56px}}
 @media (max-width:767px), (pointer:coarse) and (max-height:500px){.work.bsheet .pages .slide{width:min(100%,calc((38dvh - 56px - 44px - 16px) * 16 / 9))}.work.bsheet .dots{display:none}}
 </style>
 </head>
@@ -1101,6 +1125,9 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
   <symbol id="i-zfront" viewBox="0 0 24 24"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M4 10a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2"/><path d="M14 20a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2"/></symbol>
   <symbol id="i-zback" viewBox="0 0 24 24"><rect x="14" y="14" width="8" height="8" rx="2"/><rect x="2" y="2" width="8" height="8" rx="2"/><path d="M7 14v1a2 2 0 0 0 2 2h1"/><path d="M14 7h1a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></symbol>
+  <symbol id="i-replace" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12a4 4 0 0 1 7-2.6"/><path d="M15 6v3.4h-3.4"/><path d="M16 12a4 4 0 0 1-7 2.6"/><path d="M9 18v-3.4h3.4"/></symbol>
   <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
   <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></symbol>
   <symbol id="i-move" viewBox="0 0 24 24"><path d="M12 2v20"/><path d="m15 19-3 3-3-3"/><path d="m19 9 3 3-3 3"/><path d="M2 12h20"/><path d="m5 9-3 3 3 3"/><path d="m9 5 3-3 3 3"/></symbol>
@@ -1198,6 +1225,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
     <button class="dots" id="dots" type="button"><span class="dw"></span><span class="cnt"></span></button>
     <div class="pbar" id="pbar" role="toolbar" aria-label="เปลี่ยนหน้า"><button class="btn btn-line btn-sm tshow" type="button" data-pb="show" aria-expanded="false" aria-controls="thumbs"><svg class="i"><use href="#i-popen"/></svg>ภาพย่อ</button>
       <div class="mid"><button class="pv" type="button" data-pb="prev"><svg class="i"><use href="#i-back"/></svg>ก่อนหน้า</button><span class="pn" id="pbn" aria-live="polite"></span><button class="pv" type="button" data-pb="next">ถัดไป<svg class="i"><use href="#i-next"/></svg></button></div>
+      <div class="zm" role="group" aria-label="ซูม"><button type="button" class="zb" data-zm="-" aria-label="ซูมออก"><svg class="i"><use href="#i-minus"/></svg></button><button type="button" class="zv" id="zv" data-zm="menu" aria-haspopup="menu" aria-expanded="false" aria-label="ซูม 100% เลือกขนาด">100%</button><button type="button" class="zb" data-zm="+" aria-label="ซูมเข้า"><svg class="i"><use href="#i-plus"/></svg></button></div>
       <button class="btn btn-line btn-sm" type="button" data-pb="add"><svg class="i"><use href="#i-plus"/></svg>เพิ่มหน้า</button></div>
   </section>
   <aside class="rp" id="rp" data-p="chat">
@@ -1213,6 +1241,8 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
       </div>
     </section>
     <section class="rps" data-p="look"><p class="sub" style="font-size:13px;color:var(--sub)">จัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย</p><div class="grid2" id="lookg"></div></section>
+    <section class="rps" data-p="text"><div class="bpan" id="textp"></div></section>
+    <section class="rps" data-p="img"><div class="bpan" id="imgp"></div></section>
     <section class="rps" data-p="brand"><div class="bpan" id="brandp"></div></section>
     <section class="rps" data-p="trans"><div class="bpan" id="transp"></div></section>
     <section class="rps" data-p="pos"><div class="bpan tpop inrp" id="posp"></div></section>
@@ -1224,6 +1254,8 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <nav class="rail" id="rail">
     <button type="button" data-p="chat" aria-label="ผู้ช่วย"><svg class="i"><use href="#i-spark"/></svg>ผู้ช่วย<i class="dot" id="chatdot"></i></button>
     <button type="button" data-p="look" aria-label="หน้าตา"><svg class="i"><use href="#i-palette"/></svg>หน้าตา</button>
+    <button type="button" data-p="text" aria-label="เพิ่มข้อความ"><svg class="i"><use href="#i-type"/></svg>ข้อความ</button>
+    <button type="button" data-p="img" aria-label="เพิ่มรูปภาพ"><svg class="i"><use href="#i-image"/></svg>รูปภาพ</button>
     <button type="button" data-p="add" aria-label="เพิ่มหน้าใหม่ต่อจากหน้านี้"><svg class="i"><use href="#i-plus"/></svg>เพิ่มหน้า</button>
     <button type="button" data-p="brand" aria-label="แบรนด์และเลขหน้า"><svg class="i"><use href="#i-stamp"/></svg>แบรนด์</button>
     <button type="button" data-p="trans" aria-label="ทรานซิชัน"><svg class="i"><use href="#i-trans"/></svg>ทรานซิชัน</button>
@@ -1231,6 +1263,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   </nav>
   <nav class="gbar" id="gbar" aria-label="เครื่องมือของหน้าที่เลือก"></nav>
   <nav class="bbar" id="bbar" aria-label="เครื่องมือของกล่องที่เลือก"></nav>
+  <input type="file" id="imgin" accept="image/*,.heic,.heif" hidden>
 </main>
 
 <div class="sheet" id="sheet"><div class="pan">
@@ -1253,7 +1286,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030m';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030n';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1770,7 +1803,7 @@ async function paint() {
   }
   slides = KEYS.map(k => nodeCache.get(k)?.node); BOX = KEYS.map(k => nodeCache.get(k)?.boxes || []);
   META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins")), ov=bool(ITEMS[i][1].get("_ov")), mv=bool(ITEMS[i][1].get("mv")), tr=ITEMS[i][1].get("_tr", ""), lg=ITEMS[i][1].get("_lg"), pn=ITEMS[i][1].get("_pn")) for i in ORDER], ensure_ascii=False)'));
-  dirty = true; readBR();
+  dirty = true; readBR(); requestAnimationFrame(railFade);   // ใบ 022 ขอบจางของแถบเครื่องมือ
   return need;
 }
 // ไฟล์จริง: คำใบ้ไม่ลง ข้อที่ปล่อยว่างในหน้าที่แทรกไม่ลง  skip = ตำแหน่งหน้าที่ลูกค้าเลือกไม่เอา (หน้าแทรกที่ยังว่าง)
@@ -1872,6 +1905,7 @@ FTB.innerHTML = `<button type="button" data-b="alt" aria-label="เปลี่�
   <button type="button" data-b="down" aria-label="เลื่อนลง" data-tip="เลื่อนลง" style="--i:3">${ico('dn')}</button><hr>
   <button type="button" data-b="more" aria-label="เพิ่มเติม" data-tip="เพิ่มเติม" style="--i:4">${ico('more')}</button>`;
 function select(i, o = {}) {
+  if (Z.s > 1.001 && i !== Z.k) { const o_ = zSl(); if (o_) o_.style.transform = ''; Object.assign(Z, {s: 1, tx: 0, ty: 0}); $('pWork').classList.remove('zoomed'); SELD.style.setProperty('--iz', 1); const zv = $('zv'); if (zv) zv.textContent = '100%'; }   // ใบ 022
   if (o.prev === undefined) o = {...o, prev: cur};
   if (i < 0 && slides.length) { deselectBox(); i = one() ? Math.max(0, Math.min(near, slides.length - 1)) : Math.max(0, Math.min(cur, slides.length - 1)); }   // ทีละหน้า (มือถือ 018 / คอม 020): มีหน้าที่ทำงานอยู่เสมอ   // ทีละหน้า: แตะที่ว่าง = เลิกเลือกกล่อง หน้าที่เห็นยังเป็นหน้าที่ทำงาน
   if (SEL && SEL.k !== i) deselectBox();
@@ -2006,7 +2040,7 @@ function agendaPy() {                    // สารบัญผูกกับ
 let ED = null;                            // ชั้นพิมพ์ {k, j, b, el(.hit), ed, lay, tw, tb, pitch, orig}  ช่องตาราง {k, j, b, el, ta, orig}
 let CHK = 0;                              // นับครั้งที่ Python วัดระหว่างพิมพ์ (เกณฑ์: ไม่เกิน 1 ครั้งต่อการหยุดพิมพ์ 0.5 วิ)
 const touch = () => matchMedia('(pointer:coarse)').matches;
-const FIELD = p => ({t: 'หัวเรื่อง', t1: 'หัวเรื่อง', s: 'หัวรอง', note: 'หมายเหตุ', head: 'หัวตาราง', cats: 'ป้ายกราฟ'})[p[0]]
+const FIELD = p => p[0] === 'add' ? (p.length > 2 ? 'ข้อความที่เพิ่ม' : 'รูปภาพ') : ({t: 'หัวเรื่อง', t1: 'หัวเรื่อง', s: 'หัวรอง', note: 'หมายเหตุ', head: 'หัวตาราง', cats: 'ป้ายกราฟ'})[p[0]]
   || (p[0] === 'items' ? `ข้อ ${p[1] + 1}` : p[0] === 'rows' ? `ตาราง แถว ${p[1] + 1}` : 'ข้อความ');
 function curText(k, b) { py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(b.p)); return py.runPython('D._get(ITEMS[IDX][1], list(PATH))'); }
 // Chrome เติม \n ท้ายเองหลัง Enter ที่บรรทัดสุดท้าย (ให้เคอร์เซอร์ลงบรรทัดใหม่ได้) ตอนอ่านตัดออก 1 ตัว
@@ -2074,6 +2108,7 @@ function openEdit(k, j, at) {
   }
   if (busyNow || viewing || DR) return;
   const b = BOX[k][j]; if (!b) return;
+  if (b.pic) { if (!SEL || pk(SEL.p) !== pk(b.p)) selectBox(k, j); return; }   // ใบ 022 รูป: แตะ = เลือก ไม่มีโหมดพิมพ์
   if (b.lk) { selectBox(k, j); toast('กล่องนี้ล็อกอยู่ กดปลดล็อกก่อนแก้ข้อความ'); return; }   // ใบ 019b: ล็อกแบบ Canva แก้คำไม่ได้
   deselectBox();
   const orig = curText(k, b);
@@ -2266,6 +2301,7 @@ const reselect = (k, b) => { const j = BOX[k]?.findIndex(x => pk(x.p) === pk(b.p
 function finishEdit(apply) {
   if (!ED || ED.saving) return !ED;
   const v = val(ED);
+  if (ED.b.add && !v.trim()) { const {k, b} = ED; closeEdit(); dropAdd(k, b.p[1], ADDNEW?.k === k && ADDNEW?.n === b.p[1]); return true; }   // ใบ 022
   if (!apply || (v === ED.orig && !styleDirty(ED))) { const {k, b, keep} = ED; closeEdit(); if (keep) reselect(k, b); return true; }
   if (!v.trim() && ['t', 't1'].includes(ED.b.p[0]) && !META[ED.k]?.ins) { closeEdit(); toast('หัวเรื่องว่างไม่ได้ ใช้คำเดิม'); return true; }   // ไม่มีคำที่พิมพ์ให้หาย
   ED.p = saveEdit(); return true;         // แสงวิ่ง + 2 เฟรมก่อน แล้ว edit_text ตัดสินเองว่าล้นไหม
@@ -2319,7 +2355,8 @@ async function saveEdit() {
     const A = E.orig.replace(/\s+/g, ' ').trim(), B = v.replace(/\s+/g, ' ').trim();
     let i = 0; while (i < A.length && A[i] === B[i]) i++;
     const parts = [v !== E.orig && 'ข้อความ', E.pt !== E.pt0 && 'ขนาด', E.fam !== E.fam0 && 'ฟอนต์'].filter(Boolean);
-    commit(parts.length > 1 ? `แก้หน้า ${k + 1}: ${parts.join(' ')}` : parts[0] === 'ขนาด' ? `ขนาดตัวอักษรหน้า ${k + 1}: ${fmtPt(E.pt0)} เป็น ${fmtPt(E.pt)}`
+    if (E.b.add && !E.orig.trim()) ADDNEW = null;
+    commit(E.b.add && !E.orig.trim() ? `เพิ่มข้อความ หน้า ${k + 1}` : parts.length > 1 ? `แก้หน้า ${k + 1}: ${parts.join(' ')}` : parts[0] === 'ขนาด' ? `ขนาดตัวอักษรหน้า ${k + 1}: ${fmtPt(E.pt0)} เป็น ${fmtPt(E.pt)}`
       : parts[0] === 'ฟอนต์' ? `ฟอนต์หน้า ${k + 1}: ${E.fam || 'ของดีไซน์'}` : A ? `แก้หน้า ${k + 1}: "${clip(A, i)}" เป็น "${clip(B, i)}"` : `พิมพ์ในหน้า ${k + 1}: "${clip(B, 0)}"`);
     if (E.sst === 'over') toast(E.fam !== E.fam0 ? 'ฟอนต์นี้กว้างกว่า ข้อความไม่พอดีกล่อง ใช้ฟอนต์เดิม' : 'ใหญ่กว่านี้ไม่พอดีกล่อง ใช้ขนาดเดิม');
     // แก้หัวเรื่องแล้วสารบัญ/หน้าต่อเปลี่ยนตาม: บอกตรง ๆ ว่าหน้าไหน (ภาพย่อกะพริบพีชจาก swapPage)
@@ -2532,11 +2569,11 @@ function paintLooks() { $('lookg').innerHTML = lookHtml(); }
 $('lookg').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
 
 // ── แผงขวา (คอม) / แผ่นเต็มจอ (มือถือ): ผู้ช่วย หน้าตา ประวัติ ──
-const PANEL_T = {pos: 'ตำแหน่ง', chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข', brand: 'แบรนด์และเลขหน้า', trans: 'ทรานซิชัน'};
+const PANEL_T = {text: 'ข้อความ', img: 'รูปภาพ', pos: 'ตำแหน่ง', chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข', brand: 'แบรนด์และเลขหน้า', trans: 'ทรานซิชัน'};
 function openPanel(p) {
   const rp = $('rp'); if (rp.dataset.p !== p) { rp.dataset.p = p; }
   $('rpT').textContent = PANEL_T[p]; rp.classList.add('on'); $('pWork').classList.add('rpon'); document.body.classList.add('panelon');
-  $('pWork').classList.toggle('bsheet', ['brand', 'trans', 'pos'].includes(p));   // QA 007: มือถือ/แท็บเล็ต = แผ่นล่าง 62% เห็นสไลด์ด้านบน
+  $('pWork').classList.toggle('bsheet', ['brand', 'trans', 'pos'].includes(p));   // ข้อความ (022) = แผ่นล่างสั้น ไม่ดันสไลด์   // QA 007: มือถือ/แท็บเล็ต = แผ่นล่าง 62% เห็นสไลด์ด้านบน
   document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.toggle('on', b.dataset.p === p));
   if (p === 'chat') { $('chatdot').classList.remove('on'); scrollEnd(true); }
   if (p === 'look') paintLooks();
@@ -2544,6 +2581,8 @@ function openPanel(p) {
   if (p === 'brand') paintBrand();
   if (p === 'trans') paintTrans();
   if (p === 'pos') paintPos();
+  if (p === 'text') paintText();
+  if (p === 'img') paintImg();
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
 }
 function closePanel() {
@@ -2552,8 +2591,11 @@ function closePanel() {
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
 }
 const panelOpen = p => $('rp').classList.contains('on') && (!p || $('rp').dataset.p === p);
-$('rail').onclick = ev => { const b = ev.target.closest('[data-p]'); if (!b) return; if (b.dataset.p === 'add') return openIns(Math.max(0, cur)); panelOpen(b.dataset.p) ? closePanel() : openPanel(b.dataset.p); };
+$('rail').onclick = ev => { const b = ev.target.closest('[data-p]'); if (!b) return; if (b.dataset.p === 'add') return openIns(Math.max(0, cur));
+  if (b.dataset.p === 'img' && one()) { IMGREP = null; return $('imgin').click(); }   /* มือถือ: ตัวเลือกรูปของเครื่องเลย (iOS มี คลังรูป ถ่ายรูป เลือกไฟล์ ให้เอง) */ panelOpen(b.dataset.p) ? closePanel() : openPanel(b.dataset.p); };
 $('rpX').onclick = closePanel;
+$('rail').addEventListener('scroll', railFade, {passive: true}); addEventListener('resize', railFade);
+function railFade() { const r = $('rail'), m = r.scrollWidth > r.clientWidth + 2; r.classList.toggle('fl', m && r.scrollLeft > 4); r.classList.toggle('fr', m && r.scrollLeft < r.scrollWidth - r.clientWidth - 4); }
 $('canvas').addEventListener('pointerdown', () => { if (!wide() || matchMedia('(min-width:1024px)').matches) return; if (panelOpen() && !running && !$('pWork').classList.contains('bsheet')) closePanel(); });   // แผ่นล่างแบรนด์/ทรานซิชัน/ตำแหน่ง: แตะสไลด์ไม่ปิด
 
 // ── เลิกทำ / ทำซ้ำ / เก็บในเครื่อง / ประวัติ ──
@@ -2936,6 +2978,8 @@ async function ensureLogo() {             // เปิดงาน/เลิก�
   for (const k of ['logo', 'logow']) { const p = br[k]; if (!p) continue;
     try { py.FS.stat(p); } catch (e) { let ok = false; try { const b = await imgGet(p.split('/').pop().replace('.png', '')); if (b) { py.FS.mkdirTree('/k5/logo'); py.FS.writeFile(p, new Uint8Array(b)); ok = true; } } catch (e2) {}
       if (!ok && k === 'logo') toast('ไม่พบไฟล์โลโก้ในเครื่องนี้ ใส่โลโก้ใหม่ได้ที่แผงแบรนด์'); } }   // QA 007: ไม่หายเงียบ
+  let ids = []; try { ids = JSON.parse(py.runPython('json.dumps(sorted({"%x" % o["img"] for _, d in ITEMS for o in (d.get("add") or []) if o.get("img") is not None}))')); } catch (e) {}
+  for (const h of ids) { try { py.FS.stat('/k5/user/' + h); } catch (e) { try { const b = await imgGet('u' + h); if (b) { py.FS.mkdirTree('/k5/user'); py.FS.writeFile('/k5/user/' + h, new Uint8Array(b)); } } catch (e2) {} } }   // ใบ 022 รูปที่ลูกค้าเพิ่ม
 }
 async function toPng(file) {               // PNG / JPG / SVG -> PNG ไม่เกิน 1000px ในเครื่อง (ไม่ส่งไฟล์ออก) SVG ลงไฟล์เป็น PNG (ponytail: ยังไม่ฝัง svgBlip)
   const url = URL.createObjectURL(file);
@@ -3184,7 +3228,8 @@ function mbarHtml(t) {
 }
 // แถบลอยวางเหนือกล่อง ห่าง 8 / ล้นพื้นที่สไลด์ = ชิดขอบพื้นที่ 8 / เหนือไม่พอ = ใต้กล่อง (020 ข้อ C)
 function placeBar(bar, pg, r, sc) {
-  const sl = pg.querySelector('.slide'), pr = pg.getBoundingClientRect(), cr = $('canvas').getBoundingClientRect(), sx = sl.offsetLeft, sy = sl.offsetTop;
+  const sl = pg.querySelector('.slide'), pr = pg.getBoundingClientRect(), cr = $('canvas').getBoundingClientRect(), q = sl.getBoundingClientRect(), sx = q.left - pr.left, sy = q.top - pr.top;
+  sc = q.width / 960;                       // ใบ 022: ซูมอยู่ = ขนาดบนจอจริง
   const minX = cr.left - pr.left + 8, maxX = cr.right - pr.left - 8 - bar.offsetWidth, minY = cr.top - pr.top + 8;
   const x = sx + r.x * sc, up = sy + r.y * sc - bar.offsetHeight - 8;
   bar.style.left = Math.round(Math.max(minX, Math.min(x, maxX))) + 'px';
@@ -3293,7 +3338,7 @@ async function stylePy(o, label, msg) {
   return st;
 }
 function setFmt(patch) {
-  const t = tgt(); if (!t) return; const [e] = Object.keys(patch), v = patch[e];
+  const t = tgt(); if (!t || t.b.pic) return; const [e] = Object.keys(patch), v = patch[e];
   viaSel(() => { const b = selBox().b, k = SEL.k, fa = fieldAt(k, b);
     const L = {b: v ? 'ตัวหนา' : 'เลิกตัวหนา', i: v ? 'ตัวเอียง' : 'เลิกตัวเอียง', u: v ? 'ขีดเส้นใต้' : 'เลิกขีดเส้นใต้', s: v ? 'ขีดฆ่า' : 'เลิกขีดฆ่า', col: 'สีตัวอักษร',
       al: {l: 'ชิดซ้าย', c: 'กึ่งกลาง', r: 'ชิดขวา'}[v], va: {t: 'ข้อความชิดบนกรอบ', m: 'ข้อความกลางกรอบ', b: 'ข้อความชิดล่างกรอบ'}[v], li: {bul: 'จุดนำหน้า', num: 'เลขรายการ', '': 'เลิกรายการ'}[v]}[e];
@@ -3355,6 +3400,10 @@ function toolClick(ev) {
   if (e === 'num' && t.typing && ED.tb.classList.contains('kb')) return sizeMenu(x);
   if (e === 'lock') return setLock(!t.b.lk);
   if (t.b.lk && e !== 'pos') return toast('กล่องนี้ล็อกอยู่ กดปลดล็อกก่อน');
+  if (e === 'rep') { IMGREP = {k: t.k, n: t.b.p[1]}; return $('imgin').click(); }   // ใบ 022 แถบรูป
+  if (e === 'dup') return dupAdd(t.k, t.b);
+  if (e === 'del') return dropAdd(t.k, t.b.p[1], false, t.b.pic);
+  if (e === 'lay') { POS.tab = 'lay'; return togglePop('pos'); }
   if (['num', 'col', 'fmt', 'pos'].includes(e)) { if (t.typing) return viaSel(() => togglePop(e)); return togglePop(e); }
   if (['b', 'i', 'u'].includes(e)) return toggleFmt(e);
   if (e === 'reset') return resetBox();
@@ -3413,7 +3462,7 @@ function scalePy(D, un) {
 let RT = null;
 function rotStart(ev, k, b) {           // หมุนรอบจุดกลาง: ใกล้ 0/45/90… ดูดเข้า 4° / Shift = ทีละ 15°
   const sl = pgs()[k].querySelector('.slide').getBoundingClientRect(), sc = sl.width / 960, cx = sl.left + (b.x + b.w / 2) * sc, cy = sl.top + (b.y + b.h / 2) * sc;
-  RT = {k, b, cx, cy, sc, a0: Math.atan2(ev.clientY - cy, ev.clientX - cx) * 180 / Math.PI, r0: b.rot || 0, cur: b.rot || 0, id: ev.pointerId, nodes: nodesOf(k, b)};
+  RT = {k, b, cx, cy, sc: pgs()[k].querySelector('.slide').clientWidth / 960, a0: Math.atan2(ev.clientY - cy, ev.clientX - cx) * 180 / Math.PI, r0: b.rot || 0, cur: b.rot || 0, id: ev.pointerId, nodes: nodesOf(k, b)};
   try { ev.target.setPointerCapture(ev.pointerId); } catch (e) {}
 }
 window.addEventListener('pointermove', ev => {
@@ -3518,7 +3567,7 @@ function layRows(k) {
       const [gx, gy, gw, gh] = b.g, ids = kids.map((_, i) => i).filter(i => { const r = rc[i]; return r.x >= gx - 2 && r.y >= gy - 2 && r.x + r.w <= gx + gw + 2 && r.y + r.h <= gy + gh + 2; });
       if (!ids.includes(b.zi)) ids.push(b.zi); ids.forEach(i => used.add(i));
       rows.push({j, gi: b.gi, ids, top: Math.max(...ids), lk: !!b.lk, name: txt(j), type: 'การ์ด', can: true});
-    } else { used.add(b.zi); rows.push({j, ids: [b.zi], top: b.zi, lk: !!b.lk, name: txt(j), type: FIELD(b.p), can: true}); }
+    } else { used.add(b.zi); rows.push({j, ids: [b.zi], top: b.zi, lk: !!b.lk, name: b.pic ? 'รูปภาพ' : txt(j) || b.ph || '', type: b.pic ? 'รูปภาพ' : FIELD(b.p), can: true}); }
   });
   kids.forEach((c, i) => {
     if (used.has(i)) return; const r = rc[i], nm = sh?.[i]?.[1] || '', t = (c.textContent || '').trim(), sid = sh?.[i]?.[0];
@@ -3610,6 +3659,180 @@ document.addEventListener('keydown', ev => {          // จุดหกจุ�
   const g = ev.target.closest?.('.lys .lyg'); if (!g || !['ArrowUp', 'ArrowDown'].includes(ev.key)) return;
   ev.preventDefault(); ev.stopPropagation(); const r = LAYV[+g.dataset.n], t = tgt(); if (r && t && !g.disabled) layZ(t.k, r, ev.key === 'ArrowUp' ? 'fwd' : 'bwd');
 }, true);
+// ══ ใบ 022: ซูม 100% = พอดีจอ ถึง 300% ══ transform บน .slide ของหน้าที่เปิด (กล่อง ที่จับ ชั้นพิมพ์อยู่ข้างในซูมตาม) ไม่เข้าประวัติ
+// มือถือ: ถ่าง/บีบรอบกึ่งกลางนิ้ว ลากนิ้วเดียวบนที่ว่างเลื่อนดู แตะสองครั้งสลับ พอดีจอ/200% ซูมอยู่ปัดเปลี่ยนหน้าไม่ได้ / คอม: แถบหน้า ⌘0 ⌘± ⌘+ล้อ บีบแทร็กแพด ล้อเลื่อนดู
+const Z = {s: 1, tx: 0, ty: 0, k: -1}, ZMAX = 3;
+const zSl = () => Z.k >= 0 ? pgs()[Z.k]?.querySelector('.slide') : null;
+function zBase(sl) { const q = sl.getBoundingClientRect(); return {x: q.left - Z.tx, y: q.top - Z.ty, w: q.width / Z.s, h: q.height / Z.s}; }   // ตำแหน่งตอนพอดีจอ
+function zClamp(b) {                     // สไลด์ใหญ่กว่าพื้นที่: ขอบห่างได้ไม่เกิน 16 / เล็กกว่า: อยู่กลาง
+  const R = $('canvas').getBoundingClientRect(), w = b.w * Z.s, h = b.h * Z.s;
+  const fx = (lo, hi, sz, o) => sz > hi - lo ? Math.min(lo + 16, Math.max(hi - 16 - sz, o)) : lo + (hi - lo - sz) / 2;
+  Z.tx = fx(R.left, R.right, w, b.x + Z.tx) - b.x; Z.ty = Z.s > 1.001 ? fx(R.top, R.bottom - (one() ? 0 : 56), h, b.y + Z.ty) - b.y : 0;
+  if (Z.s <= 1.001) Z.tx = Z.ty = 0;
+}
+function zApply(lbl) {
+  const sl = zSl(); if (!sl) return; const on = Z.s > 1.001;
+  sl.style.transformOrigin = '0 0'; sl.style.transform = on ? `translate(${Z.tx}px,${Z.ty}px) scale(${Z.s})` : '';
+  $('pWork').classList.toggle('zoomed', on); SELD.style.setProperty('--iz', 1 / Z.s);
+  const v = Math.round(Z.s * 100) + '%', zv = $('zv'); zv.textContent = on ? v : '100%'; zv.setAttribute('aria-label', `ซูม ${on ? v : 'พอดีจอ'} เลือกขนาด`);
+  document.querySelector('[data-zm="-"]').disabled = !on; document.querySelector('[data-zm="+"]').disabled = Z.s >= ZMAX - .001;
+  if (lbl) zLabel(on ? v : 'พอดีจอ');
+  if (SEL) paintSel(); if (ED) placeEdit();
+}
+let ZL_T = 0;
+function zLabel(t) { let l = $('canvas').querySelector('.zlbl'); if (!l) { l = mk('zlbl'); l.setAttribute('aria-live', 'polite'); $('canvas').appendChild(l); } l.textContent = t; l.classList.add('on'); clearTimeout(ZL_T); ZL_T = setTimeout(() => l.classList.remove('on'), 1200); }
+function zoomTo(s, cx, cy, lbl = true) { // ซูมรอบจุดบนจอ (ไม่ให้ = กลางพื้นที่)
+  const k = Math.max(0, cur); if (Z.k !== k) { const o = zSl(); if (o) o.style.transform = ''; Object.assign(Z, {s: 1, tx: 0, ty: 0, k}); }
+  const sl = zSl(); if (!sl) return; const b = zBase(sl), R = $('canvas').getBoundingClientRect();
+  if (cx == null) { cx = R.left + R.width / 2; cy = R.top + R.height / 2; }
+  s = Math.min(ZMAX, Math.max(1, s)); const lx = (cx - b.x - Z.tx) / Z.s, ly = (cy - b.y - Z.ty) / Z.s;
+  Z.s = s; Z.tx = cx - b.x - s * lx; Z.ty = cy - b.y - s * ly; zClamp(b); zApply(lbl);
+}
+const zFit = () => { if (Z.s > 1.001) zoomTo(1); };
+function zoomGrab(P) { const k = Math.max(0, cur); if (Z.k !== k) Object.assign(Z, {s: 1, tx: 0, ty: 0, k}); P.z0 = {s: Z.s, tx: Z.tx, ty: Z.ty}; P.b = zBase(P.sl); }
+function zoomPinch() {                   // จุดใต้กึ่งกลางนิ้วตอนเริ่ม ตามกึ่งกลางนิ้วตอนนี้ (ถ่าง + ลากสองนิ้วพร้อมกัน)
+  const P = PZ; if (!P || P.mode !== 'zoom' || !P.zm) return; P.raf = 0;
+  const {r, x, y} = P.zm, z0 = P.z0, s = Math.min(ZMAX, Math.max(.85, z0.s * r)), lx = (P.m0.x - P.b.x - z0.tx) / z0.s, ly = (P.m0.y - P.b.y - z0.ty) / z0.s;
+  Z.s = s; Z.tx = x - P.b.x - s * lx; Z.ty = y - P.b.y - s * ly;
+  P.sl.style.transformOrigin = '0 0'; P.sl.style.transform = `translate(${Z.tx}px,${Z.ty}px) scale(${s})`; zLabel(Math.round(Math.max(1, s) * 100) + '%');
+}
+function zoomSettle() {                   // ปล่อยนิ้ว: ค้างที่ค่านั้น ต่ำกว่า 100% เด้งกลับพอดีจอ
+  const sl = zSl(); if (!sl) return; const b = zBase(sl); if (Z.s < 1.03) Z.s = 1;
+  const from = sl.style.transform; zClamp(b); zApply(true);
+  if (!calm.matches && from && from !== sl.style.transform) sl.animate([{transform: from}, {transform: sl.style.transform || 'none'}], {duration: 180, easing: EASE});
+}
+// ลากนิ้วเดียวบนที่ว่าง (ซูมอยู่) = เลื่อนดู / แตะสองครั้งบนที่ว่าง = พอดีจอ <-> 200%
+let ZP = null, ZTAP = null;
+$('pages').addEventListener('pointerdown', ev => {
+  if (ev.pointerType === 'mouse' || !one() || gridOn || PTRS.size > 1 || viewing) return;
+  const onBox = ev.target.closest('.sel') || (SEL && ev.target.closest('.hit.selx'));
+  const empty = !ev.target.closest('.hit') && !ev.target.closest('.sel');
+  if (empty) { const now = Date.now(), t = ZTAP;
+    if (t && now - t.t < 320 && Math.hypot(ev.clientX - t.x, ev.clientY - t.y) < 30) { ZTAP = null; ev.preventDefault(); zoomTo(Z.s > 1.001 ? 1 : 2, ev.clientX, ev.clientY); if (!calm.matches) zSl()?.animate([{opacity: .92}, {opacity: 1}], {duration: 160}); return; }
+    ZTAP = {t: now, x: ev.clientX, y: ev.clientY}; }
+  if (Z.s <= 1.001 || onBox || ED) return;
+  ZP = {id: ev.pointerId, x: ev.clientX, y: ev.clientY, tx: Z.tx, ty: Z.ty, b: zBase(zSl())};
+}, true);
+window.addEventListener('pointermove', ev => { if (!ZP || ev.pointerId !== ZP.id) return; if (PTRS.size > 1) { ZP = null; return; }
+  Z.tx = ZP.tx + ev.clientX - ZP.x; Z.ty = ZP.ty + ev.clientY - ZP.y; zClamp(ZP.b); const sl = zSl(); if (sl) sl.style.transform = `translate(${Z.tx}px,${Z.ty}px) scale(${Z.s})`; });
+['pointerup', 'pointercancel'].forEach(t => window.addEventListener(t, ev => { if (ZP && ev.pointerId === ZP.id) { ZP = null; zApply(false); } }));
+// คอม: ⌘+ล้อ / บีบแทร็กแพด (ล้อ + ctrlKey) ซูมรอบเมาส์ / ล้อเฉย ๆ ตอนซูม = เลื่อนดู
+$('canvas').addEventListener('wheel', ev => {
+  if (!slides.length || gridOn || viewing || $('pWork').classList.contains('hidden')) return;
+  if (ev.ctrlKey || ev.metaKey) { ev.preventDefault(); zoomTo(Z.s * Math.exp(-ev.deltaY * (ev.ctrlKey && !ev.metaKey && Math.abs(ev.deltaY) < 30 ? .012 : .0025)), ev.clientX, ev.clientY, true); return; }
+  if (Z.s > 1.001 && !ev.target.closest('.rp,.tpop')) { ev.preventDefault(); const sl = zSl(); if (!sl) return; const b = zBase(sl); Z.tx -= ev.deltaX; Z.ty -= ev.deltaY; zClamp(b); zApply(false); }
+}, {passive: false});
+// แถบหน้า: − ค่า% +  /  เมนู พอดีจอ 150 200 300
+function zMenu(btn) {
+  let m = document.querySelector('.zmenu2'); if (m) { m.remove(); btn.setAttribute('aria-expanded', 'false'); return; }
+  m = mk('zmenu2'); m.setAttribute('role', 'menu'); const cur_ = Math.round(Z.s * 100);
+  m.innerHTML = `<button type="button" role="menuitem" data-zs="1"${cur_ === 100 ? ' class="on"' : ''}>${ico('fit')}พอดีจอ<kbd>${KM}0</kbd></button><hr>` + [150, 200, 300].map(v => `<button type="button" role="menuitem" data-zs="${v / 100}"${cur_ === v ? ' class="on"' : ''}>${v}%${cur_ === v ? ico('check').replace('class="i"', 'class="i" style="margin-left:auto"') : ''}</button>`).join('');
+  document.body.appendChild(m); const r = btn.getBoundingClientRect(); m.style.left = Math.min(r.left, innerWidth - 208) + 'px'; m.style.top = (r.top - m.offsetHeight - 8) + 'px'; btn.setAttribute('aria-expanded', 'true');
+  m.onclick = ev => { const b = ev.target.closest('[data-zs]'); if (!b) return; m.remove(); btn.setAttribute('aria-expanded', 'false'); zoomTo(+b.dataset.zs); };
+  setTimeout(() => document.addEventListener('pointerdown', function off(ev) { if (!m.contains(ev.target) && ev.target !== btn) { m.remove(); btn.setAttribute('aria-expanded', 'false'); } document.removeEventListener('pointerdown', off, true); }, true));
+}
+const ZSTEP = [1, 1.25, 1.5, 2, 2.5, 3];
+document.querySelector('.pbar .zm').addEventListener('click', ev => { const b = ev.target.closest('[data-zm]'); if (!b || b.disabled) return; const a = b.dataset.zm;
+  if (a === 'menu') return zMenu(b);
+  zoomTo(a === '+' ? ZSTEP.find(v => v > Z.s + .01) || ZMAX : [...ZSTEP].reverse().find(v => v < Z.s - .01) || 1); });
+document.querySelector('[data-zm="-"]').dataset.tip = `ซูมออก (${KM}−)`; document.querySelector('[data-zm="+"]').dataset.tip = `ซูมเข้า (${KM}+)`;
+document.addEventListener('keydown', ev => {          // ⌘0 พอดีจอ / ⌘+ ⌘− (แทนซูมทั้งหน้าของเบราว์เซอร์ เฉพาะหน้าทำงาน)
+  if (!(ev.metaKey || ev.ctrlKey) || ev.altKey || $('pWork').classList.contains('hidden') || !slides.length || !$('pres').classList.contains('hidden')) return;
+  if (ev.key === '0') { ev.preventDefault(); zFit(); } else if (ev.key === '=' || ev.key === '+') { ev.preventDefault(); zoomTo(ZSTEP.find(v => v > Z.s + .01) || ZMAX); } else if (ev.key === '-') { ev.preventDefault(); zoomTo([...ZSTEP].reverse().find(v => v < Z.s - .01) || 1); }
+}, true);
+addEventListener('resize', () => { if (Z.s > 1.001) zoomTo(Z.s, null, null, false); });
+// ══ ใบ 022: เพิ่มข้อความ (3 แบบของชุด) / เพิ่มรูปจากเครื่อง (ย่อในเครื่อง ≤2000px เก็บตามแฮชใน IndexedDB 'img') ══
+// ไฟล์จริง: txBox ข้อความจริง + p:pic (D.draw_adds) ชื่อ shape 'add.N' = ของปกติ ย้าย ย่อขยาย หมุน ล็อก เลเยอร์ แต่งข้อความได้ทุกอย่าง
+let ADDNEW = null, IMGREP = null;
+const ADDT = [['เพิ่มหัวเรื่อง', 26, 700, 'acc'], ['เพิ่มหัวข้อรอง', 20, 700, 'ink'], ['เพิ่มข้อความ', 15, 400, 'ink']];
+function paintText() {
+  let pal = {}; try { pal = JSON.parse(py.runPython('json.dumps(D.eng.P)')); } catch (e) {}
+  $('textp').innerHTML = `<p class="inote">ใช้ฟอนต์และสีของดีไซน์นี้ ${one() ? 'แตะแล้วได้กล่องกลางหน้า' : 'คลิกเพื่อวางกลางหน้า หรือลากไปวางตรงที่ต้องการ'}</p>` + ADDT.map(([l, z, w, c], v) =>
+    `<button type="button" class="addt" data-addt="${v}" draggable="${!one()}" style="font-family:'${esc(setFont())}',sans-serif;font-size:${z}px;font-weight:${w};color:#${pal[c] && lumOf('#' + pal[c]) < .85 ? pal[c] : '15151A'}"><span>${l}</span>${ico('plus')}</button>`).join('');
+}
+$('textp').addEventListener('click', ev => { const b = ev.target.closest('[data-addt]'); if (b) addText(+b.dataset.addt); });
+$('textp').addEventListener('dragstart', ev => { const b = ev.target.closest('[data-addt]'); if (b) { ev.dataTransfer.setData('text/x-d2s-addt', b.dataset.addt); ev.dataTransfer.effectAllowed = 'copy'; } });
+function paintImg() {
+  $('imgp').innerHTML = `<div class="drop" id="imgdrop">${ico('image')}<span>ลากรูปจากเครื่องมาวางบนสไลด์หรือตรงนี้</span><button class="btn btn-red" type="button" data-img="pick">${ico('image')}เลือกรูปจากเครื่อง</button></div>
+    <p class="inote">JPG PNG WebP HEIC รูปใหญ่จะถูกย่อในเครื่องก่อนใส่ ไฟล์ PowerPoint ไม่หนัก รูปไม่ถูกส่งออกจากเครื่อง</p>`;
+}
+$('imgp').addEventListener('click', ev => { if (ev.target.closest('[data-img=pick]')) { IMGREP = null; $('imgin').click(); } });
+['dragover', 'dragleave', 'drop'].forEach(t => $('imgp').addEventListener(t, ev => { const d = ev.target.closest('#imgdrop'); if (!d) return; ev.preventDefault(); d.classList.toggle('on', t === 'dragover');
+  if (t === 'drop' && ev.dataTransfer.files[0]) { IMGREP = null; pickedImg(ev.dataTransfer.files[0]); } }));
+$('imgin').onchange = () => { const f = $('imgin').files[0]; $('imgin').value = ''; if (f) pickedImg(f, null, IMGREP); IMGREP = null; };
+// ลากไฟล์รูป / ตัวอย่างข้อความ ลงสไลด์ตรง ๆ (คอม)
+const slidePt = (pg, ev) => { const r = pg.querySelector('.slide').getBoundingClientRect(); return {x: (ev.clientX - r.left) / r.width * 960, y: (ev.clientY - r.top) / r.height * 540}; };
+$('pages').addEventListener('dragover', ev => { const ty = [...ev.dataTransfer.types]; if (!ty.includes('Files') && !ty.includes('text/x-d2s-addt')) return; ev.preventDefault(); $('pages').classList.add('dropon'); });
+$('pages').addEventListener('dragleave', ev => { if (!$('pages').contains(ev.relatedTarget)) $('pages').classList.remove('dropon'); });
+$('pages').addEventListener('drop', ev => {
+  $('pages').classList.remove('dropon'); const pg = ev.target.closest('.pg'); if (!pg) return; ev.preventDefault();
+  const k = pgs().indexOf(pg), at = slidePt(pg, ev), v = ev.dataTransfer.getData('text/x-d2s-addt');
+  if (k !== cur) select(k);
+  if (v !== '') return addText(+v, at);
+  const f = ev.dataTransfer.files[0]; if (f) pickedImg(f, at);
+});
+const clampR = (x, y, w, h) => [Math.round(Math.min(Math.max(0, x), 960 - w) * 10) / 10, Math.round(Math.min(Math.max(0, y), 540 - h) * 10) / 10, w, h];
+async function addPy(k, o) {             // เพิ่ม 1 ชิ้น วาดหน้านั้นใหม่ คืน N
+  py.globals.set('IDX', order[k]); py.globals.set('O', JSON.stringify(o));
+  const n = py.runPython('D.add_obj(ITEMS, IDX, json.loads(O))'); await paint(); return n;
+}
+async function addText(v, at) {
+  if (busyNow || viewing || running || !slides.length) return; if (ED && !(await applyEdit())) return;
+  const k = Math.max(0, cur), [W, H] = [[520, 70], [440, 54], [400, 40]][v], oldKeys = KEYS.slice();
+  if (one() || panelOpen('text') && !wide()) closePanel(); deselectBox();
+  busyNow = true; await frame(); let n;
+  try { n = await addPy(k, {t: '', r: clampR(at ? at.x - W / 2 : (960 - W) / 2, at ? at.y - H / 2 : (540 - H) / 2, W, H), v}); settle(oldKeys, k); ADDNEW = {k, n}; }
+  catch (e) { console.error(e); toast('เพิ่มข้อความไม่สำเร็จ ลองใหม่อีกครั้ง'); return; } finally { busyNow = false; }
+  const j = BOX[k].findIndex(b => b.add && !b.pic && b.p[1] === n); if (j >= 0) openEdit(k, j);   // พิมพ์ได้ทันที (ยังไม่เข้าประวัติจนกว่าจะพิมพ์)
+}
+async function dropAdd(k, n, silent, pic) {   // ลบชิ้นที่เพิ่ม: กล่องใหม่ที่ไม่ได้พิมพ์ = เงียบ ไม่เข้าประวัติ
+  const oldKeys = KEYS.slice(); if (ADDNEW?.k === k && ADDNEW?.n === n) ADDNEW = null;
+  deselectBox(); busyNow = true; await frame();
+  try { py.globals.set('IDX', order[k]); py.globals.set('N', n); py.runPython('D.del_obj(ITEMS, IDX, N)'); await paint(); settle(oldKeys, k);
+    if (!silent) { commit(`${pic ? 'ลบรูป' : 'ลบข้อความ'} หน้า ${k + 1}`); toast(pic ? 'ลบรูปแล้ว' : 'ลบข้อความแล้ว'); } }
+  catch (e) { console.error(e); toast('ลบไม่สำเร็จ ลองใหม่อีกครั้ง'); } finally { busyNow = false; }
+}
+async function dupAdd(k, b) {           // ทำสำเนา: ชิ้นเดิม เลื่อนลงขวา 16
+  if (busyNow) return; const oldKeys = KEYS.slice(); busyNow = true; await frame();
+  try { py.globals.set('IDX', order[k]); py.globals.set('N', b.p[1]);
+    const o = JSON.parse(py.runPython('_d = ITEMS[IDX][1]; _o = dict(_d["add"][N]); _o["r"] = list((_d.get("mv") or {}).get("add.%d" % N + (".t" if "t" in _o else "")) or _o["r"]); json.dumps(_o, ensure_ascii=False)'));
+    o.r = clampR(o.r[0] + 16, o.r[1] + 16, o.r[2], o.r[3]); const n = await addPy(k, o); settle(oldKeys, k); commit(`ทำสำเนา${b.pic ? 'รูป' : 'ข้อความ'} หน้า ${k + 1}`);
+    const j = BOX[k].findIndex(x => x.add && x.p[1] === n); if (j >= 0) selectBox(k, j); }
+  catch (e) { console.error(e); toast('ทำสำเนาไม่สำเร็จ ลองใหม่อีกครั้ง'); } finally { busyNow = false; }
+}
+async function pickedImg(file, at, rep) {   // ย่อในเครื่อง ด้านยาว ≤2000px (PNG คงพื้นใส / อื่น ๆ JPG 0.9) แฮช -> IndexedDB + Pyodide FS
+  if (busyNow || viewing || running || !slides.length) return; if (ED && !(await applyEdit())) return;
+  if (!/^image\//.test(file.type) && !/\.(heic|heif)$/i.test(file.name)) return toast('ไฟล์นี้ไม่ใช่รูป เลือกไฟล์ JPG PNG WebP หรือ HEIC');
+  let bm; try { bm = await createImageBitmap(file); } catch (e) { return toast('เปิดรูปนี้ไม่ได้ ลองบันทึกเป็น JPG แล้วเลือกใหม่'); }
+  const z = Math.min(1, 2000 / Math.max(bm.width, bm.height)), w = Math.max(1, Math.round(bm.width * z)), h = Math.max(1, Math.round(bm.height * z));
+  const c = document.createElement('canvas'); c.width = w; c.height = h; c.getContext('2d').drawImage(bm, 0, 0, w, h); bm.close?.();
+  const png = /png|gif|webp/.test(file.type), blob = await new Promise(r => c.toBlob(r, png ? 'image/png' : 'image/jpeg', .9));
+  const bytes = new Uint8Array(await blob.arrayBuffer()), hx = (await hashOf(bytes)).slice(0, 13).replace(/^0+/, '') || '0';
+  try { await imgPut('u' + hx, bytes); } catch (e) {}   // โหมดไม่ระบุตัวตน: ใช้ได้ในรอบนี้
+  py.FS.mkdirTree('/k5/user'); py.FS.writeFile('/k5/user/' + hx, bytes);
+  const k = rep ? rep.k : Math.max(0, cur), ar = w / h, oldKeys = KEYS.slice();
+  let W = Math.min(576, 324 * ar), H = W / ar; if (H > 324) { H = 324; W = H * ar; }
+  if (one() || panelOpen('img') && !wide()) closePanel(); deselectBox();
+  busyNow = true; await frame(); let n;
+  try {
+    if (rep) {                           // เปลี่ยนรูป: ที่เดิม กว้างเดิม สูงตามสัดส่วนรูปใหม่
+      py.globals.set('IDX', order[k]); py.globals.set('N', rep.n); py.globals.set('ID', parseInt(hx, 16)); py.globals.set('AR', ar);
+      py.runPython('_d = ITEMS[IDX][1]; _k = "add.%d" % N; _r = list((_d.get("mv") or {}).get(_k) or _d["add"][N]["r"]); _r[3] = round(_r[2] / AR, 1)\nif _r[3] > 486: _r[3] = 486; _r[2] = round(486 * AR, 1)\n_r[0] = max(0, min(_r[0], 960 - _r[2])); _r[1] = max(0, min(_r[1], 540 - _r[3]))\nif _d.get("mv", {}).get(_k): ITEMS[IDX] = (ITEMS[IDX][0], {**_d, "mv": {**_d["mv"], _k: _r}})\nD.set_obj(ITEMS, IDX, N, img=ID, r=_r)');
+      await paint(); n = rep.n; settle(oldKeys, k); commit(`เปลี่ยนรูป หน้า ${k + 1}`);
+    } else { n = await addPy(k, {img: parseInt(hx, 16), r: clampR(at ? at.x - W / 2 : (960 - W) / 2, at ? at.y - H / 2 : (540 - H) / 2, Math.round(W * 10) / 10, Math.round(H * 10) / 10)}); settle(oldKeys, k); commit(`เพิ่มรูป หน้า ${k + 1}`); }
+  } catch (e) { console.error(e); toast('ใส่รูปไม่สำเร็จ ลองใหม่อีกครั้ง'); return; } finally { busyNow = false; }
+  const j = BOX[k].findIndex(b => b.pic && b.p[1] === n); if (j >= 0) selectBox(k, j);
+}
+function picBar(t, m) {                  // แถบรูป: เปลี่ยนรูป ตำแหน่ง เลเยอร์ ทำสำเนา ลบ + เสร็จ (ล็อก หมุน = แถบลอย/ที่จับ 019b)
+  if (m) { const T = (e, ic, l) => `<button class="mt" type="button" data-e="${e}">${ico(ic)}<span>${l}</span></button>`;
+    return `<div class="msc">${t.b.lk ? '' : T('rep', 'replace', 'เปลี่ยนรูป')}${T('pos', 'pos', 'ตำแหน่ง')}${T('lay', 'layers', 'เลเยอร์')}${t.b.lk ? '' : T('dup', 'copy', 'ทำสำเนา') + T('del', 'trash', 'ลบ')}</div>
+      <div class="mpin"><button class="mdone" type="button" data-e="ok" aria-label="เสร็จ เลิกเลือกรูป">${ico('check')}เสร็จ</button></div>`; }
+  if (t.b.lk) return tbarHtml(t);
+  const B = (e, ic, l) => `<button type="button" data-e="${e}">${ico(ic)}<span>${l}</span></button>`;
+  return `${B('rep', 'replace', 'เปลี่ยนรูป')}<i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic" data-e="lock" aria-label="ล็อก" data-tip="ล็อก">${ico('lock')}</button><i class="sep"></i>
+    <button type="button" class="ic" data-e="dup" aria-label="ทำสำเนา" data-tip="ทำสำเนา">${ico('copy')}</button><button type="button" class="ic" data-e="del" aria-label="ลบรูป" data-tip="ลบรูป">${ico('trash')}</button>
+    <i class="sep"></i><button type="button" class="ink" data-e="ok" aria-label="เสร็จ เลิกเลือกรูป">${ico('check')}<span>เสร็จ</span></button>`;
+}
 // pptx-preview ไม่วาดขีดฆ่า (ไฟล์มี strike="sngStrike" แล้ว LibreOffice/PowerPoint เห็น) เติม CSS ให้จอตรงไฟล์
 function patchNode(node, bx) {
   for (const b of bx) {
@@ -3917,7 +4140,7 @@ function paintSel() {
   const hs = pg.querySelector('.hits'), sc = pg.querySelector('.slide').clientWidth / 960, r = rectOf(s.b);
   if (SELD.parentNode !== hs) hs.append(GHOST, SELD, GV, GH);
   Object.assign(SELD.style, {transform: selTf(r.x * sc, r.y * sc, r.w * sc, r.h * sc, s.b.rot), width: r.w * sc + 'px', height: r.h * sc + 'px'});
-  SELD.classList.toggle('lock', !s.b.can && !s.b.lk); SELD.classList.toggle('lk', !!s.b.lk); SELD.classList.toggle('rot', !!s.b.rot); SELD.classList.toggle('norot', !s.b.can);
+  SELD.classList.toggle('lock', !s.b.can && !s.b.lk); SELD.classList.toggle('lk', !!s.b.lk); SELD.classList.toggle('rot', !!s.b.rot); SELD.classList.toggle('norot', !s.b.can); SELD.classList.toggle('pic', !!s.b.pic);
   SELD.querySelectorAll('.k').forEach(e => e.style.cursor = s.b.rot ? KCUR[(+e.dataset.h + Math.round(s.b.rot / 45)) % 4] : '');   // ที่จับหมุนตามกรอบ เคอร์เซอร์หมุนตาม
   SELD.classList.toggle('nok', !!s.b.g || (touch() && (r.w * sc < 88 || r.h * sc < 44)));   // ที่จับ: ไม่ใช่การ์ด และบนจอสัมผัสกล่องต้องใหญ่พอ 88×44
   if (!SELD.classList.contains('on')) requestAnimationFrame(() => { if (SEL) SELD.classList.add('on'); });
@@ -3927,19 +4150,20 @@ function paintSel() {
 function paintBar(b, pg, sc) {             // ใบ 019: มือถือ แถบล่างข้อความ + แถบลอยเหนือกล่อง (คืนตำแหน่ง/ล็อก) / คอม แถบลอยครบชุด
   const t = {k: SEL.k, j: selBox().j, b, typing: false}, r = rectOf(b);
   if (one()) {
-    const B = $('bbar'), h = mbarHtml(t); B.classList.add('tx'); B.setAttribute('aria-label', 'เครื่องมือข้อความ'); if (B.dataset.h !== h) { B.innerHTML = h; B.dataset.h = h; } $('pWork').classList.add('boxon');
+    const B = $('bbar'), h = b.pic ? picBar(t, true) : mbarHtml(t); B.classList.add('tx'); B.setAttribute('aria-label', 'เครื่องมือข้อความ'); if (B.dataset.h !== h) { B.innerHTML = h; B.dataset.h = h; } $('pWork').classList.add('boxon');
     const ph = `<button class="btn" type="button" data-e="pos">${ico('pos')}ตำแหน่ง</button>` + (b.lk ? `<button class="btn" type="button" data-e="lock">${ico('unlock')}ปลดล็อก</button>` : b.can ? `<button class="btn ic" type="button" data-e="lock" aria-label="ล็อก">${ico('lock')}</button>` : `<span>${ico16('lock')}ย้ายไม่ได้ แก้ข้อความได้</span>`)
       + (b.m && !b.lk ? `<button class="btn ic" type="button" data-e="reset" aria-label="คืนตำแหน่งเดิม">${ico('undo')}</button>` : '');
     let pill = pg.querySelector('.mpill'); if (!ph) { pill?.remove(); return; }
     if (!pill) { pill = mk('mpill'); pill.setAttribute('role', 'toolbar'); pill.setAttribute('aria-label', 'เครื่องมือกล่อง'); pill.onclick = toolClick; pg.appendChild(pill); }
     if (pill.dataset.h !== ph) { pill.innerHTML = ph; pill.dataset.h = ph; }
-    const sl = pg.querySelector('.slide'); pill.style.left = Math.round(Math.max(4, Math.min(sl.offsetLeft + r.x * sc, pg.clientWidth - pill.offsetWidth - 4))) + 'px';
-    const up = sl.offsetTop + r.y * sc - pill.offsetHeight - 8; pill.style.top = Math.round(up >= 0 ? up : sl.offsetTop + (r.y + r.h) * sc + 8) + 'px';
+    const pr = pg.getBoundingClientRect(), q = pg.querySelector('.slide').getBoundingClientRect(), S = q.width / 960, ox = q.left - pr.left, oy = q.top - pr.top;   // ใบ 022: ซูมแล้วยังตรง
+    pill.style.left = Math.round(Math.max(4, Math.min(ox + r.x * S, pg.clientWidth - pill.offsetWidth - 4))) + 'px';
+    const up = oy + r.y * S - pill.offsetHeight - 8; pill.style.top = Math.round(up >= 0 ? up : oy + (r.y + r.h) * S + 8) + 'px';
     return;
   }
   let bar = pg.querySelector('.selbar');
   if (!bar) { bar = mk('selbar tbar'); bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', 'เครื่องมือข้อความ'); bar.onclick = toolClick; bar.addEventListener('pointerdown', ev => ev.stopPropagation()); pg.appendChild(bar); }
-  fitBar(bar, () => tbarHtml(t)); placeBar(bar, pg, r, sc);
+  fitBar(bar, () => b.pic ? picBar(t, false) : tbarHtml(t)); placeBar(bar, pg, r, sc);
 }
 $('bbar').onclick = toolClick;
 // ตัวอักษรจริงที่ pptx-preview วาด: กล่องเดียว หรือการ์ด + ทุกอย่างในการ์ด (กฎเดียวกับ _cards/_inside ใน doc2slide.py)
@@ -3972,7 +4196,7 @@ $('pages').addEventListener('pointerdown', ev => {
 function armDrag(ev, k, j, b, h) {
   const pg = pgs()[k], R = pg.querySelector('.slide').getBoundingClientRect(), s = R.width / 960, t = ev.pointerType !== 'mouse';   // อ่าน layout ครั้งเดียวตอนกด
   const others = BOX[k].filter(x => x !== b && !(b.gi != null && x.gi === b.gi)).map(rectOf);
-  DR = {k, j, b, h, id: ev.pointerId, R, s, t, o: rectOf(b), ob: {x: b.x, y: b.y, w: b.w, h: b.h}, L: snapLines(others),
+  DR = {k, j, b, h, id: ev.pointerId, R, s, ls: pg.querySelector('.slide').clientWidth / 960, t, o: rectOf(b), ob: {x: b.x, y: b.y, w: b.w, h: b.h}, L: snapLines(others),
     start: {x: (ev.clientX - R.left) / s, y: (ev.clientY - R.top) / s}, lx: ev.clientX, ly: ev.clientY,
     si: (t ? 10 : 6) / s, so: (t ? 16 : 9) / s, moved: false, gx: null, gy: null, pg, hit: pg.querySelectorAll('.hit')[j], nodes: [], cur: null, raf: 0};
   if (h != null || !t) ev.preventDefault();   // เมาส์: ไม่เริ่มลากคลุมตัวอักษร (click ยังมาตามปกติ)
@@ -4008,26 +4232,27 @@ function dragFrame() {
     if (D.shift) { if (Math.abs(p.x - D.start.x) > Math.abs(p.y - D.start.y)) { r.y = D.o.y; D.gy = null; } else { r.x = D.o.x; D.gx = null; } }   // Shift: แกนที่ล็อกไม่ดูดเส้น
     D.cur = r; const dx = r.x - D.o.x, dy = r.y - D.o.y, tr = `${dx}px ${dy}px`;
     for (const n of D.nodes) n.style.translate = tr;
-    D.hit.style.translate = `${dx * D.s}px ${dy * D.s}px`;
-    SELD.style.transform = selTf(r.x * D.s, r.y * D.s, r.w * D.s, r.h * D.s, D.b.rot);
+    D.hit.style.translate = `${dx * D.ls}px ${dy * D.ls}px`;
+    SELD.style.transform = selTf(r.x * D.ls, r.y * D.ls, r.w * D.ls, r.h * D.ls, D.b.rot);
   } else {
     if (!D.moved) { if (Math.hypot(p.x - D.start.x, p.y - D.start.y) < (D.t ? 4 : 2) / D.s) return; lift(D); }
     const rot = D.b.rot || 0;                // หมุนอยู่: ลากในกรอบของกล่องเอง (resizeBoxRot) ด้านตรงข้ามอยู่ที่เดิม ไม่ดูดเส้น
     let r = resizeBoxRot(D.ob, D.h, p.x - D.start.x, p.y - D.start.y, rot, {w: Math.max(24, D.b.pt * 1.2), h: 14});   // เล็กสุด: กว้าง 1 ตัวอักษรใหญ่สุด สูง 1 บรรทัดที่ 10pt
     if (D.h % 2 === 0) {                     // ใบ 019b มุม = ขยายกรอบและตัวอักษรเท่ากัน (แบบ Canva) หนีบตามช่วงขนาด 019
-      const [lo, hi] = zRange(D.b); let f = Math.max(r.w / D.ob.w, r.h / D.ob.h); f = Math.min(hi / D.b.pt, Math.max(lo / D.b.pt, f, 0.05));
+      const [lo, hi] = zRange(D.b); let f = Math.max(r.w / D.ob.w, r.h / D.ob.h);
+      if (D.b.pic) f = Math.max(f, 24 / D.ob.w, 14 / D.ob.h); else { f = Math.min(hi / D.b.pt, Math.max(lo / D.b.pt, f, 0.05)); D.f = f; }   // ใบ 022 รูป: คงสัดส่วน กรอบอย่างเดียว
       const w = D.ob.w * f, h = D.ob.h * f;
-      D.f = f; D.gx = D.gy = null; r = placeLocal(D.ob, rot, {x: D.h === 0 || D.h === 6 ? D.ob.w - w : 0, y: D.h === 0 || D.h === 2 ? D.ob.h - h : 0, w, h});
+      D.gx = D.gy = null; r = placeLocal(D.ob, rot, {x: D.h === 0 || D.h === 6 ? D.ob.w - w : 0, y: D.h === 0 || D.h === 2 ? D.ob.h - h : 0, w, h});
     } else if (D.alt || rot) D.gx = D.gy = null; else { const q = snapResize(r, D.h, D.L, D.si); r = q.box; D.gx = q.guides.find(g => g.v)?.pos ?? null; D.gy = q.guides.find(g => !g.v)?.pos ?? null; }
     if (!rot) { if (r.x < 0) { r.w += r.x; r.x = 0; } r.w = Math.min(r.w, 960 - r.x); r.h = Math.min(r.h, 540 - r.y); }
     D.cur = r;
-    Object.assign(SELD.style, {transform: selTf(r.x * D.s, r.y * D.s, r.w * D.s, r.h * D.s, D.b.rot), width: r.w * D.s + 'px', height: r.h * D.s + 'px'});
+    Object.assign(SELD.style, {transform: selTf(r.x * D.ls, r.y * D.ls, r.w * D.ls, r.h * D.ls, D.b.rot), width: r.w * D.ls + 'px', height: r.h * D.ls + 'px'});
     if (D.f) liveSz(D.k, D.b, D.b.pt * D.f);
     sizeTip(D.lx, D.ly, `ก: ${Math.round(r.w * 2).toLocaleString('en-US')}  ส: ${Math.round(r.h * 2).toLocaleString('en-US')}`);
   }
   GV.classList.toggle('on', D.gx != null); GH.classList.toggle('on', D.gy != null);   // เส้นช่วยจัด: ตั้ง 1 นอน 1 เท่านั้น
-  if (D.gx != null) GV.style.transform = `translateX(${D.gx * D.s}px)`;
-  if (D.gy != null) GH.style.transform = `translateY(${D.gy * D.s}px)`;
+  if (D.gx != null) GV.style.transform = `translateX(${D.gx * D.ls}px)`;
+  if (D.gy != null) GH.style.transform = `translateY(${D.gy * D.ls}px)`;
 }
 function lift(D) {
   D.moved = true;
@@ -4035,7 +4260,7 @@ function lift(D) {
   if (!SEL || SEL.k !== D.k || pk(SEL.p) !== pk(D.b.p)) { if (D.k !== cur) select(D.k); SEL = {k: D.k, p: D.b.p}; paintSel(); }
   D.nodes = D.h == null ? nodesOf(D.k, D.b) : [];
   for (const n of D.nodes) n.style.willChange = 'translate';
-  const r = D.o; Object.assign(GHOST.style, {left: r.x * D.s + 'px', top: r.y * D.s + 'px', width: r.w * D.s + 'px', height: r.h * D.s + 'px'});
+  const r = D.o; Object.assign(GHOST.style, {left: r.x * D.ls + 'px', top: r.y * D.ls + 'px', width: r.w * D.ls + 'px', height: r.h * D.ls + 'px'});
   if (D.h == null) GHOST.classList.add('on');
   SELD.classList.add('on', 'lift'); if (D.h != null) SELD.querySelector(`[data-h="${D.h}"]`)?.classList.add('grab');
 }
@@ -4194,21 +4419,30 @@ $('pages').addEventListener('touchstart', e => {
   if (e.touches.length !== 2 || !one() || gridOn || PZ || ED || viewing || busyNow || !slides.length) return;
   if (DR) endDrag(true);
   const sl = pgs()[cur]?.querySelector('.slide'); if (!sl) return;
-  deselectBox();
-  PZ = {d0: tdist(e.touches[0], e.touches[1]) || 1, sl, a: sl.getBoundingClientRect(), s: 1, raf: 0, tf: 'none', op: 0, live: true};
-  sl.style.willChange = 'transform'; sl.style.transformOrigin = '0 0';
-  document.body.classList.add('gpz'); gridPrep(); $('thumbs').style.opacity = 0;
+  const [p0, p1] = e.touches;
+  PZ = {d0: tdist(p0, p1) || 1, sl, a: sl.getBoundingClientRect(), s: 1, raf: 0, tf: 'none', op: 0, live: true, mode: Z.s > 1.001 ? 'zoom' : null, m0: {x: (p0.clientX + p1.clientX) / 2, y: (p0.clientY + p1.clientY) / 2}};
+  if (PZ.mode === 'zoom') zoomGrab(PZ);
 }, {passive: true});
+function pzMode(P, raw) {              // นิ้วขยับครั้งแรก: ถ่าง = ซูม / บีบ = ย่อเข้าตาราง (เฉพาะที่ 100%)
+  if (raw >= 1.02) { P.mode = 'zoom'; deselectBox(); zoomGrab(P); return; }
+  if (raw > .98) return;
+  P.mode = 'grid'; deselectBox(); P.sl.style.willChange = 'transform'; P.sl.style.transformOrigin = '0 0';
+  document.body.classList.add('gpz'); gridPrep(); $('thumbs').style.opacity = 0;
+}
 $('pages').addEventListener('touchmove', e => {
   if (!PZ?.live) return; if (e.cancelable) e.preventDefault();   // กันเบราว์เซอร์ซูมทั้งหน้า/ปัดหน้า เฉพาะตอนสองนิ้ว
   if (e.touches.length < 2) return;
-  PZ.s = Math.max(.45, Math.min(1, tdist(e.touches[0], e.touches[1]) / PZ.d0));
+  const raw = tdist(e.touches[0], e.touches[1]) / PZ.d0; if (!PZ.mode) pzMode(PZ, raw);
+  if (PZ.mode === 'zoom') { const [p0, p1] = e.touches; PZ.zm = {r: raw, x: (p0.clientX + p1.clientX) / 2, y: (p0.clientY + p1.clientY) / 2}; if (!PZ.raf) PZ.raf = requestAnimationFrame(zoomPinch); return; }
+  if (PZ.mode !== 'grid') return;
+  PZ.s = Math.max(.45, Math.min(1, raw));
   if (!PZ.raf) PZ.raf = requestAnimationFrame(() => { const P = PZ; if (!P?.live) return; P.raf = 0; const s = P.s, a = P.a;
     P.tf = `translate(${a.width * (1 - s) / 2}px,${a.height * (1 - s) / 2}px) scale(${s})`; P.sl.style.transform = P.tf;
     P.op = (1 - s) / .55; $('thumbs').style.opacity = P.op; });
 }, {passive: false});
 function pzEnd(e) {
   const P = PZ; if (!P?.live || e.touches.length >= 2) return; P.live = false; cancelAnimationFrame(P.raf);
+  if (P.mode !== 'grid') { PZ = null; if (P.mode === 'zoom') zoomSettle(); return; }
   if (P.s <= .8) return openGrid(P);
   const T = $('thumbs'), an = P.sl.animate([{transform: P.tf}, {transform: 'none'}], {duration: 180, easing: EASE});
   T.animate([{opacity: P.op}, {opacity: 0}], {duration: 180, fill: 'forwards'}); P.sl.style.transform = '';
@@ -4269,8 +4503,6 @@ function workMenu() {
     <li><button data-m="save" type="button">${ico('down')}ดาวน์โหลด PowerPoint</button></li>
     <li class="sep"><button data-m="grid" type="button">${ico('grid')}ดูทุกหน้า</button></li>
     <li class="sep"><button data-m="hist" type="button">${ico('history')}ประวัติการแก้ไข<span class="mst ${st[2]}">${ico(st[0])}${st[1]}</span></button></li>
-    <li class="sep"><button data-m="brand" type="button">${ico('stamp')}แบรนด์และเลขหน้า</button></li>
-    <li><button data-m="trans" type="button">${ico('trans')}ทรานซิชัน</button></li>
     <li class="sep"><button data-m="tour" type="button">${ico('help')}ดูวิธีใช้อีกครั้ง</button></li>
     <li class="sep"><button data-m="wipe" type="button" class="danger">${ico('trash')}ย้ายงานนี้ไปถังขยะ</button></li></ul>`);
   $('shT').insertAdjacentHTML('afterend', `<button class="ib xtra" id="renm" type="button" aria-label="แก้ชื่องาน">${ico('pen')}</button>`);
