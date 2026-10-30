@@ -1,0 +1,113 @@
+[
+{
+"name": "IBM Plex Sans Thai",
+"cat": "nohead",
+"th": "ไอบีเอ็ม",
+"r": "IBMPlexSansThai-Regular.ttf",
+"kb": 110,
+"b": "IBMPlexSansThai-Bold.ttf"
+},
+{
+"name": "Anuphan",
+"cat": "nohead",
+"th": "อนุพันธ์",
+"r": "Anuphan-Regular.ttf",
+"kb": 110,
+"b": "Anuphan-Bold.ttf"
+},
+{
+"name": "Athiti",
+"cat": "nohead",
+"th": "อทิติ",
+"r": "Athiti-Regular.ttf",
+"kb": 182,
+"b": "Athiti-Bold.ttf"
+},
+{
+"name": "Kanit",
+"cat": "nohead",
+"th": "คณิต",
+"r": "Kanit-Regular.ttf",
+"kb": 165,
+"b": "Kanit-Bold.ttf"
+},
+{
+"name": "Mitr",
+"cat": "nohead",
+"th": "มิตร",
+"r": "Mitr-Regular.ttf",
+"kb": 214,
+"b": "Mitr-Bold.ttf"
+},
+{
+"name": "Bai Jamjuree",
+"cat": "nohead",
+"th": "ใบจามจุรี",
+"r": "BaiJamjuree-Regular.ttf",
+"kb": 77,
+"b": "BaiJamjuree-Bold.ttf"
+},
+{
+"name": "Sarabun",
+"cat": "head",
+"th": "สารบรรณ",
+"r": "Sarabun-Regular.ttf",
+"kb": 81,
+"b": "Sarabun-Bold.ttf"
+},
+{
+"name": "IBM Plex Sans Thai Looped",
+"cat": "head",
+"th": "ไอบีเอ็ม มีหัว",
+"r": "IBMPlexSansThaiLooped-Regular.ttf",
+"kb": 119,
+"b": "IBMPlexSansThaiLooped-Bold.ttf"
+},
+{
+"name": "Noto Sans Thai Looped",
+"cat": "head",
+"th": "โนโต มีหัว",
+"r": "NotoSansThaiLooped-Regular.ttf",
+"kb": 59,
+"b": "NotoSansThaiLooped-Bold.ttf"
+},
+{
+"name": "Noto Serif Thai",
+"cat": "head",
+"th": "โนโต เซริฟ",
+"r": "NotoSerifThai-Regular.ttf",
+"kb": 57,
+"b": "NotoSerifThai-Bold.ttf"
+},
+{
+"name": "Pridi",
+"cat": "head",
+"th": "ปรีดี",
+"r": "Pridi-Regular.ttf",
+"kb": 192,
+"b": "Pridi-Bold.ttf"
+},
+{
+"name": "Maitree",
+"cat": "head",
+"th": "ไมตรี",
+"r": "Maitree-Regular.ttf",
+"kb": 187,
+"b": "Maitree-Bold.ttf"
+},
+{
+"name": "Mali",
+"cat": "hand",
+"th": "มะลิ",
+"r": "Mali-Regular.ttf",
+"kb": 103,
+"b": "Mali-Bold.ttf"
+},
+{
+"name": "Chonburi",
+"cat": "display",
+"th": "ชลบุรี",
+"r": "Chonburi-Regular.ttf",
+"kb": 164
+}
+]

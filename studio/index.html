@@ -287,6 +287,32 @@ svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-widt
 #rnin{width:100%;font:inherit;font-size:17px;font-weight:700;border:1px solid var(--line);border-radius:10px;padding:4px 10px;outline:none}#rnin:focus{border-color:var(--red)}
 .gbar .dim{opacity:.35}
 body.typing .tring,body.typing .tcard{visibility:hidden}
+/* แถบเล็กตอนพิมพ์ (ใบ 015 เฟส 2-3): ฟอนต์ | − ขนาด + | เสร็จ */
+.etb .ef{display:inline-flex;align-items:center;gap:4px;max-width:168px;height:36px;padding:0 8px;border:none;background:none;border-radius:9px;font-size:14px;font-weight:600}
+.etb .ef span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.etb .ef svg{width:14px;height:14px;flex:none}
+.etb .ez,.etb .ezn{height:36px;min-width:32px;border:none;background:none;border-radius:9px;font-size:16px;font-weight:700}
+.etb .ezn{font-size:14px;min-width:40px;border:1px solid var(--line)}
+.etb .ez:disabled{opacity:.3}.etb .ef:hover,.etb .ez:hover:not(:disabled){background:var(--bg)}
+.etb .sep{width:1px;height:22px;background:var(--line);flex:none}
+.etb.kb .ef,.etb.kb .ez,.etb.kb .ezn{height:44px}.etb.kb{justify-content:space-between;gap:2px}.etb.kb .ef{max-width:132px}
+.zmenu{position:fixed;z-index:85;width:170px;max-height:300px;overflow:auto;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(20,20,26,.16);padding:4px;animation:rz .16s var(--ease) both}
+.zmenu button{display:block;width:100%;height:36px;border:none;background:none;border-radius:8px;text-align:left;padding:0 10px;font-size:14px}
+.zmenu button.on{background:var(--soft);color:var(--red);font-weight:700}.zmenu button:hover{background:var(--bg)}
+.zmenu label{display:flex;align-items:center;gap:6px;font-size:13px;padding:6px 10px;color:var(--sub)}.zmenu input{width:60px;height:30px;font:inherit;border:1px solid var(--line);border-radius:6px;padding:0 6px}
+.fpick{position:fixed;z-index:85;width:320px;display:flex;flex-direction:column;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(20,20,26,.18);overflow:hidden;animation:rz .18s var(--ease) both}
+.fpick.sheetm{left:0;right:0;bottom:0;width:auto;height:55dvh;border-radius:18px 18px 0 0;padding-bottom:var(--safe)}   /* มือถือ: แผ่นล่าง ไม่มีพื้นมืด */
+.fph{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 0}.fph b{font-size:16px}
+.ftabs{display:flex;gap:4px;padding:10px 12px 0}.ftabs button{flex:1;height:36px;border:none;background:var(--bg);border-radius:9px;font-size:14px;font-weight:600;color:var(--mid)}.ftabs button.on{background:var(--text);color:#fff}
+.fbody{flex:1;overflow:auto;padding:8px 12px}.fq{width:100%;height:38px;border:1px solid var(--line);border-radius:10px;padding:0 10px;font:inherit;font-size:15px}
+.fcats{display:flex;gap:6px;overflow-x:auto;padding:8px 0;scrollbar-width:none}.fcats button{flex:none;height:32px;padding:0 12px;border:1px solid var(--line);background:#fff;border-radius:100px;font-size:13px;font-weight:600}.fcats button.on{background:var(--soft);border-color:#F6C9BA;color:var(--red)}
+.fbody h5{font-size:12px;color:var(--sub);font-weight:600;padding:8px 2px 2px}
+.frow{display:grid;grid-template-columns:1fr 20px;grid-template-rows:auto auto;column-gap:8px;width:100%;min-height:52px;border:none;background:none;border-radius:10px;padding:6px 8px;text-align:left}
+.frow:hover{background:var(--bg)}.frow.on{background:var(--soft)}
+.frow .fn{font-size:12px;color:var(--sub);font-weight:600}.frow .fs{grid-row:2;font-size:17px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.frow svg{grid-row:1/3;grid-column:2;align-self:center;width:18px;height:18px;color:var(--red)}
+.frow.ld .fsp{grid-row:1/3;grid-column:2;align-self:center;width:14px;height:14px;border-radius:50%;border:2px solid #F2D6CC;border-top-color:var(--red);animation:sp .8s linear infinite}
+.ffoot{border-top:1px solid var(--line);padding:8px 12px 10px;display:grid;gap:6px}.ffoot:empty{display:none}.ffoot p{font-size:13px;font-weight:600}.ffoot small{font-size:12px;color:var(--sub)}.ffoot .row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.lcard{display:grid;gap:10px;padding:10px 4px;font-size:14px;color:var(--mid)}.lwarn{font-size:13px;color:#9A6700;background:#FFF8E6;border-radius:10px;padding:8px 10px;display:grid;gap:6px}
 /* วิธีใช้ครั้งแรก: วงเรืองแสงรอบจุด (ไม่มีฉากมืด) + การ์ดคำอธิบาย */
 .tring{position:fixed;left:0;top:0;z-index:80;border-radius:12px;pointer-events:none;box-shadow:0 0 0 2px var(--red),0 0 18px 4px rgba(235,125,74,.45)}
 .tring::after{content:'';position:absolute;inset:-2px;border-radius:inherit;box-shadow:0 0 0 2px var(--red);opacity:0}.tring.go::after{animation:orbRipple 1.2s var(--ease) 3}   /* วนแค่ 3 รอบ ไม่วนค้าง */
@@ -821,7 +847,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030d';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030e';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1281,7 +1307,7 @@ async function paint() {
 // ไฟล์จริง: คำใบ้ไม่ลง ข้อที่ปล่อยว่างในหน้าที่แทรกไม่ลง  skip = ตำแหน่งหน้าที่ลูกค้าเลือกไม่เอา (หน้าแทรกที่ยังว่าง)
 function makeDeck(skip = []) {
   py.globals.set('ORDER', py.toPy(order.filter((_, k) => !skip.includes(k))));
-  deckBuf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL, ins={p for p, i in enumerate(ORDER) if CS[i].get("_ins")})'); dirty = skip.length > 0;
+  deckBuf = pptx('D.embed_fonts(D.render([ITEMS[i] for i in ORDER], M, TTL, ins={p for p, i in enumerate(ORDER) if CS[i].get("_ins")}), D.fonts_used([ITEMS[i] for i in ORDER]))'); dirty = skip.length > 0;   // ฟอนต์ฟรีที่เลือกฝังลงไฟล์ (ใบ 015 เฟส 5)
 }
 const pgs = () => [...$('pages').children].filter(x => x.classList.contains('pg'));
 function hitsHtml(k) {
@@ -1580,10 +1606,17 @@ function openEdit(k, j, at) {
   ed.setAttribute('aria-label', `${FIELD(b.p)} หน้า ${k + 1}`);
   hit.classList.add('ing');
   const tb = document.createElement('div'); tb.className = m ? 'etb kb' : 'etb'; tb.setAttribute('role', 'toolbar'); tb.setAttribute('aria-label', 'เครื่องมือข้อความ');
-  tb.innerHTML = `<button class="btn" type="button" data-e="ok">${ico('check')}เสร็จ</button>`;   // ponytail: ขนาด (เฟส 2) ฟอนต์ (เฟส 3) ต่อหน้าปุ่มนี้
+  // ใบ 015 เฟส 2-3: [ฟอนต์ ▾] | [−] [ขนาด] [+] | [เสร็จ]
+  const dp = b.pt / ((b.u || 1) * (b.f || 1)), fam0 = b.ff || setFont();
+  tb.innerHTML = `<button class="ef" type="button" data-e="font" data-tip="เปลี่ยนฟอนต์" aria-label="เปลี่ยนฟอนต์ ตอนนี้ ${esc(fam0)}"><span style="font-family:'${esc(fam0)}'">${esc(fam0)}</span>${ico('dn')}</button><i class="sep"></i>
+    <button class="ez" type="button" data-e="dn" data-tip="ตัวเล็กลง (${MAC ? '⌘⇧' : 'Ctrl+Shift+'},)" aria-label="ตัวเล็กลง">−</button><button class="ezn" type="button" data-e="num" aria-label="ขนาดตัวอักษรทั้งกล่อง" data-tip="ขนาดตัวอักษรทั้งกล่อง"></button><button class="ez" type="button" data-e="up" data-tip="ตัวใหญ่ขึ้น (${MAC ? '⌘⇧' : 'Ctrl+Shift+'}.)" aria-label="ตัวใหญ่ขึ้น">+</button><i class="sep"></i>
+    <button class="btn" type="button" data-e="ok">${ico('check')}เสร็จ</button>`;
   tb.addEventListener('pointerdown', ev => ev.preventDefault());   // กดแถบแล้วเคอร์เซอร์ยังอยู่ในกล่อง คีย์บอร์ดไม่หุบ
-  tb.addEventListener('click', ev => { if (ev.target.closest('[data-e=ok]')) { ev.stopPropagation(); finishEdit(true); } });
-  ED = {k, j, b, el: hit, ...L, tb, orig, st: 'ok', mode: ed.contentEditable, h0: window.visualViewport?.height || innerHeight};
+  tb.addEventListener('click', ev => { const x = ev.target.closest('[data-e]'); if (!x) return; ev.stopPropagation();
+    if (x.dataset.e === 'ok') finishEdit(true); else if (x.dataset.e === 'up') sizeStep(1); else if (x.dataset.e === 'dn') sizeStep(-1); else if (x.dataset.e === 'num') sizeMenu(x); else if (x.dataset.e === 'font') fontPicker(); });
+  ED = {k, j, b, el: hit, ...L, tb, orig, st: 'ok', mode: ed.contentEditable, h0: window.visualViewport?.height || innerHeight,
+    dp, pt0: b.pt, pt: b.pt, fam0: b.ff || '', fam: b.ff || '', px0: parseFloat(ed.style.fontSize), lh0: parseFloat(ed.style.lineHeight)};
+  paintSize();
   // เคอร์เซอร์ตรงจุดที่คลิก/แตะ (หาก่อนซูม) ไม่โดนข้อความ = ท้ายข้อความ
   let r = at && caretAt(at.x, at.y);
   if (!r || !ed.contains(r.startContainer)) { r = document.createRange(); r.selectNodeContents(ed); r.collapse(false); }
@@ -1614,9 +1647,11 @@ function openEdit(k, j, at) {
     const mod = ev.metaKey || ev.ctrlKey, kk = ev.key.toLowerCase();
     if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); finishEdit(true); return; }   // Esc = เก็บคำ (เหมือน Google Slides) อยากได้คำเดิมกดเลิกทำ
     if (mod && (ev.key === 'Enter' || ['b', 'i', 'u'].includes(kk))) { ev.preventDefault(); return; }
-    if (mod && kk === 'z' && !ev.shiftKey && ED && val(ED) === ED.orig) { ev.preventDefault(); finishEdit(false); undoRedo(-1); }   // ในกล่องยังไม่มีอะไรเปลี่ยน = เลิกทำขั้นก่อนของงาน
+    if (mod && kk === 'z' && !ev.shiftKey && ED && val(ED) === ED.orig && !styleDirty(ED)) { ev.preventDefault(); finishEdit(false); undoRedo(-1); }
+    if (mod && ev.shiftKey && (ev.key === '>' || ev.key === '.' || ev.code === 'Period')) { ev.preventDefault(); sizeStep(1); }   // ⌘⇧. / ⌘⇧, ขนาดแบบ Google Slides
+    if (mod && ev.shiftKey && (ev.key === '<' || ev.key === ',' || ev.code === 'Comma')) { ev.preventDefault(); sizeStep(-1); }   // ในกล่องยังไม่มีอะไรเปลี่ยน = เลิกทำขั้นก่อนของงาน
   });
-  if (m) ed.addEventListener('blur', () => { if (ED?.ed === ed && !ED.saving && document.hasFocus()) finishEdit(true); });   // ซ่อนคีย์บอร์ด/แตะที่อื่น = ใช้คำใหม่
+  if (m) ed.addEventListener('blur', () => { if (ED?.ed === ed && !ED.saving && !ED.picking && document.hasFocus()) finishEdit(true); });   // ซ่อนคีย์บอร์ด/แตะที่อื่น = ใช้คำใหม่
 }
 const BDG = {shrink: ['info', 'ตัวอักษรจะย่อลงเล็กน้อย'], over: ['alert', 'ข้อความยาวเกินกรอบ ลบออกอีกนิด'], overn: ['alert', 'เกินกรอบประมาณ N บรรทัด ลบออกอีกนิด'], empty: ['alert', 'หัวเรื่องว่างไม่ได้'], nobr: ['info', 'หัวเรื่องปกแบบนี้ขึ้นบรรทัดใหม่ไม่ได้']};
 function badge(st) {                      // ป้ายนอกกล่อง ใต้ข้อความจริง (คำที่เกินยังเห็น ไม่ทับ) ล่างไม่พอ = เหนือกล่อง
@@ -1712,7 +1747,7 @@ window.visualViewport?.addEventListener('resize', () => {
   kbFit(); if (!ED?.ed || !ED.tb.classList.contains('kb')) return;
   const h = visualViewport.height;
   if (h < ED.h0 - 150) ED.kbUp = true;
-  else if (ED.kbUp && h > ED.h0 - 60) { finishEdit(true); return; }   // คีย์บอร์ดหุบ (ปุ่มซ่อนของ iPad / ย้อนกลับ Android) = ใช้คำใหม่
+  else if (ED.kbUp && h > ED.h0 - 60 && !ED.picking) { finishEdit(true); return; }   // คีย์บอร์ดหุบ (ปุ่มซ่อนของ iPad / ย้อนกลับ Android) = ใช้คำใหม่
   edVis();
 });
 const MSG = {shrink: `${ico('info')}ตัวอักษรจะย่อลงเล็กน้อยให้พอดีกรอบ`, over: `${ico('alert')}ข้อความยาวเกินกรอบของสไลด์นี้ กดเสร็จได้ คำไม่หาย แต่ในไฟล์ข้อความจะล้นออกนอกกรอบ`, empty: `${ico('alert')}หัวเรื่องว่างไม่ได้ กดเสร็จจะใช้คำเดิม`};
@@ -1737,7 +1772,7 @@ async function checkEdit() {             // หยุดพิมพ์ 0.5 ว�
 }
 function dropLayer(E) { E.lay.remove(); E.tw.style.visibility = ''; }
 function closeEdit(keep) {                // keep: ชั้นที่พิมพ์ค้างไว้จนภาพที่วาดใหม่พร้อม (swapPage ลบเอง)
-  if (!ED) return; const E = ED; clearTimeout(E.chk); clearTimeout(E.nt); ED = null;
+  if (!ED) return; const E = ED; closePicker(); document.querySelector('.zmenu')?.remove(); clearTimeout(E.chk); clearTimeout(E.nt); ED = null;
   $('rail').style.visibility = '';
   if (document.body.classList.contains('typing')) { document.body.classList.remove('typing'); pagesTo(E.k, true); }   // ทีละหน้า: กลับมาที่หน้าเดิมก่อนจอวาด (ไม่งั้นตัวนับหน้าเห็นหน้า 1 แวบหนึ่ง)
   const fade = el => { const a = ani(el, [{opacity: 1}, {opacity: 0}], {duration: 120, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}); a ? after(a).then(() => el.remove()) : el.remove(); };
@@ -1753,7 +1788,7 @@ function closeEdit(keep) {                // keep: ชั้นที่พิ�
 function finishEdit(apply) {
   if (!ED || ED.saving) return !ED;
   const v = val(ED);
-  if (!apply || v === ED.orig) { closeEdit(); return true; }
+  if (!apply || (v === ED.orig && !styleDirty(ED))) { closeEdit(); return true; }
   if (!v.trim() && ['t', 't1'].includes(ED.b.p[0]) && !META[ED.k]?.ins) { closeEdit(); toast('หัวเรื่องว่างไม่ได้ ใช้คำเดิม'); return true; }   // ไม่มีคำที่พิมพ์ให้หาย
   ED.p = saveEdit(); return true;         // แสงวิ่ง + 2 เฟรมก่อน แล้ว edit_text ตัดสินเองว่าล้นไหม
 }
@@ -1784,8 +1819,15 @@ async function saveEdit() {
   const k = E.k, oldKeys = KEYS.slice();
   try {
     py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(E.b.p)); py.globals.set('NEW', v); py.globals.set('HINT', hint);
-    const [st, follow] = JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M, hint=HINT, force=True))'));   // ล้น: ย่อถึง 80% แล้วยังล้น = คำครบ ติดป้าย
-    if (!follow) LOST++;
+    const txt = v !== E.orig, sty = styleDirty(E);
+    if (txt) {
+      const [st, follow] = JSON.parse(py.runPython('json.dumps(D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), NEW, M, hint=HINT, force=True))'));   // ล้น: ย่อถึง 80% แล้วยังล้น = คำครบ ติดป้าย
+      if (!follow) LOST++;
+    }
+    if (sty) {                              // ขนาด/ฟอนต์ที่ตั้ง (ใบ 015): ตัววัดล้นตัวเดียวกัน ไม่พอดี = ไม่เปลี่ยนส่วนนั้น
+      py.globals.set('SZ', E.pt !== E.pt0 ? E.pt / E.dp : undefined); py.globals.set('FN', E.fam !== E.fam0 ? E.fam : undefined);
+      E.sst = py.runPython('D.set_style(ITEMS, IDX, list(PATH), M, size=SZ, font=FN)');
+    }
     if (k === 0 && ['t', 't1', 't2'].includes(E.b.p[0])) {   // ชื่อเรื่องบนปก = ชื่อไฟล์ + ท้ายกระดาษทุกหน้า (ปกสองบรรทัด t1 + t2)
       ttl = py.runPython(`_d = ITEMS[IDX][1]; TTL = ' '.join(' '.join(str(_d.get(k, '')).split()) for k in ('t', 't1', 't2') if _d.get(k)); TTL`); $('topttl').textContent = ttl;
     }
@@ -1797,7 +1839,10 @@ async function saveEdit() {
     // ป้ายประวัติบอกส่วนที่เปลี่ยนจริง (คำยาวที่แก้ท้ายประโยค ตัดส่วนต้นที่เหมือนกันออก) ตัดที่ขอบคำไทยเสมอ
     const A = E.orig.replace(/\s+/g, ' ').trim(), B = v.replace(/\s+/g, ' ').trim();
     let i = 0; while (i < A.length && A[i] === B[i]) i++;
-    commit(A ? `แก้หน้า ${k + 1}: "${clip(A, i)}" เป็น "${clip(B, i)}"` : `พิมพ์ในหน้า ${k + 1}: "${clip(B, 0)}"`);
+    const parts = [v !== E.orig && 'ข้อความ', E.pt !== E.pt0 && 'ขนาด', E.fam !== E.fam0 && 'ฟอนต์'].filter(Boolean);
+    commit(parts.length > 1 ? `แก้หน้า ${k + 1}: ${parts.join(' ')}` : parts[0] === 'ขนาด' ? `ขนาดตัวอักษรหน้า ${k + 1}: ${fmtPt(E.pt0)} เป็น ${fmtPt(E.pt)}`
+      : parts[0] === 'ฟอนต์' ? `ฟอนต์หน้า ${k + 1}: ${E.fam || 'ของดีไซน์'}` : A ? `แก้หน้า ${k + 1}: "${clip(A, i)}" เป็น "${clip(B, i)}"` : `พิมพ์ในหน้า ${k + 1}: "${clip(B, 0)}"`);
+    if (E.sst === 'over') toast(E.fam !== E.fam0 ? 'ฟอนต์นี้กว้างกว่า ข้อความไม่พอดีกล่อง ใช้ฟอนต์เดิม' : 'ใหญ่กว่านี้ไม่พอดีกล่อง ใช้ขนาดเดิม');
     // แก้หัวเรื่องแล้วสารบัญ/หน้าต่อเปลี่ยนตาม: บอกตรง ๆ ว่าหน้าไหน (ภาพย่อกะพริบพีชจาก swapPage)
     const also = oldN ? KEYS.map((x, q) => x !== oldKeys[q] && q !== k ? q + 1 : 0).filter(Boolean) : [];
     const msg = [META[k]?.ov ? `หน้า ${k + 1} ข้อความยังล้นกรอบ คำไม่หาย` : '', also.length ? `อัปเดตหน้า ${thaiList(also)} ให้ด้วย` : ''].filter(Boolean);
@@ -1814,7 +1859,7 @@ document.addEventListener('pointerdown', ev => {   // คลิก/แตะน�
     }
   }
   if (ED.ed ? ED.lay.contains(ev.target) || ED.tb.contains(ev.target) : ED.el.contains(ev.target)) return;
-  if (ev.target.closest('.sheet,.top')) return;
+  if (ev.target.closest('.sheet,.top,.fpick,.zmenu')) return;
   if (ev.target.closest('.hit')) return;  // คลิกกล่องอื่น: openEdit จัดการ
   finishEdit(true); eatClick = Date.now();  // คลิกที่ตามมาไม่เปลี่ยนหน้าที่เลือก
 }, true);
@@ -2040,6 +2085,7 @@ async function restore(s) {
   py.runPython('WANT, CS, ITEMS, TTL = ast.literal_eval(SNAP); M = D.pool_of(SLUG)[0]');
   slug = s.slug; order = [...s.order]; SRCNAME = s.src; LOST = s.lost || 0; arranged = !!s.arranged; ttl = s.ttl || py.globals.get('TTL');
   $('topttl').textContent = ttl; altCache.clear(); lookGen++;
+  await ensureFonts();
   const oldKeys = KEYS.slice(); await paint();
   if (cur >= slides.length) cur = slides.length - 1;
   const same = oldKeys.length === KEYS.length, k = settle(oldKeys); select(cur, {quiet: true}); paintSel();
@@ -2288,7 +2334,7 @@ function save(blob, name) {
 // ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
 const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
-let lastFile = null, ovOk = '';
+let lastFile = null, ovOk = '', fontToolsOK = false;
 async function act(a, skip) {
   if (ED && !(await applyEdit())) return;   // ใช้คำที่พิมพ์ก่อน แล้วทำคำสั่งต่อในครั้งเดียว ไม่นำเสนอ/บันทึกด้วยคำเก่า
   if (a === 'present') return present();  // ต้องอยู่ในคลิกตรง ๆ ไม่งั้นขอเต็มจอไม่ได้
@@ -2331,6 +2377,9 @@ async function act(a, skip) {
   if (a === 'save') {
     const lb = $('savelbl'); lb.textContent = 'กำลังทำไฟล์…'; $('savebtn').disabled = true; $('savebtn').classList.add('mk'); busyNow = true;
     await frame(); await frame();
+    try {                                     // ฝังฟอนต์ที่เลือก (ใบ 015 เฟส 5) ต้องใช้ fontTools โหลดเฉพาะตอนงานมีฟอนต์ที่เลือก
+      if (!fontToolsOK && py.runPython('bool([f for f in D.fonts_used(ITEMS) if f in D.FONTX and f not in D.LOCALF])')) { await py.loadPackage('fonttools'); fontToolsOK = true; }
+    } catch (e) { console.warn(e); }
     try { if (dirty || skip) makeDeck(skip || []); } catch (e) { console.error(e); toast('ทำไฟล์ไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
     finally { lb.textContent = 'บันทึก'; $('savebtn').disabled = false; $('savebtn').classList.remove('mk'); busyNow = false; }
     const f = lastFile = new File([deckBuf], fname() + '.pptx', {type: PPTX});
@@ -2358,6 +2407,192 @@ async function act(a, skip) {
     save(new Blob([pptx('D.fonts_zip(FF)')], {type: 'application/zip'}), 'ฟอนต์ ' + s.style + '.zip'); toast('โหลดฟอนต์แล้ว');
   }
 }
+
+// ══ ใบ 015 เฟส 2-5: ขนาดตัวอักษร / ฟอนต์ไทยฟรี / ฟอนต์ในเครื่อง / ฝังฟอนต์ ══════════════════════════════
+// ขนาด: −/+ ทีละ 1pt เห็นผลทันทีด้วย CSS วัดล้นตอนหยุด 0.5 วิ (ตัววัดเดิม) ช่วง 80-130% ของขนาดดีไซน์ ไม่ต่ำกว่า 10pt
+// ฟอนต์: ไฟล์อยู่ในเว็บเรา (studio/fonts/g) โหลดเฉพาะตัวที่กดใช้ / ภาพตัวอย่างในรายการใช้ไฟล์ย่อยของ Google Fonts (ข้อความคงที่ ไม่ส่งคำลูกค้า)
+let GF = null; const fontP = new Map(), localF = new Map(); let localWarned = false;
+const gfReady = fetch('gfonts.json?v=' + V).then(r => r.json()).then(x => GF = x).catch(() => GF = []);
+const fmtPt = p => String(Math.round(p * 2) / 2);
+const styleDirty = E => !!E && !E.ta && (E.pt !== E.pt0 || E.fam !== E.fam0);
+const setFont = () => { const s = SETS.find(x => x.slug === slug); return (s?.faces?.[0] || 'IBM Plex Sans Thai').split(':')[0].replace(/ (Light|SemiBold|Medium|ExtraBold|Bold)$/, ''); };
+const SAMPLE = 'สวัสดีครับ ยินดีต้อนรับ';
+async function loadFont(name) {             // ไฟล์ฟอนต์ -> Pyodide (ตัววัด) + FontFace (จอ)  ตัวที่ไม่มีในรายการ = ฟอนต์ในเครื่องที่โหลดไว้แล้ว
+  if (fontP.has(name)) return fontP.get(name);
+  const g = (GF || []).find(x => x.name === name); if (!g) return Promise.reject(new Error('missing'));
+  const p = (async () => {
+    const files = [g.r, g.b].filter(Boolean), out = [];
+    for (const f of files) { const buf = await (await get('fonts/g/' + f)).arrayBuffer(); py.FS.writeFile('/k5/fonts/g_' + f, new Uint8Array(buf)); out.push(buf); }
+    const faces = [new FontFace(name, out[0], {weight: '400'}), new FontFace(name, out[1] || out[0], {weight: '700'})];
+    await Promise.all(faces.map(f => f.load())); faces.forEach(f => document.fonts.add(f));
+    py.globals.set('FN', name); py.globals.set('FR', '/k5/fonts/g_' + g.r); py.globals.set('FB', '/k5/fonts/g_' + (g.b || g.r));
+    py.runPython('D.add_font(FN, FR, FB)');
+  })();
+  fontP.set(name, p); p.catch(() => fontP.delete(name)); return p;
+}
+async function ensureFonts() {              // เปิดงาน/เลิกทำ: โหลดฟอนต์ที่งานนี้ใช้ก่อนวาด (ตัววัดและจอใช้ฟอนต์จริง)
+  try { await gfReady; const used = JSON.parse(py.runPython('json.dumps(D.fonts_used(ITEMS))'));
+    for (const f of used) if ((GF || []).some(g => g.name === f)) await loadFont(f).catch(() => {}); } catch (e) {}
+}
+function paintSize() {
+  const E = ED; if (!E?.tb) return; const n = E.tb.querySelector('.ezn'); if (!n) return;
+  const lo = Math.max(10, E.dp * .8), hi = E.dp * 1.3;
+  n.textContent = fmtPt(E.pt);
+  const atLo = E.pt - .5 < lo - .01, atHi = E.pt + .5 > hi + .01;   // ขั้นต่อไปเกินช่วง = ถึงขอบแล้ว
+  E.tb.querySelector('[data-e=dn]').disabled = atLo; E.tb.querySelector('[data-e=up]').disabled = atHi || E.upBlock;
+  E.tb.querySelector('[data-e=dn]').dataset.tip = atLo ? 'เล็กสุดแล้ว' : `ตัวเล็กลง (${MAC ? '⌘⇧' : 'Ctrl+Shift+'},)`;
+  E.tb.querySelector('[data-e=up]').dataset.tip = atHi ? 'ใหญ่สุดแล้ว' : `ตัวใหญ่ขึ้น (${MAC ? '⌘⇧' : 'Ctrl+Shift+'}.)`;
+}
+function liveSize(E) { const r = E.pt / E.pt0; E.ed.style.fontSize = E.px0 * r + 'px'; E.ed.style.lineHeight = E.lh0 * r + 'px'; if (E.tb.classList.contains('kb')) requestAnimationFrame(edVis); }
+function setSize(pt, why) {
+  const E = ED; if (!E?.ed) return; const lo = Math.max(10, E.dp * .8), hi = E.dp * 1.3;
+  const v = Math.min(hi, Math.max(lo, pt));
+  if (why === 'typed' && Math.abs(v - pt) > .01) note2(`ปรับได้ ${fmtPt(lo)} ถึง ${fmtPt(hi)}`);
+  const up = v > E.pt; let r = Math.round(v * 2) / 2; if (r > hi + .01) r -= .5; if (r < lo - .01) r += .5; E.pt = r; if (!up) E.upBlock = false;
+  liveSize(E); paintSize(); clearTimeout(E.zt); E.zt = setTimeout(() => sizeCheck(up), 500);
+}
+const sizeStep = d => { if (ED?.ed) setSize(ED.pt + d); };
+async function sizeCheck(up) {              // หยุดกด 0.5 วิ: ขนาดนี้ลงกล่องไหม (ข้อความที่พิมพ์อยู่ตอนนี้) ไม่ลง = ถอยกลับค่าที่ใหญ่สุดที่ยังพอดี
+  const E = ED; if (!E?.ed || E.saving || E.pt === E.pt0 && E.fam === E.fam0) return;
+  await frame(); if (ED !== E) return;
+  try {
+    py.globals.set('IDX', order[E.k]); py.globals.set('PATH', py.toPy(E.b.p)); py.globals.set('SZ', E.pt / E.dp); py.globals.set('NEW', val(E));
+    let st = py.runPython('_it = list(ITEMS); _it[IDX] = (_it[IDX][0], D._put(_it[IDX][1], list(PATH), NEW)); D.set_style(_it, IDX, list(PATH), M, size=SZ, dry=True)');
+    if (st === 'over' && up) {
+      while (st === 'over' && E.pt > E.pt0) { E.pt = Math.max(E.pt0, E.pt - 1); py.globals.set('SZ', E.pt / E.dp); st = E.pt === E.pt0 ? 'ok' : py.runPython('D.set_style(_it, IDX, list(PATH), M, size=SZ, dry=True)'); }
+      E.upBlock = true; liveSize(E); paintSize(); note2('ใหญ่กว่านี้ไม่พอดีกล่อง');
+    }
+  } catch (e) { console.error(e); }
+}
+function note2(t) {                         // ป้ายสั้นใต้กล่อง 2 วิ (ใช้ป้ายเดิมของใบ 015)
+  if (!ED?.ed) return; const d = document.createElement('div'); d.className = 'bdg'; d.setAttribute('role', 'status'); d.innerHTML = ico('info') + esc(t);
+  ED.el.querySelector('.bdg')?.remove(); ED.el.appendChild(d); clearTimeout(ED.nt); ED.nt = setTimeout(() => { if (ED?.ed) badge(ED.st); }, 2000);
+}
+function sizeMenu(btn) {
+  const E = ED; if (!E?.ed) return; document.querySelector('.zmenu')?.remove();
+  const lo = Math.ceil(Math.max(10, E.dp * .8)), hi = Math.floor(E.dp * 1.3), m = document.createElement('div'); m.className = 'zmenu'; m.setAttribute('role', 'menu');
+  let h = `<button type="button" role="menuitem" data-z="${E.dp}">ขนาดของดีไซน์ (${fmtPt(E.dp)})</button>`;
+  for (let z = lo; z <= hi; z += 2) h += `<button type="button" role="menuitem" data-z="${z}"${Math.abs(z - E.pt) < .3 ? ' class="on"' : ''}>${z}</button>`;
+  if (!touch()) h += `<label>พิมพ์ขนาด <input type="number" inputmode="decimal" min="${lo}" max="${hi}" step="0.5" value="${fmtPt(E.pt)}" aria-label="ขนาดตัวอักษรทั้งกล่อง"></label>`;
+  m.innerHTML = h; document.body.appendChild(m);
+  const r = btn.getBoundingClientRect(); Object.assign(m.style, {left: Math.min(r.left, innerWidth - 180) + 'px', top: (r.bottom + 6 + 300 < innerHeight ? r.bottom + 6 : Math.max(8, r.top - 6 - Math.min(300, m.offsetHeight))) + 'px'});
+  m.addEventListener('pointerdown', ev => { if (!ev.target.closest('input')) ev.preventDefault(); });
+  m.onclick = ev => { const b = ev.target.closest('[data-z]'); if (!b) return; m.remove(); setSize(+b.dataset.z); };
+  const inp = m.querySelector('input'); if (inp) inp.onkeydown = ev => { if (ev.key === 'Enter') { m.remove(); setSize(parseFloat(inp.value) || E.pt, 'typed'); E.ed.focus({preventScroll: true}); } if (ev.key === 'Escape') { m.remove(); E.ed.focus({preventScroll: true}); } };
+}
+document.addEventListener('pointerdown', ev => { if (!ev.target.closest('.zmenu,[data-e=num]')) document.querySelector('.zmenu')?.remove(); }, true);
+// ── รายการฟอนต์ ──
+const CATS = [['all', 'ทั้งหมด'], ['nohead', 'ไม่มีหัว'], ['head', 'มีหัว'], ['hand', 'ลายมือ'], ['display', 'หัวเรื่อง']];
+let FP = null;
+const canLocal = () => 'queryLocalFonts' in window && !touch();   // Chrome / Edge บนคอมเท่านั้น (ที่อื่นซ่อนแท็บ)
+async function fontPicker() {
+  const E = ED; if (!E?.ed) return; if (FP) return closePicker();
+  await gfReady; E.picking = true;
+  const el = document.createElement('div'); el.className = 'fpick' + (one() ? ' sheetm' : ''); el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'ฟอนต์');
+  FP = {el, tab: 'free', cat: 'all', q: '', applied: null};
+  // ภาพตัวอย่าง: ไฟล์ย่อยของ Google Fonts เฉพาะตัวอักษรของประโยคตัวอย่าง+ชื่อ (ไม่กี่ KB ไม่ส่งคำลูกค้า)
+  if (!document.getElementById('gfprev')) { const l = document.createElement('link'); l.id = 'gfprev'; l.rel = 'stylesheet';
+    l.href = 'https://fonts.googleapis.com/css2?' + GF.map(g => 'family=' + encodeURIComponent(g.name).replace(/%20/g, '+')).join('&') + '&text=' + encodeURIComponent(SAMPLE + GF.map(g => g.name).join('')) + '&display=swap'; document.head.appendChild(l); }
+  el.innerHTML = `${one() ? `<div class="fph"><b>ฟอนต์</b><button class="btn btn-red btn-sm" type="button" data-f="done">เสร็จ</button></div>` : ''}
+    <div class="ftabs" role="tablist"><button type="button" role="tab" data-t="free" class="on">ฟอนต์ฟรี</button>${canLocal() ? '<button type="button" role="tab" data-t="local">ฟอนต์ในเครื่องนี้</button>' : ''}</div>
+    <div class="fbody"></div><div class="ffoot"></div>`;
+  document.body.appendChild(el); placePicker(); paintPicker();
+  el.addEventListener('pointerdown', ev => { if (!ev.target.closest('input')) ev.preventDefault(); });   // แตะรายการแล้วเคอร์เซอร์ยังอยู่ในกล่อง
+  el.addEventListener('click', ev => {
+    const t = ev.target.closest('[data-t]'); if (t) { FP.tab = t.dataset.t; el.querySelectorAll('[data-t]').forEach(b => b.classList.toggle('on', b === t)); return paintPicker(); }
+    const c = ev.target.closest('[data-c]'); if (c) { FP.cat = c.dataset.c; return paintPicker(); }
+    const r = ev.target.closest('[data-fn]'); if (r) return pickFont(r.dataset.fn, r);
+    const a = ev.target.closest('[data-all]'); if (a) return fontScope(a.dataset.all);
+    if (ev.target.closest('[data-f=done]')) return closePicker();
+    if (ev.target.closest('[data-loc=ask]')) return askLocal();
+    if (ev.target.closest('[data-loc=ok]')) { localWarned = true; ev.target.closest('.lwarn')?.remove(); }
+  });
+}
+function placePicker() {
+  if (!FP || one()) return; const r = ED?.tb?.getBoundingClientRect(); if (!r) return;
+  const h = Math.min(440, innerHeight - 24), below = r.bottom + 8 + h < innerHeight;
+  Object.assign(FP.el.style, {left: Math.max(8, Math.min(r.left, innerWidth - 328)) + 'px', top: (below ? r.bottom + 8 : Math.max(8, r.top - 8 - h)) + 'px', maxHeight: h + 'px'});
+}
+function closePicker() { if (!FP) return; FP.el.remove(); FP = null; if (ED) { ED.picking = false; ED.ed?.focus({preventScroll: true}); } }
+function paintPicker() {
+  if (!FP) return; const B = FP.el.querySelector('.fbody'), cur = ED?.fam || ED?.b.ff || setFont();
+  if (FP.tab === 'local') return paintLocal(B, cur);
+  const used = (() => { try { return JSON.parse(py.runPython('json.dumps(D.fonts_used(ITEMS))')); } catch (e) { return []; } })(), q = FP.q.trim().toLowerCase();
+  const row = g => `<button type="button" class="frow${g.name === cur ? ' on' : ''}" data-fn="${esc(g.name)}"><span class="fn">${esc(g.name)}</span><span class="fs" style="font-family:'${esc(g.name)}',sans-serif">${SAMPLE}</span>${g.name === cur ? ico('check') : '<i class="fsp"></i>'}</button>`;
+  const ok = g => (FP.cat === 'all' || g.cat === FP.cat) && (!q || g.name.toLowerCase().includes(q) || (g.th || '').includes(q));
+  const mine = GF.filter(g => g.name === setFont()), inUse = GF.filter(g => used.includes(g.name) && g.name !== setFont()), rest = GF.filter(ok);
+  B.innerHTML = `<input class="fq" type="search" placeholder="ค้นหาฟอนต์" aria-label="ค้นหาฟอนต์" value="${esc(FP.q)}">
+    <div class="fcats">${CATS.map(([k, t]) => `<button type="button" data-c="${k}" class="${FP.cat === k ? 'on' : ''}">${t}</button>`).join('')}</div>
+    ${!q && FP.cat === 'all' && mine.length ? `<h5>ฟอนต์ของดีไซน์นี้</h5>${mine.map(row).join('')}` : !q && FP.cat === 'all' ? `<h5>ฟอนต์ของดีไซน์นี้</h5>${row({name: setFont()})}` : ''}
+    ${!q && FP.cat === 'all' && inUse.length ? `<h5>ใช้ในงานนี้</h5>${inUse.map(row).join('')}` : ''}
+    <h5>ทั้งหมด</h5>${rest.length ? rest.map(row).join('') : '<p class="empty">ไม่เจอฟอนต์ชื่อนี้</p>'}`;
+  const qi = B.querySelector('.fq'); qi.oninput = () => { FP.q = qi.value; const p = qi.selectionStart; paintPicker(); const n = FP.el.querySelector('.fq'); n.focus(); n.setSelectionRange(p, p); };
+  paintFoot();
+}
+function paintFoot() {
+  const f = FP?.el.querySelector('.ffoot'); if (!f) return; const a = FP.applied;
+  f.innerHTML = a ? `<p>ใช้ ${esc(a)} กับ</p><div class="row"><button class="btn btn-line btn-sm" type="button" data-all="page">ทั้งหน้านี้</button><button class="btn btn-line btn-sm" type="button" data-all="all">ทุกหน้า</button></div><small>กล่องที่ตั้งฟอนต์เองไว้ไม่เปลี่ยน</small>` : '';
+}
+async function pickFont(name, row) {        // แตะแถว = กล่องนี้เปลี่ยนทันที รายการยังเปิด (แบบ Canva) โหลดยังไม่เสร็จ กล่องคงฟอนต์เดิม (ไม่แวบฟอนต์สำรอง)
+  const E = ED; if (!E?.ed) return; const design = name === setFont();
+  row?.classList.add('ld');
+  try { if (!design && !localF.has(name)) await loadFont(name); }
+  catch (e) { row?.classList.remove('ld'); if (row) row.querySelector('.fs').textContent = 'โหลดไม่สำเร็จ แตะเพื่อลองอีกครั้ง'; return; }
+  row?.classList.remove('ld'); if (ED !== E) return;
+  const prev = E.fam; E.fam = design ? '' : name;
+  E.ed.style.fontFamily = `'${design ? setFont() : name}',${getComputedStyle(E.ed).fontFamily}`;
+  E.tb.querySelector('.ef span').textContent = name; E.tb.querySelector('.ef span').style.fontFamily = `'${name}'`;
+  try {                                     // วัดทันที: ฟอนต์กว้างกว่าแล้วล้น = ป้ายบอก ลูกค้าเลือกตัวอื่นได้ (ตอนจบการแก้ลองย่อ 0.95-0.8 ให้)
+    py.globals.set('IDX', order[E.k]); py.globals.set('PATH', py.toPy(E.b.p)); py.globals.set('FN', E.fam); py.globals.set('NEW', val(E)); py.globals.set('SZ', E.pt !== E.pt0 ? E.pt / E.dp : undefined);
+    const st = py.runPython('_it = list(ITEMS); _it[IDX] = (_it[IDX][0], D._put(_it[IDX][1], list(PATH), NEW)); D.set_style(_it, IDX, list(PATH), M, size=SZ, font=FN, dry=True)');
+    if (st === 'over') { note2('ฟอนต์นี้กว้างกว่า ข้อความไม่พอดีกล่อง'); E.fam = prev; E.ed.style.fontFamily = ''; }
+    else if (st === 'shrink') note2('ตัวอักษรจะเล็กลงเล็กน้อย');
+  } catch (e) { console.error(e); }
+  if (FP) { FP.applied = E.fam || null; const sc = FP.el.querySelector('.fbody').scrollTop; paintPicker(); FP.el.querySelector('.fbody').scrollTop = sc; }
+  if (localF.has(name) && !localWarned && FP) FP.el.querySelector(`[data-fn="${CSS.escape(name)}"]`)?.insertAdjacentHTML('afterend', `<div class="lwarn">ฟอนต์นี้มีแค่ในเครื่องนี้ เปิดไฟล์ในเครื่องอื่นจะเปลี่ยนเป็นฟอนต์อื่น <button class="btn btn-line btn-sm" type="button" data-loc="ok">เข้าใจแล้ว</button></div>`);
+}
+async function fontScope(scope) {           // ทั้งหน้านี้ / ทุกหน้า: ใช้คำที่พิมพ์ก่อน แล้วเปลี่ยนทีละหน้าเบื้องหลัง หน้าที่ไม่พอดีใช้ฟอนต์เดิมและบอกตรง ๆ
+  const fam = FP?.applied, k = ED?.k; if (!fam || k == null) return;
+  closePicker(); if (!(await applyEdit())) return; if (busyNow) return;
+  busyNow = true; const oldKeys = KEYS.slice(), ks = scope === 'page' ? [k] : slides.map((_, i) => i), bad = [];
+  try {
+    py.globals.set('FN', fam);
+    for (let n = 0; n < ks.length; n++) {
+      if (ks.length > 1) toast(`กำลังเปลี่ยนฟอนต์ หน้า ${n + 1} จาก ${ks.length}`, true);
+      await frame(); py.globals.set('IDX', order[ks[n]]);
+      if (!py.runPython(`D.set_font_page(ITEMS, IDX, FN, M, only_unset=${scope === 'all' ? 'True' : 'False'})`)) bad.push(ks[n] + 1);
+    }
+    await paint(); settle(oldKeys, -1);
+    commit(scope === 'page' ? `ฟอนต์ทั้งหน้า ${k + 1}: ${fam}` : `ฟอนต์ทุกหน้า: ${fam}`);
+    const okN = ks.length - bad.length;
+    if (bad.length) { toast(`เปลี่ยนแล้ว ${okN} หน้า หน้า ${thaiList(bad)} ยังใช้ฟอนต์เดิม เพราะฟอนต์ใหม่กว้างกว่า ข้อความไม่พอดีกล่อง`, true, true); setTimeout(() => $('toast').classList.remove('on'), 7000); }
+    else toast(scope === 'page' ? `เปลี่ยนฟอนต์หน้า ${k + 1} แล้ว` : `เปลี่ยนฟอนต์ ${okN} หน้าแล้ว`, false, true);
+  } catch (e) { console.error(e); toast('เปลี่ยนฟอนต์ไม่สำเร็จ ลองใหม่อีกครั้ง'); } finally { busyNow = false; }
+}
+// ── ฟอนต์ในเครื่อง (Local Font Access): ไฟล์อยู่ในเครื่องเท่านั้น ไม่ส่งออก ไม่ฝัง ไม่ใส่ zip ──
+let LOCAL = null;
+function paintLocal(B, cur) {
+  if (!LOCAL) { B.innerHTML = `<div class="lcard"><p>ใช้ฟอนต์ที่ติดตั้งในคอมเครื่องนี้ได้ เบราว์เซอร์จะขออนุญาตก่อน 1 ครั้ง ไฟล์ฟอนต์ไม่ถูกส่งออกจากเครื่อง</p><button class="btn btn-red btn-sm" type="button" data-loc="ask">ดูฟอนต์ในเครื่อง</button></div>`; FP.el.querySelector('.ffoot').innerHTML = ''; return; }
+  if (LOCAL === 'denied') { B.innerHTML = `<div class="lcard"><p>ยังไม่ได้รับอนุญาต กดไอคอนหน้าที่อยู่เว็บ &gt; การตั้งค่าเว็บไซต์ &gt; ฟอนต์ &gt; อนุญาต แล้วกดอีกครั้ง</p><button class="btn btn-line btn-sm" type="button" data-loc="ask">ลองอีกครั้ง</button></div>`; return; }
+  const q = FP.q.trim().toLowerCase(), fams = [...LOCAL.keys()].filter(f => !q || f.toLowerCase().includes(q)).slice(0, 300);
+  B.innerHTML = `<input class="fq" type="search" placeholder="ค้นหาฟอนต์" aria-label="ค้นหาฟอนต์" value="${esc(FP.q)}">` + (fams.length ? fams.map(f => `<button type="button" class="frow${f === cur ? ' on' : ''}" data-fn="${esc(f)}" data-local="1"><span class="fn">${esc(f)}</span><span class="fs" style="font-family:'${esc(f)}'">${SAMPLE}</span>${f === cur ? ico('check') : '<i class="fsp"></i>'}</button>`).join('') : '<p class="empty">ไม่เจอฟอนต์ชื่อนี้</p>');
+  const qi = B.querySelector('.fq'); qi.oninput = () => { FP.q = qi.value; const p = qi.selectionStart; paintPicker(); const n = FP.el.querySelector('.fq'); n.focus(); n.setSelectionRange(p, p); };
+  B.querySelectorAll('[data-local]').forEach(b => b.onclick = async ev => { ev.stopPropagation(); await useLocal(b.dataset.fn); pickFont(b.dataset.fn, b); });
+}
+async function askLocal() {
+  try { const all = await window.queryLocalFonts(); LOCAL = new Map();
+    for (const f of all) { const m = LOCAL.get(f.family) || {}; if (/bold/i.test(f.style) && !/semi|demi|extra|ultra/i.test(f.style)) m.b = m.b || f; else if (/^(regular|normal|book|roman)$/i.test(f.style) || !m.r) m.r = f; LOCAL.set(f.family, m); }
+  } catch (e) { LOCAL = 'denied'; }
+  paintPicker();
+}
+async function useLocal(fam) {               // ไฟล์ในเครื่อง -> Pyodide วัด + FontFace จอ (ไม่ออกนอกเครื่อง)
+  if (localF.has(fam)) return; const m = LOCAL.get(fam), out = [];
+  for (const [k, fd] of [['r', m.r], ['b', m.b || m.r]]) { const buf = await (await fd.blob()).arrayBuffer(); const p = `/k5/fonts/loc_${localF.size}_${k}`; py.FS.writeFile(p, new Uint8Array(buf)); out.push([p, buf]); }
+  const faces = [new FontFace(fam, out[0][1], {weight: '400'}), new FontFace(fam, out[1][1], {weight: '700'})]; await Promise.all(faces.map(f => f.load())); faces.forEach(f => document.fonts.add(f));
+  py.globals.set('FN', fam); py.globals.set('FR', out[0][0]); py.globals.set('FB', out[1][0]); py.runPython('D.add_font(FN, FR, FB, local=True)');
+  localF.set(fam, true);
+}
+window.addEventListener('resize', placePicker);
 
 // ══ ใบ 017: เลือก ลากย้าย ย่อขยายกรอบกล่อง (แบบ Canva) ══════════════════════════════════════
 // ระหว่างลาก: CSS translate + rAF ไม่อ่าน layout ไม่เรียก Python / ปล่อยแล้ว Python ครั้งเดียว (move_box + keys + repr)
