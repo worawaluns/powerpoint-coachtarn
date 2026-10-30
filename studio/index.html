@@ -847,7 +847,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030e';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030f';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1252,8 +1252,10 @@ const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายก
 // บรรทัดที่มา: บอกว่าเนื้อหาหน้านี้มาจากไฟล์ไหน หัวข้อไหน (จุดขาย: ทุกคำมาจากของลูกค้า)
 const OVB = `<i class="ovb">${ico('alert')}ข้อความล้นกรอบ</i>`;   // ออกจากกล่องตอนยังล้น: คำครบ หน้านี้ติดป้ายจนแก้ให้พอดี
 const srcHtml = m => (m.ins ? `${ico('plus')}<span>หน้าที่คุณเพิ่มเอง</span>` : `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`) + (m.ov ? OVB : '');
-function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); return u.buffer; }
+let lastCC = [];                           // สีตัวอักษรกราฟจากไฟล์ (D.CHARTC) ของ render ล่าสุด ให้ preview() ใช้
+function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); if (expr.includes('render')) { try { lastCC = JSON.parse(py.runPython('json.dumps(D.CHARTC)')); } catch (e) { lastCC = []; } } return u.buffer; }
 async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
+  const cc = lastCC;
   const tmp = document.createElement('div'); tmp.style.cssText = 'position:fixed;left:-99999px;top:0;width:960px';
   document.body.appendChild(tmp);
   try {
@@ -1267,7 +1269,10 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
       tmp.querySelectorAll('.chart-node text').forEach(t => { if (t.textContent.trim() === '图表标题') t.remove(); });
       // echarts ของ pptx-preview ไม่อ่านสีตัวอักษรจากไฟล์ ใช้สีเข้มตั้งต้นเสมอ หน้าพื้นเข้ม (coldchain โดนัท) อ่านไม่ออก
       // ใช้สีของหัวเรื่อง (ตัวใหญ่สุดในหน้า) ถ้าเป็นสีอ่อน = หน้าพื้นเข้ม → ตัวอักษรในกราฟใช้สีนั้น
-      tmp.querySelectorAll('.pptx-preview-slide-wrapper').forEach(sl => {
+      tmp.querySelectorAll('.pptx-preview-slide-wrapper').forEach((sl, si) => {
+        const nodes = [...sl.querySelectorAll('.chart-node')];
+        // สีตัวอักษรกราฟจากไฟล์ (render ส่งมา): pptx-preview บังคับขาวทุกตัว แบบ B (แผงสีข้าง) จึงเป็นขาวบนพื้นขาว (QA 30 ต.ค.)
+        if (nodes.length && nodes.every((n, j) => cc[si]?.[j])) { nodes.forEach((n, j) => n.querySelectorAll('text').forEach(t => { t.style.fill = '#' + cc[si][j]; t.style.stroke = 'none'; })); return; }
         const ct = sl.querySelectorAll('.chart-node text'); if (!ct.length) return;
         let big = null, bs = 0;
         sl.querySelectorAll('span').forEach(s => { if (!s.textContent.trim() || s.closest('.chart-node')) return; const f = parseFloat(getComputedStyle(s).fontSize); if (f > bs) { bs = f; big = s; } });
