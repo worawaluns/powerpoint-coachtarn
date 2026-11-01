@@ -995,10 +995,12 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .sel .hx button{pointer-events:auto;width:32px;height:32px;border-radius:50%;border:none;background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(20,20,26,.22);display:grid;place-items:center;padding:0;touch-action:none;position:relative}
 .sel .hx button::after{content:'';position:absolute;inset:-6px;background:none!important;box-shadow:none!important}   /* ไอซ์ 1 พ.ย.: [data-tip]:hover::after ทาสีดำทับปุ่มหมุน (กล่องดำตอนหมุน) */.sel .hx svg.i{display:block;width:16px;height:16px;stroke-width:2.5}
 .sel .rth{cursor:grab}.sel .mvh{cursor:move;display:none!important}
-@media (pointer:coarse){.sel .mvh{display:grid!important}.sel .hx button{width:36px;height:36px}.sel .hx button::after{inset:-4px}}
+@media (pointer:coarse){.sel .mvh{display:grid!important}.sel .hx button{width:36px;height:36px}.sel .hx button::after{inset:-4px}
+  .sel .hx{left:50%;top:100%;margin:16px 0 0;transform:translateX(-50%);flex-direction:row;transform-origin:50% 0}   /* ไอซ์ 1 พ.ย.: ปุ่มหมุน/ย้ายใต้กรอบแบบ Canva ไม่ทับข้อความข้าง ๆ */
+  .pages .slide{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}.tlay>div{-webkit-user-select:text;user-select:text}}   /* กดค้างบนสไลด์ไม่ขึ้นที่จับเลือกคำสีฟ้าของ iOS */
 .sel.norot .rth,.sel.lock .hx{display:none}
 .sel.lk{box-shadow:none;outline:2px dashed var(--red);outline-offset:1px}.sel.lk .k,.sel.lk .hx{display:none}
-.sel.ed{box-shadow:none}   /* พิมพ์อยู่: กรอบของชั้นพิมพ์มีแล้ว เหลือที่จับ */
+.pg:has(.sel.ed.on) .hit.ing::after{opacity:0!important}   /* พิมพ์อยู่: กรอบแดงคือ .sel ที่กอดข้อความ (กรอบเต็มกล่องเดิมซ่อน) */
 /* ไอซ์ 1 พ.ย.: นอกมุมนิดเดียว = หมุน (แบบ Canva) ที่จับมุมยังทับอยู่ด้านใน = ย่อขยาย */
 .sel .rz{position:absolute;width:22px;height:22px;pointer-events:auto;touch-action:none;scale:var(--iz)}
 .sel .rz.tl{left:0;top:0;margin:-26px 0 0 -26px;transform-origin:26px 26px}.sel .rz.tr{left:100%;top:0;margin:-26px 0 0 4px;transform-origin:-4px 26px}
@@ -2181,6 +2183,7 @@ function openEdit(k, j, at) {
   ed.addEventListener('input', () => {                               // ระหว่างพิมพ์ไม่เรียก Python วัดเมื่อหยุด 0.5 วิ
     if (ED?.ed !== ed) return; clearTimeout(ED.chk); ED.chk = setTimeout(checkEdit, 500);
     if (m) requestAnimationFrame(edVis);
+    requestAnimationFrame(() => { if (ED?.ed === ed && !DR) edSel(); });   // กรอบกอดข้อความโต/หดตามที่พิมพ์
   });
   ed.addEventListener('keydown', ev => {
     if (ev.isComposing || ev.keyCode === 229) return;
@@ -3142,7 +3145,7 @@ function paintSize() {
   E.tb.querySelector('[data-e=dn]').dataset.tip = atLo ? 'เล็กสุดแล้ว' : `ตัวเล็กลง (${MAC ? '⌘⇧' : 'Ctrl+Shift+'},)`;
   E.tb.querySelector('[data-e=up]').dataset.tip = atHi ? 'ใหญ่สุดแล้ว' : `ตัวใหญ่ขึ้น (${MAC ? '⌘⇧' : 'Ctrl+Shift+'}.)`;
 }
-function liveSize(E) { const r = E.pt / E.pt0; E.ed.style.fontSize = E.px0 * r + 'px'; E.ed.style.lineHeight = E.lh0 * r + 'px'; if (E.tb.classList.contains('kb')) requestAnimationFrame(edVis); }
+function liveSize(E) { const r = E.pt / E.pt0; E.ed.style.fontSize = E.px0 * r + 'px'; E.ed.style.lineHeight = E.lh0 * r + 'px'; requestAnimationFrame(() => ED === E && edSel()); if (E.tb.classList.contains('kb')) requestAnimationFrame(edVis); }
 function setSize(pt, why) {
   const E = ED; if (!E?.ed) return; const [lo, hi] = zRange(E.b);
   const v = Math.min(hi, Math.max(lo, pt));
@@ -4179,15 +4182,23 @@ function rzCur(rot) {
     if (!RZC.has(a)) RZC.set(a, `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><g transform='rotate(${a} 12 12)' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M5 17A9 9 0 0 1 17 5' stroke='#fff' stroke-width='5'/><path d='M14 2l3.5 3L14 8M2 14l3 3.5L8 14' stroke='#fff' stroke-width='5'/><path d='M5 17A9 9 0 0 1 17 5' stroke='#15151A' stroke-width='2'/><path d='M14 2l3.5 3L14 8M2 14l3 3.5L8 14' stroke='#15151A' stroke-width='2'/></g></svg>`)}") 12 12, alias`);
     e.style.cursor = RZC.get(a); });
 }
+// ไอซ์ 1 พ.ย. (แบบ Canva): กรอบกอดข้อความ สูง = ข้อความจริง + ขอบ 4 ยึดบน/กลาง/ล่างตามกล่อง โตตามที่พิมพ์/บีบความกว้างสด
+// ponytail: เฉพาะกรอบบนจอ ไฟล์ยังสูงเท่ากล่องดีไซน์ (ต้องให้ builder เขียนความสูงจริงก่อน) ข้อความล้นกล่อง = กรอบเท่ากล่อง
+const textH = el => { const q = el?.closest('.slide')?.getBoundingClientRect(); return q?.width ? el.getBoundingClientRect().height * 960 / q.width : 0; };
+function hug(r, b, el) {
+  if (!el || b.pic || b.g || b.rot) return r; const h = Math.max(14, textH(el) + 8); if (h >= r.h - 1) return r;
+  const va = b.fm?.va; return {...r, y: va === 'b' ? r.y + r.h - h : va === 'm' ? r.y + (r.h - h) / 2 : r.y, h};
+}
+const twOf = (k, b) => shapeOf(k, b, '')?.querySelector('.text-wrapper');
 const kCur = rot => SELD.querySelectorAll('.k').forEach(e => e.style.cursor = rot ? KCUR[(+e.dataset.h + Math.round(rot / 45)) % 4] : '');
 // ไอซ์ 1 พ.ย. (แบบ Canva): พิมพ์อยู่ก็ยังมีที่จับ ย่อขยาย/หมุนได้โดยไม่ต้องกดเสร็จ  กรอบตาม ED.vb (กรอบที่ปรับระหว่างพิมพ์)
 function edSel() {
-  const E = ED, pg = pgs()[E.k], b = E.vb; if (!pg || !b) return;
+  const E = ED, pg = pgs()[E.k], v = E.vb; if (!pg || !v) return; const b = {...v, ...hug(v, v, E.ed)};
   const hs = pg.querySelector('.hits'), sc = pg.querySelector('.slide').clientWidth / 960;
   if (SELD.parentNode !== hs) hs.append(GHOST, SELD, GV, GH);
   Object.assign(SELD.style, {transform: selTf(b.x * sc, b.y * sc, b.w * sc, b.h * sc, b.rot), width: b.w * sc + 'px', height: b.h * sc + 'px'});
   ['lk', 'pic'].forEach(c => SELD.classList.remove(c)); SELD.classList.add('ed'); SELD.classList.toggle('lock', !b.can); SELD.classList.toggle('rot', !!b.rot); SELD.classList.toggle('norot', !b.can || !!b.g);
-  SELD.classList.toggle('nok', !!b.g || (touch() && (b.w * sc < 88 || b.h * sc < 44))); kCur(b.rot); rzCur(b.rot);
+  SELD.classList.toggle('nok', !!b.g || (touch() && (v.w * sc < 88 || v.h * sc < 44))); kCur(b.rot); rzCur(b.rot);   // ขนาดพอแตะ: วัดจากกล่องจริง (กรอบกอดข้อความเตี้ยกว่า)
   if (!SELD.classList.contains('on')) requestAnimationFrame(() => { if (ED === E) SELD.classList.add('on'); });
 }
 function paintSel() {
@@ -4195,12 +4206,12 @@ function paintSel() {
   SELD.classList.remove('ed');
   const s = selBox(), pg = s && pgs()[SEL.k];
   if (!s || !pg || ED) { if (SEL && (!s || !pg)) deselectBox(); return; }
-  const hs = pg.querySelector('.hits'), sc = pg.querySelector('.slide').clientWidth / 960, r = rectOf(s.b);
+  const hs = pg.querySelector('.hits'), sc = pg.querySelector('.slide').clientWidth / 960, r = hug(rectOf(s.b), s.b, twOf(SEL.k, s.b));
   if (SELD.parentNode !== hs) hs.append(GHOST, SELD, GV, GH);
   Object.assign(SELD.style, {transform: selTf(r.x * sc, r.y * sc, r.w * sc, r.h * sc, s.b.rot), width: r.w * sc + 'px', height: r.h * sc + 'px'});
   SELD.classList.toggle('lock', !s.b.can && !s.b.lk); SELD.classList.toggle('lk', !!s.b.lk); SELD.classList.toggle('rot', !!s.b.rot); SELD.classList.toggle('norot', !s.b.can); SELD.classList.toggle('pic', !!s.b.pic);
   kCur(s.b.rot); rzCur(s.b.rot);   // ที่จับหมุนตามกรอบ เคอร์เซอร์หมุนตาม
-  SELD.classList.toggle('nok', !!s.b.g || (touch() && (r.w * sc < 88 || r.h * sc < 44)));   // ที่จับ: ไม่ใช่การ์ด และบนจอสัมผัสกล่องต้องใหญ่พอ 88×44
+  const f0 = rectOf(s.b); SELD.classList.toggle('nok', !!s.b.g || (touch() && (f0.w * sc < 88 || f0.h * sc < 44)));   // วัดจากกล่องจริง ไม่ใช่กรอบกอดข้อความ   // ที่จับ: ไม่ใช่การ์ด และบนจอสัมผัสกล่องต้องใหญ่พอ 88×44
   if (!SELD.classList.contains('on')) requestAnimationFrame(() => { if (SEL) SELD.classList.add('on'); });
   hs.querySelectorAll('.hit').forEach((h, i) => h.classList.toggle('selx', i === s.j && !!s.b.can));
   paintBar(s.b, pg, sc);
@@ -4305,8 +4316,8 @@ function dragFrame() {
     } else if (D.alt || rot) D.gx = D.gy = null; else { const q = snapResize(r, D.h, D.L, D.si); r = q.box; D.gx = q.guides.find(g => g.v)?.pos ?? null; D.gy = q.guides.find(g => !g.v)?.pos ?? null; }
     if (!rot) { if (r.x < 0) { r.w += r.x; r.x = 0; } r.w = Math.min(r.w, 960 - r.x); r.h = Math.min(r.h, 540 - r.y); }
     D.cur = r;
-    Object.assign(SELD.style, {transform: selTf(r.x * D.ls, r.y * D.ls, r.w * D.ls, r.h * D.ls, D.b.rot), width: r.w * D.ls + 'px', height: r.h * D.ls + 'px'});
-    liveRect(D, r);
+    liveRect(D, r); const v = D.b.pic ? r : hug(r, D.b, D.lv?.ed);   // ชั้นสดตัดบรรทัดแล้ว กรอบกอดข้อความตามนิ้ว
+    Object.assign(SELD.style, {transform: selTf(v.x * D.ls, v.y * D.ls, v.w * D.ls, v.h * D.ls, D.b.rot), width: v.w * D.ls + 'px', height: v.h * D.ls + 'px'});
     sizeTip(D.lx, D.ly, `ก: ${Math.round(r.w * 2).toLocaleString('en-US')}  ส: ${Math.round(r.h * 2).toLocaleString('en-US')}`);
   }
   GV.classList.toggle('on', D.gx != null); GH.classList.toggle('on', D.gy != null);   // เส้นช่วยจัด: ตั้ง 1 นอน 1 เท่านั้น
