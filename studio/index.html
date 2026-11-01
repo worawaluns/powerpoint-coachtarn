@@ -13,7 +13,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--red:#D34724;--orange:#EB7D4A;--text:#15151A;--mid:#4A4A55;--sub:#8A8A96;--line:#ECECF0;--soft:#FFF6F2;--bg:#F6F6F8;--ok:#2E7D4F;
-  --ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);--safe:env(safe-area-inset-bottom,0px)}
+  --ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);--safe:env(safe-area-inset-bottom,0px);
+  --vb:calc(100% - 100dvh)}   /* ใบ 032: ส่วนของกรอบ position:fixed ที่อยู่ใต้แถบเบราว์เซอร์ (Safari iOS 26 วางของ fixed ตามจอใหญ่ แถบเครื่องมือ Safari ทับ) เบราว์เซอร์อื่น = 0 ใช้กับ bottom ของ fixed เท่านั้น */
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6}
@@ -148,37 +149,92 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 .gap.act button{opacity:1;transform:none}
 @media (hover:none){.gap button{width:44px;height:44px;opacity:1;transform:none}.gap::before{opacity:.25;transform:none}}
 .viewing .gap,.pages.settled .pg:last-child>.gap::before{display:none}
-/* แผงแทรกหน้า: มือถือแผ่นเต็มจอ ชิปหมวด / คอม แผงลอยกลาง หมวดซ้าย */
-.sheet.ins .pan{max-width:760px}
-.insp{margin-top:6px}
-.cats{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none;margin:0 -16px;padding-left:16px;padding-right:16px}
+/* แผงแทรกหน้า ใบ 031 แบบ ข (ไอซ์ 1 พ.ย. 2569): มือถือ + iPad ตั้ง = แผ่นล่างสูง 88% ทุกหมวดเรียงลงในเลื่อนเดียว ชิปหมวด = ทางลัด / คอม 1024+ = แผงลอยกลาง 1040 รายชื่อหมวดซ้าย */
+.sheet.ins .pan{max-width:none;height:88dvh;max-height:88dvh;display:flex;flex-direction:column;overflow:hidden;padding:8px 0 0}
+.sheet.ins .grab{flex:none;touch-action:none;cursor:grab}
+.sheet.ins .hd{flex:none;padding:2px 12px 6px 16px;touch-action:none}
+.sheet.ins .hd .ib{width:44px;height:44px;flex:none}
+.sheet.ins #shS{display:none}
+.sheet.ins #shBody{flex:1;min-height:0;display:flex;flex-direction:column}
+.insp{flex:1;min-height:0;display:flex;flex-direction:column}
+.insp svg.i{width:20px;height:20px;stroke-width:1.67}.insp svg.i.i16{width:16px;height:16px;stroke-width:2.5}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:6px 16px 12px;scrollbar-width:none;flex:none;border-bottom:1px solid var(--line)}
 .cats::-webkit-scrollbar{display:none}
-.cat{flex:none;display:flex;align-items:center;gap:7px;height:40px;padding:0 14px;border-radius:100px;border:1px solid var(--line);background:#fff;font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
-.cat svg{width:20px;height:20px}
+.cat{position:relative;flex:none;display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-radius:100px;border:1px solid var(--line);background:#fff;font-size:14px;font-weight:600;line-height:1.6;color:var(--text);white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
+.cat::before{content:'';position:absolute;left:0;right:0;top:-4px;bottom:-4px}   /* เป้าแตะ 44 */
 .cat em{font-style:normal;font-size:12px;color:var(--sub);font-weight:600}
 .cat.on{background:#FFF1EC;border-color:#F6C9BA;color:var(--red)}
-.ingrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-content:start}
-.opt.lay{display:block;width:100%;cursor:pointer}
+.insl{flex:1;min-height:0;overflow:auto;position:relative;padding:0 16px calc(20px + var(--safe));overscroll-behavior:contain}
+.ins-s{padding-top:16px}
+.ins-s>h4{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:700;line-height:1.6;margin-bottom:10px}
+.ins-s>h4 svg.i{color:var(--red)}
+.ins-s>h4 em{font-style:normal;font-size:13px;color:var(--sub);font-weight:500}
+.ins-s h5{font-size:13px;color:var(--sub);font-weight:600;margin:14px 0 8px;line-height:1.6}
+.insall .ins-s>h4{border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:0}
+.ingrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;align-content:start}
+.opt.lay{display:block;width:100%;cursor:pointer;border-radius:12px}
 .opt.lay:hover,.opt.lay:focus-visible{border-color:var(--red);box-shadow:none}
 .opt.lay .slidebox{pointer-events:none}
 .opt.lay .slidebox span{-webkit-text-fill-color:transparent;color:transparent;background:rgba(154,163,175,.5);border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}   /* คำใบ้ในภาพตัวอย่างเป็นแถบเทา ไม่ใช่ตัวหนังสือ */
 .ingrid .opt.ph{aspect-ratio:16/9}
+.insp .chst{border-radius:12px;padding:8px;gap:8px}.insp .chst:hover{border-color:var(--red)}.insp .chst b{line-height:1.6}
+.chall{display:flex;align-items:center;gap:10px;width:100%;min-height:52px;margin-top:12px;padding:0 16px;border:1px solid var(--line);border-radius:12px;background:#fff;font:inherit;font-size:15px;font-weight:600;line-height:1.6;text-align:left;color:var(--text)}
+.chall span{flex:1}.chall:hover{border-color:var(--red)}
 .inote{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--sub);margin-top:12px;line-height:1.6}
 .inote svg{width:16px;height:16px;flex:none;stroke-width:2.5}
+/* ตรวจก่อนเพิ่มหน้ากราฟ */
+.rvsc{flex:1;min-height:0;overflow:auto;padding:12px 16px 20px;overscroll-behavior:contain}
+.rvpv{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+.rvpv .opt.ph{position:absolute;inset:0;border-radius:0}
+.rvcap{position:absolute;right:8px;bottom:8px;background:rgba(255,255,255,.94);border-radius:999px;padding:0 10px;font-size:12px;font-weight:600;line-height:1.8;box-shadow:0 0 0 1px var(--line)}
+.rvnm{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px;border:1px solid var(--line);border-radius:12px}
+.rvnm img{width:72px;height:auto;border-radius:6px;background:var(--bg);flex:none}
+.rvnm>span{flex:1;min-width:0;display:grid}.rvnm b{font-size:14px;line-height:1.6}.rvnm small{font-size:12px;color:var(--sub);line-height:1.6}
+.rvnm .btn{flex:none;height:44px}
+.insrv h4{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;line-height:1.6;margin:16px 0 8px}
+.rvlay{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px 6px}
+.rvlay::-webkit-scrollbar{display:none}
+.rvl1{position:relative;flex:none;width:112px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:4px;text-align:left;font:inherit;color:var(--text)}
+.rvl1 img{display:block;width:100%;height:auto;border-radius:6px}
+.rvl1 span{display:block;font-size:12px;font-weight:600;line-height:1.6;padding:2px 2px 0;white-space:nowrap}.rvl1 em{font-style:normal;color:var(--sub);margin-right:4px}
+.rvl1.on{border:2px solid var(--red);padding:3px}
+.rvl1[aria-disabled=true]{opacity:.45}
+.rvl1 .ck{position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;animation:ckPop .3s var(--spring)}
+.rvl1 .ck svg.i{width:14px;height:14px}
+.rvtag{display:inline-flex;align-items:center;gap:4px;padding:0 8px;border-radius:999px;background:#FFF0EA;color:#B23A1C;font-size:12px;font-weight:600;line-height:1.8}
+.insrv .chrow{margin-bottom:8px}.insrv .chrow .btn:last-child{flex:1}
+.insrv .chtw{max-height:none}
+.insrv .cherr{margin-bottom:8px}
+.insft{flex:none;padding:10px 16px calc(10px + var(--safe));border-top:1px solid var(--line);background:#fff}
+.insft .btn{width:100%}
+.cht .cv{aspect-ratio:auto;border-radius:0;box-shadow:none;overflow:visible}   /* ช่องตัวเลขในตาราง (td.cv) ไม่เอาสไตล์การ์ดหน้า .cv */
+@media (min-width:600px){.ingrid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:768px) and (max-width:1023px){   /* iPad ตั้ง: แผ่นล่างแบบมือถือ (กฎกลาง 768+ ทำแผงกลาง) */
+  .sheet.ins{align-items:flex-end}
+  .sheet.ins .pan{border-radius:20px 20px 0 0;opacity:1;transform:translateY(100%);transition:transform .38s var(--ease)}
+  .sheet.ins.on .pan{transform:none}
+  .cats,.insl,.rvsc,.insft{padding-left:24px;padding-right:24px}.rvlay{margin:0 -24px;padding-left:24px;padding-right:24px}
+  .rvl1{width:132px}
+}
 @media (min-width:768px) and (pointer:fine), (min-width:768px) and (min-height:501px){
   .gap{height:48px}
-  .sheet.ins .pan{padding:8px 0 0;max-height:min(640px,88dvh);display:flex;flex-direction:column;overflow:hidden}
+}
+@media (min-width:1024px) and (pointer:fine), (min-width:1024px) and (min-height:501px){
+  .sheet.ins .pan{width:1040px;max-width:calc(100vw - 48px);height:min(760px,88dvh);border-radius:20px}
   .sheet.ins .grab{display:none}
-  .sheet.ins .hd{padding:6px 12px 8px 20px}
-  .sheet.ins #shS{display:none}
-  .sheet.ins #shBody{flex:1;min-height:0;display:flex;flex-direction:column}
-  .sheet.ins .insp{flex:1;min-height:0;display:grid;grid-template-columns:220px 1fr;border-top:1px solid var(--line);margin:0}
-  .sheet.ins .cats{flex-direction:column;overflow:auto;margin:0;padding:10px;border-right:1px solid var(--line);gap:2px}
-  .sheet.ins .cat{width:100%;border:none;border-radius:10px;height:40px;padding:0 10px}
-  .sheet.ins .cat em{margin-left:auto}
-  .sheet.ins .cat:hover:not(.on){background:var(--bg)}
-  .sheet.ins .ingrid{overflow:auto;padding:12px;min-height:300px}
-  .sheet.ins .inote{margin:0;padding:10px 16px 14px;border-top:1px solid var(--line)}
+  .sheet.ins .hd{padding:8px 12px 8px 24px;border-bottom:1px solid var(--line)}
+  .insp:not(.insrv){flex-direction:row}
+  .insp .cats{flex-direction:column;width:220px;flex:none;overflow:auto;padding:12px;border-bottom:none;border-right:1px solid var(--line);gap:2px}
+  .insp .cat{width:100%;border:none;border-radius:10px;height:44px;padding:0 10px}
+  .insp .cat::before{display:none}
+  .insp .cat em{margin-left:auto}
+  .insp .cat:hover:not(.on){background:var(--bg)}
+  .insl{padding:0 24px 24px}
+  .rvsc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start;padding:20px 24px}
+  .rvr>h4:first-child,.rvl>h4{margin-top:0}.rvl>h4{margin-top:16px}
+  .rvlay{flex-wrap:wrap;margin:0;padding:0;overflow:visible}.rvl1{width:calc((100% - 16px) / 3)}
+  .insft{display:flex;justify-content:flex-end;padding:12px 24px}
+  .insft .btn{width:auto;padding:0 24px}
 }
 /* แถบเครื่องมือของหน้า (768+) ขวานอกสไลด์ */
 .ftb{position:absolute;top:0;right:-56px;z-index:6;display:flex;flex-direction:column;gap:2px;padding:4px;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(20,20,26,.12);animation:slideL .26s var(--ease) both}
@@ -217,7 +273,7 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 .edit .acts{transition:opacity .2s}
 .edit.saving .acts{opacity:.5;pointer-events:none}
 .edit.checking::after,.medit.checking::after{content:'';position:absolute;left:0;right:0;top:0;height:var(--th,100%);background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.45) 50%,transparent 65%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) -.37s infinite;pointer-events:none}
-.medit{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + var(--safe));box-shadow:0 -6px 20px rgba(20,20,26,.08);animation:mIn .26s var(--ease) both}
+.medit{position:fixed;left:0;right:0;bottom:var(--vb);z-index:60;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + var(--safe));box-shadow:0 -6px 20px rgba(20,20,26,.08);animation:mIn .26s var(--ease) both}
 @keyframes mIn{from{transform:translateY(100%)}}
 .medit .mh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .medit .mh span{flex:1;font-size:14px;color:var(--sub);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.75}
@@ -228,7 +284,7 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 .medit.saving::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);transform:translateX(-100%);animation:sweep 1.1s cubic-bezier(.4,0,.2,1) -.37s infinite;pointer-events:none}
 .working .ftb>button,.working .gbar button{opacity:.45;transition:opacity .1s}
 .sheet.on ~ .toast{top:68px;bottom:auto}
-@media (max-width:767px), (pointer:coarse) and (max-height:500px){body.panelon .toast{top:auto;bottom:calc(120px + var(--safe))}}
+@media (max-width:767px), (pointer:coarse) and (max-height:500px){body.panelon .toast{top:auto;bottom:calc(120px + var(--safe) + var(--vb))}}
 @media (max-width:767px), (pointer:coarse) and (max-height:500px){body:has(.medit) .toast,body:has(.etb.kb) .toast{top:64px;bottom:auto;transform:translateX(-50%) translateY(-16px)}body:has(.medit) .toast.on,body:has(.etb.kb) .toast.on{transform:translateX(-50%)}}   /* แถบพิมพ์ล่างเปิดอยู่: toast ขึ้นบน ไม่ทับช่องพิมพ์ */
 /* แก้ข้อความบน canvas (ใบ 015 เฟส 1): ชั้นพิมพ์ใสทับกล่องเดิมพอดี กรอบ/ป้ายอยู่บนกล่อง .hit แถบเล็กมีแค่ "เสร็จ" (ขนาด/ฟอนต์ เฟส 2-3 ต่อหน้าปุ่มนี้) */
 .tlay{position:absolute;display:flex;flex-direction:column;z-index:999}
@@ -250,7 +306,7 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 @keyframes etbIn{from{opacity:0;transform:translateY(4px)}}
 .etb .btn{height:36px;padding:0 14px;font-size:14px;background:#15151A;color:#fff;border-radius:9px}
 .etb .btn svg{width:16px;height:16px;stroke-width:2.5}
-.etb.kb{position:fixed;left:0;right:0;bottom:0;top:auto;height:calc(52px + var(--safe));padding:4px 8px var(--safe);border-radius:0;box-shadow:0 -1px 0 var(--line);justify-content:flex-end;z-index:60;animation:kbIn .12s both}
+.etb.kb{position:fixed;left:0;right:0;bottom:var(--vb);top:auto;height:calc(52px + var(--safe));padding:4px 8px var(--safe);border-radius:0;box-shadow:0 -1px 0 var(--line);justify-content:flex-end;z-index:60;animation:kbIn .12s both}
 @keyframes kbIn{from{opacity:0}}
 .etb.kb .btn{height:44px}
 .canvas.zoomed{overflow-x:auto}
@@ -538,7 +594,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .undo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .paycover{margin:4px auto 12px;max-width:320px;border-radius:10px;overflow:hidden;box-shadow:0 8px 24px rgba(21,21,26,.14)}
 /* แผ่นล่าง */
-.sheet{position:fixed;inset:0;z-index:65;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;visibility:hidden;transition:visibility 0s .35s}
+.sheet{position:fixed;inset:0 0 var(--vb);z-index:65;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;visibility:hidden;transition:visibility 0s .35s}
 .sheet::before{content:'';position:absolute;inset:0;background:rgba(20,20,26,.45);opacity:0;transition:opacity .3s}   /* A7: ฉากหลังจางด้วย opacity ไม่ใช่สีพื้น */
 .sheet.on{pointer-events:auto;visibility:visible;transition:none}.sheet.on::before{opacity:1}
 .pan{position:relative;width:100%;max-width:720px;max-height:86dvh;overflow:auto;background:#fff;border-radius:20px 20px 0 0;padding:8px 16px calc(16px + var(--safe));transform:translateY(100%);transition:transform .38s var(--ease)}
@@ -613,10 +669,10 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   #more .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--orange);transform:scale(0);transition:transform .3s var(--spring)}
   #more.warn .dot{transform:scale(1)}
   .medit .btn-sm{height:44px}
-  .toast{top:auto;bottom:calc(112px + var(--safe));transform:translateX(-50%) translateY(16px)}
+  .toast{top:auto;bottom:calc(112px + var(--safe) + var(--vb));transform:translateX(-50%) translateY(16px)}
   .medit .emsg{margin:0 0 8px}
-  .rp{inset:56px 0 0 0;transform:translateY(100%);z-index:55}
-  .rail{position:fixed;left:0;right:0;bottom:0;height:calc(58px + var(--safe));padding:2px 8px var(--safe);border-top:1px solid var(--line);justify-content:space-around;transition:opacity .1s cubic-bezier(.4,0,1,1)}
+  .rp{inset:56px 0 var(--vb) 0;transform:translateY(100%);z-index:55}
+  .rail{position:fixed;left:0;right:0;bottom:var(--vb);height:calc(58px + var(--safe));padding:2px 8px var(--safe);border-top:1px solid var(--line);justify-content:space-around;transition:opacity .1s cubic-bezier(.4,0,1,1)}
   .rail button{flex:0 0 auto;width:max(64px,calc((100vw - 4px) / 5.5));height:54px;font-size:12px}
   .rail{justify-content:flex-start;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding-left:2px;padding-right:2px}.rail::-webkit-scrollbar{display:none}
   .rail.fr{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent)}
@@ -632,9 +688,9 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .pages{display:flex;height:calc(100% - 44px);max-width:none;margin:0;padding:0;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;touch-action:pan-x}
   .pages::-webkit-scrollbar{display:none}
   .pages .pg,.pages .endc{flex:0 0 100%;height:100%;margin:0;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;scroll-snap-align:center;scroll-snap-stop:always;animation:none}
-  .pages .slide{width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));touch-action:pan-x}
+  .pages .slide{width:min(100%,calc((100svh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));touch-action:pan-x}
   /* ใบ 025: การ์ดโน้ตผู้บรรยายใต้สไลด์ แตะ = แผ่นล่างพิมพ์โน้ต */
-  .mnote{display:none;align-items:center;gap:10px;width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));min-height:48px;margin-top:12px;padding:0 12px 0 16px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left;color:var(--text);touch-action:pan-x;-webkit-tap-highlight-color:transparent}
+  .mnote{display:none;align-items:center;gap:10px;width:min(100%,calc((100svh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));min-height:48px;margin-top:12px;padding:0 12px 0 16px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left;color:var(--text);touch-action:pan-x;-webkit-tap-highlight-color:transparent}
   .work.mnoteon .mnote{display:flex}   /* ไอซ์ 1 พ.ย. (25b): การ์ดโน้ตปิดไว้ก่อน เปิดที่ปุ่มโน้ตในแถบล่าง บรรทัดเดียว */
   .mnote svg.i{display:block;width:20px;height:20px;color:var(--sub)}.mnote .go{margin:auto 0 auto auto}
   .mnote span{flex:1;min-width:0}.mnote b{display:none}
@@ -644,12 +700,12 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .mhint{font-size:12px;color:var(--sub);margin:8px 0 0;line-height:1.6}
   .mdone{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;margin-top:16px;border:none;border-radius:12px;background:#15151A;color:#fff;font-size:15px;font-weight:600}.mdone svg.i{width:20px;height:20px}
   #skel.open .ph~.ph{display:none}
-  #skel.open{bottom:44px;padding:8px}#skel.open .skel{width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9))}
+  #skel.open{bottom:44px;padding:8px}#skel.open .skel{width:min(100%,calc((100svh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9))}
   .pages .pg.on .slide::after{opacity:0}
   .pages .hit:not(.ing)::after{display:none}
   .pages .gap{display:none}
   .pg .src{padding:0;justify-content:center;min-height:0}.pg .src>svg,.pg .src>span{display:none}.pg .src .ovb{margin:8px 0 0}
-  .endc .ec{width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));aspect-ratio:16/9;border:2px dashed #CFCFD6;border-radius:10px;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:16px;font-weight:700;color:var(--mid)}
+  .endc .ec{width:min(100%,calc((100svh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));aspect-ratio:16/9;border:2px dashed #CFCFD6;border-radius:10px;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;font-size:16px;font-weight:700;color:var(--mid)}
   .endc .ec b{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--text);color:#fff}
   .endc .ec b svg{width:20px;height:20px}
   /* พิมพ์อยู่: ปิดการปัด เหลือหน้าที่พิมพ์หน้าเดียว ให้ซูม/เลื่อนพ้นคีย์บอร์ดแบบเดิม */
@@ -664,7 +720,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .dots .dw i.on{width:16px;background:var(--mid)}
   /* ตารางทุกหน้า (ภาพย่อที่วาดไว้แล้ว จัดใหม่เป็น 2 คอลัมน์ ไม่วาดสไลด์ใหม่) */
   .thumbs{display:none}
-  body.gridon .thumbs,body.gpz .thumbs{display:grid;position:fixed;left:0;right:0;top:56px;bottom:0;z-index:47;grid-template-columns:1fr 1fr;gap:14px 12px;align-content:start;padding:44px 16px calc(100px + var(--safe));overflow-y:auto;overscroll-behavior:contain;background:var(--bg);touch-action:pan-y}
+  body.gridon .thumbs,body.gpz .thumbs{display:grid;position:fixed;left:0;right:0;top:56px;bottom:var(--vb);z-index:47;grid-template-columns:1fr 1fr;gap:14px 12px;align-content:start;padding:44px 16px calc(100px + var(--safe));overflow-y:auto;overscroll-behavior:contain;background:var(--bg);touch-action:pan-y}
   body.gpz .thumbs{pointer-events:none}
   body.gpz .pages{position:relative;z-index:48}
   body.gpz .dots{opacity:.3}
@@ -682,7 +738,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .thumbs .th.nw{animation:pop .32s var(--spring) .1s both}   /* motion 3: การ์ดใหม่ (สำเนา แทรก) เด้งเข้า */
   .gbar>*{animation:rz .18s var(--ease) both}     /* motion 6: เปลี่ยนเนื้อแถบ (ยืนยันลบ) ไม่วูบ */
   .thumbs .th.lift .slidebox{box-shadow:0 10px 28px rgba(20,20,26,.22),0 0 0 1px var(--line)}
-  .gbar{position:fixed;left:16px;right:16px;bottom:calc(12px + var(--safe));z-index:48;display:flex;align-items:center;gap:2px;height:64px;padding:0 6px;background:#fff;border-radius:18px;box-shadow:0 6px 24px rgba(20,20,26,.14);opacity:0;transform:translateY(12px);visibility:hidden;pointer-events:none;transition:opacity .14s cubic-bezier(.4,0,1,1),transform .14s cubic-bezier(.4,0,1,1),visibility 0s .14s}
+  .gbar{position:fixed;left:16px;right:16px;bottom:calc(12px + var(--safe) + var(--vb));z-index:48;display:flex;align-items:center;gap:2px;height:64px;padding:0 6px;background:#fff;border-radius:18px;box-shadow:0 6px 24px rgba(20,20,26,.14);opacity:0;transform:translateY(12px);visibility:hidden;pointer-events:none;transition:opacity .14s cubic-bezier(.4,0,1,1),transform .14s cubic-bezier(.4,0,1,1),visibility 0s .14s}
   body.gridon .gbar{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition:opacity .22s var(--ease),transform .22s var(--ease)}
   .gbar button{flex:1;min-width:0;height:56px;border:none;background:none;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:600;color:var(--text);white-space:nowrap}
   .gbar button svg.i{width:20px;height:20px}
@@ -692,14 +748,14 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .gbar p{flex:1;min-width:0;font-size:14px;font-weight:600;padding:0 6px;line-height:1.4}
   .gbar .gno{flex:0 0 auto;padding:0 12px;flex-direction:row;font-size:14px}
   .gbar .gyes{flex:0 0 auto;padding:0 12px;flex-direction:row;font-size:14px;color:#C62828}
-  body.gridon .toast{bottom:calc(92px + var(--safe))}
+  body.gridon .toast{bottom:calc(92px + var(--safe) + var(--vb))}
   /* แถบกล่อง (ใบ 017): แทนแถบล่างตอนเลือกกล่อง */
-  .bbar{position:fixed;left:0;right:0;bottom:0;z-index:46;height:calc(58px + var(--safe));padding:2px 8px var(--safe);background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(8px);visibility:hidden;pointer-events:none;transition:opacity .14s cubic-bezier(.4,0,1,1),transform .14s cubic-bezier(.4,0,1,1),visibility 0s .14s}
+  .bbar{position:fixed;left:0;right:0;bottom:var(--vb);z-index:46;height:calc(58px + var(--safe));padding:2px 8px var(--safe);background:#fff;border-top:1px solid var(--line);display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(8px);visibility:hidden;pointer-events:none;transition:opacity .14s cubic-bezier(.4,0,1,1),transform .14s cubic-bezier(.4,0,1,1),visibility 0s .14s}
   .work.boxon .bbar{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition:opacity .22s var(--ease) .06s,transform .22s var(--ease) .06s}   /* motion 5: แถบล่างออกก่อน แถบกล่องตามมา ไม่ซ้อน */
   .bbar .bx{flex:0 0 52px;height:54px;border:none;background:none;border-right:1px solid var(--line);border-radius:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:600;color:var(--red)}
   .bbar .bm{flex:1;min-width:0;font-size:13px;color:var(--sub);line-height:1.4}
   .bbar .btn{height:44px;font-size:14px;padding:0 12px}
-  .tip{position:fixed;left:12px;right:12px;top:auto;bottom:calc(70px + var(--safe));max-width:none;z-index:47}
+  .tip{position:fixed;left:12px;right:12px;top:auto;bottom:calc(70px + var(--safe) + var(--vb));max-width:none;z-index:47}
   .vbar>span{flex-basis:100%}.vbar .btn{flex:1}
   .pbadge{bottom:calc(84px + var(--safe))}
   body.panelon .pages .pg{animation-play-state:paused}   /* A1 */
@@ -883,12 +939,12 @@ textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:i
 .lempty{grid-column:1/-1;text-align:center;padding:48px 16px;color:var(--mid);font-size:15px;line-height:1.7}
 .lempty svg.big{width:40px;height:40px;color:#C9C9D0;fill:none;stroke:currentColor;stroke-width:1;margin:0 auto 8px;display:block}
 .lempty .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
-.fab{position:fixed;right:16px;bottom:calc(16px + var(--safe));z-index:25;height:52px;border-radius:16px;padding:0 18px 0 16px;font-size:16px}
+.fab{position:fixed;right:16px;bottom:calc(16px + var(--safe) + var(--vb));z-index:25;height:52px;border-radius:16px;padding:0 18px 0 16px;font-size:16px}
 .fab svg.i{transition:transform .2s var(--eo)}.fab.on svg.i{transform:rotate(45deg)}
 /* เมนูลอย: จอใหญ่เด้งจากปุ่ม / มือถือเป็นแผ่นล่าง */
 .hscrim{position:fixed;inset:0;z-index:79;background:rgba(21,21,26,.32);opacity:0;pointer-events:none;transition:opacity .2s var(--eo)}
 .hscrim.on{pointer-events:auto;opacity:1}
-.hp{position:fixed;z-index:80;left:0;right:0;bottom:0;max-height:85dvh;overflow:auto;background:#fff;border-radius:16px 16px 0 0;padding:6px 8px calc(12px + var(--safe));display:none;overscroll-behavior:contain}
+.hp{position:fixed;z-index:80;left:0;right:0;bottom:var(--vb);max-height:85dvh;overflow:auto;background:#fff;border-radius:16px 16px 0 0;padding:6px 8px calc(12px + var(--safe));display:none;overscroll-behavior:contain}
 .hp.on{display:block;animation:hpUp .26s var(--eo) both}
 .hp.off{display:block;animation:hpDown .16s var(--ei) both;pointer-events:none}
 .hp::before{content:'';display:block;width:36px;height:4px;border-radius:4px;background:#D9D9DE;margin:4px auto 6px}
@@ -1105,9 +1161,9 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .pages.dropon .slide{outline:2px dashed var(--text);outline-offset:4px}
 /* QA 007: แผงแบรนด์/ทรานซิชัน/ตำแหน่ง บนมือถือ+แท็บเล็ต = แผ่นล่าง 62% สไลด์อยู่ด้านบน ไม่มีพื้นมืด */
 @media (max-width:1023px){
-  .rp[data-p=text]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:auto;max-height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
+  .rp[data-p=text]{top:auto!important;bottom:var(--vb);left:0;right:0;width:auto;height:auto;max-height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
   .rp.on[data-p=text]{transform:none}
-  .rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos],.rp[data-p=dpic],.rp[data-p=shc]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
+  .rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos],.rp[data-p=dpic],.rp[data-p=shc]{top:auto!important;bottom:var(--vb);left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
   .rp.on[data-p=brand],.rp.on[data-p=trans],.rp.on[data-p=pos],.rp.on[data-p=dpic],.rp.on[data-p=shc]{transform:none}
   .work.bsheet .canvas{margin-bottom:62dvh}
   .work.bsheet .dbar{display:none}
@@ -1188,9 +1244,17 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .cht th:focus-within input,.cht th:hover input{padding-right:40px}
 .cht .addr{display:flex;align-items:center;gap:8px;width:100%;height:44px;padding:0 12px;border:none;background:none;color:var(--mid);font-weight:600;font-size:14px}
 .cht tfoot td{border-bottom:none}
-.cht .rn{width:40px;min-width:40px;text-align:center;color:var(--sub);font-size:12px;position:sticky;left:0;z-index:1;background:inherit}
+.cht .rn{width:60px;min-width:60px;text-align:center;color:var(--sub);font-size:12px;position:sticky;left:0;z-index:1;background:inherit}
 .cht.big th.rn{z-index:3;background:var(--bg)}
-.cht.big .c0{left:40px}
+.cht.big .c0{left:60px}
+/* ใบ 032 ลากสลับแถว: ที่จับต้นแถว (เมาส์ + นิ้ว) แถวอื่นหลบด้วย transform */
+.cht .gr{width:36px;min-width:36px;position:sticky;left:0;z-index:1}.cht th.gr{z-index:3}
+.cht td.gr~.c0,.cht th.gr~.c0{left:36px}
+.cht .grip{display:flex;align-items:center;justify-content:center;gap:4px;width:100%;height:44px;border:none;background:none;color:var(--sub);cursor:grab;touch-action:none;padding:0;font:inherit;font-size:12px}
+.cht .grip:hover{color:var(--text)}.cht .grip svg.i{width:16px;height:16px}
+.cht tr.drag td{background:#fff;box-shadow:0 6px 16px rgba(20,20,26,.16);position:relative;z-index:4}.cht tr.drag .grip{cursor:grabbing;color:var(--red)}
+.cht.dragging tbody td{transition:transform .18s var(--ease)}.cht.dragging tr.drag td{transition:none}
+@media (pointer:coarse){.cht .gr{width:44px;min-width:44px}.cht td.gr~.c0,.cht th.gr~.c0{left:44px}}
 .cht.big td.rn{background:#fff}.cht.big tr.on td.rn{background:var(--soft)}
 .cht tbody tr{content-visibility:auto;contain-intrinsic-size:auto 45px}
 .cherr{display:flex;gap:10px;padding:12px 14px;border:1px solid #F5C6B8;background:#FFF4F0;border-radius:12px;animation:chErr .16s var(--ease) both}
@@ -1198,7 +1262,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .cherr.soft{border-color:var(--line);background:var(--bg)}.cherr.soft>svg.i{color:var(--mid)}.cherr.soft p{margin:0 0 6px}
 @keyframes chErr{from{opacity:0;transform:translateY(-6px)}}
 .chxs{position:fixed;inset:0;z-index:80;background:rgba(20,20,26,.28);opacity:0;transition:opacity .24s var(--ease)}.chxs.on{opacity:1}
-.chx{position:fixed;inset:0;z-index:81;display:grid;place-items:center;pointer-events:none}
+.chx{position:fixed;inset:0 0 var(--vb);z-index:81;display:grid;place-items:center;pointer-events:none}
 .chxp{pointer-events:auto;width:88vw;height:88dvh;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(20,20,26,.22);display:flex;flex-direction:column;overflow:hidden}
 .chxh{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
 .chxh .tt{flex:1;min-width:0;display:grid}.chxh b{font-size:18px}.chxh small{font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -1286,15 +1350,15 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .chsw.on{border:2px solid var(--text);background:#fff;padding:7px 3px}
 .chreset{height:44px;font-size:14px;font-weight:600}
 @media (max-width:1023px){
-  .rp[data-p=ch]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
+  .rp[data-p=ch]{top:auto!important;bottom:var(--vb);left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
   .rp.on[data-p=ch]{transform:none}
 }
 @media (min-width:768px) and (max-width:1023px){.rp[data-p=ch]{left:calc((100% - 56px - 600px) / 2);right:auto;width:600px}}   /* ไอซ์ข้อ 1: iPad ตั้ง แผ่นล่างกว้าง 600 กราฟอยู่บนให้เห็นตอนแก้ */
 @media (max-width:767px){.chty .sts{gap:6px}.chpals,.chsws{gap:6px}}
-@media (max-width:1023px){body.panelon:has(#rp[data-p=ch].on) .toast{bottom:calc(62dvh + 12px)}}   /* แผ่นกราฟเปิด: แจ้งเตือนอยู่เหนือแผ่น ไม่ทับปุ่ม */
+@media (max-width:1023px){body.panelon:has(#rp[data-p=ch].on) .toast{bottom:calc(62dvh + 12px + var(--vb))}}   /* แผ่นกราฟเปิด: แจ้งเตือนอยู่เหนือแผ่น ไม่ทับปุ่ม */
 @media (prefers-reduced-motion:reduce){.chsel i,.slide.chwait .slidebox [data-ck],.slide.chlift .slidebox [data-m],.chpv .bars i,.chst .im img{transition:none}.cherr,.chtip{animation:none}}
 /* ใบ 024 หน้าต่างบันทึก: คอม/iPad กลางจอ กว้างไม่เกิน 600 / มือถือแผ่นล่างเต็มจอ (ขอบบน 12) ระยะในแผง 24 / 16 */
-.xdw{position:fixed;inset:0;z-index:64;display:flex;align-items:center;justify-content:center}
+.xdw{position:fixed;inset:0 0 var(--vb);z-index:64;display:flex;align-items:center;justify-content:center}
 .xdw::before{content:'';position:absolute;inset:0;background:rgba(20,20,26,.45);animation:fadeIn .2s ease both}
 .xd{position:relative;width:min(600px,calc(100vw - 48px));max-height:calc(100dvh - 48px);background:#fff;border-radius:20px;display:flex;flex-direction:column;box-shadow:0 16px 48px rgba(20,20,26,.22);overflow:hidden;animation:xdIn .28s var(--ease) both;outline:none}
 @keyframes xdIn{from{opacity:0;transform:translateY(8px) scale(.98)}}
@@ -1482,7 +1546,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   .e27-crs{max-height:56vh}
 }
 @media (max-width:1023px){
-  .rp[data-p=el],.rp[data-p=elc]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
+  .rp[data-p=el],.rp[data-p=elc]{top:auto!important;bottom:var(--vb);left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
   .rp.on[data-p=el],.rp.on[data-p=elc]{transform:none}
 }
 @media (max-width:767px), (pointer:coarse) and (max-height:500px){.rp[data-p=el]{height:78dvh}}
@@ -1757,7 +1821,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101i';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101j';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2409,8 +2473,12 @@ function cloneSlide(n) {
   return c;
 }
 function fit(box) { const inner = box.firstChild; if (inner && box.clientWidth) inner.style.transform = `scale(${box.clientWidth / 960})`; }
+// ใบ 032: ทุกแผ่นที่วาดแล้วตามขนาดกล่องของตัวเอง (แผ่นล่างเปิด/ปิด คีย์บอร์ด หมุนจอ แผงข้าง) แล้ววัดชั้นแตะ/กรอบเส้นประใหม่ทุกครั้งที่สไลด์ในหน้าเปลี่ยนขนาด
+// เดิมดูแค่ #pages: สไลด์ย่อตอนแผ่นข้อมูลเปิดแต่ #pages ขนาดเท่าเดิม กรอบเส้นประของป้ายกราฟ (วัดเป็น px) ค้างตำแหน่งเก่า (ไอซ์ 1 พ.ย. ภาพ chartlabels-offset-sheet)
+const boxRO = new ResizeObserver(es => { let pg = false; for (const e of es) { fit(e.target); if (e.target.closest('#pages')) pg = true; } if (pg) reHits(); });
+function reHits() { placeEdit(); paintSel(); if (CH && pgs()[CH.k]?.dataset.m && isChart(CH.k)) paintCh(); }   // หน้ากำลังวาดใหม่: ไม่เลิกเลือกกราฟ รอบหน้าค่อยวัด
 function mount(box, node) {
-  box.innerHTML = ''; const inner = document.createElement('div'); inner.appendChild(cloneSlide(node)); box.appendChild(inner);
+  boxRO.observe(box); box.innerHTML = ''; const inner = document.createElement('div'); inner.appendChild(cloneSlide(node)); box.appendChild(inner);
   fit(box); requestAnimationFrame(() => fit(box));
 }
 // แผ่นที่วาดแล้วจำไว้ตามลายนิ้วมือของหน้า (layout + เนื้อหา) เลิกทำ/ย้อนเวอร์ชันใช้ภาพเดิม วาดใหม่เฉพาะหน้าที่ต่าง
@@ -2560,7 +2628,7 @@ function observePages() {                 // คอม: วาดหน้าท
   }, {root: $('pages'), threshold: [0, .6, 1]});
   [...$('pages').children].forEach(p => { if (!p.classList.contains('padd')) io_.observe(p); });
 }
-new ResizeObserver(() => { document.querySelectorAll('#pages .slidebox').forEach(fit); placeEdit(); paintSel(); }).observe($('pages'));
+new ResizeObserver(() => { document.querySelectorAll('#pages .slidebox').forEach(fit); reHits(); }).observe($('pages'));
 window.addEventListener('resize', () => { document.querySelectorAll('.slidebox').forEach(fit); presFit(); if (TR) tourStep(); });
 // คอม: หน้าปัจจุบัน = หน้าที่กินพื้นที่ในจอมากสุด (ไม่เปลี่ยนตอนเลือกกล่อง/พิมพ์/ลากอยู่) / แถบลอยของกล่องตามการเลื่อน
 let scrT = 0;
@@ -3090,9 +3158,16 @@ ALTS = [x for x in D.alternatives(_c, M['slug']) if x[0] != ITEMS[IDX][0]]; len(
 // ── แทรกหน้าใหม่ (ใบงาน 003 เฟส 2): แบบหน้าของชุดที่ใช้อยู่ ภาพตัวอย่างวาดจริงครั้งเดียวต่อชุด ช่องว่างให้ลูกค้าพิมพ์เอง ──
 const MAXP = 30;                           // เท่ากับ D.MAXSLIDES (มือถือรับไม่ไหวถ้าเกินนี้)
 const INSG = {cover: ['ปก', 'slides'], agenda: ['สารบัญ', 'list'], list: ['รายการ', 'list'], pairs: ['หัวข้อพร้อมคำอธิบาย', 'heading'], faq: ['ถาม-ตอบ', 'help'],
-  stat: ['การ์ดตัวเลข', 'hash'], timeline: ['ไทม์ไลน์', 'cal'], compare: ['เปรียบเทียบ', 'layout'], statement: ['ข้อความเด่น', 'type'], divider: ['หน้าคั่น', 'slides']};
+  stat: ['การ์ดตัวเลข', 'hash'], chart: ['กราฟ', 'chart'], timeline: ['ไทม์ไลน์', 'cal'], compare: ['เปรียบเทียบ', 'layout'], statement: ['ข้อความเด่น', 'type'], divider: ['หน้าคั่น', 'slides']};
+const INSO = Object.keys(INSG);            // ลำดับหมวดในแผ่น (กราฟต่อจากการ์ดตัวเลข)
+const INSF = [['column', 'col_capsule'], ['donut', 'donut_half'], ['line', 'line_callout'], ['funnel', 'funnel_blocks']];   // ใบ 031 กราฟเด่น 4 แบบในหมวดกราฟ
 const insCache = new Map();                // ชุด → [{i, kd, node}]  node: null ยังไม่วาด / false วาดไม่ได้ (ไม่โชว์)
-let insAt = -1, insTab = null, insTok = 0;
+let insAt = -1, insTab = null, insTok = 0, INV = 'list', IR = null, CHALL = null, insLock = 0;
+const chAll = () => CHALL || (CHALL = JSON.parse(py.runPython('json.dumps([dict(type=x["type"], th=x["th"], styles=[dict(id=y["id"], th=y["th"], xl=y["xl"]) for y in x["styles"]]) for x in D.lay_charts.chart_types({"cats": [], "series": []})], ensure_ascii=False)')));
+const chN = () => chAll().reduce((n, x) => n + x.styles.length, 0);
+const chSt = id => { for (const x of chAll()) { const s = x.styles.find(y => y.id === id); if (s) return {...s, type: x.type, tth: x.th}; } return null; };
+// ── ใบ 031 แผ่นเพิ่มหน้า แบบ ข (ไอซ์ 1 พ.ย. 2569 "ชอบแบบ ขอ"): แผ่นสูง 88% ทุกหมวดเรียงลงในเลื่อนเดียว ชิปหมวด = ทางลัด ไฮไลต์ตามที่เลื่อนอยู่
+//    คอม: แผงลอยกลาง 1040 รายชื่อหมวดซ้าย / หมวดกราฟ: 4 แบบเด่น + ดูทั้งหมด 40 แบบ → ตรวจก่อนเพิ่ม (ภาพตัวอย่าง + เลย์เอาต์ + ตารางข้อมูลตัวอย่าง แก้ได้ก่อนสร้าง)
 function openIns(at) {
   if (busyNow || viewing || running || at < 0) return;
   if (ED && !finishEdit(true)) return;
@@ -3102,35 +3177,86 @@ function openIns(at) {
     $('shBody').onclick = ev => { if (ev.target.closest('button')) closeSheet(); };
     return;
   }
-  insAt = at; insTab = null; const my = ++insTok;
+  if (CH) chOff();
+  insAt = at; insTab = null; IR = null; const my = ++insTok;
   document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act')); pgs()[at]?.querySelector('.gap')?.classList.add('act');
-  openSheet(`หน้าใหม่ต่อจากหน้า ${at + 1}`, '', `<div class="insp"><div class="cats" id="insc" role="tablist" aria-label="ชนิดหน้า"></div><div class="ingrid" id="insg">${'<div class="opt ph"></div>'.repeat(4)}</div></div>
-    <p class="inote">${ico('info')}แบบหน้าจากดีไซน์ที่ใช้อยู่ ${wide() ? 'คลิก' : 'แตะ'}แบบที่ชอบเพื่อเพิ่มได้เลย</p>`);
+  openSheet('', '', '<div class="insp" id="insp"></div>');
   $('sheet').classList.add('ins');
-  $('shBody').onclick = ev => {
-    const c = ev.target.closest('.cat'); if (c) { insTab = c.dataset.k; paintIns(insCache.get(slug)); return; }
-    const t = ev.target.closest('.opt.lay'); if (t) insertPage(insAt, +t.dataset.i);
-  };
-  loadIns(my);
+  $('shBody').onclick = insClick;
+  [['input', tbInput], ['focusin', tbFocus], ['focusout', tbBlur], ['keydown', tbKey]].forEach(([e, f]) => $('insp').addEventListener(e, ev => { if (INV === 'rv' && TB?.k < 0) f(ev); }));
+  insList(); loadIns(my);
 }
-function paintIns(P) {
-  if (!P || !$('sheet').classList.contains('ins')) return;
+function insHead() {
+  const hd = $('sheet').querySelector('.hd'); let b = $('insB');
+  $('shT').textContent = INV === 'list' ? `เพิ่มหน้าต่อจากหน้า ${insAt + 1}` : `เพิ่มหน้ากราฟต่อจากหน้า ${insAt + 1}`;
+  if (INV === 'list') return b?.remove();
+  if (!b) { hd.insertAdjacentHTML('afterbegin', `<button class="ib xtra" id="insB" type="button" aria-label="ย้อนกลับ">${ico('back')}</button>`); $('insB').onclick = insBack; }
+}
+function insBack() { if (INV === 'rv' && IR?.from === 'all') return insAll(); insTab = 'chart'; insList(); }
+function insClick(ev) {
+  const c = ev.target.closest('.cat'); if (c) return insJump(c);
+  const t = ev.target.closest('.opt.lay'); if (t) { insTab = t.closest('.ins-s')?.dataset.k || insTab; return insertPage(insAt, +t.dataset.i); }
+  const s = ev.target.closest('.chst[data-st]'); if (s) return insRv(s.dataset.ty, s.dataset.st);
+  const v = ev.target.closest('[data-v]'); if (v) { if (v.dataset.v === 'all') return insAll(); if (v.dataset.v === 'add') return insChartAdd(); }
+  const l = ev.target.closest('[data-rl]'); if (l) return insLay(l);
+  if (INV === 'rv' && TB?.k < 0) tbClick(ev);
+}
+// ชิปหมวด = ทางลัด เลื่อนไปหมวดนั้น / เลื่อนเอง = ชิปตามหมวดที่อยู่
+function insJump(c) {
+  const g = $('insg'), sec = g?.querySelector(`.ins-s[data-k="${c.dataset.k}"]`); if (!sec) return;
+  insLock = Date.now() + 700; insMark(c.dataset.k);
+  g.scrollTo({top: sec.offsetTop - 4, behavior: SMOOTH()});
+}
+function insMark(k) {
+  insTab = INV === 'list' ? k : insTab;
+  document.querySelectorAll('#insc .cat').forEach(b => { const on = b.dataset.k === k; b.classList.toggle('on', on); b.setAttribute('aria-current', on); if (on && !wide1024()) b.scrollIntoView({block: 'nearest', inline: 'center', behavior: SMOOTH()}); });
+}
+const wide1024 = () => matchMedia('(min-width:1024px) and (pointer:fine), (min-width:1024px) and (min-height:501px)').matches;
+let insRaf = 0;
+function insSpy() {
+  if (insRaf || Date.now() < insLock) return;
+  insRaf = requestAnimationFrame(() => { insRaf = 0; const g = $('insg'); if (!g) return; let k = null;
+    for (const s of g.querySelectorAll('.ins-s')) { if (s.offsetTop - 24 <= g.scrollTop) k = s.dataset.k; else break; }
+    if (g.scrollTop + g.clientHeight >= g.scrollHeight - 4) k = g.querySelector('.ins-s:last-child')?.dataset.k || k;
+    k = k || g.querySelector('.ins-s')?.dataset.k; const on = document.querySelector('#insc .cat.on');
+    if (k && on?.dataset.k !== k) insMark(k); });
+}
+function insList() {
+  INV = 'list'; insHead(); const p = $('insp'); p.className = 'insp';
+  p.innerHTML = `<div class="cats" id="insc" role="navigation" aria-label="หมวดหน้า"></div><div class="insl" id="insg"><div class="ingrid">${'<div class="opt ph"></div>'.repeat(4)}</div></div>`;
+  $('insg').onscroll = insSpy; paintIns(insCache.get(slug));
+}
+function insKinds(P) {
   const ag = py.runPython('any(c["kind"] == "agenda" for c in WANT)');   // เอกสารไม่มีหัวข้อพอทำสารบัญ: ไม่โชว์หมวดสารบัญ
   const ok = P.filter(e => e.node !== false && (ag || e.kd !== 'agenda')), ks = [...new Set(ok.map(e => e.kd))];
   const agK = ['agenda', 'list', 'pairs'].find(k => ks.includes(k)), inTab = (e, k) => e.kd === (k === 'agenda' ? agK : k);   // ชุดที่ไม่มีแบบสารบัญ: หมวดสารบัญใช้แบบรายการ/หัวข้อพร้อมคำอธิบายของชุด (ลำดับเดียวกับ FIT ของสารบัญ)
-  if (ag && agK && agK !== 'agenda') ks.splice(ks[0] === 'cover' ? 1 : 0, 0, 'agenda');
+  if (ag && agK && agK !== 'agenda') ks.push('agenda');
+  ks.push('chart'); const o = k => { const i = INSO.indexOf(k); return i < 0 ? 99 : i; }; ks.sort((a, b) => o(a) - o(b));
+  return {ks, ok, inTab};
+}
+const insSlot = (e, k, n) => e.node ? `<button class="opt lay" type="button" data-i="${e.i}" aria-label="เพิ่มหน้า${INSG[k][0]} แบบที่ ${n + 1}"><div class="slidebox"></div></button>` : `<div class="opt ph" data-i="${e.i}" data-n="${n}" data-k="${k}"></div>`;
+const chCard = (t, s, badge) => `<button class="chst" type="button" data-ty="${t}" data-st="${s.id}"><span class="im"><img src="img/ch/${s.id}.jpg?v=${V}" alt="" loading="lazy" width="288" height="116"></span><b>${esc(s.th)}</b>${badge ? `<em class="${s.xl ? 'xl' : 'ig'}">${ico16(s.xl ? 'table' : 'shapes')}${s.xl ? 'แก้ใน Excel' : 'อินโฟกราฟิก'}</em>` : ''}</button>`;
+function paintIns(P) {
+  if (!P || !$('sheet').classList.contains('ins') || INV !== 'list' || !$('insg')) return;
+  const {ks, ok, inTab} = insKinds(P);
   if (!ks.includes(insTab)) {               // เปิดครั้งแรก: หมวดเดียวกับหน้าที่อยู่ก่อนช่องนี้ ถ้าชุดนี้มี
-    const mk = META[insAt]?.kind, want = {qa: 'faq', chart: 'list', table: 'list'}[mk] || mk;
+    const mk = META[insAt]?.kind, want = {qa: 'faq', table: 'list'}[mk] || mk;
     insTab = ks.includes(want) ? want : ks.find(k => k !== 'cover') || ks[0];
   }
-  $('insc').innerHTML = ks.map(k => `<button class="cat${k === insTab ? ' on' : ''}" data-k="${k}" type="button" role="tab" aria-selected="${k === insTab}">${ico(INSG[k][1])}${INSG[k][0]}<em>${ok.filter(e => inTab(e, k)).length}</em></button>`).join('');
-  const g = $('insg'); g.innerHTML = '';
-  ok.filter(e => inTab(e, insTab)).forEach((e, n) => {
-    if (!e.node) { g.insertAdjacentHTML('beforeend', '<div class="opt ph"></div>'); return; }
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'opt lay'; b.dataset.i = e.i;
-    if (e.sh) b.style.animation = 'none'; else { e.sh = 1; b.style.animationDelay = (n * 50) + 'ms'; }   // A2: เด้งเฉพาะภาพที่เพิ่งวาดเสร็จ ไม่เล่นซ้ำทุกใบ
-    b.setAttribute('aria-label', `เพิ่มหน้า${INSG[insTab][0]} แบบที่ ${n + 1}`);
-    b.innerHTML = '<div class="slidebox"></div>'; g.appendChild(b); mount(b.firstChild, e.node);
+  const cnt = k => k === 'chart' ? chN() : ok.filter(e => inTab(e, k)).length;
+  $('insc').innerHTML = ks.map(k => `<button class="cat${k === insTab ? ' on' : ''}" data-k="${k}" type="button" aria-current="${k === insTab}">${ico(INSG[k][1])}${INSG[k][0]}<em>${cnt(k)}</em></button>`).join('');
+  $('insg').innerHTML = ks.map(k => `<section class="ins-s" data-k="${k}"><h4>${ico(INSG[k][1])}${INSG[k][0]}<em>${cnt(k)} แบบ</em></h4>${k === 'chart'
+    ? `<div class="ingrid">${INSF.map(([t, id]) => chCard(t, chSt(id) || {id, th: ''}, false)).join('')}</div><button class="chall" type="button" data-v="all">${ico('chart')}<span>ดูกราฟทั้งหมด ${chN()} แบบ</span>${ico16('next')}</button>`
+    : `<div class="ingrid">${ok.filter(e => inTab(e, k)).map((e, n) => insSlot(e, k, n)).join('')}</div>`}</section>`).join('');
+  $('insg').querySelectorAll('.opt.lay').forEach(b => { b.style.animation = 'none'; mount(b.firstChild, P.find(e => e.i === +b.dataset.i).node); });
+  const sec = $('insg').querySelector(`.ins-s[data-k="${insTab}"]`); if (sec) $('insg').scrollTop = sec.offsetTop - 4;
+  insLock = Date.now() + 200; insMark(insTab);
+}
+function insFill(e) {                      // ภาพตัวอย่างที่เพิ่งวาดเสร็จ: แทนช่องรอ ไม่วาดทั้งแผ่นใหม่ (ตำแหน่งเลื่อนไม่กระโดด)
+  if (INV !== 'list' || !$('insg')) return;
+  $('insg').querySelectorAll(`.opt.ph[data-i="${e.i}"]`).forEach(ph => {
+    if (!e.node) return ph.remove();
+    ph.insertAdjacentHTML('afterend', insSlot(e, ph.dataset.k, +ph.dataset.n)); const b = ph.nextElementSibling; ph.remove(); mount(b.firstChild, e.node);
   });
 }
 // วาดภาพตัวอย่างทีละแบบ ให้จอวาดทันระหว่าง Python ทำงาน (ปิดแผงกลางทาง = หยุด เปิดใหม่วาดต่อจากที่ค้าง)
@@ -3149,8 +3275,81 @@ async function loadIns(my) {
       py.globals.set('S_', sl); py.globals.set('J_', e.i);
       e.node = (await preview(pptx('_e = D.ins_pool(S_)[J_]; D.render([_e[:2]], M, "", ins={0: _e[2]["kind"]}, hint=True)')))[0] || false;
     } catch (err) { console.warn(err); e.node = false; }
-    if (my === insTok) paintIns(P);
+    if (my === insTok) insFill(e);
   }
+}
+// ── กราฟทั้งหมด 40 แบบ: 4 กลุ่มเดียวกับเมนูชนิด (ใบ 023) ชิปกลุ่ม = ทางลัด แตะการ์ด = ตรวจก่อนเพิ่ม ──
+function insAll() {
+  INV = 'all'; insHead(); const p = $('insp'); p.className = 'insp insall'; const by = Object.fromEntries(chAll().map(x => [x.type, x]));
+  p.innerHTML = `<div class="cats" id="insc" role="navigation" aria-label="กลุ่มกราฟ">${CHG.map(([g], i) => `<button class="cat${i ? '' : ' on'}" data-k="g${i}" type="button">${g}<em>${CHG[i][1].reduce((n, t) => n + (by[t]?.styles.length || 0), 0)}</em></button>`).join('')}</div>
+    <div class="insl" id="insg">${CHG.map(([g, ts], i) => `<section class="ins-s" data-k="g${i}"><h4>${g}</h4>${ts.map(t => by[t] ? `<h5>${esc(by[t].th)}</h5><div class="ingrid">${by[t].styles.map(s => chCard(t, s, true)).join('')}</div>` : '').join('')}</section>`).join('')}</div>`;
+  $('insg').onscroll = insSpy;
+}
+// ── ตรวจก่อนเพิ่ม (ไอซ์ 1 พ.ย. 2569 "ให้ง่ายๆก่อนถ้า user ไม่ชอบก็ปรับก่อนสร้างได้ ตอนนี้ปุ่ม disable แล้งมันกดไม่ได้งุดหงิด"):
+//    ภาพตัวอย่างพร้อมข้อมูลตัวอย่างทันที / เลย์เอาต์ A-F แถวเล็ก (ตั้ง B) / ตารางแก้ได้ + อัปโหลด CSV Excel / ปุ่มเพิ่มกดได้เสมอ ข้อมูลตัวอย่างลงไฟล์ได้ แต่บันทึกแล้วเตือน
+function insRv(t, s) {
+  let tb; try { py.globals.set('CT_', t); py.globals.set('CS_', s); tb = JSON.parse(py.runPython('D.chart_sample(CT_, CS_)')); } catch (e) { console.error(e); return toast('เปิดแบบกราฟนี้ไม่สำเร็จ ลองแบบอื่นได้'); }
+  IR = {t, s, lay: 'B', from: INV, n: 0, samp: true}; INV = 'rv'; insHead();
+  TB = {k: -1, rows: tb.map(r => r.map(String)), sel: -1, pend: false, err: '', file: ''}; IR.s0 = JSON.stringify(TB.rows);
+  const st = chSt(s) || {th: '', tth: ''}, p = $('insp'); p.className = 'insp insrv';
+  p.innerHTML = `<div class="rvsc"><div class="rvl"><div class="rvpv"><div class="slidebox" id="rvBox"><div class="opt ph"></div></div><span class="rvcap">ภาพตัวอย่างหน้า ${insAt + 2}</span></div>
+      <div class="rvnm"><img src="img/ch/${s}.jpg?v=${V}" alt="" width="96" height="39"><span><b>${esc(st.th)}</b><small>${esc(st.tth)}</small></span><button type="button" class="btn btn-line btn-sm" data-v="all">${ico('chart')}เปลี่ยนแบบ</button></div>
+      <h4>เลย์เอาต์</h4><div class="rvlay" id="rvLay" role="radiogroup" aria-label="เลย์เอาต์หน้ากราฟ"></div></div>
+    <div class="rvr"><h4>ข้อมูลกราฟ <span class="rvtag" id="rvTag"></span></h4><div class="chrow"><button type="button" class="btn btn-line" data-t="up">${ico('upload')}อัปโหลด CSV / Excel</button></div>
+      <div id="rvTb"></div><p class="inote">${ico('info')}<span>แก้ตัวเลขในตารางได้เลย ภาพตัวอย่างเปลี่ยนตาม เพิ่มหน้าไปก่อนแล้วแก้ทีหลังก็ได้</span></p></div></div>
+    <div class="insft"><button class="btn btn-red btn-big" type="button" data-v="add">${ico('plus')}เพิ่มหน้ากราฟเป็นหน้า ${insAt + 2}</button></div>`;
+  insLayPaint(); insRvTable(); insRvApply();
+}
+function insLayPaint() {
+  $('rvLay').innerHTML = 'ABCDEF'.split('').map(id => { const no = id === 'F', on = IR.lay === id;
+    return `<button type="button" class="rvl1${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-rl="${id}"${no ? ' aria-disabled="true"' : ''}><img src="img/ch-lay/${id}.jpg?v=${V}" alt="" width="320" height="180"><span><em>${id}</em>${CHLN[id]}</span>${on ? `<i class="ck">${ico16('check')}</i>` : ''}</button>`; }).join('');
+}
+function insLay(b) {
+  const id = b.dataset.rl; if (id === 'F') return toast('สองกราฟต้องมี 2 ตาราง เพิ่มหน้านี้แล้วเลือกได้ที่ปุ่มเลย์เอาต์ของกราฟ');
+  if (IR.lay === id) return; IR.lay = id; insLayPaint(); insRvApply();
+}
+function insRvTable(keepFocus) {
+  const P = $('rvTb'); if (INV !== 'rv' || !P) return;
+  const ae = document.activeElement, at = ae?.dataset?.r != null && P.contains(ae) ? [ae.dataset.r, ae.dataset.c] : null, sc = P.querySelector('.chtw')?.scrollLeft || 0;
+  P.innerHTML = `${errHtml()}<div class="chtw">${tbHtml(false)}</div>`; P.querySelector('.chtw').scrollLeft = sc;
+  $('rvTag').innerHTML = IR.samp ? `${ico16('info')}ข้อมูลตัวอย่าง` : ''; $('rvTag').hidden = !IR.samp;
+  if (at && keepFocus !== false) P.querySelector(`input[data-r="${at[0]}"][data-c="${at[1]}"]`)?.focus({preventScroll: true});
+}
+async function insRvApply() {             // ตาราง/เลย์เอาต์เปลี่ยน: Python 1 ครั้ง + วาดภาพตัวอย่างหน้าเดียว
+  if (INV !== 'rv' || !IR) return; IR.samp = JSON.stringify(TB.rows) === IR.s0; const my = ++IR.n, R = IR;
+  await frame(); if (my !== R.n || INV !== 'rv' || IR !== R) return;
+  try {
+    const r = insNew(); if (r !== 'ok') { TB.err = r; return insRvTable(); }
+    TB.err = ''; insRvTable();
+    const node = (await preview(pptx('D.render([_x[:2]], M, "", ins={0: "chart"}, hint=True)')))[0];
+    if (my !== R.n || INV !== 'rv' || IR !== R || !node) return; mount($('rvBox'), node);
+  } catch (e) { console.error(e); TB.err = 'วาดภาพตัวอย่างไม่สำเร็จ ข้อมูลในตารางยังอยู่ครบ'; insRvTable(); }
+}
+function insNew() {                        // _x = (layout, d, c) ของหน้ากราฟใหม่ / ข้อความไทยบอกเหตุที่วาดไม่ได้
+  const t = tbClean(), bad = [];
+  t.slice(1).forEach((r, i) => r.forEach((v, c) => { if (c > 0 && t[0][c] !== CHNOTE && !num(v)) bad.push([i + 1, c]); }));
+  if (bad.length) return `แถว ${bad[0][0]} คอลัมน์ "${t[0][bad[0][1]] || bad[0][1] + 1}" ต้องเป็นตัวเลข (เช่น 240,000 หรือ 18%)`;
+  if (t.length - 1 > 8) return chWhyRows(t.length - 1);
+  py.globals.set('TBL', py.toPy(t)); py.globals.set('CT_', IR.t); py.globals.set('CS_', IR.s); py.globals.set('CL_', IR.lay); py.globals.set('SAMP', IR.samp);
+  return py.runPython('_x = D.new_chart(CT_, CS_, [list(r) for r in TBL], CL_, SAMP)\n"ok" if isinstance(_x, tuple) else _x');
+}
+async function insChartAdd() {
+  if (busyNow || slides.length >= MAXP || !IR) return;
+  const a = document.activeElement; if (a?.dataset?.r != null && TB.dirty) { TB.dirty = false; }   // ช่องที่กำลังพิมพ์: เอาค่าล่าสุดด้วย
+  IR.samp = JSON.stringify(TB.rows) === IR.s0;
+  let r; try { r = insNew(); } catch (e) { console.error(e); r = 'เพิ่มหน้ากราฟไม่สำเร็จ ลองใหม่อีกครั้ง'; }
+  if (r !== 'ok') { TB.err = r; insRvTable(); $('rvTb')?.scrollIntoView({block: 'nearest', behavior: SMOOTH()}); return toast(r); }
+  const at = insAt, nm = chSt(IR.s)?.th || ''; closeSheet(); insTok++; INV = 'list'; if (gridOn) closeGrid(at, true);
+  await reflow(() => {
+    const n = py.runPython('ITEMS.append(tuple(_x[:2])); CS.append(dict(_x[2])); len(ITEMS) - 1');
+    order.splice(at + 1, 0, n);
+  }, `เพิ่มหน้ากราฟเป็นหน้า ${at + 2}${nm ? ': ' + nm : ''}`, at + 1, false);
+  document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act'));
+  const k = cur; if (!META[k]?.ins || META[k]?.kind !== 'chart') return;   // reflow ไม่สำเร็จ (บอกแล้ว)
+  select(k, {scroll: true}); toast(`เพิ่มหน้ากราฟเป็นหน้า ${k + 1} แล้ว`);
+  await sleep(calm.matches ? 0 : 200);
+  for (let w = 0; w < 50 && !(pgs()[k]?.dataset.m && isChart(k) && !busyNow); w++) await sleep(60);   // รอเลื่อนถึงและวาดหน้าเสร็จ (หน้าที่ยังไม่วาด เลือกกราฟไม่ได้)
+  if (isChart(k) && !CH && !busyNow && !ED) selectChart(k);   // เลือกกราฟไว้ (แถบกราฟใบ 023) แก้ต่อได้ทันที
 }
 async function insertPage(at, j) {
   if (busyNow || slides.length >= MAXP) return;
@@ -3184,6 +3383,13 @@ async function addAgenda(j) {
 function openSheet(t, s, html) { $('sheet').classList.remove('ins'); document.querySelectorAll('#sheet .xtra').forEach(x => x.remove()); $('shT').textContent = t; $('shS').textContent = s || ''; $('shBody').innerHTML = html || ''; $('shBody').onclick = null; $('sheet').classList.add('on'); }
 function closeSheet() { if ($('mta')) { noteFlush(); $('sheet').style.bottom = ''; } $('sheet').classList.remove('on'); document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act')); }
 $('shX').onclick = closeSheet;
+(() => {                                   // ใบ 031 แผ่นเพิ่มหน้า (มือถือ/iPad ตั้ง): ลากที่จับหรือหัวแผ่นลงเพื่อปิด
+  const P = $('sheet').querySelector('.pan'); let y0 = null, dy = 0;
+  P.addEventListener('pointerdown', ev => { if (!$('sheet').classList.contains('ins') || wide1024() || !ev.target.closest('.grab,.hd') || ev.target.closest('button')) return; y0 = ev.clientY; dy = 0; P.setPointerCapture(ev.pointerId); P.style.transition = 'none'; });
+  P.addEventListener('pointermove', ev => { if (y0 == null) return; dy = Math.max(0, ev.clientY - y0); P.style.transform = `translateY(${dy}px)`; });
+  const end = () => { if (y0 == null) return; y0 = null; P.style.transition = ''; P.style.transform = ''; if (dy > 96) closeSheet(); };
+  P.addEventListener('pointerup', end); P.addEventListener('pointercancel', end);
+})();
 $('sheet').onclick = ev => { if (ev.target === $('sheet')) closeSheet(); };
 function lookHtml() {
   return SETS.map((s, i) => `<button class="opt${s.slug === slug ? ' on' : ''}" data-s="${s.slug}" type="button" style="animation-delay:${i * 40}ms">
@@ -3231,10 +3437,14 @@ async function changeLook(s2, sure) {
 }
 // ใบ 025: เปลี่ยนหน้าตา = จัดใหม่จากเนื้อหา โน้ต/ชื่อหน้าผูกกับหัวข้อของหน้า (หัวข้อเดียวกันหลายหน้า = ไล่ตามลำดับ) ponytail: หัวข้อที่ถูกแบ่ง/รวมต่างไปจากเดิม โน้ตไปอยู่หน้าแรกของหัวข้อนั้น
 // ไอซ์ 1 พ.ย. 2569: "พอเปลี่ยนหน้าตาสไลด์หน้าที่มีอัพรูปเข้าไป text ที่เคยเพิ่ม ข้อควาที่เคยแก้ มันหายไป" = ของที่ลูกค้าเพิ่ม/ตั้งไว้ (รูป ข้อความที่เพิ่ม รูปแบบต่อกล่อง หมุน ล็อก ชั้น กราฟ โน้ต ชื่อหน้า) ตามไปด้วย D.carry_page
+// ใบ 031: หน้ากราฟที่เพิ่มเอง carry_ins ยกไปทั้งหน้าแล้ว ไม่จับคู่ตามหัวข้อ (หัวข้อว่างเหมือนกันทุกหน้า = ตารางสลับหน้า)
 const NOTECARRY = `_nq = {}
+_cin = lambda c: c.get("_ins") and c.get("kind") == "chart"
 for _i in _OO:
+    if _cin(_OC[_i]): continue
     _nq.setdefault(repr(_OC[_i].get("t")), []).append(_OI[_i][1])
 for _i in O2:
+    if _cin(CS[_i]): continue
     _q = _nq.get(repr(CS[_i].get("t")))
     if _q: ITEMS[_i] = (ITEMS[_i][0], D.carry_page(_q.pop(0), ITEMS[_i][1], CS[_i].get("kind") == "chart"))`;
 function paintLooks() { $('lookg').innerHTML = lookHtml(); }
@@ -3573,7 +3783,7 @@ function save(blob, name) {
 // ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
 const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
-let lastFile = null, ovOk = '', awOk = '', fontToolsOK = false;
+let lastFile = null, ovOk = '', awOk = '', smOk = '', fontToolsOK = false;
 async function act(a, skip) {
   if (ED && !(await applyEdit())) return;   // ใช้คำที่พิมพ์ก่อน แล้วทำคำสั่งต่อในครั้งเดียว ไม่นำเสนอ/บันทึกด้วยคำเก่า
   if (a === 'present') return present();  // ต้องอยู่ในคลิกตรง ๆ ไม่งั้นขอเต็มจอไม่ได้
@@ -3839,6 +4049,17 @@ async function xdGo(skip) {
     $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
       if (b.dataset.m === 'go') { awOk = akey; return xdGo(skip); }
       xdClose(); const q = aw[0]; select(q, {scroll: true}); const j = BOX[q].findIndex(x => x.add && !x.pic && isAddW(x, curText(q, x))); if (j >= 0) setTimeout(() => touch() ? selectBox(q, j) : openEdit(q, j), 380); };
+    return;
+  }
+  // ใบ 031: หน้ากราฟที่เพิ่มด้วยข้อมูลตัวอย่างแล้วยังไม่ได้แก้ตาราง (ไอซ์ 1 พ.ย. 2569: ลงไฟล์ได้ แต่ต้องเตือนแบบใบ 029)
+  let sm = []; try { sm = JSON.parse(py.runPython(`json.dumps([p for p, i in enumerate(${JSON.stringify(order)}) if ITEMS[i][1].get('_samp')])`)).filter(k => ks.includes(k) && !(skip || []).includes(k)); } catch (e) { console.warn(e); }
+  const skey = sm.join(',');
+  if (sm.length && smOk !== skey) {
+    openSheet(`หน้า ${thaiList(sm.map(q => q + 1))} ยังเป็นข้อมูลตัวอย่าง`, `กราฟ${sm.length > 1 ? 'ในหน้าเหล่านี้' : 'หน้านี้'}ยังใช้ตัวเลขตัวอย่างตอนเพิ่มหน้า ถ้าบันทึกตอนนี้ตัวเลขตัวอย่างจะอยู่ในไฟล์ตามที่เห็น`,
+      `<div class="confirm"><button class="btn btn-line btn-big" data-m="fix" type="button">${ico('table')}กลับไปแก้ข้อมูล</button><button class="btn btn-red btn-big" data-m="go" type="button">${ico('down')}บันทึกเลย</button></div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
+      if (b.dataset.m === 'go') { smOk = skey; return xdGo(skip); }
+      xdClose(); const q = sm[0]; select(q, {scroll: true}); setTimeout(() => { if (isChart(q)) { selectChart(q); chOpen('data'); } }, 380); };
     return;
   }
   if (!skip) {                             // หน้าที่แทรกแล้วยังไม่ได้พิมพ์อะไร: ถามก่อน ไม่ส่งหน้าเปล่าไปในไฟล์เงียบ ๆ
@@ -6996,6 +7217,7 @@ function chApply(label) {
   t.slice(1).forEach((r, i) => r.forEach((v, c) => { if (c > 0 && t[0][c] !== CHNOTE && !num(v)) bad.push([i + 1, c]); }));
   const want = t.length - 1;
   if (bad.length) { TB.pend = true; TB.err = `แถว ${bad[0][0]} คอลัมน์ "${t[0][bad[0][1]] || bad[0][1] + 1}" ต้องเป็นตัวเลข (เช่น 240,000 หรือ 18%) ข้อมูลอื่นยังอยู่ครบ`; return chPaintData(); }
+  if (k < 0) return insRvApply();          // ใบ 031 ตารางในแผ่นเพิ่มหน้ากราฟ (ยังไม่มีหน้า)
   py.globals.set('TBL', py.toPy(t));
   return chRun(k, '_chtab(IDX, [list(r) for r in TBL])', label, 'vals', x => {
     TB.pend = false; TB.err = ''; if (x) toast(x[0] === 'style' ? `ข้อมูลนี้ใช้แบบเดิมไม่ได้ เปลี่ยนเป็นแบบ "${CHI.ty.find(a => a.type === x[1])?.styles.find(s => s.id === x[2])?.th}" ให้แล้ว` : `ข้อมูลนี้ใช้ชนิดเดิมไม่ได้ เปลี่ยนเป็น${CHI.ty.find(a => a.type === x[1])?.th} ให้แล้ว เลิกทำได้`);
@@ -7010,12 +7232,14 @@ const mixHex = (a, b, t) => [0, 2, 4].map(i => Math.round(parseInt(a.slice(i, i 
 function tbHtml(big) {
   const h = TB.rows[0], R = TB.rows.slice(1), nv = h.filter((x, i) => i > 0 && x !== CHNOTE).length;
   const th = (c) => `<th class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}">${c && h[c] !== CHNOTE ? `<i class="sw" style="background:${tbColor(c)}"></i>` : ''}<input data-r="0" data-c="${c}" value="${esc(h[c])}" placeholder="${c ? 'ชื่อคอลัมน์' : 'รายการ'}" aria-label="${c ? 'หัวคอลัมน์ ' + c : 'หัวคอลัมน์ชื่อรายการ'}">${c && (nv > 1 || h[c] === CHNOTE) ? `<button type="button" class="dc" data-t="delc" data-c="${c}" aria-label="ลบคอลัมน์ ${esc(h[c] || c)}">${ico16('trash')}</button>` : ''}</th>`;
-  const rows = R.map((r, i) => `<tr data-r="${i + 1}" class="${TB.sel === i + 1 ? 'on' : ''}">${big ? `<td class="rn">${i + 1}</td>` : ''}${h.map((_, c) => `<td class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}"><input data-r="${i + 1}" data-c="${c}" value="${esc(r[c] ?? '')}"${c && h[c] !== CHNOTE ? ' inputmode="decimal"' : ''} aria-label="แถว ${i + 1} ${esc(h[c] || (c ? 'คอลัมน์ ' + c : 'ชื่อ'))}"></td>`).join('')}${big ? '' : `<td class="ad"><button type="button" data-t="delr" data-r="${i + 1}" aria-label="ลบแถว ${esc(r[0] || i + 1)}">${ico16('trash')}</button></td>`}</tr>`).join('');
-  return `<table class="cht${big ? ' big' : ''}"><thead><tr>${big ? '<th class="rn"></th>' : ''}${h.map((_, c) => th(c)).join('')}${big ? '' : `<th class="ad"><button type="button" data-t="addc" aria-label="เพิ่มคอลัมน์">${ico16('plus')}</button></th>`}</tr></thead><tbody>${rows}</tbody>
-    ${big ? '' : `<tfoot><tr><td colspan="${h.length + 1}"><button type="button" class="addr" data-t="addr">${ico16('plus')}เพิ่มแถว</button></td></tr></tfoot>`}</table>`;
+  const grip = (i, r) => `<button type="button" class="grip" data-g="${i + 1}" aria-label="ลากเพื่อย้ายแถว ${esc(r[0] || i + 1)}">${ico16('grip')}${big ? `<span>${i + 1}</span>` : ''}</button>`;   // ใบ 032 ลากสลับแถว
+  const rows = R.map((r, i) => `<tr data-r="${i + 1}" class="${TB.sel === i + 1 ? 'on' : ''}"><td class="${big ? 'rn' : 'gr'}">${grip(i, r)}</td>${h.map((_, c) => `<td class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}"><input data-r="${i + 1}" data-c="${c}" value="${esc(r[c] ?? '')}"${c && h[c] !== CHNOTE ? ' inputmode="decimal"' : ''} aria-label="แถว ${i + 1} ${esc(h[c] || (c ? 'คอลัมน์ ' + c : 'ชื่อ'))}"></td>`).join('')}${big ? '' : `<td class="ad"><button type="button" data-t="delr" data-r="${i + 1}" aria-label="ลบแถว ${esc(r[0] || i + 1)}">${ico16('trash')}</button></td>`}</tr>`).join('');
+  return `<table class="cht${big ? ' big' : ''}"><thead><tr>${big ? '<th class="rn"></th>' : '<th class="gr"></th>'}${h.map((_, c) => th(c)).join('')}${big ? '' : `<th class="ad"><button type="button" data-t="addc" aria-label="เพิ่มคอลัมน์">${ico16('plus')}</button></th>`}</tr></thead><tbody>${rows}</tbody>
+    ${big ? '' : `<tfoot><tr><td colspan="${h.length + 2}"><button type="button" class="addr" data-t="addr">${ico16('plus')}เพิ่มแถว</button></td></tr></tfoot>`}</table>`;
 }
 const errHtml = () => (TB.ferr ? `<div class="cherr" role="alert">${ico('alert')}<div><b>อ่านไฟล์นี้ไม่ได้</b><p>${esc(TB.ferr)} ข้อมูลเดิมในตารางยังอยู่ครบ</p><button type="button" class="btn btn-line btn-sm" data-t="up">${ico('upload')}เลือกไฟล์ใหม่</button></div></div>` : '') + (TB.err ? `<div class="cherr soft" role="alert">${ico('info')}<div><p>${esc(TB.err)}</p>${TB.rows.length - 1 > 8 ? `<button type="button" class="btn btn-line btn-sm" data-t="top8">ใช้ 8 แถวแรก</button>` : ''}</div></div>` : '');
 function chPaintData(keepFocus) {
+  if (TB?.k < 0) return insRvTable(keepFocus);
   if (CHX) chxPaint(keepFocus);
   if (!panelOpen('ch') || CHV !== 'data') return;
   const P = $('chp'), ae = document.activeElement, at = ae?.dataset?.r != null && P.contains(ae) ? [ae.dataset.r, ae.dataset.c] : null, sc = P.querySelector('.chtw')?.scrollTop || 0;
@@ -7046,14 +7270,40 @@ function tbKey(ev) {
     const nx = root.querySelector(`input[data-r="${r}"][data-c="${c}"]`); if (nx) nx.focus(); else { tbCommit(i); i.blur(); } }
   if (ev.key === 'Escape') { ev.stopPropagation(); i.blur(); }
 }
+const tbRoot = () => CHX || (TB?.k < 0 ? $('insp') : $('chp'));
+// ใบ 032 ลากสลับแถว (ไอซ์ 1 พ.ย. 2569): ทุกตารางข้อมูลกราฟ (แผงข้อมูล / ขยาย / เพิ่มหน้ากราฟ) ปล่อยแล้วกราฟเรียงใหม่ทันที 1 ขั้นเลิกทำ ลงชีต Excel ตามลำดับใหม่
+// แถวอื่นหลบด้วย transform อย่างเดียว / ลากใกล้ขอบตาราง = เลื่อนตารางเอง
+document.addEventListener('pointerdown', ev => {
+  const g = ev.target.closest('.cht .grip'); if (!g || !TB || ev.button > 0) return; ev.preventDefault();
+  const tr = g.closest('tr'), tb = tr.parentNode, tbl = tr.closest('table'), w = tr.closest('.chtw'), sc = w.scrollHeight > w.clientHeight + 1 ? w : tr.closest('.rvsc') || w, rows = [...tb.children], from = rows.indexOf(tr);
+  const H = tr.offsetHeight, y0 = ev.clientY, st0 = sc.scrollTop; let to = from, dy = 0, last = ev.clientY, raf = 0;
+  document.activeElement?.blur?.(); g.setPointerCapture(ev.pointerId); tbl.classList.add('dragging'); tr.classList.add('drag');
+  const put = (el, y) => el.querySelectorAll('td').forEach(td => td.style.transform = y ? `translateY(${y}px)` : '');
+  const move = () => {
+    dy = last - y0 + sc.scrollTop - st0; dy = Math.max(-from * H, Math.min((rows.length - 1 - from) * H, dy)); put(tr, dy);
+    to = Math.max(0, Math.min(rows.length - 1, from + Math.round(dy / H)));
+    rows.forEach((r, i) => { if (r !== tr) put(r, i > from && i <= to ? -H : i < from && i >= to ? H : 0); });
+  };
+  const edge = () => { raf = 0; const b = sc.getBoundingClientRect(), v = last < b.top + 44 ? -1 : last > b.bottom - 44 ? 1 : 0;
+    if (v && (v < 0 ? sc.scrollTop > 0 : sc.scrollTop + sc.clientHeight < sc.scrollHeight)) { sc.scrollTop += v * 8; move(); raf = requestAnimationFrame(edge); } };
+  const mv = e => { last = e.clientY; move(); if (!raf) raf = requestAnimationFrame(edge); };
+  const up = () => {
+    g.removeEventListener('pointermove', mv); g.removeEventListener('pointerup', up); g.removeEventListener('pointercancel', up); cancelAnimationFrame(raf);
+    tbl.classList.remove('dragging'); tr.classList.remove('drag'); rows.forEach(r => put(r, 0));
+    if (to === from) return;
+    const [x] = TB.rows.splice(from + 1, 1); TB.rows.splice(to + 1, 0, x); TB.sel = to + 1; TB.dirty = false;
+    chPaintData(false); chApply(`ย้ายแถวกราฟ${TB.k >= 0 ? ` หน้า ${TB.k + 1}` : ''}: "${x[0] || from + 1}" ไปแถว ${to + 1}`);
+  };
+  g.addEventListener('pointermove', mv); g.addEventListener('pointerup', up); g.addEventListener('pointercancel', up);
+});
 function tbClick(ev) {
   const b = ev.target.closest('[data-t]'); if (!b) return; const t = b.dataset.t, n = TB.rows[0].length;
   if (t === 'up') return chUpload();
   if (t === 'big') return chxOpen(b);
   if (t === 'small' || t === 'done') return chxClose();
   if (t === 'type') { chxClose(); return chOpen('type'); }
-  if (t === 'addr') { TB.rows.push(Array(n).fill('')); TB.sel = TB.rows.length - 1; chPaintData(false); const root = CHX || $('chp'); root.querySelector(`input[data-r="${TB.sel}"][data-c="0"]`)?.focus(); root.querySelector('.chtw')?.scrollTo({top: 1e6}); return; }
-  if (t === 'addc') { const nt = TB.rows[0].indexOf(CHNOTE), at = nt > 0 ? nt : n; TB.rows.forEach(r => r.splice(at, 0, '')); chPaintData(false); (CHX || $('chp')).querySelector(`input[data-r="0"][data-c="${at}"]`)?.focus(); return; }
+  if (t === 'addr') { TB.rows.push(Array(n).fill('')); TB.sel = TB.rows.length - 1; chPaintData(false); const root = tbRoot(); root.querySelector(`input[data-r="${TB.sel}"][data-c="0"]`)?.focus(); root.querySelector('.chtw')?.scrollTo({top: 1e6}); return; }
+  if (t === 'addc') { const nt = TB.rows[0].indexOf(CHNOTE), at = nt > 0 ? nt : n; TB.rows.forEach(r => r.splice(at, 0, '')); chPaintData(false); tbRoot().querySelector(`input[data-r="0"][data-c="${at}"]`)?.focus(); return; }
   if (t === 'delr' || t === 'delsel') { const r = t === 'delr' ? +b.dataset.r : TB.sel; if (r < 1 || TB.rows.length <= 2) return toast('กราฟต้องมีอย่างน้อย 1 แถว'); const nm = TB.rows[r][0]; TB.rows.splice(r, 1); TB.sel = -1; chPaintData(false); chApply(`ลบแถวกราฟ หน้า ${TB.k + 1}: ${nm || r}`); return; }
   if (t === 'delc') { const c = +b.dataset.c, nm = TB.rows[0][c]; TB.rows.forEach(r => r.splice(c, 1)); chPaintData(false); chApply(`ลบคอลัมน์กราฟ หน้า ${TB.k + 1}: ${nm || c}`); return; }
   if (t === 'top8') { TB.rows = TB.rows.slice(0, 9); TB.err = ''; chPaintData(false); chApply(`ใช้ 8 แถวแรกในกราฟ หน้า ${TB.k + 1}`); return; }
@@ -7108,7 +7358,7 @@ function csvRows(t) {
   return out;
 }
 async function chFile(file) {
-  if (!TB || !CH) return; const nm = file.name || 'ไฟล์', ext = (nm.split('.').pop() || '').toLowerCase(); TB.ferr = '';
+  if (!TB || (!CH && TB.k >= 0)) return; const nm = file.name || 'ไฟล์', ext = (nm.split('.').pop() || '').toLowerCase(); TB.ferr = '';
   const fail = m => { TB.ferr = m; chPaintData(); };
   if (file.size > 15e6) return fail(`"${nm}" ใหญ่เกิน 15MB ลองเหลือเฉพาะชีตที่ใช้ทำกราฟแล้วบันทึกใหม่`);
   let rows;
@@ -7127,10 +7377,10 @@ async function chFile(file) {
   if (rows.length < 2 || rows[0].length < 2) return fail(`ใน "${nm}" ไม่เจอตาราง ต้องมีแถวหัวตาราง 1 แถว คอลัมน์แรกเป็นชื่อรายการ และคอลัมน์ตัวเลขอย่างน้อย 1 คอลัมน์`);
   if (!rows.slice(1).some(r => r.slice(1).some(num))) return fail(`ใน "${nm}" ไม่เจอตัวเลข คอลัมน์ที่สองเป็นต้นไปต้องเป็นตัวเลข เช่น 240,000 หรือ 18%`);
   TB.rows = rows; TB.file = nm; TB.sel = -1; TB.err = ''; TB.ferr = '';
-  if (rows.length - 1 > 8 && !CHX) chxOpen($('chp').querySelector('[data-t=big]'));   // ข้อมูลเยอะ: กางจอใหญ่ให้เอง
+  if (rows.length - 1 > 8 && !CHX && TB.k >= 0) chxOpen($('chp').querySelector('[data-t=big]'));   // ข้อมูลเยอะ: กางจอใหญ่ให้เอง
   chPaintData(false);
   const ok = await chApply(`นำเข้าข้อมูลกราฟ หน้า ${TB.k + 1}: ${nm}`);
-  if (ok) toast(`นำเข้า ${rows.length - 1} แถวจาก ${nm} แล้ว`);
+  if (TB.k < 0 ? !TB.err : ok) toast(`นำเข้า ${rows.length - 1} แถวจาก ${nm} แล้ว`);
 }
 // ── เมนูชนิด: 18 ชนิด 4 กลุ่ม ชนิดปัจจุบันกางการ์ดแบบ ชนิด/แบบที่ข้อมูลไม่พอเป็นเทา + เหตุผล ──
 let CHOPEN = null;
