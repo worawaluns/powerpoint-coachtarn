@@ -317,7 +317,7 @@ body.typing .tring,body.typing .tcard{visibility:hidden}
 .ffoot{border-top:1px solid var(--line);padding:8px 12px 10px;display:grid;gap:6px}.ffoot:empty{display:none}.ffoot p{font-size:13px;font-weight:600}.ffoot small{font-size:12px;color:var(--sub)}.ffoot .row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .lcard{display:grid;gap:10px;padding:10px 4px;font-size:14px;color:var(--mid)}.lwarn{font-size:13px;color:#9A6700;background:#FFF8E6;border-radius:10px;padding:8px 10px;display:grid;gap:6px}
 /* แผงแบรนด์ / ทรานซิชัน (ใบ 007) */
-.rps[data-p=brand],.rps[data-p=trans],.rps[data-p=text],.rps[data-p=img]{overflow-y:auto}
+.rps[data-p=brand],.rps[data-p=trans],.rps[data-p=text],.rps[data-p=img],.rps[data-p=pos]{overflow-y:auto}
 .bpan{padding:12px 16px 24px;display:grid;gap:14px;font-size:14px;align-content:start}
 .bpan h4{font-size:13px;color:var(--sub);font-weight:600}
 .bpan .lgbox{display:flex;align-items:center;gap:10px;border:1px dashed #CFCFD6;border-radius:12px;padding:10px;min-height:64px}
@@ -993,14 +993,21 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .sel .hx{position:absolute;left:100%;top:50%;margin-left:16px;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;pointer-events:none;opacity:0;transition:opacity .18s var(--ease)}
 .sel.on .hx{opacity:1}.sel.lift .hx{opacity:0}
 .sel .hx button{pointer-events:auto;width:32px;height:32px;border-radius:50%;border:none;background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(20,20,26,.22);display:grid;place-items:center;padding:0;touch-action:none;position:relative}
-.sel .hx button::after{content:'';position:absolute;inset:-6px}.sel .hx svg.i{display:block;width:16px;height:16px;stroke-width:2.5}
+.sel .hx button::after{content:'';position:absolute;inset:-6px;background:none!important;box-shadow:none!important}   /* ไอซ์ 1 พ.ย.: [data-tip]:hover::after ทาสีดำทับปุ่มหมุน (กล่องดำตอนหมุน) */.sel .hx svg.i{display:block;width:16px;height:16px;stroke-width:2.5}
 .sel .rth{cursor:grab}.sel .mvh{cursor:move;display:none!important}
 @media (pointer:coarse){.sel .mvh{display:grid!important}.sel .hx button{width:36px;height:36px}.sel .hx button::after{inset:-4px}}
 .sel.norot .rth,.sel.lock .hx{display:none}
 .sel.lk{box-shadow:none;outline:2px dashed var(--red);outline-offset:1px}.sel.lk .k,.sel.lk .hx{display:none}
+.sel.ed{box-shadow:none}   /* พิมพ์อยู่: กรอบของชั้นพิมพ์มีแล้ว เหลือที่จับ */
+/* ไอซ์ 1 พ.ย.: นอกมุมนิดเดียว = หมุน (แบบ Canva) ที่จับมุมยังทับอยู่ด้านใน = ย่อขยาย */
+.sel .rz{position:absolute;width:22px;height:22px;pointer-events:auto;touch-action:none;scale:var(--iz)}
+.sel .rz.tl{left:0;top:0;margin:-26px 0 0 -26px;transform-origin:26px 26px}.sel .rz.tr{left:100%;top:0;margin:-26px 0 0 4px;transform-origin:-4px 26px}
+.sel .rz.br{left:100%;top:100%;margin:4px 0 0 4px;transform-origin:-4px -4px}.sel .rz.bl{left:0;top:100%;margin:4px 0 0 -26px;transform-origin:26px -4px}
+.sel.norot .rz,.sel.lock .rz,.sel.lk .rz,.sel.nok .rz,.sel.lift .rz{display:none}
+@media (pointer:coarse){.sel .rz{display:none}}
 .sztip{position:fixed;left:0;top:0;z-index:95;background:#15151A;color:#fff;font-size:12px;font-weight:600;padding:3px 8px;border-radius:7px;white-space:pre;pointer-events:none;opacity:0;font-variant-numeric:tabular-nums}.sztip.on{opacity:1}
 .tpop.p-pos{width:340px}.tpop.msh{width:auto}
-.tpop.inrp{position:static;width:auto;max-height:none;box-shadow:none;padding:4px 0;animation:none;overflow:visible;border-radius:0}
+.tpop.inrp{position:static;width:auto;max-height:none;box-shadow:none;padding:12px 16px 24px;animation:none;overflow:visible;border-radius:0}
 .tpop.inrp{grid-template-columns:minmax(0,1fr)}.tpop .lys,.tpop .ly{min-width:0}   /* ชื่อแถวยาว (nowrap) ห้ามดันแผงกว้างเกิน 360 */
 .tpop .ptabs{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--bg);border-radius:12px;padding:3px;margin-bottom:8px}
 .tpop .ptabs button{height:40px;border:none;background:none;border-radius:10px;font-size:14px;font-weight:600;color:var(--mid)}.tpop .ptabs button.on{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(20,20,26,.12)}
@@ -2113,7 +2120,7 @@ function makeLayer(sw, text, ph) {
   const sc = sw.getBoundingClientRect().width / (sw.offsetWidth || 1), a = nlines(tw)[0], c = nlines(ed)[0];
   if (a && c && sc) ed.style.paddingTop = Math.max(0, mt + (a[0] - c[0]) / sc) + 'px';
   tw.style.visibility = 'hidden';
-  return {lay, ed, tw, pitch};
+  return {lay, ed, tw, pitch, dw: parseFloat(sw.style.width) - parseFloat(lay.style.width) || 0, pt0: parseFloat(ed.style.paddingTop) || 0};
 }
 function caretAt(x, y) {
   if (document.caretPositionFromPoint) { const p = document.caretPositionFromPoint(x, y); if (p?.offsetNode) { const r = document.createRange(); r.setStart(p.offsetNode, p.offset); return r; } }
@@ -2146,7 +2153,7 @@ function openEdit(k, j, at) {
     <button class="btn" type="button" data-e="ok">${ico('check')}เสร็จ</button>`;
   tb.addEventListener('pointerdown', ev => ev.preventDefault());   // กดแถบแล้วเคอร์เซอร์ยังอยู่ในกล่อง คีย์บอร์ดไม่หุบ
   tb.addEventListener('click', toolClick);   // ใบ 019: คอมได้แถบครบชุด / มือถือเหนือคีย์บอร์ดคงแบบเดิม (ฟอนต์ − ขนาด + เสร็จ)
-  ED = {k, j, b, el: hit, ...L, tb, orig, st: 'ok', mode: ed.contentEditable, h0: window.visualViewport?.height || innerHeight,
+  ED = {k, j, b, vb: {...b}, el: hit, ...L, tb, orig, st: 'ok', mode: ed.contentEditable, h0: window.visualViewport?.height || innerHeight,
     dp, pt0: b.pt, pt: b.pt, fam0: b.ff || '', fam: b.ff || '', px0: parseFloat(ed.style.fontSize), lh0: parseFloat(ed.style.lineHeight)};
   paintSize();
   // เคอร์เซอร์ตรงจุดที่คลิก/แตะ (หาก่อนซูม) ไม่โดนข้อความ = ท้ายข้อความ
@@ -2155,6 +2162,7 @@ function openEdit(k, j, at) {
   ed.focus({preventScroll: true}); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
   if (m) { document.body.appendChild(tb); if (!wide()) { $('rail').style.visibility = 'hidden'; document.body.classList.add('typing'); } zoomIn(ED); kbFit(); }
   else { pgs()[k].appendChild(tb); fitBar(tb, () => tbarHtml(tgt())); placeEdit(); }
+  edSel();
   ed.addEventListener('beforeinput', ev => {
     const t = ev.inputType || '';
     if (t.startsWith('format')) return ev.preventDefault();          // ตัวหนา/เอียง ไม่มีในไฟล์ ไม่ให้หลุดเข้าจอ
@@ -2180,7 +2188,7 @@ function openEdit(k, j, at) {
     if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); finishEdit(true); return; }   // Esc = เก็บคำ (เหมือน Google Slides) อยากได้คำเดิมกดเลิกทำ
     if (mod && ev.key === 'Enter') { ev.preventDefault(); return; }
     if (mod && !ev.shiftKey && !ev.altKey && ['b', 'i', 'u'].includes(kk)) { ev.preventDefault(); toggleFmt(kk); return; }   // ใบ 019: ทั้งกล่อง (เก็บคำก่อน) DOM ไม่มี <b> <i> <u>
-    if (mod && kk === 'z' && !ev.shiftKey && ED && val(ED) === ED.orig && !styleDirty(ED)) { ev.preventDefault(); finishEdit(false); undoRedo(-1); }
+    if (mod && kk === 'z' && !ev.shiftKey && ED && val(ED) === ED.orig && !styleDirty(ED)) { ev.preventDefault(); const rz = ED.rz; finishEdit(false); if (!rz) undoRedo(-1); }   // ปรับกรอบระหว่างพิมพ์ = เลิกทำกรอบนั้น
     if (mod && ev.shiftKey && (ev.key === '>' || ev.key === '.' || ev.code === 'Period')) { ev.preventDefault(); sizeStep(1); }   // ⌘⇧. / ⌘⇧, ขนาดแบบ Google Slides
     if (mod && ev.shiftKey && (ev.key === '<' || ev.key === ',' || ev.code === 'Comma')) { ev.preventDefault(); sizeStep(-1); }   // ในกล่องยังไม่มีอะไรเปลี่ยน = เลิกทำขั้นก่อนของงาน
   });
@@ -2257,7 +2265,7 @@ function grow() { if (!ED?.ta) return; const t = ED.ta; t.style.height = 'auto';
 function placeEdit() {                   // คอม: แถบเล็กลอยเหนือกล่อง (เหนือไม่พอ = ใต้กล่อง) / ช่องตาราง: ช่องพิมพ์ทับกล่องเดิม
   if (!ED) return;
   const sl = pgs()[ED.k]?.querySelector('.slide'); if (!sl) return;
-  const W = sl.clientWidth, s = W / 960, b = ED.b;
+  const W = sl.clientWidth, s = W / 960, b = ED.vb || ED.b;
   if (ED.ed) {
     if (ED.tb.classList.contains('kb')) return;
     placeBar(ED.tb, pgs()[ED.k], b, s); return;
@@ -2304,7 +2312,7 @@ async function checkEdit() {             // หยุดพิมพ์ 0.5 ว�
 function dropLayer(E) { E.lay.remove(); E.tw.style.visibility = ''; }
 function closeEdit(keep) {                // keep: ชั้นที่พิมพ์ค้างไว้จนภาพที่วาดใหม่พร้อม (swapPage ลบเอง)
   if (!ED) return; const E = ED; closePicker(); document.querySelector('.zmenu')?.remove(); clearTimeout(E.chk); clearTimeout(E.nt); ED = null;
-  $('rail').style.visibility = '';
+  $('rail').style.visibility = ''; SELD.classList.remove('on', 'ed', 'lift');
   if (document.body.classList.contains('typing')) { document.body.classList.remove('typing'); pagesTo(E.k, true); }   // ทีละหน้า: กลับมาที่หน้าเดิมก่อนจอวาด (ไม่งั้นตัวนับหน้าเห็นหน้า 1 แวบหนึ่ง)
   const fade = el => { const a = ani(el, [{opacity: 1}, {opacity: 0}], {duration: 120, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}); a ? after(a).then(() => el.remove()) : el.remove(); };
   if (E.ed) {
@@ -2321,7 +2329,8 @@ function finishEdit(apply) {
   if (!ED || ED.saving) return !ED;
   const v = val(ED);
   if (ED.b.add && !v.trim()) { const {k, b} = ED; closeEdit(); dropAdd(k, b.p[1], ADDNEW?.k === k && ADDNEW?.n === b.p[1]); return true; }   // ใบ 022
-  if (!apply || (v === ED.orig && !styleDirty(ED))) { const {k, b, keep} = ED; closeEdit(); if (keep) reselect(k, b); return true; }
+  if (!apply && ED.rz) { const {k, b, keep} = ED; closeEdit(); busyNow = true; restore(STACK[SP]).catch(console.error).finally(() => { busyNow = false; if (keep) reselect(k, b); }); return true; }   // ไม่เก็บ: กรอบที่ปรับระหว่างพิมพ์กลับด้วย
+  if (!apply || (v === ED.orig && !styleDirty(ED) && !ED.rz)) { const {k, b, keep} = ED; closeEdit(); if (keep) reselect(k, b); return true; }
   if (!v.trim() && ['t', 't1'].includes(ED.b.p[0]) && !META[ED.k]?.ins) { closeEdit(); toast('หัวเรื่องว่างไม่ได้ ใช้คำเดิม'); return true; }   // ไม่มีคำที่พิมพ์ให้หาย
   ED.p = saveEdit(); return true;         // แสงวิ่ง + 2 เฟรมก่อน แล้ว edit_text ตัดสินเองว่าล้นไหม
 }
@@ -2373,10 +2382,10 @@ async function saveEdit() {
     // ป้ายประวัติบอกส่วนที่เปลี่ยนจริง (คำยาวที่แก้ท้ายประโยค ตัดส่วนต้นที่เหมือนกันออก) ตัดที่ขอบคำไทยเสมอ
     const A = E.orig.replace(/\s+/g, ' ').trim(), B = v.replace(/\s+/g, ' ').trim();
     let i = 0; while (i < A.length && A[i] === B[i]) i++;
-    const parts = [v !== E.orig && 'ข้อความ', E.pt !== E.pt0 && 'ขนาด', E.fam !== E.fam0 && 'ฟอนต์'].filter(Boolean);
+    const parts = [v !== E.orig && 'ข้อความ', E.pt !== E.pt0 && 'ขนาด', E.fam !== E.fam0 && 'ฟอนต์', E.rz && 'กรอบ'].filter(Boolean);
     if (E.b.add && !E.orig.trim()) ADDNEW = null;
     commit(E.b.add && !E.orig.trim() ? `เพิ่มข้อความ หน้า ${k + 1}` : parts.length > 1 ? `แก้หน้า ${k + 1}: ${parts.join(' ')}` : parts[0] === 'ขนาด' ? `ขนาดตัวอักษรหน้า ${k + 1}: ${fmtPt(E.pt0)} เป็น ${fmtPt(E.pt)}`
-      : parts[0] === 'ฟอนต์' ? `ฟอนต์หน้า ${k + 1}: ${E.fam || 'ของดีไซน์'}` : A ? `แก้หน้า ${k + 1}: "${clip(A, i)}" เป็น "${clip(B, i)}"` : `พิมพ์ในหน้า ${k + 1}: "${clip(B, 0)}"`);
+      : parts[0] === 'ฟอนต์' ? `ฟอนต์หน้า ${k + 1}: ${E.fam || 'ของดีไซน์'}` : parts[0] === 'กรอบ' ? `ปรับกรอบ หน้า ${k + 1}: ${FIELD(E.b.p)}` : A ? `แก้หน้า ${k + 1}: "${clip(A, i)}" เป็น "${clip(B, i)}"` : `พิมพ์ในหน้า ${k + 1}: "${clip(B, 0)}"`);
     if (E.sst === 'over') toast(E.fam !== E.fam0 ? 'ฟอนต์นี้กว้างกว่า ข้อความไม่พอดีกล่อง ใช้ฟอนต์เดิม' : 'ใหญ่กว่านี้ไม่พอดีกล่อง ใช้ขนาดเดิม');
     // แก้หัวเรื่องแล้วสารบัญ/หน้าต่อเปลี่ยนตาม: บอกตรง ๆ ว่าหน้าไหน (ภาพย่อกะพริบพีชจาก swapPage)
     const also = oldN ? KEYS.map((x, q) => x !== oldKeys[q] && q !== k ? q + 1 : 0).filter(Boolean) : [];
@@ -2387,7 +2396,8 @@ async function saveEdit() {
 }
 document.addEventListener('pointerdown', ev => {   // คลิก/แตะนอกกล่อง = ใช้คำใหม่
   if (!ED) return;
-  if (ED.ed && ev.pointerType === 'mouse' && ED.b.can && val(ED) === ED.orig && !ED.tb.contains(ev.target)) {   // ใบ 017: พิมพ์อยู่ ลากที่แถบขอบ 6px = ย้ายกล่อง ด้านในยังลากเลือกคำได้
+  if (ev.target.closest('.sel')) return;    // ที่จับ/ที่หมุนของกล่องที่พิมพ์อยู่: ไม่ใช่คลิกนอกกล่อง
+  if (ED.ed && ev.pointerType === 'mouse' && ED.b.can && !ED.rz && val(ED) === ED.orig && !ED.tb.contains(ev.target)) {   // ใบ 017: พิมพ์อยู่ ลากที่แถบขอบ 6px = ย้ายกล่อง ด้านในยังลากเลือกคำได้
     const R = pgs()[ED.k].querySelector('.slide').getBoundingClientRect(), sc = R.width / 960;
     if (editZone(ED.b, {x: (ev.clientX - R.left) / sc, y: (ev.clientY - R.top) / sc}, 6 / sc) === 'frame') {
       const {k, j} = ED; closeEdit(); ev.preventDefault(); armDrag(ev, k, j, BOX[k][j], null); return;
@@ -3239,8 +3249,8 @@ function tbarHtml(t) {
     <button type="button" class="ic${OPEN === 'col' ? ' on' : ''}" data-e="col" aria-label="สีตัวอักษร" data-tip="สีตัวอักษร" aria-expanded="${OPEN === 'col'}"><svg class="i" style="--c:${f.col || '#15151A'}"><use href="#i-tcolor"/></svg></button>
     ${TBN < 2 ? tg('b', 'bold', `ตัวหนา (${KM}B)`, f.b, noBold(fam)) + tg('i', 'italic', `ตัวเอียง (${KM}I)`, f.i) + tg('u', 'under', `ขีดเส้นใต้ (${KM}U)`, f.u) : ''}
     <button type="button" class="fmb${OPEN === 'fmt' ? ' on' : ''}" data-e="fmt" data-tip="รูปแบบ" aria-expanded="${OPEN === 'fmt'}">${ico('fmt')}<span>รูปแบบ</span>${ico16('caret')}</button>
-    ${t.typing ? '' : `<i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos" aria-expanded="${panelOpen('pos')}" data-tip="ตำแหน่ง จัดเรียง เลเยอร์">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic${t.b.lk ? ' tog' : ''}" data-e="lock" aria-pressed="${!!t.b.lk}" aria-label="${t.b.lk ? 'ปลดล็อก' : 'ล็อก'}" data-tip="${t.b.lk ? 'ปลดล็อก' : 'ล็อก'}">${ico(t.b.lk ? 'lock' : 'unlock')}</button>`}
-    ${t.b.m && !t.typing && TBN < 1 ? `<i class="sep"></i><button type="button" data-e="reset">${ico('undo')}<span>คืนตำแหน่งเดิม</span></button>` : ''}
+    ${`<i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos" aria-expanded="${panelOpen('pos')}" data-tip="ตำแหน่ง จัดเรียง เลเยอร์">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic${t.b.lk ? ' tog' : ''}" data-e="lock" aria-pressed="${!!t.b.lk}" aria-label="${t.b.lk ? 'ปลดล็อก' : 'ล็อก'}" data-tip="${t.b.lk ? 'ปลดล็อก' : 'ล็อก'}">${ico(t.b.lk ? 'lock' : 'unlock')}</button>`}
+    ${t.b.m && TBN < 1 ? `<i class="sep"></i><button type="button" data-e="reset">${ico('undo')}<span>คืนตำแหน่งเดิม</span></button>` : ''}
     <i class="sep"></i><button type="button" class="ink" data-e="ok" aria-label="${t.typing ? 'เสร็จ เก็บคำที่พิมพ์' : 'เสร็จ เลิกเลือกกล่อง'}">${ico('check')}<span>เสร็จ</span></button>`;
 }
 function mbarHtml(t) {
@@ -3254,9 +3264,9 @@ function placeBar(bar, pg, r, sc) {
   const sl = pg.querySelector('.slide'), pr = pg.getBoundingClientRect(), cr = $('canvas').getBoundingClientRect(), q = sl.getBoundingClientRect(), sx = q.left - pr.left, sy = q.top - pr.top;
   sc = q.width / 960;                       // ใบ 022: ซูมอยู่ = ขนาดบนจอจริง
   const minX = cr.left - pr.left + 8, maxX = cr.right - pr.left - 8 - bar.offsetWidth, minY = cr.top - pr.top + 8;
-  const x = sx + r.x * sc, up = sy + r.y * sc - bar.offsetHeight - 8;
+  const G = 30, x = sx + r.x * sc, up = sy + r.y * sc - bar.offsetHeight - G;   // ไอซ์ 1 พ.ย.: เว้น 30 ให้มุมหมุนนอกกรอบ (22px) ไม่โดนแถบบัง
   bar.style.left = Math.round(Math.max(minX, Math.min(x, maxX))) + 'px';
-  bar.style.top = Math.round(up >= minY ? up : sy + (r.y + r.h) * sc + 8) + 'px';
+  bar.style.top = Math.round(up >= minY ? up : sy + (r.y + r.h) * sc + G) + 'px';
 }
 function fitBar(bar, html) {           // แถบกว้างกว่าพื้นที่ − 16: ซ่อนคืนตำแหน่ง (ไปอยู่ในเมนูรูปแบบ) แล้วค่อย B I U
   const av = $('canvas').clientWidth - 16;
@@ -3429,7 +3439,7 @@ function toolClick(ev) {
   if (e === 'lay') { POS.tab = 'lay'; return togglePop('pos'); }
   if (['num', 'col', 'fmt', 'pos'].includes(e)) { if (t.typing) return viaSel(() => togglePop(e)); return togglePop(e); }
   if (['b', 'i', 'u'].includes(e)) return toggleFmt(e);
-  if (e === 'reset') return resetBox();
+  if (e === 'reset') return t.typing ? viaSel(resetBox) : resetBox();
 }
 function popClick(ev) {
   if (OPEN === 'pos' && posClick(ev) !== true) return;
@@ -3479,13 +3489,14 @@ async function boxCall(k, expr, label, after) {   // Python 1 ครั้ง + 
 }
 function scalePy(D, un) {
   const r = D.cur; py.globals.set('IDX', order[D.k]); py.globals.set('PATH', py.toPy(D.b.p)); py.globals.set('RECT', py.toPy([r.x, r.y, r.w, r.h].map(v => Math.round(v * 10) / 10))); py.globals.set('F', D.f);
-  boxCall(D.k, 'D.scale_box(ITEMS, IDX, list(PATH), list(RECT), F, M)', `ปรับขนาด หน้า ${D.k + 1}: ${FIELD(D.b.p)} ${fmtPt(D.b.pt)} เป็น ${fmtPt(Math.round(D.b.pt * D.f * 2) / 2)}`,
+  return boxCall(D.k, 'D.scale_box(ITEMS, IDX, list(PATH), list(RECT), F, M)', `ปรับขนาด หน้า ${D.k + 1}: ${FIELD(D.b.p)} ${fmtPt(D.b.pt)} เป็น ${fmtPt(Math.round(D.b.pt * D.f * 2) / 2)}`,
     st => { if (META[D.k]?.ov) toast(`หน้า ${D.k + 1} ข้อความยังล้นกรอบ คำไม่หาย`); else if (st === 'shrink') toast('ตัวอักษรย่อลงเล็กน้อยให้พอดีกรอบ'); }).then(v => { if (v == null) { liveSz(D.k, D.b, D.b.pt); un(); } });
 }
 let RT = null;
 function rotStart(ev, k, b) {           // หมุนรอบจุดกลาง: ใกล้ 0/45/90… ดูดเข้า 4° / Shift = ทีละ 15°
   const sl = pgs()[k].querySelector('.slide').getBoundingClientRect(), sc = sl.width / 960, cx = sl.left + (b.x + b.w / 2) * sc, cy = sl.top + (b.y + b.h / 2) * sc;
-  RT = {k, b, cx, cy, sc: pgs()[k].querySelector('.slide').clientWidth / 960, a0: Math.atan2(ev.clientY - cy, ev.clientX - cx) * 180 / Math.PI, r0: b.rot || 0, cur: b.rot || 0, id: ev.pointerId, nodes: nodesOf(k, b)};
+  const ed = !!(ED?.ed && ED.k === k && ED.vb === b);
+  RT = {k, b, ed, cx, cy, sc: pgs()[k].querySelector('.slide').clientWidth / 960, a0: Math.atan2(ev.clientY - cy, ev.clientX - cx) * 180 / Math.PI, r0: b.rot || 0, cur: b.rot || 0, id: ev.pointerId, nodes: ed ? [ED.lay] : nodesOf(k, b)};
   try { ev.target.setPointerCapture(ev.pointerId); } catch (e) {}
 }
 window.addEventListener('pointermove', ev => {
@@ -3500,6 +3511,8 @@ window.addEventListener('pointermove', ev => {
 window.addEventListener('pointerup', ev => {
   if (!RT || ev.pointerId !== RT.id) return; const R0 = RT; RT = null; tipOff(); eatClick = Date.now();
   if (R0.cur === R0.r0) { R0.nodes.forEach(n => n.style.rotate = ''); return; }
+  if (R0.ed) return edRot(R0);
+  if (R0.b.pic) return commitPic({k: R0.k, b: R0.b, pn: R0.nodes[0]}, null, R0.cur, `หมุนรูป หน้า ${R0.k + 1} ${R0.cur}°`, () => R0.nodes.forEach(n => n.style.rotate = ''));
   py.globals.set('IDX', order[R0.k]); py.globals.set('PATH', py.toPy(R0.b.p)); py.globals.set('ROT', R0.cur);
   boxCall(R0.k, 'D.set_box(ITEMS, IDX, list(PATH), rot=ROT)', `หมุน หน้า ${R0.k + 1}: ${FIELD(R0.b.p)} ${R0.cur}°`).then(v => { if (v == null) R0.nodes.forEach(n => n.style.rotate = ''); });
 }, true);
@@ -4146,7 +4159,7 @@ const pk = p => p.join('.');
 const selTf = (x, y, w, h, rot) => `translate3d(${x}px,${y}px,0)` + (rot ? ` translate(${w / 2}px,${h / 2}px) rotate(${rot}deg) translate(${-w / 2}px,${-h / 2}px)` : '');
 const rectOf = b => b.g ? {x: b.g[0], y: b.g[1], w: b.g[2], h: b.g[3]} : {x: b.x, y: b.y, w: b.w, h: b.h};   // กล่องบนการ์ด = กรอบการ์ด
 const mk = (c, h = '') => { const e = document.createElement('div'); e.className = c; e.innerHTML = h; return e; };
-const SELD = mk('sel', '<i class="k tl" data-h="0"></i><i class="k tr" data-h="2"></i><i class="k br" data-h="4"></i><i class="k bl" data-h="6"></i><i class="k l" data-h="7"></i><i class="k r" data-h="3"></i><span class="hx"><button class="rth" type="button" aria-label="หมุน (Shift ทีละ 15°)" data-tip="หมุน"><svg class="i"><use href="#i-rotate"/></svg></button><button class="mvh" type="button" aria-label="ลากเพื่อย้าย"><svg class="i"><use href="#i-move"/></svg></button></span>'), GV = mk('gd v'), GH = mk('gd h'), GHOST = mk('ghost');
+const SELD = mk('sel', '<i class="rz tl" data-r="270"></i><i class="rz tr" data-r="0"></i><i class="rz br" data-r="90"></i><i class="rz bl" data-r="180"></i><i class="k tl" data-h="0"></i><i class="k tr" data-h="2"></i><i class="k br" data-h="4"></i><i class="k bl" data-h="6"></i><i class="k l" data-h="7"></i><i class="k r" data-h="3"></i><span class="hx"><button class="rth" type="button" aria-label="หมุน (Shift ทีละ 15°)" data-tip="หมุน"><svg class="i"><use href="#i-rotate"/></svg></button><button class="mvh" type="button" aria-label="ลากเพื่อย้าย"><svg class="i"><use href="#i-move"/></svg></button></span>'), GV = mk('gd v'), GH = mk('gd h'), GHOST = mk('ghost');
 function selBox() { if (!SEL) return null; const bx = BOX[SEL.k] || [], j = bx.findIndex(b => pk(b.p) === pk(SEL.p)); return j < 0 ? null : {j, b: bx[j]}; }
 function selectBox(k, j) { const b = BOX[k]?.[j]; if (!b || ED || viewing) return; if (NU) nudgeCommit(); SEL = {k, p: b.p}; paintSel(); }
 function deselectBox() {
@@ -4159,14 +4172,34 @@ function deselectBox() {
 }
 const KCUR = ['nwse-resize', 'ns-resize', 'nesw-resize', 'ew-resize'];
 const CARDROT = 'กล่องบนการ์ดหมุนไม่ได้ ต้องหมุนทั้งการ์ด ซึ่งตอนนี้ไฟล์ PowerPoint จะวางข้อความไม่ตรงกับจอ';
+// เคอร์เซอร์หมุนชี้ตามมุม + มุมของกล่อง (SVG ลูกศรโค้งในตัว)  ponytail: แคชตามองศาที่ปัด 15°
+const RZC = new Map();
+function rzCur(rot) {
+  SELD.querySelectorAll('.rz').forEach(e => { const a = Math.round(((+e.dataset.r + (rot || 0)) % 360) / 15) * 15;
+    if (!RZC.has(a)) RZC.set(a, `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'><g transform='rotate(${a} 12 12)' fill='none' stroke-linecap='round' stroke-linejoin='round'><path d='M5 17A9 9 0 0 1 17 5' stroke='#fff' stroke-width='5'/><path d='M14 2l3.5 3L14 8M2 14l3 3.5L8 14' stroke='#fff' stroke-width='5'/><path d='M5 17A9 9 0 0 1 17 5' stroke='#15151A' stroke-width='2'/><path d='M14 2l3.5 3L14 8M2 14l3 3.5L8 14' stroke='#15151A' stroke-width='2'/></g></svg>`)}") 12 12, alias`);
+    e.style.cursor = RZC.get(a); });
+}
+const kCur = rot => SELD.querySelectorAll('.k').forEach(e => e.style.cursor = rot ? KCUR[(+e.dataset.h + Math.round(rot / 45)) % 4] : '');
+// ไอซ์ 1 พ.ย. (แบบ Canva): พิมพ์อยู่ก็ยังมีที่จับ ย่อขยาย/หมุนได้โดยไม่ต้องกดเสร็จ  กรอบตาม ED.vb (กรอบที่ปรับระหว่างพิมพ์)
+function edSel() {
+  const E = ED, pg = pgs()[E.k], b = E.vb; if (!pg || !b) return;
+  const hs = pg.querySelector('.hits'), sc = pg.querySelector('.slide').clientWidth / 960;
+  if (SELD.parentNode !== hs) hs.append(GHOST, SELD, GV, GH);
+  Object.assign(SELD.style, {transform: selTf(b.x * sc, b.y * sc, b.w * sc, b.h * sc, b.rot), width: b.w * sc + 'px', height: b.h * sc + 'px'});
+  ['lk', 'pic'].forEach(c => SELD.classList.remove(c)); SELD.classList.add('ed'); SELD.classList.toggle('lock', !b.can); SELD.classList.toggle('rot', !!b.rot); SELD.classList.toggle('norot', !b.can || !!b.g);
+  SELD.classList.toggle('nok', !!b.g || (touch() && (b.w * sc < 88 || b.h * sc < 44))); kCur(b.rot); rzCur(b.rot);
+  if (!SELD.classList.contains('on')) requestAnimationFrame(() => { if (ED === E) SELD.classList.add('on'); });
+}
 function paintSel() {
+  if (ED?.ed) return edSel();
+  SELD.classList.remove('ed');
   const s = selBox(), pg = s && pgs()[SEL.k];
   if (!s || !pg || ED) { if (SEL && (!s || !pg)) deselectBox(); return; }
   const hs = pg.querySelector('.hits'), sc = pg.querySelector('.slide').clientWidth / 960, r = rectOf(s.b);
   if (SELD.parentNode !== hs) hs.append(GHOST, SELD, GV, GH);
   Object.assign(SELD.style, {transform: selTf(r.x * sc, r.y * sc, r.w * sc, r.h * sc, s.b.rot), width: r.w * sc + 'px', height: r.h * sc + 'px'});
   SELD.classList.toggle('lock', !s.b.can && !s.b.lk); SELD.classList.toggle('lk', !!s.b.lk); SELD.classList.toggle('rot', !!s.b.rot); SELD.classList.toggle('norot', !s.b.can); SELD.classList.toggle('pic', !!s.b.pic);
-  SELD.querySelectorAll('.k').forEach(e => e.style.cursor = s.b.rot ? KCUR[(+e.dataset.h + Math.round(s.b.rot / 45)) % 4] : '');   // ที่จับหมุนตามกรอบ เคอร์เซอร์หมุนตาม
+  kCur(s.b.rot); rzCur(s.b.rot);   // ที่จับหมุนตามกรอบ เคอร์เซอร์หมุนตาม
   SELD.classList.toggle('nok', !!s.b.g || (touch() && (r.w * sc < 88 || r.h * sc < 44)));   // ที่จับ: ไม่ใช่การ์ด และบนจอสัมผัสกล่องต้องใหญ่พอ 88×44
   if (!SELD.classList.contains('on')) requestAnimationFrame(() => { if (SEL) SELD.classList.add('on'); });
   hs.querySelectorAll('.hit').forEach((h, i) => h.classList.toggle('selx', i === s.j && !!s.b.can));
@@ -4209,11 +4242,11 @@ document.addEventListener('pointerdown', e => {
 $('pages').addEventListener('pointerdown', ev => {
   if (DR || viewing || busyNow || ev.button > 0 || PZ || gridOn || PTRS.size > 1) return;
   const pg = ev.target.closest('.pg'); if (!pg) return;
-  const k = pgs().indexOf(pg), kh = ev.target.closest('.sel .k');
+  const k = pgs().indexOf(pg), kh = ev.target.closest('.sel .k'), es = ED?.ed && ED.k === k ? {j: ED.j, b: ED.vb} : null;
   let j, h = null;
-  if (ev.target.closest('.sel .rth')) { const s = selBox(); if (s?.b.g) { ev.preventDefault(); toast(CARDROT); } else if (s?.b.can) { ev.preventDefault(); ev.stopPropagation(); rotStart(ev, k, s.b); } return; }
+  if (ev.target.closest('.sel .rth,.sel .rz')) { const s = es || selBox(); if (s?.b.g) { ev.preventDefault(); toast(CARDROT); } else if (s?.b.can) { ev.preventDefault(); ev.stopPropagation(); rotStart(ev, k, s.b); } return; }
   if (ev.target.closest('.sel .mvh')) { const s = selBox(); if (!s?.b.can) return; ev.preventDefault(); return armDrag(ev, k, s.j, s.b, null); }
-  if (kh) { const s = selBox(); if (!s) return; j = s.j; h = +kh.dataset.h; }
+  if (kh) { const s = es || selBox(); if (!s) return; j = s.j; h = +kh.dataset.h; if (es) { ev.preventDefault(); return armDrag(ev, k, j, es.b, h); } }
   else { const hit = ev.target.closest('.hit'); if (!hit || hit.classList.contains('ing')) return; j = +hit.dataset.j; }
   const b = BOX[k]?.[j]; if (!b?.can) return;
   if (ev.pointerType !== 'mouse' && !(SEL && SEL.k === k && pk(SEL.p) === pk(b.p))) return;   // จอสัมผัส: ลากได้เฉพาะกล่องที่เลือกอยู่ (ที่อื่นปัดเปลี่ยนหน้า/เลื่อน)
@@ -4221,8 +4254,8 @@ $('pages').addEventListener('pointerdown', ev => {
 });
 function armDrag(ev, k, j, b, h) {
   const pg = pgs()[k], R = pg.querySelector('.slide').getBoundingClientRect(), s = R.width / 960, t = ev.pointerType !== 'mouse';   // อ่าน layout ครั้งเดียวตอนกด
-  const others = BOX[k].filter(x => x !== b && !(b.gi != null && x.gi === b.gi)).map(rectOf);
-  DR = {k, j, b, h, id: ev.pointerId, R, s, ls: pg.querySelector('.slide').clientWidth / 960, t, o: rectOf(b), ob: {x: b.x, y: b.y, w: b.w, h: b.h}, L: snapLines(others),
+  const others = BOX[k].filter(x => x !== b && pk(x.p) !== pk(b.p) && !(b.gi != null && x.gi === b.gi)).map(rectOf);
+  DR = {k, j, b, h, ed: !!(ED?.ed && ED.k === k && ED.j === j), id: ev.pointerId, R, s, ls: pg.querySelector('.slide').clientWidth / 960, t, o: rectOf(b), ob: {x: b.x, y: b.y, w: b.w, h: b.h}, L: snapLines(others),
     start: {x: (ev.clientX - R.left) / s, y: (ev.clientY - R.top) / s}, lx: ev.clientX, ly: ev.clientY,
     si: (t ? 10 : 6) / s, so: (t ? 16 : 9) / s, moved: false, gx: null, gy: null, pg, hit: pg.querySelectorAll('.hit')[j], nodes: [], cur: null, raf: 0};
   if (h != null || !t) ev.preventDefault();   // เมาส์: ไม่เริ่มลากคลุมตัวอักษร (click ยังมาตามปกติ)
@@ -4273,7 +4306,7 @@ function dragFrame() {
     if (!rot) { if (r.x < 0) { r.w += r.x; r.x = 0; } r.w = Math.min(r.w, 960 - r.x); r.h = Math.min(r.h, 540 - r.y); }
     D.cur = r;
     Object.assign(SELD.style, {transform: selTf(r.x * D.ls, r.y * D.ls, r.w * D.ls, r.h * D.ls, D.b.rot), width: r.w * D.ls + 'px', height: r.h * D.ls + 'px'});
-    if (D.f) liveSz(D.k, D.b, D.b.pt * D.f);
+    liveRect(D, r);
     sizeTip(D.lx, D.ly, `ก: ${Math.round(r.w * 2).toLocaleString('en-US')}  ส: ${Math.round(r.h * 2).toLocaleString('en-US')}`);
   }
   GV.classList.toggle('on', D.gx != null); GH.classList.toggle('on', D.gy != null);   // เส้นช่วยจัด: ตั้ง 1 นอน 1 เท่านั้น
@@ -4283,8 +4316,9 @@ function dragFrame() {
 function lift(D) {
   D.moved = true;
   try { D.hit.setPointerCapture(D.id); } catch (e) {} D.hit.style.cursor = 'grabbing';   // เปลี่ยนเคอร์เซอร์ที่กล่องเดียว (ใส่ที่ body = คำนวณสไตล์ใหม่ทั้งหน้า long task 45ms ที่ CPU 4 เท่า)
-  if (!SEL || SEL.k !== D.k || pk(SEL.p) !== pk(D.b.p)) { if (D.k !== cur) select(D.k); SEL = {k: D.k, p: D.b.p}; paintSel(); }
+  if (!D.ed && (!SEL || SEL.k !== D.k || pk(SEL.p) !== pk(D.b.p))) { if (D.k !== cur) select(D.k); SEL = {k: D.k, p: D.b.p}; paintSel(); }
   D.nodes = D.h == null ? nodesOf(D.k, D.b) : [];
+  if (D.h != null) liveArm(D);
   for (const n of D.nodes) n.style.willChange = 'translate';
   const r = D.o; Object.assign(GHOST.style, {left: r.x * D.ls + 'px', top: r.y * D.ls + 'px', width: r.w * D.ls + 'px', height: r.h * D.ls + 'px'});
   if (D.h == null) GHOST.classList.add('on');
@@ -4292,12 +4326,12 @@ function lift(D) {
 }
 function endDrag(cancel) {
   const D = DR; DR = null; if (!D) return; cancelAnimationFrame(D.raf); tipOff();
-  if (D.f && (cancel || !D.cur)) liveSz(D.k, D.b, D.b.pt);
   D.hit.style.cursor = '';
   GV.classList.remove('on'); GH.classList.remove('on'); GHOST.classList.remove('on'); SELD.classList.remove('lift'); SELD.querySelector('.grab')?.classList.remove('grab');
   if (!D.moved) return;                               // แตะเฉย ๆ: click ตามมาเอง (เมาส์ = พิมพ์ / นิ้ว = แตะซ้ำพิมพ์)
   eatClick = Date.now();
-  const un = () => { for (const n of D.nodes) { n.style.translate = ''; n.style.willChange = ''; } D.hit.style.translate = ''; paintSel(); };
+  if (D.ed) return edResize(D, cancel);
+  const un = () => { for (const n of D.nodes) { n.style.translate = ''; n.style.willChange = ''; } D.hit.style.translate = ''; liveUndo(D); paintSel(); };
   if (cancel || !D.cur) return un();
   (D.h == null ? commitMove : commitResize)(D, un);
 }
@@ -4341,11 +4375,79 @@ async function boxPy(k, b, rect, label, keepFrame) {
   } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); keepFrame?.(); }
   finally { busyNow = false; hit?.classList.remove('saving'); }
 }
+// ไอซ์ 1 พ.ย.: ย่อขยายเห็นผลสดทุกเฟรม ไม่เรียก Python ระหว่างลาก
+// ข้อความ: ชั้นข้อความเดียวกับตอนพิมพ์ (makeLayer) ให้เบราว์เซอร์ตัดบรรทัดไทยเองตามความกว้าง  ปล่อยแล้ว Python วาดจริง 1 ครั้ง
+// ponytail: บรรทัดสดเป็นของเบราว์เซอร์ (ICU) ตัวจริงตัดด้วยตัววัดของ Python หัวเรื่องที่ Python จัดสมดุลบรรทัดอาจต่างกันหนึ่งคำ
+function liveArm(D) {
+  if (D.b.pic) { const n = nodesOf(D.k, D.b)[0], i = n?.firstElementChild, im = i?.querySelector('img'); if (!n || !i) return;
+    D.pn = n; D.pst = [n.style.cssText, i.style.cssText, im?.style.cssText]; D.im0 = im && {l: parseFloat(im.style.left) || 0, t: parseFloat(im.style.top) || 0, w: +im.getAttribute('width') || im.offsetWidth, h: +im.getAttribute('height') || im.offsetHeight}; return; }
+  if (D.ed) { D.lv = ED; D.lv0 = {css: ED.lay.style.cssText, fs: ED.ed.style.fontSize, lh: ED.ed.style.lineHeight, pt: ED.ed.style.paddingTop}; return; }
+  if (['rows', 'head'].includes(D.b.p[0])) return;
+  const sw = shapeOf(D.k, D.b, ''); if (!sw) return;
+  try { D.lv = makeLayer(sw, curText(D.k, D.b), ''); D.lv.ed.contentEditable = 'false'; D.lv.lay.style.pointerEvents = 'none'; D.tmp = true;
+    if (D.b.rot) { D.lv.lay.style.transform = `rotate(${D.b.rot}deg)`; D.lv.lay.style.transformOrigin = 'center'; } } catch (e) { D.lv = null; }
+}
+function liveRect(D, r) {
+  if (D.pn) { const n = D.pn, i = n.firstElementChild, im = i.querySelector('img'), sx = r.w / D.ob.w, sy = r.h / D.ob.h;
+    Object.assign(n.style, {left: r.x + 'px', top: r.y + 'px', transformOrigin: `${r.w / 2}px ${r.h / 2}px`}); Object.assign(i.style, {width: r.w + 'px', height: r.h + 'px'});
+    if (im && D.im0) Object.assign(im.style, {left: D.im0.l * sx + 'px', top: D.im0.t * sy + 'px', width: D.im0.w * sx + 'px', height: D.im0.h * sy + 'px'}); return; }
+  const L = D.lv; if (!L) return; const f = D.f || 1, px = parseFloat(D.lv0?.fs) || parseFloat(L.ed.style.fontSize), lh = parseFloat(D.lv0?.lh) || parseFloat(L.ed.style.lineHeight);
+  if (!D.lvb) D.lvb = {px, lh, pt: parseFloat(L.ed.style.paddingTop) || 0};
+  Object.assign(L.lay.style, {left: r.x + 'px', top: r.y + 'px', width: Math.max(8, r.w - L.dw * f) + 'px', height: r.h + 'px'});
+  if (D.f) Object.assign(L.ed.style, {fontSize: D.lvb.px * f + 'px', lineHeight: D.lvb.lh * f + 'px', paddingTop: D.lvb.pt * f + 'px'});
+  if (D.ed) Object.assign(ED.el.style, {left: r.x / 9.6 + '%', top: r.y / 5.4 + '%', width: r.w / 9.6 + '%', height: r.h / 5.4 + '%'});   // กรอบพิมพ์ตามนิ้ว
+}
+function liveUndo(D) {
+  if (D.pn) { const i = D.pn.firstElementChild, im = i?.querySelector('img'); D.pn.style.cssText = D.pst[0]; if (i) i.style.cssText = D.pst[1]; if (im && D.pst[2] != null) im.style.cssText = D.pst[2]; }
+  if (D.tmp && D.lv) dropLayer(D.lv);
+  if (D.ed && D.lv0) { const b = ED.vb; Object.assign(ED.el.style, {left: b.x / 9.6 + '%', top: b.y / 5.4 + '%', width: b.w / 9.6 + '%', height: b.h / 5.4 + '%'}); ED.lay.style.cssText = D.lv0.css; Object.assign(ED.ed.style, {fontSize: D.lv0.fs, lineHeight: D.lv0.lh, paddingTop: D.lv0.pt}); }
+}
+// พิมพ์อยู่แล้วลากที่จับ: กรอบลง Python ทันที (ตัววัดล้นใช้กรอบใหม่) ไม่วาดใหม่ เคอร์เซอร์ยังอยู่ในกล่อง  เสร็จ = วาด + 1 ขั้นเลิกทำ
+function edPy(E, expr) { py.globals.set('IDX', order[E.k]); py.globals.set('PATH', py.toPy(E.b.p)); return py.runPython(expr); }
+function edResize(D, cancel) {
+  const E = ED; if (!E || cancel || !D.cur) { liveUndo(D); edSel(); return; }
+  const r = D.cur;
+  try {
+    py.globals.set('RECT', py.toPy([r.x, r.y, r.w, r.h].map(v => Math.round(v * 10) / 10)));
+    if (D.f) { py.globals.set('F', D.f); edPy(E, 'D.scale_box(ITEMS, IDX, list(PATH), list(RECT), F, M)'); for (const q of ['pt', 'pt0', 'px0', 'lh0']) E[q] *= D.f; E.vb.pt *= D.f; paintSize(); }
+    else edPy(E, 'D.move_box(ITEMS, IDX, list(PATH), list(RECT), M, resize=True)');
+    Object.assign(E.vb, {x: r.x, y: r.y, w: r.w, h: r.h}); E.rz = 1;
+    Object.assign(E.el.style, {left: r.x / 9.6 + '%', top: r.y / 5.4 + '%', width: r.w / 9.6 + '%', height: r.h / 5.4 + '%'});   // กรอบพิมพ์ (hit.ing) ตามกรอบใหม่
+  } catch (e) { console.error(e); liveUndo(D); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); }
+  edSel(); placeEdit(); E.ed.focus({preventScroll: true}); clearTimeout(E.chk); E.chk = setTimeout(checkEdit, 200);
+}
+function edRot(R0) {
+  const E = ED; if (!E) return;
+  try { py.globals.set('ROT', R0.cur); edPy(E, 'D.set_box(ITEMS, IDX, list(PATH), rot=ROT)'); E.vb.rot = R0.cur; E.rz = 1;
+    E.lay.style.transform = R0.cur ? `rotate(${R0.cur}deg)` : ''; E.lay.style.transformOrigin = 'center'; } catch (e) { console.error(e); toast('หมุนไม่สำเร็จ ลองใหม่อีกครั้ง'); }
+  E.lay.style.rotate = ''; edSel(); placeEdit(); E.ed.focus({preventScroll: true});
+}
+// รูป: ย่อขยาย/หมุนแล้วไม่วาดใหม่ (ไม่โหลดรูปซ้ำ ไม่วูบ) ภาพบนจอที่ปรับสดแล้วเก็บลงแคชด้วยลายนิ้วมือใหม่ เหมือน commitMove
+async function commitPic(D, rect, rot, label, un) {
+  const k = D.k, b = D.b, pg = pgs()[k], n = D.pn;
+  busyNow = true;
+  try {
+    py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(b.p)); py.globals.set('ORDER', py.toPy(order));
+    if (rect) { rect = rect.map(v => Math.round(v * 10) / 10); py.globals.set('RECT', py.toPy(rect)); py.runPython('D.move_box(ITEMS, IDX, list(PATH), list(RECT), M, resize=True)'); }
+    else { py.globals.set('ROT', rot); py.runPython('D.set_box(ITEMS, IDX, list(PATH), rot=ROT)'); }
+    const [keys, rp] = JSON.parse(py.runPython('json.dumps([D.keys(ITEMS, ORDER, TTL, M["slug"]), repr((WANT, CS, ITEMS, TTL, D.BR))])'));
+    if (n && rot != null) { n.style.transform = `rotate(${rot}deg) ` + n.style.transform.replace(/rotate\([^)]*\)\s*/g, ''); n.style.rotate = ''; }   // หมุนสด (rotate) รวมเข้า transform เดิม (กลับด้านยังอยู่)
+    const nb = BOX[k].map(x => x !== b ? x : {...x, ...(rect ? {x: rect[0], y: rect[1], w: rect[2], h: rect[3], m: 1} : {rot})});
+    BOX[k] = nb; pg.querySelector('.hits').innerHTML = hitsHtml(k); SEL = {k, p: b.p}; paintSel();
+    const node = cloneSlide(pg.querySelector('.slidebox').lastElementChild.firstElementChild);
+    KEYS = keys; nodeCache.set(KEYS[k], {node, boxes: nb}); slides[k] = node; dirty = true;
+    const th = $('thumbs').children[k]; if (th) mount(th.lastChild, node);
+    commit(label, rp);
+  } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); un?.(); busyNow = false; if (STACK[SP]) await restore(STACK[SP]); }
+  finally { busyNow = false; }
+}
 function commitResize(D, un) {
   const r = D.cur, b = D.b; tipOff();
-  if (D.f) { if (Math.abs(D.f - 1) < .01) return un(); return scalePy(D, un); }
-  if (Math.abs(r.w - b.w) < .5 && Math.abs(r.h - b.h) < .5 && Math.abs(r.x - b.x) < .5) return un();
-  boxPy(D.k, b, [r.x, r.y, r.w, r.h], `ปรับขนาดกรอบ หน้า ${D.k + 1}: ${FIELD(b.p)}`, un);
+  if (b.pic) { if (Math.abs(r.w - b.w) < .5 && Math.abs(r.h - b.h) < .5) return un(); return commitPic(D, [r.x, r.y, r.w, r.h], null, `ปรับขนาดรูป หน้า ${D.k + 1}`, un); }
+  if (D.f && Math.abs(D.f - 1) < .01) return un();
+  if (!D.f && Math.abs(r.w - b.w) < .5 && Math.abs(r.h - b.h) < .5 && Math.abs(r.x - b.x) < .5) return un();
+  const p = D.f ? scalePy(D, un) : boxPy(D.k, b, [r.x, r.y, r.w, r.h], `ปรับขนาดกรอบ หน้า ${D.k + 1}: ${FIELD(b.p)}`, un);
+  Promise.resolve(p).then(() => { if (D.tmp && D.lv?.lay.isConnected) dropLayer(D.lv); });   // หน้าไม่ได้วาดใหม่: ชั้นสดไม่ค้าง
 }
 function resetBox() { const s = selBox(); if (!s || busyNow) return; boxPy(SEL.k, s.b, null, `คืนตำแหน่งเดิม หน้า ${SEL.k + 1}: ${FIELD(s.b.p)}`); }
 // ลูกศร (คอม): ขยับทันทีทุกครั้งที่กด หยุด 400ms = บันทึก 1 ขั้นเลิกทำ
@@ -4934,7 +5036,8 @@ document.addEventListener('keydown', ev => {
 if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
 else { const h = (location.hash.match(/^#p=(.+)$/) || [])[1];   // ลิงก์งาน: ตรงเข้าตัวแก้ ไม่ผ่านหน้าแรก/งานของฉัน (ไม่แว้บ)
   if (!h) paintResume();
-  else { boot().catch(() => {}); show('pWork', false); $('topttl').textContent = ''; history.replaceState(history.state, '', location.pathname + location.search);
+  else { show('pWork', false);   // เครื่องมือเริ่มโหลดหลังอ่านงานจากเครื่อง (เริ่มก่อน = แย่งเธรด ปกขึ้นช้าไปถึง 1 วิ)
+    $('topttl').textContent = ''; history.replaceState(history.state, '', location.pathname + location.search);
     Promise.all([loadHome(), setsReady]).catch(() => {}).then(async () => { if (W.some(w => w.id === h && !w.del)) await openWork(h); if (PID !== h) paintResume(); }); } }
 if (/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent))
   homeErr('กำลังเปิดในแอป Facebook หรือ LINE ซึ่งโหลดไฟล์ไม่ได้ แตะปุ่ม ... มุมขวาบน แล้วเลือก "เปิดในเบราว์เซอร์" ก่อนใช้งาน');
