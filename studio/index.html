@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#ffffff">
 <title>สร้างงานใหม่ - Slide Studio</title>
+<script>/* เลือกจอก่อนวาดครั้งแรก: ลิงก์งาน (#p=) = ตัวแก้ / เคยมีงาน = งานของฉัน ไม่แว้บหน้าพิมพ์ถาม (ไอซ์ 1 พ.ย.) */try{if(/^#p=./.test(location.hash))document.documentElement.className='bw';else if(localStorage.getItem('d2s_has'))document.documentElement.className='bl'}catch(e){}</script>
 <link rel="icon" href="/img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -20,6 +21,8 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 button:disabled{cursor:not-allowed}
 svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .hidden{display:none!important}
+html.bw #pHome,html.bl #pHome,html.bw #toptag,html.bl .top{display:none!important}
+html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block!important}html.bl body{background:#fff}
 .spin{width:18px;height:18px;border-radius:50%;border:2.5px solid #F2D6CC;border-top-color:var(--red);animation:sp .8s linear infinite;flex:none;display:inline-block}
 @keyframes sp{to{transform:rotate(360deg)}}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}}
@@ -519,6 +522,14 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .skel.all{grid-template-columns:repeat(2,1fr);gap:8px}   /* เปิดงานเดิม: โครงครบทุกหน้าในจอเดียว ไม่ใช่ปกจาง ๆ แผ่นเดียว */
 .skel.all .ph::after{top:16%;height:10%;box-shadow:0 18px 0 -2px rgba(255,255,255,.55)}
 .skelnote{display:flex;align-items:center;gap:10px;padding:14px 14px 0;font-size:14px}
+#skel.open{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px 64px 64px}
+#skel.open .skel{display:block;padding:0;overflow:visible;width:var(--sw,600px);max-width:100%}
+#skel.open .skelnote{order:2;padding:0;font-size:13px;color:var(--sub)}#skel.open .orb{display:none}#skel.open .shimmer::after{display:none}
+#skel.open,.th.sk{opacity:0;animation:skIn .2s ease-out .3s forwards}   /* โหลดไวไม่ต้องมีโครง: เกิน 300ms ค่อยโผล่ */
+#skel.open .ph,.th.sk .slidebox{animation:skIn .2s ease-out .3s forwards,skP 1.2s ease-in-out .5s infinite alternate;opacity:0}   /* ponytail: กะพริบด้วย opacity อย่างเดียว ไม่มีแถบวิ่ง */
+#skel.open .ph::before,#skel.open .ph::after{display:none}#skel.open .ph{background:#EFEFF3;border-radius:8px}#skel.open .ph.cv{background:none}#skel.open .ph.cv,.th.sk.cv .slidebox{animation:skIn .2s ease-out .3s forwards}
+.th.sk{pointer-events:none}.th.sk .slidebox{background:#EFEFF3}
+@keyframes skIn{to{opacity:1}}@keyframes skP{from{opacity:1}to{opacity:.55}}
 .skel .ph.doing{box-shadow:0 0 0 2px rgba(235,125,74,.7)}
 .skel .ph .lab{position:absolute;left:8%;bottom:10%;font-size:12px;font-weight:700;color:var(--red);display:flex;align-items:center;gap:6px}
 .freeline{display:flex;gap:6px;align-items:center;justify-content:center;color:var(--mid);font-size:13px;margin-top:8px;text-align:center}
@@ -620,6 +631,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .pages::-webkit-scrollbar{display:none}
   .pages .pg,.pages .endc{flex:0 0 100%;height:100%;margin:0;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;scroll-snap-align:center;scroll-snap-stop:always;animation:none}
   .pages .slide{width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));touch-action:pan-x}
+  #skel.open{bottom:44px;padding:8px}#skel.open .skel{width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9))}
   .pages .pg.on .slide::after{opacity:0}
   .pages .hit:not(.ing)::after{display:none}
   .pages .gap{display:none}
@@ -739,6 +751,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .orb.think .b3,.shimmer{animation:fadePulse 2s ease-in-out infinite!important}
   .shimmer::after{display:none}
   .bar::after,.skel .ph::before,.glow{display:none}
+  #skel.open .ph,.th.sk .slidebox{animation:skIn .01ms .3s forwards!important}
   .edit.saving::after,.medit.saving::after,.edit.checking::after,.medit.checking::after,.slide.repaint .slidebox::after{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
   .edit.no,.medit.no,.bdg.no{animation:none!important}
   .hit.saving::before,.hit.checking::before{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
@@ -1221,7 +1234,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <div class="tgrip" id="tgrip" role="separator" aria-orientation="vertical" aria-label="ความกว้างคอลัมน์ภาพย่อ" aria-valuemin="120" aria-valuemax="320" tabindex="0" title="ลากเพื่อปรับความกว้าง ดับเบิลคลิกคืนค่าเดิม"></div>
   <section class="canvas" id="canvas">
     <div id="vbarslot"></div>
-    <div id="skel"><div class="skelnote"><span class="orb think s26"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
+    <div id="skel" class="open"><div class="skelnote"><span class="orb think s26"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
     <div class="pages hidden" id="pages"></div>
     <button class="dots" id="dots" type="button"><span class="dw"></span><span class="cnt"></span></button>
     <div class="pbar" id="pbar" role="toolbar" aria-label="เปลี่ยนหน้า"><button class="btn btn-line btn-sm tshow" type="button" data-pb="show" aria-expanded="false" aria-controls="thumbs"><svg class="i"><use href="#i-popen"/></svg>ภาพย่อ</button>
@@ -1287,7 +1300,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030o';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101a';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1356,7 +1369,7 @@ function morph(fn) {                    // กดส่งจากหน้า�
   morphing = Promise.race([t.finished.catch(() => {}), sleep(600)]).then(() => document.querySelectorAll('#inner .bubble').forEach(b => b.style.viewTransitionName = ''));
 }
 function show(p, push = true) {
-  const w = p === 'pWork';
+  const w = p === 'pWork'; document.documentElement.classList.remove('bw', 'bl');
   $('pHome').classList.toggle('hidden', w); $('pWork').classList.toggle('hidden', !w); $('pList').classList.add('hidden'); document.body.classList.remove('onlist');
   $('topback').classList.toggle('hidden', !w); $('tsep').classList.toggle('hidden', !w);
   $('toptag').classList.toggle('hidden', w);
@@ -1511,7 +1524,7 @@ function enterWork(again) {
   ttl = ''; slides = []; KEYS = []; cur = 0; $('tact').classList.add('hidden'); $('pages').innerHTML = ''; $('thumbs').innerHTML = '';
   if (viewing) { viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; }
   $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา'; $('skelt').classList.add('shimmer'); $('skel').querySelector('.orb')?.classList.add('think');
-  $('skelg').classList.remove('all'); $('skelg').innerHTML = Array.from({length: 6}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
+  $('skelg').classList.remove('all'); $('skel').classList.remove('open'); $('thumbs').querySelectorAll('.sk').forEach(e => e.remove()); $('skelg').innerHTML = Array.from({length: 6}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
   show('pWork'); openPanel('chat');
 }
 let lastAsk = '';                          // ย้อนกลับระหว่างสร้าง: ข้อความที่วางยังอยู่ในกล่องพิมพ์
@@ -2809,20 +2822,24 @@ function failMain(msg) {                  // พื้นที่สไลด�
   const t = $('skelt'); t.classList.remove('shimmer'); t.innerHTML = `<span>${esc(msg)}</span> <button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>`;
   setTtl(ttl || '', ttl ? '' : 'ยังไม่มีสไลด์');
 }
-async function resume(v, vs = [v]) {
+async function resume(v, vs = [v], cover) {
   SRCNAME = v.src; gen++; const my = gen;
   $('inner').innerHTML = ''; ttl = v.ttl || ''; slides = []; KEYS = []; STACK = []; SP = -1;
   const head = 'กำลังเปิดงานล่าสุดของคุณ' + (v.ttl ? `: ${v.ttl}` : '') + (v.n ? ` ${v.n} หน้า` : '');
   const sk = n => { $('skelt').textContent = n === 1 ? 'กำลังโหลดเครื่องมือ… ครั้งแรกอาจใช้เวลาสักครู่' : n === 2 ? 'กำลังเตรียมเครื่องมือ… ครั้งแรกอาจใช้เวลาสักครู่' : head; };   // เน็ตช้า: เห็นว่ายังโหลดอยู่ทีละขั้น
   $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); sk(bootStep); onBoot.add(sk);
-  $('skelg').classList.add('all'); $('skelg').classList.remove('fail'); deselectBox(); closeGrid(-1, true);
-  $('skelg').innerHTML = Array.from({length: Math.min(v.n || 6, 30)}, (_, i) => `<div class="ph" style="--i:${Math.min(i, 12)}"><b>${i + 1}</b></div>`).join('');
+  // ไอซ์ 1 พ.ย.: โครงตามเลย์เอาต์จริง (ภาพย่อซ้าย + สไลด์เดียวกลาง / มือถือสไลด์เดียว) ภาพปกล่าสุดจากเครื่องขึ้นแทนโครงหน้า 1
+  $('skel').classList.add('open'); $('skelg').classList.remove('all', 'fail'); deselectBox(); closeGrid(-1, true);
+  const cv = cover && document.createRange().createContextualFragment(cover).firstElementChild, n = Math.min(v.n || 6, 30);
+  $('skelg').innerHTML = `<div class="ph${cv ? ' cv' : ''}">${cv ? '<div class="slidebox"></div>' : ''}</div>`;
+  $('thumbs').innerHTML = Array.from({length: n}, (_, i) => `<div class="th sk${cv && !i ? ' cv' : ''}"><b>${i + 1}</b><div class="slidebox"></div></div>`).join('');
   show('pWork'); setTtl(ttl);
+  if (cv) [$('skelg').querySelector('.slidebox'), $('thumbs').querySelector('.slidebox')].forEach(b => mount(b, cv));
   try {
     await frame(); await boot(); onBoot.delete(sk); await guard(setsReady); if (my !== gen) return;
     busyNow = true; await guard(restore(v)); busyNow = false; if (my !== gen) return;   // ค้างที่ไหนก็จบที่ข้อความผิดพลาดภายใน ~90 วิ
     STACK = vs.slice(-40); SP = STACK.length - 1; urState(); setSave('ok'); coverNow();   // เลิกทำหลังรีโหลด = ย้อนตามเวอร์ชันที่เก็บในเครื่อง
-    $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(); $('tact').classList.remove('hidden');
+    $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(cv ? 'settled' : undefined); $('tact').classList.remove('hidden');   // ปกขึ้นอยู่แล้ว: ไม่เด้งซ้ำ
     const s = SETS.find(x => x.slug === slug);
     const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">${touch() ? 'แตะข้อความเพื่อเลือก แตะอีกครั้งเพื่อแก้ข้อความ' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย'} ${saveSt === 'no' ? 'เครื่องนี้เก็บงานไม่ได้ กดบันทึกเมื่อแก้เสร็จ (ต้องมี Code)' : 'ทุกการแก้เก็บในเครื่องนี้ให้เอง'}</p>`);
     if (!wide()) $('chatdot').classList.add('on');
@@ -3169,11 +3186,11 @@ function thumbsCol(c) { TW.c = c ? 1 : 0; saveTW(); applyTW(); requestAnimationF
 function fitStage() {
   if (!wide()) return; const C = $('canvas'); if (!C.clientWidth) return;
   const sw = Math.max(240, Math.floor(Math.min(C.clientWidth - 128, (C.clientHeight - 116) * 16 / 9)));
-  $('pages').style.setProperty('--sw', sw + 'px');
+  $('canvas').style.setProperty('--sw', sw + 'px');
   pgs()[cur]?.querySelectorAll('.slidebox').forEach(fit); placeEdit(); paintSel(); if (POP) paintPop();
 }
 new ResizeObserver(fitStage).observe($('canvas'));
-oneMQ.addEventListener?.('change', () => { if (one()) $('pages').style.removeProperty('--sw'); else fitStage(); });
+oneMQ.addEventListener?.('change', () => { if (one()) $('canvas').style.removeProperty('--sw'); else fitStage(); });
 $('tcolb').onclick = () => thumbsCol(true);
 $('pbar').onclick = ev => { const b = ev.target.closest('[data-pb]'); if (!b || b.disabled) return; const a = b.dataset.pb;
   if (a === 'show') thumbsCol(false); else if (a === 'add') openIns(Math.max(0, cur)); else select(Math.max(0, Math.min(slides.length - 1, cur + (a === 'next' ? 1 : -1))), {scroll: true}); };
@@ -4606,6 +4623,7 @@ async function loadHome() {
   const old = W.filter(w => w.del && Date.now() - w.del > 30 * DAY);   // ครบ 30 วันในถัง ลบตอนเปิดแอป (ไม่มีเซิร์ฟเวอร์)
   for (const w of old) await delForever(w.id);
   F.sort((a, b) => a.name.localeCompare(b.name, 'th'));
+  try { W.length ? localStorage.setItem('d2s_has', '1') : localStorage.removeItem('d2s_has'); } catch (e) {}   // รอบหน้าเลือกจองานของฉันได้ก่อนวาด
 }
 async function putW(w) { const db = await DB(), t = db.transaction('p', 'readwrite'); t.objectStore('p').put(w); await tdone(t); const i = W.findIndex(x => x.id === w.id); if (i >= 0) W[i] = w; else W.push(w); }
 async function delForever(id) {
@@ -4871,7 +4889,7 @@ async function openWork(id) {
   try { vs = await versions(id); } catch (e) {}
   if (!w || !vs.length) return htoast('เปิดงานนี้ไม่ได้ ไม่มีข้อมูลงานในเครื่องนี้');
   if (w.nm) vs = vs.map(x => ({...x, ttl: w.ttl}));        // ชื่อที่ลูกค้าตั้งเองใช้ในตัวแก้และชื่อไฟล์
-  closePop(); PID = id; resume(vs[vs.length - 1], vs);
+  closePop(); PID = id; resume(vs[vs.length - 1], vs, w.cover);
   history.replaceState(history.state, '', '#p=' + id);      // รีเฟรชแล้วอยู่งานเดิม
 }
 // ── คลิก / แป้นพิมพ์ ──
@@ -4914,7 +4932,10 @@ document.addEventListener('keydown', ev => {
 });
 // ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย (เป็นงานใหม่หนึ่งงาน) / #p=<id> เปิดงานนั้นต่อ (รีเฟรชในตัวแก้) / ไม่มี: งานของฉัน
 if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
-else { const h = (location.hash.match(/^#p=(.+)$/) || [])[1]; paintResume().then(() => { if (h && W.some(w => w.id === h && !w.del)) openWork(h); }); }
+else { const h = (location.hash.match(/^#p=(.+)$/) || [])[1];   // ลิงก์งาน: ตรงเข้าตัวแก้ ไม่ผ่านหน้าแรก/งานของฉัน (ไม่แว้บ)
+  if (!h) paintResume();
+  else { boot().catch(() => {}); show('pWork', false); $('topttl').textContent = ''; history.replaceState(history.state, '', location.pathname + location.search);
+    Promise.all([loadHome(), setsReady]).catch(() => {}).then(async () => { if (W.some(w => w.id === h && !w.del)) await openWork(h); if (PID !== h) paintResume(); }); } }
 if (/FBAN|FBAV|Instagram|Line\//i.test(navigator.userAgent))
   homeErr('กำลังเปิดในแอป Facebook หรือ LINE ซึ่งโหลดไฟล์ไม่ได้ แตะปุ่ม ... มุมขวาบน แล้วเลือก "เปิดในเบราว์เซอร์" ก่อนใช้งาน');
 </script>
