@@ -1233,6 +1233,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .cht td.cv input,.cht th.cv input{text-align:right}
 .cht th.cv{display:table-cell}.cht th.cv .sw{position:absolute;left:10px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:3px}
 .cht th.cv input{padding-left:26px}
+.cht.tx td.cv input,.cht.tx th.cv input{text-align:left;padding-left:10px}   /* ใบ 034 ตารางข้อความ: ชิดซ้าย ไม่มีจุดสี */
 .cht td.nt input,.cht th.nt input{text-align:left}
 .cht input:focus{border-color:var(--red);background:#fff}
 .cht tr.on td{background:var(--soft)}
@@ -1821,7 +1822,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101k';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101l';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2273,8 +2274,10 @@ def _pvfix():
                     for sr in pl_.series:
                         e = sr._element; nm_ = [v.text for v in e.iter(C) if v.getparent().getparent().tag.endswith('dlblRangeCache')]
                         ss.append(dict(n=(e.xpath('./c:tx//c:v/text()') or [''])[0], c=(e.xpath('./c:spPr/a:solidFill/a:srgbClr/@val') or e.xpath('./c:spPr/a:ln/a:solidFill/a:srgbClr/@val') or ['888888'])[0],
-                                       y=_num(e, 'c:val') or _num(e, 'c:yVal'), x=_num(e, 'c:xVal'), z=_num(e, 'c:bubbleSize'), l=nm_))
+                                       y=_num(e, 'c:val') or _num(e, 'c:yVal'), x=_num(e, 'c:xVal'), z=_num(e, 'c:bubbleSize'), l=nm_,
+                                       lb=bool(e.xpath('./c:dLbls/c:showVal[@val="1"]'))))
                     dr['p'].append(dict(t=pl_._element.tag.split('}')[1], s=ss, fmt=(pl_._element.xpath('.//c:numCache/c:formatCode/text()') or ['General'])[0]))
+                dr['lg'] = bool(sh.chart.has_legend); dr['at'] = [''.join(ax.xpath('./c:title//a:t/text()')) for ax in sh.chart._chartSpace.iter(_qn('c:valAx'), _qn('c:catAx'))]   # ใบ 034 ชื่อแกน (กระจาย/ฟอง = ชื่อคอลัมน์ X Y) แตะแก้ได้
             xs.append(dict(dr=dr, dp=[[[int(q.find(_qn('c:idx')).get('val')), (q.xpath('./c:spPr/a:solidFill/a:srgbClr/@val') or [''])[0]] for q in s_._element.findall(_qn('c:dPt'))] for s_ in sh.chart.plots[0].series], rev=o is not None and o.get('val') == 'maxMin'))
         ch.append(lst); X.append(xs)
     cl = None
@@ -2313,7 +2316,9 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
     const RD = Date; let off = 0; window.Date = class extends RD { constructor(...a) { if (a.length) super(...a); else super(RD.now() + off); } };
     try {
       await pv.preview(buf);
-      if (tmp.querySelector('.chart-node')) { await sleep(0); off = 1e8; for (let i = 0; i < 3; i++) await frame(); }
+      // ใบ 034: กราฟที่ echarts เริ่มแอนิเมชันหลังเลื่อนเวลาไปแล้ว (เวลาเริ่ม = +1e8) ค้างที่แท่งสูง/ยาว 0 หลังคืนเวลา (เห็นแกนแต่ไม่มีแท่ง) -> เลื่อนต่ออีกจนไม่มีแท่งที่ยังโตไม่เสร็จ (สูงสุด 1.5 วิ)
+      const growing = () => [...tmp.querySelectorAll('.chart-node svg path')].some(p => { const f = p.getAttribute('fill') || ''; if (!f || f === 'none' || f === 'transparent' || /0*fe01|0, ?254, ?1\b/i.test(f)) return false; const r = p.getBoundingClientRect(); return (r.width < .5) !== (r.height < .5); });
+      if (tmp.querySelector('.chart-node')) { await sleep(0); off = 1e8; for (let i = 0; i < 3; i++) await frame(); for (let i = 0; i < 90 && growing(); i++) { off += 1e8; await frame(); } }   // แท่งนอน (แกนหมวดแนวตั้ง) โตตามเวลาจริง ~1 วิ: รอเฉพาะกราฟที่ยังโตไม่เสร็จ
     } finally { window.Date = RD; }
     const drawn = [...tmp.querySelectorAll('.chart-node')].every(n => n.querySelector('svg path'));
     // กราฟจริง (ใบ 008): pptx-preview วาดกราฟด้วย echarts ใน setTimeout แล้วเล่นแอนิเมชัน ~1 วิ ต้องรอให้วาดเสร็จก่อนคัดลอก ไม่งั้นหน้ากราฟว่าง
@@ -2375,15 +2380,22 @@ function chartDraw(svg, D, node) {
   const f = (v, pc) => pc ? Math.round(v * (v <= 1.0001 ? 100 : 1)) + '%' : Math.abs(v) >= 1000 ? Math.round(v).toLocaleString('en-US') : String(+v.toFixed(2));
   const T = {fill: '#6B7280', 'font-size': 11, 'font-family': "'IBM Plex Sans Thai',sans-serif"}, G = {stroke: '#E5E7EB', 'stroke-width': 1};
   const p0 = D.p[0], t0 = p0.t;
+  const LG = D.lg ? D.p.flatMap(p => p.s).filter(s => String(s.n || '').trim()) : [];   // ใบ 034 คำอธิบายสี = ชื่อชุด (แตะแก้หัวคอลัมน์)
+  const legend = y => { if (!LG.length) return; const wd = s => 18 + String(s.n).length * 6.5 + 14; let x = (W - LG.reduce((a, s) => a + wd(s), 0)) / 2;
+    LG.forEach(s => { el('rect', {x, y: y - 5, width: 10, height: 10, rx: 2, fill: '#' + s.c}); el('text', {x: x + 15, y, 'dominant-baseline': 'central', ...T, fill: tc}, s.n); x += wd(s); }); };
   if (t0 === 'radarChart') {
-    const n = D.cats.length, cx = W / 2, cy = H / 2 + 6, R = Math.min(W, H) / 2 - 34, mx = nice(Math.max(...p0.s.flatMap(s => s.y), 1)), pt = (i, r) => [cx + r * Math.sin(2 * Math.PI * i / n), cy - r * Math.cos(2 * Math.PI * i / n)];
+    const n = D.cats.length, cx = W / 2, cy = H / 2 + 6 - (LG.length ? 10 : 0), R = Math.min(W, H) / 2 - 34 - (LG.length ? 10 : 0), mx = nice(Math.max(...p0.s.flatMap(s => s.y), 1)), pt = (i, r) => [cx + r * Math.sin(2 * Math.PI * i / n), cy - r * Math.cos(2 * Math.PI * i / n)];
     for (let q = 1; q <= 4; q++) el('polygon', {points: D.cats.map((_, i) => pt(i, R * q / 4).join(',')).join(' '), fill: 'none', ...G});
     D.cats.forEach((c, i) => { const [x, y] = pt(i, R + 16); el('line', {x1: cx, y1: cy, x2: pt(i, R)[0], y2: pt(i, R)[1], ...G}); el('text', {x, y, 'text-anchor': 'middle', 'dominant-baseline': 'central', ...T}, c); });
     p0.s.forEach((s, si) => { const pts = s.y.map((v, i) => pt(i, R * v / mx).join(',')).join(' '); el('polygon', {points: pts, fill: '#' + s.c, 'fill-opacity': .22, stroke: '#' + s.c, 'stroke-width': 2, 'data-m': si + '.0'}); });
+    legend(H - 10);
     return;
   }
-  const L = 48, Rr = D.p.length > 1 ? 48 : 16, Tp = 16, B = 34, pw = W - L - Rr, ph = H - Tp - B;
-  if (t0 === 'scatterChart' || t0 === 'bubbleChart') {
+  const at = D.at || [], xy = t0 === 'scatterChart' || t0 === 'bubbleChart', L = 48 + (xy && at[1] ? 16 : 0), Rr = D.p.length > 1 ? 48 : 16, Tp = 16 + (LG.length && !xy ? 18 : 0), B = 34 + (xy && at[0] ? 16 : 0), pw = W - L - Rr, ph = H - Tp - B;
+  if (!xy) legend(12);
+  if (xy) {
+    if (at[0]) el('text', {x: L + pw / 2, y: H - 6, 'text-anchor': 'middle', ...T, fill: tc, 'font-size': 12}, at[0]);   // ใบ 034 ชื่อแกน = หัวคอลัมน์ X / Y (แตะแก้)
+    if (at[1]) el('text', {x: 12, y: Tp + ph / 2, 'text-anchor': 'middle', 'dominant-baseline': 'central', transform: `rotate(-90 12 ${Tp + ph / 2})`, ...T, fill: tc, 'font-size': 12}, at[1]);
     const all = p0.s.flatMap(s => s.x.map((x, i) => [x, s.y[i]])), xs = all.map(a => a[0]), ys = all.map(a => a[1]);
     const xm = nice(Math.max(...xs, 1)), ym = nice(Math.max(...ys, 1)), zm = Math.max(...p0.s.flatMap(s => s.z), 1), X = v => L + v / xm * pw, Y = v => Tp + ph - v / ym * ph;
     for (let q = 0; q <= 4; q++) { const y = Tp + ph * q / 4; el('line', {x1: L, y1: y, x2: L + pw, y2: y, ...G}); el('text', {x: L - 6, y, 'text-anchor': 'end', 'dominant-baseline': 'central', ...T}, f(ym * (1 - q / 4))); el('text', {x: L + pw * q / 4, y: Tp + ph + 16, 'text-anchor': 'middle', ...T}, f(xm * q / 4)); }
@@ -2398,10 +2410,13 @@ function chartDraw(svg, D, node) {
   for (let q = 0; q <= 4; q++) { const y = Tp + ph * q / 4; el('line', {x1: L, y1: y, x2: L + pw, y2: y, ...G}); el('text', {x: L - 6, y, 'text-anchor': 'end', 'dominant-baseline': 'central', ...T}, f(bm * (1 - q / 4)));
     if (line) el('text', {x: L + pw + 6, y, 'dominant-baseline': 'central', ...T}, f(lm * (1 - q / 4), lpc)); }
   D.cats.forEach((c, j) => el('text', {x: L + bw * (j + .5), y: Tp + ph + 16, 'text-anchor': 'middle', ...T}, c));
+  // ใบ 034 ป้ายค่าตามไฟล์ (c:dLbls showVal) ผูกกับแถว/คอลัมน์ด้วยชื่อหมวด+ชื่อชุด (พาเรโตเรียงใหม่ในไฟล์) ค่าที่คิดจากสูตร (% สะสม) = ป้ายคำนวณ แก้ที่ต้นทาง
+  const vlab = (x, y, v, s, si, j, pc) => el('text', {x, y, 'text-anchor': 'middle', ...T, fill: tc, 'font-size': 11, 'font-weight': 600, class: 'd2slab', 'data-m': si + '.' + j, ...(String(s.n || '').trim() ? {'data-cn': D.cats[j], 'data-sn': s.n} : {'data-x': 1})}, f(v, pc));
   if (bars) { const k = bars.s.length, w = bw * .62 / k; bars.s.forEach((s, si) => s.y.forEach((v, j) => { const h = Math.max(0, v) / bm * ph;
-    el('rect', {x: L + bw * j + bw * .19 + si * w, y: Tp + ph - h, width: w, height: h, rx: 3, fill: '#' + s.c, 'data-m': si + '.' + j}); })); }
-  if (line) line.s.forEach(s => { const pts = s.y.map((v, j) => [L + bw * (j + .5), Tp + ph - v / lm * ph]);
-    el('polyline', {points: pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: '#' + s.c, 'stroke-width': 2.5}); pts.forEach(([x, y]) => el('circle', {cx: x, cy: y, r: 3.5, fill: '#fff', stroke: '#' + s.c, 'stroke-width': 2})); });
+    el('rect', {x: L + bw * j + bw * .19 + si * w, y: Tp + ph - h, width: w, height: h, rx: 3, fill: '#' + s.c, 'data-m': si + '.' + j});
+    if (s.lb) { const inn = !!line && h > 26, e = vlab(L + bw * j + bw * .19 + si * w + w / 2, Tp + ph - h + (inn ? 14 : -5), v, s, si, j); if (inn) e.setAttribute('fill', '#fff'); } })); }   // แท่งผสมเส้น: ป้ายแท่งในปลายแท่ง (ตามไฟล์) ไม่ชนป้ายเส้น
+  if (line) line.s.forEach((s, li) => { const pts = s.y.map((v, j) => [L + bw * (j + .5), Tp + ph - v / lm * ph]), si = (bars?.s.length || 0) + li;
+    el('polyline', {points: pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: '#' + s.c, 'stroke-width': 2.5}); pts.forEach(([x, y], j) => { el('circle', {cx: x, cy: y, r: 3.5, fill: '#fff', stroke: '#' + s.c, 'stroke-width': 2}); if (s.lb) vlab(x, y - 9, s.y[j], s, si, j, lpc); }); });
 }
 // ใบ 023: สีแทน #01xxxx ใน SVG ของ echarts -> ไล่สีจริงตามจุดสีในไฟล์ (เส้น = สีกลางของไล่สี เพราะเส้นตรงมีกล่องสูง 0 ไล่สีตามกล่องไม่ขึ้น)
 function gradBack(svg, gm, tag) {
@@ -2429,7 +2444,7 @@ function chartLabels(node, L) {
   const paths = [...svg.querySelectorAll('path')].map(p => ({p, f: hex(p.getAttribute('fill') || p.style.fill), r: p.getBoundingClientRect()}));
   const put = (x, y, t, col, z, anc = 'middle', bold) => { if (!t) return; const pt = new DOMPoint(x, y).matrixTransform(inv);
     String(t).split('\n').forEach((ln, q, a) => { const e = document.createElementNS(ns, 'text'); e.setAttribute('x', pt.x); e.setAttribute('y', pt.y + (q - (a.length - 1) / 2) * z * 1.15); e.setAttribute('text-anchor', anc); e.setAttribute('dominant-baseline', 'central');
-      e.setAttribute('class', 'd2slab'); if (put.m) e.dataset.m = put.m; e.style.cssText = `fill:#${col || '15151A'};font-size:${z}px;font-weight:${bold ? 700 : 600};font-family:'IBM Plex Sans Thai',sans-serif;stroke:none`; e.textContent = ln; svg.appendChild(e); }); };
+      e.setAttribute('class', 'd2slab'); if (put.m) e.dataset.m = put.m; if (put.cn != null) { e.dataset.cn = put.cn; e.dataset.sn = put.sn; } e.style.cssText = `fill:#${col || '15151A'};font-size:${z}px;font-weight:${bold ? 700 : 600};font-family:'IBM Plex Sans Thai',sans-serif;stroke:none`; e.textContent = ln; svg.appendChild(e); }); };
   if (L.k === 'pie' || L.k === 'donut') {
     const s0 = L.s[0], sl = s0.pc.map(c => paths.find(o => o.f === c && o.r.width > 4)); if (sl.some(x => !x)) return;
     const u = sl.reduce((a, o) => ({l: Math.min(a.l, o.r.left), t: Math.min(a.t, o.r.top), r: Math.max(a.r, o.r.right), b: Math.max(a.b, o.r.bottom)}), {l: 1e9, t: 1e9, r: -1e9, b: -1e9});
@@ -2437,7 +2452,7 @@ function chartLabels(node, L) {
     svg.querySelectorAll('text:not(.d2slab)').forEach(t => { const r = t.getBoundingClientRect(); if (r.top < u.b + 2 && r.bottom > u.t - 2) t.remove(); });   // ชื่อหมวดที่ echarts ตัดเป็น "ค่า…" (คำอธิบายสีอยู่ใต้วง ไม่โดน)
     paths.forEach(o => { if (o.f === 'NONE' && o.p.getAttribute('stroke') && o.r.top < u.b && o.r.bottom > u.t && !sl.includes(o)) o.p.remove(); });   // เส้นโยงป้าย
     const tot = s0.l.length; let a0 = -Math.PI / 2; const vals = sl.map(o => 1);   // มุมจากจุดกลางชิ้น (กล่องรอบชิ้น) แม่นพอสำหรับวางป้าย
-    sl.forEach((o, j) => { o.p.dataset.m = '0.' + j; put.m = '0.' + j; const mx = (o.r.left + o.r.right) / 2 - cx, my = (o.r.top + o.r.bottom) / 2 - cy, d = Math.hypot(mx, my) || 1;
+    sl.forEach((o, j) => { o.p.dataset.m = '0.' + j; put.m = '0.' + j; put.cn = L.cats?.[j]; put.sn = s0.n; const mx = (o.r.left + o.r.right) / 2 - cx, my = (o.r.top + o.r.bottom) / 2 - cy, d = Math.hypot(mx, my) || 1;
       put(cx + mx / d * rr, cy + my / d * rr, s0.l[j], s0.pl?.[j] || s0.lc, s0.z, 'middle', j === 0); });
     return;
   }
@@ -2446,15 +2461,23 @@ function chartLabels(node, L) {
     const n = s0.l.length, cs = new Set([s0.c, ...(s0.pc || [])].filter(Boolean)); let c = paths.filter(o => cs.has(o.f) && o.r.width > 1 && o.r.height > 1);
     if (L.k === 'line' || L.k === 'area') { const lc = new Set([s0.c, s0.ln].filter(Boolean)); c = paths.filter(o => o.r.width < 20 && o.r.height < 20 && Math.abs(o.r.width - o.r.height) < 2 && o.r.width > 1 && (lc.has(hex(o.p.getAttribute('stroke'))) || lc.has(o.f)));
       const g = {}; c.forEach(o => (g[Math.round(o.r.width)] = g[Math.round(o.r.width)] || []).push(o)); c = Object.values(g).find(x => x.length === n) || c; }   // ไอคอนคำอธิบายสีขนาดต่างจากจุด   // จุดของเส้นนี้ (ขอบสีเดียวกับเส้น)   // จุดของเส้นแรกเท่านั้น (เส้นอื่นไม่มีจุด)
-    if (L.k === 'col' || L.k === 'bar') {                // แท่งของชุดเดียวกันมีฐานร่วม (ไอคอนคำอธิบายสีไม่ร่วม)
+    if ((L.k === 'col' || L.k === 'bar') && c.length > n) {   // แท่งของชุดเดียวกันมีฐานร่วม (ไอคอนคำอธิบายสีไม่ร่วม) / ใบ 034 แท่งลอยของน้ำตก กรวยกลาง ไม่มีฐานร่วม: นับครบแล้วไม่ต้องกรอง
       const key = o => Math.round(L.k === 'col' ? o.r.bottom : o.r.left), cnt = {}; c.forEach(o => cnt[key(o)] = (cnt[key(o)] || 0) + 1);
       const best = +Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0]; c = c.filter(o => Math.abs(key(o) - best) <= 1.5);
     }
+    let byCat = false;
+    if (c.length !== n && L.cats?.length === n && (L.k === 'col' || L.k === 'bar')) {   // ใบ 034 กรวยกลาง/น้ำตก: แท่งไม่มีฐานร่วม + ไอคอนคำอธิบายสีสีเดียวกัน -> จับคู่แท่งกับชื่อหมวดบนแกน (ตำแหน่งตรงกัน)
+      const c0 = paths.filter(o => cs.has(o.f) && o.r.width > 1 && o.r.height > 1), tx = [...svg.querySelectorAll('text:not(.d2slab)')], mid = r => L.k === 'bar' ? (r.top + r.bottom) / 2 : (r.left + r.right) / 2;
+      const ps = L.cats.map(cn => tx.find(e => e.textContent.trim() === String(cn).trim())), gap = ps.every(Boolean) && n > 1 ? Math.abs(mid(ps[0].getBoundingClientRect()) - mid(ps[1].getBoundingClientRect())) / 2 : 0;
+      const pick = gap ? ps.map(t => c0.filter(o => Math.abs(mid(o.r) - mid(t.getBoundingClientRect())) < gap).sort((a, b) => b.r.width * b.r.height - a.r.width * a.r.height)[0]) : [];
+      if (pick.length === n && pick.every(Boolean) && new Set(pick).size === n) { c = pick; byCat = true; }
+    }
     if (c.length !== n) return;
-    c.sort((a, b) => L.k === 'bar' ? b.r.bottom - a.r.bottom : a.r.left - b.r.left);   // echarts วาดแท่งนอนหมวดแรกไว้ล่างสุด (ใบ 023 แก้จากบนลงล่างที่ทำให้ป้ายสลับแท่ง)
-    c.forEach((o, j) => { const r = o.r; o.p.dataset.m = si + '.' + j; put.m = si + '.' + j;
-      if (L.k === 'bar') put(r.right + 6, (r.top + r.bottom) / 2, s0.l[j], s0.pl?.[j] || s0.lc, s0.z, 'start');
-      else put((r.left + r.right) / 2, r.top - s0.z * .75, s0.l[j], s0.pl?.[j] || s0.lc, s0.z); });
+    if (!byCat) c.sort((a, b) => L.k === 'bar' ? b.r.bottom - a.r.bottom : a.r.left - b.r.left);   // echarts วาดแท่งนอนหมวดแรกไว้ล่างสุด (ใบ 023 แก้จากบนลงล่างที่ทำให้ป้ายสลับแท่ง)
+    c.forEach((o, j) => { const r = o.r; o.p.dataset.m = si + '.' + j; put.m = si + '.' + j; put.cn = L.cats?.[j]; put.sn = s0.n;
+      const pin = s0.p === 'ctr' || s0.p === 'inEnd', cx = (r.left + r.right) / 2, cy = (r.top + r.bottom) / 2;   // ใบ 034 ป้ายในแท่งตามไฟล์ (กรวยกลาง น้ำตก) ไม่งั้นป้ายสีขาวไปอยู่นอกแท่งบนพื้นขาว
+      if (L.k === 'bar') pin ? put(s0.p === 'ctr' ? cx : r.right - 6, cy, s0.l[j], s0.pl?.[j] || s0.lc, s0.z, s0.p === 'ctr' ? 'middle' : 'end') : put(r.right + 6, cy, s0.l[j], s0.pl?.[j] || s0.lc, s0.z, 'start');
+      else put(cx, pin ? (s0.p === 'ctr' ? cy : r.top + s0.z * (String(s0.l[j]).split('\n').length * .6 + .2)) : r.top - s0.z * .75, s0.l[j], s0.pl?.[j] || s0.lc, s0.z); });
   });
 }
 // QA 30j (บล็อก): สำเนาสไลด์ (หน้า ภาพย่อ ตาราง ตัวอย่าง) มี id ไล่สีของ SVG ซ้ำกัน fill="url(#id)" ไปชี้ svg ที่ซ่อนอยู่ (ภาพย่อบนมือถือกว้าง 0) พื้นเลยขาว
@@ -2705,7 +2728,8 @@ function phAct(a, k, btn) {
 function pageAct(a) {
   if (busyNow || cur < 0 || viewing) return;
   if (a === 'alt') { const k = cur; openSheet('แบบอื่นสำหรับหน้านี้', 'เฉพาะแบบในหน้าตาเดียวกันที่ใส่เนื้อหาหน้านี้ได้พอดี', altLayRow(k) + '<div class="grid2" id="altsSheet"></div>'); altsInto($('altsSheet'));
-    const r = $('shBody').querySelector('[data-alay]'); if (r) r.onclick = () => { closeSheet(); selectChart(k); if (CH) chOpen('lay'); }; }
+    const r = $('shBody').querySelector('[data-alay]'); if (r) r.onclick = () => { closeSheet(); selectChart(k); if (CH) chOpen('lay'); };
+    const tb = $('shBody').querySelector('[data-atbl]'); if (tb) tb.onclick = ev => { ev.stopPropagation(); closeSheet(); setTimeout(() => tblEdit(k), 60); }; }
   if (a === 'dup') dupPage();
   if (a === 'up') move(-1);
   if (a === 'down') move(1);
@@ -3158,10 +3182,11 @@ ALTS = [x for x in D.alternatives(_c, M['slug']) if x[0] != ITEMS[IDX][0]]; len(
 // ── แทรกหน้าใหม่ (ใบงาน 003 เฟส 2): แบบหน้าของชุดที่ใช้อยู่ ภาพตัวอย่างวาดจริงครั้งเดียวต่อชุด ช่องว่างให้ลูกค้าพิมพ์เอง ──
 const MAXP = 30;                           // เท่ากับ D.MAXSLIDES (มือถือรับไม่ไหวถ้าเกินนี้)
 const INSG = {cover: ['ปก', 'slides'], agenda: ['สารบัญ', 'list'], list: ['รายการ', 'list'], pairs: ['หัวข้อพร้อมคำอธิบาย', 'heading'], faq: ['ถาม-ตอบ', 'help'],
-  stat: ['การ์ดตัวเลข', 'hash'], chart: ['กราฟ', 'chart'], timeline: ['ไทม์ไลน์', 'cal'], compare: ['เปรียบเทียบ', 'layout'], statement: ['ข้อความเด่น', 'type'], divider: ['หน้าคั่น', 'slides']};
+  stat: ['การ์ดตัวเลข', 'hash'], chart: ['กราฟ', 'chart'], table: ['ตาราง', 'table'], timeline: ['ไทม์ไลน์', 'cal'], compare: ['เปรียบเทียบ', 'layout'], statement: ['ข้อความเด่น', 'type'], divider: ['หน้าคั่น', 'slides']};
 const INSO = Object.keys(INSG);            // ลำดับหมวดในแผ่น (กราฟต่อจากการ์ดตัวเลข)
 const INSF = [['column', 'col_capsule'], ['donut', 'donut_half'], ['line', 'line_callout'], ['funnel', 'funnel_blocks']];   // ใบ 031 กราฟเด่น 4 แบบในหมวดกราฟ
 const insCache = new Map();                // ชุด → [{i, kd, node}]  node: null ยังไม่วาด / false วาดไม่ได้ (ไม่โชว์)
+const tblPv = new Map();                   // ใบ 034 ชุด → ภาพตัวอย่างหน้าตาราง
 let insAt = -1, insTab = null, insTok = 0, INV = 'list', IR = null, CHALL = null, insLock = 0;
 const chAll = () => CHALL || (CHALL = JSON.parse(py.runPython('json.dumps([dict(type=x["type"], th=x["th"], styles=[dict(id=y["id"], th=y["th"], xl=y["xl"]) for y in x["styles"]]) for x in D.lay_charts.chart_types({"cats": [], "series": []})], ensure_ascii=False)')));
 const chN = () => chAll().reduce((n, x) => n + x.styles.length, 0);
@@ -3188,16 +3213,16 @@ function openIns(at) {
 }
 function insHead() {
   const hd = $('sheet').querySelector('.hd'); let b = $('insB');
-  $('shT').textContent = INV === 'list' ? `เพิ่มหน้าต่อจากหน้า ${insAt + 1}` : `เพิ่มหน้ากราฟต่อจากหน้า ${insAt + 1}`;
-  if (INV === 'list') return b?.remove();
+  $('shT').textContent = INV === 'list' ? `เพิ่มหน้าต่อจากหน้า ${insAt + 1}` : IR?.edit != null ? `แก้ข้อมูลตาราง หน้า ${IR.edit + 1}` : IR?.tbl ? `เพิ่มหน้าตารางต่อจากหน้า ${insAt + 1}` : `เพิ่มหน้ากราฟต่อจากหน้า ${insAt + 1}`;
+  if (INV === 'list' || IR?.edit != null) return b?.remove();
   if (!b) { hd.insertAdjacentHTML('afterbegin', `<button class="ib xtra" id="insB" type="button" aria-label="ย้อนกลับ">${ico('back')}</button>`); $('insB').onclick = insBack; }
 }
-function insBack() { if (INV === 'rv' && IR?.from === 'all') return insAll(); insTab = 'chart'; insList(); }
+function insBack() { if (INV === 'rv' && IR?.from === 'all') return insAll(); insTab = IR?.tbl ? 'table' : 'chart'; insList(); }
 function insClick(ev) {
   const c = ev.target.closest('.cat'); if (c) return insJump(c);
   const t = ev.target.closest('.opt.lay'); if (t) { insTab = t.closest('.ins-s')?.dataset.k || insTab; return insertPage(insAt, +t.dataset.i); }
   const s = ev.target.closest('.chst[data-st]'); if (s) return insRv(s.dataset.ty, s.dataset.st);
-  const v = ev.target.closest('[data-v]'); if (v) { if (v.dataset.v === 'all') return insAll(); if (v.dataset.v === 'add') return insChartAdd(); }
+  const v = ev.target.closest('[data-v]'); if (v) { if (v.dataset.v === 'all') return insAll(); if (v.dataset.v === 'add') return insChartAdd(); if (v.dataset.v === 'tbl') return insTbl(); }
   const l = ev.target.closest('[data-rl]'); if (l) return insLay(l);
   if (INV === 'rv' && TB?.k < 0) tbClick(ev);
 }
@@ -3231,7 +3256,7 @@ function insKinds(P) {
   const ok = P.filter(e => e.node !== false && (ag || e.kd !== 'agenda')), ks = [...new Set(ok.map(e => e.kd))];
   const agK = ['agenda', 'list', 'pairs'].find(k => ks.includes(k)), inTab = (e, k) => e.kd === (k === 'agenda' ? agK : k);   // ชุดที่ไม่มีแบบสารบัญ: หมวดสารบัญใช้แบบรายการ/หัวข้อพร้อมคำอธิบายของชุด (ลำดับเดียวกับ FIT ของสารบัญ)
   if (ag && agK && agK !== 'agenda') ks.push('agenda');
-  ks.push('chart'); const o = k => { const i = INSO.indexOf(k); return i < 0 ? 99 : i; }; ks.sort((a, b) => o(a) - o(b));
+  ks.push('chart', 'table'); const o = k => { const i = INSO.indexOf(k); return i < 0 ? 99 : i; }; ks.sort((a, b) => o(a) - o(b));
   return {ks, ok, inTab};
 }
 const insSlot = (e, k, n) => e.node ? `<button class="opt lay" type="button" data-i="${e.i}" aria-label="เพิ่มหน้า${INSG[k][0]} แบบที่ ${n + 1}"><div class="slidebox"></div></button>` : `<div class="opt ph" data-i="${e.i}" data-n="${n}" data-k="${k}"></div>`;
@@ -3243,12 +3268,14 @@ function paintIns(P) {
     const mk = META[insAt]?.kind, want = {qa: 'faq', table: 'list'}[mk] || mk;
     insTab = ks.includes(want) ? want : ks.find(k => k !== 'cover') || ks[0];
   }
-  const cnt = k => k === 'chart' ? chN() : ok.filter(e => inTab(e, k)).length;
+  const cnt = k => k === 'chart' ? chN() : k === 'table' ? 1 : ok.filter(e => inTab(e, k)).length;
   $('insc').innerHTML = ks.map(k => `<button class="cat${k === insTab ? ' on' : ''}" data-k="${k}" type="button" aria-current="${k === insTab}">${ico(INSG[k][1])}${INSG[k][0]}<em>${cnt(k)}</em></button>`).join('');
   $('insg').innerHTML = ks.map(k => `<section class="ins-s" data-k="${k}"><h4>${ico(INSG[k][1])}${INSG[k][0]}<em>${cnt(k)} แบบ</em></h4>${k === 'chart'
     ? `<div class="ingrid">${INSF.map(([t, id]) => chCard(t, chSt(id) || {id, th: ''}, false)).join('')}</div><button class="chall" type="button" data-v="all">${ico('chart')}<span>ดูกราฟทั้งหมด ${chN()} แบบ</span>${ico16('next')}</button>`
+    : k === 'table' ? `<div class="ingrid"><button class="opt tblc" type="button" data-v="tbl" aria-label="เพิ่มหน้าตาราง"><div class="slidebox" id="insTblBox"><div class="opt ph"></div></div></button></div>`
     : `<div class="ingrid">${ok.filter(e => inTab(e, k)).map((e, n) => insSlot(e, k, n)).join('')}</div>`}</section>`).join('');
   $('insg').querySelectorAll('.opt.lay').forEach(b => { b.style.animation = 'none'; mount(b.firstChild, P.find(e => e.i === +b.dataset.i).node); });
+  if (tblPv.get(slug)) mount($('insTblBox'), tblPv.get(slug));
   const sec = $('insg').querySelector(`.ins-s[data-k="${insTab}"]`); if (sec) $('insg').scrollTop = sec.offsetTop - 4;
   insLock = Date.now() + 200; insMark(insTab);
 }
@@ -3277,6 +3304,10 @@ async function loadIns(my) {
     } catch (err) { console.warn(err); e.node = false; }
     if (my === insTok) insFill(e);
   }
+  if (!tblPv.has(sl)) {                    // ใบ 034 ภาพตัวอย่างหน้าตาราง (ข้อมูลตัวอย่าง) วาดครั้งเดียวต่อชุด
+    await frame(); if (my !== insTok || slug !== sl) return;
+    try { py.globals.set('S_', sl); const node = (await preview(pptx('_t = D.new_table(S_, D.TABLE_SAMPLE, True); D.render([_t[:2]], M, "", ins={0: "table"}, hint=True)')))[0]; if (node) { tblPv.set(sl, node); if (my === insTok && $('insTblBox')) mount($('insTblBox'), node); } } catch (err) { console.warn(err); }
+  }
 }
 // ── กราฟทั้งหมด 40 แบบ: 4 กลุ่มเดียวกับเมนูชนิด (ใบ 023) ชิปกลุ่ม = ทางลัด แตะการ์ด = ตรวจก่อนเพิ่ม ──
 function insAll() {
@@ -3300,6 +3331,26 @@ function insRv(t, s) {
     <div class="insft"><button class="btn btn-red btn-big" type="button" data-v="add">${ico('plus')}เพิ่มหน้ากราฟเป็นหน้า ${insAt + 2}</button></div>`;
   insLayPaint(); insRvTable(); insRvApply();
 }
+// ── ใบ 034 หน้าตาราง: ตรวจก่อนเพิ่ม (ตารางตัวอย่างทันที แก้หัว/แถว เพิ่มลบคอลัมน์ ลากสลับแถว อัปโหลด CSV Excel ปุ่มเพิ่มกดได้เสมอ) + แผงข้อมูลของหน้าตารางที่มีแล้ว (แบบเดียวกัน) ──
+function insTbl(edit) {
+  let tb; try { tb = JSON.parse(edit != null ? (py.globals.set('IDX', order[edit]), py.runPython('D.page_table(ITEMS, IDX)')) : py.runPython('D.table_sample()')); } catch (e) { console.error(e); return toast('เปิดตารางไม่สำเร็จ ลองใหม่อีกครั้ง'); }
+  IR = {tbl: true, edit, from: INV, n: 0, samp: edit == null}; INV = 'rv'; insHead();
+  TB = {k: -1, tbl: true, rows: tb.map(r => r.map(String)), sel: -1, pend: false, err: '', file: ''}; IR.s0 = edit == null ? JSON.stringify(TB.rows) : '';
+  const p = $('insp'); p.className = 'insp insrv';
+  p.innerHTML = `<div class="rvsc"><div class="rvl"><div class="rvpv"><div class="slidebox" id="rvBox"><div class="opt ph"></div></div><span class="rvcap">ภาพตัวอย่างหน้า ${edit != null ? edit + 1 : insAt + 2}</span></div></div>
+    <div class="rvr"><h4>ข้อมูลตาราง <span class="rvtag" id="rvTag"></span></h4><div class="chrow"><button type="button" class="btn btn-line" data-t="up">${ico('upload')}อัปโหลด CSV / Excel</button></div>
+      <div id="rvTb"></div><p class="inote">${ico('info')}<span>${edit != null ? 'แก้หัวคอลัมน์ แถว เพิ่มหรือลบคอลัมน์ได้ ภาพตัวอย่างเปลี่ยนตาม แก้คำในช่องบนสไลด์ได้เหมือนเดิม' : 'แก้คำในตารางได้เลย ภาพตัวอย่างเปลี่ยนตาม เพิ่มหน้าไปก่อนแล้วแตะแก้คำบนสไลด์ทีหลังก็ได้'}</span></p></div></div>
+    <div class="insft"><button class="btn btn-red btn-big" type="button" data-v="add">${edit != null ? `${ico('check')}ใช้ข้อมูลนี้` : `${ico('plus')}เพิ่มหน้าตารางเป็นหน้า ${insAt + 2}`}</button></div>`;
+  insRvTable(); insRvApply();
+}
+function tblEdit(k) {                       // แผงข้อมูลหน้าตาราง (จากแผ่นเปลี่ยนแบบ / เตือนข้อมูลตัวอย่างตอนบันทึก)
+  if (busyNow || viewing) return; if (ED && !finishEdit(true)) return; if (CH) chOff();
+  insAt = k; insTok++;
+  openSheet('', '', '<div class="insp" id="insp"></div>'); $('sheet').classList.add('ins'); $('shBody').onclick = insClick;
+  [['input', tbInput], ['focusin', tbFocus], ['focusout', tbBlur], ['keydown', tbKey]].forEach(([e, f]) => $('insp').addEventListener(e, ev => { if (INV === 'rv' && TB?.k < 0) f(ev); }));
+  insTbl(k);
+}
+const isTbl = k => META[k]?.kind === 'table' && !!py.runPython(`bool(ITEMS[${order[k]}][1].get('rows'))`);
 function insLayPaint() {
   $('rvLay').innerHTML = 'ABCDEF'.split('').map(id => { const no = id === 'F', on = IR.lay === id;
     return `<button type="button" class="rvl1${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-rl="${id}"${no ? ' aria-disabled="true"' : ''}><img src="img/ch-lay/${id}.jpg?v=${V}" alt="" width="320" height="180"><span><em>${id}</em>${CHLN[id]}</span>${on ? `<i class="ck">${ico16('check')}</i>` : ''}</button>`; }).join('');
@@ -3321,12 +3372,17 @@ async function insRvApply() {             // ตาราง/เลย์เอ�
   try {
     const r = insNew(); if (r !== 'ok') { TB.err = r; return insRvTable(); }
     TB.err = ''; insRvTable();
-    const node = (await preview(pptx('D.render([_x[:2]], M, "", ins={0: "chart"}, hint=True)')))[0];
+    const node = (await preview(pptx(`D.render([_x[:2]], M, "", ins={0: "${IR.tbl ? 'table' : 'chart'}"}, hint=True)`)))[0];
     if (my !== R.n || INV !== 'rv' || IR !== R || !node) return; mount($('rvBox'), node);
   } catch (e) { console.error(e); TB.err = 'วาดภาพตัวอย่างไม่สำเร็จ ข้อมูลในตารางยังอยู่ครบ'; insRvTable(); }
 }
 function insNew() {                        // _x = (layout, d, c) ของหน้ากราฟใหม่ / ข้อความไทยบอกเหตุที่วาดไม่ได้
   const t = tbClean(), bad = [];
+  if (IR.tbl) {                              // ใบ 034 หน้าตาราง: ทุกช่องเป็นข้อความ (ว่างได้) หน้าตารางของชุดที่วาดเป็นตารางจริง ไม่มีก็หน้าตารางกลางสีของชุด
+    py.globals.set('TBL', py.toPy(t)); py.globals.set('SAMP', IR.samp);
+    if (IR.edit != null) { py.globals.set('IDX', order[IR.edit]); return py.runPython('_its = [ITEMS[IDX]]; _r = D.set_table(_its, 0, [list(r) for r in TBL], M["slug"]); _x = (_its[0][0], _its[0][1], CS[IDX]) if _r == "ok" else _r\n"ok" if isinstance(_x, tuple) else _x'); }   // ภาพตัวอย่าง = หน้าเดิม (หัวเรื่อง หมายเหตุ ตำแหน่ง) กับข้อมูลใหม่
+    return py.runPython('_x = D.new_table(M["slug"], [list(r) for r in TBL], SAMP)\n"ok" if isinstance(_x, tuple) else _x');
+  }
   t.slice(1).forEach((r, i) => r.forEach((v, c) => { if (c > 0 && t[0][c] !== CHNOTE && !num(v)) bad.push([i + 1, c]); }));
   if (bad.length) return `แถว ${bad[0][0]} คอลัมน์ "${t[0][bad[0][1]] || bad[0][1] + 1}" ต้องเป็นตัวเลข (เช่น 240,000 หรือ 18%)`;
   if (t.length - 1 > 8) return chWhyRows(t.length - 1);
@@ -3339,6 +3395,17 @@ async function insChartAdd() {
   IR.samp = JSON.stringify(TB.rows) === IR.s0;
   let r; try { r = insNew(); } catch (e) { console.error(e); r = 'เพิ่มหน้ากราฟไม่สำเร็จ ลองใหม่อีกครั้ง'; }
   if (r !== 'ok') { TB.err = r; insRvTable(); $('rvTb')?.scrollIntoView({block: 'nearest', behavior: SMOOTH()}); return toast(r); }
+  if (IR.edit != null) {                    // ใบ 034 แผงข้อมูลหน้าตาราง: ข้อมูลใหม่ลงหน้าเดิม 1 ขั้นเลิกทำ
+    const k = IR.edit; py.globals.set('TBL', py.toPy(tbClean())); closeSheet(); insTok++; INV = 'list';
+    return chRun(k, 'D.set_table(ITEMS, IDX, [list(r) for r in TBL], M["slug"])', `แก้ข้อมูลตาราง หน้า ${k + 1}`, null, () => toast(`แก้ข้อมูลตาราง หน้า ${k + 1} แล้ว`));
+  }
+  if (IR.tbl) {
+    const at = insAt; closeSheet(); insTok++; INV = 'list'; if (gridOn) closeGrid(at, true);
+    await reflow(() => { const n = py.runPython('ITEMS.append(tuple(_x[:2])); CS.append(dict(_x[2])); len(ITEMS) - 1'); order.splice(at + 1, 0, n); }, `เพิ่มหน้าตารางเป็นหน้า ${at + 2}`, at + 1, false);
+    document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act'));
+    if (META[cur]?.ins && META[cur]?.kind === 'table') { select(cur, {scroll: true}); toast(`เพิ่มหน้าตารางเป็นหน้า ${cur + 1} แล้ว แตะช่องในตารางเพื่อแก้คำได้เลย`); }
+    return;
+  }
   const at = insAt, nm = chSt(IR.s)?.th || ''; closeSheet(); insTok++; INV = 'list'; if (gridOn) closeGrid(at, true);
   await reflow(() => {
     const n = py.runPython('ITEMS.append(tuple(_x[:2])); CS.append(dict(_x[2])); len(ITEMS) - 1');
@@ -4055,11 +4122,11 @@ async function xdGo(skip) {
   let sm = []; try { sm = JSON.parse(py.runPython(`json.dumps([p for p, i in enumerate(${JSON.stringify(order)}) if ITEMS[i][1].get('_samp')])`)).filter(k => ks.includes(k) && !(skip || []).includes(k)); } catch (e) { console.warn(e); }
   const skey = sm.join(',');
   if (sm.length && smOk !== skey) {
-    openSheet(`หน้า ${thaiList(sm.map(q => q + 1))} ยังเป็นข้อมูลตัวอย่าง`, `กราฟ${sm.length > 1 ? 'ในหน้าเหล่านี้' : 'หน้านี้'}ยังใช้ตัวเลขตัวอย่างตอนเพิ่มหน้า ถ้าบันทึกตอนนี้ตัวเลขตัวอย่างจะอยู่ในไฟล์ตามที่เห็น`,
+    openSheet(`หน้า ${thaiList(sm.map(q => q + 1))} ยังเป็นข้อมูลตัวอย่าง`, `${sm.every(isTbl) ? 'ตาราง' : 'กราฟ'}${sm.length > 1 ? 'ในหน้าเหล่านี้' : 'หน้านี้'}ยังใช้ข้อมูลตัวอย่างตอนเพิ่มหน้า ถ้าบันทึกตอนนี้ข้อมูลตัวอย่างจะอยู่ในไฟล์ตามที่เห็น`,
       `<div class="confirm"><button class="btn btn-line btn-big" data-m="fix" type="button">${ico('table')}กลับไปแก้ข้อมูล</button><button class="btn btn-red btn-big" data-m="go" type="button">${ico('down')}บันทึกเลย</button></div>`);
     $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
       if (b.dataset.m === 'go') { smOk = skey; return xdGo(skip); }
-      xdClose(); const q = sm[0]; select(q, {scroll: true}); setTimeout(() => { if (isChart(q)) { selectChart(q); chOpen('data'); } }, 380); };
+      xdClose(); const q = sm[0]; select(q, {scroll: true}); setTimeout(() => { if (isChart(q)) { selectChart(q); chOpen('data'); } else if (isTbl(q)) tblEdit(q); }, 380); };
     return;
   }
   if (!skip) {                             // หน้าที่แทรกแล้วยังไม่ได้พิมพ์อะไร: ถามก่อน ไม่ส่งหน้าเปล่าไปในไฟล์เงียบ ๆ
@@ -7037,7 +7104,7 @@ function paintCh(first) {
   // ชิ้นที่แก้ได้: เส้นประบาง (จางเข้า 150ms ครั้งแรก) / ตัวเลขที่คิดจากตาราง: เส้นจุดเทา
   const ed = chOf(k).filter(s => /^(v|s|c|lab)\./.test(s[1]) && !BOX[k]?.some(b => b.p[0] === 'cats' && s[1] === 'c.' + b.p[1])), xs = chOf(k).filter(s => s[1].startsWith('x.'));
   f.innerHTML = [...ed.map(s => [s, 'e']), ...xs.map(s => [s, 'x'])].map(([s, c]) => `<i class="${c}" style="left:${(s[2] - r.x) / r.w * 100}%;top:${(s[3] - r.y) / r.h * 100}%;width:${s[4] / r.w * 100}%;height:${s[5] / r.h * 100}%"></i>`).join('')
-    + [...(chLay(k)?.querySelectorAll('.chart-node .d2slab[data-m]') || [])].map(t => { const q = t.getBoundingClientRect(), S = pg.querySelector('.slide').getBoundingClientRect(), sc = S.width / 960, x = (q.left - S.left) / sc, y = (q.top - S.top) / sc;
+    + [...(chLay(k)?.querySelectorAll('.chart-node .d2slab[data-m],.chart-node text') || [])].filter(t => t.matches('.d2slab[data-m]') || chTk(t)).map(t => { const q = t.getBoundingClientRect(), S = pg.querySelector('.slide').getBoundingClientRect(), sc = S.width / 960, x = (q.left - S.left) / sc, y = (q.top - S.top) / sc;
       return `<i class="e" style="left:${(x - 3 - r.x) / r.w * 100}%;top:${(y - 2 - r.y) / r.h * 100}%;width:${(q.width / sc + 6) / r.w * 100}%;height:${(q.height / sc + 4) / r.h * 100}%"></i>`; }).join('');
   if (first) f.classList.remove('on'); requestAnimationFrame(() => f.classList.add('on'));
   pg.querySelector('.slide').classList.add('chon');
@@ -7158,9 +7225,22 @@ function chPiece(k, cx, cy) {
     if (pr === 2) { const g = e.querySelector('path'); if (g && g.isPointInFill) { try { const m = g.getScreenCTM().inverse(), q = new DOMPoint(cx, cy).matrixTransform(m); if (!g.isPointInFill(q) && !g.isPointInStroke(q)) return; } catch (x) {} } }
     cand.push({key, e, r, pr, a: r.width * r.height});
   });
-  w.querySelectorAll('.chart-node .d2slab[data-m]').forEach(t => { const r = t.getBoundingClientRect(); if (inR(r, 4)) cand.push({key: 'v.' + t.dataset.m, e: t, r, pr: 0, a: r.width * r.height}); });
+  w.querySelectorAll('.chart-node .d2slab[data-m]').forEach(t => { const r = t.getBoundingClientRect(); if (inR(r, 4)) cand.push({key: chTk(t) || 'v.' + t.dataset.m, e: t, r, pr: 0, a: r.width * r.height}); });
+  w.querySelectorAll('.chart-node text:not(.d2slab)').forEach(t => { const key = chTk(t), r = key && t.getBoundingClientRect(); if (key && inR(r, 4)) cand.push({key, e: t, r, pr: 0, a: r.width * r.height}); });
   w.querySelectorAll('.chart-node path[data-m]').forEach(p => { const r = p.getBoundingClientRect(); if (inR(r, 0)) cand.push({key: 'p.' + p.dataset.m, e: p, r, pr: 2, a: r.width * r.height}); });
   cand.sort((a, b) => a.pr - b.pr || a.a - b.a); return cand[0] || null;
+}
+// ใบ 034 กราฟ PowerPoint จริง (แท่ง กรวยกลาง น้ำตก กระจาย ฟอง ใยแมงมุม แท่งผสมเส้น พาเรโต) ไม่มีรูปทรงให้แตะ: ข้อความในกราฟบนจอ = ชั้นแตะตามตำแหน่งป้ายจริง
+// ผูกกับตารางด้วยชื่อ (ป้ายค่า: ชื่อชุด + ชื่อหมวดจากไฟล์ / ชื่อหมวด ชื่อชุด ชื่อแกน: ข้อความตรงกับชื่อแถว/หัวคอลัมน์) ลำดับในไฟล์ต่างจากตาราง (พาเรโตเรียงใหม่ ชุดฐานซ่อน) ก็ถูกช่อง
+// ponytail: ชื่อแถวซ้ำกันในตาราง = ผูกแถวแรก ป้ายที่ echarts ตัดคำ (ค่า…) แตะไม่ได้ แก้ในแผงข้อมูลแทน
+function chTk(t) {
+  const R = TB?.rows; if (!R) return null;
+  if (t.dataset.x) return 'x.calc';
+  const col = n => R[0].findIndex((x, i) => i > 0 && x !== CHNOTE && String(x).trim() === String(n).trim()), row = n => R.findIndex((r, i) => i > 0 && String(r[0]).trim() === String(n).trim());
+  if (t.dataset.cn != null) { const c = col(t.dataset.sn), r = row(t.dataset.cn); return c > 0 && r > 0 ? `v.${c - 1}.${r - 1}` : null; }
+  const x = t.textContent.trim(); if (!x || t.classList.contains('d2slab')) return null;
+  const r = row(x); if (r > 0) return 'c.' + (r - 1);
+  const c = col(x); return c > 0 ? 's.' + (c - 1) : null;
 }
 function chClick(k, ev) {
   if (!CH || CH.k !== k) return selectChart(k);
@@ -7214,7 +7294,7 @@ function tbClean() {                      // แถวว่างไม่ล�
 }
 function chApply(label) {
   const k = TB.k, t = tbClean(), bad = [];
-  t.slice(1).forEach((r, i) => r.forEach((v, c) => { if (c > 0 && t[0][c] !== CHNOTE && !num(v)) bad.push([i + 1, c]); }));
+  if (!TB.tbl) t.slice(1).forEach((r, i) => r.forEach((v, c) => { if (c > 0 && t[0][c] !== CHNOTE && !num(v)) bad.push([i + 1, c]); }));   // ใบ 034 ตาราง: ช่องเป็นข้อความ
   const want = t.length - 1;
   if (bad.length) { TB.pend = true; TB.err = `แถว ${bad[0][0]} คอลัมน์ "${t[0][bad[0][1]] || bad[0][1] + 1}" ต้องเป็นตัวเลข (เช่น 240,000 หรือ 18%) ข้อมูลอื่นยังอยู่ครบ`; return chPaintData(); }
   if (k < 0) return insRvApply();          // ใบ 031 ตารางในแผ่นเพิ่มหน้ากราฟ (ยังไม่มีหน้า)
@@ -7231,10 +7311,10 @@ function tbColor(c) { const pal = chPal(), nv = TB.rows[0].filter((h, i) => i > 
 const mixHex = (a, b, t) => [0, 2, 4].map(i => Math.round(parseInt(a.slice(i, i + 2), 16) * (1 - t) + parseInt(b.slice(i, i + 2), 16) * t).toString(16).padStart(2, '0')).join('').toUpperCase();
 function tbHtml(big) {
   const h = TB.rows[0], R = TB.rows.slice(1), nv = h.filter((x, i) => i > 0 && x !== CHNOTE).length;
-  const th = (c) => `<th class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}">${c && h[c] !== CHNOTE ? `<i class="sw" style="background:${tbColor(c)}"></i>` : ''}<input data-r="0" data-c="${c}" value="${esc(h[c])}" placeholder="${c ? 'ชื่อคอลัมน์' : 'รายการ'}" aria-label="${c ? 'หัวคอลัมน์ ' + c : 'หัวคอลัมน์ชื่อรายการ'}">${c && (nv > 1 || h[c] === CHNOTE) ? `<button type="button" class="dc" data-t="delc" data-c="${c}" aria-label="ลบคอลัมน์ ${esc(h[c] || c)}">${ico16('trash')}</button>` : ''}</th>`;
+  const th = (c) => `<th class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}">${c && h[c] !== CHNOTE && !TB.tbl ? `<i class="sw" style="background:${tbColor(c)}"></i>` : ''}<input data-r="0" data-c="${c}" value="${esc(h[c])}" placeholder="${c ? 'ชื่อคอลัมน์' : 'รายการ'}" aria-label="${c ? 'หัวคอลัมน์ ' + c : 'หัวคอลัมน์ชื่อรายการ'}">${c && (nv > 1 || h[c] === CHNOTE) ? `<button type="button" class="dc" data-t="delc" data-c="${c}" aria-label="ลบคอลัมน์ ${esc(h[c] || c)}">${ico16('trash')}</button>` : ''}</th>`;
   const grip = (i, r) => `<button type="button" class="grip" data-g="${i + 1}" aria-label="ลากเพื่อย้ายแถว ${esc(r[0] || i + 1)}">${ico16('grip')}${big ? `<span>${i + 1}</span>` : ''}</button>`;   // ใบ 032 ลากสลับแถว
-  const rows = R.map((r, i) => `<tr data-r="${i + 1}" class="${TB.sel === i + 1 ? 'on' : ''}"><td class="${big ? 'rn' : 'gr'}">${grip(i, r)}</td>${h.map((_, c) => `<td class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}"><input data-r="${i + 1}" data-c="${c}" value="${esc(r[c] ?? '')}"${c && h[c] !== CHNOTE ? ' inputmode="decimal"' : ''} aria-label="แถว ${i + 1} ${esc(h[c] || (c ? 'คอลัมน์ ' + c : 'ชื่อ'))}"></td>`).join('')}${big ? '' : `<td class="ad"><button type="button" data-t="delr" data-r="${i + 1}" aria-label="ลบแถว ${esc(r[0] || i + 1)}">${ico16('trash')}</button></td>`}</tr>`).join('');
-  return `<table class="cht${big ? ' big' : ''}"><thead><tr>${big ? '<th class="rn"></th>' : '<th class="gr"></th>'}${h.map((_, c) => th(c)).join('')}${big ? '' : `<th class="ad"><button type="button" data-t="addc" aria-label="เพิ่มคอลัมน์">${ico16('plus')}</button></th>`}</tr></thead><tbody>${rows}</tbody>
+  const rows = R.map((r, i) => `<tr data-r="${i + 1}" class="${TB.sel === i + 1 ? 'on' : ''}"><td class="${big ? 'rn' : 'gr'}">${grip(i, r)}</td>${h.map((_, c) => `<td class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}"><input data-r="${i + 1}" data-c="${c}" value="${esc(r[c] ?? '')}"${c && h[c] !== CHNOTE && !TB.tbl ? ' inputmode="decimal"' : ''} aria-label="แถว ${i + 1} ${esc(h[c] || (c ? 'คอลัมน์ ' + c : 'ชื่อ'))}"></td>`).join('')}${big ? '' : `<td class="ad"><button type="button" data-t="delr" data-r="${i + 1}" aria-label="ลบแถว ${esc(r[0] || i + 1)}">${ico16('trash')}</button></td>`}</tr>`).join('');
+  return `<table class="cht${big ? ' big' : ''}${TB.tbl ? ' tx' : ''}"><thead><tr>${big ? '<th class="rn"></th>' : '<th class="gr"></th>'}${h.map((_, c) => th(c)).join('')}${big ? '' : `<th class="ad"><button type="button" data-t="addc" aria-label="เพิ่มคอลัมน์">${ico16('plus')}</button></th>`}</tr></thead><tbody>${rows}</tbody>
     ${big ? '' : `<tfoot><tr><td colspan="${h.length + 2}"><button type="button" class="addr" data-t="addr">${ico16('plus')}เพิ่มแถว</button></td></tr></tfoot>`}</table>`;
 }
 const errHtml = () => (TB.ferr ? `<div class="cherr" role="alert">${ico('alert')}<div><b>อ่านไฟล์นี้ไม่ได้</b><p>${esc(TB.ferr)} ข้อมูลเดิมในตารางยังอยู่ครบ</p><button type="button" class="btn btn-line btn-sm" data-t="up">${ico('upload')}เลือกไฟล์ใหม่</button></div></div>` : '') + (TB.err ? `<div class="cherr soft" role="alert">${ico('info')}<div><p>${esc(TB.err)}</p>${TB.rows.length - 1 > 8 ? `<button type="button" class="btn btn-line btn-sm" data-t="top8">ใช้ 8 แถวแรก</button>` : ''}</div></div>` : '');
@@ -7304,7 +7384,7 @@ function tbClick(ev) {
   if (t === 'type') { chxClose(); return chOpen('type'); }
   if (t === 'addr') { TB.rows.push(Array(n).fill('')); TB.sel = TB.rows.length - 1; chPaintData(false); const root = tbRoot(); root.querySelector(`input[data-r="${TB.sel}"][data-c="0"]`)?.focus(); root.querySelector('.chtw')?.scrollTo({top: 1e6}); return; }
   if (t === 'addc') { const nt = TB.rows[0].indexOf(CHNOTE), at = nt > 0 ? nt : n; TB.rows.forEach(r => r.splice(at, 0, '')); chPaintData(false); tbRoot().querySelector(`input[data-r="0"][data-c="${at}"]`)?.focus(); return; }
-  if (t === 'delr' || t === 'delsel') { const r = t === 'delr' ? +b.dataset.r : TB.sel; if (r < 1 || TB.rows.length <= 2) return toast('กราฟต้องมีอย่างน้อย 1 แถว'); const nm = TB.rows[r][0]; TB.rows.splice(r, 1); TB.sel = -1; chPaintData(false); chApply(`ลบแถวกราฟ หน้า ${TB.k + 1}: ${nm || r}`); return; }
+  if (t === 'delr' || t === 'delsel') { const r = t === 'delr' ? +b.dataset.r : TB.sel; if (r < 1 || TB.rows.length <= 2) return toast(`${TB.tbl ? 'ตาราง' : 'กราฟ'}ต้องมีอย่างน้อย 1 แถว`); const nm = TB.rows[r][0]; TB.rows.splice(r, 1); TB.sel = -1; chPaintData(false); chApply(`ลบแถวกราฟ หน้า ${TB.k + 1}: ${nm || r}`); return; }
   if (t === 'delc') { const c = +b.dataset.c, nm = TB.rows[0][c]; TB.rows.forEach(r => r.splice(c, 1)); chPaintData(false); chApply(`ลบคอลัมน์กราฟ หน้า ${TB.k + 1}: ${nm || c}`); return; }
   if (t === 'top8') { TB.rows = TB.rows.slice(0, 9); TB.err = ''; chPaintData(false); chApply(`ใช้ 8 แถวแรกในกราฟ หน้า ${TB.k + 1}`); return; }
 }
@@ -7375,7 +7455,7 @@ async function chFile(file) {
   const w = Math.max(0, ...rows.map(r => r.length)); rows = rows.map(r => [...r, ...Array(w - r.length).fill('')]);
   const keep = Array.from({length: w}, (_, c) => rows.some(r => r[c])); rows = rows.map(r => r.filter((_, c) => keep[c]));
   if (rows.length < 2 || rows[0].length < 2) return fail(`ใน "${nm}" ไม่เจอตาราง ต้องมีแถวหัวตาราง 1 แถว คอลัมน์แรกเป็นชื่อรายการ และคอลัมน์ตัวเลขอย่างน้อย 1 คอลัมน์`);
-  if (!rows.slice(1).some(r => r.slice(1).some(num))) return fail(`ใน "${nm}" ไม่เจอตัวเลข คอลัมน์ที่สองเป็นต้นไปต้องเป็นตัวเลข เช่น 240,000 หรือ 18%`);
+  if (!TB.tbl && !rows.slice(1).some(r => r.slice(1).some(num))) return fail(`ใน "${nm}" ไม่เจอตัวเลข คอลัมน์ที่สองเป็นต้นไปต้องเป็นตัวเลข เช่น 240,000 หรือ 18%`);
   TB.rows = rows; TB.file = nm; TB.sel = -1; TB.err = ''; TB.ferr = '';
   if (rows.length - 1 > 8 && !CHX && TB.k >= 0) chxOpen($('chp').querySelector('[data-t=big]'));   // ข้อมูลเยอะ: กางจอใหญ่ให้เอง
   chPaintData(false);
@@ -7453,6 +7533,7 @@ function chSetLay(lay, keep, what) {
     }, x => { if (x?.merge != null) order.splice(k + 1, 1); else if (x?.split != null) order.splice(k + 1, 0, x.split); });
 }
 function altLayRow(k) {                    // ทางเข้าที่สอง: ปุ่มเปลี่ยนแบบที่หัวหน้า แถวบนสุด "เลย์เอาต์หน้ากราฟ" เปิดแผงเดียวกับปุ่มในแถบกราฟ
+  if (isTbl(k)) return `<p class="althd">หน้าตาราง</p><button class="altlay" type="button" data-atbl="1"><span class="ph">${ico('table')}</span><span class="t"><b>ข้อมูลตาราง</b><small>แก้หัวคอลัมน์ แถว เพิ่มลบคอลัมน์ อัปโหลด CSV / Excel</small></span>${ico('next')}</button>`;   // ใบ 034
   if (!isChart(k)) return '';
   let L = null; try { chPy(); py.globals.set('IDX', order[k]); py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : undefined); L = JSON.parse(py.runPython('D.chart_layouts(ITEMS, IDX, NXT)')); } catch (e) { console.warn(e); return ''; }
   const p = L.pre, now = p ? (p === 'X' ? 'ปรับเอง' : `${p} ${CHLN[p]}`) : 'แบบของชุด';
