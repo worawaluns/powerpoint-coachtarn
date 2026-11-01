@@ -1930,6 +1930,7 @@ function paintPh() {
   paintDots();   // จุดบนปุ่มโน้ต (มือถือ)
 }
 function thOv(th, k) { th.querySelector('.ovb')?.remove(); if (META[k]?.ov) th.insertAdjacentHTML('beforeend', OVB); }
+const thBox = th => th.querySelector('.slidebox');   // ภาพย่อ: ป้ายล้นกรอบ (.ovb) ต่อท้ายปุ่ม ห้ามใช้ lastChild ไม่งั้นสไลด์ถูกวาดลงในป้าย (บั๊กไอซ์: วงชมพูขอบแดงทับภาพย่อหน้า 1)
 function thumbEl(k) {
   const b = document.createElement('button'); b.type = 'button'; b.className = 'th'; b.setAttribute('aria-label', `ไปหน้า ${k + 1}`); b.style.setProperty('--i', k);
   b.innerHTML = `<b><i>หน้า</i>${k + 1}<em>${esc(META[k]?.nm || '')}</em></b><div class="slidebox"></div>`; mount(b.lastChild, slides[k]); thOv(b, k); return b;
@@ -1955,7 +1956,7 @@ function relayout(mode) {
 // แก้หน้าเดียว/เลิกทำที่จำนวนหน้าเท่าเดิม: สลับเฉพาะเนื้อในของหน้าที่เปลี่ยน ภาพเก่าอยู่จนภาพใหม่พร้อม (motion ข้อ 5)
 function swapPage(k, ring = true) {
   const pg = pgs()[k]; if (!pg) return;
-  const th = $('thumbs').children[k]; if (th) { mount(th.lastChild, slides[k]); thOv(th, k); if (ring) retrig(th, 'swap'); }
+  const th = $('thumbs').children[k]; if (th) { mount(thBox(th), slides[k]); thOv(th, k); if (ring) retrig(th, 'swap'); }
   if (!pg.dataset.m) { srcSet(pg, k); return; }   // คอม: หน้าที่ยังไม่วาด (ไกลจอ) วาดของใหม่ตอนเลื่อนถึง
   const box = pg.querySelector('.slidebox');
   const nx = document.createElement('div'); nx.className = 'next'; nx.appendChild(cloneSlide(slides[k])); box.appendChild(nx);
@@ -4515,7 +4516,7 @@ async function commitMove(D, un) {
     const [[, n], keys, rp] = JSON.parse(py.runPython('json.dumps([D.move_box(ITEMS, IDX, list(PATH), list(RECT), M, drop=list(DROP)), D.keys(ITEMS, ORDER, TTL, M["slug"]), repr((WANT, CS, ITEMS, TTL, D.BR))])'));
     const node = cloneSlide(pg.querySelector('.slidebox').lastElementChild.firstElementChild);
     KEYS = keys; nodeCache.set(KEYS[k], {node, boxes: nb}); slides[k] = node; META[k] = {...META[k], mv: n > 0}; dirty = true;
-    const th = $('thumbs').children[k]; if (th) mount(th.lastChild, node);
+    const th = $('thumbs').children[k]; if (th) mount(thBox(th), node);
     commit(`ย้ายกล่อง หน้า ${k + 1}: ${FIELD(b.p)}`, rp);
   } catch (e) { console.error(e); toast('ย้ายไม่สำเร็จ ลองใหม่อีกครั้ง'); busyNow = false; if (STACK[SP]) await restore(STACK[SP]); }
   finally { busyNow = false; }
@@ -4593,7 +4594,7 @@ async function commitPic(D, rect, rot, label, un) {
     BOX[k] = nb; pg.querySelector('.hits').innerHTML = hitsHtml(k); SEL = {k, p: b.p}; paintSel();
     const node = cloneSlide(pg.querySelector('.slidebox').lastElementChild.firstElementChild);
     KEYS = keys; nodeCache.set(KEYS[k], {node, boxes: nb}); slides[k] = node; dirty = true;
-    const th = $('thumbs').children[k]; if (th) mount(th.lastChild, node);
+    const th = $('thumbs').children[k]; if (th) mount(thBox(th), node);
     commit(label, rp);
   } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); un?.(); busyNow = false; if (STACK[SP]) await restore(STACK[SP]); }
   finally { busyNow = false; }
