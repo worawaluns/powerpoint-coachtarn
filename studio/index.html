@@ -1821,7 +1821,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101j';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101k';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -7008,7 +7008,7 @@ let chPyOk = false;
 const chPy = () => { if (!chPyOk) { py.runPython(CHPY); chPyOk = true; } };
 function chLoad(k) {
   chPy(); py.globals.set('IDX', order[k]); CHI = JSON.parse(py.runPython('_chinfo(IDX)'));
-  py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : null); CHI.lay = JSON.parse(py.runPython('D.chart_layouts(ITEMS, IDX, NXT)'));   // ใบ 028
+  py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : undefined); CHI.lay = JSON.parse(py.runPython('D.chart_layouts(ITEMS, IDX, NXT)'));   // ใบ 028
   CHI.k = k; const ty = CHI.cfg.type || CHI.df?.[0] || 'column'; CHI.t = ty; CHI.s = CHI.cfg.type ? (CHI.cfg.style || CHI.ty.find(x => x.type === ty)?.styles.find(s => s.ok)?.id) : null;   // ยังไม่เคยเลือก = หน้ากราฟเดิมของชุด ไม่ติ๊กการ์ดใด
   if (!TB || TB.k !== k || !TB.pend) TB = {k, rows: CHI.tb.map(r => r.map(String)), sel: -1, pend: false, err: '', file: TB?.k === k ? TB.file : ''};
   return CHI;
@@ -7443,8 +7443,8 @@ $('chp').addEventListener('click', ev => {
 });
 function chSetLay(lay, keep, what) {
   const k = CH.k, all = CHLS === 'all';
-  py.globals.set('LAYJ', JSON.stringify(lay)); py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : null); py.globals.set('PAGES', py.toPy(all ? order : []));
-  py.globals.set('KEEP', keep || null);
+  py.globals.set('LAYJ', JSON.stringify(lay)); py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : undefined); py.globals.set('PAGES', py.toPy(all ? order : []));
+  py.globals.set('KEEP', keep || undefined);   // ใบ 033 undefined = None (null เป็น JsNull: หน้ากราฟหน้าสุดท้ายเลือกกราฟไม่ได้)
   return chRun(k, `D.set_chart_layout(ITEMS, IDX, json.loads(LAYJ), pages=list(PAGES), nxt=NXT, keep=KEEP)`,
     `เลย์เอาต์หน้ากราฟ${all ? ' ทุกหน้า' : ` หน้า ${k + 1}`}: ${what}`, 'type', x => {
       if (x?.merge != null) toast(`รวมกราฟหน้า ${k + 2} มาไว้หน้านี้แล้ว เลือกจำนวนกราฟ 1 เพื่อแยกกลับ`);
@@ -7454,7 +7454,7 @@ function chSetLay(lay, keep, what) {
 }
 function altLayRow(k) {                    // ทางเข้าที่สอง: ปุ่มเปลี่ยนแบบที่หัวหน้า แถวบนสุด "เลย์เอาต์หน้ากราฟ" เปิดแผงเดียวกับปุ่มในแถบกราฟ
   if (!isChart(k)) return '';
-  let L = null; try { chPy(); py.globals.set('IDX', order[k]); py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : null); L = JSON.parse(py.runPython('D.chart_layouts(ITEMS, IDX, NXT)')); } catch (e) { console.warn(e); return ''; }
+  let L = null; try { chPy(); py.globals.set('IDX', order[k]); py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : undefined); L = JSON.parse(py.runPython('D.chart_layouts(ITEMS, IDX, NXT)')); } catch (e) { console.warn(e); return ''; }
   const p = L.pre, now = p ? (p === 'X' ? 'ปรับเอง' : `${p} ${CHLN[p]}`) : 'แบบของชุด';
   return `<p class="althd">หน้ากราฟ</p><button class="altlay" type="button" data-alay="1">${p && p !== 'X' ? `<img src="img/ch-lay/${p}.jpg?v=${V}" alt="">` : `<span class="ph">${ico('sliders')}</span>`}<span class="t"><b>เลย์เอาต์หน้ากราฟ</b><small>ตอนนี้ ${esc(now)} / 6 แบบ + ปรับเอง</small></span>${ico('next')}</button><p class="althd">แบบอื่นของหน้านี้</p>`;
 }
