@@ -1112,6 +1112,164 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 @media (min-width:768px) and (max-width:1023px){.rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos],.rp[data-p=text]{right:56px}}
 @media (max-width:767px), (pointer:coarse) and (max-height:500px){.work.bsheet .pages .slide{width:min(100%,calc((38dvh - 56px - 44px - 16px) * 16 / 9))}.work.bsheet .dots,.work.bsheet .mnote{display:none}}
 @media (pointer:coarse) and (max-height:500px){.mnote{display:none!important}}   /* มือถือแนวนอน: ที่ไม่พอ การ์ดโน้ตหลบ (โน้ตยังอยู่ในไฟล์) */
+/* ── ใบ 023 แก้กราฟ ── */
+.chit{position:absolute;pointer-events:auto;cursor:pointer;border-radius:4px}
+.chit:hover{outline:1.5px dashed rgba(211,71,36,.45);outline-offset:2px}
+.slide.chon .chit{cursor:default;outline:none}
+.chsel{position:absolute;pointer-events:none;box-shadow:0 0 0 2px var(--red);border-radius:3px;z-index:3}
+.chsel i{position:absolute;border-radius:3px;outline:1px dashed rgba(211,71,36,.55);outline-offset:1px;opacity:0;transition:opacity .15s var(--ease)}
+.chsel i.x{outline:1px dotted rgba(74,74,85,.5)}
+.chsel.on i{opacity:1}
+.chchip{display:block;width:20px;height:20px;border-radius:6px;flex:none;box-shadow:inset 0 0 0 1px rgba(20,20,26,.1)}
+.chbar .ef span{max-width:120px;overflow:hidden;text-overflow:ellipsis}
+.chin{position:absolute;z-index:6;pointer-events:auto;box-sizing:border-box;padding:0 4px;border:2px solid var(--red);border-radius:6px;background:#fff;color:var(--text);font:600 14px/1.2 'IBM Plex Sans Thai','Noto Sans Thai',sans-serif;text-align:center;outline:none;transform-origin:0 0}
+.chediting{visibility:hidden}
+.chtip{position:fixed;z-index:70;max-width:320px;padding:6px 12px;border-radius:8px;background:#15151A;color:#fff;font-size:13px;font-weight:600;line-height:1.6;pointer-events:none;animation:etbIn .15s var(--ease) both}
+.slide.chwait .slidebox [data-ck],.slide.chwait .slidebox .chart-node{opacity:.55;transition:opacity .12s var(--ease)}
+.slide.chlift .slidebox [data-m]{opacity:.8;transition:opacity .12s var(--ease),transform .12s var(--ease)}
+.slide.chlift .slidebox [data-m].up{opacity:1;transform:scale(1.03);transform-origin:50% 100%;transform-box:fill-box}
+.chghost{position:absolute;inset:0;pointer-events:none}
+.bbar .chedm{display:flex;align-items:center;gap:8px;padding:0 12px;font-size:14px;font-weight:600;color:var(--mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* แผงกราฟ */
+.rps[data-p=ch]{overflow-y:auto}
+.rp[data-p=ch] .rps[data-p=ch]{display:flex}
+.chp{padding:12px 16px 24px;display:grid;gap:12px;font-size:14px;align-content:start}
+.chp .sub,.chp .inote{font-size:13px;color:var(--sub);line-height:1.6}
+.chp h4{font-size:13px;color:var(--sub);font-weight:600;margin-top:4px}
+.chty{border-radius:14px}
+.chty .row{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:6px 8px;border:none;background:none;border-radius:12px;text-align:left}
+.chty .row:hover:not(:disabled){background:var(--bg)}
+.chty .row img{width:72px;height:29px;border-radius:6px;object-fit:cover;flex:none;background:var(--bg)}
+.chty .row span{flex:1;min-width:0;display:grid}.chty .row b{font-size:15px;font-weight:600}.chty .row small{font-size:12px;color:var(--sub);line-height:1.5}
+.chty .row em{font-style:normal;font-size:13px;color:var(--sub);white-space:nowrap}
+.chty .row svg.i{color:var(--sub)}
+.chty.no .row{opacity:.55;cursor:not-allowed}.chty.no .row img{filter:grayscale(1)}
+.chty.cur .row,.chty.open .row{background:var(--soft)}
+.chty .sts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:8px 0 4px}
+.chst{display:flex;flex-direction:column;align-items:stretch;gap:6px;min-height:44px;padding:6px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left}
+.chst .im{position:relative;display:block;border-radius:8px;overflow:hidden;background:var(--bg)}
+.chst img{display:block;width:100%;height:auto;aspect-ratio:288/116;object-fit:cover}
+.chst b{font-size:13px;font-weight:600;line-height:1.5}
+.chst em{display:inline-flex;align-items:center;gap:4px;align-self:flex-start;padding:2px 8px;border-radius:999px;font-style:normal;font-size:12px;font-weight:600;line-height:1.6}
+.chst em.xl{background:#E6F4EA;color:#1E6B3A}.chst em.ig{background:#FFF0EA;color:#B23A1C}
+.chst em svg.i{width:16px;height:16px;stroke-width:2.5}
+.chst small{font-size:12px;color:var(--sub);line-height:1.5}
+.chst.on{border:2px solid var(--text);padding:5px}
+.chst:disabled{opacity:.5;cursor:not-allowed}.chst:disabled img{filter:grayscale(1)}
+.chst .ck,.chtheme .ck,.chsw .ck{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:#15151A;color:#fff;display:grid;place-items:center;animation:ckPop .3s var(--spring)}
+.chst .ck svg.i,.chtheme .ck svg.i,.chsw .ck svg.i{width:16px;height:16px;stroke-width:2.5}
+.chst:not(:disabled):hover .im img{transform:scale(1.03)}.chst .im img{transition:transform .16s var(--ease)}
+.chrow{display:flex;gap:8px}.chrow .btn{flex:1;height:44px;font-size:14px;font-weight:600}.chrow .btn:last-child{flex:0 0 auto}
+.chp svg.i,.chx svg.i{width:20px;height:20px;stroke-width:2}.chp svg.i.i16,.chx svg.i.i16{width:16px;height:16px;stroke-width:2.5}
+@media (pointer:coarse){.selbar.chbar{height:52px}.chbar button{height:44px;min-width:44px}.chbar button.ic{width:44px}}   /* iPad: เป้าแตะ 44 */
+.chtw{border:1px solid var(--line);border-radius:12px;overflow:auto;max-height:52dvh;background:#fff}
+.cht{width:100%;border-collapse:separate;border-spacing:0;font-size:14px}
+.cht th,.cht td{border-bottom:1px solid var(--line);padding:0;background:#fff;position:relative}
+.cht th{background:var(--bg);font-weight:600;color:var(--mid);position:sticky;top:0;z-index:2}
+.cht .c0{position:sticky;left:0;z-index:1;border-right:1px solid var(--line);min-width:120px}
+.cht th.c0{z-index:3}
+.cht td.cv,.cht th.cv{min-width:104px;border-right:1px solid var(--line)}
+.cht input{display:block;width:100%;min-width:0;height:44px;padding:0 12px;border:2px solid transparent;border-radius:0;background:transparent;font:inherit;color:var(--text);outline:none}
+.cht th input{font-weight:600;color:var(--mid)}
+.cht td.cv input,.cht th.cv input{text-align:right}
+.cht th.cv{display:table-cell}.cht th.cv .sw{position:absolute;left:10px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:3px}
+.cht th.cv input{padding-left:26px}
+.cht td.nt input,.cht th.nt input{text-align:left}
+.cht input:focus{border-color:var(--red);background:#fff}
+.cht tr.on td{background:var(--soft)}
+.cht .ad{width:44px;border-bottom:1px solid var(--line)}
+.cht .ad button,.cht .dc{width:44px;height:44px;border:none;background:none;display:grid;place-items:center;color:var(--sub);border-radius:8px}
+.cht .ad button:hover,.cht .dc:hover{color:var(--red);background:var(--soft)}
+.cht td.ad button{opacity:0}.cht tr.on td.ad button,.cht tr:hover td.ad button{opacity:1}
+.cht .dc{position:absolute;right:0;top:0;opacity:0}.cht th:focus-within .dc,.cht th:hover .dc{opacity:1}
+.cht th:focus-within input,.cht th:hover input{padding-right:40px}
+.cht .addr{display:flex;align-items:center;gap:8px;width:100%;height:44px;padding:0 12px;border:none;background:none;color:var(--mid);font-weight:600;font-size:14px}
+.cht tfoot td{border-bottom:none}
+.cht .rn{width:40px;min-width:40px;text-align:center;color:var(--sub);font-size:12px;position:sticky;left:0;z-index:1;background:inherit}
+.cht.big th.rn{z-index:3;background:var(--bg)}
+.cht.big .c0{left:40px}
+.cht.big td.rn{background:#fff}.cht.big tr.on td.rn{background:var(--soft)}
+.cht tbody tr{content-visibility:auto;contain-intrinsic-size:auto 45px}
+.cherr{display:flex;gap:10px;padding:12px 14px;border:1px solid #F5C6B8;background:#FFF4F0;border-radius:12px;animation:chErr .16s var(--ease) both}
+.cherr>svg.i{color:#D92D20;margin-top:2px}.cherr b{display:block;color:#B42318;font-size:14px}.cherr p{font-size:13px;line-height:1.6;color:var(--mid);margin:2px 0 8px}
+.cherr.soft{border-color:var(--line);background:var(--bg)}.cherr.soft>svg.i{color:var(--mid)}.cherr.soft p{margin:0 0 6px}
+@keyframes chErr{from{opacity:0;transform:translateY(-6px)}}
+.chxs{position:fixed;inset:0;z-index:80;background:rgba(20,20,26,.28);opacity:0;transition:opacity .24s var(--ease)}.chxs.on{opacity:1}
+.chx{position:fixed;inset:0;z-index:81;display:grid;place-items:center;pointer-events:none}
+.chxp{pointer-events:auto;width:88vw;height:88dvh;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(20,20,26,.22);display:flex;flex-direction:column;overflow:hidden}
+.chxh{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.chxh .tt{flex:1;min-width:0;display:grid}.chxh b{font-size:18px}.chxh small{font-size:12px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chxt{display:flex;align-items:center;gap:8px;padding:12px 16px 0}.chxt span{margin-left:auto;font-size:12px;color:var(--sub)}
+.chx .cherr{margin:12px 16px 0}
+.chxb{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:16px;padding:12px 16px 16px}
+.chxb .chtw{max-height:none;height:100%}
+.chpv{border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:12px;overflow:auto}
+.chpv h4{font-size:13px;font-weight:600}
+.chpv .bars{height:140px;border-radius:10px;background:var(--bg);display:flex;align-items:flex-end;gap:2px;padding:8px}
+.chpv .bars i{flex:1;min-width:1px;border-radius:2px 2px 0 0;background:var(--p);transition:height .3s var(--ease)}.chpv .bars i.a{background:var(--a)}
+.chpv .hint{display:flex;gap:8px;padding:10px 12px;border-radius:10px;background:var(--bg);font-size:13px;line-height:1.6;color:var(--mid)}
+.chpv .hint svg.i{flex:none;margin-top:2px}
+.chpv .btn{height:44px}
+.chxf{display:flex;gap:8px;padding:8px 16px calc(8px + var(--safe));border-top:1px solid var(--line)}.chxf .btn{flex:1;height:44px;font-size:14px}
+@media (max-width:767px), (pointer:coarse) and (max-height:500px){
+  .chxp{width:100vw;height:100dvh;border-radius:0}
+  .chxb{grid-template-columns:1fr;padding:0}.chxb .chtw{border:none;border-radius:0}
+  .chxh{padding:8px 8px 8px 16px}.chxh .btn{height:44px}
+  .cht .c0{min-width:112px}
+}
+/* สี */
+.chp .seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:var(--bg)}
+.chp .seg button{height:40px;border:none;border-radius:9px;background:none;font-size:14px;font-weight:600;color:var(--mid)}
+.chp .seg button.on{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(20,20,26,.12)}
+@media (pointer:coarse){.chp .seg button{height:44px}}
+.chtheme,.chgo{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:8px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:left}
+.chtheme.on{border:2px solid var(--text);padding:7px 11px}
+.chtheme .sw,.chgo .sw{width:44px;height:28px;border-radius:8px;flex:none}
+.chtheme span:not(.sw),.chgo span:not(.sw){flex:1;display:grid}.chtheme b,.chgo b{font-size:15px}.chtheme small,.chgo small{font-size:12px;color:var(--sub)}
+.chtheme .ck{position:static;flex:none}
+.chgo svg.i{color:var(--sub)}
+.chpals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.chpal{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:44px;padding:8px 4px 6px;border:1px solid transparent;border-radius:12px;background:var(--bg)}
+.chpal .pv{display:flex;align-items:flex-end;justify-content:center;gap:5px;height:40px;width:100%}
+.chpal .pv i{width:8px;border-radius:4px}
+.chpal b{font-size:12px;font-weight:600;white-space:nowrap}
+.chpal.on{border:2px solid var(--text);background:#fff;padding:7px 3px 5px}
+.chpal .x{position:absolute;top:0;right:0;width:36px;height:36px;display:grid;place-items:center;color:var(--sub)}
+.chcpv{border-radius:12px;background:var(--bg);height:96px;display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.chcpv span{display:flex;align-items:flex-end;gap:14px;height:100%}.chcpv i{width:22px;border-radius:11px}
+.chgr{position:relative;height:56px;margin:0 14px;touch-action:none;cursor:copy}
+.chgr .tr{position:absolute;left:0;right:0;top:6px;height:28px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(20,20,26,.08)}
+.chgr .stp{position:absolute;top:24px;width:28px;height:28px;margin:0;padding:0;border-radius:50%;border:3px solid #fff;background:var(--c);box-shadow:0 0 0 1px rgba(20,20,26,.25),0 2px 6px rgba(20,20,26,.18);transform:translate(-50%,0);cursor:grab;touch-action:none}
+.chgr .stp::before{content:'';position:absolute;left:50%;bottom:100%;width:2px;height:14px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(20,20,26,.2)}
+.chgr .stp::after{content:'';position:absolute;inset:-9px}
+.chgr .stp.on{box-shadow:0 0 0 2px #15151A,0 2px 6px rgba(20,20,26,.18);z-index:1}
+.chstop{display:grid;grid-template-columns:48px minmax(0,1fr) 96px 44px;gap:8px;align-items:end}
+.chstop label{display:grid;gap:4px}.chstop label>span:first-child{font-size:12px;color:var(--sub)}
+.chstop .sw{position:relative;display:block;width:48px;height:44px;border-radius:10px;box-shadow:inset 0 0 0 1px rgba(20,20,26,.12);overflow:hidden}
+.chstop .sw input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;border:none;padding:0}
+.chstop input[type=text],.chstop .pw{height:44px;border:1px solid var(--line);border-radius:10px;font:inherit;font-weight:600;padding:0 10px;width:100%;background:#fff}
+.chstop input[type=text]:focus{border:2px solid var(--red);outline:none;padding:0 9px}
+.chstop input.bad{border-color:#D92D20}
+.chstop .pw{display:flex;align-items:center;gap:2px}.chstop .pw input{width:100%;min-width:0;border:none;font:inherit;font-weight:600;outline:none;background:none}.chstop .pw i{font-style:normal;color:var(--sub)}
+.chstop .dl{width:44px;height:44px;border:1px solid var(--line);border-radius:10px;background:#fff;display:grid;place-items:center}.chstop .dl:disabled{opacity:.35}
+.chadd{height:44px;font-size:14px;font-weight:600}
+.chlogo{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--sub)}.chlogo button{width:36px;height:36px;border-radius:10px;border:none;box-shadow:inset 0 0 0 1px rgba(20,20,26,.12)}
+.chp .okn{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ok)}.chp .okn svg.i{width:16px;height:16px;stroke-width:2.5}
+.chfoot{position:sticky;bottom:-24px;display:grid;gap:8px;padding:12px 0 16px;background:#fff;margin-top:8px}
+.chsws{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.chsw{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:44px;padding:8px 4px;border:1px solid transparent;border-radius:12px;background:var(--bg)}
+.chsw span{position:relative;display:block;width:36px;height:44px;border-radius:10px}.chsw b{font-size:12px;font-weight:600}
+.chsw .ck{top:-6px;right:-10px}
+.chsw.on{border:2px solid var(--text);background:#fff;padding:7px 3px}
+.chreset{height:44px;font-size:14px;font-weight:600}
+@media (max-width:1023px){
+  .rp[data-p=ch]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
+  .rp.on[data-p=ch]{transform:none}
+}
+@media (min-width:768px) and (max-width:1023px){.rp[data-p=ch]{left:calc((100% - 56px - 600px) / 2);right:auto;width:600px}}   /* ไอซ์ข้อ 1: iPad ตั้ง แผ่นล่างกว้าง 600 กราฟอยู่บนให้เห็นตอนแก้ */
+@media (max-width:767px){.chty .sts{gap:6px}.chpals,.chsws{gap:6px}}
+@media (max-width:1023px){body.panelon:has(#rp[data-p=ch].on) .toast{bottom:calc(62dvh + 12px)}}   /* แผ่นกราฟเปิด: แจ้งเตือนอยู่เหนือแผ่น ไม่ทับปุ่ม */
+@media (prefers-reduced-motion:reduce){.chsel i,.slide.chwait .slidebox [data-ck],.slide.chlift .slidebox [data-m],.chpv .bars i,.chst .im img{transition:none}.cherr,.chtip{animation:none}}
 </style>
 </head>
 <body>
@@ -1212,6 +1370,13 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <symbol id="i-aR" viewBox="0 0 24 24"><rect width="16" height="6" x="2" y="4" rx="2"/><rect width="9" height="6" x="9" y="14" rx="2"/><path d="M22 22V2"/></symbol>
   <symbol id="i-pclose" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
   <symbol id="i-notes" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M8 2v4"/><path d="M12 2v4"/><path d="M16 2v4"/><path d="M8 10h6"/><path d="M8 14h8"/><path d="M8 18h5"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="m21 3-7 7"/><path d="m3 21 7-7"/><path d="M9 21H3v-6"/></symbol>
+  <symbol id="i-shrink" viewBox="0 0 24 24"><path d="m14 10 7-7"/><path d="M20 10h-6V4"/><path d="m3 21 7-7"/><path d="M4 14h6v6"/></symbol>
+  <symbol id="i-shapes" viewBox="0 0 24 24"><path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/></symbol>
+  <symbol id="i-rowadd" viewBox="0 0 24 24"><path d="M3 5h18"/><path d="M3 12h10"/><path d="M3 19h10"/><path d="M18 14v6"/><path d="M15 17h6"/></symbol>
+  <symbol id="i-coladd" viewBox="0 0 24 24"><path d="M5 3v18"/><path d="M12 3v10"/><path d="M19 3v4"/><path d="M19 12v6"/><path d="M16 15h6"/></symbol>
   <symbol id="i-popen" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></symbol>
 </svg>
 
@@ -1316,6 +1481,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
     <section class="rps" data-p="brand"><div class="bpan" id="brandp"></div></section>
     <section class="rps" data-p="trans"><div class="bpan" id="transp"></div></section>
     <section class="rps" data-p="pos"><div class="bpan tpop inrp" id="posp"></div></section>
+    <section class="rps" data-p="ch"><div class="chp" id="chp"></div></section>
     <section class="rps" data-p="hist"><div class="hist" id="hist"></div>
       <div class="hfoot"><p><svg class="i"><use href="#i-info"/></svg>ประวัติเก็บในเครื่องนี้เท่านั้น ล้างข้อมูลเบราว์เซอร์แล้วหาย ถ้ามี Code กดบันทึกเพื่อเก็บเป็นไฟล์ได้</p>
         <div id="wipebox"><button class="linkred" id="wipeask" type="button"><svg class="i"><use href="#i-trash"/></svg>ย้ายงานนี้ไปถังขยะ</button></div></div>
@@ -1771,20 +1937,91 @@ const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายก
 const OVB = `<i class="ovb">${ico('alert')}ข้อความล้นกรอบ</i>`;   // ออกจากกล่องตอนยังล้น: คำครบ หน้านี้ติดป้ายจนแก้ให้พอดี
 const srcHtml = m => (m.ins ? `${ico('plus')}<span>หน้าที่คุณเพิ่มเอง</span>` : `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`) + (m.ov ? OVB : '');
 let lastCC = [];                           // สีตัวอักษรกราฟจากไฟล์ (D.CHARTC) ของ render ล่าสุด ให้ preview() ใช้
-function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); if (expr.includes('render')) { try { lastCC = JSON.parse(py.runPython('json.dumps(D.CHARTC)')); lastCL = JSON.parse(py.runPython('json.dumps(D.CHARTL, ensure_ascii=False)')); } catch (e) { lastCC = []; lastCL = []; }  try { lastPR = JSON.parse(py.runPython('json.dumps(getattr(D, "PICROT", []))')); } catch (e) { lastPR = []; } } return u.buffer; }
+const PVFIX = `
+def _pvfix():
+    import io as _io
+    from pptx.oxml.ns import qn as _qn
+    from lxml import etree as _et
+    global _PVB
+    prs = D.LASTPRS[0]; G = {}; ch = []; X = []; re_ = False
+    for sl in prs.slides:
+        lst = []; xs = []
+        for i, sh in enumerate(sl.shapes):
+            nm = sh.name or ''; hc = bool(getattr(sh, 'has_chart', False) and sh.has_chart)
+            if nm.startswith('ch:') or hc: lst.append([i, nm[3:] if nm.startswith('ch:') else 'chart', round(sh.left / 12700, 1), round(sh.top / 12700, 1), round(sh.width / 12700, 1), round(sh.height / 12700, 1)])
+            if not hc: continue
+            for g in list(sh.chart._chartSpace.iter(_qn('a:gradFill'))):
+                st = []
+                for q in g.iter(_qn('a:gs')):
+                    c = q.find(_qn('a:srgbClr')); a = c.find(_qn('a:alpha')) if c is not None else None
+                    st.append([int(q.get('pos', 0)) / 1e5, c.get('val') if c is not None else '888888', int(a.get('val')) / 1e5 if a is not None else 1])
+                lin = g.find(_qn('a:lin')); mk = '01%04X' % (len(G) + 1)
+                G[mk] = dict(st=st, ang=int(lin.get('ang', 0)) / 60000 if lin is not None else 90, path=g.find(_qn('a:path')) is not None)
+                sf = _et.Element(_qn('a:solidFill')); _et.SubElement(sf, _qn('a:srgbClr'), val=mk); g.addprevious(sf); g.getparent().remove(g); re_ = True
+            for sp in sh.chart._chartSpace.iter(_qn('c:spPr')):   # ชุด/จุดที่ซ่อน (noFill: ฐานของน้ำตก กรวย ช่วงค่า) ทำ pptx-preview ไม่วาดทั้งกราฟ -> สีแทน แล้วเว็บทำให้โปร่งใส
+                if sp.getparent().tag not in (_qn('c:ser'), _qn('c:dPt')): continue
+                for nf in list(sp.findall(_qn('a:noFill'))):
+                    G['00FE01'] = dict(none=True); sf = _et.Element(_qn('a:solidFill')); _et.SubElement(sf, _qn('a:srgbClr'), val='00FE01'); nf.addprevious(sf); sp.remove(nf); re_ = True
+            ca = sh.chart._chartSpace.find('.//' + _qn('c:catAx')); o = ca.find(_qn('c:scaling') + '/' + _qn('c:orientation')) if ca is not None else None
+            pls = sh.chart.plots; dr = None
+            if len(pls) > 1 or pls[0]._element.tag.split('}')[1] in ('radarChart', 'scatterChart', 'bubbleChart'):   # แบบที่ pptx-preview วาดไม่ได้/ไม่ครบ: ส่งข้อมูลให้เว็บวาดเอง
+                C = '{http://schemas.openxmlformats.org/drawingml/2006/chart}v'
+                def _num(e, t):
+                    x = e.find(_qn(t))
+                    return [float(v.text) if (v.text or '').strip() not in ('',) else 0 for v in x.iter(C)] if x is not None else []
+                dr = dict(cats=[str(c) for c in (pls[0].categories if pls[0]._element.tag.split('}')[1] not in ('scatterChart', 'bubbleChart') else [])], p=[])
+                for pl_ in pls:
+                    ss = []
+                    for sr in pl_.series:
+                        e = sr._element; nm_ = [v.text for v in e.iter(C) if v.getparent().getparent().tag.endswith('dlblRangeCache')]
+                        ss.append(dict(n=(e.xpath('./c:tx//c:v/text()') or [''])[0], c=(e.xpath('./c:spPr/a:solidFill/a:srgbClr/@val') or e.xpath('./c:spPr/a:ln/a:solidFill/a:srgbClr/@val') or ['888888'])[0],
+                                       y=_num(e, 'c:val') or _num(e, 'c:yVal'), x=_num(e, 'c:xVal'), z=_num(e, 'c:bubbleSize'), l=nm_))
+                    dr['p'].append(dict(t=pl_._element.tag.split('}')[1], s=ss, fmt=(pl_._element.xpath('.//c:numCache/c:formatCode/text()') or ['General'])[0]))
+            xs.append(dict(dr=dr, dp=[[[int(q.find(_qn('c:idx')).get('val')), (q.xpath('./c:spPr/a:solidFill/a:srgbClr/@val') or [''])[0]] for q in s_._element.findall(_qn('c:dPt'))] for s_ in sh.chart.plots[0].series], rev=o is not None and o.get('val') == 'maxMin'))
+        ch.append(lst); X.append(xs)
+    cl = None
+    if re_:
+        cl = [D.chart_labels(x) for x in prs.slides]   # ป้ายจากเซลล์ (dlblRangeCache) อ่านก่อนตัด extLst
+        for sl in prs.slides:
+            for sh in sl.shapes:
+                if getattr(sh, 'has_chart', False) and sh.has_chart:
+                    for x in list(sh.chart._chartSpace.iter(_qn('c:extLst'))): x.getparent().remove(x)   # ป้ายจากเซลล์ (c15) pptx-preview ไม่อ่าน เฉพาะไฟล์พรีวิว
+                    for v in sh.chart._chartSpace.iter(_qn('c:v')):
+                        if not (v.text or '').strip(): v.text = ' '   # ชื่อชุดว่าง (ฐานที่ซ่อนของน้ำตก/กรวย/ช่วงค่า) ทำ pptx-preview ไม่วาดทั้งกราฟ
+        b = _io.BytesIO(); prs.save(b); _PVB = b.getvalue()
+    return json.dumps(dict(ch=ch, g=G, cl=cl, re=re_, x=X), ensure_ascii=False)
+`;
+let pvOk = false, lastCH = [], lastG = {}, lastX = [];
+// ใบ 023: pptx-preview อ่านสีกราฟจริงได้แต่ solidFill กราฟไล่สี (gradFill) จึงว่างเปล่าบนจอ และ D.CHARTL อ่านสีชิ้นไล่สีเป็นค่าว่าง (ป้ายตัวเลขหาแท่งไม่เจอ)
+// ไฟล์พรีวิวเท่านั้น: เปลี่ยนไล่สีเป็นสีแทน #01xxxx ไม่ซ้ำกัน แล้ว preview() เขียนไล่สีจริงกลับลง SVG ตามจุดสีเดิม (ไฟล์ที่ลูกค้าโหลดไม่ผ่านตรงนี้)
+function pvPost(buf) {
+  if (!pvOk) { py.runPython(PVFIX); pvOk = true; }
+  const r = JSON.parse(py.runPython('_pvfix()')); lastCH = r.ch; lastG = r.g; lastX = r.x;
+  if (!r.re) return buf; if (r.cl) lastCL = r.cl;
+  const b = py.globals.get('_PVB'), u = b.toJs(); b.destroy(); return u.buffer;
+}
+function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); if (expr.includes('render')) { try { lastCC = JSON.parse(py.runPython('json.dumps(D.CHARTC)')); lastCL = JSON.parse(py.runPython('json.dumps(D.CHARTL, ensure_ascii=False)')); } catch (e) { lastCC = []; lastCL = []; }  try { lastPR = JSON.parse(py.runPython('json.dumps(getattr(D, "PICROT", []))')); } catch (e) { lastPR = []; }
+  if (expr.includes('hint=True')) { try { return pvPost(u.buffer); } catch (e) { console.warn(e); lastCH = []; lastG = {}; } } else { lastCH = []; lastG = {}; } } return u.buffer; }
 let lastCL = [], lastPR = [];
 const picKid = (sl, i) => (sl.classList.contains('slide-wrapper') ? sl : sl.querySelector('.slide-wrapper'))?.children[i];
 async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
-  const cc = lastCC, cl = lastCL, pr = lastPR;
+  const cc = lastCC, cl = lastCL, pr = lastPR, chm = lastCH, gm = lastG, cx = lastX;
   const tmp = document.createElement('div'); tmp.style.cssText = 'position:fixed;left:-99999px;top:0;width:960px';
   document.body.appendChild(tmp);
   try {
     const pv = pptxPreview.init(tmp, {width: 960, height: 540, mode: 'list'});
-    await pv.preview(buf);
+    // ใบ 023 (chart-motion-spec ข้อ 9): echarts เล่นแอนิเมชัน ~1 วิ นอกจอทุกครั้ง zrender อ่านเวลาจาก new Date() ระหว่างนี้ให้เวลากระโดดข้ามแอนิเมชัน วาดเสร็จใน 2-3 เฟรม
+    // ponytail: แทน Date ทั้งหน้าชั่วขณะ (~50ms) เฉพาะ new Date() ไม่มีอาร์กิวเมนต์ Date.now() ไม่โดน ถ้าวาดไม่ทันใช้รอ 1.1 วิแบบเดิม
+    const RD = Date; let off = 0; window.Date = class extends RD { constructor(...a) { if (a.length) super(...a); else super(RD.now() + off); } };
+    try {
+      await pv.preview(buf);
+      if (tmp.querySelector('.chart-node')) { await sleep(0); off = 1e8; for (let i = 0; i < 3; i++) await frame(); }
+    } finally { window.Date = RD; }
+    const drawn = [...tmp.querySelectorAll('.chart-node')].every(n => n.querySelector('svg path'));
     // กราฟจริง (ใบ 008): pptx-preview วาดกราฟด้วย echarts ใน setTimeout แล้วเล่นแอนิเมชัน ~1 วิ ต้องรอให้วาดเสร็จก่อนคัดลอก ไม่งั้นหน้ากราฟว่าง
     // ponytail: รอคงที่ 1.1 วิ เฉพาะไฟล์ที่มีกราฟ ถ้าช้าไปค่อยหาทางปิดแอนิเมชันของ echarts
     if (tmp.querySelector('.chart-node')) {
-      await new Promise(r => setTimeout(r, 1100));
+      if (!drawn) await new Promise(r => setTimeout(r, 1100));
       // กราฟที่ไม่มีชื่อ pptx-preview ใส่ชื่อตั้งต้นภาษาจีนเอง ("图表标题") ไม่ใช่คำของลูกค้า และไม่มีในไฟล์ → ลบออกจากจอ
       tmp.querySelectorAll('.chart-node text').forEach(t => { if (t.textContent.trim() === '图表标题') t.remove(); });
       // echarts ของ pptx-preview ไม่อ่านสีตัวอักษรจากไฟล์ ใช้สีเข้มตั้งต้นเสมอ หน้าพื้นเข้ม (coldchain โดนัท) อ่านไม่ออก
@@ -1792,8 +2029,8 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
       tmp.querySelectorAll('.pptx-preview-slide-wrapper').forEach((sl, si) => {
         const nodes = [...sl.querySelectorAll('.chart-node')];
         // สีตัวอักษรกราฟจากไฟล์ (render ส่งมา): pptx-preview บังคับขาวทุกตัว แบบ B (แผงสีข้าง) จึงเป็นขาวบนพื้นขาว (QA 30 ต.ค.)
-        if (nodes.length && nodes.every((n, j) => cc[si]?.[j])) { nodes.forEach((n, j) => { n.querySelectorAll('text').forEach(t => { t.style.fill = '#' + cc[si][j]; t.style.stroke = 'none'; }); try { chartLabels(n, cl[si]?.[j]); } catch (e) { console.warn(e); } }); return; }
-        sl.querySelectorAll('.chart-node').forEach((n, j) => { try { chartLabels(n, cl[si]?.[j]); } catch (e) { console.warn(e); } });
+        if (nodes.length && nodes.every((n, j) => cc[si]?.[j])) { nodes.forEach((n, j) => { n.querySelectorAll('text').forEach(t => { t.style.fill = '#' + cc[si][j]; t.style.stroke = 'none'; }); try { chartLabels(n, cl[si]?.[j]); chartFix(n, cx[si]?.[j], cl[si]?.[j]?.k); } catch (e) { console.warn(e); } }); return; }
+        sl.querySelectorAll('.chart-node').forEach((n, j) => { try { chartLabels(n, cl[si]?.[j]); chartFix(n, cx[si]?.[j], cl[si]?.[j]?.k); } catch (e) { console.warn(e); } });
         const ct = sl.querySelectorAll('.chart-node text'); if (!ct.length) return;
         let big = null, bs = 0;
         sl.querySelectorAll('span').forEach(s => { if (!s.textContent.trim() || s.closest('.chart-node')) return; const f = parseFloat(getComputedStyle(s).fontSize); if (f > bs) { bs = f; big = s; } });
@@ -1801,12 +2038,84 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
         if (m && (0.299 * m[0] + 0.587 * m[1] + 0.114 * m[2]) / 255 > 0.6) ct.forEach(t => { t.style.fill = col; t.style.stroke = 'none'; });   // ขอบตัวอักษรเข้มของ echarts ทำให้ตัวขาวเบลอ
       });
     }
+    tmp.querySelectorAll('.pptx-preview-slide-wrapper').forEach((sl, si) => {
+      (chm[si] || []).forEach(([zi, key]) => { const n = picKid(sl, zi); if (!n) return; n.dataset.ck = key; if (/^p\.\d+\.\d+$/.test(key)) n.dataset.m = key.slice(2); });   // ชิ้นกราฟ ch:<คีย์> (ลำดับ spTree = ลูกของแผ่น)
+      sl.querySelectorAll('.chart-node svg').forEach((svg, j) => gradBack(svg, gm, si + '_' + j));
+    });
     // QA 30n: pptx-preview ไม่อ่าน rot/flip ของ p:pic (ข้อความ กลุ่ม กราฟอ่าน) รูปที่หมุนในไฟล์ต้องหมุนบนจอด้วย  ลูกของแผ่น = ลำดับ spTree (เหมือน b.zi)
     tmp.querySelectorAll('.pptx-preview-slide-wrapper').forEach((sl, si) => (pr[si] || []).forEach(([i, r, fh, fv]) => { const n = picKid(sl, i); if (!n) return;
       const d = n.firstElementChild; n.style.transformOrigin = `${parseFloat(d?.style.width) / 2 || 0}px ${parseFloat(d?.style.height) / 2 || 0}px`;
       n.style.transform = [r && `rotate(${r}deg)`, fh && 'scaleX(-1)', fv && 'scaleY(-1)'].filter(Boolean).join(' '); }));
     return [...tmp.querySelectorAll('.pptx-preview-slide-wrapper')].map(s => s.cloneNode(true));
   } finally { tmp.remove(); }
+}
+// ใบ 023: pptx-preview ไม่วาดสีรายจุด (c:dPt) ของแท่ง/เส้น (แท่งเด่นสีเน้น สีทีละชิ้นของลูกค้า) และไม่กลับลำดับหมวดของแท่งนอน (แถวแรกอยู่บนในไฟล์) ทำบนจอให้ตรงไฟล์
+function chartFix(n, x, k) {
+  const svg = n.querySelector('svg'); if (!svg || !x) return;
+  if (x.dr) return chartDraw(svg, x.dr, n);
+  if (k !== 'pie' && k !== 'donut') x.dp.forEach((pts, si) => pts.forEach(([j, c]) => { const p = c && svg.querySelector(`path[data-m="${si}.${j}"]`); if (p) p.setAttribute('fill', '#' + c); }));
+  if (x.rev && k === 'bar') { const bs = [...svg.querySelectorAll('path[data-m]')].map(b => b.getBoundingClientRect()); if (!bs.length) return;
+    const L0 = Math.min(...bs.map(b => b.left)), T0 = Math.min(...bs.map(b => b.top)), B0 = Math.max(...bs.map(b => b.bottom));
+    const ts = [...svg.querySelectorAll('text:not(.d2slab)')].map(t => [t, t.getBoundingClientRect()]).filter(([, r]) => r.right <= L0 + 2 && r.top >= T0 - 24 && r.bottom <= B0 + 24).sort((a, b) => a[1].top - b[1].top);
+    const tx = ts.map(([t]) => t.textContent).reverse(); ts.forEach(([t], i) => t.textContent = tx[i]);
+    const a = svg.getScreenCTM()?.a || 1;   // แท่ง + ป้ายของมันกลับบนลงล่าง (ไฟล์: แถวแรกอยู่บน)
+    svg.querySelectorAll('path[data-m]').forEach(p => { const r = p.getBoundingClientRect(), dy = (T0 + B0 - r.top - r.bottom) / a;
+      [p, ...svg.querySelectorAll(`.d2slab[data-m="${p.dataset.m}"]`)].forEach(e => e.style.translate = `0 ${dy}px`); }); }   // CSS translate ไม่ชนกับท่า transform ของ motion
+}
+// ใบ 023: กราฟจริงที่ pptx-preview วาดไม่ได้ (ใยแมงมุม กระจาย ฟอง) หรือวาดไม่ครบ (แท่งผสมเส้น พาเรโต = 2 ชุดกราฟ) วาดเองจากค่าในไฟล์ สีแทนจะถูกเปลี่ยนเป็นไล่สีจริงทีหลัง
+// ponytail: แกน/ตัวเลขแบบเรียบ ไม่เลียนรายละเอียดของ PowerPoint ทุกจุด (ขนาดตัวอักษร ระยะขอบ) ค่าและสีตรงไฟล์
+function chartDraw(svg, D, node) {
+  const ns = 'http://www.w3.org/2000/svg', W = parseFloat(node.style.width) || 400, H = parseFloat(node.style.height) || 300, tc = getComputedStyle(node).color || '#4B5563';
+  [...svg.childNodes].forEach(c => { if (c.nodeName !== 'defs') c.remove(); }); svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const el = (t, a, txt) => { const e = document.createElementNS(ns, t); for (const k in a) e.setAttribute(k, a[k]); if (txt != null) e.textContent = txt; svg.appendChild(e); return e; };
+  const nice = v => { const e = 10 ** Math.floor(Math.log10(v || 1)); return [1, 2, 2.5, 5, 10].map(m => m * e).find(m => m >= v) || v; };
+  const f = (v, pc) => pc ? Math.round(v * (v <= 1.0001 ? 100 : 1)) + '%' : Math.abs(v) >= 1000 ? Math.round(v).toLocaleString('en-US') : String(+v.toFixed(2));
+  const T = {fill: '#6B7280', 'font-size': 11, 'font-family': "'IBM Plex Sans Thai',sans-serif"}, G = {stroke: '#E5E7EB', 'stroke-width': 1};
+  const p0 = D.p[0], t0 = p0.t;
+  if (t0 === 'radarChart') {
+    const n = D.cats.length, cx = W / 2, cy = H / 2 + 6, R = Math.min(W, H) / 2 - 34, mx = nice(Math.max(...p0.s.flatMap(s => s.y), 1)), pt = (i, r) => [cx + r * Math.sin(2 * Math.PI * i / n), cy - r * Math.cos(2 * Math.PI * i / n)];
+    for (let q = 1; q <= 4; q++) el('polygon', {points: D.cats.map((_, i) => pt(i, R * q / 4).join(',')).join(' '), fill: 'none', ...G});
+    D.cats.forEach((c, i) => { const [x, y] = pt(i, R + 16); el('line', {x1: cx, y1: cy, x2: pt(i, R)[0], y2: pt(i, R)[1], ...G}); el('text', {x, y, 'text-anchor': 'middle', 'dominant-baseline': 'central', ...T}, c); });
+    p0.s.forEach((s, si) => { const pts = s.y.map((v, i) => pt(i, R * v / mx).join(',')).join(' '); el('polygon', {points: pts, fill: '#' + s.c, 'fill-opacity': .22, stroke: '#' + s.c, 'stroke-width': 2, 'data-m': si + '.0'}); });
+    return;
+  }
+  const L = 48, Rr = D.p.length > 1 ? 48 : 16, Tp = 16, B = 34, pw = W - L - Rr, ph = H - Tp - B;
+  if (t0 === 'scatterChart' || t0 === 'bubbleChart') {
+    const all = p0.s.flatMap(s => s.x.map((x, i) => [x, s.y[i]])), xs = all.map(a => a[0]), ys = all.map(a => a[1]);
+    const xm = nice(Math.max(...xs, 1)), ym = nice(Math.max(...ys, 1)), zm = Math.max(...p0.s.flatMap(s => s.z), 1), X = v => L + v / xm * pw, Y = v => Tp + ph - v / ym * ph;
+    for (let q = 0; q <= 4; q++) { const y = Tp + ph * q / 4; el('line', {x1: L, y1: y, x2: L + pw, y2: y, ...G}); el('text', {x: L - 6, y, 'text-anchor': 'end', 'dominant-baseline': 'central', ...T}, f(ym * (1 - q / 4))); el('text', {x: L + pw * q / 4, y: Tp + ph + 16, 'text-anchor': 'middle', ...T}, f(xm * q / 4)); }
+    p0.s.forEach((s, si) => s.x.forEach((x, j) => { const r = t0 === 'bubbleChart' ? 6 + 26 * Math.sqrt((s.z[j] || 0) / zm) : 6;
+      el('circle', {cx: X(x), cy: Y(s.y[j]), r, fill: '#' + s.c, 'fill-opacity': t0 === 'bubbleChart' ? .75 : 1, 'data-m': si + '.' + j});
+      if (s.l[j]) el('text', {x: X(x) + r + 4, y: Y(s.y[j]), 'dominant-baseline': 'central', ...T, fill: tc, 'font-size': 12}, s.l[j]); }));
+    return;
+  }
+  // หมวด: แท่ง (ชุดกราฟแรก แกนซ้าย) + เส้น (ชุดกราฟที่สอง แกนขวา)
+  const n = D.cats.length, bw = pw / Math.max(1, n), bars = D.p.find(p => p.t === 'barChart'), line = D.p.find(p => p.t === 'lineChart' && p !== bars);
+  const bm = nice(Math.max(...(bars ? bars.s.flatMap(s => s.y) : [1]), 1)), lpc = /%/.test(line?.fmt || ''), lm = line ? (lpc && Math.max(...line.s.flatMap(s => s.y)) <= 1.0001 ? 1 : nice(Math.max(...line.s.flatMap(s => s.y), 1))) : 1;
+  for (let q = 0; q <= 4; q++) { const y = Tp + ph * q / 4; el('line', {x1: L, y1: y, x2: L + pw, y2: y, ...G}); el('text', {x: L - 6, y, 'text-anchor': 'end', 'dominant-baseline': 'central', ...T}, f(bm * (1 - q / 4)));
+    if (line) el('text', {x: L + pw + 6, y, 'dominant-baseline': 'central', ...T}, f(lm * (1 - q / 4), lpc)); }
+  D.cats.forEach((c, j) => el('text', {x: L + bw * (j + .5), y: Tp + ph + 16, 'text-anchor': 'middle', ...T}, c));
+  if (bars) { const k = bars.s.length, w = bw * .62 / k; bars.s.forEach((s, si) => s.y.forEach((v, j) => { const h = Math.max(0, v) / bm * ph;
+    el('rect', {x: L + bw * j + bw * .19 + si * w, y: Tp + ph - h, width: w, height: h, rx: 3, fill: '#' + s.c, 'data-m': si + '.' + j}); })); }
+  if (line) line.s.forEach(s => { const pts = s.y.map((v, j) => [L + bw * (j + .5), Tp + ph - v / lm * ph]);
+    el('polyline', {points: pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: '#' + s.c, 'stroke-width': 2.5}); pts.forEach(([x, y]) => el('circle', {cx: x, cy: y, r: 3.5, fill: '#fff', stroke: '#' + s.c, 'stroke-width': 2})); });
+}
+// ใบ 023: สีแทน #01xxxx ใน SVG ของ echarts -> ไล่สีจริงตามจุดสีในไฟล์ (เส้น = สีกลางของไล่สี เพราะเส้นตรงมีกล่องสูง 0 ไล่สีตามกล่องไม่ขึ้น)
+function gradBack(svg, gm, tag) {
+  if (!gm || !Object.keys(gm).length) return; const ns = 'http://www.w3.org/2000/svg'; let defs = null; const made = new Set();
+  const hex = c => { const m = String(c || '').match(/\d+(\.\d+)?/g); return /^rgb/.test(c || '') && m ? m.slice(0, 3).map(v => (+v | 0).toString(16).padStart(2, '0')).join('').toUpperCase() : String(c || '').replace('#', '').toUpperCase(); };
+  svg.querySelectorAll('path,rect,circle,polygon,polyline').forEach(e => ['fill', 'stroke'].forEach(at => {
+    const v = hex(e.getAttribute(at) || e.style[at]), g = gm[v]; if (!g) return;
+    if (g.none) { e.setAttribute(at, 'none'); e.style[at] = ''; return; }
+    if (at === 'stroke') { const m = g.st[Math.floor(g.st.length / 2)]; e.setAttribute('stroke', '#' + m[1]); e.style.stroke = ''; return; }
+    const id = `d2g${tag}_${v}`;
+    if (!made.has(id)) { made.add(id); defs = defs || svg.querySelector('defs') || svg.insertBefore(document.createElementNS(ns, 'defs'), svg.firstChild);
+      const gr = document.createElementNS(ns, g.path ? 'radialGradient' : 'linearGradient'); gr.id = id;
+      if (!g.path) { const a = g.ang * Math.PI / 180, c = Math.cos(a) / 2, s = Math.sin(a) / 2; [['x1', .5 - c], ['y1', .5 - s], ['x2', .5 + c], ['y2', .5 + s]].forEach(([k, x]) => gr.setAttribute(k, x.toFixed(4))); }
+      g.st.forEach(([p, c, al]) => { const s = document.createElementNS(ns, 'stop'); s.setAttribute('offset', p); s.setAttribute('stop-color', '#' + c); if (al < 1) s.setAttribute('stop-opacity', al); gr.appendChild(s); });
+      defs.appendChild(gr); }
+    e.setAttribute('fill', `url(#${id})`); e.style.fill = '';
+  }));
 }
 // QA 30g: pptx-preview ไม่อ่านป้ายค่า (c:dLbls) เลย กราฟบนจอไม่มีตัวเลข / วงกลมโชว์ชื่อหมวดตัดเป็น "ค่า…" -> วาดป้ายเองจาก D.CHARTL (ข้อความเดียวกับในไฟล์)
 // ponytail: หาแท่ง/ชิ้น/จุดจาก SVG ของ echarts ด้วยสี + ฐานร่วม ถ้านับไม่ตรงจำนวนจุดก็ไม่วาด (ดีกว่าวาดผิดที่)
@@ -1817,7 +2126,7 @@ function chartLabels(node, L) {
   const paths = [...svg.querySelectorAll('path')].map(p => ({p, f: hex(p.getAttribute('fill') || p.style.fill), r: p.getBoundingClientRect()}));
   const put = (x, y, t, col, z, anc = 'middle', bold) => { if (!t) return; const pt = new DOMPoint(x, y).matrixTransform(inv);
     String(t).split('\n').forEach((ln, q, a) => { const e = document.createElementNS(ns, 'text'); e.setAttribute('x', pt.x); e.setAttribute('y', pt.y + (q - (a.length - 1) / 2) * z * 1.15); e.setAttribute('text-anchor', anc); e.setAttribute('dominant-baseline', 'central');
-      e.setAttribute('class', 'd2slab'); e.style.cssText = `fill:#${col || '15151A'};font-size:${z}px;font-weight:${bold ? 700 : 600};font-family:'IBM Plex Sans Thai',sans-serif;stroke:none`; e.textContent = ln; svg.appendChild(e); }); };
+      e.setAttribute('class', 'd2slab'); if (put.m) e.dataset.m = put.m; e.style.cssText = `fill:#${col || '15151A'};font-size:${z}px;font-weight:${bold ? 700 : 600};font-family:'IBM Plex Sans Thai',sans-serif;stroke:none`; e.textContent = ln; svg.appendChild(e); }); };
   if (L.k === 'pie' || L.k === 'donut') {
     const s0 = L.s[0], sl = s0.pc.map(c => paths.find(o => o.f === c && o.r.width > 4)); if (sl.some(x => !x)) return;
     const u = sl.reduce((a, o) => ({l: Math.min(a.l, o.r.left), t: Math.min(a.t, o.r.top), r: Math.max(a.r, o.r.right), b: Math.max(a.b, o.r.bottom)}), {l: 1e9, t: 1e9, r: -1e9, b: -1e9});
@@ -1825,7 +2134,7 @@ function chartLabels(node, L) {
     svg.querySelectorAll('text:not(.d2slab)').forEach(t => { const r = t.getBoundingClientRect(); if (r.top < u.b + 2 && r.bottom > u.t - 2) t.remove(); });   // ชื่อหมวดที่ echarts ตัดเป็น "ค่า…" (คำอธิบายสีอยู่ใต้วง ไม่โดน)
     paths.forEach(o => { if (o.f === 'NONE' && o.p.getAttribute('stroke') && o.r.top < u.b && o.r.bottom > u.t && !sl.includes(o)) o.p.remove(); });   // เส้นโยงป้าย
     const tot = s0.l.length; let a0 = -Math.PI / 2; const vals = sl.map(o => 1);   // มุมจากจุดกลางชิ้น (กล่องรอบชิ้น) แม่นพอสำหรับวางป้าย
-    sl.forEach((o, j) => { const mx = (o.r.left + o.r.right) / 2 - cx, my = (o.r.top + o.r.bottom) / 2 - cy, d = Math.hypot(mx, my) || 1;
+    sl.forEach((o, j) => { o.p.dataset.m = '0.' + j; put.m = '0.' + j; const mx = (o.r.left + o.r.right) / 2 - cx, my = (o.r.top + o.r.bottom) / 2 - cy, d = Math.hypot(mx, my) || 1;
       put(cx + mx / d * rr, cy + my / d * rr, s0.l[j], s0.pl?.[j] || s0.lc, s0.z, 'middle', j === 0); });
     return;
   }
@@ -1839,8 +2148,8 @@ function chartLabels(node, L) {
       const best = +Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0]; c = c.filter(o => Math.abs(key(o) - best) <= 1.5);
     }
     if (c.length !== n) return;
-    c.sort((a, b) => L.k === 'bar' ? a.r.top - b.r.top : a.r.left - b.r.left);
-    c.forEach((o, j) => { const r = o.r;
+    c.sort((a, b) => L.k === 'bar' ? b.r.bottom - a.r.bottom : a.r.left - b.r.left);   // echarts วาดแท่งนอนหมวดแรกไว้ล่างสุด (ใบ 023 แก้จากบนลงล่างที่ทำให้ป้ายสลับแท่ง)
+    c.forEach((o, j) => { const r = o.r; o.p.dataset.m = si + '.' + j; put.m = si + '.' + j;
       if (L.k === 'bar') put(r.right + 6, (r.top + r.bottom) / 2, s0.l[j], s0.pl?.[j] || s0.lc, s0.z, 'start');
       else put((r.left + r.right) / 2, r.top - s0.z * .75, s0.l[j], s0.pl?.[j] || s0.lc, s0.z); });
   });
@@ -1876,12 +2185,12 @@ async function paint() {
   if (need.length) {
     py.globals.set('ONLY', py.toPy(need));
     const buf = pptx('D.render([ITEMS[i] for i in ORDER], M, TTL, only=set(ONLY), ins={p: CS[i]["kind"] for p, i in enumerate(ORDER) if CS[i].get("_ins")}, hint=True)');   // หน้าที่แทรก: ช่องว่างโชว์คำใบ้
-    const bx = JSON.parse(py.runPython('json.dumps(D.BOXES, ensure_ascii=False)'));
+    const bx = JSON.parse(py.runPython('json.dumps(D.BOXES, ensure_ascii=False)')), chm = lastCH;
     const nodes = await preview(buf);
-    need.forEach((pos, j) => { if (nodes[j]) { patchNode(nodes[j], bx[j] || []); nodeCache.set(KEYS[pos], {node: nodes[j], boxes: bx[j] || []}); } });
+    need.forEach((pos, j) => { if (nodes[j]) { patchNode(nodes[j], bx[j] || []); nodeCache.set(KEYS[pos], {node: nodes[j], boxes: bx[j] || [], ch: chm[j] || []}); } });
     while (nodeCache.size > 240) nodeCache.delete(nodeCache.keys().next().value);
   }
-  slides = KEYS.map(k => nodeCache.get(k)?.node); BOX = KEYS.map(k => nodeCache.get(k)?.boxes || []);
+  slides = KEYS.map(k => nodeCache.get(k)?.node); BOX = KEYS.map(k => nodeCache.get(k)?.boxes || []); CHS = KEYS.map(k => nodeCache.get(k)?.ch || []);
   META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins")), ov=bool(ITEMS[i][1].get("_ov")), mv=bool(ITEMS[i][1].get("mv")), tr=ITEMS[i][1].get("_tr", ""), lg=ITEMS[i][1].get("_lg"), pn=ITEMS[i][1].get("_pn"), nt=ITEMS[i][1].get("_note", ""), nm=ITEMS[i][1].get("_name", "")) for i in ORDER], ensure_ascii=False)'));
   dirty = true; readBR(); requestAnimationFrame(railFade);   // ใบ 022 ขอบจางของแถบเครื่องมือ
   return need;
@@ -1893,7 +2202,7 @@ function makeDeck(skip = []) {
 }
 const pgs = () => [...$('pages').children].filter(x => x.classList.contains('pg'));
 function hitsHtml(k) {
-  return BOX[k].map((b, j) => `<div class="hit${b.can ? ' can' : ''}${b.m ? ' mv' : ''}" data-j="${j}" style="--i:${j};left:${b.x / 9.6}%;top:${b.y / 5.4}%;width:${b.w / 9.6}%;height:${b.h / 5.4}%"></div>`).join('');
+  return chitHtml(k) + BOX[k].map((b, j) => `<div class="hit${b.can ? ' can' : ''}${b.m ? ' mv' : ''}" data-j="${j}" style="--i:${j};left:${b.x / 9.6}%;top:${b.y / 5.4}%;width:${b.w / 9.6}%;height:${b.h / 5.4}%"></div>`).join('');
 }
 // ใบ 025 หัวหน้า (คอม): หน้า N + ชื่อหน้า / เปลี่ยนแบบ ขึ้น ลง ล็อก ทำสำเนา ลบ เพิ่มหน้า
 const pageLocked = k => !!BOX[k]?.some(b => b.lk) && !BOX[k].some(b => b.can);
@@ -1950,7 +2259,7 @@ function relayout(mode) {
   if (wide()) { const h = C.clientHeight, t0 = C.scrollTop; pgs().forEach((p, k) => { if (p.offsetTop + p.offsetHeight > t0 - h && p.offsetTop < t0 + 2 * h) mountPg(p, k); }); }   // หน้าในจอขึ้นทันที ไม่รอ observer
   observePages();
   if (one()) { if (cur < 0) cur = Math.min(near, slides.length - 1); P.scrollLeft = cur * P.clientWidth; near = cur; }   // ทีละหน้า: มีหน้าที่ทำงานอยู่เสมอ
-  select(cur, {quiet: true}); paintDots(); paintSel();
+  select(cur, {quiet: true}); paintDots(); paintSel(); if (CH) paintCh();
   if (gridOn) $('thumbs').querySelectorAll('.slidebox').forEach(fit);
 }
 // แก้หน้าเดียว/เลิกทำที่จำนวนหน้าเท่าเดิม: สลับเฉพาะเนื้อในของหน้าที่เปลี่ยน ภาพเก่าอยู่จนภาพใหม่พร้อม (motion ข้อ 5)
@@ -1968,7 +2277,10 @@ function swapPage(k, ring = true) {
     [...box.children].forEach(c => { if (c !== nx) c.remove(); }); nx.className = ''; if (box.clientWidth) nx.style.transform = `scale(${box.clientWidth / 960})`;
   };
   const ready = Promise.race([Promise.all([...nx.querySelectorAll('img')].map(i => i.decode().catch(() => {})).concat(document.fonts.ready)), sleep(800)]);
+  const mo = CHMO && CHMO.k === k ? CHMO : null;   // ใบ 023: หน้านี้เพิ่งเปลี่ยนกราฟ = ท่าของกราฟแทนการจางทั้งหน้า
   ready.then(() => {
+    if (mo && nx.isConnected && nx === box.lastElementChild) { const old = [...box.children].filter(c => c !== nx).pop(); [...box.children].forEach(c => { if (c !== nx && c !== old) c.remove(); }); nx.className = '';
+      if (box.clientWidth) nx.style.transform = `scale(${box.clientWidth / 960})`; if (!chMorph(mo, box, nx, old)) old?.remove(); return; }
     if (calm.matches) return clean();
     requestAnimationFrame(() => { nx.classList.add('in'); let d = 0; const f = () => { if (!d) { d = 1; clean(); } };
       nx.addEventListener('transitionend', f, {once: true}); setTimeout(f, 320); });
@@ -1976,6 +2288,7 @@ function swapPage(k, ring = true) {
   const hs = pg.querySelector('.hits'); hs.innerHTML = hitsHtml(k); hs.classList.add('re'); srcSet(pg, k);
   const sl = pg.querySelector('.slide'); if (ring) { sl.classList.remove('swap', 'repaint'); void sl.offsetWidth; sl.classList.add('swap'); }
   if (SEL?.k === k) paintSel();
+  if (CH?.k === k) paintCh();
 }
 function srcSet(pg, k) { const h = srcHtml(META[k]), e = pg.querySelector('.src'); if (e.dataset.h !== h) { e.innerHTML = h; e.dataset.h = h; } }   // A9: ป้ายล้นไม่เด้งซ้ำทุกครั้งที่วาดหน้าอื่น
 // หลังเปลี่ยน state ของ Python: จำนวนหน้าเท่าเดิม = สลับเฉพาะหน้าที่ต่าง / ไม่เท่า = วาดใหม่ทั้ง canvas
@@ -2015,7 +2328,7 @@ function pickCur() {
   if (!slides.length || gridOn || one()) return;
   const R = $('canvas').getBoundingClientRect(); let best = -1, bv = 0;
   pgs().forEach((p, k) => { const r = p.getBoundingClientRect(), v = Math.min(r.bottom, R.bottom) - Math.max(r.top, R.top); if (v > bv) { bv = v; best = k; } });
-  if (best >= 0 && best !== cur && !(ED || SEL || DR || POP || busyNow)) select(best, {quiet: true});
+  if (best >= 0 && best !== cur && !(ED || SEL || CH || DR || POP || busyNow)) select(best, {quiet: true});   // ใบ 023: เลือกกราฟอยู่ = ไม่เปลี่ยนหน้าตามการเลื่อน
 }
 $('canvas').addEventListener('scroll', () => { if (scrT || one()) return; scrT = requestAnimationFrame(() => { scrT = 0; pickCur(); if (SEL) paintSel(); if (ED) placeEdit(); if (POP) paintPop(); }); }, {passive: true});
 
@@ -2024,6 +2337,7 @@ function select(i, o = {}) {
   if (Z.s > 1.001 && i !== Z.k) { const o_ = zSl(); if (o_) o_.style.transform = ''; Object.assign(Z, {s: 1, tx: 0, ty: 0}); $('pWork').classList.remove('zoomed'); SELD.style.setProperty('--iz', 1); }   // ใบ 022 (มือถือ)
   if (i < 0 && slides.length) { deselectBox(); i = one() ? Math.max(0, Math.min(near, slides.length - 1)) : Math.max(0, Math.min(cur, slides.length - 1)); }   // มีหน้าที่ทำงานอยู่เสมอ แตะที่ว่าง = เลิกเลือกกล่อง
   if (SEL && SEL.k !== i) deselectBox();
+  if (CH && CH.k !== i) chOff();
   cur = i;
   pgs().forEach((p, k) => p.classList.toggle('on', k === i));
   [...$('thumbs').children].forEach((t, k) => t.classList.toggle('on', k === i));
@@ -2049,12 +2363,14 @@ $('pages').addEventListener('click', ev => {
   if (gp) { if (ev.target.closest('button')) openIns(pgs().indexOf(gp.parentNode)); return; }
   const pg = ev.target.closest('.pg'); if (!pg) return select(-1);
   if (ev.target.closest('.phd,.nt')) { const k = pgs().indexOf(pg); if (k !== cur && !ED) select(k); return; }
-  if (ev.target.closest('.edit,.tip,.etb,.tlay,.selbar')) return;
+  if (ev.target.closest('.edit,.tip,.etb,.tlay,.selbar,.chin')) return;
   const k = pgs().indexOf(pg), hit = ev.target.closest('.hit');
+  if (ev.target.closest('.chit')) return chClick(k, ev);   // ใบ 023: แตะกราฟ = เลือกกราฟ / เลือกอยู่แล้ว = แตะชิ้นเพื่อพิมพ์หรือเปลี่ยนสี
   // จอสัมผัส (ใบ 017 แบบ Canva): แตะกล่อง = เลือกหน้า + เลือกกล่อง (ไม่ขึ้นคีย์บอร์ด) แตะกล่องที่เลือกอยู่อีกครั้ง = พิมพ์ / เมาส์: คลิก = พิมพ์ทันที (015 เดิม)
   if (hit) {
     const j = +hit.dataset.j;
     if (k !== cur) select(k);
+    if (CH) chOff();
     if (touch() && !(SEL && SEL.k === k && pk(SEL.p) === pk(BOX[k][j].p))) return selectBox(k, j);
     openEdit(k, j, {x: ev.clientX, y: ev.clientY}); return;
   }
@@ -2201,6 +2517,7 @@ function caretAt(x, y) {
   return document.caretRangeFromPoint?.(x, y) || null;
 }
 function openEdit(k, j, at) {
+  if (CH) chOff();
   if (ED) {
     if (ED.k === k && ED.j === j) return;
     const E = ED; if (!finishEdit(true)) return;
@@ -2682,11 +2999,12 @@ function paintLooks() { $('lookg').innerHTML = lookHtml(); }
 $('lookg').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
 
 // ── แผงขวา (คอม) / แผ่นเต็มจอ (มือถือ): ผู้ช่วย หน้าตา ประวัติ ──
-const PANEL_T = {text: 'ข้อความ', img: 'รูปภาพ', pos: 'ตำแหน่ง', chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข', brand: 'แบรนด์และเลขหน้า', trans: 'ทรานซิชัน'};
+const PANEL_T = {ch: 'กราฟ', text: 'ข้อความ', img: 'รูปภาพ', pos: 'ตำแหน่ง', chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข', brand: 'แบรนด์และเลขหน้า', trans: 'ทรานซิชัน'};
 function openPanel(p) {
   const rp = $('rp'); if (rp.dataset.p !== p) { rp.dataset.p = p; }
   $('rpT').textContent = PANEL_T[p]; rp.classList.add('on'); $('pWork').classList.add('rpon'); document.body.classList.add('panelon');
-  $('pWork').classList.toggle('bsheet', ['brand', 'trans', 'pos'].includes(p));   // ข้อความ (022) = แผ่นล่างสั้น ไม่ดันสไลด์   // QA 007: มือถือ/แท็บเล็ต = แผ่นล่าง 62% เห็นสไลด์ด้านบน
+  $('pWork').classList.toggle('bsheet', ['brand', 'trans', 'pos', 'ch'].includes(p));
+  if (p !== 'ch') $('chbk')?.remove();   // ข้อความ (022) = แผ่นล่างสั้น ไม่ดันสไลด์   // QA 007: มือถือ/แท็บเล็ต = แผ่นล่าง 62% เห็นสไลด์ด้านบน
   document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.toggle('on', b.dataset.p === p));
   if (p === 'chat') { $('chatdot').classList.remove('on'); scrollEnd(true); }
   if (p === 'look') paintLooks();
@@ -2699,6 +3017,7 @@ function openPanel(p) {
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
 }
 function closePanel() {
+  if ($('rp').dataset.p === 'ch') { $('chbk')?.remove(); CHPC = null; document.querySelectorAll('.slide.chlift').forEach(x => x.classList.remove('chlift')); if (CHC?.view === 'custom' && CH) { const w = pgs()[CH.k]?.querySelector('.slidebox'); if (w) { delete w._gsig; mount(w, slides[CH.k]); } CHC.view = 'main'; } }
   $('rp').classList.remove('on'); $('pWork').classList.remove('rpon', 'bsheet'); document.body.classList.remove('panelon');
   document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.remove('on'));
   requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
@@ -2768,6 +3087,7 @@ document.addEventListener('keydown', ev => {
   const mod = ev.metaKey || ev.ctrlKey, k = ev.key.toLowerCase();
   if (mod && k === 'z') { ev.preventDefault(); undoRedo(ev.shiftKey ? 1 : -1); return; }
   if (ev.ctrlKey && k === 'y') { ev.preventDefault(); undoRedo(1); return; }
+  if (CH && ev.key === 'Escape' && !$('sheet').classList.contains('on')) { if (CHX) chxClose(); else chOff(); return; }
   if (SEL && !$('sheet').classList.contains('on')) {          // กล่องเลือกอยู่ ไม่พิมพ์ (ใบ 017): ลูกศรขยับ 6pt / Alt 1pt  Enter พิมพ์  Esc เลิกเลือก
     const ar = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]}[ev.key];
     if (ar && !mod) { ev.preventDefault(); nudge(ar[0] * nudgeStep(ev.altKey), ar[1] * nudgeStep(ev.altKey)); return; }
@@ -4313,6 +4633,7 @@ const SELD = mk('sel', '<i class="rz tl" data-r="270"></i><i class="rz tr" data-
 function selBox() { if (!SEL) return null; const bx = BOX[SEL.k] || [], j = bx.findIndex(b => pk(b.p) === pk(SEL.p)); return j < 0 ? null : {j, b: bx[j]}; }
 function selectBox(k, j) { const b = BOX[k]?.[j]; if (!b || ED || viewing) return; if (NU) nudgeCommit(); SEL = {k, p: b.p}; paintSel(); }
 function deselectBox() {
+  if (CH) chOff();
   if (NU) nudgeCommit();
   if (PZS) { const P = PZS; clearTimeout(P.t); sizeCommit(); }   // ขนาดที่กดค้างไว้: บันทึกก่อนเลิกเลือก (stylePy อ่าน SEL ทันที)
   if (FP && !ED) closePicker();
@@ -4515,7 +4836,7 @@ async function commitMove(D, un) {
     py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(b.p)); py.globals.set('RECT', py.toPy([me.x, me.y, me.w, me.h])); py.globals.set('DROP', py.toPy(drop)); py.globals.set('ORDER', py.toPy(order));
     const [[, n], keys, rp] = JSON.parse(py.runPython('json.dumps([D.move_box(ITEMS, IDX, list(PATH), list(RECT), M, drop=list(DROP)), D.keys(ITEMS, ORDER, TTL, M["slug"]), repr((WANT, CS, ITEMS, TTL, D.BR))])'));
     const node = cloneSlide(pg.querySelector('.slidebox').lastElementChild.firstElementChild);
-    KEYS = keys; nodeCache.set(KEYS[k], {node, boxes: nb}); slides[k] = node; META[k] = {...META[k], mv: n > 0}; dirty = true;
+    KEYS = keys; nodeCache.set(KEYS[k], {node, boxes: nb, ch: CHS[k]}); slides[k] = node; META[k] = {...META[k], mv: n > 0}; dirty = true;
     const th = $('thumbs').children[k]; if (th) mount(thBox(th), node);
     commit(`ย้ายกล่อง หน้า ${k + 1}: ${FIELD(b.p)}`, rp);
   } catch (e) { console.error(e); toast('ย้ายไม่สำเร็จ ลองใหม่อีกครั้ง'); busyNow = false; if (STACK[SP]) await restore(STACK[SP]); }
@@ -4593,7 +4914,7 @@ async function commitPic(D, rect, rot, label, un) {
     const nb = BOX[k].map(x => x !== b ? x : {...x, ...(rect ? {x: rect[0], y: rect[1], w: rect[2], h: rect[3], m: 1} : {rot})});
     BOX[k] = nb; pg.querySelector('.hits').innerHTML = hitsHtml(k); SEL = {k, p: b.p}; paintSel();
     const node = cloneSlide(pg.querySelector('.slidebox').lastElementChild.firstElementChild);
-    KEYS = keys; nodeCache.set(KEYS[k], {node, boxes: nb}); slides[k] = node; dirty = true;
+    KEYS = keys; nodeCache.set(KEYS[k], {node, boxes: nb, ch: CHS[k]}); slides[k] = node; dirty = true;
     const th = $('thumbs').children[k]; if (th) mount(thBox(th), node);
     commit(label, rp);
   } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ลองใหม่อีกครั้ง'); un?.(); busyNow = false; if (STACK[SP]) await restore(STACK[SP]); }
@@ -5202,6 +5523,597 @@ document.addEventListener('keydown', ev => {
   if (ev.key === 'Enter') { ev.preventDefault(); c.click(); }
   if (ev.key === 'F2' && !c.classList.contains('del')) { ev.preventDefault(); renameCard(c.dataset.w); }
 });
+// ══ ใบ 023: แก้กราฟ (แถบกราฟ ชนิด 18/40 แบบ ข้อมูล 2 ขั้น สี/ไล่สีเอง สีทีละชิ้น แตะตัวเลขพิมพ์) ═════════════════════
+// ไอซ์ 1 พ.ย. 2569: "ทุกอย่างในกราฟพวกนี้ต้องปรับแก้ได้นะครับ แล้งก็ลิ้งค์กับตัว excel" / "ต้องมีฟีเจอร์ให้เลือกคู่สีเองด้วยนะ" / "ปรับคู่สีที่ไล่สีเองได้ด้วยนะ เผื่อเค้าใส่สี CI ของตัวเอง"
+// ข้อมูลอยู่ใน Python ทั้งหมด (d['chart'] / BR['chartc'] / ตารางของหน้า) เว็บเรียก Python ครั้งเดียวต่อการยืนยัน (ออกจากเซลล์ / Enter / แตะแบบ / ใช้สีนี้) ไม่เรียกระหว่างพิมพ์หรือลากจุดสี
+// สีในหน้านี้ใช้รูปแบบของ Python: [[ตำแหน่ง 0-1, 'RRGGBB']] ตำแหน่ง 0 = ปลายบน/ปลายแท่ง  แถบไล่สีบนจอ ซ้าย = ฐานแท่ง ขวา = ปลายแท่ง (ui = 1 - pos)
+const CHG = [['เทียบค่า', ['column', 'stacked_column', 'bar', 'stacked_bar', 'waterfall', 'range']], ['แนวโน้ม', ['line', 'area', 'combo', 'pareto']],
+  ['สัดส่วน', ['pie', 'donut', 'funnel', 'marimekko', 'sankey']], ['ความสัมพันธ์', ['scatter', 'bubble', 'radar']]];
+const CHPRE = [['ม่วงส้ม', '#A99BFF', '#4B3BDB', '#FFB066', '#F2552C'], ['น้ำเงินทอง', '#8DB8FF', '#1D4ED8', '#FFD36E', '#F59E0B'], ['มรกตส้ม', '#7EE2B8', '#047857', '#FDBA74', '#EA580C'],
+  ['ชมพูพีช', '#F9B8D8', '#DB2777', '#FED7AA', '#F97316'], ['ฟ้าทะเล', '#9BE7F5', '#0E7490', '#FDA4AF', '#E11D48'], ['กรมท่าแดง', '#9AA8C7', '#1E2A4A', '#FCA5A5', '#DC2626'],
+  ['ม่วงชมพู', '#C9BBFD', '#6D28D9', '#F9A8D4', '#DB2777'], ['เทาเหลือง', '#D4D4D8', '#52525B', '#FDE047', '#CA8A04']].map(([n, p0, p1, a0, a1]) => ({n, pri: [[0, p1], [1, p0]], acc: [[0, a1], [1, a0]]}));
+const CHONE = [['เขียวมรกต', '#7EE2B8', '#047857'], ['น้ำเงิน', '#8DB8FF', '#1D4ED8'], ['ชมพู', '#F9B8D8', '#DB2777'], ['ฟ้า', '#9BE7F5', '#0E7490']];   // สีอื่นของแท่งเดียว (mockup 10)
+const CHNOTE = 'หมายเหตุ';
+let CHS = [], CH = null, CHI = null, TB = null, CHV = 'type', CHX = null, CHMO = null, CHQ = Promise.resolve(), CHC = null, CHPC = null, CHLOGO = null;
+const chOf = k => CHS[k] || [];
+const isChart = k => META[k]?.kind === 'chart' && chOf(k).length > 0;
+const hx = c => String(c || '').replace('#', '').toUpperCase();
+const stCss = (st, dir = 'to top', ui = true) => `linear-gradient(${dir},${(st || []).map(([p, c]) => [ui ? 1 - p : p, c]).sort((a, b) => a[0] - b[0]).map(([p, c]) => `#${hx(c)} ${Math.round(p * 100)}%`).join(',')})`;
+const stNorm = st => (st || []).map(([p, c]) => [+(+p).toFixed(4), hx(c)]).sort((a, b) => a[0] - b[0]);
+const palEq = (a, b) => !!a && !!b && JSON.stringify(stNorm(a.pri)) === JSON.stringify(stNorm(b.pri)) && JSON.stringify(stNorm(a.acc)) === JSON.stringify(stNorm(b.acc));
+const chPal = () => CHI ? (CHI.cfg.colors || CHI.br || CHI.th || CHPRE[0]) : CHPRE[0];   // สีที่กราฟนี้ใช้อยู่จริง (เฉพาะกราฟ > ทั้งไฟล์ > สีตามชุด)
+function chRect(k) {                      // กรอบรวมของชิ้นกราฟ (หน่วย 960×540) ไม่นับลายตกแต่งที่หลุดขอบ
+  const a = chOf(k).filter(s => !s[1].startsWith('d.') || chOf(k).length < 3); if (!a.length) return null;
+  const x = Math.max(0, Math.min(...a.map(s => s[2]))), y = Math.max(0, Math.min(...a.map(s => s[3]))), r = Math.min(960, Math.max(...a.map(s => s[2] + s[4]))), b = Math.min(540, Math.max(...a.map(s => s[3] + s[5])));
+  return {x: x - 6, y: y - 6, w: r - x + 12, h: b - y + 12};
+}
+const chitHtml = k => { const r = isChart(k) && chRect(k); return r ? `<div class="chit" style="left:${r.x / 9.6}%;top:${r.y / 5.4}%;width:${r.w / 9.6}%;height:${r.h / 5.4}%" aria-label="กราฟ แตะเพื่อแก้"></div>` : ''; };
+const CHPY = `
+def _chinfo(i):
+    nm, d = ITEMS[i]; L = D.lay_charts; cfg = d.get('chart') or {}
+    df = L.DEF.get(nm[4:]) if nm.startswith(('chb_', 'chc_')) else None
+    try: th = L._theme(L._style('C' if nm.startswith('chc_') else 'B'))
+    except Exception: th = None
+    return json.dumps(dict(cfg=cfg, df=df, br=D.BR.get('chartc'), th=th, lk=bool(d.get('_chlk')), tb=D.chart_table(ITEMS, i), ty=D.chart_types(ITEMS, i), name=nm), ensure_ascii=False, default=list)
+def _chok(i, t, s):
+    ty = D.chart_types(ITEMS, i); cur = next((x for x in ty if x['type'] == t), None)
+    st = next((y for y in (cur or {}).get('styles', []) if y['id'] == s), None)
+    if st and st['ok']: return None
+    alt = next((y['id'] for y in (cur or {}).get('styles', []) if y['ok']), None)
+    if alt: D.set_chart(ITEMS, i, type=t, style=alt); return ['style', t, alt]
+    alt = next(((x['type'], y['id']) for x in ty for y in x['styles'] if y['ok']), None)
+    if alt: D.set_chart(ITEMS, i, type=alt[0], style=alt[1]); return ['type', alt[0], alt[1]]
+    return st['why'] if st else 'วาดกราฟจากข้อมูลนี้ไม่ได้'
+def _chtab(i, table):
+    bk = ITEMS[i]; r = D.set_chart_table(ITEMS, i, table)
+    if r != 'ok': ITEMS[i] = bk; return json.dumps([r, None], ensure_ascii=False)
+    nm, d = ITEMS[i]; cfg = d.get('chart') or {}; df = D.lay_charts.DEF.get(nm[4:]) if nm.startswith(('chb_', 'chc_')) else None
+    t = cfg.get('type') or (df or ('column', None))[0]; s = cfg.get('style') or (df or (None, None))[1]
+    x = _chok(i, t, s)
+    if isinstance(x, str): ITEMS[i] = bk; return json.dumps([x, None], ensure_ascii=False)
+    return json.dumps(['ok', x], ensure_ascii=False)
+def _chlk(i, on):
+    nm, d = ITEMS[i]; d = {k: v for k, v in d.items() if k != '_chlk'}
+    if on: d['_chlk'] = 1
+    ITEMS[i] = (nm, d); return 'ok'
+def _xlsx_rows(b):
+    import openpyxl, io as _io, datetime as _dt
+    wb = openpyxl.load_workbook(_io.BytesIO(bytes(b)), read_only=True, data_only=True); ws = wb.worksheets[0]; out = []
+    for row in ws.iter_rows(values_only=True):
+        if len(out) > 2000: break
+        r = []
+        for v in row:
+            if v is None: r.append('')
+            elif isinstance(v, bool): r.append(str(v))
+            elif isinstance(v, float) and v.is_integer(): r.append(str(int(v)))
+            elif isinstance(v, (_dt.date, _dt.datetime)): r.append(v.strftime('%Y-%m-%d'))
+            else: r.append(str(v))
+        out.append(r)
+    wb.close(); return json.dumps(out, ensure_ascii=False)
+`;
+let chPyOk = false;
+const chPy = () => { if (!chPyOk) { py.runPython(CHPY); chPyOk = true; } };
+function chLoad(k) {
+  chPy(); py.globals.set('IDX', order[k]); CHI = JSON.parse(py.runPython('_chinfo(IDX)'));
+  CHI.k = k; const ty = CHI.cfg.type || CHI.df?.[0] || 'column'; CHI.t = ty; CHI.s = CHI.cfg.type ? (CHI.cfg.style || CHI.ty.find(x => x.type === ty)?.styles.find(s => s.ok)?.id) : null;   // ยังไม่เคยเลือก = หน้ากราฟเดิมของชุด ไม่ติ๊กการ์ดใด
+  if (!TB || TB.k !== k || !TB.pend) TB = {k, rows: CHI.tb.map(r => r.map(String)), sel: -1, pend: false, err: '', file: TB?.k === k ? TB.file : ''};
+  return CHI;
+}
+const chTh = () => CHI?.ty.find(x => x.type === CHI.t)?.th || 'กราฟ';
+const chStTh = () => CHI?.ty.find(x => x.type === CHI.t)?.styles.find(s => s.id === CHI.s)?.th || '';
+// ── เลือกกราฟ ──
+function selectChart(k) {
+  if (viewing) return; if (ED) finishEdit(true); deselectBox(); if (k !== cur) select(k);
+  try { chLoad(k); } catch (e) { console.error(e); return; }
+  CH = {k}; CHPC = null; paintCh(true);
+}
+function chOff() {
+  if (!CH) return; chEdClose(true); const k = CH.k; CH = null; CHPC = null;
+  document.querySelectorAll('.chsel,.chbar,.chtip').forEach(x => x.remove()); pgs()[k]?.querySelector('.slide')?.classList.remove('chon', 'chlift');
+  pgs()[k]?.querySelectorAll('[data-m].up').forEach(e => e.classList.remove('up'));
+  if (one()) { $('pWork').classList.remove('boxon'); $('bbar').classList.remove('tx'); }
+  if (panelOpen('ch')) closePanel(); chxClose(true); zFit();
+}
+function paintCh(first) {
+  if (!CH) return; const k = CH.k, pg = pgs()[k];
+  if (!pg || !isChart(k) || !pg.dataset.m && wide()) return chOff();
+  const r = chRect(k), hs = pg.querySelector('.hits'); let f = hs.querySelector('.chsel');
+  if (!f) { f = mk('chsel'); hs.appendChild(f); }
+  Object.assign(f.style, {left: r.x / 9.6 + '%', top: r.y / 5.4 + '%', width: r.w / 9.6 + '%', height: r.h / 5.4 + '%'});
+  // ชิ้นที่แก้ได้: เส้นประบาง (จางเข้า 150ms ครั้งแรก) / ตัวเลขที่คิดจากตาราง: เส้นจุดเทา
+  const ed = chOf(k).filter(s => /^(v|s|c|lab)\./.test(s[1]) && !BOX[k]?.some(b => b.p[0] === 'cats' && s[1] === 'c.' + b.p[1])), xs = chOf(k).filter(s => s[1].startsWith('x.'));
+  f.innerHTML = [...ed.map(s => [s, 'e']), ...xs.map(s => [s, 'x'])].map(([s, c]) => `<i class="${c}" style="left:${(s[2] - r.x) / r.w * 100}%;top:${(s[3] - r.y) / r.h * 100}%;width:${s[4] / r.w * 100}%;height:${s[5] / r.h * 100}%"></i>`).join('')
+    + [...(chLay(k)?.querySelectorAll('.chart-node .d2slab[data-m]') || [])].map(t => { const q = t.getBoundingClientRect(), S = pg.querySelector('.slide').getBoundingClientRect(), sc = S.width / 960, x = (q.left - S.left) / sc, y = (q.top - S.top) / sc;
+      return `<i class="e" style="left:${(x - 3 - r.x) / r.w * 100}%;top:${(y - 2 - r.y) / r.h * 100}%;width:${(q.width / sc + 6) / r.w * 100}%;height:${(q.height / sc + 4) / r.h * 100}%"></i>`; }).join('');
+  if (first) f.classList.remove('on'); requestAnimationFrame(() => f.classList.add('on'));
+  pg.querySelector('.slide').classList.add('chon');
+  chBar(pg, r);
+}
+const chLk = () => !!CHI?.lk;
+function chBar(pg, r) {
+  const chip = `<span class="chchip" style="background:${stCss(chPal().pri)}"></span>`;
+  if (one()) {
+    const B = $('bbar'), T = (e, inner, l) => `<button class="mt${CHV === e && panelOpen('ch') ? ' on' : ''}" type="button" data-c="${e}"${chLk() && e !== 'lock' ? ' disabled' : ''}>${inner}<span>${l}</span></button>`;
+    const h = `<div class="msc">${T('type', ico('chart'), 'ชนิด')}${T('data', ico('table'), 'ข้อมูล')}${T('col', chip, 'สี')}${T('lock', ico(chLk() ? 'unlock' : 'lock'), chLk() ? 'ปลดล็อก' : 'ล็อก')}</div>
+      <div class="mpin"><button class="mdone" type="button" data-c="ok" aria-label="เสร็จ เลิกเลือกกราฟ">${ico('check')}เสร็จ</button></div>`;
+    B.classList.add('tx'); B.setAttribute('aria-label', 'เครื่องมือกราฟ'); if (B.dataset.h !== h) { B.innerHTML = h; B.dataset.h = h; } $('pWork').classList.add('boxon'); return;
+  }
+  let bar = pg.querySelector('.chbar');
+  if (!bar) { bar = mk('selbar tbar chbar'); bar.setAttribute('role', 'toolbar'); bar.setAttribute('aria-label', 'เครื่องมือกราฟ'); bar.onclick = chToolClick; bar.addEventListener('pointerdown', ev => ev.stopPropagation()); pg.appendChild(bar); }
+  const on = e => CHV === e && panelOpen('ch') ? ' on' : '', dis = chLk() ? ' disabled' : '';
+  const h = chLk() ? `<span class="lkl">${ico16('lock')}ล็อกกราฟอยู่</span><i class="sep"></i><button type="button" data-c="lock">${ico('unlock')}<span>ปลดล็อก</span></button><i class="sep"></i><button type="button" class="ink" data-c="ok" aria-label="เสร็จ เลิกเลือกกราฟ">${ico('check')}<span>เสร็จ</span></button>`
+    : `<button type="button" class="ef${on('type')}" data-c="type" aria-label="ชนิดกราฟ ตอนนี้ ${esc(chTh())}" data-tip="ชนิดกราฟ"${dis}>${ico('chart')}<span>${esc(chTh())}</span>${ico16('caret')}</button><i class="sep"></i>
+    <button type="button" class="${on('data').trim()}" data-c="data" data-tip="แก้ข้อมูลแบบตาราง"${dis}>${ico('table')}<span>ข้อมูล</span></button><i class="sep"></i>
+    <button type="button" class="${on('col').trim()}" data-c="col" data-tip="สีกราฟ"${dis}>${chip}<span>สี</span></button><i class="sep"></i>
+    <button type="button" class="ic" data-c="lock" aria-label="ล็อกกราฟ" data-tip="ล็อกกราฟ (กันแก้พลาด)">${ico('unlock')}</button><i class="sep"></i>
+    <button type="button" class="ink" data-c="ok" aria-label="เสร็จ เลิกเลือกกราฟ">${ico('check')}<span>เสร็จ</span></button>`;
+  if (bar.dataset.h !== h) { bar.innerHTML = h; bar.dataset.h = h; }
+  placeBar(bar, pg, r, pg.querySelector('.slide').clientWidth / 960);
+}
+function chToolClick(ev) {
+  const b = ev.target.closest('[data-c]'); if (!b || b.disabled || !CH) return; ev.stopPropagation(); const c = b.dataset.c;
+  if (c === 'ok') return chOff();
+  if (c === 'lock') return chLock(!chLk());
+  if (panelOpen('ch') && CHV === c) { closePanel(); return paintCh(); }
+  chOpen(c);
+}
+$('bbar').addEventListener('click', ev => { if (CH && ev.target.closest('[data-c]')) chToolClick(ev); }, true);
+async function chLock(on) {
+  const k = CH.k; await chRun(k, `_chlk(IDX, ${on ? 'True' : 'False'})`, `${on ? 'ล็อก' : 'ปลดล็อก'}กราฟ หน้า ${k + 1}`, null);
+  toast(on ? 'ล็อกกราฟแล้ว ชนิด ข้อมูล และสีแก้ไม่ได้จนกว่าจะปลดล็อก' : 'ปลดล็อกกราฟแล้ว');
+}
+// ── Python 1 ครั้ง + วาดหน้าที่เปลี่ยน + ท่าเปลี่ยนกราฟ + ประวัติ ──
+function chRun(k, expr, label, mode, after) {
+  const job = async () => {
+    if (viewing) return false;
+    while (busyNow) await sleep(30);
+    busyNow = true; const oldKeys = KEYS.slice(), sl = pgs()[k]?.querySelector('.slide'), wt = setTimeout(() => sl?.classList.add('chlate'), 300);
+    sl?.classList.add('chwait'); await frame();
+    try {
+      chPy(); py.globals.set('IDX', order[k]); const r = py.runPython(expr); let x = null;
+      const out = typeof r === 'string' && r[0] === '[' ? JSON.parse(r) : [r, null]; if (out[0] !== 'ok') { toast(out[0]); return false; } x = out[1];
+      CHMO = mode ? {k, mode, old: chSnap(k), kind: chKind(CHI?.t)} : null;
+      await paint(); settle(oldKeys, k); commit(label);
+      if (CH?.k === k) { chLoad(k); paintCh(); if (panelOpen('ch')) chPaint(); }
+      after?.(x); return true;
+    } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ข้อมูลเดิมยังอยู่ครบ ลองใหม่อีกครั้ง'); if (STACK[SP]) await restore(STACK[SP]).catch(() => {}); return false; }
+    finally { clearTimeout(wt); sl?.classList.remove('chwait', 'chlate'); busyNow = false; CHMO = null; }
+  };
+  return CHQ = CHQ.then(job, job);
+}
+const chKind = t => ['bar', 'stacked_bar'].includes(t) ? 'bar' : ['column', 'stacked_column', 'waterfall', 'pareto', 'combo', 'range', 'marimekko'].includes(t) ? 'col' : 'pop';
+// ── motion (chart-motion-spec): ท่าทำบนสำเนาเก่า→ใหม่ transform/opacity เท่านั้น เกิน 60 ชิ้น = จางทั้งหน้าแบบเดิม ──
+function chSnap(k) {                       // อ่านกล่อง + ตัวเลขของชิ้นเก่าครั้งเดียวก่อนวาด
+  const w = pgs()[k]?.querySelector('.slidebox .pptx-preview-slide-wrapper'), m = new Map(), t = new Map(); if (!w) return {m, t};
+  w.querySelectorAll('[data-m]:not(.d2slab)').forEach(e => m.set(e.dataset.m, e.getBoundingClientRect()));
+  w.querySelectorAll('[data-ck^="v."]').forEach(e => t.set(e.dataset.ck, e.textContent.trim()));
+  return {m, t};
+}
+const CHOUT = 'cubic-bezier(.4,0,1,1)', chStep = (n, base) => Math.min(base, 280 / Math.max(1, n - 1));
+function chMorph(M, box, nx, old) {        // เรียกจาก swapPage เมื่อหน้านี้เพิ่งเปลี่ยนกราฟ
+  const ms = [...nx.querySelectorAll('[data-m]:not(.d2slab)')], kind = chKind(CHI?.t);
+  if (calm.matches || document.hidden || ms.length > 60) return false;
+  const sc = box.clientWidth / 960, org = e => { e.style.transformOrigin = kind === 'col' ? '50% 100%' : kind === 'bar' ? '0 50%' : 'center'; if (e.tagName !== 'DIV') e.style.transformBox = 'fill-box'; };
+  if (M.mode === 'vals') {                  // แก้ตัวเลข: เฉพาะชิ้นที่ค่าเปลี่ยน ยืด/หดจากค่าเก่า 400ms + ตัวเลขนับ
+    ms.forEach(e => { const o = M.old.m.get(e.dataset.m), n = e.getBoundingClientRect(); if (!o) return ani(e, [{opacity: 0}, {opacity: 1}], {duration: 360});
+      if (Math.abs(o.width - n.width) < .5 && Math.abs(o.height - n.height) < .5 && Math.abs(o.left - n.left) < .5 && Math.abs(o.top - n.top) < .5) return;
+      org(e); const s = kind === 'bar' ? `scaleX(${o.width / (n.width || 1)})` : kind === 'col' ? `scaleY(${o.height / (n.height || 1)})` : `translate(${(o.left - n.left) / sc}px,${(o.top - n.top) / sc}px) scale(${o.width / (n.width || 1)},${o.height / (n.height || 1)})`;
+      ani(e, [{transform: s}, {transform: 'none'}], {duration: 400}); });
+    const pairs = [...nx.querySelectorAll('[data-ck^="v."]')].map(e => { const a = M.old.t.get(e.dataset.ck), b = e.textContent.trim(), sp = [...e.querySelectorAll('span')].find(s => s.textContent.trim() === b) || e.querySelector('span');
+      const num = s => parseFloat(String(s).replace(/[^\d.\-]/g, '')); return a && a !== b && sp && !isNaN(num(a)) && !isNaN(num(b)) ? {t: sp, a: num(a), b: num(b), fmt: sp.textContent} : null; }).filter(Boolean);
+    chCount(pairs); return false;           // ไม่มีชั้นเก่าค้าง ให้ swapPage ล้างตามปกติ
+  }
+  // เปลี่ยนชนิด/แบบ/สี: ชั้นเก่ายกขึ้นบนสุด เหลือแต่ชิ้นกราฟ (ฉากหลังเหมือนกันทุกพิกเซล) ชิ้นเก่าหด/จางออก ชิ้นใหม่งอกเข้า
+  if (!old) return false;
+  box.appendChild(old); old.classList.add('chghost');
+  old.querySelectorAll('.slide-background,.slide-master-wrapper,.slide-layout-wrapper').forEach(e => e.style.visibility = 'hidden');
+  const ow = old.querySelector('.slide-wrapper'); [...(ow?.children || [])].forEach(e => { if (!e.dataset.ck && !e.classList.contains('chart-node') && !e.querySelector('.chart-node')) e.style.visibility = 'hidden'; });
+  const om = [...old.querySelectorAll('[data-m]:not(.d2slab)')], od = chStep(om.length, M.mode === 'col' ? 40 : 25);
+  if (M.mode === 'col') {                   // สี: ชิ้นเก่าจางออกทีละชิ้นห่าง 40ms เผยชิ้นสีใหม่ด้านล่าง
+    old.querySelectorAll('[data-ck]:not([data-m]),.chart-node :not([data-m])').forEach(e => { if (e.tagName === 'DIV' || e.tagName === 'text') e.style.visibility = 'hidden'; });
+    om.forEach((e, i) => ani(e, [{opacity: 1}, {opacity: 0}], {duration: 200, delay: i * od, easing: CHOUT, fill: 'forwards'}));
+    setTimeout(() => old.remove(), 200 + om.length * od + 40); return true;
+  }
+  om.forEach((e, i) => { org(e); ani(e, [{transform: 'none', opacity: 1}, {transform: kind === 'bar' ? 'scaleX(0)' : kind === 'col' ? 'scaleY(0)' : 'scale(.6)', opacity: 0}], {duration: 200, delay: i * od, easing: CHOUT, fill: 'forwards'}); });
+  const a = ani(old, [{opacity: 1}, {opacity: 0}], {duration: 200, delay: 120, easing: CHOUT, fill: 'forwards'});
+  a ? setTimeout(() => old.remove(), 320 + 280) : old.remove();
+  const d = chStep(ms.length, 35);
+  ms.forEach((e, i) => { org(e); ani(e, kind === 'pop' ? [{transform: 'scale(.6)', opacity: 0}, {transform: 'none', opacity: 1}] : [{transform: kind === 'bar' ? 'scaleX(0)' : 'scaleY(0)'}, {transform: 'none'}], {duration: 360, delay: 120 + i * d, fill: 'backwards'}); });
+  nx.querySelectorAll('[data-ck]:not([data-m]):not([data-ck^="d."]),.chart-node .d2slab').forEach((e, i) => ani(e, [{opacity: 0}, {opacity: 1}], {duration: 240, delay: 240 + Math.min(i * 20, 280), fill: 'backwards'}));
+  return true;
+}
+function chCount(pairs, ms = 400) {        // ตัวเลขนับจากค่าเก่าไปค่าใหม่ rAF ลูปเดียว คงคอมมา/ทศนิยม/หน่วย
+  if (calm.matches || !pairs.length) return;
+  const f = s => { const m = s.match(/-?[\d,]*\.?\d+/); return m ? {pre: s.slice(0, m.index), post: s.slice(m.index + m[0].length), dp: (m[0].split('.')[1] || '').length, cm: m[0].includes(',')} : null; };
+  pairs.forEach(p => p.p = f(p.fmt)); const t0 = performance.now();
+  const tick = now => { const t = Math.min(1, (now - t0) / ms), e = 1 - (1 - t) ** 3;
+    pairs.forEach(p => { if (!p.p) return; const v = p.a + (p.b - p.a) * e;
+      p.t.textContent = t < 1 ? p.p.pre + v.toLocaleString('en-US', {minimumFractionDigits: p.p.dp, maximumFractionDigits: p.p.dp, useGrouping: p.p.cm}) + p.p.post : p.fmt; });
+    if (t < 1) requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}
+// ── แตะในกราฟ: ตัวเลข/ชื่อ/ป้าย = พิมพ์ทันที / ตัวเลขคิดจากตาราง = บอกให้แก้ต้นทาง / ชิ้นกราฟ = สีทีละชิ้น ──
+const chLay = k => [...(pgs()[k]?.querySelector('.slidebox')?.children || [])].filter(c => !c.classList.contains('chghost')).pop();   // ชั้นที่แสดงอยู่จริง (ไม่ใช่ชั้นเก่าที่กำลังจางออก)
+function chPiece(k, cx, cy) {
+  const w = chLay(k)?.querySelector('.slide-wrapper'); if (!w) return null;
+  const inR = (r, p = 2) => cx >= r.left - p && cx <= r.right + p && cy >= r.top - p && cy <= r.bottom + p, cand = [];
+  [...w.querySelectorAll(':scope > [data-ck]')].forEach(e => {
+    const key = e.dataset.ck; if (key.startsWith('d.') || key === 'chart') return; const r = e.getBoundingClientRect(); if (!inR(r)) return;
+    const pr = /^p\./.test(key) ? 2 : /^x\./.test(key) ? 1 : 0;
+    if (pr === 2) { const g = e.querySelector('path'); if (g && g.isPointInFill) { try { const m = g.getScreenCTM().inverse(), q = new DOMPoint(cx, cy).matrixTransform(m); if (!g.isPointInFill(q) && !g.isPointInStroke(q)) return; } catch (x) {} } }
+    cand.push({key, e, r, pr, a: r.width * r.height});
+  });
+  w.querySelectorAll('.chart-node .d2slab[data-m]').forEach(t => { const r = t.getBoundingClientRect(); if (inR(r, 4)) cand.push({key: 'v.' + t.dataset.m, e: t, r, pr: 0, a: r.width * r.height}); });
+  w.querySelectorAll('.chart-node path[data-m]').forEach(p => { const r = p.getBoundingClientRect(); if (inR(r, 0)) cand.push({key: 'p.' + p.dataset.m, e: p, r, pr: 2, a: r.width * r.height}); });
+  cand.sort((a, b) => a.pr - b.pr || a.a - b.a); return cand[0] || null;
+}
+function chClick(k, ev) {
+  if (!CH || CH.k !== k) return selectChart(k);
+  if (chLk()) return toast('กราฟล็อกอยู่ กดปลดล็อกในแถบกราฟก่อน');
+  const p = chPiece(k, ev.clientX, ev.clientY); if (!p) return;
+  if (p.key.startsWith('x.')) { chTip(p.r, 'ตัวเลขนี้คำนวณจากตาราง แก้ที่ตัวเลขต้นทาง'); return toast('ตัวเลขนี้คำนวณจากตาราง แก้ที่ตัวเลขต้นทางในแผงข้อมูล'); }
+  if (p.key.startsWith('p.')) return chPcOpen(k, p.key.slice(2), p.e);
+  const go = () => chEdOpen(k, p.key, p.e);
+  if (touch() && one() && Z.s < 1.6) { zoomTo(2.4, (p.r.left + p.r.right) / 2, (p.r.top + p.r.bottom) / 2, false); requestAnimationFrame(() => requestAnimationFrame(go)); } else go();   // ไอซ์ข้อ 5: มือถือแตะชิ้นในกราฟ = ซูมเข้าเอง (ซูมของ 022)
+}
+function chTip(r, t) {
+  document.querySelectorAll('.chtip').forEach(x => x.remove()); const d = mk('chtip'); d.textContent = t; document.body.appendChild(d);
+  d.style.left = Math.max(8, Math.min(innerWidth - d.offsetWidth - 8, (r.left + r.right) / 2 - d.offsetWidth / 2)) + 'px'; d.style.top = Math.max(8, r.top - d.offsetHeight - 8) + 'px';
+  clearTimeout(d._t); d._t = setTimeout(() => d.remove(), 2600); return d;
+}
+let CHE = null;
+const chCell = key => { const m = key.match(/^v\.(\d+)\.(\d+)$/); if (m) return [+m[2] + 1, +m[1] + 1]; const c = key.match(/^c\.(\d+)$/); if (c) return [+c[1] + 1, 0]; const s = key.match(/^s\.(\d+)$/); return s ? [0, +s[1] + 1] : null; };
+function chEdOpen(k, key, el) {
+  chEdClose(true); const pg = pgs()[k], S = pg.querySelector('.slide').getBoundingClientRect(), r = el.getBoundingClientRect(), cell = chCell(key);
+  const isLab = key.startsWith('lab.'), lk = key.slice(4), cur0 = cell ? (TB.rows[cell[0]]?.[cell[1]] ?? '') : isLab ? (CHI.cfg.lab?.[lk] ?? el.textContent.trim()) : el.textContent.trim();
+  const sp = el.querySelector?.('span') || el, fs = parseFloat(getComputedStyle(sp).fontSize) * (el.closest('.slidebox') ? (pg.querySelector('.slidebox').clientWidth / 960) : 1) || 14;
+  const inp = document.createElement('input'); inp.className = 'chin'; inp.value = cur0; inp.setAttribute('aria-label', 'แก้ตัวเลขหรือข้อความบนกราฟ'); inp.inputMode = cell && cell[1] > 0 && cell[0] > 0 ? 'decimal' : 'text';
+  const zs = S.width / pg.querySelector('.slide').clientWidth;  // ซูมอยู่: หน่วยบนจอ / หน่วยของสไลด์
+  const f0 = Math.max(fs, 9), q = touch() ? f0 / 16 : 1;   // จอสัมผัส: ตัวอักษร 16px (iOS ไม่ซูมเอง) แล้วย่อด้วย transform ให้เท่าตัวเลขบนสไลด์
+  Object.assign(inp.style, {left: (r.left - S.left) / zs - 4 + 'px', top: (r.top - S.top) / zs - 2 + 'px', width: Math.max(r.width / zs + 8, 64) / q + 'px', height: Math.max(r.height / zs + 4, f0 * 1.6) / q + 'px', fontSize: f0 / q + 'px', transform: q !== 1 ? `scale(${q})` : ''});
+  pg.querySelector('.hits').appendChild(inp);
+  const name = cell ? (cell[0] > 0 ? TB.rows[cell[0]][0] : TB.rows[0][cell[1]]) : '';
+  const tip = cell ? (cell[0] === 0 ? `แก้ตรงนี้ = แก้หัวคอลัมน์ "${name || 'ไม่มีชื่อ'}" ในตารางให้เอง` : cell[1] === 0 ? `แก้ตรงนี้ = แก้ชื่อแถว "${name}" ในตารางให้เอง` : `แก้ตรงนี้ = แก้ตาราง แถว "${name}" ให้เอง`) : /^lab\.e\./.test(key) ? 'ป้ายนี้เก็บในคอลัมน์ หมายเหตุ ของตาราง' : 'ป้ายของคุณ ลงไฟล์ PowerPoint ด้วย';
+  CHE = {k, key, cell, inp, v0: cur0, tip: chTip(r, tip)}; el.classList?.add('chediting');
+  inp.focus({preventScroll: true}); inp.select();
+  inp.onkeydown = e => { if (e.key === 'Enter' && !e.isComposing && e.keyCode !== 229) { e.preventDefault(); chEdClose(false); } if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); chEdClose(true); } };
+  inp.onblur = () => setTimeout(() => CHE?.inp === inp && chEdClose(false), 0);
+  if (one()) { $('bbar').querySelector('.msc')?.setAttribute('data-ed', ''); const m = $('bbar').querySelector('.msc'); if (m) m.innerHTML = `<span class="chedm">${ico('pen')}<span>กำลังแก้: ${esc(cell ? (cell[0] > 0 && cell[1] > 0 ? `ตัวเลขของ ${name}` : name || 'ชื่อ') : 'ป้าย')}</span></span>`; $('bbar').dataset.h = ''; }
+}
+function chEdClose(cancel) {
+  const E = CHE; if (!E) return; CHE = null; E.inp.remove(); E.tip?.remove(); document.querySelectorAll('.chediting').forEach(x => x.classList.remove('chediting'));
+  const v = E.inp.value.trim(); if (CH) paintCh(); if (one() && Z.s > 1.001) zFit();
+  if (cancel || v === String(E.v0).trim()) return;
+  if (E.cell) { TB.rows[E.cell[0]][E.cell[1]] = v; chApply(E.cell[0] > 0 && E.cell[1] > 0 ? `แก้ตัวเลขกราฟ หน้า ${E.k + 1}: ${TB.rows[E.cell[0]][0] || 'แถว ' + E.cell[0]}` : `แก้ชื่อในกราฟ หน้า ${E.k + 1}: ${v}`); return; }
+  if (E.key.startsWith('lab.')) {
+    const lab = {...(CHI.cfg.lab || {}), [E.key.slice(4)]: v}; if (!v) delete lab[E.key.slice(4)];
+    py.globals.set('LAB', py.toPy(lab)); chRun(E.k, "D.set_chart(ITEMS, IDX, lab=dict(LAB) or None)", `แก้ป้ายในกราฟ หน้า ${E.k + 1}: ${v || 'ลบป้าย'}`, 'vals');
+  }
+}
+// ── แผงข้อมูล ขั้น 1 (แผงขวา/แผ่นล่าง) + ขั้น 2 (popup จอใหญ่) ใช้ตาราง TB ชุดเดียว ──
+const num = s => /^\s*[-+−]?[\d,]*\.?\d+\s*%?\s*$/.test(String(s).replace(/[฿$€£\s]/g, ''));
+function tbClean() {                      // แถวว่างไม่ลง / คอลัมน์ใหม่ที่ยังไม่ใส่สักช่องไม่ลง (ไม่มีคำที่ระบบแต่งเอง)
+  const h = TB.rows[0], R = TB.rows.slice(1).filter(r => r.some(c => String(c).trim()));
+  const keep = h.map((_, c) => c === 0 || h[c] === CHNOTE || String(h[c]).trim() || R.some(r => String(r[c] ?? '').trim()));
+  return [h.filter((_, c) => keep[c]), ...R.map(r => h.map((_, c) => r[c] ?? '').filter((_, c) => keep[c]))];
+}
+function chApply(label) {
+  const k = TB.k, t = tbClean(), bad = [];
+  t.slice(1).forEach((r, i) => r.forEach((v, c) => { if (c > 0 && t[0][c] !== CHNOTE && !num(v)) bad.push([i + 1, c]); }));
+  const want = t.length - 1;
+  if (bad.length) { TB.pend = true; TB.err = `แถว ${bad[0][0]} คอลัมน์ "${t[0][bad[0][1]] || bad[0][1] + 1}" ต้องเป็นตัวเลข (เช่น 240,000 หรือ 18%) ข้อมูลอื่นยังอยู่ครบ`; return chPaintData(); }
+  py.globals.set('TBL', py.toPy(t));
+  return chRun(k, '_chtab(IDX, [list(r) for r in TBL])', label, 'vals', x => {
+    TB.pend = false; TB.err = ''; if (x) toast(x[0] === 'style' ? `ข้อมูลนี้ใช้แบบเดิมไม่ได้ เปลี่ยนเป็นแบบ "${CHI.ty.find(a => a.type === x[1])?.styles.find(s => s.id === x[2])?.th}" ให้แล้ว` : `ข้อมูลนี้ใช้ชนิดเดิมไม่ได้ เปลี่ยนเป็น${CHI.ty.find(a => a.type === x[1])?.th} ให้แล้ว เลิกทำได้`);
+    chPaintData(true);
+  }).then(ok => { if (ok === false && CH) { TB.pend = true; TB.err = TB.err || `ยังไม่ลงกราฟ: ${chWhyRows(want)} ข้อมูลในตารางยังอยู่ครบ`; chPaintData(); } return ok; });
+}
+const chWhyRows = n => n > 8 ? `กราฟรับได้ไม่เกิน 8 แถว ตอนนี้มี ${n} แถว ลบแถวที่ไม่ใช้ หรือกด "ใช้ 8 แถวแรก"` : 'ข้อมูลนี้ยังวาดเป็นกราฟไม่ได้';
+function tbColor(c) { const pal = chPal(), nv = TB.rows[0].filter((h, i) => i > 0 && h !== CHNOTE).length; if (TB.rows[0][c] === CHNOTE) return ''; const i = c - 1;
+  if (nv <= 1) return stCss(pal.pri, 'to top'); const st = stNorm(pal.pri), s = t => { for (let q = 1; q < st.length; q++) if (t <= st[q][0]) { const [p0, c0] = st[q - 1], [p1, c1] = st[q]; return mixHex(c0, c1, p1 === p0 ? 0 : (t - p0) / (p1 - p0)); } return st[st.length - 1][1]; };
+  return '#' + s((i + .4) / nv); }
+const mixHex = (a, b, t) => [0, 2, 4].map(i => Math.round(parseInt(a.slice(i, i + 2), 16) * (1 - t) + parseInt(b.slice(i, i + 2), 16) * t).toString(16).padStart(2, '0')).join('').toUpperCase();
+function tbHtml(big) {
+  const h = TB.rows[0], R = TB.rows.slice(1), nv = h.filter((x, i) => i > 0 && x !== CHNOTE).length;
+  const th = (c) => `<th class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}">${c && h[c] !== CHNOTE ? `<i class="sw" style="background:${tbColor(c)}"></i>` : ''}<input data-r="0" data-c="${c}" value="${esc(h[c])}" placeholder="${c ? 'ชื่อคอลัมน์' : 'รายการ'}" aria-label="${c ? 'หัวคอลัมน์ ' + c : 'หัวคอลัมน์ชื่อรายการ'}">${c && (nv > 1 || h[c] === CHNOTE) ? `<button type="button" class="dc" data-t="delc" data-c="${c}" aria-label="ลบคอลัมน์ ${esc(h[c] || c)}">${ico16('trash')}</button>` : ''}</th>`;
+  const rows = R.map((r, i) => `<tr data-r="${i + 1}" class="${TB.sel === i + 1 ? 'on' : ''}">${big ? `<td class="rn">${i + 1}</td>` : ''}${h.map((_, c) => `<td class="${c ? 'cv' : 'c0'}${h[c] === CHNOTE ? ' nt' : ''}"><input data-r="${i + 1}" data-c="${c}" value="${esc(r[c] ?? '')}"${c && h[c] !== CHNOTE ? ' inputmode="decimal"' : ''} aria-label="แถว ${i + 1} ${esc(h[c] || (c ? 'คอลัมน์ ' + c : 'ชื่อ'))}"></td>`).join('')}${big ? '' : `<td class="ad"><button type="button" data-t="delr" data-r="${i + 1}" aria-label="ลบแถว ${esc(r[0] || i + 1)}">${ico16('trash')}</button></td>`}</tr>`).join('');
+  return `<table class="cht${big ? ' big' : ''}"><thead><tr>${big ? '<th class="rn"></th>' : ''}${h.map((_, c) => th(c)).join('')}${big ? '' : `<th class="ad"><button type="button" data-t="addc" aria-label="เพิ่มคอลัมน์">${ico16('plus')}</button></th>`}</tr></thead><tbody>${rows}</tbody>
+    ${big ? '' : `<tfoot><tr><td colspan="${h.length + 1}"><button type="button" class="addr" data-t="addr">${ico16('plus')}เพิ่มแถว</button></td></tr></tfoot>`}</table>`;
+}
+const errHtml = () => (TB.ferr ? `<div class="cherr" role="alert">${ico('alert')}<div><b>อ่านไฟล์นี้ไม่ได้</b><p>${esc(TB.ferr)} ข้อมูลเดิมในตารางยังอยู่ครบ</p><button type="button" class="btn btn-line btn-sm" data-t="up">${ico('upload')}เลือกไฟล์ใหม่</button></div></div>` : '') + (TB.err ? `<div class="cherr soft" role="alert">${ico('info')}<div><p>${esc(TB.err)}</p>${TB.rows.length - 1 > 8 ? `<button type="button" class="btn btn-line btn-sm" data-t="top8">ใช้ 8 แถวแรก</button>` : ''}</div></div>` : '');
+function chPaintData(keepFocus) {
+  if (CHX) chxPaint(keepFocus);
+  if (!panelOpen('ch') || CHV !== 'data') return;
+  const P = $('chp'), ae = document.activeElement, at = ae?.dataset?.r != null && P.contains(ae) ? [ae.dataset.r, ae.dataset.c] : null, sc = P.querySelector('.chtw')?.scrollTop || 0;
+  P.innerHTML = `<div class="chrow"><button type="button" class="btn btn-line" data-t="up">${ico('upload')}อัปโหลด CSV / Excel</button><button type="button" class="btn btn-line" data-t="big" aria-label="ขยายตารางเต็มจอ">${ico('expand')}ขยาย</button></div>
+    ${errHtml()}<div class="chtw">${tbHtml(false)}</div>
+    <p class="inote">พิมพ์ตัวเลขแบบที่เขียนปกติ เช่น 240,000 หรือ 18% ออกจากช่องแล้วกราฟเปลี่ยนตามทันที ข้อมูลชุดนี้อยู่ในชีต Excel ของกราฟในไฟล์ PowerPoint ด้วย</p>`;
+  P.querySelector('.chtw').scrollTop = sc;
+  if (at && keepFocus !== false) P.querySelector(`input[data-r="${at[0]}"][data-c="${at[1]}"]`)?.focus({preventScroll: true});
+}
+// ตาราง: พิมพ์ = เก็บในหน้าเว็บ (ไม่เรียก Python) / ออกจากช่องหรือ Enter = ลงกราฟ 1 ครั้ง
+function tbInput(ev) { const i = ev.target.closest('input[data-r]'); if (!i) return; TB.rows[+i.dataset.r][+i.dataset.c] = i.value; TB.dirty = true; if (CHX && ev.currentTarget !== CHX) return; if (CHX) chxPrev(); }
+function tbFocus(ev) {
+  const i = ev.target.closest('input[data-r]'); if (!i) return; const r = +i.dataset.r; if (TB.sel === r) return; TB.sel = r;
+  ev.currentTarget.querySelectorAll('tr.on').forEach(t => t.classList.remove('on')); i.closest('tr')?.classList.add('on'); if (CHX) chxPrev();
+}
+function tbBlur(ev) {
+  const i = ev.target.closest('input[data-r]'); if (!i || !TB.dirty) return;
+  setTimeout(() => { const a = document.activeElement; if (a?.dataset?.r === i.dataset.r && a?.dataset?.c === i.dataset.c) return; tbCommit(i); }, 0);
+}
+function tbCommit(i) {
+  if (!TB.dirty) return; TB.dirty = false; const r = +i.dataset.r, c = +i.dataset.c;
+  const rowEmpty = r > 0 && !TB.rows[r].some(x => String(x).trim()); if (rowEmpty) return;
+  chApply(r === 0 ? `แก้หัวคอลัมน์กราฟ หน้า ${TB.k + 1}: ${TB.rows[0][c] || 'ไม่มีชื่อ'}` : `แก้ข้อมูลกราฟ หน้า ${TB.k + 1}: แถว "${TB.rows[r][0] || r}"`);
+}
+function tbKey(ev) {
+  const i = ev.target.closest('input[data-r]'); if (!i) return;
+  if (ev.key === 'Enter' && !ev.isComposing && ev.keyCode !== 229) { ev.preventDefault(); const r = +i.dataset.r + 1, c = i.dataset.c, root = ev.currentTarget;
+    const nx = root.querySelector(`input[data-r="${r}"][data-c="${c}"]`); if (nx) nx.focus(); else { tbCommit(i); i.blur(); } }
+  if (ev.key === 'Escape') { ev.stopPropagation(); i.blur(); }
+}
+function tbClick(ev) {
+  const b = ev.target.closest('[data-t]'); if (!b) return; const t = b.dataset.t, n = TB.rows[0].length;
+  if (t === 'up') return chUpload();
+  if (t === 'big') return chxOpen(b);
+  if (t === 'small' || t === 'done') return chxClose();
+  if (t === 'type') { chxClose(); return chOpen('type'); }
+  if (t === 'addr') { TB.rows.push(Array(n).fill('')); TB.sel = TB.rows.length - 1; chPaintData(false); const root = CHX || $('chp'); root.querySelector(`input[data-r="${TB.sel}"][data-c="0"]`)?.focus(); root.querySelector('.chtw')?.scrollTo({top: 1e6}); return; }
+  if (t === 'addc') { const nt = TB.rows[0].indexOf(CHNOTE), at = nt > 0 ? nt : n; TB.rows.forEach(r => r.splice(at, 0, '')); chPaintData(false); (CHX || $('chp')).querySelector(`input[data-r="0"][data-c="${at}"]`)?.focus(); return; }
+  if (t === 'delr' || t === 'delsel') { const r = t === 'delr' ? +b.dataset.r : TB.sel; if (r < 1 || TB.rows.length <= 2) return toast('กราฟต้องมีอย่างน้อย 1 แถว'); const nm = TB.rows[r][0]; TB.rows.splice(r, 1); TB.sel = -1; chPaintData(false); chApply(`ลบแถวกราฟ หน้า ${TB.k + 1}: ${nm || r}`); return; }
+  if (t === 'delc') { const c = +b.dataset.c, nm = TB.rows[0][c]; TB.rows.forEach(r => r.splice(c, 1)); chPaintData(false); chApply(`ลบคอลัมน์กราฟ หน้า ${TB.k + 1}: ${nm || c}`); return; }
+  if (t === 'top8') { TB.rows = TB.rows.slice(0, 9); TB.err = ''; chPaintData(false); chApply(`ใช้ 8 แถวแรกในกราฟ หน้า ${TB.k + 1}`); return; }
+}
+[['input', tbInput], ['focusin', tbFocus], ['focusout', tbBlur], ['keydown', tbKey], ['click', tbClick]].forEach(([e, f]) => $('chp').addEventListener(e, ev => { if (CHV === 'data') f(ev); }));
+// ขั้น 2: popup จอใหญ่ (คอม 88% ของจอ / มือถือเต็มจอ) หัวตารางและคอลัมน์ชื่อตรึงไว้
+function chxOpen(from) {
+  if (CHX || !TB) return; CHX = mk('chx'); CHX.setAttribute('role', 'dialog'); CHX.setAttribute('aria-modal', 'true'); CHX.setAttribute('aria-label', 'ข้อมูลกราฟ แบบเต็มจอ');
+  const sc = mk('chxs'); sc.onclick = () => chxClose(); document.body.append(sc, CHX);
+  [['input', tbInput], ['focusin', tbFocus], ['focusout', tbBlur], ['keydown', tbKey], ['click', tbClick]].forEach(([e, f]) => CHX.addEventListener(e, f));
+  CHX.addEventListener('keydown', e => { if (e.key === 'Escape' && !e.target.matches('input')) chxClose(); });
+  chxPaint();
+  const r = from?.getBoundingClientRect?.(), q = CHX.querySelector('.chxp').getBoundingClientRect();
+  if (r && !calm.matches) ani(CHX.querySelector('.chxp'), [{transform: `translate(${r.left - q.left}px,${r.top - q.top}px) scale(${r.width / q.width},${r.height / q.height})`, opacity: .4}, {transform: 'none', opacity: 1}], {duration: 240});
+  requestAnimationFrame(() => sc.classList.add('on'));
+  CHX.querySelector('input[data-r="1"][data-c="1"]')?.focus({preventScroll: true});
+}
+function chxPaint(keepFocus) {
+  if (!CHX) return; const P = CHX, ae = document.activeElement, at = ae?.dataset?.r != null && P.contains(ae) ? [ae.dataset.r, ae.dataset.c] : null, w = P.querySelector('.chtw'), sc = w ? [w.scrollTop, w.scrollLeft] : [0, 0];
+  const nr = TB.rows.length - 1, nv = TB.rows[0].filter((h, i) => i > 0 && h !== CHNOTE).length, m = one();
+  P.innerHTML = `<div class="chxp"><div class="chxh"><div class="tt"><b>ข้อมูลกราฟ</b><small>${TB.file ? 'จาก ' + esc(TB.file) + ' · ' : ''}${nr} แถว ${nv} คอลัมน์ตัวเลข</small></div>
+      <button type="button" class="btn btn-line btn-sm" data-t="up">${ico('upload')}${m ? 'อัปโหลด' : 'อัปโหลด CSV / Excel'}</button><button type="button" class="btn btn-line btn-sm" data-t="small">${ico('shrink')}${m ? 'ย่อ' : 'ย่อกลับ'}</button>${m ? '' : `<button type="button" class="btn btn-red btn-sm" data-t="done">${ico('check')}เสร็จ</button>`}</div>
+    ${m ? '' : `<div class="chxt"><button type="button" class="btn btn-line btn-sm" data-t="addr">${ico('rowadd')}เพิ่มแถว</button><button type="button" class="btn btn-line btn-sm" data-t="addc">${ico('coladd')}เพิ่มคอลัมน์</button><button type="button" class="btn btn-line btn-sm" data-t="delsel"${TB.sel > 0 ? '' : ' disabled'}>${ico('trash')}ลบแถวที่เลือก</button><span>แก้แล้วกราฟเปลี่ยนทันที เลิกทำได้ทุกขั้น</span></div>`}
+    ${errHtml()}<div class="chxb"><div class="chtw">${tbHtml(true)}</div>${m ? '' : `<aside class="chpv"><h4>ตัวอย่างกราฟ</h4><div class="bars"></div>${nr > 8 ? `<p class="hint">${ico('info')}<span>${nr} แถว กราฟรับได้ไม่เกิน 8 แถว ข้อมูลอยู่ในตารางนี้ครบ แต่ลงสไลด์เมื่อเหลือ 8 แถว</span></p>` : ''}<button type="button" class="btn btn-line" data-t="type">${ico('chart')}เปลี่ยนชนิดกราฟ</button></aside>`}</div>
+    ${m ? `<div class="chxf"><button type="button" class="btn btn-line" data-t="addr">${ico('rowadd')}แถว</button><button type="button" class="btn btn-line" data-t="addc">${ico('coladd')}คอลัมน์</button><button type="button" class="btn btn-line" data-t="delsel"${TB.sel > 0 ? '' : ' disabled'}>${ico('trash')}ลบแถว</button></div>` : ''}</div>`;
+  const w2 = P.querySelector('.chtw'); w2.scrollTop = sc[0]; w2.scrollLeft = sc[1]; chxPrev();
+  if (at && keepFocus !== false) P.querySelector(`input[data-r="${at[0]}"][data-c="${at[1]}"]`)?.focus({preventScroll: true});
+}
+function chxPrev() {                       // ตัวอย่างสด (CSS ไม่เรียก Python): คอลัมน์ตัวเลขแรก แถวที่เลือกเป็นสีเน้น
+  const B = CHX?.querySelector('.bars'); if (!B) return; const c = TB.rows[0].findIndex((h, i) => i > 0 && h !== CHNOTE); if (c < 0) return (B.innerHTML = '');
+  const v = TB.rows.slice(1, 201).map(r => parseFloat(String(r[c] ?? '').replace(/[^\d.\-]/g, '')) || 0), mx = Math.max(1, ...v.map(Math.abs)), pal = chPal();
+  B.style.setProperty('--p', stCss(pal.pri)); B.style.setProperty('--a', stCss(pal.acc));
+  B.innerHTML = v.map((x, i) => `<i class="${i + 1 === TB.sel ? 'a' : ''}" style="height:${Math.max(2, Math.abs(x) / mx * 100)}%"></i>`).join('');
+  const d = CHX.querySelector('[data-t=delsel]'); if (d) d.disabled = !(TB.sel > 0);
+}
+function chxClose(quiet) {
+  if (!CHX) return; const P = CHX, sc = document.querySelector('.chxs'); CHX = null;
+  const a = !quiet && document.activeElement; if (a?.dataset?.r != null && TB?.dirty) tbCommit(a);
+  const tg = $('chp').querySelector('[data-t=big]'), r = tg?.getBoundingClientRect(), q = P.querySelector('.chxp').getBoundingClientRect();
+  sc?.classList.remove('on'); const an = !quiet && r && r.width ? ani(P.querySelector('.chxp'), [{transform: 'none', opacity: 1}, {transform: `translate(${r.left - q.left}px,${r.top - q.top}px) scale(${r.width / q.width},${r.height / q.height})`, opacity: 0}], {duration: 200, easing: CHOUT, fill: 'forwards'}) : null;
+  after(an).then(() => { P.remove(); sc?.remove(); }); if (!quiet) chPaintData(false);
+}
+// ── อัปโหลด CSV / Excel: อ่านในเครื่อง (CSV = JS / xlsx = openpyxl ใน Pyodide) ไฟล์เสียบอกเป็นไทย ข้อมูลเดิมไม่หาย ──
+function chUpload() { let f = $('chfile'); if (!f) { f = document.createElement('input'); f.type = 'file'; f.id = 'chfile'; f.hidden = true; f.accept = '.csv,.tsv,.txt,.xlsx,.xlsm,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; f.onchange = () => { const x = f.files[0]; f.value = ''; if (x) chFile(x); }; document.body.appendChild(f); } f.click(); }
+function csvRows(t) {
+  t = t.replace(/^﻿/, ''); const l0 = t.split(/\r?\n/)[0] || '', d = ['\t', ';', ','].map(c => [c, l0.split(c).length]).sort((a, b) => b[1] - a[1])[0][0];
+  const out = []; let row = [], f = '', q = false;
+  for (let i = 0; i < t.length; i++) { const ch = t[i];
+    if (q) { if (ch === '"') { if (t[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += ch; continue; }
+    if (ch === '"' && !f) q = true; else if (ch === d) { row.push(f); f = ''; } else if (ch === '\n' || ch === '\r') { if (ch === '\r' && t[i + 1] === '\n') i++; row.push(f); out.push(row); row = []; f = ''; if (out.length > 2000) break; } else f += ch; }
+  if (f || row.length) { row.push(f); out.push(row); }
+  return out;
+}
+async function chFile(file) {
+  if (!TB || !CH) return; const nm = file.name || 'ไฟล์', ext = (nm.split('.').pop() || '').toLowerCase(); TB.ferr = '';
+  const fail = m => { TB.ferr = m; chPaintData(); };
+  if (file.size > 15e6) return fail(`"${nm}" ใหญ่เกิน 15MB ลองเหลือเฉพาะชีตที่ใช้ทำกราฟแล้วบันทึกใหม่`);
+  let rows;
+  try {
+    if (ext === 'xls') return fail(`"${nm}" เป็น Excel รุ่นเก่า (.xls) เปิดใน Excel แล้วบันทึกเป็น .xlsx หรือ .csv แล้วอัปโหลดใหม่`);
+    if (ext === 'xlsx' || ext === 'xlsm') { toast('กำลังอ่านไฟล์…', true); await frame(); chPy(); py.globals.set('XB', py.toPy(new Uint8Array(await file.arrayBuffer()))); rows = JSON.parse(py.runPython('_xlsx_rows(XB)')); $('toast').classList.remove('on'); }
+    else if (['csv', 'tsv', 'txt'].includes(ext) || /csv|text/.test(file.type)) {
+      const buf = await file.arrayBuffer(); let t = new TextDecoder('utf-8').decode(buf);
+      if (t.includes('�')) try { t = new TextDecoder('windows-874').decode(buf); } catch (e) {}   // CSV จาก Excel ไทยรุ่นเก่า
+      rows = csvRows(t);
+    } else return fail(`"${nm}" ไม่ใช่ไฟล์ CSV หรือ Excel ลองเปิดใน Excel แล้วบันทึกเป็น .xlsx หรือ .csv แล้วอัปโหลดใหม่`);
+  } catch (e) { console.warn(e); $('toast').classList.remove('on'); return fail(`"${nm}" เปิดไม่ได้ ไฟล์อาจเสียหรือมีรหัสผ่าน ลองเปิดใน Excel แล้วบันทึกเป็น .xlsx หรือ .csv ใหม่`); }
+  rows = rows.map(r => r.map(c => String(c ?? '').trim())).filter(r => r.some(Boolean));
+  const w = Math.max(0, ...rows.map(r => r.length)); rows = rows.map(r => [...r, ...Array(w - r.length).fill('')]);
+  const keep = Array.from({length: w}, (_, c) => rows.some(r => r[c])); rows = rows.map(r => r.filter((_, c) => keep[c]));
+  if (rows.length < 2 || rows[0].length < 2) return fail(`ใน "${nm}" ไม่เจอตาราง ต้องมีแถวหัวตาราง 1 แถว คอลัมน์แรกเป็นชื่อรายการ และคอลัมน์ตัวเลขอย่างน้อย 1 คอลัมน์`);
+  if (!rows.slice(1).some(r => r.slice(1).some(num))) return fail(`ใน "${nm}" ไม่เจอตัวเลข คอลัมน์ที่สองเป็นต้นไปต้องเป็นตัวเลข เช่น 240,000 หรือ 18%`);
+  TB.rows = rows; TB.file = nm; TB.sel = -1; TB.err = ''; TB.ferr = '';
+  if (rows.length - 1 > 8 && !CHX) chxOpen($('chp').querySelector('[data-t=big]'));   // ข้อมูลเยอะ: กางจอใหญ่ให้เอง
+  chPaintData(false);
+  const ok = await chApply(`นำเข้าข้อมูลกราฟ หน้า ${TB.k + 1}: ${nm}`);
+  if (ok) toast(`นำเข้า ${rows.length - 1} แถวจาก ${nm} แล้ว`);
+}
+// ── เมนูชนิด: 18 ชนิด 4 กลุ่ม ชนิดปัจจุบันกางการ์ดแบบ ชนิด/แบบที่ข้อมูลไม่พอเป็นเทา + เหตุผล ──
+let CHOPEN = null;
+function chTypeHtml() {
+  const by = Object.fromEntries(CHI.ty.map(x => [x.type, x])), op = CHOPEN || CHI.t;
+  const card = (t, s) => `<button type="button" class="chst${t === CHI.t && s.id === CHI.s ? ' on' : ''}" data-ty="${t}" data-st="${s.id}"${s.ok ? '' : ` disabled aria-describedby="w_${s.id}"`} aria-pressed="${t === CHI.t && s.id === CHI.s}">
+    <span class="im"><img src="img/ch/${s.id}.jpg?v=${V}" alt="" loading="lazy" width="288" height="116">${t === CHI.t && s.id === CHI.s ? `<i class="ck">${ico16('check')}</i>` : ''}</span><b>${esc(s.th)}</b>
+    ${s.ok ? `<em class="${s.xl ? 'xl' : 'ig'}">${ico16(s.xl ? 'table' : 'shapes')}${s.xl ? 'แก้ใน Excel' : 'อินโฟกราฟิก'}</em>` : `<small id="w_${s.id}">${esc(s.why)}</small>`}</button>`;
+  return `<p class="sub">ข้อมูลเดิมย้ายไปแบบใหม่ให้เอง เปลี่ยนใจกดเลิกทำได้</p>` + CHG.map(([g, ts]) => `<h4>${g}</h4>` + ts.map(t => { const x = by[t]; if (!x) return '';
+    const o = op === t && x.ok;
+    return `<div class="chty${o ? ' open' : ''}${x.ok ? '' : ' no'}${t === CHI.t ? ' cur' : ''}"><button type="button" class="row" data-ty="${t}" aria-expanded="${o}"${x.ok ? '' : ' disabled'}>
+      <img src="img/ch/${x.styles[0].id}.jpg?v=${V}" alt="" loading="lazy" width="72" height="29"><span><b>${esc(x.th)}</b>${x.ok ? '' : `<small>${esc(x.why)}</small>`}</span>${x.ok ? `<em>${x.styles.length} แบบ</em>${ico16(o ? 'caret' : 'next')}` : ''}</button>
+      ${o ? `<div class="sts">${x.styles.map(s => card(t, s)).join('')}</div>` : ''}</div>`; }).join('')).join('');
+}
+$('chp').addEventListener('click', ev => {
+  if (CHV !== 'type') return; const s = ev.target.closest('.chst'); if (s && !s.disabled) return chSetType(s.dataset.ty, s.dataset.st);
+  const r = ev.target.closest('.row'); if (!r || r.disabled) return; CHOPEN = CHOPEN === r.dataset.ty || (!CHOPEN && CHI.t === r.dataset.ty) ? '__' : r.dataset.ty; chPaint();
+  const sts = $('chp').querySelector('.chty.open .sts'); if (sts) { ani(sts, [{opacity: 0, transform: 'translateY(-8px)'}, {opacity: 1, transform: 'none'}], {duration: 200}); sts.scrollIntoView({block: 'nearest', behavior: SMOOTH()}); }
+});
+function chSetType(t, s) {
+  if (t === CHI.t && s === CHI.s) return; const k = CH.k, x = CHI.ty.find(a => a.type === t), st = x?.styles.find(a => a.id === s);
+  CHOPEN = t; chRun(k, `D.set_chart(ITEMS, IDX, type='${t}', style='${s}')`, `เปลี่ยนกราฟ หน้า ${k + 1}: ${x?.th} · ${st?.th}`, 'type');
+}
+// ── สีกราฟ: ทุกกราฟในไฟล์ (ค่าเริ่ม) / เฉพาะกราฟนี้ · สีตามชุด · 8 คู่สี · คู่สีของฉัน · สีจากโลโก้ · ไล่สีเอง (กี่จุดก็ได้) ──
+const myPal = () => { try { return JSON.parse(lsGet('d2s_mypal') || '[]'); } catch (e) { return []; } };
+function chColInit() { CHC = {scope: CHI.cfg.colors ? 'one' : 'all', view: 'main', tab: 'pri', sel: 0, ed: null}; }
+const palCard = (p, i, on, kind) => `<button type="button" class="chpal${on ? ' on' : ''}" data-pk="${kind}" data-pi="${i}" aria-pressed="${on}"><span class="pv">${[.62, .9, .48].map(h => `<i style="height:${h * 100}%;background:${stCss(p.pri)}"></i>`).join('')}<i style="height:100%;background:${stCss(p.acc)}"></i></span><b>${esc(p.n)}</b>${kind === 'my' ? `<span class="x" data-pdel="${i}" role="button" aria-label="ลบ ${esc(p.n)}">${ico16('x')}</span>` : ''}</button>`;
+function chColHtml() {
+  const C = CHC, cur = C.scope === 'one' ? CHI.cfg.colors : CHI.br, mine = myPal(), seg = `<div class="seg c2 chsc"><button type="button" data-sc="all" class="${C.scope === 'all' ? 'on' : ''}">ทุกกราฟในไฟล์</button><button type="button" data-sc="one" class="${C.scope === 'one' ? 'on' : ''}">เฉพาะกราฟนี้</button></div>`;
+  if (C.view === 'custom') return chCustomHtml(seg);
+  const th = CHI.th || CHPRE[0];
+  return `${seg}<button type="button" class="chtheme${!cur ? ' on' : ''}" data-pk="theme" aria-pressed="${!cur}"><span class="sw" style="background:${stCss(th.pri, 'to right')}"></span><span><b>สีตามชุด</b><small>ตามดีไซน์ของหน้าตาที่ใช้อยู่ ค่าเริ่มต้น</small></span>${!cur ? `<i class="ck">${ico16('check')}</i>` : ''}</button>
+    <h4>คู่สีพร้อมใช้ (สีหลัก + สีเน้น)</h4><div class="chpals">${CHPRE.map((p, i) => palCard(p, i, palEq(cur, p), 'pre')).join('')}</div>
+    ${mine.length ? `<h4>คู่สีของฉัน</h4><div class="chpals">${mine.map((p, i) => palCard(p, i, palEq(cur, p), 'my')).join('')}</div>` : ''}
+    ${CHLOGO ? `<h4>สีจากโลโก้ (แผงแบรนด์)</h4><div class="chpals">${palCard(CHLOGO, 0, palEq(cur, CHLOGO), 'logo')}</div>` : ''}
+    <button type="button" class="chgo" data-cv="custom"><span class="sw" style="background:${stCss(chPal().pri, 'to right')}"></span><span><b>ไล่สีเอง</b><small>ใส่รหัสสีแบรนด์ของคุณได้</small></span>${ico16('next')}</button>`;
+}
+function chCustomHtml(seg) {
+  const C = CHC, st = C.ed[C.tab], s = st[C.sel] || st[0], one_ = !!CHPC;
+  return `<div class="chcpv"><span>${[.55, .85, .45].map(h => `<i style="height:${h * 100}%;background:${stCss(C.ed.pri)}"></i>`).join('')}<i style="height:100%;background:${stCss(C.ed.acc)}"></i></span></div>
+    ${one_ ? '' : `<div class="seg c2 chtab"><button type="button" data-tab="pri" class="${C.tab === 'pri' ? 'on' : ''}">สีหลัก</button><button type="button" data-tab="acc" class="${C.tab === 'acc' ? 'on' : ''}">สีเน้น</button></div>`}
+    <div class="chgr" role="group" aria-label="แถบไล่สี แตะเพื่อเพิ่มจุดสี"><div class="tr" style="background:${stCss(st, 'to right')}"></div>${st.map(([p, c], i) => `<button type="button" class="stp${i === C.sel ? ' on' : ''}" data-si="${i}" style="left:${(1 - p) * 100}%;--c:#${hx(c)}" aria-label="จุดสี ${i + 1} #${hx(c)} ตำแหน่ง ${Math.round((1 - p) * 100)}%"></button>`).join('')}</div>
+    <div class="chstop"><label class="cc"><span>สี</span><span class="sw" style="background:#${hx(s[1])}"><input type="color" value="#${hx(s[1]).toLowerCase()}" data-f="col" aria-label="เลือกสีจากวงสี"></span></label>
+      <label class="hx"><span>รหัสสี (hex)</span><input type="text" value="#${hx(s[1])}" maxlength="7" data-f="hex" spellcheck="false" autocomplete="off"></label>
+      <label class="ps"><span>ตำแหน่ง</span><span class="pw"><input type="number" min="0" max="100" value="${Math.round((1 - s[0]) * 100)}" data-f="pos" inputmode="numeric"><i>%</i></span></label>
+      <button type="button" class="dl" data-f="del" aria-label="ลบจุดสีนี้"${st.length <= 2 ? ' disabled' : ''}>${ico('trash')}</button></div>
+    ${CHLOGO ? `<div class="chlogo"><span>สีจากโลโก้</span>${CHLOGO.cols.map(c => `<button type="button" data-lc="${c}" style="background:#${c}" aria-label="ใช้สี #${c} จากโลโก้"></button>`).join('')}</div>` : ''}
+    <button type="button" class="btn btn-line chadd" data-f="add">${ico('plus')}เพิ่มจุดสี</button>
+    <p class="inote">แตะบนแถบเพื่อเพิ่มจุดตรงนั้น ลากจุดเพื่อเลื่อน ซ้าย = ฐานแท่ง ขวา = ปลายแท่ง ต้องมีอย่างน้อย 2 จุด</p>
+    <p class="okn">${ico16('check')}ตัวเลขบนแท่งเปลี่ยนเป็นขาวหรือดำเองให้อ่านชัด</p>
+    <div class="chfoot">${one_ ? '' : seg}<button type="button" class="btn btn-red btn-big" data-f="apply">${ico('check')}ใช้สีนี้</button></div>`;
+}
+function chColClick(ev) {
+  const C = CHC, b = ev.target.closest('button,[data-pdel]'); if (!b) return;
+  if (b.dataset.pdel != null) { ev.stopPropagation(); const m = myPal(); m.splice(+b.dataset.pdel, 1); lsSet('d2s_mypal', JSON.stringify(m)); return chPaint(); }
+  if (b.dataset.sc) { C.scope = b.dataset.sc; return chPaint(); }
+  if (b.dataset.cv === 'custom') { C.view = 'custom'; const p = chPal(); C.ed = {pri: stNorm(p.pri), acc: stNorm(p.acc)}; C.tab = 'pri'; C.sel = 0; return chPaint(); }
+  if (b.dataset.tab) { C.tab = b.dataset.tab; C.sel = 0; return chPaint(); }
+  if (b.dataset.lc) { const st = C.ed[C.tab]; st[C.sel][1] = b.dataset.lc; return chEdLive(); }
+  if (b.dataset.f === 'add') { const st = C.ed[C.tab], i = Math.max(0, C.sel), j = i + 1 < st.length ? i + 1 : i - 1, p = (st[i][0] + st[j][0]) / 2; st.push([p, mixHex(st[i][1], st[j][1], .5)]); C.ed[C.tab] = stNorm(st); C.sel = C.ed[C.tab].findIndex(x => x[0] === +p.toFixed(4)); chPaint(); chPop(); return chEdLive(); }
+  if (b.dataset.f === 'del') { const st = C.ed[C.tab]; if (st.length <= 2) return; st.splice(C.sel, 1); C.sel = 0; chPaint(); return chEdLive(); }
+  if (b.dataset.f === 'apply') return CHPC ? chPcSet(stNorm(C.ed.pri), 'ไล่สีเอง') : chColSet({n: 'คู่สีของฉัน', pri: C.ed.pri, acc: C.ed.acc}, true);
+  if (b.classList.contains('stp')) { C.sel = +b.dataset.si; return chPaint(); }
+  const pk = b.dataset.pk; if (!pk) return;
+  if (pk === 'theme') return chColSet(null);
+  const p = pk === 'pre' ? CHPRE[+b.dataset.pi] : pk === 'my' ? myPal()[+b.dataset.pi] : CHLOGO; if (p) chColSet(p);
+}
+function chPop() { const e = $('chp').querySelector('.stp.on'); if (e) ani(e, [{transform: 'translate(-50%,0) scale(0)'}, {transform: 'translate(-50%,0) scale(1)'}], {duration: 120}); }   // จุดใหม่เด้งจาก 0
+function chColSet(p, save) {
+  const k = CH.k, C = CHC, cols = p ? {pri: stNorm(p.pri), acc: stNorm(p.acc)} : null;
+  if (save && p) { const m = myPal().filter(x => !palEq(x, p)); m.unshift({n: `คู่สีของฉัน ${m.length + 1}`, pri: cols.pri, acc: cols.acc}); lsSet('d2s_mypal', JSON.stringify(m.slice(0, 8))); }   // ไอซ์ข้อ 2: เก็บเป็นคู่สีของฉัน ใช้ข้ามไฟล์ (ต่อเครื่อง)
+  py.globals.set('COLS', cols ? py.toPy(cols) : undefined);
+  const cp = 'dict(pri=[list(x) for x in COLS["pri"]], acc=[list(x) for x in COLS["acc"]])';
+  const expr = C.scope === 'all' ? (cols ? `D.set_chart_all(ITEMS, ${cp}); D.set_chart(ITEMS, IDX, colors=None)` : 'D.set_chart_all(ITEMS, None); D.set_chart(ITEMS, IDX, colors=None)') : (cols ? `D.set_chart(ITEMS, IDX, colors=${cp})` : 'D.set_chart(ITEMS, IDX, colors=None)');
+  const nm = p ? p.n : 'สีตามชุด', lab = C.scope === 'all' ? `สีกราฟทุกกราฟในไฟล์: ${nm}` : `สีกราฟ หน้า ${k + 1}: ${nm}`;
+  chRun(k, expr.replace(/; /g, '\n') + "\n'ok'", lab, 'col', () => { C.view = 'main'; chPaint(); if (C.scope === 'all') htoast(cols ? 'ใช้สีนี้กับทุกกราฟแล้ว' : 'ทุกกราฟกลับเป็นสีตามชุดแล้ว', () => undoRedo(-1)); });
+}
+// ลากจุดสี: เปลี่ยนสดบนแผงและบนสไลด์ (เขียน stop ของ SVG ใหม่ ไม่เรียก Pyodide) ใช้จริงตอนกดใช้สีนี้
+function chEdLive() {
+  const C = CHC; C.ed[C.tab] = C.ed[C.tab].map(([p, c]) => [Math.min(1, Math.max(0, p)), hx(c)]);
+  const P = $('chp'), st = C.ed[C.tab], s = st[C.sel];
+  P.querySelector('.chgr .tr')?.style.setProperty('background', stCss(st, 'to right'));
+  P.querySelectorAll('.chgr .stp').forEach((e, i) => { if (!st[i]) return; e.style.left = (1 - st[i][0]) * 100 + '%'; e.style.setProperty('--c', '#' + st[i][1]); });
+  P.querySelectorAll('.chcpv i').forEach((e, i) => e.style.background = stCss(i < 3 ? C.ed.pri : C.ed.acc));
+  if (s) { const sw = P.querySelector('.chstop .sw'); if (sw) sw.style.background = '#' + s[1]; const h = P.querySelector('[data-f=hex]'); if (h && h !== document.activeElement) h.value = '#' + s[1];
+    const q = P.querySelector('[data-f=pos]'); if (q && q !== document.activeElement) q.value = Math.round((1 - s[0]) * 100); const col = P.querySelector('[data-f=col]'); if (col && col !== document.activeElement) col.value = '#' + s[1].toLowerCase(); }
+  chSlideLive();
+}
+function chSlideLive() {                   // ponytail: จัดกลุ่มชิ้นตามชุดสีเดิม (กลุ่มใหญ่ = สีหลัก ที่เหลือ = สีเน้น) พอสำหรับตัวอย่างสด ไฟล์จริงวาดจาก Python ตอนกดใช้สีนี้
+  if (!CH) return; const w = pgs()[CH.k]?.querySelector('.slidebox'); if (!w) return; const C = CHC;
+  const grads = [...w.querySelectorAll('linearGradient,radialGradient')].filter(g => g.closest('[data-m],.chart-node') && !(CHPC && !g.closest(`[data-m="${CHPC.m}"]`)));
+  if (!w._gsig) { const sig = g => [...g.querySelectorAll('stop')].map(s => s.getAttribute('stop-color')).join(','), cnt = {}; grads.forEach(g => { g._s = sig(g); cnt[g._s] = (cnt[g._s] || 0) + 1; });
+    const big = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a])[0]; grads.forEach(g => g._r = CHPC ? 'pri' : g._s === big ? 'pri' : 'acc'); w._gsig = 1; }
+  grads.forEach(g => { const st = C.ed[g._r || 'pri']; const stops = [...g.querySelectorAll('stop')], par = g, ns = 'http://www.w3.org/2000/svg';
+    const want = [...st].sort((a, b) => a[0] - b[0]); while (stops.length < want.length) { const s = document.createElementNS(ns, 'stop'); par.appendChild(s); stops.push(s); }
+    stops.forEach((s, i) => { if (i >= want.length) return s.remove(); s.setAttribute('offset', want[i][0]); s.setAttribute('stop-color', '#' + want[i][1]); s.removeAttribute('style'); }); });
+}
+let CHDR = null;
+$('chp').addEventListener('pointerdown', ev => {
+  if (CHV !== 'col' && CHV !== 'pc' || CHC?.view !== 'custom') return; const g = ev.target.closest('.chgr'); if (!g) return; ev.preventDefault();
+  const R = g.getBoundingClientRect(), at = x => Math.min(1, Math.max(0, 1 - (x - R.left) / R.width)), C = CHC, st = C.ed[C.tab];
+  let i = ev.target.closest('.stp') ? +ev.target.closest('.stp').dataset.si : -1;
+  if (i < 0) { const p = at(ev.clientX), s = [...st].sort((a, b) => a[0] - b[0]); let c = s[0][1]; for (let q = 1; q < s.length; q++) if (p <= s[q][0]) { c = mixHex(s[q - 1][1], s[q][1], (p - s[q - 1][0]) / ((s[q][0] - s[q - 1][0]) || 1)); break; }
+    st.push([+p.toFixed(4), c]); i = st.length - 1; C.sel = i; chPaint(); chPop(); }
+  else { C.sel = i; $('chp').querySelectorAll('.stp').forEach((e, j) => e.classList.toggle('on', j === i)); }
+  CHDR = {i, at, id: ev.pointerId}; try { g.setPointerCapture(ev.pointerId); } catch (e) {} chEdLive();
+});
+$('chp').addEventListener('pointermove', ev => { if (!CHDR || ev.pointerId !== CHDR.id) return; const st = CHC.ed[CHC.tab]; st[CHDR.i][0] = +CHDR.at(ev.clientX).toFixed(4); chEdLive(); });
+['pointerup', 'pointercancel'].forEach(t => $('chp').addEventListener(t, () => { if (!CHDR) return; CHDR = null; chPaint(); }));
+$('chp').addEventListener('input', ev => {
+  if (CHV !== 'col' && CHV !== 'pc' || CHC?.view !== 'custom') return; const f = ev.target.dataset.f, st = CHC.ed[CHC.tab], s = st[CHC.sel]; if (!s) return;
+  if (f === 'col') s[1] = hx(ev.target.value);
+  if (f === 'hex') { const v = ev.target.value.trim().replace(/^#?/, ''); const ok = /^[0-9a-f]{6}$/i.test(v) || /^[0-9a-f]{3}$/i.test(v); ev.target.classList.toggle('bad', !ok && v.length >= 3); if (!ok) return; s[1] = (v.length === 3 ? v.replace(/./g, c => c + c) : v).toUpperCase(); }
+  if (f === 'pos') { const v = +ev.target.value; if (isNaN(v)) return; s[0] = Math.min(1, Math.max(0, 1 - v / 100)); }
+  chEdLive();
+});
+$('chp').addEventListener('click', ev => { if ((CHV === 'col' || CHV === 'pc') && CHC) { if (CHV === 'pc' && CHC.view !== 'custom') return chPcClick(ev); chColClick(ev); } });
+async function chLogo() {                   // ไอซ์ข้อ 2: ดึงสีจากแผงแบรนด์ (โลโก้ที่ใส่ไว้) 3 สีเด่นที่ไม่ใช่ขาว/ดำ/เทา
+  CHLOGO = null; const b = readBR(); if (!b.logo) return;
+  try { const x = await imgGet(b.logo.split('/').pop().replace('.png', '')); if (!x) return;
+    const im = await createImageBitmap(new Blob([x], {type: 'image/png'})), c = document.createElement('canvas'); c.width = c.height = 40; const g = c.getContext('2d'); g.drawImage(im, 0, 0, 40, 40);
+    const d = g.getImageData(0, 0, 40, 40).data, cnt = {};
+    for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 200) continue; const [r, gg, bb] = [d[i], d[i + 1], d[i + 2]], mx = Math.max(r, gg, bb), mn = Math.min(r, gg, bb); if (mx - mn < 40 || mx < 40 || mn > 225) continue;
+      const q = [r, gg, bb].map(v => (v >> 4) * 16 + 8).map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase(); cnt[q] = (cnt[q] || 0) + 1; }
+    const cols = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]).filter((c, i, a) => a.slice(0, i).every(o => Math.abs(parseInt(o.slice(0, 2), 16) - parseInt(c.slice(0, 2), 16)) + Math.abs(parseInt(o.slice(2, 4), 16) - parseInt(c.slice(2, 4), 16)) + Math.abs(parseInt(o.slice(4), 16) - parseInt(c.slice(4), 16)) > 90)).slice(0, 3);
+    if (!cols.length) return; const a = cols[1] || cols[0];
+    CHLOGO = {n: 'สีจากโลโก้', cols, pri: [[0, cols[0]], [1, mixHex(cols[0], 'FFFFFF', .55)]], acc: [[0, a], [1, mixHex(a, 'FFFFFF', .3)]]};
+  } catch (e) { console.warn(e); }
+}
+// ── สีทีละชิ้น (mockup 10): แตะแท่ง/ชิ้น = แผ่นสีของชิ้นนั้น ชิ้นยกขึ้น 1.03 ชิ้นอื่นจาง 20% ──
+function chPcOpen(k, m, el) {
+  const [i, j] = m.split('.').map(Number), nm = TB.rows[j + 1]?.[0] || `ชิ้นที่ ${j + 1}`, sn = TB.rows[0].filter(h => h !== CHNOTE).length > 2 ? ` · ${TB.rows[0][i + 1] || ''}` : '';
+  CHPC = {k, m, i, j, nm: nm + sn}; CHC = CHC || {scope: 'one', view: 'main', tab: 'pri', sel: 0}; CHC.view = 'main';
+  const sl = pgs()[k].querySelector('.slide'); sl.classList.add('chlift'); sl.querySelectorAll('[data-m].up').forEach(e => e.classList.remove('up')); sl.querySelectorAll(`.slidebox [data-m="${m}"]`).forEach(e => e.classList.add('up'));
+  chOpen('pc');
+}
+function chPcHtml() {
+  const C = CHC, pal = chPal(), cur = CHI.cfg.pc?.[CHPC.m] || CHI.cfg.pc?.[String(CHPC.i)], cj = x => JSON.stringify(stNorm(x)), on = x => !!cur && cj(cur) === cj(x);
+  if (C.view === 'custom') return chCustomHtml('');
+  const sw = (st, l, d) => `<button type="button" class="chsw${on(st) ? ' on' : ''}" ${d} aria-pressed="${on(st)}"><span style="background:${stCss(st)}">${on(st) ? `<i class="ck">${ico16('check')}</i>` : ''}</span><b>${esc(l)}</b></button>`;
+  return `<p class="sub">เปลี่ยนเฉพาะชิ้นนี้ ชิ้นอื่นยังใช้สีของกราฟ</p><h4>สีในกราฟนี้</h4><div class="chsws">${sw(pal.pri, 'สีหลัก', 'data-pc="pri"')}${sw(pal.acc, 'สีเน้น', 'data-pc="acc"')}</div>
+    <h4>สีอื่น</h4><div class="chsws">${CHONE.map(([n, a, b], q) => sw([[0, b], [1, a]], n, `data-pc="o${q}"`)).join('')}</div>
+    <button type="button" class="chgo" data-pc="custom"><span class="sw" style="background:${stCss(cur || pal.pri, 'to right')}"></span><span><b>ไล่สีเองเฉพาะชิ้นนี้</b></span>${ico16('next')}</button>
+    <button type="button" class="btn btn-line chreset" data-pc="reset"${cur ? '' : ' disabled'}>${ico('reload')}กลับไปใช้สีของกราฟ</button>`;
+}
+function chPcClick(ev) {
+  const b = ev.target.closest('[data-pc]'); if (!b || b.disabled) return; const v = b.dataset.pc, pal = chPal();
+  if (v === 'custom') { const cur = CHI.cfg.pc?.[CHPC.m] || pal.pri; CHC.view = 'custom'; CHC.tab = 'pri'; CHC.sel = 0; CHC.ed = {pri: stNorm(cur), acc: stNorm(pal.acc)}; return chPaint(); }
+  if (v === 'reset') return chPcSet(null, 'สีของกราฟ');
+  const st = v === 'pri' ? pal.pri : v === 'acc' ? pal.acc : (([n, a, c]) => [[0, c], [1, a]])(CHONE[+v.slice(1)]);
+  chPcSet(stNorm(st), b.querySelector('b').textContent);
+}
+function chPcSet(st, nm) {
+  const k = CH.k, pc = {...(CHI.cfg.pc || {})}; if (st) pc[CHPC.m] = st; else delete pc[CHPC.m];
+  py.globals.set('PC', py.toPy(pc));
+  chRun(k, `D.set_chart(ITEMS, IDX, pc={str(a): [list(x) for x in b] for a, b in PC.items()} or None)`, `สีชิ้น "${CHPC.nm}" หน้า ${k + 1}: ${nm}`, 'col', () => {
+    CHC.view = 'main'; chPaint(); const sl = pgs()[k]?.querySelector('.slide'); sl?.classList.add('chlift'); sl?.querySelectorAll(`.slidebox [data-m="${CHPC?.m}"]`).forEach(e => e.classList.add('up')); });
+}
+// ── แผง (คอม: แผงขวา / iPad ตั้ง + มือถือ: แผ่นล่าง) ──
+const CHT = {type: 'ชนิดกราฟ', data: 'ข้อมูลกราฟ', col: 'สีกราฟ', pc: 'สีของชิ้น'};
+function chOpen(v) {
+  if (!CH) return; if (CHV !== v) { CHOPEN = null; if (v === 'col') chColInit(); }
+  if (v === 'col' && !CHC) chColInit();
+  if (v !== 'pc') { CHPC = null; pgs()[CH.k]?.querySelector('.slide')?.classList.remove('chlift'); }
+  CHV = v; if (v === 'col' || v === 'pc') chLogo().then(() => panelOpen('ch') && CHV === v && chPaint());
+  openPanel('ch'); chPaint(); paintCh();
+  if (wide() && !matchMedia('(min-width:1024px)').matches) { const go = () => { if (CH && panelOpen('ch')) { pgTo(CH.k, true); paintCh(); } }; requestAnimationFrame(go); setTimeout(go, 300); }   // ponytail: หน้าเลื่อนที่หลังแผ่นเปิด (ขนาดหน้าเปลี่ยนหลังเฟรมแรก) เลื่อนซ้ำครั้งเดียวที่ 300ms   // iPad ตั้ง: แผ่นล่างเปิด กราฟอยู่บนให้เห็นตอนแก้ (ไอซ์ข้อ 1)
+}
+function chPaint() {
+  if (!CH || !CHI) return; const P = $('chp'), C = CHC, custom = (CHV === 'col' || CHV === 'pc') && C?.view === 'custom';
+  $('rpT').textContent = CHV === 'pc' ? (custom ? 'ไล่สีเองเฉพาะชิ้นนี้' : `สีของ "${CHPC?.nm || ''}"`) : custom ? 'ไล่สีเอง' : CHT[CHV];
+  let bk = $('chbk'); if (custom && !bk) { $('rpT').insertAdjacentHTML('beforebegin', `<button class="ib" id="chbk" type="button" aria-label="กลับ">${ico('back')}</button>`); $('chbk').onclick = () => { CHC.view = 'main'; const w = pgs()[CH.k]?.querySelector('.slidebox'); if (w) { delete w._gsig; mount(w, slides[CH.k]); } chPaint(); }; } else if (!custom && bk) bk.remove();
+  $('rp').classList.toggle('chcustom', custom);
+  if (CHV === 'data') return chPaintData();
+  const sc = P.scrollTop; P.innerHTML = CHV === 'type' ? chTypeHtml() : CHV === 'pc' ? chPcHtml() : chColHtml(); P.scrollTop = sc;
+  if (CHV === 'type' && !P.dataset.seen) { P.dataset.seen = 1; P.querySelector('.chty.open')?.scrollIntoView({block: 'center'}); }
+}
 // ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย (เป็นงานใหม่หนึ่งงาน) / #p=<id> เปิดงานนั้นต่อ (รีเฟรชในตัวแก้) / ไม่มี: งานของฉัน
 if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
 else { const h = (location.hash.match(/^#p=(.+)$/) || [])[1];   // ลิงก์งาน: ตรงเข้าตัวแก้ ไม่ผ่านหน้าแรก/งานของฉัน (ไม่แว้บ)
