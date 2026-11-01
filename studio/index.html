@@ -597,7 +597,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .toast.u{display:flex;align-items:center;gap:10px;padding:5px 6px 5px 16px}.toast.u.on{pointer-events:auto}
 .toast button{border:none;background:rgba(255,255,255,.14);color:#fff;font-weight:700;font-size:14px;height:34px;padding:0 12px;border-radius:100px;white-space:nowrap}
 /* มือถือ (ใบ 018): แก้ทีละหน้าแบบ Canva ปัดซ้ายขวาเปลี่ยนหน้า แถบบนไอคอนล้วน แถบล่าง ผู้ช่วย หน้าตา เพิ่มหน้า  รวมมือถือแนวนอน (จอสัมผัสสูงไม่เกิน 500) */
-.mo,.rail [data-p=add],.dots,.endc,.gbar,.bbar,.phd,.nt,.dbar,.padd,.gridh,.mnote,.skh,.th b i,.th b em{display:none}
+.mo,.rail [data-p=add],.rail .mob,.dots,.endc,.gbar,.bbar,.phd,.nt,.dbar,.padd,.gridh,.mnote,.skh,.th b i,.th b em{display:none}
 @media (max-width:767px), (pointer:coarse) and (max-height:500px){
   .top{padding:0 8px;gap:0}
   .top .logo,.top .tmeta,.top .wonly,#toptag{display:none!important}
@@ -612,7 +612,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   #more .dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--orange);transform:scale(0);transition:transform .3s var(--spring)}
   #more.warn .dot{transform:scale(1)}
   .medit .btn-sm{height:44px}
-  .toast{top:auto;bottom:calc(76px + var(--safe));transform:translateX(-50%) translateY(16px)}
+  .toast{top:auto;bottom:calc(112px + var(--safe));transform:translateX(-50%) translateY(16px)}
   .medit .emsg{margin:0 0 8px}
   .rp{inset:56px 0 0 0;transform:translateY(100%);z-index:55}
   .rail{position:fixed;left:0;right:0;bottom:0;height:calc(58px + var(--safe));padding:2px 8px var(--safe);border-top:1px solid var(--line);justify-content:space-around;transition:opacity .1s cubic-bezier(.4,0,1,1)}
@@ -622,6 +622,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .rail.fl{-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px);mask-image:linear-gradient(90deg,transparent,#000 40px)}
   .rail.fl.fr{-webkit-mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,transparent,#000 40px,#000 calc(100% - 40px),transparent)}
   .rail [data-p=add]{display:flex}.rail [data-p=hist]{display:none}
+  .rail .mob{display:flex;position:relative}.rail .mob[aria-pressed=true]{background:var(--line)}.rail .mob .dot{position:absolute;top:8px;right:calc(50% - 18px);width:8px;height:8px;border-radius:50%;background:var(--red);display:none}.rail .mob.has .dot{display:block}
   .work.boxon .rail,body.gridon .rail{opacity:0;pointer-events:none}
   .chip{height:40px}
   .ftb{display:none}
@@ -632,10 +633,11 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .pages .pg,.pages .endc{flex:0 0 100%;height:100%;margin:0;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;scroll-snap-align:center;scroll-snap-stop:always;animation:none}
   .pages .slide{width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));touch-action:pan-x}
   /* ใบ 025: การ์ดโน้ตผู้บรรยายใต้สไลด์ แตะ = แผ่นล่างพิมพ์โน้ต */
-  .mnote{display:flex;align-items:flex-start;gap:10px;width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));min-height:44px;margin-top:16px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left;color:var(--text);touch-action:pan-x;-webkit-tap-highlight-color:transparent}
-  .mnote svg.i{display:block;width:20px;height:20px;color:var(--sub);margin-top:2px}.mnote .go{margin:auto 0 auto auto}
-  .mnote span{flex:1;min-width:0}.mnote b{display:block;font-size:13px;font-weight:600;line-height:1.6;color:var(--mid)}
-  .mnote p{margin:2px 0 0;font-size:14px;line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}.mnote p.em{color:var(--sub)}
+  .mnote{display:none;align-items:center;gap:10px;width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));min-height:48px;margin-top:12px;padding:0 12px 0 16px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left;color:var(--text);touch-action:pan-x;-webkit-tap-highlight-color:transparent}
+  .work.mnoteon .mnote{display:flex}   /* ไอซ์ 1 พ.ย. (25b): การ์ดโน้ตปิดไว้ก่อน เปิดที่ปุ่มโน้ตในแถบล่าง บรรทัดเดียว */
+  .mnote svg.i{display:block;width:20px;height:20px;color:var(--sub)}.mnote .go{margin:auto 0 auto auto}
+  .mnote span{flex:1;min-width:0}.mnote b{display:none}
+  .mnote p{margin:0;font-size:14px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}.mnote p.em{color:var(--sub)}
   body.typing .mnote{display:none}
   .mta{display:block;width:100%;box-sizing:border-box;min-height:180px;margin-top:12px;border:1.5px solid #15151A;border-radius:12px;padding:12px 16px;font:inherit;font-size:16px;line-height:1.7;color:var(--text);background:#fff;resize:none;outline:none}
   .mhint{font-size:12px;color:var(--sub);margin:8px 0 0;line-height:1.6}
@@ -656,11 +658,9 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   body.typing .pages .pg{height:auto}
   body.typing .dots{visibility:hidden}
   .dots{display:flex;align-items:center;justify-content:center;gap:12px;height:44px;width:100%;border:none;background:none;font-size:15px;font-weight:600;color:var(--mid);touch-action:manipulation}
-  .dots .dw{position:relative;display:flex}
-  .dots .dw i{width:14px;height:6px;display:grid;place-items:center}
-  .dots .dw i::before{content:'';width:6px;height:6px;border-radius:50%;background:#CFCFD6;transition:transform .24s var(--ease)}
-  .dots .dw i.sm::before{transform:scale(.6)}
-  .dots .pl{position:absolute;left:-3px;top:0;width:20px;height:6px;border-radius:6px;background:var(--mid);transition:transform .24s var(--ease)}
+  .dots .dw{display:flex;align-items:center;gap:6px}.dots .dw:empty{display:none}
+  .dots .dw i{width:6px;height:6px;border-radius:3px;background:#CFCFD6;transition:width .24s var(--ease),background-color .24s}
+  .dots .dw i.on{width:16px;background:var(--mid)}
   /* ตารางทุกหน้า (ภาพย่อที่วาดไว้แล้ว จัดใหม่เป็น 2 คอลัมน์ ไม่วาดสไลด์ใหม่) */
   .thumbs{display:none}
   body.gridon .thumbs,body.gpz .thumbs{display:grid;position:fixed;left:0;right:0;top:56px;bottom:0;z-index:47;grid-template-columns:1fr 1fr;gap:14px 12px;align-content:start;padding:44px 16px calc(100px + var(--safe));overflow-y:auto;overscroll-behavior:contain;background:var(--bg);touch-action:pan-y}
@@ -1326,6 +1326,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
     <button type="button" data-p="look" aria-label="หน้าตา"><svg class="i"><use href="#i-palette"/></svg>หน้าตา</button>
     <button type="button" data-p="text" aria-label="เพิ่มข้อความ"><svg class="i"><use href="#i-type"/></svg>ข้อความ</button>
     <button type="button" data-p="img" aria-label="เพิ่มรูปภาพ"><svg class="i"><use href="#i-image"/></svg>รูปภาพ</button>
+    <button type="button" id="mnoteb" class="mob" aria-pressed="false" aria-label="แสดงโน้ตผู้บรรยายใต้สไลด์"><svg class="i"><use href="#i-notes"/></svg>โน้ต<i class="dot"></i></button>
     <button type="button" data-p="add" aria-label="เพิ่มหน้าใหม่ต่อจากหน้านี้"><svg class="i"><use href="#i-plus"/></svg>เพิ่มหน้า</button>
     <button type="button" data-p="brand" aria-label="แบรนด์และเลขหน้า"><svg class="i"><use href="#i-stamp"/></svg>แบรนด์</button>
     <button type="button" data-p="trans" aria-label="ทรานซิชัน"><svg class="i"><use href="#i-trans"/></svg>ทรานซิชัน</button>
@@ -1356,7 +1357,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101b';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101c';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1926,6 +1927,7 @@ function paintPh() {
     const mn = pg.querySelector('.mnote'), y = mnHtml(k); if (mn && mn.dataset.h !== y) { mn.innerHTML = y; mn.dataset.h = y; }
   });
   [...$('thumbs').children].forEach((t, k) => { const e = t.querySelector('b em'); if (e) e.textContent = META[k]?.nm || ''; });
+  paintDots();   // จุดบนปุ่มโน้ต (มือถือ)
 }
 function thOv(th, k) { th.querySelector('.ovb')?.remove(); if (META[k]?.ov) th.insertAdjacentHTML('beforeend', OVB); }
 function thumbEl(k) {
@@ -4628,15 +4630,20 @@ function askMv(t, msg) {
 
 // ══ ใบ 018: มือถือแก้ทีละหน้า จุดบอกหน้า / ตารางทุกหน้า / บีบนิ้ว / เมนู … ══════════════════════
 let dotsSig = '', gridOn = false, PZ = null, GZ = null, LP = null;
-function paintDots() {                       // จุดแบบ Canva เห็นทีละไม่เกิน 5 จุด หน้าปัจจุบันเป็นขีด (เลื่อนด้วย transform) + ตัวเลข
+function paintDots() {                       // จุดเท่ากัน หน้าปัจจุบันเป็นขีดสั้น (ไม่เกิน 7 หน้า) + ตัวเลข
   if (!one() || !slides.length) return;
-  const n = slides.length, end = near >= n, k = Math.min(near, n - 1), m = Math.min(n, 5), st = Math.max(0, Math.min(k - 2, n - m)), D = $('dots');
-  if (dotsSig !== n + ':' + st) { dotsSig = n + ':' + st; D.firstChild.innerHTML = Array.from({length: m}, (_, i) => `<i class="${(i === 0 && st > 0) || (i === m - 1 && st + m < n) ? 'sm' : ''}"></i>`).join('') + '<b class="pl"></b>'; }
-  D.querySelector('.pl').style.transform = `translateX(${(k - st) * 14}px)`;
+  const n = slides.length, end = near >= n, k = Math.min(near, n - 1), D = $('dots');
+  if (dotsSig !== n) { dotsSig = n; D.firstChild.innerHTML = n <= 7 ? '<i></i>'.repeat(n) : ''; }   // ไอซ์ 1 พ.ย. (25b): จุดเท่ากันทุกจุด หน้าปัจจุบันเป็นขีดสั้น เกิน 7 หน้า = ตัวเลขอย่างเดียว
+  [...D.firstChild.children].forEach((e, i) => e.classList.toggle('on', i === k && !end));
+  const nb = $('mnoteb'); nb.classList.toggle('has', !!META[k]?.nt);
   D.lastChild.textContent = end ? `ต่อจากหน้า ${n}` : `${k + 1} / ${n}`;
   D.setAttribute('aria-label', `หน้า ${k + 1} จาก ${n} แตะเพื่อดูทุกหน้า`);
 }
 $('dots').onclick = () => openGrid();
+// ไอซ์ 1 พ.ย. (25b): การ์ดโน้ตใต้สไลด์บนมือถือปิดไว้ก่อน ปุ่มโน้ตในแถบล่างเปิด/ปิด จำต่อเครื่อง
+function mnoteOn(on) { $('pWork').classList.toggle('mnoteon', on); $('mnoteb').setAttribute('aria-pressed', String(on)); lsSet('d2s_mnote', on ? '1' : ''); }
+mnoteOn(lsGet('d2s_mnote') === '1');
+$('mnoteb').onclick = () => mnoteOn(!$('pWork').classList.contains('mnoteon'));
 $('gridb').onclick = () => gridOn ? closeGrid(cur) : openGrid();
 const EASE = 'cubic-bezier(.16,1,.3,1)';
 function gridPrep() {                        // ภาพย่อที่สร้างไว้แล้ว (ซ่อนอยู่ตอนทีละหน้า) แค่ปรับขนาด ไม่สั่ง Python วาดใหม่
