@@ -1222,6 +1222,26 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .chp .seg button{height:40px;border:none;border-radius:9px;background:none;font-size:14px;font-weight:600;color:var(--mid)}
 .chp .seg button.on{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(20,20,26,.12)}
 @media (pointer:coarse){.chp .seg button{height:44px}}
+/* ใบ 028 เลย์เอาต์หน้ากราฟ (mockups/028/ui) */
+.chp.chl{grid-auto-rows:max-content;flex-shrink:0}   /* แถวไม่หดตามความสูงแผง (การ์ด overflow:hidden) */
+.chl .chlh{font-size:13px;font-weight:600;color:var(--mid);line-height:1.6}
+.chl .chlg{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:max-content;gap:8px}
+.chl .opt{border-radius:10px;animation:none}.chl .opt img,.chl .opt .ph{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+.chl .opt .ph{display:grid;place-items:center;background:var(--bg);color:var(--mid)}
+.chl .opt .lb{display:flex;gap:4px;align-items:baseline;padding:4px 6px 6px;font-size:12px;font-weight:600;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.chl .opt .lb em{font-style:normal;color:var(--sub)}
+.chl .opt[aria-disabled=true]{opacity:.5;cursor:not-allowed}.chl .opt .why{display:block;padding:0 6px 6px;margin-top:-4px;font-size:11px;color:var(--sub);line-height:1.5}
+.chl .opt .ck{top:4px;right:4px;width:20px;height:20px}.chl .opt .ck svg{width:16px;height:16px;stroke-width:2.5}
+.chl .chls{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;margin-top:8px;line-height:1.6}
+.chl .chlr{display:grid;grid-template-columns:84px 1fr;gap:8px;align-items:center}
+.chl .chlr>span{font-size:13px;font-weight:600;color:var(--mid);line-height:1.5}
+.chl .chlr .seg{grid-template-columns:repeat(var(--n),1fr)}.chl .seg button:disabled{opacity:.38;cursor:not-allowed}
+.chl .chlw{grid-column:2;font-size:12px;color:var(--sub);line-height:1.6;margin-top:-4px}
+.chl .tabs{position:sticky;top:-12px;z-index:2;box-shadow:0 0 0 6px #fff}
+@media (max-width:767px){.chl .chlr{grid-template-columns:96px 1fr}}
+.altlay{display:flex;align-items:center;gap:12px;width:100%;min-height:72px;padding:8px 12px 8px 8px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:left;margin:4px 0 16px;font-family:inherit}
+.altlay img,.altlay .ph{width:96px;aspect-ratio:16/9;border-radius:8px;flex:none;box-shadow:0 0 0 1px var(--line);display:grid;place-items:center;background:var(--bg);color:var(--mid)}
+.altlay span.t{flex:1;display:grid}.altlay b{font-size:15px;line-height:1.6}.altlay small{font-size:12px;color:var(--sub);line-height:1.6}
+.altlay svg.i{color:var(--sub);width:20px;height:20px}.althd{font-size:13px;font-weight:600;color:var(--mid);margin:12px 0 8px;line-height:1.6}
 .chtheme,.chgo{position:relative;display:flex;align-items:center;gap:12px;width:100%;min-height:60px;padding:8px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;text-align:left}
 .chtheme.on{border:2px solid var(--text);padding:7px 11px}
 .chtheme .sw,.chgo .sw{width:44px;height:28px;border-radius:8px;flex:none}
@@ -1482,6 +1502,8 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <symbol id="i-aR" viewBox="0 0 24 24"><rect width="16" height="6" x="2" y="4" rx="2"/><rect width="9" height="6" x="9" y="14" rx="2"/><path d="M22 22V2"/></symbol>
   <symbol id="i-pclose" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
   <symbol id="i-notes" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M8 2v4"/><path d="M12 2v4"/><path d="M16 2v4"/><path d="M8 10h6"/><path d="M8 14h8"/><path d="M8 18h5"/></symbol>
+  <symbol id="i-chlay" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M10 5H3"/><path d="M12 19H3"/><path d="M14 3v4"/><path d="M16 17v4"/><path d="M21 12h-9"/><path d="M21 19h-5"/><path d="M21 5h-7"/><path d="M8 10v4"/><path d="M8 12H3"/></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
   <symbol id="i-crop" viewBox="0 0 24 24"><path d="M6 2v14a2 2 0 0 0 2 2h14"/><path d="M18 22V8a2 2 0 0 0-2-2H2"/></symbol>
   <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/></symbol>
@@ -1638,7 +1660,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101e';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101f';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2063,7 +2085,7 @@ def _pvfix():
         lst = []; xs = []
         for i, sh in enumerate(sl.shapes):
             nm = sh.name or ''; hc = bool(getattr(sh, 'has_chart', False) and sh.has_chart)
-            if nm.startswith('ch:') or hc: lst.append([i, nm[3:] if nm.startswith('ch:') else 'chart', round(sh.left / 12700, 1), round(sh.top / 12700, 1), round(sh.width / 12700, 1), round(sh.height / 12700, 1)])
+            if (nm.startswith('ch:') or hc) and not nm.startswith('ch2:'): lst.append([i, nm[3:] if nm.startswith('ch:') else 'chart', round(sh.left / 12700, 1), round(sh.top / 12700, 1), round(sh.width / 12700, 1), round(sh.height / 12700, 1)])
             if not hc: continue
             for g in list(sh.chart._chartSpace.iter(_qn('a:gradFill'))):
                 st = []
@@ -2514,7 +2536,8 @@ function phAct(a, k, btn) {
 }
 function pageAct(a) {
   if (busyNow || cur < 0 || viewing) return;
-  if (a === 'alt') { openSheet('แบบอื่นสำหรับหน้านี้', 'เฉพาะแบบในหน้าตาเดียวกันที่ใส่เนื้อหาหน้านี้ได้พอดี', '<div class="grid2" id="altsSheet"></div>'); altsInto($('altsSheet')); }
+  if (a === 'alt') { const k = cur; openSheet('แบบอื่นสำหรับหน้านี้', 'เฉพาะแบบในหน้าตาเดียวกันที่ใส่เนื้อหาหน้านี้ได้พอดี', altLayRow(k) + '<div class="grid2" id="altsSheet"></div>'); altsInto($('altsSheet'));
+    const r = $('shBody').querySelector('[data-alay]'); if (r) r.onclick = () => { closeSheet(); selectChart(k); if (CH) chOpen('lay'); }; }
   if (a === 'dup') dupPage();
   if (a === 'up') move(-1);
   if (a === 'down') move(1);
@@ -2954,7 +2977,8 @@ ALTS = [x for x in D.alternatives(_c, M['slug']) if x[0] != ITEMS[IDX][0]]; len(
         closeSheet(); busyNow = true; const oldKeys = KEYS.slice();
         try {
           py.globals.set('IDX', idx); py.globals.set('ALTJ', a.json); py.globals.set('K_', k);
-          py.runPython('_o = ITEMS[IDX][1]; _n = tuple(json.loads(ALTJ)[K_]); ITEMS[IDX] = (_n[0], D.carry_page(_o, _n[1], CS[IDX].get("kind") == "chart"))');   // ใบ 025 + บั๊กไอซ์ 1 พ.ย.: โน้ต ชื่อหน้า รูป/ข้อความที่เพิ่ม รูปแบบ กราฟ ตามไปแบบใหม่
+          py.runPython('_o = ITEMS[IDX][1]; _n = tuple(json.loads(ALTJ)[K_]); ITEMS[IDX] = (_n[0], D.carry_page(_o, _n[1], CS[IDX].get("kind") == "chart"))');
+          const un = py.runPython('D.unmerge_lost(ITEMS, IDX)'); if (un != null) order.splice(at + 1, 0, un);   // ใบ 028: แบบของชุดวาดกราฟที่สองไม่ได้ = แยกหน้าเดิมกลับ ไม่หาย   // ใบ 025 + บั๊กไอซ์ 1 พ.ย.: โน้ต ชื่อหน้า รูป/ข้อความที่เพิ่ม รูปแบบ กราฟ ตามไปแบบใหม่
           altCache.delete(idx); await paint(); cur = at; settle(oldKeys, -1); select(at);
           arranged = true; commit(`เปลี่ยนแบบหน้า ${at + 1}`); toast(`จัดหน้า ${at + 1} แบบใหม่แล้วครับ`);
         } catch (e) { console.error(e); toast('เปลี่ยนไม่สำเร็จ ลองแบบอื่นได้'); } finally { busyNow = false; }
@@ -3090,6 +3114,7 @@ async function changeLook(s2, sure) {
     py.globals.set('SLUG', s2); py.runPython('M, OUT, LOG = D.plan(WANT, SLUG)'); slug = s2; takePlan(); LOST = 0; arranged = false;
     const [o2, gone] = JSON.parse(py.runPython('json.dumps(D.carry_ins(_OI, _OC, _OO, ITEMS, CS, SLUG))')); order = o2;   // หน้าที่แทรกเองตามไปด้วย
     py.globals.set('O2', py.toPy(order)); py.runPython(NOTECARRY);   // ใบ 025: โน้ต/ชื่อหน้าตามหัวข้อเดิมไปหน้าตาใหม่
+    order = JSON.parse(py.runPython('json.dumps(D.after_look(ITEMS, list(O2), CS))'));   // ใบ 028: หน้าที่รวมสองกราฟ ตารางที่สองไม่ซ้ำเป็นหน้าแยก
     await paint(); busyNow = false; relayout('swap');
     toast(gone ? `เปลี่ยนเป็นหน้าตา${s.style}แล้ว หน้าที่เพิ่มเอง ${gone} หน้าใส่ในหน้าตานี้ไม่ได้ กดกลับหน้าตาเดิมเพื่อเอาคืนได้` : 'เปลี่ยนเป็นหน้าตา' + s.style + 'แล้วครับ', !!gone); if (gone) setTimeout(() => $('toast').classList.remove('on'), 6000);
     commit(`เปลี่ยนเป็นหน้าตา${s.style}`); paintLooks();
@@ -6216,6 +6241,7 @@ let chPyOk = false;
 const chPy = () => { if (!chPyOk) { py.runPython(CHPY); chPyOk = true; } };
 function chLoad(k) {
   chPy(); py.globals.set('IDX', order[k]); CHI = JSON.parse(py.runPython('_chinfo(IDX)'));
+  py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : null); CHI.lay = JSON.parse(py.runPython('D.chart_layouts(ITEMS, IDX, NXT)'));   // ใบ 028
   CHI.k = k; const ty = CHI.cfg.type || CHI.df?.[0] || 'column'; CHI.t = ty; CHI.s = CHI.cfg.type ? (CHI.cfg.style || CHI.ty.find(x => x.type === ty)?.styles.find(s => s.ok)?.id) : null;   // ยังไม่เคยเลือก = หน้ากราฟเดิมของชุด ไม่ติ๊กการ์ดใด
   if (!TB || TB.k !== k || !TB.pend) TB = {k, rows: CHI.tb.map(r => r.map(String)), sel: -1, pend: false, err: '', file: TB?.k === k ? TB.file : ''};
   return CHI;
@@ -6255,7 +6281,7 @@ function chBar(pg, r) {
   const chip = `<span class="chchip" style="background:${stCss(chPal().pri)}"></span>`;
   if (one()) {
     const B = $('bbar'), T = (e, inner, l) => `<button class="mt${CHV === e && panelOpen('ch') ? ' on' : ''}" type="button" data-c="${e}"${chLk() && e !== 'lock' ? ' disabled' : ''}>${inner}<span>${l}</span></button>`;
-    const h = `<div class="msc">${T('type', ico('chart'), 'ชนิด')}${T('data', ico('table'), 'ข้อมูล')}${T('col', chip, 'สี')}${T('lock', ico(chLk() ? 'unlock' : 'lock'), chLk() ? 'ปลดล็อก' : 'ล็อก')}</div>
+    const h = `<div class="msc">${T('type', ico('chart'), 'ชนิด')}${T('data', ico('table'), 'ข้อมูล')}${T('col', chip, 'สี')}${T('lay', ico('chlay'), 'เลย์เอาต์')}${T('lock', ico(chLk() ? 'unlock' : 'lock'), chLk() ? 'ปลดล็อก' : 'ล็อก')}</div>
       <div class="mpin"><button class="mdone" type="button" data-c="ok" aria-label="เสร็จ เลิกเลือกกราฟ">${ico('check')}เสร็จ</button></div>`;
     B.classList.add('tx'); B.setAttribute('aria-label', 'เครื่องมือกราฟ'); if (B.dataset.h !== h) { B.innerHTML = h; B.dataset.h = h; } $('pWork').classList.add('boxon'); return;
   }
@@ -6266,6 +6292,7 @@ function chBar(pg, r) {
     : `<button type="button" class="ef${on('type')}" data-c="type" aria-label="ชนิดกราฟ ตอนนี้ ${esc(chTh())}" data-tip="ชนิดกราฟ"${dis}>${ico('chart')}<span>${esc(chTh())}</span>${ico16('caret')}</button><i class="sep"></i>
     <button type="button" class="${on('data').trim()}" data-c="data" data-tip="แก้ข้อมูลแบบตาราง"${dis}>${ico('table')}<span>ข้อมูล</span></button><i class="sep"></i>
     <button type="button" class="${on('col').trim()}" data-c="col" data-tip="สีกราฟ"${dis}>${chip}<span>สี</span></button><i class="sep"></i>
+    <button type="button" class="${on('lay').trim()}" data-c="lay" data-tip="เลย์เอาต์หน้ากราฟ"${dis}>${ico('chlay')}<span>เลย์เอาต์</span></button><i class="sep"></i>
     <button type="button" class="ic" data-c="lock" aria-label="ล็อกกราฟ" data-tip="ล็อกกราฟ (กันแก้พลาด)">${ico('unlock')}</button><i class="sep"></i>
     <button type="button" class="ink" data-c="ok" aria-label="เสร็จ เลิกเลือกกราฟ">${ico('check')}<span>เสร็จ</span></button>`;
   if (bar.dataset.h !== h) { bar.innerHTML = h; bar.dataset.h = h; }
@@ -6284,7 +6311,7 @@ async function chLock(on) {
   toast(on ? 'ล็อกกราฟแล้ว ชนิด ข้อมูล และสีแก้ไม่ได้จนกว่าจะปลดล็อก' : 'ปลดล็อกกราฟแล้ว');
 }
 // ── Python 1 ครั้ง + วาดหน้าที่เปลี่ยน + ท่าเปลี่ยนกราฟ + ประวัติ ──
-function chRun(k, expr, label, mode, after) {
+function chRun(k, expr, label, mode, after, pre) {
   const job = async () => {
     if (viewing) return false;
     while (busyNow) await sleep(30);
@@ -6294,7 +6321,7 @@ function chRun(k, expr, label, mode, after) {
       chPy(); py.globals.set('IDX', order[k]); const r = py.runPython(expr); let x = null;
       const out = typeof r === 'string' && r[0] === '[' ? JSON.parse(r) : [r, null]; if (out[0] !== 'ok') { toast(out[0]); return false; } x = out[1];
       CHMO = mode ? {k, mode, old: chSnap(k), kind: chKind(CHI?.t)} : null;
-      await paint(); settle(oldKeys, k); commit(label);
+      pre?.(x); await paint(); settle(oldKeys, k); commit(label);
       if (CH?.k === k) { chLoad(k); paintCh(); if (panelOpen('ch')) chPaint(); }
       after?.(x); return true;
     } catch (e) { console.error(e); toast('ทำไม่สำเร็จ ข้อมูลเดิมยังอยู่ครบ ลองใหม่อีกครั้ง'); if (STACK[SP]) await restore(STACK[SP]).catch(() => {}); return false; }
@@ -6581,6 +6608,60 @@ function chSetType(t, s) {
   if (t === CHI.t && s === CHI.s) return; const k = CH.k, x = CHI.ty.find(a => a.type === t), st = x?.styles.find(a => a.id === s);
   CHOPEN = t; chRun(k, `D.set_chart(ITEMS, IDX, type='${t}', style='${s}')`, `เปลี่ยนกราฟ หน้า ${k + 1}: ${x?.th} · ${st?.th}`, 'type');
 }
+// ── ใบ 028 เลย์เอาต์หน้ากราฟ: แบบสำเร็จ A-F (= ชุดค่า) + ปรับเอง 6 ตัวเลือก / ตัวที่กดไม่ได้จาง + เหตุผล (กฎใน D.chart_layouts) / เฉพาะหน้านี้ | ทุกหน้ากราฟ
+// คอม: เลื่อนเดียว / มือถือ + iPad ตั้ง (แผ่นล่าง): 2 แท็บ แบบสำเร็จ | ปรับเอง (ไอซ์ 1 พ.ย. "1 แยกเป็น 2 แท็บ 2 ใช้ได้")
+const CHLN = {A: 'หัวข้อซ้าย', B: 'หัวข้อบน', C: 'มีคำอธิบาย', D: 'ตัวเลขเด่น', E: 'ชิดขอบ', F: 'สองกราฟ'};
+const CHLR = [['t', 'ตำแหน่งหัวข้อ', [['top', 'บน'], ['left', 'ซ้าย'], ['corner', 'มุมเล็ก']]], ['p', 'แผงพื้นหลังหัวข้อ', [[0, 'ไม่มี'], [1, 'มี']]],
+  ['n', 'คำอธิบาย', [['none', 'ไม่มี'], ['right', 'ขวา'], ['left', 'ซ้าย']]], ['b', 'ตัวเลขใหญ่', [[0, 'ไม่มี'], [1, 'มี']]],
+  ['k', 'จำนวนกราฟ', [[1, '1'], [2, '2']]], ['z', 'ขนาดกราฟ', [['fit', 'พอดี'], ['edge', 'ใหญ่ชิดขอบ']]]];
+let CHLS = 'one', CHLT = 'pre';
+const chLaySheet = () => !matchMedia('(min-width:1024px)').matches;
+const chLayNow = () => CHI?.lay?.pre ? (CHI.lay.pre === 'X' ? 'ปรับเอง' : `${CHI.lay.pre} ${CHLN[CHI.lay.pre]}`) : 'แบบของชุด';
+function chLayHtml() {
+  const L = CHI.lay, c = L.cur || {t: 'top', p: 0, n: 'none', b: 0, k: 1, z: 'fit'}, tabs = chLaySheet(), sh = t => !tabs || CHLT === t;
+  const ttl = (BOX[CH.k] || []).find(b => b.p[0] === 't'), nm = ttl ? (py.runPython(`str(ITEMS[${order[CH.k]}][1].get('t', ''))`) || '').replace(/\s+/g, ' ') : '';
+  const pre = L.presets.map(o => `<button class="opt${L.pre === o.id ? ' on' : ''}" type="button" role="radio" data-lp="${o.id}" aria-checked="${L.pre === o.id}"${o.ok ? '' : ` aria-disabled="true" aria-describedby="lw_${o.id}"`}>
+      <img src="img/ch-lay/${o.id}.jpg?v=${V}" alt="" width="320" height="180"><span class="lb"><em>${o.id}</em>${CHLN[o.id]}</span>${o.ok ? '' : `<small class="why" id="lw_${o.id}">${esc(o.why)}</small>`}<i class="ck">${ico16('check')}</i></button>`).join('')
+    + `<button class="opt${L.pre === 'X' ? ' on' : ''}" type="button" role="radio" data-lp="X" aria-checked="${L.pre === 'X'}"><span class="ph">${ico('sliders')}</span><span class="lb">ปรับเอง</span><i class="ck">${ico16('check')}</i></button>`;
+  const rows = CHLR.map(([key, lab, opts]) => { const w = opts.find(([v]) => L.ctl[key][String(v)]);
+    return `<div class="chlr"><span id="lr_${key}">${lab}</span><div class="seg" role="radiogroup" aria-labelledby="lr_${key}" style="--n:${opts.length}">${opts.map(([v, t]) => { const why = L.ctl[key][String(v)], on = c[key] === v;
+      return `<button type="button" role="radio" class="${on ? 'on' : ''}" aria-checked="${on}" data-lk="${key}" data-lv="${v}"${why ? ` disabled title="${esc(why)}"` : ''}>${t}</button>`; }).join('')}</div>${w ? `<small class="chlw">${w[1]}: ${esc(L.ctl[key][String(w[0])])}</small>` : ''}</div>`; }).join('');
+  return `${tabs ? `<div class="seg tabs" role="tablist"><button type="button" role="tab" data-lt="pre" class="${CHLT === 'pre' ? 'on' : ''}" aria-selected="${CHLT === 'pre'}">แบบสำเร็จ</button><button type="button" role="tab" data-lt="cus" class="${CHLT === 'cus' ? 'on' : ''}" aria-selected="${CHLT === 'cus'}">ปรับเอง</button></div>` : ''}
+    <p class="chlh">หน้า ${CH.k + 1}${nm ? ' ' + esc(nm) : ''}</p>
+    ${sh('pre') ? `<div class="chlg" role="radiogroup" aria-label="แบบสำเร็จ">${pre}</div>` : ''}
+    ${sh('cus') ? `${tabs ? '' : `<p class="chls">${ico('sliders')}ปรับเอง</p>`}${rows}` : ''}
+    <div class="seg" role="radiogroup" aria-label="ใช้กับ"><button type="button" role="radio" data-ls="one" class="${CHLS === 'one' ? 'on' : ''}" aria-checked="${CHLS === 'one'}">เฉพาะหน้านี้</button><button type="button" role="radio" data-ls="all" class="${CHLS === 'all' ? 'on' : ''}" aria-checked="${CHLS === 'all'}">ทุกหน้ากราฟ</button></div>
+    <p class="sub">เปลี่ยนแล้ว กราฟ ข้อมูล สี ป้าย และโน้ตที่แก้ไว้ตามไปครบ กดเลิกทำได้</p>`;
+}
+$('chp').addEventListener('click', ev => {
+  if (CHV !== 'lay' || !CHI?.lay) return; const L = CHI.lay, c = L.cur || {t: 'top', p: 0, n: 'none', b: 0, k: 1, z: 'fit'};
+  const t = ev.target.closest('[data-lt]'); if (t) { CHLT = t.dataset.lt; return chPaint(); }
+  const sc = ev.target.closest('[data-ls]'); if (sc) { if (CHLS === sc.dataset.ls) return; CHLS = sc.dataset.ls; if (CHLS === 'all' && L.cur) return chSetLay(L.cur, null, 'ทุกหน้ากราฟ'); return chPaint(); }
+  const p = ev.target.closest('[data-lp]');
+  if (p) { if (p.getAttribute('aria-disabled') === 'true') { toast(L.presets.find(o => o.id === p.dataset.lp)?.why || ''); return; }
+    if (p.dataset.lp === 'X') { CHLT = 'cus'; chPaint(); $('chp').querySelector('.chlr')?.scrollIntoView({block: 'nearest', behavior: SMOOTH()}); return; }
+    if (p.dataset.lp !== L.pre) chSetLay(p.dataset.lp, null, `${p.dataset.lp} ${CHLN[p.dataset.lp]}`); return; }
+  const b = ev.target.closest('[data-lk]'); if (!b || b.disabled) return; const k = b.dataset.lk, v = ['p', 'b', 'k'].includes(k) ? +b.dataset.lv : b.dataset.lv;
+  if (c[k] === v) return; const o = CHLR.find(r => r[0] === k);
+  chSetLay({...c, [k]: v}, k, `${o[1]} ${o[2].find(x => x[0] === v)[1]}`);
+});
+function chSetLay(lay, keep, what) {
+  const k = CH.k, all = CHLS === 'all';
+  py.globals.set('LAYJ', JSON.stringify(lay)); py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : null); py.globals.set('PAGES', py.toPy(all ? order : []));
+  py.globals.set('KEEP', keep || null);
+  return chRun(k, `D.set_chart_layout(ITEMS, IDX, json.loads(LAYJ), pages=list(PAGES), nxt=NXT, keep=KEEP)`,
+    `เลย์เอาต์หน้ากราฟ${all ? ' ทุกหน้า' : ` หน้า ${k + 1}`}: ${what}`, 'type', x => {
+      if (x?.merge != null) toast(`รวมกราฟหน้า ${k + 2} มาไว้หน้านี้แล้ว เลือกจำนวนกราฟ 1 เพื่อแยกกลับ`);
+      else if (x?.split != null) toast(`แยกกราฟที่สองกลับไปเป็นหน้า ${k + 2} แล้ว`);
+      else if (all && x?.n > 1) toast(`เปลี่ยนเลย์เอาต์ ${x.n} หน้ากราฟแล้ว`);
+    }, x => { if (x?.merge != null) order.splice(k + 1, 1); else if (x?.split != null) order.splice(k + 1, 0, x.split); });
+}
+function altLayRow(k) {                    // ทางเข้าที่สอง: ปุ่มเปลี่ยนแบบที่หัวหน้า แถวบนสุด "เลย์เอาต์หน้ากราฟ" เปิดแผงเดียวกับปุ่มในแถบกราฟ
+  if (!isChart(k)) return '';
+  let L = null; try { chPy(); py.globals.set('IDX', order[k]); py.globals.set('NXT', k + 1 < order.length ? order[k + 1] : null); L = JSON.parse(py.runPython('D.chart_layouts(ITEMS, IDX, NXT)')); } catch (e) { console.warn(e); return ''; }
+  const p = L.pre, now = p ? (p === 'X' ? 'ปรับเอง' : `${p} ${CHLN[p]}`) : 'แบบของชุด';
+  return `<p class="althd">หน้ากราฟ</p><button class="altlay" type="button" data-alay="1">${p && p !== 'X' ? `<img src="img/ch-lay/${p}.jpg?v=${V}" alt="">` : `<span class="ph">${ico('sliders')}</span>`}<span class="t"><b>เลย์เอาต์หน้ากราฟ</b><small>ตอนนี้ ${esc(now)} / 6 แบบ + ปรับเอง</small></span>${ico('next')}</button><p class="althd">แบบอื่นของหน้านี้</p>`;
+}
 // ── สีกราฟ: ทุกกราฟในไฟล์ (ค่าเริ่ม) / เฉพาะกราฟนี้ · สีตามชุด · 8 คู่สี · คู่สีของฉัน · สีจากโลโก้ · ไล่สีเอง (กี่จุดก็ได้) ──
 const myPal = () => { try { return JSON.parse(lsGet('d2s_mypal') || '[]'); } catch (e) { return []; } };
 function chColInit() { CHC = {scope: CHI.cfg.colors ? 'one' : 'all', view: 'main', tab: 'pri', sel: 0, ed: null}; }
@@ -6717,7 +6798,7 @@ function chPcSet(st, nm) {
     CHC.view = 'main'; chPaint(); const sl = pgs()[k]?.querySelector('.slide'); sl?.classList.add('chlift'); sl?.querySelectorAll(`.slidebox [data-m="${CHPC?.m}"]`).forEach(e => e.classList.add('up')); });
 }
 // ── แผง (คอม: แผงขวา / iPad ตั้ง + มือถือ: แผ่นล่าง) ──
-const CHT = {type: 'ชนิดกราฟ', data: 'ข้อมูลกราฟ', col: 'สีกราฟ', pc: 'สีของชิ้น'};
+const CHT = {type: 'ชนิดกราฟ', data: 'ข้อมูลกราฟ', col: 'สีกราฟ', pc: 'สีของชิ้น', lay: 'เลย์เอาต์หน้ากราฟ'};
 function chOpen(v) {
   if (!CH) return; if (CHV !== v) { CHOPEN = null; if (v === 'col') chColInit(); }
   if (v === 'col' && !CHC) chColInit();
@@ -6731,8 +6812,8 @@ function chPaint() {
   $('rpT').textContent = CHV === 'pc' ? (custom ? 'ไล่สีเองเฉพาะชิ้นนี้' : `สีของ "${CHPC?.nm || ''}"`) : custom ? 'ไล่สีเอง' : CHT[CHV];
   let bk = $('chbk'); if (custom && !bk) { $('rpT').insertAdjacentHTML('beforebegin', `<button class="ib" id="chbk" type="button" aria-label="กลับ">${ico('back')}</button>`); $('chbk').onclick = () => { CHC.view = 'main'; const w = pgs()[CH.k]?.querySelector('.slidebox'); if (w) { delete w._gsig; mount(w, slides[CH.k]); } chPaint(); }; } else if (!custom && bk) bk.remove();
   $('rp').classList.toggle('chcustom', custom);
-  if (CHV === 'data') return chPaintData();
-  const sc = P.scrollTop; P.innerHTML = CHV === 'type' ? chTypeHtml() : CHV === 'pc' ? chPcHtml() : chColHtml(); P.scrollTop = sc;
+  P.classList.toggle('chl', CHV === 'lay'); if (CHV === 'data') return chPaintData();
+  const sc = P.scrollTop; P.innerHTML = CHV === 'type' ? chTypeHtml() : CHV === 'pc' ? chPcHtml() : CHV === 'lay' ? chLayHtml() : chColHtml(); P.scrollTop = sc;
   if (CHV === 'type' && !P.dataset.seen) { P.dataset.seen = 1; P.querySelector('.chty.open')?.scrollIntoView({block: 'center'}); }
 }
 // ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย (เป็นงานใหม่หนึ่งงาน) / #p=<id> เปิดงานนั้นต่อ (รีเฟรชในตัวแก้) / ไม่มี: งานของฉัน
