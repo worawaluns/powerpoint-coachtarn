@@ -1019,6 +1019,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .zmenu2 button{display:flex;align-items:center;gap:10px;width:100%;height:44px;border:none;background:none;border-radius:10px;padding:0 12px;font-size:14px;font-weight:600;color:var(--text);text-align:left}
 .zmenu2 button:hover,.zmenu2 button.on{background:var(--bg)}.zmenu2 svg.i{display:block;width:20px;height:20px}.zmenu2 kbd{margin-left:auto;font:inherit;font-size:12px;color:var(--sub)}.zmenu2 hr{border:none;border-top:1px solid var(--line);margin:4px 0}
 .zlbl{position:absolute;left:50%;top:12px;z-index:20;transform:translateX(-50%);background:#15151A;color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .3s var(--ease);font-variant-numeric:tabular-nums}.zlbl.on{opacity:1;transition-duration:.12s}
+@media (pointer:coarse) and (min-width:768px) and (min-height:501px){.pages .slide{touch-action:pan-x pan-y}}
 .work.zoomed .pages{touch-action:none;overflow:hidden!important}.work.zoomed .dots,.work.zoomed .ftb{visibility:hidden}.work.zoomed .canvas{overflow:hidden}
 .sel{--iz:1}.sel .k,.sel .hx{scale:var(--iz)}.sel .hx{transform-origin:0 50%}
 @media (prefers-reduced-motion:reduce){.zlbl{transition:none}}
@@ -1286,7 +1287,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261030n';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261030o';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1696,10 +1697,11 @@ const KIND = {cover: 'ปก', agenda: 'สารบัญ', list: 'รายก
 const OVB = `<i class="ovb">${ico('alert')}ข้อความล้นกรอบ</i>`;   // ออกจากกล่องตอนยังล้น: คำครบ หน้านี้ติดป้ายจนแก้ให้พอดี
 const srcHtml = m => (m.ins ? `${ico('plus')}<span>หน้าที่คุณเพิ่มเอง</span>` : `${ico('file')}<span>ที่มา: ${esc(SRCNAME)}${m.sec && !['cover', 'agenda'].includes(m.kind) ? ' หัวข้อ ' + esc(m.sec) : ''}</span>`) + (m.ov ? OVB : '');
 let lastCC = [];                           // สีตัวอักษรกราฟจากไฟล์ (D.CHARTC) ของ render ล่าสุด ให้ preview() ใช้
-function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); if (expr.includes('render')) { try { lastCC = JSON.parse(py.runPython('json.dumps(D.CHARTC)')); lastCL = JSON.parse(py.runPython('json.dumps(D.CHARTL, ensure_ascii=False)')); } catch (e) { lastCC = []; lastCL = []; } } return u.buffer; }
-let lastCL = [];
+function pptx(expr) { const b = py.runPython(expr); const u = b.toJs(); b.destroy(); if (expr.includes('render')) { try { lastCC = JSON.parse(py.runPython('json.dumps(D.CHARTC)')); lastCL = JSON.parse(py.runPython('json.dumps(D.CHARTL, ensure_ascii=False)')); } catch (e) { lastCC = []; lastCL = []; }  try { lastPR = JSON.parse(py.runPython('json.dumps(getattr(D, "PICROT", []))')); } catch (e) { lastPR = []; } } return u.buffer; }
+let lastCL = [], lastPR = [];
+const picKid = (sl, i) => (sl.classList.contains('slide-wrapper') ? sl : sl.querySelector('.slide-wrapper'))?.children[i];
 async function preview(buf) {           // pptx → แผ่น HTML (ไฟล์เดียวกับที่ลูกค้าโหลดไป)
-  const cc = lastCC, cl = lastCL;
+  const cc = lastCC, cl = lastCL, pr = lastPR;
   const tmp = document.createElement('div'); tmp.style.cssText = 'position:fixed;left:-99999px;top:0;width:960px';
   document.body.appendChild(tmp);
   try {
@@ -1725,6 +1727,10 @@ async function preview(buf) {           // pptx → แผ่น HTML (ไฟล
         if (m && (0.299 * m[0] + 0.587 * m[1] + 0.114 * m[2]) / 255 > 0.6) ct.forEach(t => { t.style.fill = col; t.style.stroke = 'none'; });   // ขอบตัวอักษรเข้มของ echarts ทำให้ตัวขาวเบลอ
       });
     }
+    // QA 30n: pptx-preview ไม่อ่าน rot/flip ของ p:pic (ข้อความ กลุ่ม กราฟอ่าน) รูปที่หมุนในไฟล์ต้องหมุนบนจอด้วย  ลูกของแผ่น = ลำดับ spTree (เหมือน b.zi)
+    tmp.querySelectorAll('.pptx-preview-slide-wrapper').forEach((sl, si) => (pr[si] || []).forEach(([i, r, fh, fv]) => { const n = picKid(sl, i); if (!n) return;
+      const d = n.firstElementChild; n.style.transformOrigin = `${parseFloat(d?.style.width) / 2 || 0}px ${parseFloat(d?.style.height) / 2 || 0}px`;
+      n.style.transform = [r && `rotate(${r}deg)`, fh && 'scaleX(-1)', fv && 'scaleY(-1)'].filter(Boolean).join(' '); }));
     return [...tmp.querySelectorAll('.pptx-preview-slide-wrapper')].map(s => s.cloneNode(true));
   } finally { tmp.remove(); }
 }
@@ -3704,7 +3710,7 @@ function zoomSettle() {                   // ปล่อยนิ้ว: ค้
 // ลากนิ้วเดียวบนที่ว่าง (ซูมอยู่) = เลื่อนดู / แตะสองครั้งบนที่ว่าง = พอดีจอ <-> 200%
 let ZP = null, ZTAP = null;
 $('pages').addEventListener('pointerdown', ev => {
-  if (ev.pointerType === 'mouse' || !one() || gridOn || PTRS.size > 1 || viewing) return;
+  if (ev.pointerType === 'mouse' || !(one() || touch()) || gridOn || PTRS.size > 1 || viewing) return;
   const onBox = ev.target.closest('.sel') || (SEL && ev.target.closest('.hit.selx'));
   const empty = !ev.target.closest('.hit') && !ev.target.closest('.sel');
   if (empty) { const now = Date.now(), t = ZTAP;
@@ -3729,6 +3735,8 @@ function zMenu(btn) {
   m.innerHTML = `<button type="button" role="menuitem" data-zs="1"${cur_ === 100 ? ' class="on"' : ''}>${ico('fit')}พอดีจอ<kbd>${KM}0</kbd></button><hr>` + [150, 200, 300].map(v => `<button type="button" role="menuitem" data-zs="${v / 100}"${cur_ === v ? ' class="on"' : ''}>${v}%${cur_ === v ? ico('check').replace('class="i"', 'class="i" style="margin-left:auto"') : ''}</button>`).join('');
   document.body.appendChild(m); const r = btn.getBoundingClientRect(); m.style.left = Math.min(r.left, innerWidth - 208) + 'px'; m.style.top = (r.top - m.offsetHeight - 8) + 'px'; btn.setAttribute('aria-expanded', 'true');
   m.onclick = ev => { const b = ev.target.closest('[data-zs]'); if (!b) return; m.remove(); btn.setAttribute('aria-expanded', 'false'); zoomTo(+b.dataset.zs); };
+  document.addEventListener('keydown', function k(ev) { if (!m.isConnected) return document.removeEventListener('keydown', k, true);   // QA 30n: Esc ปิดเมนู กลับไปที่ปุ่ม
+    if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); m.remove(); btn.setAttribute('aria-expanded', 'false'); btn.focus({preventScroll: true}); document.removeEventListener('keydown', k, true); } }, true);
   setTimeout(() => document.addEventListener('pointerdown', function off(ev) { if (!m.contains(ev.target) && ev.target !== btn) { m.remove(); btn.setAttribute('aria-expanded', 'false'); } document.removeEventListener('pointerdown', off, true); }, true));
 }
 const ZSTEP = [1, 1.25, 1.5, 2, 2.5, 3];
@@ -4169,6 +4177,7 @@ $('bbar').onclick = toolClick;
 // ตัวอักษรจริงที่ pptx-preview วาด: กล่องเดียว หรือการ์ด + ทุกอย่างในการ์ด (กฎเดียวกับ _cards/_inside ใน doc2slide.py)
 function nodesOf(k, b) {
   const w = pgs()[k]?.querySelector('.slide-wrapper'); if (!w) return [];
+  if (b.pic) { const n = b.zi != null && w.children[b.zi]; if (n && !n.style.transformOrigin) n.style.transformOrigin = `${b.w / 2}px ${b.h / 2}px`; return n ? [n] : []; }   // รูป: หมุน/ลากสดทั้งรูป (ไม่มี text-wrapper ให้ shapeOf หา)
   if (!b.g) { const n = shapeOf(k, b, ''); return n ? [n] : []; }
   const [gx, gy, gw, gh] = b.g;
   return [...w.children].filter(c => { const x = parseFloat(c.style.left), y = parseFloat(c.style.top); return !isNaN(x) && !isNaN(y) && x >= gx - 2 && y >= gy - 2 && x + c.offsetWidth <= gx + gw + 2 && y + c.offsetHeight <= gy + gh + 2; });
@@ -4416,11 +4425,11 @@ $('gbar').onclick = ev => {
 // บีบนิ้ว: ที่พอดีจอ บีบเข้า = ย่อหน้าตามนิ้ว ปล่อยที่ ≤ 0.8 เข้าตาราง / > 0.8 เด้งกลับ  ในตาราง ถ่างนิ้วบนการ์ด ≥ 1.25 = เปิดหน้านั้น
 const tdist = (a, b) => Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
 $('pages').addEventListener('touchstart', e => {
-  if (e.touches.length !== 2 || !one() || gridOn || PZ || ED || viewing || busyNow || !slides.length) return;
+  if (e.touches.length !== 2 || !(one() || touch()) || gridOn || PZ || ED || viewing || busyNow || !slides.length) return;   // QA 30n: iPad แบบคอมก็ถ่างซูมได้ (ไม่มีหน้ารวม)
   if (DR) endDrag(true);
   const sl = pgs()[cur]?.querySelector('.slide'); if (!sl) return;
   const [p0, p1] = e.touches;
-  PZ = {d0: tdist(p0, p1) || 1, sl, a: sl.getBoundingClientRect(), s: 1, raf: 0, tf: 'none', op: 0, live: true, mode: Z.s > 1.001 ? 'zoom' : null, m0: {x: (p0.clientX + p1.clientX) / 2, y: (p0.clientY + p1.clientY) / 2}};
+  PZ = {d0: tdist(p0, p1) || 1, sl, a: sl.getBoundingClientRect(), s: 1, raf: 0, tf: 'none', op: 0, live: true, mode: Z.s > 1.001 || !one() ? 'zoom' : null, m0: {x: (p0.clientX + p1.clientX) / 2, y: (p0.clientY + p1.clientY) / 2}};
   if (PZ.mode === 'zoom') zoomGrab(PZ);
 }, {passive: true});
 function pzMode(P, raw) {              // นิ้วขยับครั้งแรก: ถ่าง = ซูม / บีบ = ย่อเข้าตาราง (เฉพาะที่ 100%)
@@ -4449,7 +4458,7 @@ function pzEnd(e) {
   after(an).then(() => { document.body.classList.remove('gpz'); T.getAnimations().forEach(x => x.cancel()); T.style.opacity = ''; P.sl.style.willChange = ''; P.sl.style.transformOrigin = ''; PZ = null; });
 }
 $('pages').addEventListener('touchend', pzEnd); $('pages').addEventListener('touchcancel', pzEnd);
-document.addEventListener('gesturestart', e => { if (one() && e.target.closest?.('#pages,#thumbs')) e.preventDefault(); });   // iOS: ไม่ให้ซูมทั้งหน้าเอง
+document.addEventListener('gesturestart', e => { if ((one() || touch()) && e.target.closest?.('#pages,#thumbs')) e.preventDefault(); });   // iOS: ไม่ให้ซูมทั้งหน้าเอง
 const TH = $('thumbs');
 TH.addEventListener('touchstart', e => {
   if (!gridOn || e.touches.length !== 2) return; if (LP) lpDrop(true);
