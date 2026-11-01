@@ -2519,7 +2519,7 @@ ALTS = [x for x in D.alternatives(_c, M['slug']) if x[0] != ITEMS[IDX][0]]; len(
         closeSheet(); busyNow = true; const oldKeys = KEYS.slice();
         try {
           py.globals.set('IDX', idx); py.globals.set('ALTJ', a.json); py.globals.set('K_', k);
-          py.runPython('_o = ITEMS[IDX][1]; _n = tuple(json.loads(ALTJ)[K_]); _n[1].update({x: _o[x] for x in ("_note", "_name") if _o.get(x)}); ITEMS[IDX] = _n');   // ใบ 025: โน้ต/ชื่อหน้าตามไปแบบใหม่
+          py.runPython('_o = ITEMS[IDX][1]; _n = tuple(json.loads(ALTJ)[K_]); ITEMS[IDX] = (_n[0], D.carry_page(_o, _n[1], CS[IDX].get("kind") == "chart"))');   // ใบ 025 + บั๊กไอซ์ 1 พ.ย.: โน้ต ชื่อหน้า รูป/ข้อความที่เพิ่ม รูปแบบ กราฟ ตามไปแบบใหม่
           altCache.delete(idx); await paint(); cur = at; settle(oldKeys, -1); select(at);
           arranged = true; commit(`เปลี่ยนแบบหน้า ${at + 1}`); toast(`จัดหน้า ${at + 1} แบบใหม่แล้วครับ`);
         } catch (e) { console.error(e); toast('เปลี่ยนไม่สำเร็จ ลองแบบอื่นได้'); } finally { busyNow = false; }
@@ -2671,13 +2671,13 @@ async function changeLook(s2, sure) {
   }
 }
 // ใบ 025: เปลี่ยนหน้าตา = จัดใหม่จากเนื้อหา โน้ต/ชื่อหน้าผูกกับหัวข้อของหน้า (หัวข้อเดียวกันหลายหน้า = ไล่ตามลำดับ) ponytail: หัวข้อที่ถูกแบ่ง/รวมต่างไปจากเดิม โน้ตไปอยู่หน้าแรกของหัวข้อนั้น
+// ไอซ์ 1 พ.ย. 2569: "พอเปลี่ยนหน้าตาสไลด์หน้าที่มีอัพรูปเข้าไป text ที่เคยเพิ่ม ข้อควาที่เคยแก้ มันหายไป" = ของที่ลูกค้าเพิ่ม/ตั้งไว้ (รูป ข้อความที่เพิ่ม รูปแบบต่อกล่อง หมุน ล็อก ชั้น กราฟ โน้ต ชื่อหน้า) ตามไปด้วย D.carry_page
 const NOTECARRY = `_nq = {}
 for _i in _OO:
-    _x = {y: _OI[_i][1][y] for y in ("_note", "_name") if _OI[_i][1].get(y)}
-    if _x: _nq.setdefault(repr(_OC[_i].get("t")), []).append(_x)
+    _nq.setdefault(repr(_OC[_i].get("t")), []).append(_OI[_i][1])
 for _i in O2:
     _q = _nq.get(repr(CS[_i].get("t")))
-    if _q: ITEMS[_i] = (ITEMS[_i][0], {**ITEMS[_i][1], **_q.pop(0)})`;
+    if _q: ITEMS[_i] = (ITEMS[_i][0], D.carry_page(_q.pop(0), ITEMS[_i][1], CS[_i].get("kind") == "chart"))`;
 function paintLooks() { $('lookg').innerHTML = lookHtml(); }
 $('lookg').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
 
