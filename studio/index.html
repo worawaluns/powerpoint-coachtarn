@@ -234,7 +234,7 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 .tlay{position:absolute;display:flex;flex-direction:column;z-index:999}
 .tlay>div{flex:none;outline:none;white-space:pre-wrap;word-break:break-word;cursor:text;min-height:1em}
 .tlay>div:empty::before{content:attr(data-ph);color:#9AA3AF}
-.hit.ing{pointer-events:none;background:none!important}
+.hit.ing,.hit.under{pointer-events:none}.hit.ing{background:none!important}
 .pg:has(.hit.ing) .hit:not(.ing)::after{opacity:0;animation:none}   /* กำลังพิมพ์: กรอบประของกล่องอื่นหาย เห็นสไลด์จริง */
 .hit.ing::after{opacity:1!important;inset:calc(-3px / var(--z,1));border:calc(2px / var(--z,1)) solid var(--red);border-radius:4px;animation:ingIn .16s var(--ease) both!important}
 @keyframes ingIn{from{opacity:0;transform:scale(.98)}}
@@ -281,7 +281,8 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 .gd.on{opacity:1;transition:none}
 .pg:has(.sel.on) .hit::after{opacity:0;animation:none}
 .hit.selx{touch-action:none;cursor:grab;z-index:2}
-.hit.mv{z-index:1}   /* กล่องที่ย้ายไปทับกล่องอื่น ยังแตะ/คลิกโดน */
+.hit.mv,.hit.ad{z-index:1}   /* กล่องที่ย้ายไปทับกล่องอื่น ยังแตะ/คลิกโดน / ใบ 029 ชิ้นที่เพิ่มวาดบนสุดในไฟล์ ห้ามจมใต้กล่องที่ย้าย (เดิมแตะกล่องที่เพิ่มแล้วโดนกล่องข้างใต้) */
+@media (pointer:coarse){.hit.ad:not(.saving):not(.checking)::before{content:'';position:absolute;left:0;right:0;top:50%;height:max(100%,32px);transform:translateY(-50%)}}   /* ใบ 029 กล่องบรรทัดเดียวบนมือถือสูง ~10px นิ้วแตะไม่โดน: ที่รับนิ้วสูงอย่างน้อย 32px */
 .selbar{position:absolute;z-index:9;display:flex;align-items:center;gap:4px;height:44px;padding:4px;background:#fff;border-radius:12px;box-shadow:0 6px 20px rgba(20,20,26,.16);animation:etbIn .2s var(--ease) both}
 .selbar .btn{height:36px;padding:0 12px;font-size:14px}
 .selbar span{font-size:13px;color:var(--sub);padding:0 8px;white-space:nowrap}.selbar.tbar button span{color:inherit;font-size:inherit;padding:0}.selbar .lkl{display:flex;align-items:center;gap:6px;font-weight:600;color:var(--red)}
@@ -1043,7 +1044,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 @media (prefers-reduced-motion:reduce){.tpop,.tpop.card,.tpop.msh{animation:none}.pg.lifted{transition:none}}
 /* ══ ใบ 019b ที่จับ มุม ข้าง หมุน ย้าย ล็อก แผงตำแหน่ง ══ */
 .sel .k.tl{left:0;top:0;cursor:nwse-resize}.sel .k.tr{left:100%;top:0;cursor:nesw-resize}.sel .k.br{left:100%;top:100%;cursor:nwse-resize}.sel .k.bl{left:0;top:100%;cursor:nesw-resize}
-.sel .k.l,.sel .k.r{width:8px;height:20px;margin:-10px 0 0 -4px;border-radius:4px}
+.sel .k.l,.sel .k.r{width:8px;height:min(20px,max(8px,calc(100% - 12px)));margin:0 0 0 -4px;translate:0 -50%;border-radius:4px}   /* ใบ 029 กล่องบรรทัดเดียวเตี้ย: ที่จับข้างหดให้เห็นมุมครบ */
 .sel .hx{position:absolute;left:100%;top:50%;margin-left:16px;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;pointer-events:none;opacity:0;transition:opacity .18s var(--ease)}
 .sel.on .hx{opacity:1}.sel.lift .hx{opacity:0}
 .sel .hx button{pointer-events:auto;width:32px;height:32px;border-radius:50%;border:none;background:#fff;color:var(--text);box-shadow:0 1px 4px rgba(20,20,26,.22);display:grid;place-items:center;padding:0;touch-action:none;position:relative}
@@ -1091,6 +1092,8 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 @media (pointer:coarse) and (min-width:768px) and (min-height:501px){.pages .slide{touch-action:pan-x pan-y}}
 .work.zoomed .pages{touch-action:none;overflow:hidden!important}.work.zoomed .dots,.work.zoomed .ftb{visibility:hidden}.work.zoomed .canvas{overflow:hidden}
 .sel{--iz:1}.sel .k,.sel .hx{scale:var(--iz)}.sel .hx{transform-origin:0 50%}
+#canvas.zoomed .sel{--iz:calc(1 / var(--z,1))!important;box-shadow:0 0 0 calc(2px / var(--z,1)) var(--red)}
+@media (pointer:coarse){#canvas.zoomed .sel .hx{margin-top:calc(16px / var(--z,1));transform-origin:50% 0}}   /* ใบ 029 ซูมตอนพิมพ์บนมือถือ (CSS zoom ทั้งหน้า): ที่จับ ปุ่มหมุน เส้นกรอบ คงขนาดจริงบนจอ */
 @media (prefers-reduced-motion:reduce){.zlbl{transition:none}}
 /* ══ ใบ 022 แผงข้อความ / รูปภาพ / รูปที่เลือก ══ */
 .bpan .addt{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:60px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:6px 16px;text-align:left;cursor:grab;line-height:1.3}
@@ -1754,7 +1757,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101g';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101h';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2439,7 +2442,7 @@ function makeDeck(skip = []) {
 const pgs = () => [...$('pages').children].filter(x => x.classList.contains('pg'));
 function hitsHtml(k) {
   return chitHtml(k) + BOX[k].map((b, j) => { const o = b.dp || b.shp, x = o ? Math.max(0, b.x) : b.x, y = o ? Math.max(0, b.y) : b.y, w = o ? Math.min(960, b.x + b.w) - x : b.w, h = o ? Math.min(540, b.y + b.h) - y : b.h;   // ใบ 026 ชิ้นของดีไซน์: ใต้กล่องข้อความ ตัดที่ขอบสไลด์
-    return `<div class="hit${b.can ? ' can' : ''}${b.m ? ' mv' : ''}${o ? ' obj' : ''}" data-j="${j}" style="--i:${j};left:${x / 9.6}%;top:${y / 5.4}%;width:${w / 9.6}%;height:${h / 5.4}%"></div>`; }).join('');
+    return `<div class="hit${b.can ? ' can' : ''}${b.m ? ' mv' : ''}${b.add ? ' ad' : ''}${o ? ' obj' : ''}" data-j="${j}" style="--i:${j};left:${x / 9.6}%;top:${y / 5.4}%;width:${w / 9.6}%;height:${h / 5.4}%"></div>`; }).join('');
 }
 // ใบ 025 หัวหน้า (คอม): หน้า N + ชื่อหน้า / เปลี่ยนแบบ ขึ้น ลง ล็อก ทำสำเนา ลบ เพิ่มหน้า
 const pageLocked = k => !!BOX[k]?.some(b => b.lk) && !BOX[k].some(b => b.can);
@@ -2745,6 +2748,7 @@ function makeLayer(sw, text, ph) {
   const pitch = p0.offsetHeight / Math.max(1, nlines(p0).length) || parseFloat(cp.lineHeight) || parseFloat(cs.fontSize) * 1.25;
   ed.style.lineHeight = pitch + 'px';
   lay.appendChild(ed); sw.parentElement.appendChild(lay);
+  lay.addEventListener('pointerdown', ev => { if (ev.target === lay) { ev.preventDefault(); ed.focus({preventScroll: true}); } });   // ใบ 029 แตะในกรอบนอกบรรทัด: ยังพิมพ์อยู่ ไม่หลุด
   const sc = sw.getBoundingClientRect().width / (sw.offsetWidth || 1), a = nlines(tw)[0], c = nlines(ed)[0];
   if (a && c && sc) ed.style.paddingTop = Math.max(0, mt + (a[0] - c[0]) / sc) + 'px';
   tw.style.visibility = 'hidden';
@@ -2786,8 +2790,8 @@ function openEdit(k, j, at) {
     dp, pt0: b.pt, pt: b.pt, fam0: b.ff || '', fam: b.ff || '', px0: parseFloat(ed.style.fontSize), lh0: parseFloat(ed.style.lineHeight)};
   paintSize();
   // เคอร์เซอร์ตรงจุดที่คลิก/แตะ (หาก่อนซูม) ไม่โดนข้อความ = ท้ายข้อความ
-  let r = at && caretAt(at.x, at.y);
-  if (!r || !ed.contains(r.startContainer)) { r = document.createRange(); r.selectNodeContents(ed); r.collapse(false); }
+  let r = !isAddW(b, orig) && at && caretAt(at.x, at.y);
+  if (!r || !ed.contains(r.startContainer)) { r = document.createRange(); r.selectNodeContents(ed); if (!isAddW(b, orig)) r.collapse(false); }   // ใบ 029 คำตั้งต้น = เลือกทั้งหมด พิมพ์ทับ
   ed.focus({preventScroll: true}); const s = getSelection(); s.removeAllRanges(); s.addRange(r);
   if (m) { document.body.appendChild(tb); if (!wide()) { $('rail').style.visibility = 'hidden'; document.body.classList.add('typing'); } zoomIn(ED); kbFit(); }
   else { pgs()[k].appendChild(tb); fitBar(tb, () => tbarHtml(tgt())); placeEdit(); }
@@ -2864,6 +2868,7 @@ function edVis(first) {                   // กล่อง + คำที่�
   if (hr.height <= bot - top) { if (first) dy = hr.top - top - 16; if (hr.bottom - dy > bot) dy = hr.bottom - bot; if (hr.top - dy < top) dy = hr.top - top; }   // เริ่มพิมพ์: กล่องขึ้นไปส่วนบน คีย์บอร์ดขึ้นทีหลังไม่บัง
   else if (cx.bottom > bot || cx.top < top) dy = cx.bottom - bot;
   if (hr.width <= cr.width - 24) { if (hr.right > cr.right - 12) dx = hr.right - cr.right + 12; if (hr.left - dx < cr.left + 12) dx = hr.left - cr.left - 12; }
+  else if (first) dx = hr.left - cr.left - 12;   // ใบ 029 กล่องกว้างกว่าจอ เริ่มพิมพ์: ชิดซ้าย เห็นต้นข้อความ ที่จับซ้าย และปุ่มหมุน (เดิมกล่องค้างครึ่งจอขวา)
   else if (cx.left < cr.left + 12 || cx.right > cr.right - 12) dx = cx.left - cr.left - cr.width / 2;   // กล่องกว้างกว่าจอ: เลื่อนซ้ายขวาตามเคอร์เซอร์
   C.scrollTop += dy; C.scrollLeft += dx;
   const bd = ED.el.querySelector('.bdg');   // กล่องกว้างกว่าจอ (เลื่อนตามเคอร์เซอร์): ป้ายเลื่อนเข้ามาในจอให้อ่านครบ
@@ -2942,7 +2947,7 @@ async function checkEdit() {             // หยุดพิมพ์ 0.5 ว�
 function dropLayer(E) { E.lay.remove(); E.tw.style.visibility = ''; }
 function closeEdit(keep) {                // keep: ชั้นที่พิมพ์ค้างไว้จนภาพที่วาดใหม่พร้อม (swapPage ลบเอง)
   if (!ED) return; const E = ED; closePicker(); document.querySelector('.zmenu')?.remove(); clearTimeout(E.chk); clearTimeout(E.nt); ED = null;
-  $('rail').style.visibility = ''; SELD.classList.remove('on', 'ed', 'lift');
+  $('rail').style.visibility = ''; SELD.classList.remove('on', 'ed', 'lift'); document.querySelectorAll('.hit.under').forEach(h => h.classList.remove('under'));
   if (document.body.classList.contains('typing')) { document.body.classList.remove('typing'); pagesTo(E.k, true); }   // ทีละหน้า: กลับมาที่หน้าเดิมก่อนจอวาด (ไม่งั้นตัวนับหน้าเห็นหน้า 1 แวบหนึ่ง)
   const fade = el => { const a = ani(el, [{opacity: 1}, {opacity: 0}], {duration: 120, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'}); a ? after(a).then(() => el.remove()) : el.remove(); };
   if (E.ed) {
@@ -2958,7 +2963,7 @@ const reselect = (k, b) => { const j = BOX[k]?.findIndex(x => pk(x.p) === pk(b.p
 function finishEdit(apply) {
   if (!ED || ED.saving) return !ED;
   const v = val(ED);
-  if (ED.b.add && !ED.b.ns && !v.trim()) { const {k, b} = ED; closeEdit(); dropAdd(k, b.p[1], ADDNEW?.k === k && ADDNEW?.n === b.p[1]); return true; }   // ใบ 022
+  if (ED.b.add && !ED.b.ns && !v.trim()) { const {k, b} = ED; closeEdit(); dropAdd(k, b.p[1], false); return true; }   // ใบ 022 / 029 ลูกค้าลบคำจนว่างเอง
   if (!apply && ED.rz) { const {k, b, keep} = ED; closeEdit(); busyNow = true; restore(STACK[SP]).catch(console.error).finally(() => { busyNow = false; if (keep) reselect(k, b); }); return true; }   // ไม่เก็บ: กรอบที่ปรับระหว่างพิมพ์กลับด้วย
   if (!apply || (v === ED.orig && !styleDirty(ED) && !ED.rz)) { const {k, b, keep} = ED; closeEdit(); if (keep) reselect(k, b); return true; }
   if (!v.trim() && ['t', 't1'].includes(ED.b.p[0]) && !META[ED.k]?.ins) { closeEdit(); toast('หัวเรื่องว่างไม่ได้ ใช้คำเดิม'); return true; }   // ไม่มีคำที่พิมพ์ให้หาย
@@ -3013,7 +3018,6 @@ async function saveEdit() {
     const A = E.orig.replace(/\s+/g, ' ').trim(), B = v.replace(/\s+/g, ' ').trim();
     let i = 0; while (i < A.length && A[i] === B[i]) i++;
     const parts = [v !== E.orig && 'ข้อความ', E.pt !== E.pt0 && 'ขนาด', E.fam !== E.fam0 && 'ฟอนต์', E.rz && 'กรอบ'].filter(Boolean);
-    if (E.b.add && !E.orig.trim()) ADDNEW = null;
     commit(E.b.add && !E.orig.trim() ? `เพิ่มข้อความ หน้า ${k + 1}` : parts.length > 1 ? `แก้หน้า ${k + 1}: ${parts.join(' ')}` : parts[0] === 'ขนาด' ? `ขนาดตัวอักษรหน้า ${k + 1}: ${fmtPt(E.pt0)} เป็น ${fmtPt(E.pt)}`
       : parts[0] === 'ฟอนต์' ? `ฟอนต์หน้า ${k + 1}: ${E.fam || 'ของดีไซน์'}` : parts[0] === 'กรอบ' ? `ปรับกรอบ หน้า ${k + 1}: ${FIELD(E.b.p)}` : A ? `แก้หน้า ${k + 1}: "${clip(A, i)}" เป็น "${clip(B, i)}"` : `พิมพ์ในหน้า ${k + 1}: "${clip(B, 0)}"`);
     if (E.sst === 'over') toast(E.fam !== E.fam0 ? 'ฟอนต์นี้กว้างกว่า ข้อความไม่พอดีกล่อง ใช้ฟอนต์เดิม' : 'ใหญ่กว่านี้ไม่พอดีกล่อง ใช้ขนาดเดิม');
@@ -3571,7 +3575,7 @@ function save(blob, name) {
 // ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
 const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
-let lastFile = null, ovOk = '', fontToolsOK = false;
+let lastFile = null, ovOk = '', awOk = '', fontToolsOK = false;
 async function act(a, skip) {
   if (ED && !(await applyEdit())) return;   // ใช้คำที่พิมพ์ก่อน แล้วทำคำสั่งต่อในครั้งเดียว ไม่นำเสนอ/บันทึกด้วยคำเก่า
   if (a === 'present') return present();  // ต้องอยู่ในคลิกตรง ๆ ไม่งั้นขอเต็มจอไม่ได้
@@ -3827,6 +3831,16 @@ async function xdGo(skip) {
     $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
       if (b.dataset.m === 'go') { ovOk = key; return xdGo(skip); }
       xdClose(); const q = ov[0]; select(q, {scroll: true}); const j = BOX[q].findIndex(x => x.f); if (j >= 0 && !touch()) setTimeout(() => openEdit(q, j), 380); };
+    return;
+  }
+  // ใบ 029: กล่องที่เพิ่มแต่ยังเป็นคำตั้งต้น (หัวเรื่อง / หัวข้อรอง / ข้อความ) เตือนอย่างเดียว คำตั้งต้นลงไฟล์ตามที่เห็น
+  let aww = ''; const aw = ks.filter(k => !(skip || []).includes(k) && BOX[k]?.some(b => { const t = b.add && !b.pic && curText(k, b); if (!isAddW(b, t)) return false; aww = aww || String(t).trim(); return true; })), akey = aw.join(',');
+  if (aw.length && awOk !== akey) {
+    openSheet(`หน้า ${thaiList(aw.map(q => q + 1))} ยังมีกล่องข้อความที่ยังไม่ได้แก้คำ`, `กล่องที่เพิ่มยังเป็นคำตั้งต้น "${esc(aww)}" ถ้าบันทึกตอนนี้คำนี้จะอยู่ในไฟล์ตามที่เห็น`,
+      `<div class="confirm"><button class="btn btn-line btn-big" data-m="fix" type="button">${ico('type')}กลับไปแก้ข้อความ</button><button class="btn btn-red btn-big" data-m="go" type="button">${ico('down')}บันทึกไฟล์เลย</button></div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
+      if (b.dataset.m === 'go') { awOk = akey; return xdGo(skip); }
+      xdClose(); const q = aw[0]; select(q, {scroll: true}); const j = BOX[q].findIndex(x => x.add && !x.pic && isAddW(x, curText(q, x))); if (j >= 0) setTimeout(() => touch() ? selectBox(q, j) : openEdit(q, j), 380); };
     return;
   }
   if (!skip) {                             // หน้าที่แทรกแล้วยังไม่ได้พิมพ์อะไร: ถามก่อน ไม่ส่งหน้าเปล่าไปในไฟล์เงียบ ๆ
@@ -4748,8 +4762,10 @@ document.addEventListener('keydown', ev => {          // ⌘0 พอดีจอ
 addEventListener('resize', () => { if (Z.s > 1.001) zoomTo(Z.s, null, null, false); });
 // ══ ใบ 022: เพิ่มข้อความ (3 แบบของชุด) / เพิ่มรูปจากเครื่อง (ย่อในเครื่อง ≤2000px เก็บตามแฮชใน IndexedDB 'img') ══
 // ไฟล์จริง: txBox ข้อความจริง + p:pic (D.draw_adds) ชื่อ shape 'add.N' = ของปกติ ย้าย ย่อขยาย หมุน ล็อก เลเยอร์ แต่งข้อความได้ทุกอย่าง
-let ADDNEW = null, IMGREP = null;
+let IMGREP = null;
 const ADDT = [['เพิ่มหัวเรื่อง', 26, 700, 'acc'], ['เพิ่มหัวข้อรอง', 20, 700, 'ink'], ['เพิ่มข้อความ', 15, 400, 'ink']];
+const ADDW = ['หัวเรื่อง', 'หัวข้อรอง', 'ข้อความ'];   // ใบ 029 (ไอซ์ 1 พ.ย.): กล่องใหม่มีคำตามปุ่มที่กด ลงไฟล์จริง แตะแก้ = เลือกคำทั้งหมดพิมพ์ทับ
+const isAddW = (b, t) => !!b?.add && !b.pic && !b.ns && !b.el && ADDW.includes(String(t ?? '').trim());
 function paintText() {
   let pal = {}; try { pal = JSON.parse(py.runPython('json.dumps(D.eng.P)')); } catch (e) {}
   $('textp').innerHTML = `<p class="inote">ใช้ฟอนต์และสีของดีไซน์นี้ ${one() ? 'แตะแล้วได้กล่องกลางหน้า' : 'คลิกเพื่อวางกลางหน้า หรือลากไปวางตรงที่ต้องการ'}</p>` + ADDT.map(([l, z, w, c], v) =>
@@ -4788,12 +4804,13 @@ async function addText(v, at) {
   const k = Math.max(0, cur), [W, H] = [[520, 70], [440, 54], [400, 40]][v], oldKeys = KEYS.slice();
   if (one() || panelOpen('text') && !wide()) closePanel(); deselectBox();
   busyNow = true; await frame(); let n;
-  try { n = await addPy(k, {t: '', r: clampR(at ? at.x - W / 2 : (960 - W) / 2, at ? at.y - H / 2 : (540 - H) / 2, W, H), v}); settle(oldKeys, k); ADDNEW = {k, n}; }
+  try { n = await addPy(k, {t: ADDW[v], r: clampR(at ? at.x - W / 2 : (960 - W) / 2, at ? at.y - H / 2 : (540 - H) / 2, W, H), v}); settle(oldKeys, k); commit(`เพิ่มข้อความ หน้า ${k + 1}`); }
   catch (e) { console.error(e); toast('เพิ่มข้อความไม่สำเร็จ ลองใหม่อีกครั้ง'); return; } finally { busyNow = false; }
-  const j = BOX[k].findIndex(b => b.add && !b.pic && b.p[1] === n); if (j >= 0) openEdit(k, j);   // พิมพ์ได้ทันที (ยังไม่เข้าประวัติจนกว่าจะพิมพ์)
+  const j = BOX[k].findIndex(b => b.add && !b.pic && b.p[1] === n); if (j < 0) return;
+  touch() ? selectBox(k, j) : openEdit(k, j);   // คอม: พิมพ์ทับคำที่เลือกไว้ได้ทันที / จอสัมผัส: iOS ไม่ขึ้นคีย์บอร์ดถ้าไม่ได้มาจากนิ้ว = เลือกกล่องไว้ แตะครั้งเดียวเข้าแก้พร้อมเลือกคำทั้งหมด
 }
-async function dropAdd(k, n, silent, pic, el) {   // ลบชิ้นที่เพิ่ม: กล่องใหม่ที่ไม่ได้พิมพ์ = เงียบ ไม่เข้าประวัติ
-  const oldKeys = KEYS.slice(); if (ADDNEW?.k === k && ADDNEW?.n === n) ADDNEW = null;
+async function dropAdd(k, n, silent, pic, el) {   // ลบชิ้นที่เพิ่ม (ลบคำจนว่างเองก็ลบกล่อง เข้าประวัติ)
+  const oldKeys = KEYS.slice();
   deselectBox(); busyNow = true; await frame();
   try { py.globals.set('IDX', order[k]); py.globals.set('N', n); py.runPython('D.del_obj(ITEMS, IDX, N)'); await paint(); settle(oldKeys, k);
     const nm = el ? ELNM[el] || 'องค์ประกอบ' : pic ? 'รูป' : 'ข้อความ';
@@ -5828,6 +5845,8 @@ function hug(r, b, el) {
   if (!el || b.pic || b.shp || b.g || b.rot || b.ns) return r; const h = Math.max(14, textH(el) + 8); if (h >= r.h - 1) return r;
   const va = b.fm?.va; return {...r, y: va === 'b' ? r.y + r.h - h : va === 'm' ? r.y + (r.h - h) / 2 : r.y, h};
 }
+// ที่จับ: ไม่ใช่การ์ด และบนจอสัมผัสกล่องกว้างพอแตะ (88px บนจอจริง รวมซูม) ใบ 029: เดิมเช็กสูง 44px ด้วย กล่องข้อความบรรทัดเดียวบนมือถือ/iPad ตั้ง (~15-30px) เลยไม่มีที่จับเลย
+const nok = (b, f, pg) => !!b.g || (touch() && f.w * pg.querySelector('.slide').getBoundingClientRect().width / 960 < 88);
 const twOf = (k, b) => shapeOf(k, b, '')?.querySelector('.text-wrapper');
 const kCur = rot => SELD.querySelectorAll('.k').forEach(e => e.style.cursor = rot ? KCUR[(+e.dataset.h + Math.round(rot / 45)) % 4] : '');
 // ไอซ์ 1 พ.ย. (แบบ Canva): พิมพ์อยู่ก็ยังมีที่จับ ย่อขยาย/หมุนได้โดยไม่ต้องกดเสร็จ  กรอบตาม ED.vb (กรอบที่ปรับระหว่างพิมพ์)
@@ -5837,7 +5856,9 @@ function edSel() {
   if (SELD.parentNode !== hs) hs.append(GHOST, SELD, GV, GH);
   Object.assign(SELD.style, {transform: selTf(b.x * sc, b.y * sc, b.w * sc, b.h * sc, b.rot), width: b.w * sc + 'px', height: b.h * sc + 'px'});
   ['lk', 'pic'].forEach(c => SELD.classList.remove(c)); SELD.classList.add('ed'); SELD.classList.toggle('lock', !b.can); SELD.classList.toggle('rot', !!b.rot); SELD.classList.toggle('norot', !b.can || !!b.g);
-  SELD.classList.toggle('nok', !!b.g || (touch() && (v.w * sc < 88 || v.h * sc < 44))); kCur(b.rot); rzCur(b.rot);   // ขนาดพอแตะ: วัดจากกล่องจริง (กรอบกอดข้อความเตี้ยกว่า)
+  SELD.classList.toggle('nok', nok(b, v, pg)); kCur(b.rot); rzCur(b.rot);
+  const R = {x: b.x, y: b.y, w: b.w, h: b.h};   // ใบ 029: กล่องอื่นที่ทับกรอบที่พิมพ์อยู่ไม่รับนิ้ว แตะในกรอบ = ถึงชั้นพิมพ์เสมอ (เดิมโดนกล่องข้างใต้ คีย์บอร์ดหุบ กล่องใหม่หาย)
+  hs.querySelectorAll('.hit').forEach((h, i) => { const o = BOX[E.k]?.[i]; h.classList.toggle('under', i !== E.j && !!o && o.x < R.x + R.w && o.x + o.w > R.x && o.y < R.y + R.h && o.y + o.h > R.y); });
   if (!SELD.classList.contains('on')) requestAnimationFrame(() => { if (ED === E) SELD.classList.add('on'); });
 }
 function paintSel() {
@@ -5850,7 +5871,7 @@ function paintSel() {
   Object.assign(SELD.style, {transform: selTf(r.x * sc, r.y * sc, r.w * sc, r.h * sc, s.b.rot), width: r.w * sc + 'px', height: r.h * sc + 'px'});
   SELD.classList.toggle('lock', !s.b.can && !s.b.lk && !s.b.shp); SELD.classList.toggle('shp', !!s.b.shp); SELD.classList.toggle('lk', !!s.b.lk); SELD.classList.toggle('rot', !!s.b.rot); SELD.classList.toggle('norot', !s.b.can); SELD.classList.toggle('pic', !!s.b.pic);
   kCur(s.b.rot); rzCur(s.b.rot);   // ที่จับหมุนตามกรอบ เคอร์เซอร์หมุนตาม
-  const f0 = rectOf(s.b); SELD.classList.toggle('nok', !!s.b.g || (touch() && (f0.w * sc < 88 || f0.h * sc < 44)));   // วัดจากกล่องจริง ไม่ใช่กรอบกอดข้อความ   // ที่จับ: ไม่ใช่การ์ด และบนจอสัมผัสกล่องต้องใหญ่พอ 88×44
+  SELD.classList.toggle('nok', nok(s.b, rectOf(s.b), pg));
   if (!SELD.classList.contains('on')) requestAnimationFrame(() => { if (SEL) SELD.classList.add('on'); });
   hs.querySelectorAll('.hit').forEach((h, i) => h.classList.toggle('selx', i === s.j && !!s.b.can));
   paintBar(s.b, pg, sc);
