@@ -1,2 +1,4 @@
 # Netlify _redirects — ตัด .html ออกจาก URL
+/slidestudio   /studio/  301
+/slidestudio/  /studio/  301
 /*.html  /:splat  301!
