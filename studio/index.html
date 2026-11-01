@@ -1757,7 +1757,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101h';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101i';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -3192,10 +3192,8 @@ function lookHtml() {
 // ── เปลี่ยนหน้าตาทั้งไฟล์: คำที่แก้ตามไป (แก้ใน WANT แล้ว) ที่ตามไม่ได้บอกก่อน ──
 async function changeLook(s2, sure) {
   if (s2 === slug || busyNow || running || viewing) return;
-  const mvd = META.some(m => m?.mv);
-  if (!sure && (LOST || arranged || mvd)) {
+  if (!sure && (LOST || arranged)) {   // ใบ 030: กล่องที่ย้ายไว้ตามไปหน้าตาใหม่แล้ว (carry_page) ไม่ต้องเตือน
     const s = SETS.find(x => x.slug === s2), lines = [];
-    if (mvd) lines.push('กล่องที่ย้ายไว้จะกลับไปที่เดิมของหน้าตาใหม่');
     if (LOST) lines.push(`คำที่แก้ไว้ ${LOST} จุดอยู่ในข้อความที่ระบบรวมหรือแบ่งเอง จะไม่ตามไปหน้าตาใหม่`);
     if (arranged) lines.push('หน้าที่ย้าย ลบ ทำสำเนา หรือเปลี่ยนแบบไว้ จะกลับเป็นแบบที่ระบบจัด');
     if (STACK.slice(0, SP + 1).some(x => /^แก้หน้า/.test(x.label))) lines.push(`${LOST ? 'คำที่แก้ไว้ในจุดอื่น' : 'คำที่แก้ไว้'}จะตามไปหน้าตาใหม่ กดเลิกทำเพื่อกลับมาแบบนี้ได้`);
