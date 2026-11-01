@@ -1592,7 +1592,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101d';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101e';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -3520,16 +3520,34 @@ async function xdFace(fam) {
   const x = FACEB.get(fam); if (x) for (const [i, buf] of x.entries()) css += `@font-face{font-family:'${q}';src:url(${await xdB64(new Blob([buf]))});font-weight:${i ? 700 : 400}}`;
   xdCss.set(fam, css); return css;
 }
+// ไอซ์ 1 พ.ย. (024): รูปใน SVG ที่วาดลง canvas โหลด URL ภายนอก/blob: ไม่ได้ (ภาพหายในหน้าที่มีรูปถ่าย) = แปลงทุกรูปเป็น data: ก่อน (img, SVG image, background-image)
+const XDIMG = new Map();
+async function xdData(u) {
+  if (!u || u.startsWith('data:')) return u;
+  if (!XDIMG.has(u)) XDIMG.set(u, fetch(u).then(r => r.blob()).then(xdB64).catch(() => u));
+  return XDIMG.get(u);
+}
+async function xdInline(node) {
+  const jobs = [];
+  node.querySelectorAll('img').forEach(e => jobs.push(xdData(e.currentSrc || e.getAttribute('src')).then(d => { e.setAttribute('src', d); e.removeAttribute('srcset'); })));
+  node.querySelectorAll('image').forEach(e => { const a = e.getAttribute('href') ? 'href' : 'xlink:href', v = e.getAttribute(a); if (v) jobs.push(xdData(v).then(d => e.setAttribute(a, d))); });
+  [node, ...node.querySelectorAll('[style]')].forEach(e => { const bg = e.style?.backgroundImage; const m = bg && bg.match(/url\(["']?([^"')]+)["']?\)/); if (m && !m[1].startsWith('data:')) jobs.push(xdData(m[1]).then(d => { e.style.backgroundImage = `url("${d}")`; })); });
+  await Promise.all(jobs);
+}
 async function xdRast(k, lvl, type) {
   const key = `${KEYS[k]}|${k}|${lvl}|${type}`; if (xdCache.has(key)) return xdCache.get(key);
   const [s, q] = XLV[lvl], W = Math.round(960 * s), H = Math.round(540 * s), node = cloneSlide(slides[k]), hs = XD?.hs[k];
   if (hs?.size) node.querySelectorAll('.text-wrapper').forEach(t => { if (hs.has(t.textContent.trim())) t.style.visibility = 'hidden'; });   // คำใบ้บนจอ (หน้าแทรก/กล่องว่าง) ไม่ลงรูป เหมือนไม่ลงไฟล์
   const fams = new Set(); [node, ...node.querySelectorAll('[style]')].forEach(e => (e.style?.fontFamily || '').split(',').forEach(x => { x = x.trim().replace(/^["']|["']$/g, ''); if (x) fams.add(x); }));
   let css = ''; for (const f of fams) css += await xdFace(f);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 960 540"><foreignObject x="0" y="0" width="960" height="540"><div xmlns="http://www.w3.org/1999/xhtml" style="position:relative;width:960px;height:540px;overflow:hidden;line-height:1.6;font-family:sans-serif;-webkit-font-smoothing:antialiased"><style>*{box-sizing:border-box;margin:0;padding:0}${css}</style>${new XMLSerializer().serializeToString(node)}</div></foreignObject></svg>`;
+  await xdInline(node);
+  // ไอซ์ 1 พ.ย. (024): Safari ไม่ย่อ/ขยาย foreignObject ตาม viewBox = สไลด์ครึ่งเดียวมุมซ้ายบน + ของที่ล้นสไลด์ห้อยออกมา
+  // ขยายด้วย CSS transform ข้างใน (ไม่พึ่ง viewBox ไม่พึ่งซูม/เลย์เอาต์บนจอ) + ตัดขอบที่กรอบสไลด์สองชั้น (div + clip-path)
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}"><foreignObject x="0" y="0" width="${W}" height="${H}"><div xmlns="http://www.w3.org/1999/xhtml" style="position:relative;width:${W}px;height:${H}px;overflow:hidden;clip-path:inset(0)"><div style="position:absolute;left:0;top:0;width:960px;height:540px;overflow:hidden;clip-path:inset(0);transform:scale(${W / 960});transform-origin:0 0;line-height:1.6;font-family:sans-serif;-webkit-font-smoothing:antialiased"><style>*{box-sizing:border-box;margin:0;padding:0}${css}</style>${new XMLSerializer().serializeToString(node)}</div></div></foreignObject></svg>`;
   const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); await img.decode();
   const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
   // ponytail: วาดสองรอบ Safari ถอดฟอนต์/รูปใน foreignObject ไม่ทันรอบแรก
+  x.beginPath(); x.rect(0, 0, W, H); x.clip();
   for (let i = 0; i < 2; i++) { x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); x.drawImage(img, 0, 0, W, H); if (!i) await sleep(0); }
   const bl = await new Promise((r, j) => c.toBlob(b => b ? r(b) : j(new Error('toBlob')), type, q));
   xdCache.set(key, bl); return bl;
