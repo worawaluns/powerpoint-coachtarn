@@ -1270,6 +1270,75 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 @media (max-width:767px){.chty .sts{gap:6px}.chpals,.chsws{gap:6px}}
 @media (max-width:1023px){body.panelon:has(#rp[data-p=ch].on) .toast{bottom:calc(62dvh + 12px)}}   /* แผ่นกราฟเปิด: แจ้งเตือนอยู่เหนือแผ่น ไม่ทับปุ่ม */
 @media (prefers-reduced-motion:reduce){.chsel i,.slide.chwait .slidebox [data-ck],.slide.chlift .slidebox [data-m],.chpv .bars i,.chst .im img{transition:none}.cherr,.chtip{animation:none}}
+/* ใบ 024 หน้าต่างบันทึก: คอม/iPad กลางจอ กว้างไม่เกิน 600 / มือถือแผ่นล่างเต็มจอ (ขอบบน 12) ระยะในแผง 24 / 16 */
+.xdw{position:fixed;inset:0;z-index:64;display:flex;align-items:center;justify-content:center}
+.xdw::before{content:'';position:absolute;inset:0;background:rgba(20,20,26,.45);animation:fadeIn .2s ease both}
+.xd{position:relative;width:min(600px,calc(100vw - 48px));max-height:calc(100dvh - 48px);background:#fff;border-radius:20px;display:flex;flex-direction:column;box-shadow:0 16px 48px rgba(20,20,26,.22);overflow:hidden;animation:xdIn .28s var(--ease) both;outline:none}
+@keyframes xdIn{from{opacity:0;transform:translateY(8px) scale(.98)}}
+@keyframes xdUp{from{transform:translateY(100%)}}
+.xd svg.i{display:block;width:20px;height:20px;flex:none}.xd svg.i.i16{width:16px;height:16px;stroke-width:2.5}
+.xd .grab{display:none}
+.xd .hd{display:flex;align-items:center;gap:8px;padding:16px 16px 0 24px}
+.xd .hd h3{flex:1;min-width:0;font-size:18px;font-weight:700;line-height:1.6}
+.xd .hd .who{display:block;font-size:13px;font-weight:500;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xd .x{width:44px;height:44px;border:none;background:none;border-radius:12px;display:grid;place-items:center;color:var(--mid);flex:none}
+.xd .x:hover{background:var(--bg)}
+.xd .bd{flex:1;min-height:0;overflow:auto;padding:12px 24px 20px;overscroll-behavior:contain}
+.xd .ft{padding:16px 24px 20px;border-top:1px solid var(--line);background:#fff}.xd .ft:empty{display:none}
+.xd .seg{display:inline-flex;background:var(--bg);border-radius:14px;padding:4px;gap:4px;max-width:100%}
+.xd .seg button{height:44px;border:none;background:none;border-radius:10px;font-size:15px;font-weight:600;line-height:1.6;color:var(--sub);white-space:nowrap;padding:0 16px;transition:background .15s,color .15s}
+.xd .seg button.on{background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(20,20,26,.1)}
+.xd .lb{font-size:15px;font-weight:600;line-height:1.6;margin:20px 0 8px;display:flex;align-items:center;gap:8px}
+.xd .lb:first-child{margin-top:4px}
+.xd .lb em{font-style:normal;font-weight:500;color:var(--sub);margin-left:auto;font-size:14px;font-variant-numeric:tabular-nums}
+.xd .fmts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding-top:9px}
+.xd .fmt{position:relative;height:88px;border:1px solid var(--line);background:#fff;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 4px;min-width:0}
+.xd .fmt:hover{border-color:#D5D5DC}
+.xd .fmt.on{border:2px solid var(--text)}
+.xd .fmt b{font-size:12px;font-weight:700;line-height:1.6;color:#fff;border-radius:6px;padding:1px 8px;letter-spacing:.02em}
+.xd .fmt span{font-size:14px;font-weight:600;line-height:1.6;color:var(--mid);white-space:nowrap}
+.xd .fmt.on span{color:var(--text)}
+.xd .rec{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--soft);color:var(--red);border:1px solid #F6C9BA;font-size:11px;font-weight:600;line-height:1.6;font-style:normal;padding:0 8px;border-radius:999px;white-space:nowrap}
+.xd .help{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.7;color:var(--mid);margin-top:12px;background:var(--bg);border-radius:12px;padding:12px 16px}
+.xd .help svg{margin-top:4px;color:var(--sub)}
+.xd .tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.xd .tb{position:relative;border:2px solid transparent;border-radius:10px;padding:0;background:none;box-shadow:0 0 0 1px var(--line);overflow:hidden;min-height:44px}
+.xd .tb.on{border-color:var(--text);box-shadow:none}
+.xd .tb .slidebox{border-radius:0;pointer-events:none}
+.xd .tb .n{position:absolute;left:6px;top:6px;min-width:24px;height:24px;border-radius:8px;background:#fff;font-size:12px;font-weight:700;font-style:normal;line-height:24px;text-align:center;color:var(--text);box-shadow:0 1px 3px rgba(20,20,26,.15)}
+.xd .tb .ck{position:absolute;right:6px;top:6px;width:24px;height:24px;border-radius:50%;border:2px solid #fff;background:rgba(255,255,255,.7);display:grid;place-items:center;color:#fff}
+.xd .tb.on .ck{background:var(--text);border-color:var(--text)}
+.xd .selrow{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:14px;font-weight:500;line-height:1.6;color:var(--mid)}
+.xd .lnk{height:44px;border:none;background:none;font-size:14px;font-weight:600;color:var(--red);padding:0 4px;white-space:nowrap}
+.xd input[type=range]{display:block;width:100%;height:44px;margin:0;accent-color:var(--text);cursor:pointer}
+.xd .ends{display:flex;justify-content:space-between;font-size:13px;font-weight:500;line-height:1.6;color:var(--sub);margin-top:-4px}
+.xd .size{font-size:14px;font-weight:500;line-height:1.6;color:var(--mid);margin-top:12px;display:flex;gap:8px;align-items:flex-start}.xd .size svg{margin-top:3px;color:var(--sub)}
+.xd .size b{color:var(--text);font-variant-numeric:tabular-nums}
+.xd .black{height:52px;width:100%;border:none;border-radius:14px;background:#15151A;color:#fff;display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:700;line-height:1.6;padding:0 16px}
+.xd .black:disabled{background:#D5D5DC;color:#fff}
+.xd .line{height:52px;width:100%;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--text);display:flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:600;line-height:1.6;margin-top:10px;padding:0 16px}
+.xd .line:hover{background:var(--bg)}
+.xd .ft .line:first-child{margin-top:0}
+.xd .fnote{font-size:13px;line-height:1.6;color:var(--sub);text-align:center;margin-top:8px}
+.xd .pv{border-radius:12px;overflow:hidden;box-shadow:0 0 0 1px var(--line);margin-top:16px}
+.xd .prog{height:8px;border-radius:8px;background:var(--line);overflow:hidden;margin:16px 0 8px}
+.xd .prog i{display:block;height:100%;width:0;min-width:8px;background:var(--text);border-radius:8px;transition:width .25s var(--ease)}
+.xd .prow{display:flex;justify-content:space-between;font-size:14px;font-weight:500;line-height:1.6;color:var(--mid);font-variant-numeric:tabular-nums}
+.xd .prow b{color:var(--text)}
+.xd .ok{width:56px;height:56px;margin:8px auto 12px;border-radius:50%;background:#EEF7F1;color:var(--ok);display:grid;place-items:center}
+.xd .ok svg.i{width:28px;height:28px;stroke-width:1.43}
+.xd .ctr{text-align:center}.xd .ctr h4{font-size:18px;font-weight:700;line-height:1.6}.xd .ctr p{font-size:14px;line-height:1.7;color:var(--mid);margin-top:6px;overflow-wrap:anywhere}
+.xd .ctr .spin{margin:8px auto 12px;width:28px;height:28px}
+@media (max-width:767px){
+  .xdw{align-items:flex-end}
+  .xd{width:100%;max-height:none;height:calc(100dvh - 12px);border-radius:20px 20px 0 0;animation:xdUp .32s var(--ease) both}
+  .xd .grab{display:block;width:40px;height:5px;border-radius:5px;background:#DADAE0;margin:8px auto 0;flex:none}
+  .xd .hd{padding:8px 8px 0 16px}.xd .bd{padding:8px 16px 16px}.xd .ft{padding:12px 16px calc(16px + var(--safe))}
+  .xd .fmts{gap:6px}.xd .fmt{height:80px;padding:0 2px}.xd .fmt span{font-size:13px}
+  .xd .seg button{padding:0 12px}
+  .xd .tgrid{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion:reduce){.xd,.xdw::before{animation:none}.xd .prog i{transition:none}}
 </style>
 </head>
 <body>
@@ -1523,7 +1592,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101c';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101d';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -3316,7 +3385,7 @@ $('pres').addEventListener('touchstart', e => { psx = e.touches[0].clientX; pres
 $('pres').addEventListener('touchend', e => { if (psx == null) return; const dx = e.changedTouches[0].clientX - psx; psx = null;
   if (Math.abs(dx) > 50) { if (e.cancelable) e.preventDefault(); pGo(dx < 0 ? 1 : -1); } });
 
-// ── บันทึก: มี Code โหลด .pptx ทันที แล้วแผ่น ส่งต่อ/ฟอนต์ / ไม่มี Code หน้าขอ Code เดิม ──
+// ── บันทึก: หน้าต่างเลือกส่งออก (ใบ 024 ด้านล่าง) / ส่งต่อ / ฟอนต์ ──
 function save(blob, name) {
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
@@ -3336,62 +3405,7 @@ async function act(a, skip) {
   }
   if (busyNow || (viewing && a !== 'look')) return;
   if (a === 'look') { panelOpen('look') ? closePanel() : openPanel('look'); return; }
-  if (a === 'save' && !member()) {
-    openSheet('', '', `<div class="done"><div class="paycover"><div class="slidebox" id="paycv"></div></div>
-      <h3>สไลด์ของคุณพร้อมแล้ว ${slides.length} หน้า</h3><p>ดูได้ฟรีทุกหน้า โหลดไฟล์ PowerPoint ได้เมื่อมี Code</p>
-      <p>สำหรับลูกค้าที่ซื้อคลังเทมเพลต Coach Tarn แล้ว กรอก Code ที่ได้ทางอีเมล แล้วกลับมากดบันทึกที่หน้านี้ได้เลย (ถ้าล้างข้อมูลเบราว์เซอร์ ต้องกรอกใหม่)</p>
-      ${saveSt === 'no' ? '' : '<p>งานที่แก้ไว้เก็บในเครื่องนี้ กลับมาทำต่อได้</p>'}
-      <a class="btn btn-red btn-big" href="/download" target="_blank" rel="noopener">${ico('lock')}กรอก Code</a>
-      <a class="btn btn-line btn-big" href="/" target="_blank" rel="noopener">ดูคลังเทมเพลต</a></div>`);
-    if (slides[0]) mount($('paycv'), slides[0]);        // ใช้ปกงานของลูกค้าเองเป็นภาพ (เห็นของก่อนแล้วค่อยขอ)
-    return;
-  }
-  if (a === 'save') {                       // หน้าที่ข้อความล้นกรอบ (ออกจากกล่องตอนยังยาวเกิน): เตือนครั้งเดียวต่อชุดหน้าที่ล้น ไม่บล็อก
-    const ov = META.map((m, q) => m.ov && !(skip || []).includes(q) ? q : -1).filter(q => q >= 0), key = ov.join(',');
-    if (ov.length && ovOk !== key) {
-      const one = ov.length === 1;
-      openSheet(`หน้า ${thaiList(ov.map(q => q + 1))} มีข้อความล้นกรอบ`, `คำยังอยู่ครบ แต่ในไฟล์ PowerPoint ข้อความจะล้นออกนอกกรอบของ${one ? 'หน้านี้' : 'หน้าเหล่านี้'} อยากให้พอดี กดกลับไปแก้แล้วลบข้อความออกอีกนิด`,
-        `<div class="confirm"><button class="btn btn-line btn-big" data-m="fix" type="button">${ico('type')}กลับไปแก้ข้อความ</button><button class="btn btn-red btn-big" data-m="go" type="button">${ico('down')}บันทึกไฟล์เลย</button></div>`);
-      $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
-        if (b.dataset.m === 'go') { ovOk = key; return act('save', skip); }
-        const q = ov[0]; select(q, {scroll: true}); const j = BOX[q].findIndex(x => x.f); if (j >= 0 && !touch()) setTimeout(() => openEdit(q, j), 380); };
-      return;
-    }
-  }
-  if (a === 'save' && !skip) {              // หน้าที่แทรกแล้วยังไม่ได้พิมพ์อะไร: ถามก่อน ไม่ส่งหน้าเปล่าไปในไฟล์เงียบ ๆ
-    const bl = JSON.parse(py.runPython(`json.dumps([p for p, i in enumerate(${JSON.stringify(order)}) if CS[i].get('_ins') and D.blank_page(ITEMS[i][1])])`));
-    if (bl.length) {
-      const nm = bl.map(k => k + 1).join(', '), one = bl.length === 1;
-      openSheet(`หน้า ${nm} ยังไม่มีข้อความ`, one ? 'หน้านี้เพิ่มไว้แต่ยังไม่ได้พิมพ์ ถ้าบันทึกตอนนี้จะเป็นหน้าเปล่าในไฟล์' : 'หน้าเหล่านี้เพิ่มไว้แต่ยังไม่ได้พิมพ์ ถ้าบันทึกตอนนี้จะเป็นหน้าเปล่าในไฟล์',
-        `<div class="confirm"><button class="btn btn-line btn-big" data-m="type" type="button">${ico('type')}กลับไปพิมพ์ข้อความ</button><button class="btn btn-red btn-big" data-m="skip" type="button">${ico('down')}บันทึกโดยไม่เอา${one ? 'หน้านี้' : 'หน้าเหล่านี้'}</button></div>`);
-      $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
-        if (b.dataset.m === 'skip') return act('save', bl);
-        select(bl[0], {scroll: true}); const j = BOX[bl[0]].findIndex(x => ['t', 't1'].includes(x.p[0])); if (BOX[bl[0]].length) setTimeout(() => openEdit(bl[0], Math.max(0, j)), 380); };
-      return;
-    }
-  }
-  if (a === 'save') {
-    const lb = $('savelbl'); lb.textContent = 'กำลังทำไฟล์…'; $('savebtn').disabled = true; $('savebtn').classList.add('mk'); busyNow = true;
-    await frame(); await frame();
-    try {                                     // ฝังฟอนต์ที่เลือก (ใบ 015 เฟส 5) ต้องใช้ fontTools โหลดเฉพาะตอนงานมีฟอนต์ที่เลือก
-      if (!fontToolsOK && py.runPython('bool([f for f in D.fonts_used(ITEMS) if f in D.FONTX and f not in D.LOCALF])')) { await py.loadPackage('fonttools'); fontToolsOK = true; }
-    } catch (e) { console.warn(e); }
-    try { if (dirty || skip) makeDeck(skip || []); } catch (e) { console.error(e); toast('ทำไฟล์ไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
-    finally { lb.textContent = 'บันทึก'; $('savebtn').disabled = false; $('savebtn').classList.remove('mk'); busyNow = false; }
-    const f = lastFile = new File([deckBuf], fname() + '.pptx', {type: PPTX});
-    save(f, f.name);
-    const canSend = !!(navigator.canShare && navigator.canShare({files: [f]}));
-    const s = SETS.find(x => x.slug === slug);
-    const fam = [...new Set(s.faces.map(x => x.split(':')[0].replace(/ (Light|SemiBold|Medium|ExtraBold)$/, '')))].join(', ');
-    openSheet('', '', `<div class="done"><span class="big">${ico('check')}</span><h3>บันทึกเป็นไฟล์แล้ว</h3>
-      <p>"${esc(f.name)}" อยู่ในโฟลเดอร์ดาวน์โหลดของเครื่อง</p>
-      <p>สไลด์ชุดนี้ใช้ฟอนต์ ${esc(fam)} ติดตั้งฟอนต์ก่อนเปิดไฟล์ ตัวอักษรไทยจะได้หน้าตาเหมือนที่เห็นนี้</p>
-      ${canSend ? `<button class="btn btn-red btn-big" data-m="send" type="button">${ico('send')}ส่งต่อทาง LINE หรืออีเมล</button>` : ''}
-      <button class="btn ${canSend ? 'btn-line' : 'btn-red'} btn-big" data-m="fonts" type="button">${ico('type')}โหลดฟอนต์ที่ใช้</button>
-      <button class="btn btn-line btn-big" data-m="close" type="button">ปิด</button></div>`);
-    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; if (b.dataset.m === 'close') return closeSheet(); act(b.dataset.m); };
-    return;
-  }
+  if (a === 'save') return xdOpen();       // ใบ 024: กดบันทึกทุกที่ = หน้าต่างเลือกชนิดไฟล์ หน้า คุณภาพ (ไม่โหลดเงียบ ไม่ถาม Code ในหน้าต่าง)
   if (a === 'send' && lastFile) {
     try { await navigator.share({files: [lastFile], title: ttl}); closeSheet(); toast('ส่งไฟล์แล้ว'); }
     catch (e) { if (e.name !== 'AbortError') toast('ส่งไม่สำเร็จ ไฟล์อยู่ในเครื่องแล้ว ส่งจากโฟลเดอร์ดาวน์โหลดได้'); }
@@ -3402,6 +3416,282 @@ async function act(a, skip) {
     py.globals.set('FF', py.toPy(s.fonts));
     save(new Blob([pptx('D.fonts_zip(FF)')], {type: 'application/zip'}), 'ฟอนต์ ' + s.style + '.zip'); toast('โหลดฟอนต์แล้ว');
   }
+}
+
+// ══ ใบ 024: หน้าต่างบันทึก (ดาวน์โหลด PPTX / PDF / PNG / JPG) ══════════════════════════════════════
+// รูปและ PDF ทำในเครื่องลูกค้า: แผ่นบนจอ (pptx-preview DOM) -> SVG foreignObject (ฝังฟอนต์เป็น data:) -> canvas ทีละหน้า
+// ponytail: ไม่มีไลบรารีเพิ่ม PDF = รูป JPEG ต่อหน้า (แก้ข้อความไม่ได้ ตามที่บอกลูกค้า) / zip = เก็บเฉย ๆ ไม่บีบ (รูปบีบมาแล้ว)
+// แชร์เป็นลิงก์ยังไม่ทำ (ไอซ์ 1 พ.ย. รอใบ 011) แท็บซ่อนไว้ทั้งแถบ
+const XFM = {pptx: ['PPTX', 'PowerPoint', '#D35230'], pdf: ['PDF', 'PDF', '#C9372C'], png: ['PNG', 'รูป PNG', '#2F6FEB'], jpg: ['JPG', 'รูป JPG', '#2E7D4F']};
+const XHELP = {pptx: ['file', 'เปิดแก้ต่อใน PowerPoint ได้ทุกหน้า ข้อความเป็นตัวอักษรจริง กราฟกดแก้ตัวเลขใน Excel ได้'],
+  pdf: ['file', 'ทุกหน้ารวมในไฟล์เดียว เปิดได้ทุกเครื่อง สั่งพิมพ์ได้ แต่แก้ข้อความไม่ได้'],
+  png: ['image', 'หนึ่งหน้าได้หนึ่งรูป ภาพคมชัด พื้นหลังไม่เพี้ยน รวมทุกรูปเป็นไฟล์ .zip ไฟล์เดียว (เลือกหน้าเดียวได้รูปเดียว)'],
+  jpg: ['image', 'หนึ่งหน้าได้หนึ่งรูป ไฟล์เล็ก ส่งทาง LINE หรือโพสต์ได้ทันที รวมทุกรูปเป็นไฟล์ .zip ไฟล์เดียว (เลือกหน้าเดียวได้รูปเดียว ไม่ต้องแตก zip)']};
+const XLV = [[1, .72], [1.5, .8], [2, .88], [2.5, .9], [3, .92]];   // [เท่าของ 960x540, คุณภาพ JPEG] / ไฟล์เล็ก = 0 คมชัด = 2 (ค่าเริ่ม ไอซ์ 1 พ.ย.)
+const FACEB = new Map();                 // ฟอนต์ที่ลูกค้าเลือกเพิ่ม (Google / ในเครื่อง) ชื่อ -> [ปกติ, หนา] ไว้ฝังในรูป
+let XD = null, xdFontJ = null, xdEstN = 0, xdEstT = 0;
+const xdCss = new Map(), xdCache = new Map();
+const xdMB = b => b < 1048576 ? Math.max(1, Math.round(b / 1024)) + ' KB' : (b / 1048576).toFixed(1) + ' MB';
+const xdIco16 = n => `<svg class="i i16" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+function xdPages() {
+  const n = slides.length;
+  if (XD.pg === 'all') return [...Array(n).keys()];
+  if (XD.pg === 'one') return [Math.max(0, Math.min(cur, n - 1))];
+  return [...XD.sel].filter(k => k < n).sort((a, b) => a - b);
+}
+function xdOpen() {
+  if (!slides.length || $('xdw')) return;
+  endTour(true);                           // การ์ดสอนใช้ (z 81) ไม่ค้างทับหน้าต่าง กดบันทึกเองแล้ว = รู้จักปุ่มนี้แล้ว
+  let m = {}; try { m = JSON.parse(localStorage.getItem('ct_xd') || '{}'); } catch (e) {}
+  let who = ''; try { who = (JSON.parse(localStorage.getItem('ct_lib') || 'null') || {}).name || ''; } catch (e) {}
+  let hs = []; try { hs = JSON.parse(py.runPython(`json.dumps([(sorted(D.hinted(ITEMS[i][1], CS[i]["kind"])[1]) if CS[i].get("_ins") else []) + (list(D.ADDPH) if any("t" in o and not str(o["t"]).strip() for o in ITEMS[i][1].get("add") or []) else []) for i in ${JSON.stringify(order)}], ensure_ascii=False)`)); } catch (e) { console.warn(e); }
+  XD = {fmt: XFM[m.f] ? m.f : 'pptx', pg: ['all', 'one', 'ch'].includes(m.p) ? m.p : 'all', lvl: m.l >= 0 && m.l < XLV.length ? m.l : 2, sel: new Set(slides.map((_, k) => k)), hs: hs.map(x => new Set(x)), run: null, back: document.activeElement};
+  document.body.insertAdjacentHTML('beforeend', `<div class="xdw" id="xdw"><div class="xd" role="dialog" aria-modal="true" aria-labelledby="xdT" tabindex="-1">
+    <div class="grab"></div><div class="hd"><h3 id="xdT">บันทึกงาน${who ? `<small class="who">บัญชี ${esc(who)}</small>` : ''}</h3><button class="x" type="button" data-x="close" aria-label="ปิด">${ico('x')}</button></div>
+    <div class="bd" id="xdB"></div><div class="ft" id="xdF"></div></div></div>`);
+  const w = $('xdw');
+  w.addEventListener('click', ev => { if (ev.target === w) return xdClose(); xdClick(ev); });
+  w.querySelector('.xd').focus({preventScroll: true});
+  document.addEventListener('keydown', xdKey, true);
+  xdOpts();
+}
+function xdKey(ev) { if (ev.key !== 'Escape' || !$('xdw') || $('sheet').classList.contains('on')) return; ev.preventDefault(); ev.stopPropagation(); xdClose(); }
+function xdClose() {
+  if (XD?.run) XD.run.cancel = true;
+  $('xdw')?.remove(); document.removeEventListener('keydown', xdKey, true);
+  xdCache.clear(); xdEstN++; clearTimeout(xdEstT); try { XD?.back?.focus?.({preventScroll: true}); } catch (e) {} XD = null;
+}
+function xdKeep() { try { localStorage.setItem('ct_xd', JSON.stringify({f: XD.fmt, p: XD.pg, l: XD.lvl})); } catch (e) {} }
+function xdLabel(k) {
+  const f = XD.fmt;
+  if (f === 'pptx') return `ดาวน์โหลด PowerPoint ${k} หน้า`;
+  if (f === 'pdf') return `ดาวน์โหลด PDF ${k} หน้า`;
+  return `ดาวน์โหลด${XFM[f][1]} ${k} รูป${k > 1 ? ' (.zip)' : ''}`;
+}
+function xdOpts() {
+  const B = $('xdB'), n = slides.length, f = XD.fmt, top = B.scrollTop;
+  const seg = (k, v, l, on) => `<button type="button" role="radio" aria-checked="${on}" class="${on ? 'on' : ''}" data-${k}="${v}">${l}</button>`;
+  B.innerHTML = `<div class="lb" id="xdFl">ชนิดไฟล์</div><div class="fmts" role="radiogroup" aria-labelledby="xdFl">${Object.entries(XFM).map(([k, [b, s, c]]) =>
+      `<button class="fmt${k === f ? ' on' : ''}" type="button" role="radio" aria-checked="${k === f}" data-f="${k}">${k === 'pptx' ? '<i class="rec">แนะนำ</i>' : ''}<b style="background:${c}">${b}</b><span>${s}</span></button>`).join('')}</div>
+    <p class="help">${xdIco16(XHELP[f][0])}<span>${XHELP[f][1]}</span></p>
+    <div class="lb" id="xdPl">เลือกหน้า<em id="xdCnt"></em></div><div class="seg" role="radiogroup" aria-labelledby="xdPl">${seg('p', 'all', `ทั้งหมด (${n})`, XD.pg === 'all')}${seg('p', 'one', 'หน้านี้', XD.pg === 'one')}${seg('p', 'ch', 'เลือกเอง', XD.pg === 'ch')}</div>
+    ${XD.pg === 'ch' ? `<div class="tgrid" id="xdTg">${slides.map((_, k) => `<button class="tb${XD.sel.has(k) ? ' on' : ''}" type="button" role="checkbox" aria-checked="${XD.sel.has(k)}" aria-label="หน้า ${k + 1}" data-k="${k}"><div class="slidebox"></div><i class="n">${k + 1}</i><i class="ck">${xdIco16('check')}</i></button>`).join('')}</div>
+      <div class="selrow"><span>แตะภาพเพื่อเลือกหรือเอาออก</span><button class="lnk" type="button" data-x="all" id="xdAll"></button></div>` : ''}
+    ${f === 'pptx' ? `<p class="size">${xdIco16('info')}<span>ขนาดไฟล์ประมาณ <b id="xdSz"></b></span></p>`
+      : `<div class="lb" id="xdQl">คุณภาพ</div><div class="seg" role="radiogroup" aria-labelledby="xdQl" id="xdQ">${seg('q', 0, 'ไฟล์เล็ก', XD.lvl === 0)}${seg('q', 2, 'คมชัด', XD.lvl === 2)}</div>
+      <div class="lb">ขนาดไฟล์<em id="xdSz"></em></div><input type="range" id="xdR" min="0" max="${XLV.length - 1}" step="1" value="${XD.lvl}" aria-label="ขนาดไฟล์ เล็กกว่าไปคมกว่า">
+      <div class="ends"><span>เล็กกว่า ส่งง่าย</span><span>คมกว่า</span></div><p class="size">${xdIco16('image')}<span id="xdPx"></span></p>`}`;
+  if (XD.pg === 'ch') B.querySelectorAll('.tb').forEach(t => mount(t.querySelector('.slidebox'), slides[+t.dataset.k]));
+  const r = $('xdR'); if (r) r.oninput = () => { XD.lvl = +r.value; xdKeep(); xdSync(); };
+  B.scrollTop = top; xdSync();
+}
+function xdSync() {                       // ตัวนับ ปุ่มดำ ขนาดภาพ ตามตัวเลือกทันที (ไม่วาดภาพย่อใหม่)
+  const ks = xdPages(), k = ks.length, n = slides.length;
+  $('xdCnt').textContent = XD.pg === 'ch' ? `เลือกแล้ว ${k} จาก ${n} หน้า` : XD.pg === 'one' ? `หน้า ${ks[0] + 1}` : '';
+  if ($('xdAll')) $('xdAll').textContent = k === n ? 'เอาออกทั้งหมด' : 'เลือกทั้งหมด';
+  if ($('xdQ')) $('xdQ').querySelectorAll('button').forEach(b => { const on = +b.dataset.q === XD.lvl; b.classList.toggle('on', on); b.setAttribute('aria-checked', on); });
+  if ($('xdPx')) { const s = XLV[XD.lvl][0]; $('xdPx').textContent = `รูปกว้าง ${Math.round(960 * s)} x ${Math.round(540 * s)} จุด${XD.fmt === 'pdf' ? ' ทุกหน้า' : ''}`; }
+  $('xdF').innerHTML = `<button class="black" type="button" data-x="go"${k ? '' : ' disabled'}>${ico('down')}${xdLabel(k)}</button>${k ? '' : '<p class="fnote">เลือกอย่างน้อย 1 หน้า</p>'}`;
+  clearTimeout(xdEstT); xdEstT = setTimeout(xdEst, 120);
+}
+function xdClick(ev) {
+  const b = ev.target.closest('button'); if (!b || b.disabled || !XD) return;
+  const d = b.dataset;
+  if (d.x === 'close') return xdClose();
+  if (d.x === 'cancel') { if (XD.run) XD.run.cancel = true; XD.run = null; busyNow = false; return xdOpts(); }
+  if (d.x === 'go') return xdGo();
+  if (d.x === 'other') return xdOpts();
+  if (d.x === 'send') return act('send');
+  if (d.x === 'fonts') return act('fonts');
+  if (d.f) { XD.fmt = d.f; xdKeep(); return xdOpts(); }
+  if (d.p) { XD.pg = d.p; xdKeep(); return xdOpts(); }
+  if (d.q != null) { XD.lvl = +d.q; $('xdR').value = XD.lvl; xdKeep(); return xdSync(); }
+  if (d.k != null) { const k = +d.k, on = !XD.sel.has(k); on ? XD.sel.add(k) : XD.sel.delete(k); b.classList.toggle('on', on); b.setAttribute('aria-checked', on); return xdSync(); }
+  if (d.x === 'all') { const all = XD.sel.size !== slides.length; XD.sel = new Set(all ? slides.map((_, k) => k) : []);
+    $('xdTg').querySelectorAll('.tb').forEach(t => { t.classList.toggle('on', all); t.setAttribute('aria-checked', all); }); return xdSync(); }
+}
+// ── สไลด์ -> รูป ──
+const xdB64 = bl => new Promise((r, j) => { const f = new FileReader(); f.onload = () => r(f.result); f.onerror = () => j(f.error); f.readAsDataURL(bl); });
+async function xdFace(fam) {
+  if (xdCss.has(fam)) return xdCss.get(fam);
+  if (!xdFontJ) xdFontJ = await (await fetch('fonts.json?v=' + V)).json();
+  let css = ''; const q = fam.replace(/['\\]/g, '');
+  for (const [k, f] of Object.entries(xdFontJ)) { const [nm, b] = k.split(':'); if (nm === fam) css += `@font-face{font-family:'${q}';src:url(${await xdB64(await (await fetch(`fonts/${f}?v=${V}`)).blob())});font-weight:${b ? 700 : 400}}`; }
+  const x = FACEB.get(fam); if (x) for (const [i, buf] of x.entries()) css += `@font-face{font-family:'${q}';src:url(${await xdB64(new Blob([buf]))});font-weight:${i ? 700 : 400}}`;
+  xdCss.set(fam, css); return css;
+}
+async function xdRast(k, lvl, type) {
+  const key = `${KEYS[k]}|${k}|${lvl}|${type}`; if (xdCache.has(key)) return xdCache.get(key);
+  const [s, q] = XLV[lvl], W = Math.round(960 * s), H = Math.round(540 * s), node = cloneSlide(slides[k]), hs = XD?.hs[k];
+  if (hs?.size) node.querySelectorAll('.text-wrapper').forEach(t => { if (hs.has(t.textContent.trim())) t.style.visibility = 'hidden'; });   // คำใบ้บนจอ (หน้าแทรก/กล่องว่าง) ไม่ลงรูป เหมือนไม่ลงไฟล์
+  const fams = new Set(); [node, ...node.querySelectorAll('[style]')].forEach(e => (e.style?.fontFamily || '').split(',').forEach(x => { x = x.trim().replace(/^["']|["']$/g, ''); if (x) fams.add(x); }));
+  let css = ''; for (const f of fams) css += await xdFace(f);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 960 540"><foreignObject x="0" y="0" width="960" height="540"><div xmlns="http://www.w3.org/1999/xhtml" style="position:relative;width:960px;height:540px;overflow:hidden;line-height:1.6;font-family:sans-serif;-webkit-font-smoothing:antialiased"><style>*{box-sizing:border-box;margin:0;padding:0}${css}</style>${new XMLSerializer().serializeToString(node)}</div></foreignObject></svg>`;
+  const img = new Image(); img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); await img.decode();
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
+  // ponytail: วาดสองรอบ Safari ถอดฟอนต์/รูปใน foreignObject ไม่ทันรอบแรก
+  for (let i = 0; i < 2; i++) { x.fillStyle = '#fff'; x.fillRect(0, 0, W, H); x.drawImage(img, 0, 0, W, H); if (!i) await sleep(0); }
+  const bl = await new Promise((r, j) => c.toBlob(b => b ? r(b) : j(new Error('toBlob')), type, q));
+  xdCache.set(key, bl); return bl;
+}
+const xdType = () => XD.fmt === 'png' ? 'image/png' : 'image/jpeg';
+// ขนาด PPTX ตามหน้าที่เลือก: ส่วนกลาง (ธีม layout ฟอนต์) + ชิ้นที่หน้าที่เลือกใช้ (สไลด์ รูป กราฟ Excel) จากไฟล์จริงทั้งชุด
+const XDSZ = `
+def _xdsz(b):
+    import zipfile, io, re, posixpath
+    z = zipfile.ZipFile(io.BytesIO(bytes(b))); cs = {i.filename: i.compress_size + 30 + 2 * len(i.filename) + 46 for i in z.infolist()}
+    def refs(n):
+        r = posixpath.join(posixpath.dirname(n), '_rels', posixpath.basename(n) + '.rels')
+        if r not in cs: return []
+        out = [r]
+        for t in re.findall(r'Target="([^"]+)"', z.read(r).decode('utf8', 'ignore')):
+            q = posixpath.normpath(posixpath.join(posixpath.dirname(n), t))
+            if q in cs and re.match(r'ppt/(media|charts|embeddings|notesSlides)/', q): out += [q] + (refs(q) if q.startswith('ppt/charts/') else [])
+        return out
+    sl = sorted([n for n in cs if re.match(r'ppt/slides/slide\\d+\\.xml$', n)], key=lambda n: int(re.findall(r'\\d+', n)[-1]))
+    rs = [sorted(set([n] + refs(n))) for n in sl]; mine = set(q for r in rs for q in r)
+    return [len(b) - sum(cs[q] for q in mine), {q: cs[q] for q in mine}, rs]
+`;
+let xdSzOf = null, xdSzV = null;
+function xdPptxEst(ks) {
+  if (xdSzOf !== deckBuf) { if (!xdSzV) py.runPython(XDSZ); py.globals.set('XB', py.toPy(new Uint8Array(deckBuf))); xdSzV = JSON.parse(py.runPython('json.dumps(_xdsz(XB))')); py.runPython('XB = None'); xdSzOf = deckBuf; }
+  const u = new Set(ks.flatMap(k => xdSzV[2][k] || [])); let t = xdSzV[0]; u.forEach(q => t += xdSzV[1][q]); return t;   // รูปที่หลายหน้าใช้ร่วมนับครั้งเดียว เหมือนในไฟล์จริง
+}
+async function xdDeck(skip) {             // ไฟล์ PowerPoint จริงแบบเดิม (ฝังฟอนต์ที่เลือก ใบ 015)
+  try { if (!fontToolsOK && py.runPython('bool([f for f in D.fonts_used(ITEMS) if f in D.FONTX and f not in D.LOCALF])')) { await py.loadPackage('fonttools'); fontToolsOK = true; } } catch (e) { console.warn(e); }
+  if (dirty || skip.length) makeDeck(skip);
+}
+async function xdEst() {                  // ขนาดโดยประมาณ: วาดจริงสูงสุด 6 หน้า (กระจายทั้งชุด) แล้วคูณ / PPTX จากไฟล์จริง
+  const my = ++xdEstN, sz = () => $('xdSz'); if (!XD || XD.run || !sz()) return;
+  const ks = xdPages();
+  if (!ks.length) { sz().textContent = '-'; return; }
+  sz().textContent = 'กำลังคำนวณ…';
+  try {
+    if (XD.fmt === 'pptx') {
+      if (dirty || !deckBuf) { await sleep(320); if (my !== xdEstN) return; busyNow = true; try { await xdDeck([]); } finally { if (!XD?.run) busyNow = false; } }
+      if (my === xdEstN && sz()) sz().textContent = xdMB(xdPptxEst(ks));
+      return;
+    }
+    const m = Math.min(6, ks.length), smp = [...new Set([...Array(m).keys()].map(i => ks[Math.round(i * (ks.length - 1) / Math.max(1, m - 1))]))];
+    let t = 0;
+    for (const k of smp) { const b = await xdRast(k, XD.lvl, xdType()); if (my !== xdEstN || !XD) return; t += b.size; await frame(); }
+    let bytes = t / smp.length * ks.length + (XD.fmt === 'pdf' ? 600 + 350 * ks.length : ks.length > 1 ? 120 * ks.length : 0);
+    if (sz()) sz().textContent = 'ประมาณ ' + xdMB(bytes);
+  } catch (e) { console.warn(e); if (my === xdEstN && sz()) sz().textContent = '-'; }
+}
+function xdPdf(jpgs, W, H) {              // PDF 1.4 หนึ่งหน้าหนึ่งรูป JPEG (DCTDecode) หน้า 960x540 pt = 13.33x7.5 นิ้ว เท่าสไลด์
+  const enc = new TextEncoder(), parts = [], offs = []; let len = 0;
+  const add = x => { const b = typeof x === 'string' ? enc.encode(x) : x; parts.push(b); len += b.length; };
+  const obj = (id, s, bin) => { offs[id] = len; add(`${id} 0 obj\n${s}`); if (bin) { add(bin); add('\nendstream'); } add('\nendobj\n'); };
+  const n = jpgs.length, cs = 'q 960 0 0 540 0 0 cm /Im0 Do Q';
+  add(new Uint8Array([37, 80, 68, 70, 45, 49, 46, 52, 10, 37, 226, 227, 207, 211, 10]));   // %PDF-1.4 + บรรทัดไบนารี
+  obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2, `<< /Type /Pages /Count ${n} /Kids [${jpgs.map((_, i) => `${3 + 3 * i} 0 R`).join(' ')}] >>`);
+  jpgs.forEach((b, i) => { const p = 3 + 3 * i;
+    obj(p, `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 960 540] /Resources << /XObject << /Im0 ${p + 2} 0 R >> >> /Contents ${p + 1} 0 R >>`);
+    obj(p + 1, `<< /Length ${cs.length} >>\nstream\n`, enc.encode(cs));
+    obj(p + 2, `<< /Type /XObject /Subtype /Image /Width ${W} /Height ${H} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${b.length} >>\nstream\n`, b); });
+  const x = len, N = 3 + 3 * n;
+  add(`xref\n0 ${N}\n0000000000 65535 f \n${offs.slice(1).map(o => String(o).padStart(10, '0') + ' 00000 n \n').join('')}trailer\n<< /Size ${N} /Root 1 0 R >>\nstartxref\n${x}\n%%EOF\n`);
+  return new Blob(parts, {type: 'application/pdf'});
+}
+function xdZip(files) {                   // zip แบบเก็บ (ไม่บีบ) ชื่อไฟล์ UTF-8 (บิต 11) เปิดได้ในมือถือ
+  const T = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; T[n] = c >>> 0; }
+  const enc = new TextEncoder(), parts = [], cd = [], dt = new Date();
+  const tm = (dt.getHours() << 11) | (dt.getMinutes() << 5) | (dt.getSeconds() >> 1), dd = ((dt.getFullYear() - 1980) << 9) | ((dt.getMonth() + 1) << 5) | dt.getDate();
+  let off = 0;
+  for (const f of files) {
+    const nm = enc.encode(f.name), d = f.data; let c = -1; for (let i = 0; i < d.length; i++) c = T[(c ^ d[i]) & 255] ^ (c >>> 8); c = (c ^ -1) >>> 0;
+    const h = new DataView(new ArrayBuffer(30)), z = new DataView(new ArrayBuffer(46));
+    [[0, 0x04034b50, 4], [4, 20, 2], [6, 0x800, 2], [8, 0, 2], [10, tm, 2], [12, dd, 2], [14, c, 4], [18, d.length, 4], [22, d.length, 4], [26, nm.length, 2], [28, 0, 2]].forEach(([o, v, s]) => s === 4 ? h.setUint32(o, v, true) : h.setUint16(o, v, true));
+    [[0, 0x02014b50, 4], [4, 20, 2], [6, 20, 2], [8, 0x800, 2], [10, 0, 2], [12, tm, 2], [14, dd, 2], [16, c, 4], [20, d.length, 4], [24, d.length, 4], [28, nm.length, 2], [42, off, 4]].forEach(([o, v, s]) => s === 4 ? z.setUint32(o, v, true) : z.setUint16(o, v, true));
+    parts.push(new Uint8Array(h.buffer), nm, d); cd.push(new Uint8Array(z.buffer), nm); off += 30 + nm.length + d.length;
+  }
+  const cl = cd.reduce((s, b) => s + b.length, 0), e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, cl, true); e.setUint32(16, off, true);
+  return new Blob([...parts, ...cd, new Uint8Array(e.buffer)], {type: 'application/zip'});
+}
+function codeSheet() {                    // ยังไม่มี Code: แผ่นเดิม (ระบบบัญชีจริงไปทำในใบ 011)
+  openSheet('', '', `<div class="done"><div class="paycover"><div class="slidebox" id="paycv"></div></div>
+    <h3>สไลด์ของคุณพร้อมแล้ว ${slides.length} หน้า</h3><p>ดูได้ฟรีทุกหน้า โหลดไฟล์ได้เมื่อมี Code</p>
+    <p>สำหรับลูกค้าที่ซื้อคลังเทมเพลต Coach Tarn แล้ว กรอก Code ที่ได้ทางอีเมล แล้วกลับมากดบันทึกที่หน้านี้ได้เลย (ถ้าล้างข้อมูลเบราว์เซอร์ ต้องกรอกใหม่)</p>
+    ${saveSt === 'no' ? '' : '<p>งานที่แก้ไว้เก็บในเครื่องนี้ กลับมาทำต่อได้</p>'}
+    <a class="btn btn-red btn-big" href="/download" target="_blank" rel="noopener">${ico('lock')}กรอก Code</a>
+    <a class="btn btn-line btn-big" href="/" target="_blank" rel="noopener">ดูคลังเทมเพลต</a></div>`);
+  if (slides[0]) mount($('paycv'), slides[0]);
+}
+async function xdGo(skip) {
+  if (!member()) return codeSheet();      // คงการตรวจ Code แบบเดิมไว้จนกว่าจะมีระบบบัญชี (ใบ 011) แผ่นนี้ขึ้นทับหน้าต่าง ปิดแล้วกลับมาที่ตัวเลือกเดิม
+  let ks = xdPages();
+  // หน้าที่ข้อความล้นกรอบ: เตือนครั้งเดียวต่อชุดหน้าที่ล้น ไม่บล็อก (ของเดิม ขึ้นหลังกดดาวน์โหลด)
+  const ov = ks.filter(k => META[k]?.ov && !(skip || []).includes(k)), key = ov.join(',');
+  if (ov.length && ovOk !== key) {
+    const one = ov.length === 1, file = XD.fmt === 'pptx' ? 'ไฟล์ PowerPoint' : 'ไฟล์';
+    openSheet(`หน้า ${thaiList(ov.map(q => q + 1))} มีข้อความล้นกรอบ`, `คำยังอยู่ครบ แต่ใน${file}ข้อความจะล้นออกนอกกรอบของ${one ? 'หน้านี้' : 'หน้าเหล่านี้'} อยากให้พอดี กดกลับไปแก้แล้วลบข้อความออกอีกนิด`,
+      `<div class="confirm"><button class="btn btn-line btn-big" data-m="fix" type="button">${ico('type')}กลับไปแก้ข้อความ</button><button class="btn btn-red btn-big" data-m="go" type="button">${ico('down')}บันทึกไฟล์เลย</button></div>`);
+    $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
+      if (b.dataset.m === 'go') { ovOk = key; return xdGo(skip); }
+      xdClose(); const q = ov[0]; select(q, {scroll: true}); const j = BOX[q].findIndex(x => x.f); if (j >= 0 && !touch()) setTimeout(() => openEdit(q, j), 380); };
+    return;
+  }
+  if (!skip) {                             // หน้าที่แทรกแล้วยังไม่ได้พิมพ์อะไร: ถามก่อน ไม่ส่งหน้าเปล่าไปในไฟล์เงียบ ๆ
+    const bl = JSON.parse(py.runPython(`json.dumps([p for p, i in enumerate(${JSON.stringify(order)}) if CS[i].get('_ins') and D.blank_page(ITEMS[i][1])])`)).filter(k => ks.includes(k));
+    if (bl.length) {
+      const nm = bl.map(k => k + 1).join(', '), one = bl.length === 1;
+      openSheet(`หน้า ${nm} ยังไม่มีข้อความ`, one ? 'หน้านี้เพิ่มไว้แต่ยังไม่ได้พิมพ์ ถ้าบันทึกตอนนี้จะเป็นหน้าเปล่าในไฟล์' : 'หน้าเหล่านี้เพิ่มไว้แต่ยังไม่ได้พิมพ์ ถ้าบันทึกตอนนี้จะเป็นหน้าเปล่าในไฟล์',
+        `<div class="confirm"><button class="btn btn-line btn-big" data-m="type" type="button">${ico('type')}กลับไปพิมพ์ข้อความ</button><button class="btn btn-red btn-big" data-m="skip" type="button">${ico('down')}บันทึกโดยไม่เอา${one ? 'หน้านี้' : 'หน้าเหล่านี้'}</button></div>`);
+      $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet();
+        if (b.dataset.m === 'skip') return xdGo(bl);
+        xdClose(); select(bl[0], {scroll: true}); const j = BOX[bl[0]].findIndex(x => ['t', 't1'].includes(x.p[0])); if (BOX[bl[0]].length) setTimeout(() => openEdit(bl[0], Math.max(0, j)), 380); };
+      return;
+    }
+  }
+  ks = ks.filter(k => !(skip || []).includes(k));
+  if (!ks.length) { toast('ไม่มีหน้าที่จะบันทึก'); return; }
+  const R = XD.run = {cancel: false}, fmt = XD.fmt, lvl = XD.lvl, M = ks.length, [b, nmF] = XFM[fmt];
+  const img = fmt !== 'pptx' && fmt !== 'pdf';
+  xdEstN++; busyNow = true;
+  $('xdB').innerHTML = `<div class="ctr" style="padding-top:8px">${fmt === 'pptx' ? '<span class="spin" aria-hidden="true"></span>' : ''}<h4>กำลังทำไฟล์ ${fmt === 'pptx' ? 'PowerPoint' : img ? nmF : 'PDF'}</h4>
+      <p>${fmt === 'pptx' ? `รวม ${M} หน้าเป็นไฟล์เดียวในเครื่องคุณ ไม่ต้องปิดหน้านี้` : 'ทำทีละหน้าในเครื่องคุณ ไม่ต้องปิดหน้านี้'}</p></div>
+    ${fmt === 'pptx' ? '' : `<div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="${M}" aria-valuenow="0" id="xdPg"><i id="xdPb"></i></div><div class="prow" aria-live="polite"><span id="xdPn"></span><span id="xdPp">0%</span></div>`}
+    <div class="pv"><div class="slidebox" id="xdPv"></div></div>`;
+  $('xdF').innerHTML = `<button class="line" type="button" data-x="cancel">ยกเลิก</button>`;
+  const prog = (j, k) => { if (!$('xdPn')) return; $('xdPn').innerHTML = j < M ? `หน้า <b>${j + 1}</b> จาก ${M}` : `ครบ ${M} หน้า`; const p = Math.round(j / M * 100);
+    $('xdPp').textContent = p + '%'; $('xdPb').style.width = p + '%'; $('xdPg').setAttribute('aria-valuenow', j); if (k != null) mount($('xdPv'), slides[k]); };
+  const live = () => !R.cancel && XD && XD.run === R;
+  let file;
+  try {
+    if (fmt === 'pptx') {
+      mount($('xdPv'), slides[ks[0]]); await frame(); await frame();
+      await xdDeck(order.map((_, k) => k).filter(k => !ks.includes(k)));
+      if (!live()) return;
+      file = new File([deckBuf], fname() + '.pptx', {type: PPTX});
+    } else {
+      const type = fmt === 'png' ? 'image/png' : 'image/jpeg', out = [];
+      for (let j = 0; j < M; j++) {          // แถบเดินตามหน้าที่ทำเสร็จจริง
+        prog(j, ks[j]); await frame(); if (!live()) return;
+        out.push(await xdRast(ks[j], lvl, type)); if (!live()) return;
+      }
+      prog(M); await frame();
+      const bufs = await Promise.all(out.map(async x => new Uint8Array(await x.arrayBuffer()))); if (!live()) return;
+      const s = XLV[lvl][0];
+      if (fmt === 'pdf') file = new File([xdPdf(bufs, Math.round(960 * s), Math.round(540 * s))], fname() + '.pdf', {type: 'application/pdf'});
+      else if (M === 1) file = new File([out[0]], `${fname()} หน้า ${ks[0] + 1}.${fmt}`, {type});
+      else file = new File([xdZip(bufs.map((d, j) => ({name: `หน้า ${String(ks[j] + 1).padStart(2, '0')}.${fmt}`, data: d})))], `${fname()} (${b}).zip`, {type: 'application/zip'});
+    }
+  } catch (e) { console.error(e); if (live()) { XD.run = null; toast('ทำไฟล์ไม่สำเร็จ ลองใหม่อีกครั้ง'); xdOpts(); } return; }
+  finally { if (XD?.run === R || !XD) busyNow = false; }
+  XD.run = null; lastFile = file; save(file, file.name);
+  const canSend = !!(navigator.canShare && navigator.canShare({files: [file]}));
+  let fam = ''; if (fmt === 'pptx') { const s = SETS.find(x => x.slug === slug); fam = [...new Set(s.faces.map(x => x.split(':')[0].replace(/ (Light|SemiBold|Medium|ExtraBold)$/, '')))].join(', '); }
+  $('xdB').innerHTML = `<div class="ctr"><span class="ok">${ico('check')}</span><h4>ดาวน์โหลดแล้ว</h4>
+      <p>"${esc(file.name)}" ${M} ${img ? 'รูป' : 'หน้า'} ${xdMB(file.size)}<br>อยู่ในโฟลเดอร์ดาวน์โหลดของเครื่อง</p></div>
+    ${fam ? `<p class="help">${xdIco16('type')}<span>สไลด์ชุดนี้ใช้ฟอนต์ ${esc(fam)} ติดตั้งฟอนต์ก่อนเปิดไฟล์ ตัวอักษรไทยจะได้หน้าตาเหมือนที่เห็นนี้</span></p>` : ''}
+    <div style="margin-top:20px">${canSend ? `<button class="black" type="button" data-x="send">${ico('send')}ส่งต่อทาง LINE หรืออีเมล</button>` : ''}
+    ${fam ? `<button class="${canSend ? 'line' : 'black'}" type="button" data-x="fonts">${ico('type')}โหลดฟอนต์ที่ใช้</button>` : ''}
+    <button class="line" type="button" data-x="other"${!canSend && !fam ? ' style="margin-top:0"' : ''}>${ico('down')}ดาวน์โหลดแบบอื่น</button>
+    <button class="line" type="button" data-x="close">ปิด</button></div>`;
+  $('xdF').innerHTML = '';
 }
 
 // ══ ใบ 007 เฟส 1-2: แบรนด์ (โลโก้ ชื่อบริษัท) เลขหน้า ทรานซิชัน ══════════════════════════════════
@@ -3528,7 +3818,7 @@ async function loadFont(name) {             // ไฟล์ฟอนต์ -> Py
     const files = [g.r, g.b].filter(Boolean), out = [];
     for (const f of files) { const buf = await (await get('fonts/g/' + f)).arrayBuffer(); py.FS.writeFile('/k5/fonts/g_' + f, new Uint8Array(buf)); out.push(buf); }
     const faces = [new FontFace(name, out[0], {weight: '400'}), new FontFace(name, out[1] || out[0], {weight: '700'})];
-    await Promise.all(faces.map(f => f.load())); faces.forEach(f => document.fonts.add(f));
+    await Promise.all(faces.map(f => f.load())); faces.forEach(f => document.fonts.add(f)); FACEB.set(name, [out[0], out[1] || out[0]]);   // ใบ 024 ฝังในรูป/PDF
     py.globals.set('FN', name); py.globals.set('FR', '/k5/fonts/g_' + g.r); py.globals.set('FB', '/k5/fonts/g_' + (g.b || g.r));
     py.runPython('D.add_font(FN, FR, FB)');
   })();
@@ -4467,7 +4757,7 @@ async function askLocal() {
 async function useLocal(fam) {               // ไฟล์ในเครื่อง -> Pyodide วัด + FontFace จอ (ไม่ออกนอกเครื่อง)
   if (localF.has(fam)) return; const m = LOCAL.get(fam), out = [];
   for (const [k, fd] of [['r', m.r], ['b', m.b || m.r]]) { const buf = await (await fd.blob()).arrayBuffer(); const p = `/k5/fonts/loc_${localF.size}_${k}`; py.FS.writeFile(p, new Uint8Array(buf)); out.push([p, buf]); }
-  const faces = [new FontFace(fam, out[0][1], {weight: '400'}), new FontFace(fam, out[1][1], {weight: '700'})]; await Promise.all(faces.map(f => f.load())); faces.forEach(f => document.fonts.add(f));
+  const faces = [new FontFace(fam, out[0][1], {weight: '400'}), new FontFace(fam, out[1][1], {weight: '700'})]; await Promise.all(faces.map(f => f.load())); faces.forEach(f => document.fonts.add(f)); FACEB.set(fam, [out[0][1], out[1][1]]);   // ใบ 024
   py.globals.set('FN', fam); py.globals.set('FR', out[0][0]); py.globals.set('FB', out[1][0]); py.runPython('D.add_font(FN, FR, FB, local=True)');
   localF.set(fam, true);
 }
@@ -5169,7 +5459,7 @@ oneMQ.addEventListener('change', () => { PZ = null; closeGrid(-1, true); clearSl
 let TR = null;
 function tour(force) {
   try { if (!force && localStorage.getItem('d2s_tour')) return; } catch (e) { return; }
-  if (TR || !slides.length || viewing) return;
+  if (TR || !slides.length || viewing || $('xdw')) return;   // ใบ 024: หน้าต่างบันทึกเปิดอยู่ ไม่สอนทับ
   const t = touch(), hb = () => pgs()[cur >= 0 ? cur : 0]?.querySelector('.hit.can') || pgs()[cur >= 0 ? cur : 0]?.querySelector('.hit');
   const steps = [{el: hb, ps: t ? ['แตะกล่องเพื่อเลือก', 'ลากเพื่อย้าย', 'แตะอีกครั้งเพื่อแก้ข้อความ'] : ['คลิกที่ข้อความเพื่อพิมพ์', 'กดที่กล่องแล้วลากเพื่อย้าย']}];
   if (one()) steps.push({el: () => $('gridb'), ps: ['ปัดซ้ายขวาเพื่อเปลี่ยนหน้า', 'กดตรงนี้เพื่อดูทุกหน้า', 'หรือบีบสองนิ้วเพื่อดูทุกหน้า']});
