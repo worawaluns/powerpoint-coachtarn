@@ -597,7 +597,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .toast.u{display:flex;align-items:center;gap:10px;padding:5px 6px 5px 16px}.toast.u.on{pointer-events:auto}
 .toast button{border:none;background:rgba(255,255,255,.14);color:#fff;font-weight:700;font-size:14px;height:34px;padding:0 12px;border-radius:100px;white-space:nowrap}
 /* มือถือ (ใบ 018): แก้ทีละหน้าแบบ Canva ปัดซ้ายขวาเปลี่ยนหน้า แถบบนไอคอนล้วน แถบล่าง ผู้ช่วย หน้าตา เพิ่มหน้า  รวมมือถือแนวนอน (จอสัมผัสสูงไม่เกิน 500) */
-.mo,.rail [data-p=add],.dots,.endc,.gbar,.bbar,.pbar,.thd,.tgrip{display:none}
+.mo,.rail [data-p=add],.dots,.endc,.gbar,.bbar,.phd,.nt,.dbar,.padd,.gridh,.mnote,.skh,.th b i,.th b em{display:none}
 @media (max-width:767px), (pointer:coarse) and (max-height:500px){
   .top{padding:0 8px;gap:0}
   .top .logo,.top .tmeta,.top .wonly,#toptag{display:none!important}
@@ -631,6 +631,16 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .pages::-webkit-scrollbar{display:none}
   .pages .pg,.pages .endc{flex:0 0 100%;height:100%;margin:0;padding:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;scroll-snap-align:center;scroll-snap-stop:always;animation:none}
   .pages .slide{width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));touch-action:pan-x}
+  /* ใบ 025: การ์ดโน้ตผู้บรรยายใต้สไลด์ แตะ = แผ่นล่างพิมพ์โน้ต */
+  .mnote{display:flex;align-items:flex-start;gap:10px;width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9));min-height:44px;margin-top:16px;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:#fff;text-align:left;color:var(--text);touch-action:pan-x;-webkit-tap-highlight-color:transparent}
+  .mnote svg.i{display:block;width:20px;height:20px;color:var(--sub);margin-top:2px}.mnote .go{margin:auto 0 auto auto}
+  .mnote span{flex:1;min-width:0}.mnote b{display:block;font-size:13px;font-weight:600;line-height:1.6;color:var(--mid)}
+  .mnote p{margin:2px 0 0;font-size:14px;line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}.mnote p.em{color:var(--sub)}
+  body.typing .mnote{display:none}
+  .mta{display:block;width:100%;box-sizing:border-box;min-height:180px;margin-top:12px;border:1.5px solid #15151A;border-radius:12px;padding:12px 16px;font:inherit;font-size:16px;line-height:1.7;color:var(--text);background:#fff;resize:none;outline:none}
+  .mhint{font-size:12px;color:var(--sub);margin:8px 0 0;line-height:1.6}
+  .mdone{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;margin-top:16px;border:none;border-radius:12px;background:#15151A;color:#fff;font-size:15px;font-weight:600}.mdone svg.i{width:20px;height:20px}
+  #skel.open .ph~.ph{display:none}
   #skel.open{bottom:44px;padding:8px}#skel.open .skel{width:min(100%,calc((100dvh - 56px - 58px - 44px - 16px - var(--safe)) * 16 / 9))}
   .pages .pg.on .slide::after{opacity:0}
   .pages .hit:not(.ing)::after{display:none}
@@ -697,29 +707,77 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 @media (max-width:359px){.top{padding:0 6px}}   /* 320: 7 ปุ่ม × 44 พอดีจอ */
 @media (min-width:768px) and (pointer:fine), (min-width:768px) and (min-height:501px){
   .home h1{font-size:38px}
-  .work{--tw:120px;grid-template-columns:var(--tw) minmax(0,1fr) 56px}   /* ใบ 020: คอลัมน์ภาพย่อ --tw ลากปรับ 120-320 จำในเครื่อง */
-  .thumbs{display:block;overflow-y:auto;padding:56px 8px 24px 4px;background:#fff;border-right:1px solid var(--line)}
-  .work.tcol{--tw:0px!important}.work.tcol .thumbs,.work.tcol .thd{visibility:hidden;padding:0;border:0}
-  .thd{position:absolute;left:0;top:0;width:var(--tw);height:48px;z-index:5;display:flex;align-items:center;padding:0 6px;background:#fff;border-right:1px solid var(--line);overflow:hidden}
-  .tgrip{display:block;position:absolute;top:0;bottom:0;left:calc(var(--tw) - 4px);width:8px;z-index:6;cursor:col-resize;touch-action:none}
-  .tgrip::after{content:'';position:absolute;left:3px;top:0;bottom:0;width:2px;background:var(--text);opacity:0;transition:opacity .12s}
-  .tgrip:hover::after,.tgrip.on::after,.tgrip:focus-visible::after{opacity:1}.tgrip:focus-visible{outline:none}
-  .work.tcol .tgrip{display:none}
-  .canvas{overflow:hidden}
-  .pages{height:100%;max-width:none;margin:0;padding:24px 64px 64px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .pg{width:var(--sw,600px);margin:0;flex:none}
-  .pg:not(.on),.pages .endc,.pg .gap{display:none}
-  .pg.on .slide::after{opacity:0}
-  .pbar{position:absolute;left:12px;right:12px;bottom:12px;z-index:5;display:flex;align-items:center;gap:8px;pointer-events:none}
-  .pbar>*{pointer-events:auto}.pbar .mid{flex:1;display:flex;align-items:center;justify-content:center;gap:4px;pointer-events:none}.pbar .mid>*{pointer-events:auto}
-  .pbar .pn{min-width:96px;text-align:center;font-size:14px;font-weight:600;color:var(--mid)}
-  .pbar .pv{height:36px;padding:0 10px;border:none;background:none;border-radius:10px;display:flex;align-items:center;gap:4px;font-size:14px;font-weight:600;color:var(--text)}
-  .pbar .pv:hover:not(:disabled){background:#fff}.pbar .pv:disabled{color:#C4C4CC}
-  .pbar .btn{height:36px}.pbar .tshow{visibility:hidden}.work.tcol .pbar .tshow{visibility:visible}
-  .pbar svg.i,.thd svg.i{display:block;width:20px;height:20px}
+  /* ใบ 025: ทุกหน้าเรียงลงแบบ Canva ไม่มีคอลัมน์ภาพย่อ / แถบล่าง โน้ต · หน้า N/M · ซูม · หน้าทั้งหมด (แถวที่ 2 ของ grid นอกพื้นที่เลื่อน) */
+  .work{grid-template-columns:minmax(0,1fr) 56px;grid-template-rows:minmax(0,1fr) 56px}
+  .canvas{grid-column:1;grid-row:1;overflow:auto}
+  .canvas::-webkit-scrollbar{width:12px;height:12px}.canvas::-webkit-scrollbar-thumb{background:#C4C4CC;border-radius:6px;border:3px solid var(--bg)}.canvas::-webkit-scrollbar-track{background:transparent}
+  .pages{max-width:none;margin:0;padding:16px 48px 24px;width:max-content;min-width:100%;box-sizing:border-box}
+  .pages .pg{width:var(--sw,600px);margin:0 auto 24px;animation:none}
+  .pages .endc,.pg .gap,.pg .src{display:none}.pg .src:has(.ovb){display:flex}
+  .phd{display:flex;position:sticky;left:16px;height:48px;align-items:center;gap:8px;padding:0 0 4px;width:min(100%,calc(var(--cw,100vw) - 32px));box-sizing:border-box;z-index:5}
+  .phd .pn{font-size:15px;font-weight:600;line-height:1.6;color:var(--sub);white-space:nowrap}
+  .phd .pt{height:36px;min-width:44px;max-width:40%;padding:0 8px;border:none;background:none;border-radius:8px;font:inherit;font-size:15px;font-weight:500;line-height:1.6;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left;cursor:text}
+  .phd .pt.em{color:var(--sub)}.phd .pt:hover{background:#fff}
+  .phd input.pt{width:240px;max-width:40%;background:#fff;box-shadow:inset 0 0 0 2px var(--text);outline:none;cursor:text}
+  .phd .acts{margin-left:auto;display:flex;align-items:center;gap:2px;opacity:0;transition:opacity .15s}
+  .pg.on .phd .pn{color:var(--text)}.pg.on .phd .acts,.phd:hover .acts,.phd:focus-within .acts{opacity:1}
+  .phd .acts button{height:36px;min-width:36px;border:none;background:none;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:6px;padding:0;font-size:14px;font-weight:600;color:var(--text)}
+  .phd .acts button svg.i{display:block;width:20px;height:20px}
+  .phd .acts .tx{padding:0 12px 0 10px;border:1px solid var(--line);background:#fff}
+  .phd .acts button:hover:not(:disabled){background:#ECECF0}.phd .acts button:disabled{color:#C4C4CC}
+  .phd .acts hr{width:1px;height:20px;border:none;background:var(--line);margin:0 4px}
+  .phd [data-tip]:hover::after{font-size:13px;font-weight:500;line-height:1.6;padding:4px 10px;border-radius:8px}
+  .phd .tx[data-tip]:hover::after{display:none}
+  .canvas.nrw .phd .tx span{display:none}.canvas.nrw .phd .tx{padding:0;width:36px}.canvas.nrw .phd .tx[data-tip]:hover::after{display:block}
+  .nt{display:none;position:sticky;left:16px;width:min(100%,calc(var(--cw,100vw) - 32px));box-sizing:border-box;margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+  .work.noteson .nt{display:block}
+  .nt:focus-within{border-color:#15151A;box-shadow:0 0 0 3px rgba(21,21,26,.08)}
+  .nt .nh{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;line-height:1.6;color:var(--mid)}
+  .nt .nh svg{color:var(--sub)}.nt .nh small{margin-left:auto;font-size:12px;font-weight:400;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nt textarea{display:block;width:100%;min-height:52px;resize:none;border:none;outline:none;background:none;padding:6px 0 0;font:inherit;font-size:15px;line-height:1.7;color:var(--text);field-sizing:content}
+  .nt textarea::placeholder{color:#A6A6B0}
+  .padd{display:flex;align-items:center;justify-content:center;gap:8px;width:var(--sw,600px);margin:0 auto 32px;height:52px;border:1.5px dashed #D2D2DA;border-radius:12px;background:none;font-size:15px;font-weight:600;color:var(--mid)}
+  .padd:hover{border-color:var(--text);color:var(--text)}.padd svg.i{display:block;width:20px;height:20px}
+  .dbar{display:flex;grid-column:1;grid-row:2;align-items:center;gap:8px;min-width:0;height:56px;padding:0 16px;background:#fff;border-top:1px solid var(--line);z-index:6;box-sizing:border-box}
+  .dbar .b{height:36px;border:none;background:none;border-radius:10px;display:flex;align-items:center;gap:8px;padding:0 12px 0 10px;font-size:14px;font-weight:600;color:var(--text);white-space:nowrap}
+  .dbar .b svg.i{display:block;width:20px;height:20px}
+  .dbar .b:hover{background:var(--bg)}.dbar .b.on,.dbar .b[aria-pressed=true]{background:var(--soft);color:var(--red)}
+  .dbar .mid{flex:1;min-width:0;text-align:center;font-size:14px;font-weight:600;color:var(--mid);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .dbar .zr{display:flex;align-items:center;gap:4px;position:relative}
+  .dbar .pct{min-width:64px;justify-content:center;padding:0 8px;border:1px solid var(--line);background:#fff;font-variant-numeric:tabular-nums}
+  .dbar .pct[aria-expanded=true]{background:var(--bg);border-color:#15151A;color:var(--text)}
+  .dbar .sep{width:1px;height:24px;background:var(--line);margin:0 4px;flex:none}
+  #zsl{-webkit-appearance:none;appearance:none;width:160px;height:36px;margin:0 4px 0 0;background:none;cursor:pointer;--p:50%}
+  #zsl::-webkit-slider-runnable-track{height:4px;border-radius:2px;background:linear-gradient(#15151A,#15151A) 0 0/var(--p) 100% no-repeat,#DCDCE2}
+  #zsl::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;margin-top:-8px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px #15151A,0 2px 6px rgba(20,20,26,.18)}
+  #zsl::-moz-range-track{height:4px;border-radius:2px;background:#DCDCE2}#zsl::-moz-range-progress{height:4px;border-radius:2px;background:#15151A}
+  #zsl::-moz-range-thumb{width:20px;height:20px;border:none;border-radius:50%;background:#fff;box-shadow:0 0 0 2px #15151A,0 2px 6px rgba(20,20,26,.18)}
+  #zsl:focus-visible{outline:2px solid var(--red);outline-offset:2px;border-radius:6px}
+  .zmn{position:absolute;bottom:calc(100% + 12px);right:0;width:200px;z-index:30;background:#fff;border-radius:16px;box-shadow:0 0 0 1px rgba(20,20,26,.06),0 12px 32px rgba(20,20,26,.16);padding:8px;animation:rz .16s var(--ease) both}
+  .zmn button{width:100%;height:40px;border:none;background:none;border-radius:10px;display:flex;align-items:center;gap:10px;padding:0 12px;font-size:15px;font-weight:500;line-height:1.6;color:var(--text);text-align:left;font-variant-numeric:tabular-nums}
+  .zmn button:hover,.zmn button:focus-visible{background:var(--bg);outline:none}.zmn button[aria-checked=true]{background:var(--bg);font-weight:600}
+  .zmn svg.i{display:block;width:16px;height:16px;stroke-width:2.5;margin-left:auto}.zmn small{margin-left:auto;font-size:12px;font-weight:400;color:var(--sub)}
+  .zmn hr{border:none;border-top:1px solid var(--line);margin:6px 4px}
+  /* หน้าทั้งหมด: ภาพย่อที่วาดไว้แล้ว เป็นตารางทับพื้นที่สไลด์ (ไม่ทับแถบบน/ขวา/ล่าง) */
+  body.gridon .thumbs{display:grid;grid-column:1;grid-row:1;position:relative;z-index:7;grid-template-columns:repeat(var(--gc,4),minmax(0,1fr));gap:20px 16px;align-content:start;padding:92px 32px 24px;overflow-y:auto;background:var(--bg)}
+  .gridh{grid-column:1;grid-row:1;align-self:start;z-index:8;align-items:center;gap:12px;padding:24px 44px 12px 32px;background:var(--bg)}
+  body.gridon .gridh{display:flex}
+  .gridh h2{font-size:18px;font-weight:600;line-height:1.6;margin:0;white-space:nowrap}.gridh p{font-size:14px;color:var(--sub);margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gridh .b{margin-left:auto;height:36px;border:1px solid var(--line);background:#fff;border-radius:10px;display:flex;align-items:center;gap:8px;padding:0 14px 0 10px;font-size:14px;font-weight:600;color:var(--text);flex:none}.gridh svg.i{display:block;width:20px;height:20px}
+  body.gridon .thumbs .th{flex-direction:column-reverse;align-items:stretch;gap:6px;padding:0;cursor:pointer;-webkit-user-select:none;user-select:none}
+  body.gridon .thumbs .th b{width:auto;display:flex;gap:6px;text-align:left;font-size:13px;font-weight:600;color:var(--mid);min-width:0}
+  body.gridon .thumbs .th b i{display:inline;font-style:normal}body.gridon .thumbs .th b em{display:block;font-style:normal;font-weight:400;color:var(--sub);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  body.gridon .thumbs .th.on b{color:var(--red)}
+  body.gridon .thumbs .th .slidebox{flex:none;border-radius:8px}body.gridon .thumbs .th .slidebox::after{border-radius:8px}
+  body.gridon .thumbs .th .ovb{left:4px;right:4px;bottom:34px}
+  .thumbs.sorting .th{transition:transform .2s var(--ease)}.thumbs .th.lift{z-index:3;transition:none!important}.thumbs .th.lift .slidebox{box-shadow:0 10px 28px rgba(20,20,26,.22),0 0 0 1px var(--line)}
+  .skh{display:flex;align-items:center;height:48px;width:100%;flex:none}.skh::before{content:'';width:120px;height:16px;border-radius:6px;background:#EFEFF3}
+  #skel.open{justify-content:flex-start;gap:0;padding:16px 48px 24px;overflow:hidden}
+  #skel.open .ph+.skh{margin-top:24px}
+  #skel.open .skelnote{position:absolute;left:0;right:0;bottom:16px;justify-content:center}
   .tip{display:flex;align-items:center;gap:12px;padding:6px 8px 6px 14px;max-width:none;top:calc(100% + 2px)}   /* แถวเดียวในช่องว่างระหว่างหน้า ไม่ทับบรรทัดที่มาหรือหน้าถัดไป */
   .tip p{font-size:14px}
-  .rail{flex-direction:column;gap:4px;padding:8px 4px;border-left:1px solid var(--line);grid-column:3;grid-row:1}
+  .rail{flex-direction:column;gap:4px;padding:8px 4px;border-left:1px solid var(--line);grid-column:2;grid-row:1/3}
   .rail button{width:48px;height:52px}
   .rp{top:56px;bottom:0;right:56px;width:360px;transform:translateX(calc(100% + 56px));border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(20,20,26,.08)}
   .sheet{align-items:center}
@@ -731,16 +789,12 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .skel{grid-template-columns:repeat(2,1fr);padding:20px}
 }
 @media (min-width:1024px) and (pointer:fine), (min-width:1024px) and (min-height:501px){   /* ใบ 020: แผงเข้า grid ตั้งแต่ 1024 สไลด์กลับมากลางพื้นที่ที่เหลือ */
-  .work.rpon{grid-template-columns:var(--tw) minmax(0,1fr) 340px 56px}
-  .work.rpon .rail{grid-column:4}
-  .rp{position:relative;top:auto;bottom:auto;right:auto;width:auto;grid-column:3;grid-row:1;box-shadow:none;transform:none;display:none}
+  .work.rpon{grid-template-columns:minmax(0,1fr) 340px 56px}
+  .work.rpon .rail{grid-column:3}
+  .rp{position:relative;top:auto;bottom:auto;right:auto;width:auto;grid-column:2;grid-row:1/3;box-shadow:none;transform:none;display:none}
   .rp.on{display:flex}
 }
-@media (min-width:1024px) and (max-width:1199px) and (pointer:fine), (min-width:1024px) and (max-width:1199px) and (min-height:501px){
-  .work.rpon{--tw:0px!important}.work.rpon .thumbs,.work.rpon .thd,.work.rpon .tgrip{visibility:hidden;padding:0;border:0}   /* แผงเปิด: ภาพย่อหลบชั่วคราว (ไม่บันทึก) */
-}
 @media (min-width:1200px){
-  .work{--tw:160px}
   .skel{grid-template-columns:repeat(3,1fr)}
 }
 @media (prefers-reduced-motion:reduce){
@@ -1033,13 +1087,6 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 .mpill .btn.ic{width:44px;padding:0;justify-content:center}
 @media (prefers-reduced-motion:reduce){.sel .hx{transition:none}}
 /* ══ ใบ 022 ซูม ══ */
-.pbar .zm{display:flex;align-items:center;height:36px;border:1px solid var(--line);border-radius:12px;background:#fff;margin-left:auto;margin-right:8px}
-.pbar .zm button{height:34px;border:none;background:none;display:grid;place-items:center;color:var(--text);padding:0}.pbar .zm .zb{width:36px;border-radius:11px}.pbar .zm svg.i{display:block;width:20px;height:20px}
-.pbar .zm .zv{min-width:58px;padding:0 6px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;border-left:1px solid var(--line);border-right:1px solid var(--line);border-radius:0}
-.pbar .zm button:hover{background:var(--bg)}.pbar .zm button:disabled{color:#C4C4CC;background:none}
-.zmenu2{position:fixed;z-index:90;width:200px;background:#fff;border-radius:14px;box-shadow:0 8px 28px rgba(20,20,26,.18);padding:6px;animation:rz .16s var(--ease) both}
-.zmenu2 button{display:flex;align-items:center;gap:10px;width:100%;height:44px;border:none;background:none;border-radius:10px;padding:0 12px;font-size:14px;font-weight:600;color:var(--text);text-align:left}
-.zmenu2 button:hover,.zmenu2 button.on{background:var(--bg)}.zmenu2 svg.i{display:block;width:20px;height:20px}.zmenu2 kbd{margin-left:auto;font:inherit;font-size:12px;color:var(--sub)}.zmenu2 hr{border:none;border-top:1px solid var(--line);margin:4px 0}
 .zlbl{position:absolute;left:50%;top:12px;z-index:20;transform:translateX(-50%);background:#15151A;color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px;pointer-events:none;opacity:0;transition:opacity .3s var(--ease);font-variant-numeric:tabular-nums}.zlbl.on{opacity:1;transition-duration:.12s}
 @media (pointer:coarse) and (min-width:768px) and (min-height:501px){.pages .slide{touch-action:pan-x pan-y}}
 .work.zoomed .pages{touch-action:none;overflow:hidden!important}.work.zoomed .dots,.work.zoomed .ftb{visibility:hidden}.work.zoomed .canvas{overflow:hidden}
@@ -1060,11 +1107,11 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   .rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos]{top:auto!important;bottom:0;left:0;right:0;width:auto;height:62dvh;border-radius:20px 20px 0 0;border-left:0;box-shadow:0 -4px 24px rgba(20,20,26,.14);transform:translateY(100%)}
   .rp.on[data-p=brand],.rp.on[data-p=trans],.rp.on[data-p=pos]{transform:none}
   .work.bsheet .canvas{margin-bottom:62dvh}
-  .work.bsheet{--tw:0px!important}.work.bsheet .thumbs,.work.bsheet .thd,.work.bsheet .tgrip{visibility:hidden;padding:0;border:0}
-  .work.bsheet .pbar{display:none}
+  .work.bsheet .dbar{display:none}
 }
 @media (min-width:768px) and (max-width:1023px){.rp[data-p=brand],.rp[data-p=trans],.rp[data-p=pos],.rp[data-p=text]{right:56px}}
-@media (max-width:767px), (pointer:coarse) and (max-height:500px){.work.bsheet .pages .slide{width:min(100%,calc((38dvh - 56px - 44px - 16px) * 16 / 9))}.work.bsheet .dots{display:none}}
+@media (max-width:767px), (pointer:coarse) and (max-height:500px){.work.bsheet .pages .slide{width:min(100%,calc((38dvh - 56px - 44px - 16px) * 16 / 9))}.work.bsheet .dots,.work.bsheet .mnote{display:none}}
+@media (pointer:coarse) and (max-height:500px){.mnote{display:none!important}}   /* มือถือแนวนอน: ที่ไม่พอ การ์ดโน้ตหลบ (โน้ตยังอยู่ในไฟล์) */
 </style>
 </head>
 <body>
@@ -1164,6 +1211,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <symbol id="i-aC" viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M8 10H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h4"/><path d="M16 10h4a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-4"/><path d="M8 20H7a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h1"/><path d="M16 14h1a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-1"/></symbol>
   <symbol id="i-aR" viewBox="0 0 24 24"><rect width="16" height="6" x="2" y="4" rx="2"/><rect width="9" height="6" x="9" y="14" rx="2"/><path d="M22 22V2"/></symbol>
   <symbol id="i-pclose" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m16 15-3-3 3-3"/></symbol>
+  <symbol id="i-notes" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="18" rx="2"/><path d="M8 2v4"/><path d="M12 2v4"/><path d="M16 2v4"/><path d="M8 10h6"/><path d="M8 14h8"/><path d="M8 18h5"/></symbol>
   <symbol id="i-popen" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></symbol>
 </svg>
 
@@ -1239,18 +1287,17 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <!-- หน้าทำงาน: ตัวแก้สไลด์ -->
 <main class="work hidden" id="pWork">
   <nav class="thumbs" id="thumbs" aria-label="ภาพย่อสไลด์"></nav>
-  <div class="thd"><button class="btn btn-line btn-sm" id="tcolb" type="button" aria-expanded="true" aria-controls="thumbs" style="border:none"><svg class="i"><use href="#i-pclose"/></svg>ซ่อน</button></div>
-  <div class="tgrip" id="tgrip" role="separator" aria-orientation="vertical" aria-label="ความกว้างคอลัมน์ภาพย่อ" aria-valuemin="120" aria-valuemax="320" tabindex="0" title="ลากเพื่อปรับความกว้าง ดับเบิลคลิกคืนค่าเดิม"></div>
   <section class="canvas" id="canvas">
     <div id="vbarslot"></div>
     <div id="skel" class="open"><div class="skelnote"><span class="orb think s26"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
     <div class="pages hidden" id="pages"></div>
     <button class="dots" id="dots" type="button"><span class="dw"></span><span class="cnt"></span></button>
-    <div class="pbar" id="pbar" role="toolbar" aria-label="เปลี่ยนหน้า"><button class="btn btn-line btn-sm tshow" type="button" data-pb="show" aria-expanded="false" aria-controls="thumbs"><svg class="i"><use href="#i-popen"/></svg>ภาพย่อ</button>
-      <div class="mid"><button class="pv" type="button" data-pb="prev"><svg class="i"><use href="#i-back"/></svg>ก่อนหน้า</button><span class="pn" id="pbn" aria-live="polite"></span><button class="pv" type="button" data-pb="next">ถัดไป<svg class="i"><use href="#i-next"/></svg></button></div>
-      <div class="zm" role="group" aria-label="ซูม"><button type="button" class="zb" data-zm="-" aria-label="ซูมออก"><svg class="i"><use href="#i-minus"/></svg></button><button type="button" class="zv" id="zv" data-zm="menu" aria-haspopup="menu" aria-expanded="false" aria-label="ซูม 100% เลือกขนาด">100%</button><button type="button" class="zb" data-zm="+" aria-label="ซูมเข้า"><svg class="i"><use href="#i-plus"/></svg></button></div>
-      <button class="btn btn-line btn-sm" type="button" data-pb="add"><svg class="i"><use href="#i-plus"/></svg>เพิ่มหน้า</button></div>
   </section>
+  <div class="dbar" id="dbar" role="toolbar" aria-label="มุมมอง"><button class="b" id="notesb" type="button" aria-pressed="false"><svg class="i"><use href="#i-notes"/></svg>โน้ต</button>
+    <span class="mid" id="dbn" aria-live="polite"></span>
+    <div class="zr"><input type="range" id="zsl" min="0" max="1000" step="1" value="500" aria-label="ซูม"><button class="b pct" id="zpct" type="button" aria-haspopup="menu" aria-expanded="false">100%</button></div><i class="sep"></i>
+    <button class="b" id="gridd" type="button"><svg class="i"><use href="#i-grid"/></svg>หน้าทั้งหมด</button></div>
+  <div class="gridh" id="gridh"><h2 id="gridt"></h2><p>คลิกเพื่อไปหน้านั้น ลากเพื่อเรียงใหม่</p><button class="b" id="gridx" type="button"><svg class="i"><use href="#i-x"/></svg>กลับ</button></div>
   <aside class="rp" id="rp" data-p="chat">
     <div class="rph"><h3 id="rpT">ผู้ช่วย</h3><button class="ib" id="rpX" type="button" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
     <section class="rps pchat" data-p="chat">
@@ -1309,7 +1356,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101a';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261101b';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1454,7 +1501,11 @@ function boot() {                       // ล้มแล้วไม่ลอ�
     stepTo(3); for (const b of await zipsP) py.unpackArchive(b, 'zip', {extractDir: '/'});
     py.FS.mkdirTree('/k5/fonts'); py.FS.mkdirTree('/k5/img');
     py.FS.writeFile('/k5/fonts/OFL.txt', await (await get('fonts/OFL.txt')).text());
-    py.runPython(`import sys, json, ast; sys.path.insert(0, '/k5'); import doc2slide as D`);
+    py.runPython(`import sys, json, ast; sys.path.insert(0, '/k5'); import doc2slide as D
+if '_note' not in D.KEEP: D.KEEP = tuple(D.KEEP) + ('_note', '_name')
+_k0 = getattr(D.keys, '_k0', D.keys)
+D.keys = lambda items, order, ttl, slug: _k0([(n, {x: y for x, y in d.items() if x not in ('_note', '_name')}) for n, d in items], order, ttl, slug)
+D.keys._k0 = _k0`);   // ใบ 025: โน้ต/ชื่อหน้าอยู่ใน d ของหน้า ไม่ใช่ข้อความบนสไลด์ (ไม่นับเป็นกล่อง ไม่ทำให้วาดหน้าใหม่) ponytail: ย้ายเข้า doc2slide.py เมื่อรวม bundle ครั้งหน้า
     stepTo(4);
   })());
 }
@@ -1830,7 +1881,7 @@ async function paint() {
     while (nodeCache.size > 240) nodeCache.delete(nodeCache.keys().next().value);
   }
   slides = KEYS.map(k => nodeCache.get(k)?.node); BOX = KEYS.map(k => nodeCache.get(k)?.boxes || []);
-  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins")), ov=bool(ITEMS[i][1].get("_ov")), mv=bool(ITEMS[i][1].get("mv")), tr=ITEMS[i][1].get("_tr", ""), lg=ITEMS[i][1].get("_lg"), pn=ITEMS[i][1].get("_pn")) for i in ORDER], ensure_ascii=False)'));
+  META = JSON.parse(py.runPython('json.dumps([dict(kind=CS[i]["kind"], n=len(CS[i].get("items") or CS[i].get("rows") or []), sec=(CS[i].get("s") if CS[i]["kind"] == "statement" else CS[i].get("t")) or "", ins=bool(CS[i].get("_ins")), ov=bool(ITEMS[i][1].get("_ov")), mv=bool(ITEMS[i][1].get("mv")), tr=ITEMS[i][1].get("_tr", ""), lg=ITEMS[i][1].get("_lg"), pn=ITEMS[i][1].get("_pn"), nt=ITEMS[i][1].get("_note", ""), nm=ITEMS[i][1].get("_name", "")) for i in ORDER], ensure_ascii=False)'));
   dirty = true; readBR(); requestAnimationFrame(railFade);   // ใบ 022 ขอบจางของแถบเครื่องมือ
   return need;
 }
@@ -1843,17 +1894,43 @@ const pgs = () => [...$('pages').children].filter(x => x.classList.contains('pg'
 function hitsHtml(k) {
   return BOX[k].map((b, j) => `<div class="hit${b.can ? ' can' : ''}${b.m ? ' mv' : ''}" data-j="${j}" style="--i:${j};left:${b.x / 9.6}%;top:${b.y / 5.4}%;width:${b.w / 9.6}%;height:${b.h / 5.4}%"></div>`).join('');
 }
+// ใบ 025 หัวหน้า (คอม): หน้า N + ชื่อหน้า / เปลี่ยนแบบ ขึ้น ลง ล็อก ทำสำเนา ลบ เพิ่มหน้า
+const pageLocked = k => !!BOX[k]?.some(b => b.lk) && !BOX[k].some(b => b.can);
+function phHtml(k) {
+  const m = META[k] || {}, n = slides.length, lk = pageLocked(k);
+  const b = (a, ic, l, tip, dis) => `<button type="button" data-pa="${a}" aria-label="${l}" data-tip="${tip || l}"${dis ? ' disabled' : ''}>${ico(ic)}</button>`;
+  return `<span class="pn">หน้า ${k + 1}</span><button type="button" class="pt${m.nm ? '' : ' em'}" data-pa="name" aria-label="ตั้งชื่อหน้า ${k + 1}">${esc(m.nm || 'ใส่ชื่อหน้า')}</button>
+    <div class="acts"><button type="button" class="tx" data-pa="alt" aria-label="เปลี่ยนแบบหน้า ${k + 1}" data-tip="เปลี่ยนแบบหน้า">${ico('layout')}<span>เปลี่ยนแบบ</span></button><hr>
+    ${b('up', 'up', 'เลื่อนหน้าขึ้น', '', k <= 0)}${b('down', 'dn', 'เลื่อนหน้าลง', '', k >= n - 1)}${b('lock', lk ? 'unlock' : 'lock', lk ? 'ปลดล็อกทั้งหน้า' : 'ล็อกทั้งหน้า')}${b('dup', 'copy', 'ทำสำเนาหน้านี้', `ทำสำเนาหน้านี้ ${KM}D`)}${b('del', 'trash', 'ลบหน้านี้', '', n < 2)}<hr>
+    <button type="button" class="tx" data-pa="add" aria-label="เพิ่มหน้าต่อจากหน้า ${k + 1}" data-tip="เพิ่มหน้า">${ico('plus')}<span>เพิ่มหน้า</span></button></div>`;
+}
+const mnHtml = k => { const t = META[k]?.nt || ''; return `${ico('notes')}<span><b>โน้ตผู้บรรยาย</b><p class="${t ? '' : 'em'}">${esc(t || 'แตะเพื่อเพิ่มโน้ต')}</p></span><svg class="i go" aria-hidden="true"><use href="#i-next"/></svg>`; };
 function pageEl(k) {
   const pg = document.createElement('div'); pg.className = 'pg'; pg.style.animationDelay = Math.min(k * 50, 500) + 'ms'; pg.style.setProperty('--i', k);
-  pg.innerHTML = `<div class="slide"><div class="slidebox"></div><div class="hits">${hitsHtml(k)}</div></div><div class="src">${srcHtml(META[k])}</div>
-    <div class="gap"><button type="button" aria-label="เพิ่มหน้าตรงนี้ (ต่อจากหน้า ${k + 1})" data-tip="เพิ่มหน้าตรงนี้">${ico('plus')}</button></div>`;
-  mount(pg.querySelector('.slidebox'), slides[k]);
+  pg.innerHTML = `<div class="phd">${phHtml(k)}</div><div class="slide"><div class="slidebox"></div><div class="hits"></div></div><div class="src">${srcHtml(META[k])}</div>
+    <button class="mnote" type="button" aria-label="โน้ตผู้บรรยาย หน้า ${k + 1}">${mnHtml(k)}</button>
+    <div class="gap"><button type="button" aria-label="เพิ่มหน้าตรงนี้ (ต่อจากหน้า ${k + 1})" data-tip="เพิ่มหน้าตรงนี้">${ico('plus')}</button></div>
+    <div class="nt"><div class="nh">${ico16('notes')}<span>โน้ตผู้บรรยาย หน้า ${k + 1}</span><small>คนดูไม่เห็น ไปอยู่ในโน้ตของ PowerPoint</small></div><textarea rows="1" placeholder="พิมพ์สิ่งที่จะพูดตอนนำเสนอหน้านี้" aria-label="โน้ตผู้บรรยาย หน้า ${k + 1}"></textarea></div>`;
+  pg.querySelector('.nt textarea').value = META[k]?.nt || ''; pg.querySelector('.phd').dataset.h = phHtml(k); pg.querySelector('.mnote').dataset.h = mnHtml(k);
+  if (one()) mountPg(pg, k);                // มือถือ (ทีละหน้า ปัดซ้ายขวา): วาดทุกหน้าแบบเดิม / คอม: วาดเมื่อใกล้จอ (observePages)
   return pg;
+}
+// คอม (ใบ 025): วาดสไลด์ + กล่องที่แก้ได้เฉพาะหน้าใกล้จอ หน้าอื่นเป็นกรอบสีพื้นขนาดเท่าจริง (.slidebox aspect-ratio 16/9)
+function mountPg(pg, k) { if (pg.dataset.m || !slides[k]) return; pg.dataset.m = '1'; mount(pg.querySelector('.slidebox'), slides[k]); pg.querySelector('.hits').innerHTML = hitsHtml(k); }
+function unmountPg(pg, k) { if (!pg.dataset.m || one() || k === cur || SEL?.k === k || ED?.k === k || DR?.k === k) return; delete pg.dataset.m; pg.querySelector('.slidebox').innerHTML = ''; pg.querySelector('.hits').innerHTML = ''; }
+// ค่าที่ไม่ต้องวาดสไลด์ใหม่ (ชื่อหน้า โน้ต ล็อก ปุ่มขึ้นลง): เขียนลงหน้าที่มีอยู่ หลังเลิกทำ/แก้ ช่องที่กำลังพิมพ์ไม่โดนทับ
+function paintPh() {
+  pgs().forEach((pg, k) => {
+    const h = pg.querySelector('.phd'); if (h && !h.querySelector('input')) { const x = phHtml(k); if (h.dataset.h !== x) { h.innerHTML = x; h.dataset.h = x; } }
+    const ta = pg.querySelector('.nt textarea'), v = META[k]?.nt || ''; if (ta && ta !== document.activeElement && ta.value !== v) ta.value = v;
+    const mn = pg.querySelector('.mnote'), y = mnHtml(k); if (mn && mn.dataset.h !== y) { mn.innerHTML = y; mn.dataset.h = y; }
+  });
+  [...$('thumbs').children].forEach((t, k) => { const e = t.querySelector('b em'); if (e) e.textContent = META[k]?.nm || ''; });
 }
 function thOv(th, k) { th.querySelector('.ovb')?.remove(); if (META[k]?.ov) th.insertAdjacentHTML('beforeend', OVB); }
 function thumbEl(k) {
   const b = document.createElement('button'); b.type = 'button'; b.className = 'th'; b.setAttribute('aria-label', `ไปหน้า ${k + 1}`); b.style.setProperty('--i', k);
-  b.innerHTML = `<b>${k + 1}</b><div class="slidebox"></div>`; mount(b.lastChild, slides[k]); thOv(b, k); return b;
+  b.innerHTML = `<b><i>หน้า</i>${k + 1}<em>${esc(META[k]?.nm || '')}</em></b><div class="slidebox"></div>`; mount(b.lastChild, slides[k]); thOv(b, k); return b;
 }
 // วาด canvas + ภาพย่อใหม่ทั้งชุด  mode: (ไม่ใส่) เด้งขึ้น / 'settled' ไม่เด้ง / 'swap' ค่อยชัดไล่ทีละใบ (เปลี่ยนหน้าตา)
 function relayout(mode) {
@@ -1861,11 +1938,14 @@ function relayout(mode) {
   P.classList.toggle('settled', mode === 'settled'); P.classList.toggle('swapin', mode === 'swap');
   const ec = document.createElement('div'); ec.className = 'endc';   // มือถือ: ปัดเลยหน้าสุดท้าย = การ์ดเพิ่มหน้าใหม่
   ec.innerHTML = `<button class="ec" type="button" aria-label="เพิ่มหน้าใหม่ต่อจากหน้า ${slides.length}"><b>${ico('plus')}</b>เพิ่มหน้าใหม่</button>`;
-  P.replaceChildren(...slides.map((_, k) => pageEl(k)), ec);
+  const pa = document.createElement('button'); pa.type = 'button'; pa.className = 'padd'; pa.innerHTML = `${ico('plus')}เพิ่มหน้า`; pa.setAttribute('aria-label', `เพิ่มหน้าใหม่ต่อจากหน้า ${slides.length}`);   // คอม: เส้นประท้ายหน้าสุดท้าย
+  P.replaceChildren(...slides.map((_, k) => pageEl(k)), ec, pa);
   $('thumbs').classList.toggle('first', !mode); $('thumbs').replaceChildren(...slides.map((_, k) => thumbEl(k)));
-  $('thumbs').dataset.h = `${slides.length} หน้า · แตะค้างแล้วลากเพื่อย้ายหน้า`;
-  C.scrollTop = top; observePages();
+  $('thumbs').dataset.h = `${slides.length} หน้า · แตะค้างแล้วลากเพื่อย้ายหน้า`; $('gridt').textContent = `หน้าทั้งหมด ${slides.length} หน้า`;
+  C.scrollTop = top;
   if (cur >= slides.length) cur = slides.length - 1;
+  if (wide()) { const h = C.clientHeight, t0 = C.scrollTop; pgs().forEach((p, k) => { if (p.offsetTop + p.offsetHeight > t0 - h && p.offsetTop < t0 + 2 * h) mountPg(p, k); }); }   // หน้าในจอขึ้นทันที ไม่รอ observer
+  observePages();
   if (one()) { if (cur < 0) cur = Math.min(near, slides.length - 1); P.scrollLeft = cur * P.clientWidth; near = cur; }   // ทีละหน้า: มีหน้าที่ทำงานอยู่เสมอ
   select(cur, {quiet: true}); paintDots(); paintSel();
   if (gridOn) $('thumbs').querySelectorAll('.slidebox').forEach(fit);
@@ -1873,6 +1953,8 @@ function relayout(mode) {
 // แก้หน้าเดียว/เลิกทำที่จำนวนหน้าเท่าเดิม: สลับเฉพาะเนื้อในของหน้าที่เปลี่ยน ภาพเก่าอยู่จนภาพใหม่พร้อม (motion ข้อ 5)
 function swapPage(k, ring = true) {
   const pg = pgs()[k]; if (!pg) return;
+  const th = $('thumbs').children[k]; if (th) { mount(th.lastChild, slides[k]); thOv(th, k); if (ring) retrig(th, 'swap'); }
+  if (!pg.dataset.m) { srcSet(pg, k); return; }   // คอม: หน้าที่ยังไม่วาด (ไกลจอ) วาดของใหม่ตอนเลื่อนถึง
   const box = pg.querySelector('.slidebox');
   const nx = document.createElement('div'); nx.className = 'next'; nx.appendChild(cloneSlide(slides[k])); box.appendChild(nx);
   if (box.clientWidth) nx.style.transform = `scale(${box.clientWidth / 960})`;
@@ -1890,7 +1972,6 @@ function swapPage(k, ring = true) {
   });
   const hs = pg.querySelector('.hits'); hs.innerHTML = hitsHtml(k); hs.classList.add('re'); srcSet(pg, k);
   const sl = pg.querySelector('.slide'); if (ring) { sl.classList.remove('swap', 'repaint'); void sl.offsetWidth; sl.classList.add('swap'); }
-  const th = $('thumbs').children[k]; if (th) { mount(th.lastChild, slides[k]); thOv(th, k); if (ring) retrig(th, 'swap'); }
   if (SEL?.k === k) paintSel();
 }
 function srcSet(pg, k) { const h = srcHtml(META[k]), e = pg.querySelector('.src'); if (e.dataset.h !== h) { e.innerHTML = h; e.dataset.h = h; } }   // A9: ป้ายล้นไม่เด้งซ้ำทุกครั้งที่วาดหน้าอื่น
@@ -1901,75 +1982,71 @@ function settle(oldKeys, keep = cur) {
   let first = -1;
   KEYS.forEach((k, i) => { if (k !== oldKeys[i]) { swapPage(i, i !== keep); if (first < 0) first = i; } });
   pgs().forEach((pg, k) => srcSet(pg, k));
-  [...$('thumbs').children].forEach(thOv);
+  [...$('thumbs').children].forEach(thOv); paintPh();
   return first;
 }
-let io_ = null, near = 0;
-function observePages() {                 // คอม: ภาพย่อที่ใกล้กลางจอไฮไลต์ตาม / มือถือ (ทีละหน้า): หน้าที่เห็นเกิน 60% = หน้าที่ทำงาน + จุดบอกหน้า
-  io_?.disconnect(); const vis = new Map(), o = one();
+let io_ = null, io2 = null, near = 0;
+function observePages() {                 // คอม: วาดหน้าที่อยู่ในจอ ± 1 จอ เอาออกเมื่อห่างเกิน 2 จอ / มือถือ (ทีละหน้า): หน้าที่เห็นเกิน 60% = หน้าที่ทำงาน + จุดบอกหน้า
+  io_?.disconnect(); io2?.disconnect(); io2 = null; const vis = new Map(), o = one();
+  if (!o) {
+    const C = $('canvas'), each = f => es => es.forEach(e => { const k = pgs().indexOf(e.target); if (k >= 0) f(e, k); });
+    io_ = new IntersectionObserver(each((e, k) => { if (e.isIntersecting) mountPg(e.target, k); }), {root: C, rootMargin: '100% 0px'});
+    io2 = new IntersectionObserver(each((e, k) => { if (!e.isIntersecting) unmountPg(e.target, k); }), {root: C, rootMargin: '200% 0px'});
+    pgs().forEach(p => { io_.observe(p); io2.observe(p); });
+    return;
+  }
   io_ = new IntersectionObserver(es => {
     es.forEach(e => vis.set(e.target, e.intersectionRatio));
     let best = null, br = 0; vis.forEach((r, el) => { if (r > br) { br = r; best = el; } });
-    if (o) {
-      if (ED || gridOn || PZ || DR || br < .6) return;
-      const k = best.classList.contains('endc') ? slides.length : pgs().indexOf(best); if (k < 0 || k === near) return;
-      near = k; if (k < slides.length && k !== cur) select(k, {quiet: true}); paintDots(); return;
-    }
-    const k = pgs().indexOf(best); if (k < 0) return; near = k;
-    [...$('thumbs').children].forEach((t, j) => t.classList.toggle('near', j === k));
-    const t = $('thumbs').children[k], T = $('thumbs');
-    if (t && T.clientHeight && (t.offsetTop < T.scrollTop || t.offsetTop + t.offsetHeight > T.scrollTop + T.clientHeight)) T.scrollTo({top: t.offsetTop - T.clientHeight / 2, behavior: SMOOTH()});
-  }, {root: o ? $('pages') : $('canvas'), threshold: o ? [0, .6, 1] : [0, .25, .5, .75, 1]});
-  [...$('pages').children].forEach(p => io_.observe(p));
+    if (ED || gridOn || PZ || DR || br < .6) return;
+    const k = best.classList.contains('endc') ? slides.length : pgs().indexOf(best); if (k < 0 || k === near) return;
+    near = k; if (k < slides.length && k !== cur) select(k, {quiet: true}); paintDots();
+  }, {root: $('pages'), threshold: [0, .6, 1]});
+  [...$('pages').children].forEach(p => { if (!p.classList.contains('padd')) io_.observe(p); });
 }
 new ResizeObserver(() => { document.querySelectorAll('#pages .slidebox').forEach(fit); placeEdit(); paintSel(); }).observe($('pages'));
 window.addEventListener('resize', () => { document.querySelectorAll('.slidebox').forEach(fit); presFit(); if (TR) tourStep(); });
+// คอม: หน้าปัจจุบัน = หน้าที่กินพื้นที่ในจอมากสุด (ไม่เปลี่ยนตอนเลือกกล่อง/พิมพ์/ลากอยู่) / แถบลอยของกล่องตามการเลื่อน
+let scrT = 0;
+function pickCur() {
+  if (!slides.length || gridOn || one()) return;
+  const R = $('canvas').getBoundingClientRect(); let best = -1, bv = 0;
+  pgs().forEach((p, k) => { const r = p.getBoundingClientRect(), v = Math.min(r.bottom, R.bottom) - Math.max(r.top, R.top); if (v > bv) { bv = v; best = k; } });
+  if (best >= 0 && best !== cur && !(ED || SEL || DR || POP || busyNow)) select(best, {quiet: true});
+}
+$('canvas').addEventListener('scroll', () => { if (scrT || one()) return; scrT = requestAnimationFrame(() => { scrT = 0; pickCur(); if (SEL) paintSel(); if (ED) placeEdit(); if (POP) paintPop(); }); }, {passive: true});
 
-// ── เลือกหน้า + แถบเครื่องมือ ──
-const FTB = document.createElement('div'); FTB.className = 'ftb';
-FTB.innerHTML = `<button type="button" data-b="alt" aria-label="เปลี่ยนแบบหน้า" data-tip="เปลี่ยนแบบหน้า" style="--i:0">${ico('layout')}</button>
-  <button type="button" data-b="dup" aria-label="ทำสำเนา" data-tip="ทำสำเนา" style="--i:1">${ico('copy')}</button>
-  <button type="button" data-b="up" aria-label="เลื่อนขึ้น" data-tip="เลื่อนขึ้น" style="--i:2">${ico('up')}</button>
-  <button type="button" data-b="down" aria-label="เลื่อนลง" data-tip="เลื่อนลง" style="--i:3">${ico('dn')}</button><hr>
-  <button type="button" data-b="more" aria-label="เพิ่มเติม" data-tip="เพิ่มเติม" style="--i:4">${ico('more')}</button>`;
+// ── เลือกหน้า ──
 function select(i, o = {}) {
-  if (Z.s > 1.001 && i !== Z.k) { const o_ = zSl(); if (o_) o_.style.transform = ''; Object.assign(Z, {s: 1, tx: 0, ty: 0}); $('pWork').classList.remove('zoomed'); SELD.style.setProperty('--iz', 1); const zv = $('zv'); if (zv) zv.textContent = '100%'; }   // ใบ 022
-  if (o.prev === undefined) o = {...o, prev: cur};
-  if (i < 0 && slides.length) { deselectBox(); i = one() ? Math.max(0, Math.min(near, slides.length - 1)) : Math.max(0, Math.min(cur, slides.length - 1)); }   // ทีละหน้า (มือถือ 018 / คอม 020): มีหน้าที่ทำงานอยู่เสมอ   // ทีละหน้า: แตะที่ว่าง = เลิกเลือกกล่อง หน้าที่เห็นยังเป็นหน้าที่ทำงาน
+  if (Z.s > 1.001 && i !== Z.k) { const o_ = zSl(); if (o_) o_.style.transform = ''; Object.assign(Z, {s: 1, tx: 0, ty: 0}); $('pWork').classList.remove('zoomed'); SELD.style.setProperty('--iz', 1); }   // ใบ 022 (มือถือ)
+  if (i < 0 && slides.length) { deselectBox(); i = one() ? Math.max(0, Math.min(near, slides.length - 1)) : Math.max(0, Math.min(cur, slides.length - 1)); }   // มีหน้าที่ทำงานอยู่เสมอ แตะที่ว่าง = เลิกเลือกกล่อง
   if (SEL && SEL.k !== i) deselectBox();
   cur = i;
   pgs().forEach((p, k) => p.classList.toggle('on', k === i));
   [...$('thumbs').children].forEach((t, k) => t.classList.toggle('on', k === i));
-  FTB.querySelector('.fmenu')?.remove(); FTB.querySelector('[data-b=more]').classList.remove('on');
-  const pg = pgs()[i];
-  const was = FTB.parentNode;
-  if (was && was !== pg && !calm.matches) {   // แถบเก่าจางออกที่หน้าเดิม (160ms) แล้วแถบใหม่เข้าที่หน้าใหม่ ไม่บินข้ามจอ
-    const g = FTB.cloneNode(true); g.style.pointerEvents = 'none'; g.style.animation = 'none'; was.appendChild(g);
-    after(ani(g, [{opacity: 1}, {opacity: 0, transform: 'translateX(-4px)'}], {duration: 160, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'})).then(() => g.remove());
-  }
-  if (pg && wide()) { if (FTB.parentNode !== pg) { pg.appendChild(FTB); FTB.style.animation = 'none'; void FTB.offsetWidth; FTB.style.animation = ''; } }
-  else FTB.remove();
-  const n = slides.length;
-  FTB.querySelector('[data-b=up]').disabled = i <= 0; FTB.querySelector('[data-b=down]').disabled = i >= n - 1;
   if (gridOn) paintGbar();
-  if (wide() && pg) {                          // ใบ 020: หน้าเดียวกลางพื้นที่ / แถบหน้าล่าง / เปลี่ยนหน้า = ค่อยชัด + เลื่อน 8px ตามทิศ
-    pg.querySelectorAll('.slidebox').forEach(fit);
-    if (o.prev != null && o.prev !== i && o.prev >= 0) ani(pg, [{opacity: 0, transform: `translateY(${i > o.prev ? 8 : -8}px)`}, {opacity: 1, transform: 'none'}], {duration: 200});
-    $('pbn').textContent = `หน้า ${i + 1} / ${n}`; $('pbar').querySelector('[data-pb=prev]').disabled = i <= 0; $('pbar').querySelector('[data-pb=next]').disabled = i >= n - 1;
-    const th = $('thumbs').children[i], T = $('thumbs'); if (th && T.clientHeight && (th.offsetTop < T.scrollTop || th.offsetTop + th.offsetHeight > T.scrollTop + T.clientHeight)) T.scrollTo({top: th.offsetTop - T.clientHeight / 2, behavior: SMOOTH()});
+  const pg = pgs()[i];
+  if (wide()) {                              // ใบ 025: หน้าเรียงลง ตัวนับในแถบล่าง เลื่อนไปหัวหน้า
+    if (pg) mountPg(pg, i);
+    $('dbn').textContent = slides.length ? `หน้า ${i + 1} / ${slides.length}` : '';
+    if (o.scroll && pg) pgTo(i, calm.matches || o.jump);
     return;
   }
-  if (o.scroll && pg) { if (one()) pagesTo(i, calm.matches || o.jump || gridOn); else pg.scrollIntoView({behavior: calm.matches || o.jump ? 'auto' : 'smooth', block: 'center'}); }
+  if (o.scroll && pg) pagesTo(i, calm.matches || o.jump || gridOn);
 }
+function pgTo(i, jump) { const pg = pgs()[i]; if (pg) $('canvas').scrollTo({top: Math.max(0, pg.offsetTop - 8), behavior: jump ? 'auto' : 'smooth'}); }
 function pagesTo(i, jump) { const P = $('pages'); P.scrollTo({left: i * P.clientWidth, behavior: jump ? 'auto' : SMOOTH()}); if (jump) { near = i; paintDots(); } }
 let eatClick = 0;
 $('pages').addEventListener('click', ev => {
   if (viewing || Date.now() - eatClick < 600) return;
-  if (ev.target.closest('.endc .ec')) return openIns(slides.length - 1);   // การ์ดท้ายแถว: เพิ่มเป็นหน้าสุดท้าย
+  if (ev.target.closest('.endc .ec,.padd')) return openIns(slides.length - 1);   // การ์ดท้ายแถว / เส้นประท้ายสุด: เพิ่มเป็นหน้าสุดท้าย
+  const pa = ev.target.closest('[data-pa]'); if (pa) { if (!pa.disabled) phAct(pa.dataset.pa, pgs().indexOf(pa.closest('.pg')), pa); return; }
+  const mn = ev.target.closest('.mnote'); if (mn) return noteSheet(pgs().indexOf(mn.closest('.pg')));
   const gp = ev.target.closest('.gap');
   if (gp) { if (ev.target.closest('button')) openIns(pgs().indexOf(gp.parentNode)); return; }
-  const pg = ev.target.closest('.pg'); if (!pg) { if (ev.target.closest('.ftb')) return; return select(-1); }
-  if (ev.target.closest('.ftb,.edit,.tip,.etb,.tlay,.selbar')) return;
+  const pg = ev.target.closest('.pg'); if (!pg) return select(-1);
+  if (ev.target.closest('.phd,.nt')) { const k = pgs().indexOf(pg); if (k !== cur && !ED) select(k); return; }
+  if (ev.target.closest('.edit,.tip,.etb,.tlay,.selbar')) return;
   const k = pgs().indexOf(pg), hit = ev.target.closest('.hit');
   // จอสัมผัส (ใบ 017 แบบ Canva): แตะกล่อง = เลือกหน้า + เลือกกล่อง (ไม่ขึ้นคีย์บอร์ด) แตะกล่องที่เลือกอยู่อีกครั้ง = พิมพ์ / เมาส์: คลิก = พิมพ์ทันที (015 เดิม)
   if (hit) {
@@ -1984,27 +2061,19 @@ $('pages').addEventListener('click', ev => {
 $('canvas').addEventListener('click', ev => { if (Date.now() - eatClick < 600) return; if (ev.target === $('canvas') || ev.target === $('pages')) select(-1); });
 $('thumbs').addEventListener('click', ev => {
   const t = ev.target.closest('.th'); if (!t || Date.now() - eatClick < 600) return; const i = [...$('thumbs').children].indexOf(t);
+  if (gridOn && wide()) return closeGrid(i);   // คอม: คลิก = ไปหน้านั้นแล้วปิดตาราง
   if (gridOn) { i === cur ? closeGrid(i) : select(i, {scroll: true}); return; }   // ตาราง: แตะ = เลือก แตะซ้ำ = กลับไปแก้หน้านั้น
   select(i, {scroll: true});
 });
-FTB.addEventListener('click', ev => {
-  const b = ev.target.closest('[data-b]'); if (!b || b.disabled) return;
-  if (b.dataset.b === 'more') return moreMenu(b);
-  if (ev.target.closest('.fmenu')) return;
-  pageAct(b.dataset.b);
-});
-function moreMenu(btn) {
-  const had = FTB.querySelector('.fmenu'); had?.remove(); btn.classList.toggle('on', !had); if (had) return;
-  const m = document.createElement('div'); m.className = 'fmenu';
-  const one = slides.length < 2;
-  m.innerHTML = `<button type="button" data-m="ins">${ico('plus')}เพิ่มหน้าใหม่ต่อจากหน้านี้</button><button type="button" data-m="del" class="danger" ${one ? 'disabled' : ''}>${ico('trash')}ลบหน้านี้</button>${one ? '<p>ต้องมีอย่างน้อย 1 หน้า</p>' : ''}`;
-  m.onclick = ev => {
-    ev.stopPropagation(); const b = ev.target.closest('[data-m]'); if (!b || b.disabled) return;
-    if (b.dataset.m === 'ins') { m.remove(); btn.classList.remove('on'); return openIns(cur); }
-    if (b.dataset.m === 'del') { m.innerHTML = `<p>ลบหน้า ${cur + 1}? หน้านี้จะไม่อยู่ในไฟล์</p><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-m="yes" type="button">ลบหน้า</button></div>`; return; }
-    m.remove(); btn.classList.remove('on'); if (b.dataset.m === 'yes') delPage();
-  };
-  FTB.appendChild(m);
+function phAct(a, k, btn) {
+  if (k < 0 || busyNow) return;
+  if (a === 'name') return nameEdit(k, btn);
+  if (ED && !finishEdit(true)) return;
+  if (k !== cur || SEL) select(k);
+  if (a === 'add') return openIns(k);
+  if (a === 'del') return askDel();
+  if (a === 'lock') return pageLock(k);
+  pageAct(a);                              // alt dup up down = คำสั่งเดิม
 }
 function pageAct(a) {
   if (busyNow || cur < 0 || viewing) return;
@@ -2037,7 +2106,7 @@ async function reflow(mutate, label, sel, arr = true) {   // arr: หน้า�
 }
 function move(d) {
   const i = cur, j = cur + d; if (j < 0 || j >= slides.length) return;
-  reflow(() => { [order[i], order[j]] = [order[j], order[i]]; }, `ย้ายหน้า ${i + 1} ${d < 0 ? 'ขึ้น' : 'ลง'}`, j).then(() => { select(cur); toast(`ย้ายไปเป็นหน้า ${cur + 1} แล้ว`); });
+  reflow(() => { [order[i], order[j]] = [order[j], order[i]]; }, `ย้ายหน้า ${i + 1} ${d < 0 ? 'ขึ้น' : 'ลง'}`, j).then(() => { select(cur, {scroll: wide()}); toast(`ย้ายไปเป็นหน้า ${cur + 1} แล้ว`); });
 }
 function moveTo(i, j) {                    // ตาราง (ใบ 018): ลากหน้า i ไปเป็นหน้า j = 1 ขั้นเลิกทำ
   if (i === j) return;
@@ -2447,7 +2516,7 @@ ALTS = [x for x in D.alternatives(_c, M['slug']) if x[0] != ITEMS[IDX][0]]; len(
         closeSheet(); busyNow = true; const oldKeys = KEYS.slice();
         try {
           py.globals.set('IDX', idx); py.globals.set('ALTJ', a.json); py.globals.set('K_', k);
-          py.runPython('ITEMS[IDX] = tuple(json.loads(ALTJ)[K_])');
+          py.runPython('_o = ITEMS[IDX][1]; _n = tuple(json.loads(ALTJ)[K_]); _n[1].update({x: _o[x] for x in ("_note", "_name") if _o.get(x)}); ITEMS[IDX] = _n');   // ใบ 025: โน้ต/ชื่อหน้าตามไปแบบใหม่
           altCache.delete(idx); await paint(); cur = at; settle(oldKeys, -1); select(at);
           arranged = true; commit(`เปลี่ยนแบบหน้า ${at + 1}`); toast(`จัดหน้า ${at + 1} แบบใหม่แล้วครับ`);
         } catch (e) { console.error(e); toast('เปลี่ยนไม่สำเร็จ ลองแบบอื่นได้'); } finally { busyNow = false; }
@@ -2550,7 +2619,7 @@ async function addAgenda(j) {
   select(at, {scroll: true}); toast(`เพิ่มสารบัญเป็นหน้า ${at + 1} แล้ว หัวข้อดึงจากหน้าที่มีอยู่`);
 }
 function openSheet(t, s, html) { $('sheet').classList.remove('ins'); document.querySelectorAll('#sheet .xtra').forEach(x => x.remove()); $('shT').textContent = t; $('shS').textContent = s || ''; $('shBody').innerHTML = html || ''; $('shBody').onclick = null; $('sheet').classList.add('on'); }
-function closeSheet() { $('sheet').classList.remove('on'); document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act')); }
+function closeSheet() { if ($('mta')) { noteFlush(); $('sheet').style.bottom = ''; } $('sheet').classList.remove('on'); document.querySelectorAll('.gap.act').forEach(g => g.classList.remove('act')); }
 $('shX').onclick = closeSheet;
 $('sheet').onclick = ev => { if (ev.target === $('sheet')) closeSheet(); };
 function lookHtml() {
@@ -2582,6 +2651,7 @@ async function changeLook(s2, sure) {
     py.globals.set('ORDER', py.toPy(order)); py.runPython('_OI, _OC, _OO = ITEMS, CS, list(ORDER)');
     py.globals.set('SLUG', s2); py.runPython('M, OUT, LOG = D.plan(WANT, SLUG)'); slug = s2; takePlan(); LOST = 0; arranged = false;
     const [o2, gone] = JSON.parse(py.runPython('json.dumps(D.carry_ins(_OI, _OC, _OO, ITEMS, CS, SLUG))')); order = o2;   // หน้าที่แทรกเองตามไปด้วย
+    py.globals.set('O2', py.toPy(order)); py.runPython(NOTECARRY);   // ใบ 025: โน้ต/ชื่อหน้าตามหัวข้อเดิมไปหน้าตาใหม่
     await paint(); busyNow = false; relayout('swap');
     toast(gone ? `เปลี่ยนเป็นหน้าตา${s.style}แล้ว หน้าที่เพิ่มเอง ${gone} หน้าใส่ในหน้าตานี้ไม่ได้ กดกลับหน้าตาเดิมเพื่อเอาคืนได้` : 'เปลี่ยนเป็นหน้าตา' + s.style + 'แล้วครับ', !!gone); if (gone) setTimeout(() => $('toast').classList.remove('on'), 6000);
     commit(`เปลี่ยนเป็นหน้าตา${s.style}`); paintLooks();
@@ -2597,6 +2667,14 @@ async function changeLook(s2, sure) {
     setBot(um, `<div class="err">เปลี่ยนไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองหน้าตาอื่นได้</div>`); toast('เปลี่ยนไม่สำเร็จ ไม่เสียสิทธิ์อะไร ลองหน้าตาอื่นได้');
   }
 }
+// ใบ 025: เปลี่ยนหน้าตา = จัดใหม่จากเนื้อหา โน้ต/ชื่อหน้าผูกกับหัวข้อของหน้า (หัวข้อเดียวกันหลายหน้า = ไล่ตามลำดับ) ponytail: หัวข้อที่ถูกแบ่ง/รวมต่างไปจากเดิม โน้ตไปอยู่หน้าแรกของหัวข้อนั้น
+const NOTECARRY = `_nq = {}
+for _i in _OO:
+    _x = {y: _OI[_i][1][y] for y in ("_note", "_name") if _OI[_i][1].get(y)}
+    if _x: _nq.setdefault(repr(_OC[_i].get("t")), []).append(_x)
+for _i in O2:
+    _q = _nq.get(repr(CS[_i].get("t")))
+    if _q: ITEMS[_i] = (ITEMS[_i][0], {**ITEMS[_i][1], **_q.pop(0)})`;
 function paintLooks() { $('lookg').innerHTML = lookHtml(); }
 $('lookg').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
 
@@ -2662,7 +2740,7 @@ function commit(label, r) {
 }
 function urState() { $('undo').disabled = SP <= 0 || !!viewing; $('redo').disabled = SP >= STACK.length - 1 || !!viewing; }
 async function undoRedo(d) {
-  const ed0 = !!ED;
+  noteFlush(); const ed0 = !!ED;
   if (ED && !(await applyEdit())) return;   // ใช้คำที่พิมพ์ก่อน แล้วเลิกทำ/ทำซ้ำต่อในครั้งเดียว (ยาวเกิน = ช่องยังเปิดพร้อมคำเตือน)
   if (busyNow || viewing || running) return;
   const to = SP + d;
@@ -2696,10 +2774,11 @@ document.addEventListener('keydown', ev => {
     if (mod && (ev.code === 'BracketRight' || ev.code === 'BracketLeft')) { ev.preventDefault(); zPy(ev.code === 'BracketRight' ? (ev.shiftKey ? 'front' : 'fwd') : (ev.shiftKey ? 'back' : 'bwd')); return; }   // ชั้นแบบ PowerPoint
     if (mod && ev.shiftKey && (ev.code === 'Period' || ev.code === 'Comma')) { ev.preventDefault(); const t_ = tgt(); if (t_) sizeTo(ptOf(t_) + (ev.code === 'Period' ? 1 : -1)); return; }
   }
-  if (!mod && wide() && cur >= 0 && ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'].includes(ev.key) && !$('sheet').classList.contains('on')) {
+  if (!mod && wide() && cur >= 0 && !gridOn && ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown'].includes(ev.key) && !$('sheet').classList.contains('on') && !ev.target.closest?.('button,#zsl')) {
     ev.preventDefault(); select(Math.max(0, Math.min(slides.length - 1, cur + (ev.key === 'ArrowUp' || ev.key === 'PageUp' ? -1 : 1))), {scroll: true});
   }
-  if (mod && (ev.key === '\\' || ev.code === 'Backslash') && wide()) { ev.preventDefault(); thumbsCol(!$('pWork').classList.contains('tcol')); }
+  if (mod && k === 'd' && !ev.shiftKey && !ev.altKey && !SEL && cur >= 0 && !$('sheet').classList.contains('on')) { ev.preventDefault(); dupPage(); return; }   // ใบ 025: ทำสำเนาหน้า (ทิปที่หัวหน้า)
+  if (ev.key === 'Escape' && gridOn && wide()) { closeGrid(cur); return; }
   if (ev.key === 'Escape' && cur >= 0 && !$('sheet').classList.contains('on')) select(-1);
 });
 // IndexedDB: เก็บทุกเวอร์ชัน (ล่าสุด 50) ของงานในเครื่องนี้  เก็บไม่ได้ (โหมดไม่ระบุตัวตน/พื้นที่เต็ม) แก้ต่อได้ แต่บอกตรง ๆ
@@ -2841,13 +2920,13 @@ async function resume(v, vs = [v], cover) {
   const head = 'กำลังเปิดงานล่าสุดของคุณ' + (v.ttl ? `: ${v.ttl}` : '') + (v.n ? ` ${v.n} หน้า` : '');
   const sk = n => { $('skelt').textContent = n === 1 ? 'กำลังโหลดเครื่องมือ… ครั้งแรกอาจใช้เวลาสักครู่' : n === 2 ? 'กำลังเตรียมเครื่องมือ… ครั้งแรกอาจใช้เวลาสักครู่' : head; };   // เน็ตช้า: เห็นว่ายังโหลดอยู่ทีละขั้น
   $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); sk(bootStep); onBoot.add(sk);
-  // ไอซ์ 1 พ.ย.: โครงตามเลย์เอาต์จริง (ภาพย่อซ้าย + สไลด์เดียวกลาง / มือถือสไลด์เดียว) ภาพปกล่าสุดจากเครื่องขึ้นแทนโครงหน้า 1
+  // ไอซ์ 1 พ.ย.: โครงตามเลย์เอาต์จริง (ใบ 025 คอม: หน้าเรียงลง / มือถือสไลด์เดียว) ภาพปกล่าสุดจากเครื่องขึ้นแทนโครงหน้า 1
   $('skel').classList.add('open'); $('skelg').classList.remove('all', 'fail'); deselectBox(); closeGrid(-1, true);
   const cv = cover && document.createRange().createContextualFragment(cover).firstElementChild, n = Math.min(v.n || 6, 30);
-  $('skelg').innerHTML = `<div class="ph${cv ? ' cv' : ''}">${cv ? '<div class="slidebox"></div>' : ''}</div>`;
-  $('thumbs').innerHTML = Array.from({length: n}, (_, i) => `<div class="th sk${cv && !i ? ' cv' : ''}"><b>${i + 1}</b><div class="slidebox"></div></div>`).join('');
+  $('skelg').innerHTML = `<div class="skh"></div><div class="ph${cv ? ' cv' : ''}">${cv ? '<div class="slidebox"></div>' : ''}</div>` + (n > 1 ? '<div class="skh"></div><div class="ph"></div>' : '');   // ใบ 025 คอม: หัวหน้า + หน้าเรียงลง (หน้า 2 โผล่ล่าง) / มือถือ: หน้าเดียว
+  $('thumbs').innerHTML = '';
   show('pWork'); setTtl(ttl);
-  if (cv) [$('skelg').querySelector('.slidebox'), $('thumbs').querySelector('.slidebox')].forEach(b => mount(b, cv));
+  if (cv) mount($('skelg').querySelector('.slidebox'), cv);
   try {
     await frame(); await boot(); onBoot.delete(sk); await guard(setsReady); if (my !== gen) return;
     busyNow = true; await guard(restore(v)); busyNow = false; if (my !== gen) return;   // ค้างที่ไหนก็จบที่ข้อความผิดพลาดภายใน ~90 วิ
@@ -3183,44 +3262,73 @@ function sizeMenu(btn) {
   const inp = m.querySelector('input'); if (inp) inp.onkeydown = ev => { if (ev.key === 'Enter') { m.remove(); setSize(parseFloat(inp.value) || E.pt, 'typed'); E.ed.focus({preventScroll: true}); } if (ev.key === 'Escape') { m.remove(); E.ed.focus({preventScroll: true}); } };
 }
 document.addEventListener('pointerdown', ev => { if (!ev.target.closest('.zmenu,[data-e=num]')) document.querySelector('.zmenu')?.remove(); }, true);
-// ══ ใบ 020: คอมทีละหน้า จัดกลาง / คอลัมน์ภาพย่อลากปรับกว้าง หุบได้ จำค่าในเครื่อง ══
-// ขนาดสไลด์ = min(กว้าง − 128, (สูง − 116) × 16/9) คำนวณตอนพื้นที่เปลี่ยน (แผงเปิดปิด ลากคอลัมน์ หน้าต่าง)
-// ponytail: แผงเปิด/ปิด และหุบคอลัมน์ กระโดดไปขนาดใหม่ ไม่มี FLIP (สเปก motion ข้อ 3) / เมนู … บนภาพย่อตอนชี้ยังไม่ทำ (คลิกขวาได้ แถบข้างสไลด์มีครบ)
-const TW = (() => { try { const v = JSON.parse(localStorage.getItem('d2s_thumbs') || '{}'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } })();
-function saveTW() { try { localStorage.setItem('d2s_thumbs', JSON.stringify(TW)); } catch (e) {} }   // โหมดส่วนตัวที่บล็อก storage: ใช้ค่าเริ่มต้น หน้ายังทำงาน
-function applyTW() {
-  const W = $('pWork'), ok = TW.w >= 120 && TW.w <= 320;
-  if (ok) W.style.setProperty('--tw', TW.w + 'px'); else W.style.removeProperty('--tw');
-  W.classList.toggle('tcol', !!TW.c); $('tcolb').setAttribute('aria-expanded', String(!TW.c)); $('pbar').querySelector('[data-pb=show]').setAttribute('aria-expanded', String(!TW.c));
-  const k = MAC ? '⌘\\' : 'Ctrl+\\'; $('tcolb').title = `ซ่อนภาพย่อ (${k})`; $('pbar').querySelector('[data-pb=show]').title = `แสดงภาพย่อ (${k})`;
-  $('tgrip').setAttribute('aria-valuenow', String(Math.round($('thumbs').getBoundingClientRect().width) || TW.w || 160));
+// ══ ใบ 025: คอมเลื่อนลงดูทุกหน้า / ซูม 100% = ขนาดจริงของสไลด์ (กว้าง 1280) / พอดีจอ = หัว 48 + สไลด์อยู่ในจอเดียว ══
+// --sw = กว้างสไลด์บนจอ (ทุกหน้ากว้างเท่ากัน) --cw = กว้างพื้นที่ (หัวหน้า/โน้ตค้างในส่วนที่เห็นตอนซูมเกินกว้าง) ค่าซูมจำต่อเครื่อง
+const ZSTOPS = [.1, .25, .5, .75, 1, 1.25, 2, 3], ZLO = Math.log(.1), ZHI = Math.log(3);
+const z2p = z => Math.round((Math.log(z) - ZLO) / (ZHI - ZLO) * 1000), p2z = p => Math.exp(ZLO + p / 1000 * (ZHI - ZLO));   // แถบลากเป็น log: ช่วง 25-125% กว้างพอลาก
+const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } }, lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };   // โหมดส่วนตัวที่บล็อก storage: ใช้ค่าเริ่มต้น หน้ายังทำงาน
+const DZ = {m: (v => v === 'fill' ? 'fill' : +v >= .1 && +v <= 3 ? +v : 'fit')(lsGet('d2s_zoom'))};
+function dzOf(m = DZ.m) {
+  const C = $('canvas'), w = C.clientWidth, h = C.clientHeight;
+  const z = m === 'fit' ? Math.min(w - 96, (h - 108) * 16 / 9) / 1280 : m === 'fill' ? (w - 96) / 1280 : m;
+  return Math.max(.1, Math.min(3, z));
 }
-function thumbsCol(c) { TW.c = c ? 1 : 0; saveTW(); applyTW(); requestAnimationFrame(() => { $('thumbs').querySelectorAll('.slidebox').forEach(fit); (c ? $('pbar').querySelector('[data-pb=show]') : $('tcolb')).focus({preventScroll: true}); }); }
-function fitStage() {
+function fitStage(at) {                     // at = [x, y] จุดบนจอที่ต้องอยู่ที่เดิมหลังซูม (เมาส์ / กลางนิ้ว / กลางจอ)
   if (!wide()) return; const C = $('canvas'); if (!C.clientWidth) return;
-  const sw = Math.max(240, Math.floor(Math.min(C.clientWidth - 128, (C.clientHeight - 116) * 16 / 9)));
-  $('canvas').style.setProperty('--sw', sw + 'px');
-  pgs()[cur]?.querySelectorAll('.slidebox').forEach(fit); placeEdit(); paintSel(); if (POP) paintPop();
+  const z = dzOf(), sw = Math.floor(1280 * z + 1e-6);
+  let A = null;
+  if (at && C.scrollHeight > C.clientHeight) {   // จุดยึด: หน้าใต้จุดนั้น + ตำแหน่งในหน้า (หัว 48 กับช่องไฟไม่ขยายตาม จึงยึดทีละหน้า ไม่ใช่สัดส่วนทั้งก้อน)
+    const R = C.getBoundingClientRect(), ax = at[0] - R.left, ay = at[1] - R.top, y = C.scrollTop + ay;
+    const pg = pgs().find(p => p.offsetTop + p.offsetHeight + 24 > y) || pgs().at(-1);
+    A = {ax, ay, fx: (C.scrollLeft + ax) / C.scrollWidth, pg, fy: pg ? (y - pg.offsetTop) / pg.offsetHeight : 0};
+  }
+  C.style.setProperty('--sw', sw + 'px'); C.style.setProperty('--cw', C.clientWidth + 'px'); C.classList.toggle('nrw', sw < 720);
+  if (A) { C.scrollLeft = A.fx * C.scrollWidth - A.ax; if (A.pg) C.scrollTop = A.pg.offsetTop + A.fy * A.pg.offsetHeight - A.ay; }
+  paintZ(z);
+  pgs().forEach(p => { if (p.dataset.m) fit(p.querySelector('.slidebox')); }); placeEdit(); paintSel(); if (POP) paintPop(); if (TR) tourStep();
 }
-new ResizeObserver(fitStage).observe($('canvas'));
-oneMQ.addEventListener?.('change', () => { if (one()) $('canvas').style.removeProperty('--sw'); else fitStage(); });
-$('tcolb').onclick = () => thumbsCol(true);
-$('pbar').onclick = ev => { const b = ev.target.closest('[data-pb]'); if (!b || b.disabled) return; const a = b.dataset.pb;
-  if (a === 'show') thumbsCol(false); else if (a === 'add') openIns(Math.max(0, cur)); else select(Math.max(0, Math.min(slides.length - 1, cur + (a === 'next' ? 1 : -1))), {scroll: true}); };
-(() => {                                     // ที่จับขอบคอลัมน์: rAF ครั้งเดียวต่อเฟรม เขียน storage ตอนปล่อย ภาพย่อ fit ตอนปล่อย
-  const G = $('tgrip'); let D = null;
-  const setW = w => { w = Math.round(Math.min(320, Math.max(120, w))); $('pWork').style.setProperty('--tw', w + 'px'); G.setAttribute('aria-valuenow', String(w)); return w; };
-  const done = () => { $('thumbs').querySelectorAll('.slidebox').forEach(fit); saveTW(); };
-  G.addEventListener('pointerdown', ev => { if (ev.button > 0) return; ev.preventDefault(); G.setPointerCapture(ev.pointerId); G.classList.add('on'); D = {x: ev.clientX, w: $('thumbs').getBoundingClientRect().width, raf: 0, nx: ev.clientX}; });
-  G.addEventListener('pointermove', ev => { if (!D) return; D.nx = ev.clientX; if (!D.raf) D.raf = requestAnimationFrame(() => { D.raf = 0; TW.w = setW(D.w + D.nx - D.x); }); });
-  const up = () => { if (!D) return; cancelAnimationFrame(D.raf); D = null; G.classList.remove('on'); done(); };
-  G.addEventListener('pointerup', up); G.addEventListener('pointercancel', up);
-  G.addEventListener('dblclick', () => { delete TW.w; applyTW(); done(); });
-  G.addEventListener('keydown', ev => { const d = {ArrowLeft: -16, ArrowRight: 16}[ev.key]; if (!d) return; ev.preventDefault(); TW.w = setW($('thumbs').getBoundingClientRect().width + d); done(); });
-})();
-$('thumbs').addEventListener('contextmenu', ev => {   // คลิกขวาภาพย่อ = คำสั่งของหน้านั้น
+function paintZ(z) {
+  const v = Math.round(z * 100) + '%', S = $('zsl'), B = $('zpct');
+  B.textContent = v; B.setAttribute('aria-label', `ซูม ${v}${DZ.m === 'fit' ? ' พอดีจอ' : ''} เลือกขนาด`);
+  if (!S.matches(':active')) S.value = z2p(z);
+  S.style.setProperty('--p', S.value / 10 + '%'); S.setAttribute('aria-valuetext', v);
+}
+function dzSet(m, at) {
+  if (typeof m === 'number') m = Math.max(.1, Math.min(3, m));
+  DZ.m = m; lsSet('d2s_zoom', String(m));
+  const R = $('canvas').getBoundingClientRect(); fitStage(at || [R.left + R.width / 2, R.top + R.height / 2]);
+}
+const dzStep = d => { const z = dzOf() + d * .001; dzSet(d > 0 ? ZSTOPS.find(v => v > z) || 3 : [...ZSTOPS].reverse().find(v => v < z) || .1); };
+new ResizeObserver(() => fitStage()).observe($('canvas'));
+oneMQ.addEventListener?.('change', () => { if (one()) $('canvas').style.removeProperty('--sw'); else fitStage(); if (gridOn) closeGrid(cur, true); if (slides.length) relayout('settled'); });
+$('zsl').addEventListener('input', () => { let z = p2z(+$('zsl').value); if (Math.abs(z - 1) < .03) z = 1; dzSet(z); });   // ลากแล้วซูมสด จุดกลางจอ (หน้าปัจจุบัน) อยู่ที่เดิม
+$('zpct').onclick = () => zMenuD();
+function zMenuD() {
+  const B = $('zpct'); let m = $('zmn'); if (m) return zClose(true);
+  const z = Math.round(dzOf() * 100), f = DZ.m, it = (v, l, x = '') => { const on = f === v || (typeof f === 'number' && typeof v === 'number' && Math.round(f * 100) === Math.round(v * 100));
+    return `<button type="button" role="menuitemradio" aria-checked="${on}" data-z="${v}">${l}${on ? `<svg class="i" aria-hidden="true"><use href="#i-check"/></svg>` : x}</button>`; };
+  m = document.createElement('div'); m.id = 'zmn'; m.className = 'zmn'; m.setAttribute('role', 'menu'); m.setAttribute('aria-label', `ซูม ตอนนี้ ${z}%`);
+  m.innerHTML = [3, 2, 1.25, 1, .75, .5, .25, .1].map(v => it(v, Math.round(v * 100) + '%')).join('') + '<hr>' + it('fit', 'พอดีจอ') + it('fill', 'เต็มจอ', '<small>เต็มความกว้าง</small>');
+  B.after(m); B.setAttribute('aria-expanded', 'true');
+  (m.querySelector('[aria-checked=true]') || m.querySelector('button')).focus({preventScroll: true});
+  m.onclick = ev => { const b = ev.target.closest('[data-z]'); if (!b) return; const v = b.dataset.z; zClose(true); dzSet(v === 'fit' || v === 'fill' ? v : +v); };
+  m.onkeydown = ev => {
+    const bs = [...m.querySelectorAll('button')], i = bs.indexOf(document.activeElement);
+    if (ev.key === 'ArrowDown' || ev.key === 'ArrowUp') { ev.preventDefault(); bs[(i + (ev.key === 'ArrowDown' ? 1 : -1) + bs.length) % bs.length].focus(); }
+    else if (ev.key === 'Escape' || ev.key === 'Tab') { ev.preventDefault(); ev.stopPropagation(); zClose(true); }
+  };
+}
+function zClose(focus) { const m = $('zmn'); if (!m) return; m.remove(); $('zpct').setAttribute('aria-expanded', 'false'); if (focus) $('zpct').focus({preventScroll: true}); }
+document.addEventListener('pointerdown', ev => { if ($('zmn') && !ev.target.closest('#zmn,#zpct')) zClose(); }, true);
+// โน้ต: ปุ่มเดียวเปิดปิดกล่องโน้ตใต้ทุกหน้า จำค่าต่อเครื่อง
+function notesOn(on) { $('pWork').classList.toggle('noteson', on); $('notesb').setAttribute('aria-pressed', String(on)); lsSet('d2s_notes', on ? '1' : ''); }
+notesOn(lsGet('d2s_notes') === '1');
+$('notesb').onclick = () => { const on = !$('pWork').classList.contains('noteson'); notesOn(on); if (on && cur >= 0) requestAnimationFrame(() => pgs()[cur]?.querySelector('.nt')?.scrollIntoView({block: 'nearest', behavior: SMOOTH()})); };
+$('gridd').onclick = () => gridOn ? closeGrid(cur) : openGrid();
+$('gridx').onclick = () => closeGrid(cur);
+$('thumbs').addEventListener('contextmenu', ev => {   // คลิกขวาภาพย่อ (ตารางหน้าทั้งหมด) = คำสั่งของหน้านั้น
   const t = ev.target.closest('.th'); if (!t || one() || viewing) return; ev.preventDefault();
-  const i = [...$('thumbs').children].indexOf(t); select(i, {scroll: true}); const last = slides.length < 2;
+  const i = [...$('thumbs').children].indexOf(t); select(i); const last = slides.length < 2;
   pop(t, row('ins', 'plus', 'เพิ่มหน้าใหม่ต่อจากหน้านี้') + row('dup', 'copy', 'ทำสำเนา', `<kbd>${MAC ? '⌘' : 'Ctrl+'}D</kbd>`) + row('alt', 'layout', 'เปลี่ยนแบบหน้า') + (i > 0 ? row('up', 'up', 'เลื่อนขึ้น') : '') + (i < slides.length - 1 ? row('down', 'dn', 'เลื่อนลง') : '') + (last ? '' : row('trash', 'trash', 'ลบหน้านี้', '<kbd>Delete</kbd>')),
     m => { closePop(); if (m === 'ins') openIns(cur); else if (m === 'trash') askDel(); else pageAct(m); });
 });
@@ -3228,7 +3336,55 @@ function askDel() {
   openSheet(`ลบหน้า ${cur + 1}?`, 'หน้านี้จะไม่อยู่ในไฟล์ กดเลิกทำเพื่อเอากลับมาได้', `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger btn-big" data-m="yes" type="button">${ico('trash')}ลบหน้า</button></div>`);
   $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet(); if (b.dataset.m === 'yes') delPage(); };
 }
-applyTW();
+// ล็อกทั้งหน้า = ล็อกของใบ 019b ทุกกล่องที่ย้ายได้ (1 ขั้นเลิกทำ) pptx ได้ spLocks ทุกชิ้น
+function pageLock(k) {
+  const on = !pageLocked(k), ps = BOX[k].filter(b => b.can || b.lk).map(b => b.p);
+  if (!ps.length) return toast('หน้านี้ไม่มีกล่องที่ล็อกได้');
+  py.globals.set('IDX', order[k]); py.globals.set('PATHS', py.toPy(ps)); py.globals.set('LK', on); deselectBox();
+  boxCall(k, '[D.set_box(ITEMS, IDX, list(_p), lock=LK) for _p in PATHS]', `${on ? 'ล็อก' : 'ปลดล็อก'}ทั้งหน้า ${k + 1}`, () => toast(on ? `ล็อกหน้า ${k + 1} แล้ว ทุกกล่องย้ายหรือปรับขนาดไม่ได้` : `ปลดล็อกหน้า ${k + 1} แล้ว`));
+}
+// ชื่อหน้า / โน้ต: เก็บใน d ของหน้า (_name _note) ไม่วาดสไลด์ใหม่ เลิกทำได้
+function pageSet(i, key, v) {                // i = ตำแหน่งใน ITEMS
+  py.globals.set('IDX', i); py.globals.set('KEY', key); py.globals.set('VAL', v);
+  py.runPython('_d = {x: y for x, y in ITEMS[IDX][1].items() if x != KEY}\nif VAL: _d[KEY] = VAL\nITEMS[IDX] = (ITEMS[IDX][0], _d)');
+  const k = order.indexOf(i); if (k >= 0 && META[k]) META[k][key === '_note' ? 'nt' : 'nm'] = v;
+}
+function nameEdit(k, btn) {
+  if (viewing || busyNow) return;
+  const inp = document.createElement('input'); inp.className = 'pt'; inp.value = META[k]?.nm || ''; inp.maxLength = 60; inp.placeholder = 'ใส่ชื่อหน้า'; inp.setAttribute('aria-label', `ชื่อหน้า ${k + 1}`);
+  btn.replaceWith(inp); inp.focus(); inp.select(); let done = false;
+  const fin = ok => { if (done) return; done = true; const v = inp.value.trim(), i = order[k];
+    if (ok && v !== (META[k]?.nm || '') && !busyNow) { pageSet(i, '_name', v); commit(v ? `ตั้งชื่อหน้า ${k + 1}` : `ลบชื่อหน้า ${k + 1}`); }
+    inp.remove(); const h = pgs()[k]?.querySelector('.phd'); if (h) { h.dataset.h = ''; } paintPh(); };
+  inp.onkeydown = ev => { if (ev.key === 'Enter') { ev.preventDefault(); fin(true); } else if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); fin(false); } };
+  inp.onblur = () => fin(true);
+}
+// โน้ต: บันทึกเองหลังหยุดพิมพ์ 0.6 วิ / พิมพ์ต่อเนื่องในช่องเดิม = ขั้นเลิกทำเดียว "แก้โน้ต หน้า N"
+const NOTE = {sess: 0, t: 0, i: -1, v: null};
+function noteType(k, v) { const i = order[k]; if (NOTE.i !== i) noteFlush(); NOTE.i = i; NOTE.v = v; clearTimeout(NOTE.t); NOTE.t = setTimeout(noteFlush, 600); }
+function noteFlush() {
+  clearTimeout(NOTE.t); NOTE.t = 0; const {i, v} = NOTE; if (i < 0 || v == null) return;
+  if (busyNow || viewing) { NOTE.t = setTimeout(noteFlush, 300); return; }
+  NOTE.v = null; const k = order.indexOf(i); if (k < 0 || (META[k]?.nt || '') === v) return;
+  pageSet(i, '_note', v); const label = `แก้โน้ต หน้า ${k + 1}`;
+  if (STACK[SP]?.label === label && STACK[SP].ns === NOTE.sess) { STACK[SP] = {...snap(label), ns: NOTE.sess}; store(STACK[SP]); }
+  else { commit(label); if (STACK[SP]) STACK[SP].ns = NOTE.sess; }
+  paintPh();
+}
+$('pages').addEventListener('focusin', ev => { if (ev.target.matches('.nt textarea')) NOTE.sess++; });
+$('pages').addEventListener('input', ev => { if (ev.target.matches('.nt textarea')) noteType(pgs().indexOf(ev.target.closest('.pg')), ev.target.value); });
+$('pages').addEventListener('focusout', ev => { if (ev.target.matches('.nt textarea')) noteFlush(); });
+addEventListener('pagehide', noteFlush); document.addEventListener('visibilitychange', () => { if (document.hidden) noteFlush(); });
+// มือถือ: การ์ดใต้สไลด์ → แผ่นล่างพิมพ์โน้ต (ช่องพิมพ์ 16px กัน iOS ซูมเอง) คีย์บอร์ดขึ้น = แผ่นยกตาม visualViewport
+function noteSheet(k) {
+  if (k < 0 || viewing || busyNow) return; if (ED && !finishEdit(true)) return; deselectBox();
+  openSheet(`โน้ตผู้บรรยาย หน้า ${k + 1}`, 'คนดูไม่เห็น ไปอยู่ในโน้ตของ PowerPoint', `<textarea class="mta" id="mta" aria-label="โน้ตผู้บรรยาย หน้า ${k + 1}" placeholder="พิมพ์สิ่งที่จะพูดตอนนำเสนอหน้านี้"></textarea><p class="mhint">บันทึกเองทุกครั้งที่พิมพ์</p><button class="mdone" type="button" data-m="done">${ico('check')}เสร็จ</button>`);
+  const ta = $('mta'); ta.value = META[k]?.nt || ''; NOTE.sess++;
+  ta.oninput = () => noteType(k, ta.value);
+  $('shBody').onclick = ev => { if (ev.target.closest('[data-m=done]')) closeSheet(); };
+  ta.focus({preventScroll: true});
+}
+window.visualViewport?.addEventListener('resize', () => { const S = $('sheet'), v = visualViewport; S.style.bottom = S.classList.contains('on') && $('mta') ? Math.max(0, innerHeight - v.height - v.offsetTop) + 'px' : ''; });
 // ══ ใบ 019: แถบแต่งข้อความแบบ Canva (ขนาดเป็นตัวเลข สี B I U S จัดแนว รายการ ระยะบรรทัด ตำแหน่งในกรอบ) + ชั้น (ยกขึ้น/ส่งลง) ══
 // ทุกค่าลงไฟล์เป็นคุณสมบัติจริงของ PowerPoint (D.set_style / D.z_box) 1 การเปลี่ยน = 1 ขั้นเลิกทำ วาดใหม่หน้าเดียว
 // ponytail: ตอนพิมพ์อยู่ กดสี/B/I/U/รูปแบบ = เก็บคำก่อน (1 ขั้น) แล้วแต่ง (อีก 1 ขั้น) ไม่รวมเป็นขั้นเดียวแบบสเปก G ถ้าไอซ์อยากได้ขั้นเดียวค่อยทำชั้น CSS ระหว่างพิมพ์
@@ -3713,8 +3869,7 @@ function zApply(lbl) {
   const sl = zSl(); if (!sl) return; const on = Z.s > 1.001;
   sl.style.transformOrigin = '0 0'; sl.style.transform = on ? `translate(${Z.tx}px,${Z.ty}px) scale(${Z.s})` : '';
   $('pWork').classList.toggle('zoomed', on); SELD.style.setProperty('--iz', 1 / Z.s);
-  const v = Math.round(Z.s * 100) + '%', zv = $('zv'); zv.textContent = on ? v : '100%'; zv.setAttribute('aria-label', `ซูม ${on ? v : 'พอดีจอ'} เลือกขนาด`);
-  document.querySelector('[data-zm="-"]').disabled = !on; document.querySelector('[data-zm="+"]').disabled = Z.s >= ZMAX - .001;
+  const v = Math.round(Z.s * 100) + '%';
   if (lbl) zLabel(on ? v : 'พอดีจอ');
   if (SEL) paintSel(); if (ED) placeEdit();
 }
@@ -3728,25 +3883,27 @@ function zoomTo(s, cx, cy, lbl = true) { // ซูมรอบจุดบนจ
   Z.s = s; Z.tx = cx - b.x - s * lx; Z.ty = cy - b.y - s * ly; zClamp(b); zApply(lbl);
 }
 const zFit = () => { if (Z.s > 1.001) zoomTo(1); };
-function zoomGrab(P) { const k = Math.max(0, cur); if (Z.k !== k) Object.assign(Z, {s: 1, tx: 0, ty: 0, k}); P.z0 = {s: Z.s, tx: Z.tx, ty: Z.ty}; P.b = zBase(P.sl); }
+function zoomGrab(P) { if (wide()) { P.dz0 = dzOf(); return; } const k = Math.max(0, cur); if (Z.k !== k) Object.assign(Z, {s: 1, tx: 0, ty: 0, k}); P.z0 = {s: Z.s, tx: Z.tx, ty: Z.ty}; P.b = zBase(P.sl); }
 function zoomPinch() {                   // จุดใต้กึ่งกลางนิ้วตอนเริ่ม ตามกึ่งกลางนิ้วตอนนี้ (ถ่าง + ลากสองนิ้วพร้อมกัน)
   const P = PZ; if (!P || P.mode !== 'zoom' || !P.zm) return; P.raf = 0;
+  if (wide()) return dzSet(P.dz0 * P.zm.r, [P.zm.x, P.zm.y]);   // ใบ 025 iPad แบบคอม: บีบ/ถ่าง = ซูมทั้งแบบเลื่อน รอบกลางนิ้ว
   const {r, x, y} = P.zm, z0 = P.z0, s = Math.min(ZMAX, Math.max(.85, z0.s * r)), lx = (P.m0.x - P.b.x - z0.tx) / z0.s, ly = (P.m0.y - P.b.y - z0.ty) / z0.s;
   Z.s = s; Z.tx = x - P.b.x - s * lx; Z.ty = y - P.b.y - s * ly;
   P.sl.style.transformOrigin = '0 0'; P.sl.style.transform = `translate(${Z.tx}px,${Z.ty}px) scale(${s})`; zLabel(Math.round(Math.max(1, s) * 100) + '%');
 }
 function zoomSettle() {                   // ปล่อยนิ้ว: ค้างที่ค่านั้น ต่ำกว่า 100% เด้งกลับพอดีจอ
-  const sl = zSl(); if (!sl) return; const b = zBase(sl); if (Z.s < 1.03) Z.s = 1;
+  if (wide()) return; const sl = zSl(); if (!sl) return; const b = zBase(sl); if (Z.s < 1.03) Z.s = 1;
   const from = sl.style.transform; zClamp(b); zApply(true);
   if (!calm.matches && from && from !== sl.style.transform) sl.animate([{transform: from}, {transform: sl.style.transform || 'none'}], {duration: 180, easing: EASE});
 }
 // ลากนิ้วเดียวบนที่ว่าง (ซูมอยู่) = เลื่อนดู / แตะสองครั้งบนที่ว่าง = พอดีจอ <-> 200%
 let ZP = null, ZTAP = null;
 $('pages').addEventListener('pointerdown', ev => {
-  if (ev.pointerType === 'mouse' || !(one() || touch()) || gridOn || PTRS.size > 1 || viewing) return;
+  if (ev.pointerType === 'mouse' || !one() || gridOn || PTRS.size > 1 || viewing) return;   // ใบ 025: iPad แบบคอมเลื่อนด้วยนิ้วตามปกติ ซูมด้วยถ่าง/บีบ (dzSet)
   const onBox = ev.target.closest('.sel') || (SEL && ev.target.closest('.hit.selx'));
   const empty = !ev.target.closest('.hit') && !ev.target.closest('.sel');
   if (empty) { const now = Date.now(), t = ZTAP;
+    if (ev.target.closest('.mnote')) return;
     if (t && now - t.t < 320 && Math.hypot(ev.clientX - t.x, ev.clientY - t.y) < 30) { ZTAP = null; ev.preventDefault(); zoomTo(Z.s > 1.001 ? 1 : 2, ev.clientX, ev.clientY); if (!calm.matches) zSl()?.animate([{opacity: .92}, {opacity: 1}], {duration: 160}); return; }
     ZTAP = {t: now, x: ev.clientX, y: ev.clientY}; }
   if (Z.s <= 1.001 || onBox || ED) return;
@@ -3758,27 +3915,14 @@ window.addEventListener('pointermove', ev => { if (!ZP || ev.pointerId !== ZP.id
 // คอม: ⌘+ล้อ / บีบแทร็กแพด (ล้อ + ctrlKey) ซูมรอบเมาส์ / ล้อเฉย ๆ ตอนซูม = เลื่อนดู
 $('canvas').addEventListener('wheel', ev => {
   if (!slides.length || gridOn || viewing || $('pWork').classList.contains('hidden')) return;
+  if ((ev.ctrlKey || ev.metaKey) && wide()) { ev.preventDefault(); dzSet(dzOf() * Math.exp(-ev.deltaY * (ev.ctrlKey && !ev.metaKey && Math.abs(ev.deltaY) < 30 ? .012 : .0025)), [ev.clientX, ev.clientY]); return; }   // ใบ 025: ⌘+ล้อ / บีบแทร็กแพด รอบเมาส์
   if (ev.ctrlKey || ev.metaKey) { ev.preventDefault(); zoomTo(Z.s * Math.exp(-ev.deltaY * (ev.ctrlKey && !ev.metaKey && Math.abs(ev.deltaY) < 30 ? .012 : .0025)), ev.clientX, ev.clientY, true); return; }
   if (Z.s > 1.001 && !ev.target.closest('.rp,.tpop')) { ev.preventDefault(); const sl = zSl(); if (!sl) return; const b = zBase(sl); Z.tx -= ev.deltaX; Z.ty -= ev.deltaY; zClamp(b); zApply(false); }
 }, {passive: false});
-// แถบหน้า: − ค่า% +  /  เมนู พอดีจอ 150 200 300
-function zMenu(btn) {
-  let m = document.querySelector('.zmenu2'); if (m) { m.remove(); btn.setAttribute('aria-expanded', 'false'); return; }
-  m = mk('zmenu2'); m.setAttribute('role', 'menu'); const cur_ = Math.round(Z.s * 100);
-  m.innerHTML = `<button type="button" role="menuitem" data-zs="1"${cur_ === 100 ? ' class="on"' : ''}>${ico('fit')}พอดีจอ<kbd>${KM}0</kbd></button><hr>` + [150, 200, 300].map(v => `<button type="button" role="menuitem" data-zs="${v / 100}"${cur_ === v ? ' class="on"' : ''}>${v}%${cur_ === v ? ico('check').replace('class="i"', 'class="i" style="margin-left:auto"') : ''}</button>`).join('');
-  document.body.appendChild(m); const r = btn.getBoundingClientRect(); m.style.left = Math.min(r.left, innerWidth - 208) + 'px'; m.style.top = (r.top - m.offsetHeight - 8) + 'px'; btn.setAttribute('aria-expanded', 'true');
-  m.onclick = ev => { const b = ev.target.closest('[data-zs]'); if (!b) return; m.remove(); btn.setAttribute('aria-expanded', 'false'); zoomTo(+b.dataset.zs); };
-  document.addEventListener('keydown', function k(ev) { if (!m.isConnected) return document.removeEventListener('keydown', k, true);   // QA 30n: Esc ปิดเมนู กลับไปที่ปุ่ม
-    if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); m.remove(); btn.setAttribute('aria-expanded', 'false'); btn.focus({preventScroll: true}); document.removeEventListener('keydown', k, true); } }, true);
-  setTimeout(() => document.addEventListener('pointerdown', function off(ev) { if (!m.contains(ev.target) && ev.target !== btn) { m.remove(); btn.setAttribute('aria-expanded', 'false'); } document.removeEventListener('pointerdown', off, true); }, true));
-}
 const ZSTEP = [1, 1.25, 1.5, 2, 2.5, 3];
-document.querySelector('.pbar .zm').addEventListener('click', ev => { const b = ev.target.closest('[data-zm]'); if (!b || b.disabled) return; const a = b.dataset.zm;
-  if (a === 'menu') return zMenu(b);
-  zoomTo(a === '+' ? ZSTEP.find(v => v > Z.s + .01) || ZMAX : [...ZSTEP].reverse().find(v => v < Z.s - .01) || 1); });
-document.querySelector('[data-zm="-"]').dataset.tip = `ซูมออก (${KM}−)`; document.querySelector('[data-zm="+"]').dataset.tip = `ซูมเข้า (${KM}+)`;
 document.addEventListener('keydown', ev => {          // ⌘0 พอดีจอ / ⌘+ ⌘− (แทนซูมทั้งหน้าของเบราว์เซอร์ เฉพาะหน้าทำงาน)
   if (!(ev.metaKey || ev.ctrlKey) || ev.altKey || $('pWork').classList.contains('hidden') || !slides.length || !$('pres').classList.contains('hidden')) return;
+  if (wide()) { if (gridOn) return; if (ev.key === '0') { ev.preventDefault(); dzSet('fit'); } else if (ev.key === '=' || ev.key === '+') { ev.preventDefault(); dzStep(1); } else if (ev.key === '-') { ev.preventDefault(); dzStep(-1); } return; }   // ใบ 025
   if (ev.key === '0') { ev.preventDefault(); zFit(); } else if (ev.key === '=' || ev.key === '+') { ev.preventDefault(); zoomTo(ZSTEP.find(v => v > Z.s + .01) || ZMAX); } else if (ev.key === '-') { ev.preventDefault(); zoomTo([...ZSTEP].reverse().find(v => v < Z.s - .01) || 1); }
 }, true);
 addEventListener('resize', () => { if (Z.s > 1.001) zoomTo(Z.s, null, null, false); });
@@ -4501,9 +4645,15 @@ function gridPrep() {                        // ภาพย่อที่ส�
   return th;
 }
 async function openGrid(pz) {
-  if (gridOn || !slides.length || !one() || viewing) return;
+  if (gridOn || !slides.length || viewing) return;
   if (ED && !(await applyEdit())) return;
   deselectBox(); if (cur < 0) cur = 0;
+  if (wide()) {                              // ใบ 025 คอม: ตารางทับพื้นที่สไลด์ 5/4/3 คอลัมน์ตามความกว้าง
+    const w = $('canvas').clientWidth; $('thumbs').style.setProperty('--gc', w >= 1100 ? 5 : w >= 860 ? 4 : 3);
+    gridOn = true; document.body.classList.add('gridon'); $('gridd').classList.add('on'); select(cur); gridPrep();
+    if (!calm.matches) $('thumbs').animate([{opacity: 0}, {opacity: 1}], {duration: 160, easing: 'ease-out'});
+    $('thumbs').children[cur]?.focus({preventScroll: true}); return;
+  }
   const B = document.body, T = $('thumbs'), sl = pgs()[cur]?.querySelector('.slide'), a = pz ? pz.a : sl?.getBoundingClientRect();
   gridOn = true; B.classList.add('gridon', 'gpz'); select(cur, {quiet: true});
   $('gridb').classList.add('on'); $('gridb').setAttribute('aria-label', `กลับไปหน้า ${cur + 1}`);
@@ -4521,6 +4671,7 @@ async function closeGrid(k, instant) {
   if (!gridOn) return;
   const B = document.body, T = $('thumbs'); if (k == null || k < 0 || k >= slides.length) k = Math.max(0, Math.min(cur, slides.length - 1));
   gridOn = false; $('gridb').classList.remove('on'); $('gridb').setAttribute('aria-label', 'ดูทุกหน้า');
+  if (wide()) { $('gridd').classList.remove('on'); B.classList.remove('gridon', 'gpz'); T.getAnimations().forEach(x => x.cancel()); if (slides.length) select(k, {scroll: true, jump: true}); return; }
   const b = !instant && T.children[k]?.querySelector('.slidebox')?.getBoundingClientRect();
   if (slides.length) { select(k); pagesTo(k, true); }
   const fin = () => { B.classList.remove('gridon', 'gpz'); T.getAnimations().forEach(x => x.cancel()); T.style.opacity = ''; clearSlideFx(); };
@@ -4616,7 +4767,7 @@ function lpLift() {
 }
 function lpMove(ev) {
   const L = LP; if (ev.pointerId !== L.id) return;
-  if (!L.on) { if (Math.hypot(ev.clientX - L.x, ev.clientY - L.y) > 8) lpDrop(true); return; }   // ปัดเร็ว = เลื่อนตาราง ไม่ยกการ์ด
+  if (!L.on) { if (Math.hypot(ev.clientX - L.x, ev.clientY - L.y) > (ev.pointerType === 'mouse' ? 6 : 8)) { if (ev.pointerType === 'mouse') { clearTimeout(L.tm); lpLift(); } else lpDrop(true); } return; }   // ปัดเร็ว = เลื่อนตาราง ไม่ยกการ์ด / เมาส์ (ใบ 025): ลากเลย ไม่ต้องกดค้าง
   L.cx = ev.clientX; L.cy = ev.clientY; if (!L.raf) L.raf = requestAnimationFrame(lpFrame);
 }
 function lpFrame() {
