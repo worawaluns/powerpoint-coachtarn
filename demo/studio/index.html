@@ -4,258 +4,187 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Slide Studio | วางข้อความ ได้สไลด์ PowerPoint</title>
-<!-- ใบ 044 DEMO: หน้า landing ของ Slide Studio (ยังไม่ขึ้นเว็บจริง ไม่ commit)
-     ภาพทุกภาพเป็นภาพจริงจาก localhost:9093/studio/ (assets/) วิดีโออัดจาก preset.html
-     ห้ามใช้คำว่า AI / ห้ามคำว่า "ไม่จำกัด" / ราคา = ช่องรอใบ 043 -->
+<title>Slide Studio | AI ช่วยทำสไลด์</title>
+<!-- ใบ 044 รอบ 5 DEMO: หน้า landing ของ Slide Studio (ไม่ commit ไม่ขึ้นเว็บจริง)
+     ⚠ หน้านี้ขึ้นเว็บจริงไม่ได้จนกว่า AI ช่วยทำสไลด์จะเปิดใช้จริง (ตอนนี้ยังเป็นการทดลองใบ 035 ในเครื่อง)
+     ไอซ์อนุญาตคำว่า AI ในหน้านี้ (2 พ.ย. 2569) / คำเคลมเรื่อง AI ยึดผลใบ 035: จัดหัวข้อจากข้อความก้อนเดียว + เสนอชื่อหน้า
+     ตัวตรวจไม่ยอมให้ตัวเลขใหม่ / ไม่เคลม "ย่อหรือเขียนย่อหน้าใหม่" (ใบ 035 พบว่าไม่น่าเชื่อถือ)
+     ราคา/แพ็ก/ขั้นตอนซื้อ = ข้อเสนอใบ 043 รอไอซ์อนุมัติ / ภาพทุกภาพเรนเดอร์จริง -->
 <script>document.documentElement.classList.add('rvjs');setTimeout(function(){document.documentElement.classList.remove('rvjs')},4000)</script>
-<link rel="preload" as="image" href="assets/studio-preset-poster.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/ai-preset-poster.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://static.line-scdn.net/lineseedfont/web/index.css" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --ink:#15151A;--mid:#4A4A55;--soft:#6B6B76;--line:#E8E8EC;--bg:#FFFFFF;--band:#F6F5F2;
-  --red:#D34724;--orange:#EB7D4A;
-  --g1:#4F7BFF;--g2:#8B5CF6;--g3:#EC4899;--g4:#EF4444;--g5:#EB7D4A;
-  --ease:cubic-bezier(.16,1,.3,1);--max:1120px;
-}
+:root{--ink:#15151A;--mid:#4A4A55;--soft:#6B6B76;--line:#E8E8EC;--band:#F6F5F2;--red:#D34724;
+  --g1:#4F7BFF;--g2:#8B5CF6;--g3:#EC4899;--g4:#EF4444;--g5:#EB7D4A;--ease:cubic-bezier(.16,1,.3,1);--max:1120px}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
-body{font-family:'Noto Sans Thai',sans-serif;color:var(--ink);background:var(--bg);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:'Noto Sans Thai',sans-serif;color:var(--ink);background:#fff;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img,video{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
-.h{font-family:'LINE Seed Sans TH','Noto Sans Thai',sans-serif;font-weight:700;letter-spacing:0;line-height:1.35}
+.h{font-family:'LINE Seed Sans TH','Noto Sans Thai',sans-serif;font-weight:700;line-height:1.35}
 .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
 section{padding:72px 0}
 .band{background:var(--band)}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--mid);background:#fff;border:1px solid var(--line);border-radius:100px;padding:5px 14px 5px 6px}
-.eyebrow i{font-style:normal;font-size:12px;color:#fff;background:var(--ink);border-radius:100px;padding:1px 10px}
-.sec-h{font-size:clamp(26px,5.6vw,40px);text-align:center}
-.sec-h .soft{display:block;color:var(--soft)}
-.sec-lead{text-align:center;color:var(--soft);font-size:16px;max-width:560px;margin:12px auto 0}
 .ico{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nw{white-space:nowrap}
+.sec-h{font-size:clamp(26px,6vw,40px);text-align:center}
+.sec-l{text-align:center;color:var(--soft);font-size:16.5px;max-width:520px;margin:10px auto 0}
 
-/* คำไล่สี: ไหลจากสีหมึกเป็นหลายสีตอนเลื่อนมาเห็น (แบบ pheel-os .sale-sweep แต่จบที่สีเต็ม ตามภาพที่ไอซ์ส่ง) */
+/* คำไล่สี: ไหลจากสีหมึกเป็นหลายสี .7 วิ แล้วค้าง */
 .gw{background-image:linear-gradient(90deg,var(--g1) 0%,var(--g2) 12%,var(--g3) 25%,var(--g4) 37%,var(--g5) 47%,var(--g5) 49.9%,var(--ink) 52%,var(--ink) 100%);
   background-size:205% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;
-  padding:.12em .06em;margin:-.12em -.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone;
-  transition:background-position .7s var(--ease) var(--gd,.05s)}
-.in .gw,.gw.in{background-position:0 0}
-.soft .gw{--ink:var(--soft)}
-/* ponytail: เคลื่อนด้วย background-position (วาดใหม่เฉพาะคำนั้น ไม่ดันเลย์เอาต์) เพราะ transform/opacity ทำสีไล่ในตัวอักษรไม่ได้ */
+  padding:.12em .06em;margin:-.12em -.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-position .7s var(--ease) .05s}
+.gw.in{background-position:0 0}
 
-/* เผยตอนเลื่อน */
+/* เผยตอนเลื่อน: ซ่อนได้เฉพาะตอน JS พร้อม เริ่มก่อนถึงจอ ไม่ซ่อนนานเกิน 1.5 วิ */
 .rvjs .rv:not(.in){opacity:0;transform:translateY(12px)}
-.rv{transition:opacity .3s ease-out var(--d,0s),transform .3s ease-out var(--d,0s)}
+.rv{transition:opacity .3s ease-out var(--d,0s),transform .3s ease-out var(--d,0s),translate .25s ease,box-shadow .25s ease}
 
-/* ปุ่ม: หลักดำแบน ตัวขาว (กฎ Studio) */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 24px;border-radius:14px;font-weight:600;font-size:16px;transition:transform .2s var(--ease),background .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 26px;border-radius:14px;font-weight:600;font-size:16.5px;transition:transform .2s var(--ease),background .2s,translate .2s ease}
 .btn:active{transform:scale(.97)}
 .btn-dark{background:var(--ink);color:#fff}
-.btn-dark:hover{background:#2A2A32}
 .btn-line{border:1.5px solid var(--line);background:#fff}
-.btn-line:hover{border-color:#CFCFD6}
 
 /* แถบบน */
-.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.86);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
-.nav.scrolled{border-color:var(--line)}
-.nav .wrap{display:flex;align-items:center;height:60px;gap:20px}
-.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:18px}
+.up-bar{display:block;background:#F3F5FF;font-size:14px;text-align:center;padding:8px 16px}
+.up-bar span{text-decoration:underline}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:saturate(1.6) blur(14px);-webkit-backdrop-filter:saturate(1.6) blur(14px)}
+.nav .wrap{display:flex;align-items:center;height:58px;gap:20px}
+.logo{display:flex;align-items:center;gap:9px;font-size:18px}
 .logo i{width:30px;height:30px;border-radius:8px;background:var(--ink);display:grid;place-items:center}
 .logo i svg{width:18px;height:18px;stroke:#fff}
 .nav-links{display:none;gap:22px;font-size:14.5px;color:var(--mid);margin-left:auto}
-.nav-links a:hover{color:var(--ink)}
 .nav .btn{min-height:40px;padding:0 16px;font-size:14.5px;margin-left:auto;border-radius:11px}
-.back{font-size:13px;color:var(--soft);display:none}
 
 /* ฮีโร่ */
-.hero{padding:36px 0 56px;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:-20% -30% auto auto;width:640px;height:640px;background:radial-gradient(closest-side,#E7EDFF,transparent);z-index:-1}
-.hero::after{content:"";position:absolute;inset:auto auto -25% -25%;width:600px;height:600px;background:radial-gradient(closest-side,#FFEADF,transparent);z-index:-1}
-.hero-grid{display:grid;gap:32px}
-.hero h1{font-size:clamp(34px,8.6vw,58px);margin:16px 0 14px}
-.hero p.lead{font-size:17px;color:var(--mid);max-width:520px}
-.hero p.lead b{color:var(--ink)}
-.cta-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
-.cta-row .btn{flex:1 1 150px}
-.free{font-size:14.5px;color:var(--mid);margin-top:16px}
-.free b{color:var(--ink)}
-.free a{text-decoration:underline;white-space:nowrap}
-.trust{font-size:13px;color:var(--soft);margin-top:22px;line-height:1.6;padding-top:16px;border-top:1px solid var(--line)}
-.trust .stars{color:#F5A623;letter-spacing:1px;margin-right:4px}
-.fine{font-size:13.5px;color:var(--soft);margin-top:14px;display:flex;flex-wrap:wrap;gap:6px 14px}
-.fine span{display:inline-flex;align-items:center;gap:5px}
-.fine .ico{width:15px;height:15px}
-.vid{position:relative;border-radius:24px;overflow:hidden;background:#F6F5F2;box-shadow:0 30px 70px rgba(21,21,26,.12),0 0 0 1px rgba(21,21,26,.04);aspect-ratio:1}
+.hero{padding:32px 0 60px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-200px;right:-260px;width:640px;height:640px;background:radial-gradient(closest-side,#E7EDFF,transparent);z-index:-1}
+.hero-grid{display:grid;gap:28px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--mid);background:#fff;border:1px solid var(--line);border-radius:100px;padding:5px 14px 5px 6px}
+.eyebrow i{font-style:normal;font-size:12px;color:#fff;background:linear-gradient(90deg,var(--g1),var(--g3));border-radius:100px;padding:1px 10px}
+.hero h1{font-size:clamp(34px,9vw,60px);margin:14px 0 10px}
+.hero .lead{font-size:18px;color:var(--mid)}
+.hero .btn{margin-top:22px;min-width:200px}
+.free{font-size:14px;color:var(--soft);margin-top:12px}
+.vid{position:relative;border-radius:24px;overflow:hidden;background:#1B1513;aspect-ratio:1;box-shadow:0 30px 70px rgba(21,21,26,.18)}
 .vid video,.vid img{width:100%;height:100%;object-fit:cover}
 .vid .vposter{position:absolute;inset:0}
 .vid video{position:relative}
-.vid .pp{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.12)}
-.vid .pp .ico{width:18px;height:18px}
+.vbtn{position:absolute;top:12px;right:12px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.vbtn .ico{width:18px;height:18px}
+.vexp{right:64px}
 
-/* ตัวอย่างงานจริง: ปัดดูได้ (scroll-snap) */
-.ex{padding:24px 0 64px}
-.ex-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:26px -20px 0;padding:0 20px;justify-content:flex-start}
+/* ชิปไอคอน */
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:26px}
+.chip{display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:100px;padding:9px 16px}
+.chip .ico{color:var(--g1)}
+
+/* ก่อน/หลัง AI */
+.ba{max-width:880px;margin:30px auto 0}
+.ba-tabs{display:flex;max-width:340px;margin:0 auto 16px;background:rgba(255,255,255,.08);border-radius:100px;padding:4px}
+.ba-tabs button{flex:1;font-size:14.5px;font-weight:600;color:var(--soft);padding:9px;border-radius:100px;min-height:44px}
+.ba-tabs button.on{background:#fff;color:#15151A}
+.ba-frame{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#fff}
+.ba-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.02);transition:opacity .45s ease,transform .6s var(--ease)}
+.ba-frame img.on{opacity:1;transform:none}
+.ba-cap{text-align:center;font-size:14px;color:var(--soft);margin-top:12px}
+
+/* ส่วนพื้นเข้ม: ดำอมน้ำตาลอุ่น #1B1513 (แดงอิฐแบรนด์ลดความสว่าง ไม่ใช้ #0F172A) ตัวอักษร 17:1 รอง 8:1 */
+.dark{--ink:#F6F0EB;--mid:#D9CFC8;--soft:#B3A79F;--line:rgba(255,255,255,.14);background:#1B1513;color:var(--ink);position:relative;overflow:hidden;isolation:isolate}
+.dark::before,.dark::after{content:"";position:absolute;width:720px;height:720px;border-radius:50%;pointer-events:none;z-index:-1;opacity:0;transform:translateY(60px) scale(.9);transition:opacity 1s ease-out,transform 1.2s var(--ease)}
+.dark::before{top:-260px;left:-240px;background:radial-gradient(closest-side,rgba(200,75,47,.34),transparent)}
+.dark::after{bottom:-300px;right:-260px;background:radial-gradient(closest-side,rgba(79,123,255,.22),transparent)}
+.dark.seen::before,.dark.seen::after{opacity:1;transform:none}
+.dark .btn-dark{background:#fff;color:#15151A}
+.dark .gw{filter:drop-shadow(0 0 22px rgba(236,72,153,.28))}
+.dark .chip{background:rgba(255,255,255,.06);border-color:var(--line);color:var(--ink)}
+.dark .chip .ico{color:#9DB4FF}
+.glow{box-shadow:0 0 0 1px rgba(255,255,255,.08),0 30px 80px rgba(0,0,0,.55),0 0 90px rgba(235,125,74,.16)}
+
+/* ฟรี กับ AI */
+.split{display:grid;gap:14px;max-width:900px;margin:30px auto 0}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px}
+.card.ai{border:2px solid transparent;background:linear-gradient(#fff,#fff) padding-box,linear-gradient(120deg,var(--g1),var(--g3),var(--g5)) border-box}
+.card .k{font-size:13px;font-weight:700;color:var(--soft)}
+.card h3{font-size:22px;margin:2px 0 12px}
+.card ul{list-style:none;display:grid;gap:10px}
+.card li{display:flex;gap:10px;font-size:15.5px;align-items:flex-start}
+.card li .ico{color:#1F9D55;margin-top:3px}
+.card.ai li .ico{color:var(--g2)}
+
+/* ตัวอย่าง: ปัดดูได้ */
+.ex-tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:24px -20px 0;padding:0 20px;justify-content:flex-start}
 .ex-tabs::-webkit-scrollbar{display:none}
 .ex-tabs button{flex:none;font-size:14.5px;font-weight:600;padding:9px 16px;border-radius:100px;border:1.5px solid var(--line);background:#fff;color:var(--mid);min-height:44px}
 .ex-tabs button.on{background:var(--ink);border-color:var(--ink);color:#fff}
-.ex-cap{font-size:14px;color:var(--soft);margin-top:12px;min-height:1.6em}
 .ex-wrap{position:relative;max-width:var(--max);margin:14px auto 0}
-.ex-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;padding:6px 20px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.ex-track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 20px;padding:6px 20px 14px;scrollbar-width:none;overscroll-behavior-x:contain}
 .ex-track::-webkit-scrollbar{display:none}
-.ex-track figure{flex:0 0 82%;scroll-snap-align:start;border-radius:12px;overflow:hidden;background:#EFEFF2;box-shadow:0 8px 22px rgba(21,21,26,.10);aspect-ratio:16/9}
+.ex-track figure{flex:0 0 82%;scroll-snap-align:start;border-radius:12px;overflow:hidden;background:#EFEFF2;box-shadow:0 8px 22px rgba(21,21,26,.10);aspect-ratio:16/9;transition:translate .25s ease,box-shadow .25s ease}
 .ex-track img{width:100%;height:100%;object-fit:cover}
 .ex-nav{display:none;position:absolute;top:calc(50% - 30px);width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 6px 18px rgba(21,21,26,.15);place-items:center}
 .ex-nav.prev{left:4px}.ex-nav.next{right:4px}
-.ex-dots{display:flex;justify-content:center;gap:6px;margin-top:4px}
+.ex-dots{display:flex;justify-content:center;gap:6px}
 .ex-dots i{width:7px;height:7px;border-radius:50%;background:#D6D6DC;transition:transform .2s,background .2s}
 .ex-dots i.on{background:var(--ink);transform:scale(1.25)}
-.ex-count{text-align:center;font-size:12.5px;color:var(--soft);margin-top:6px}
-.ex-hint{justify-content:center;margin-top:2px;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--soft)}
-.ex-hint .ico{width:16px;height:16px}
-@media(min-width:768px){.ex-track figure{flex-basis:46%}.ex-nav{display:grid}.ex-hint{display:none}}
-@media(min-width:1024px){.ex-track figure{flex-basis:31.5%}}
+.ex-cap{text-align:center;font-size:13.5px;color:var(--soft);margin-top:8px}
 
-/* วิดีโอเต็ม */
-dialog#vidDlg{border:0;padding:0;background:transparent;max-width:min(92vw,720px);width:100%;margin:auto}
-dialog#vidDlg::backdrop{background:rgba(21,21,26,.6)}
-.dlg-in{position:relative;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.3)}
-.dlg-in video{width:100%;aspect-ratio:1;background:#F6F5F2;display:block}
-.dlg-in p{font-size:13.5px;color:var(--soft);padding:12px 16px}
-.dlg-x{position:absolute;top:10px;right:10px;z-index:2;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.15)}
-/* วิธีทำงาน: แท็บเล่นเอง */
-.how{display:grid;gap:22px;margin-top:36px}
-.steps{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 -20px;padding:0 20px}
-.steps::-webkit-scrollbar{display:none}
-.step{flex:none;text-align:left;border-radius:14px;padding:10px 14px;background:#fff;border:1px solid var(--line);min-width:150px;position:relative;overflow:hidden;transition:border-color .3s}
-.step b{display:block;font-size:15px}
-.step small{display:none;color:var(--soft);font-size:14px;line-height:1.55}
-.step .no{font-size:12px;color:var(--soft);font-weight:600}
-.step .bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:linear-gradient(90deg,var(--g1),var(--g3),var(--g5));transform:scaleX(0);transform-origin:left}
-.step.on{border-color:var(--ink)}
-.step.on .bar{animation:fill var(--dur,5s) linear forwards}
-.how.paused .step.on .bar{animation:none;transform:scaleX(1)}
-@keyframes fill{to{transform:scaleX(1)}}
-.shots{position:relative;aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 24px 60px rgba(21,21,26,.10),0 0 0 1px rgba(21,21,26,.05)}
-.shots img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transform:scale(1.03);transition:opacity .6s var(--ease),transform 1.2s var(--ease)}
-.shots img.on{opacity:1;transform:none}
-.shot-cap{font-size:13px;color:var(--soft);text-align:center;margin-top:10px}
-
-/* ฟีเจอร์แบบสลับซ้ายขวา */
-.feat{display:grid;gap:26px;align-items:center;padding:44px 0}
-.feat+.feat{border-top:1px solid var(--line)}
-.feat .tag{font-size:13px;font-weight:600;color:var(--red);letter-spacing:.02em}
-.feat h3{font-size:clamp(24px,5vw,34px);margin:6px 0 10px}
-.feat p{color:var(--mid);font-size:16px}
-.ticks{list-style:none;margin-top:16px;display:grid;gap:9px}
-.ticks li{display:flex;gap:10px;font-size:15.5px}
-.ticks li .ico{width:20px;height:20px;color:#fff;background:var(--ink);border-radius:50%;padding:4px;stroke-width:3}
-.media{position:relative;border-radius:20px;overflow:hidden;background:#F6F5F2;box-shadow:0 24px 60px rgba(21,21,26,.10),0 0 0 1px rgba(21,21,26,.04)}
-.media.sq{aspect-ratio:1}
-.media video{width:100%;height:100%;object-fit:cover}
-.media.wide{aspect-ratio:16/9;background:#fff}
-.xfade img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;animation:xf 9s infinite}
-.xfade img:nth-child(2){animation-delay:3s}.xfade img:nth-child(3){animation-delay:6s}
-@keyframes xf{0%{opacity:0;transform:scale(1.02)}6%,33%{opacity:1;transform:none}40%,100%{opacity:0}}
-.duo{position:relative;padding-bottom:12%}
-.duo .pc{border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(21,21,26,.12),0 0 0 1px rgba(21,21,26,.05)}
-.duo .ph{position:absolute;right:4%;bottom:0;width:30%;border-radius:22px;overflow:hidden;border:6px solid #15151A;box-shadow:0 24px 60px rgba(21,21,26,.25)}
-.mini{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:40px}
-.mini div{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:6px}
-.mini b{font-size:15px}
-.mini small{font-size:13.5px;color:var(--soft);line-height:1.5}
-.mini .ico{width:24px;height:24px;color:var(--red)}
-
-/* ทุกอุปกรณ์ (แบบภาพที่ไอซ์ส่ง) */
-.dev-h{font-size:clamp(26px,5.6vw,40px);text-align:center}
-.nw{white-space:nowrap}
-.dev-line{display:block;font-size:clamp(20px,4.6vw,34px);margin-top:4px}
-.devices{position:relative;max-width:900px;margin:40px auto 0;padding-bottom:10%}
-.devices .lap{border-radius:16px;overflow:hidden;border:8px solid #1D1D22;border-bottom-width:12px;box-shadow:0 30px 70px rgba(21,21,26,.18);width:78%;margin:0 auto}
-.devices .tab{position:absolute;left:0;bottom:0;width:26%;border-radius:18px;overflow:hidden;border:7px solid #1D1D22;box-shadow:0 20px 50px rgba(21,21,26,.22)}
-.devices .tab img{aspect-ratio:820/1180;object-fit:cover;object-position:top}
-.devices .ph{position:absolute;right:2%;bottom:0;width:17%;border-radius:22px;overflow:hidden;border:6px solid #1D1D22;box-shadow:0 20px 50px rgba(21,21,26,.25)}
-.rvjs .devices:not(.in) .tab,.rvjs .devices:not(.in) .ph{opacity:0;transform:translateY(16px)}
-.devices .tab,.devices .ph{transition:opacity .3s ease-out .1s,transform .3s ease-out .1s}
-.perks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:30px}
-.perks span{display:inline-flex;align-items:center;gap:7px;font-size:14px;background:#fff;border:1px solid var(--line);border-radius:100px;padding:7px 14px}
-.perks .ico{width:16px;height:16px;color:var(--g1)}
-
-/* ตารางเทียบ */
-.cmp{margin-top:36px;overflow-x:auto;margin-left:-20px;margin-right:-20px;padding:0 20px}
-.cmp table{border-collapse:separate;border-spacing:0;width:100%;min-width:620px;font-size:14.5px}
-.cmp th,.cmp td{padding:14px 14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+/* เทียบ */
+.cmp{margin:30px auto 0;max-width:900px}
+.cmp table{border-collapse:separate;border-spacing:0;width:100%;font-size:15px}
+.cmp th,.cmp td{padding:14px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
 .cmp thead th{font-size:14px;color:var(--soft);font-weight:600}
-.cmp tbody th{font-weight:600;width:22%}
-.cmp td.me,.cmp th.me{background:#fff;border-left:1.5px solid var(--ink);border-right:1.5px solid var(--ink)}
-.cmp thead th.me{color:var(--ink);border-top:1.5px solid var(--ink);border-radius:14px 14px 0 0}
-.cmp tbody tr:last-child td.me{border-bottom:1.5px solid var(--ink);border-radius:0 0 14px 14px}
-.cmp .yes{display:inline-flex;gap:6px;align-items:flex-start}
-.cmp .yes .ico{width:18px;height:18px;color:#1F9D55;margin-top:2px}
+.cmp td.me,.cmp th.me{background:rgba(255,255,255,.07)}
+.cmp thead th.me{color:var(--ink);border-radius:14px 14px 0 0}
+.cmp .yes{color:#5BE08F;font-weight:600}
 @media(max-width:639px){
-  .cmp{overflow:visible}.cmp table,.cmp tbody,.cmp tr,.cmp th,.cmp td{display:block;width:auto!important;min-width:0}
-  .cmp thead,.cmp .c1{display:none}
-  .cmp tr{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
+  .cmp table,.cmp tbody,.cmp tr,.cmp th,.cmp td{display:block;width:auto}
+  .cmp thead{display:none}
+  .cmp tr{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;margin-bottom:10px;overflow:hidden}
   .cmp tbody th{font-size:15px;padding:12px 14px 6px;border:0}
-  .cmp td{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:8px 14px;border:0;font-size:14px}
+  .cmp td{display:grid;grid-template-columns:104px 1fr;gap:10px;padding:8px 14px;border:0;font-size:14.5px}
   .cmp td::before{content:attr(data-l);font-size:12.5px;color:var(--soft);font-weight:600}
-  .cmp td.me{border:0;background:#F3F5FF;border-radius:0}
-  .cmp td.me::before{color:var(--ink)}
-  .cmp tbody tr:last-child td.me{border:0;border-radius:0}
+  .cmp td.me{background:rgba(79,123,255,.16)}
 }
-.cmp-note{font-size:13px;color:var(--soft);margin-top:12px}
 
-/* ราคา (ข้อเสนอใบ 043 รอไอซ์) */
+/* ราคา */
 .seg{display:flex;max-width:420px;margin:24px auto 0;background:#ECEBE7;border-radius:100px;padding:4px}
 .seg button{flex:1;font-size:14px;font-weight:600;color:var(--mid);padding:10px 8px;border-radius:100px;min-height:44px}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.seg-note{text-align:center;font-size:13.5px;color:var(--soft);margin-top:10px;min-height:1.6em}
-.plans{display:grid;gap:14px;margin-top:24px}
+.plans{display:grid;gap:14px;margin-top:22px}
 .plan{position:relative;background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px;display:flex;flex-direction:column}
 .plan.best{border:2px solid var(--ink);box-shadow:0 18px 44px rgba(21,21,26,.10)}
-.plan .pick{position:absolute;top:-12px;left:20px;font-size:12.5px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--g1),var(--g3),var(--g5));border-radius:100px;padding:2px 12px;line-height:1.75}
-.plan .pn{font-size:19px}
-.plan .pf{color:var(--soft);font-size:14px;line-height:1.5;margin-top:2px}
-.pp-price{font-size:15px;color:var(--mid);margin:14px 0 6px}
-.pp-price span{font-family:'LINE Seed Sans TH','Noto Sans Thai',sans-serif;font-weight:700;font-size:36px;color:var(--ink);margin-right:4px;display:inline-block;transition:transform .35s var(--ease),opacity .35s}
-.pp-price span.flip{opacity:0;transform:translateY(8px)}
-.plan ul{list-style:none;display:grid;gap:9px;margin:10px 0 20px;flex:1}
-.plan li{display:flex;gap:9px;font-size:14.5px;line-height:1.55}
-.plan li b{font-weight:700}
-.plan li .ico{width:18px;height:18px;color:#1F9D55;margin-top:2px}
-.plan .btn{width:100%}
-.fit{font-size:14px;color:var(--mid);line-height:1.55;margin-top:6px;background:#F6F5F2;border-radius:10px;padding:8px 10px}
-.fit b{color:var(--ink)}
-.lh{font-size:13px;font-weight:700;color:var(--soft);margin-top:4px}
-.plans .for-old{display:none}
-.plans.old .for-old{display:inline}.plans.old li.for-old{display:flex}
-.plans.old .for-new{display:none}
-.credit{max-width:760px;margin:22px auto 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;font-size:14.5px;color:var(--mid)}
-.credit b{color:var(--ink)}
-.credit p{margin-top:6px}
-.buy-box{max-width:760px;margin:16px auto 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;scroll-margin-top:80px}
-.buy-box>b{font-size:19px}
-.buy-pick{font-size:14.5px;color:var(--mid);margin-top:4px}
+.pick{position:absolute;top:-12px;left:20px;font-size:12.5px;font-weight:700;color:#fff;background:linear-gradient(90deg,var(--g1),var(--g3),var(--g5));border-radius:100px;padding:2px 12px;line-height:1.75}
+.pn{font-size:18px}
+.fit{font-size:14px;color:var(--soft)}
+.price{margin:10px 0 8px;font-size:15px;color:var(--mid)}
+.price span{font-family:'LINE Seed Sans TH','Noto Sans Thai',sans-serif;font-weight:700;font-size:38px;color:var(--ink);margin-right:4px;display:inline-block;font-variant-numeric:tabular-nums;transition:transform .35s var(--ease),opacity .35s}
+.price span.flip{opacity:0;transform:translateY(8px)}
+.ai-line{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;border-radius:12px;padding:10px 12px;background:linear-gradient(90deg,rgba(79,123,255,.10),rgba(236,72,153,.10))}
+.ai-line .ico{color:var(--g2)}
+.ai-line small{display:block;font-weight:500;font-size:12.5px;color:var(--soft)}
+.base-line{font-size:14.5px;color:var(--mid);margin:10px 0 4px}
+.plan details{font-size:14px;color:var(--mid);margin:6px 0 16px}
+.plan summary{cursor:pointer;color:var(--ink);font-weight:600;text-decoration:underline;list-style:none;min-height:32px;display:flex;align-items:center}
+.plan summary::-webkit-details-marker{display:none}
+.plan details ul{margin:6px 0 0 18px;display:grid;gap:4px}
+.plan .btn{width:100%;margin-top:auto}
+.plans .for-old{display:none}.plans.old .for-old{display:inline}.plans.old .for-new{display:none}
+.buy{max-width:760px;margin:18px auto 0;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 20px;scroll-margin-top:80px}
+.buy-pick{font-size:14.5px;color:var(--mid);margin-bottom:12px}
 .buy-pick b{color:var(--ink)}
-.buy-box ol{list-style:none;display:grid;gap:12px;margin:16px 0 18px}
-.buy-box li{display:flex;gap:12px;align-items:flex-start}
-.buy-box li>span{flex:none;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:700}
-.buy-box li b{display:block;font-size:15px}
-.buy-box li small{color:var(--soft);font-size:13.5px}
-.buy-box .btn{width:100%;max-width:360px}
-.buy-help{font-size:13.5px;color:var(--soft);margin-top:10px}
-.buy-help a{text-decoration:underline}
-.up-bar{display:block;background:#F3F5FF;color:var(--ink);font-size:14px;text-align:center;padding:9px 16px;line-height:1.5}
-.up-bar b{font-weight:700}
-.up-bar span{text-decoration:underline;white-space:nowrap}
-.tpl-only{text-align:center;font-size:14px;color:var(--soft);margin-top:18px}
-.tpl-only a{text-decoration:underline}
-@media(min-width:900px){.plans{grid-template-columns:repeat(3,1fr);align-items:stretch}}
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.steps3 div{text-align:center;font-size:13.5px;color:var(--mid);line-height:1.45}
+.steps3 b{display:grid;place-items:center;width:30px;height:30px;margin:0 auto 6px;border-radius:50%;background:var(--ink);color:#fff;font-size:14px}
+.buy .btn{width:100%}
+.buy small{display:block;text-align:center;font-size:13px;color:var(--soft);margin-top:10px}
+.buy small a{text-decoration:underline}
 
 /* คำถาม */
-.faq{max-width:760px;margin:30px auto 0}
+.faq{max-width:760px;margin:26px auto 0}
 .faq details{border-bottom:1px solid var(--line);scroll-margin-top:76px}
 .faq summary{list-style:none;display:flex;justify-content:space-between;gap:16px;padding:18px 0;font-weight:600;font-size:16px;cursor:pointer}
 .faq summary::-webkit-details-marker{display:none}
@@ -263,394 +192,232 @@ dialog#vidDlg::backdrop{background:rgba(21,21,26,.6)}
 .faq details[open] summary .ico{transform:rotate(45deg)}
 .faq p{padding:0 0 18px;color:var(--mid);font-size:15.5px}
 
-/* ปิดท้าย */
 .final{text-align:center;padding:88px 0}
-.final h2{font-size:clamp(30px,7vw,52px)}
+.final h2{font-size:clamp(30px,7.5vw,52px)}
 .final .btn{margin-top:26px;min-width:220px}
-footer{border-top:1px solid var(--line);padding:28px 0 40px;font-size:13.5px;color:var(--soft)}
+footer{border-top:1px solid var(--line);padding:26px 0 36px;font-size:13.5px;color:var(--soft)}
 footer .wrap{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-between}
 
-@media (min-width:768px){
-  section{padding:96px 0}
-  .nav-links{display:flex}
-  .nav .btn{margin-left:0}
-  .back{display:inline}
-  .hero{padding:64px 0 72px}
-  .cta-row .btn{flex:0 0 auto}
-  .mini{grid-template-columns:repeat(3,1fr)}
-  
-}
-@media (min-width:1024px){
-  .hero-grid{grid-template-columns:1.05fr .95fr;align-items:center;gap:56px}
-  .how{grid-template-columns:340px 1fr;align-items:start;gap:40px}
-  .steps{flex-direction:column;overflow:visible;margin:0;padding:0}
-  .step{padding:16px 18px;min-width:0;border-color:transparent;background:transparent}
-  .step small{display:block;margin-top:2px}
-  .step.on{background:#fff;border-color:var(--line);box-shadow:0 8px 26px rgba(21,21,26,.06)}
-  .feat{grid-template-columns:1fr 1fr;gap:64px;padding:64px 0}
-  .feat.flip .media-col{order:-1}
-}
+dialog#vidDlg{border:0;padding:0;background:transparent;max-width:min(92vw,720px);width:100%;margin:auto}
+dialog#vidDlg::backdrop{background:rgba(21,21,26,.7)}
+.dlg-in{position:relative;border-radius:20px;overflow:hidden;background:#1B1513}
+.dlg-in video{width:100%;aspect-ratio:1}
+.dlg-x{position:absolute;top:10px;right:10px;z-index:2;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.95);display:grid;place-items:center}
 
-/* ── รอบ 4: ส่วนพื้นเข้ม ──
-   ไม่ใช้ #0F172A (กรมท่า ขัดกฎ Coach Tarn) ใช้ดำอมน้ำตาลอุ่น #1B1513 = สีแดงอิฐของแบรนด์ #C84B2F ลดความสว่างเหลือ ~8%
-   ทำให้ส้มแบรนด์กับคำไล่สีเด่น ไม่จืดแบบดำเทา ตัวอักษร #F6F0EB (17:1) รอง #B3A79F (8:1) ผ่าน AA */
-.dark{--ink:#F6F0EB;--mid:#D9CFC8;--soft:#B3A79F;--line:rgba(255,255,255,.12);--surface:rgba(255,255,255,.05);
-  background:#1B1513;color:var(--ink);position:relative;overflow:hidden;isolation:isolate}
-.dark::before,.dark::after{content:"";position:absolute;width:720px;height:720px;border-radius:50%;pointer-events:none;z-index:-1;
-  opacity:0;transform:translateY(60px) scale(.9);transition:opacity 1s ease-out,transform 1.2s var(--ease)}
-.dark::before{top:-260px;left:-240px;background:radial-gradient(closest-side,rgba(200,75,47,.34),transparent)}
-.dark::after{bottom:-300px;right:-260px;background:radial-gradient(closest-side,rgba(79,123,255,.22),transparent)}
-.dark.seen::before,.dark.seen::after{opacity:1;transform:none}
-.dark .btn-dark{background:#fff;color:#15151A}
-.dark .btn-dark:hover{background:#F1ECE8}
-.dark .gw{filter:drop-shadow(0 0 22px rgba(236,72,153,.28))}
-.dark .step{background:var(--surface);border-color:var(--line)}
-.dark .step.on{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.08)}
-.dark .shots,.dark .media{box-shadow:0 0 0 1px rgba(255,255,255,.08),0 30px 80px rgba(0,0,0,.55),0 0 90px rgba(235,125,74,.16)}
-.dark .cmp td.me,.dark .cmp th.me{background:rgba(255,255,255,.06)}
-.dark .cmp .yes .ico{color:#5BE08F}
-.dark .cmp-note,.dark .sec-lead{color:var(--soft)}
-@media(max-width:639px){.dark .cmp tr{background:var(--surface)}.dark .cmp td.me{background:rgba(79,123,255,.16)}}
-@media(min-width:1024px){.dark .step{background:transparent;border-color:transparent}.dark .step.on{background:rgba(255,255,255,.07);border-color:var(--line);box-shadow:none}}
-
-/* พารัลแลกซ์: ใช้ property translate แยกจาก transform ของ .rv จะได้ไม่ชนกัน */
 [data-px]{translate:0 var(--py,0px);will-change:translate}
-
-/* ยกขึ้นตอนชี้ (คอมเท่านั้น) */
-.rv{transition:opacity .3s ease-out var(--d,0s),transform .3s ease-out var(--d,0s),translate .25s ease,box-shadow .25s ease}
 @media(hover:hover){
-  .plan:hover,.mini>div:hover,.ex-track figure:hover,.buy-box:hover{translate:0 -4px;box-shadow:0 18px 40px rgba(21,21,26,.12)}
-  .plan.best:hover{box-shadow:0 24px 54px rgba(21,21,26,.16)}
+  .plan:hover,.card:hover,.ex-track figure:hover{translate:0 -4px;box-shadow:0 18px 40px rgba(21,21,26,.12)}
   .btn:hover{translate:0 -2px}
-  .mini>div,.ex-track figure,.buy-box{transition:translate .25s ease,box-shadow .25s ease}
-  .btn{transition:transform .2s var(--ease),background .2s,translate .2s ease}
+  .card{transition:translate .25s ease,box-shadow .25s ease}
 }
-.pp-price span{font-variant-numeric:tabular-nums}
+@media(min-width:768px){
+  section{padding:96px 0}
+  .nav-links{display:flex}.nav .btn{margin-left:0}
+  .split{grid-template-columns:1fr 1fr}
+  .ex-track figure{flex-basis:46%}.ex-nav{display:grid}
+}
+@media(min-width:900px){.plans{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1024px){
+  .hero{padding:64px 0 80px}
+  .hero-grid{grid-template-columns:1fr 1fr;gap:56px}
+  .ex-track figure{flex-basis:31.5%}
+}
 @media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1!important;transform:none!important}
+  .gw{background-position:0 0}
   [data-px]{translate:none}
   .dark::before,.dark::after{opacity:1;transform:none}
-  *,*::before,*::after{animation:none!important;transition:none!important}
-  .rv,.devices .tab,.devices .ph,.duo .ph{opacity:1;transform:none}
-  .gw{background-position:0 0}
-  .xfade img:first-child{opacity:1}
-  
 }
 </style>
 </head>
 <body>
-
-<nav class="nav" id="nav">
+<a class="up-bar" href="#price" id="upBar">ลูกค้าเทมเพลต 499 อัปเกรดเริ่ม 490 บาท <span>ดูราคา</span></a>
+<nav class="nav">
   <div class="wrap">
     <a class="logo h" href="#top"><i><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="13" rx="2.5"/><path d="M8 21h8M12 17.5V21"/></svg></i>Slide Studio</a>
-    <div class="nav-links"><a href="#how">วิธีใช้</a><a href="#features">ฟีเจอร์</a><a href="#compare">เทียบ</a><a href="#price">ราคา</a><a href="#faq">คำถาม</a><a class="back" href="/demo/home/">คลังเทมเพลต Coach Tarn</a></div>
+    <div class="nav-links"><a href="#ai">AI ทำอะไร</a><a href="#examples">ตัวอย่าง</a><a href="#price">ราคา</a><a href="#faq">คำถาม</a></div>
     <a class="btn btn-dark" href="/studio/">ลองทำฟรี</a>
   </div>
 </nav>
-<a class="up-bar" href="#price" id="upBar"><b>ลูกค้าเทมเพลต 499</b> อัปเกรดเป็น Slide Studio เริ่ม 490 บาท <span>ดูราคา</span></a>
 
 <main id="top">
-<!-- ① ฮีโร่ + วิดีโอพรีเซต -->
+<!-- ① ฮีโร่ -->
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow"><i>ใหม่</i>จากทีมเทมเพลต Coach Tarn</span>
-      <h1 class="h">วางข้อความที่มี<br>ได้<span class="gw">สไลด์ PowerPoint</span><br>ที่แก้ได้ทุกหน้า</h1>
-      <p class="lead"><b>นำเนื้อหาที่คุณมีอยู่แล้วมาวาง</b> หรือแนบไฟล์ Word, Excel, PDF ระบบจัดเป็นสไลด์ในดีไซน์ของ Coach Tarn ให้ภายในไม่ถึงนาที ทุกคำและตัวเลขบนสไลด์มาจากเนื้อหาของคุณ</p>
-      <div class="cta-row">
-        <a class="btn btn-dark" href="/studio/"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg>ลองทำฟรี</a>
-        <button class="btn btn-line" type="button" id="openVid"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/></svg>ดูวิดีโอ 23 วิ</button>
-      </div>
-      <p class="free"><b>ลองทำและดูสไลด์ได้ฟรีทุกหน้า</b> ดาวน์โหลดไฟล์ได้เมื่อมี Code ของแพ็ก <a href="#price">ดูราคา</a></p>
-      <div class="fine">
-        <span><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/></svg>เปิดผ่าน Chrome หรือ Safari ไม่ต้องลงโปรแกรม</span>
-        <span><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>ไฟล์ Word, Excel, PDF อ่านในเครื่องคุณ ไม่อัปโหลดขึ้นเซิร์ฟเวอร์</span>
-      </div>
+      <span class="eyebrow"><i>ใหม่</i>AI ช่วยทำสไลด์</span>
+      <h1 class="h">ข้อความยาว<span class="nw">ก้อนเดียว</span><br><span class="gw">AI จัดเป็นสไลด์ให้</span></h1>
+      <p class="lead">วางเนื้อหาของคุณ ได้ไฟล์ PowerPoint แก้ได้ทุกหน้า</p>
+      <a class="btn btn-dark" href="/studio/">ลองทำฟรี</a>
+      <p class="free">ลองทำและดูสไลด์ได้ฟรีทุกหน้า</p>
     </div>
     <div class="vid" data-vid data-px="0.04">
-      <img class="vposter" src="assets/studio-preset-poster.webp" alt="" fetchpriority="high" width="720" height="720">
-      <video autoplay muted loop playsinline preload="metadata" poster="assets/studio-preset-poster.webp" aria-label="ตัวอย่างการใช้ Slide Studio: วางข้อความ ตอบว่าให้ใครดู ดูรายการหน้า ได้สไลด์ เปลี่ยนหน้าตา แล้วบันทึกเป็น PowerPoint">
-        <source src="studio-preset-720.mp4" type="video/mp4">
-      </video>
-      <button class="pp" type="button" aria-label="หยุดวิดีโอ"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg></button>
+      <img class="vposter" src="assets/ai-preset-poster.webp" alt="" width="720" height="720" fetchpriority="high">
+      <video autoplay muted loop playsinline preload="metadata" poster="assets/ai-preset-poster.webp" aria-label="ข้อความประชุมก้อนเดียว AI จัดเป็น 4 หัวข้อ แล้วได้สไลด์มีหัวข้อทุกหน้า"><source src="ai-preset-720.mp4" type="video/mp4"></video>
+      <button class="vbtn vexp" type="button" data-open="ai-preset.mp4" aria-label="ดูวิดีโอเต็มพร้อมปุ่มควบคุม"><svg class="ico" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      <button class="vbtn pp" type="button" aria-label="หยุดวิดีโอ"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg></button>
     </div>
   </div>
 </section>
 
-<dialog id="vidDlg" aria-label="วิดีโอวิธีใช้ Slide Studio">
-  <div class="dlg-in">
-    <button class="dlg-x" type="button" aria-label="ปิดวิดีโอ"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <video id="fullVid" controls playsinline preload="none" poster="assets/studio-preset-poster.webp"><source src="studio-preset.mp4" type="video/mp4"></video>
-    <p>วางข้อความ > ตอบว่าให้ใครดู > ดูรายการหน้า > ได้สไลด์และเปลี่ยนหน้าตา > บันทึกเป็นไฟล์ PowerPoint</p>
+<!-- ② AI ก่อน/หลัง (ภาพจริงจากใบ 035: 02-meeting-wall) -->
+<section class="dark" id="ai">
+  <div class="wrap">
+    <h2 class="sec-h h rv"><span class="gw">AI</span> จัดหัวข้อให้ทุกหน้า</h2>
+    <p class="sec-l rv">ใช้คำและตัวเลขจากเนื้อหาของคุณเท่านั้น</p>
+    <div class="ba rv">
+      <div class="ba-tabs" role="tablist"><button role="tab" data-ba="0">ก่อนใช้ AI</button><button role="tab" class="on" data-ba="1">หลังใช้ AI</button></div>
+      <div class="ba-frame glow">
+        <img src="assets/ai-11_before-2.webp" alt="ก่อนใช้ AI: หน้าไม่มีชื่อ ข้อความยาวต่อกัน" loading="lazy">
+        <img class="on" src="assets/ai-11_after_p-2.webp" alt="หลังใช้ AI: หน้ามีชื่อ ยอดเดือนตุลาคม" loading="lazy">
+      </div>
+      <p class="ba-cap" id="baCap">หน้ามีชื่อ "ยอดเดือนตุลาคม" ตัวเลขครบตามต้นฉบับ</p>
+    </div>
+    <div class="chips" data-stagger>
+      <span class="chip"><svg class="ico" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h7"/></svg>จัดข้อความก้อนเดียวเป็นหัวข้อ</span>
+      <span class="chip"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg>เสนอชื่อหน้าให้เลือก</span>
+      <span class="chip"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ไม่แต่งตัวเลขเพิ่ม</span>
+    </div>
   </div>
-</dialog>
+</section>
 
-<!-- ② ตัวอย่างจากเนื้อหาจริง: ปัดดูได้ (สไลด์ทุกใบเรนเดอร์จาก localhost:9093/studio/) -->
-<section class="ex" id="examples" aria-label="ตัวอย่างสไลด์ที่ Slide Studio ทำ">
+<!-- ③ ฟรี/พื้นฐาน กับ AI -->
+<section id="what">
+  <div class="wrap">
+    <h2 class="sec-h h rv">ทุกแพ็กทำได้ <span class="gw">AI ช่วยเพิ่ม</span></h2>
+    <div class="split">
+      <div class="card rv">
+        <span class="k">Slide Studio</span>
+        <h3 class="h">เนื้อหามีหัวข้อแล้ว</h3>
+        <ul>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>วางข้อความหรือแนบ Word, Excel, PDF</li>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ระบบจัดลงดีไซน์ Coach Tarn ให้</li>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>แก้บนเว็บ บันทึกเป็น PowerPoint</li>
+        </ul>
+      </div>
+      <div class="card ai rv" style="--d:.06s">
+        <span class="k">+ AI ช่วยทำสไลด์ (ใช้เครดิต)</span>
+        <h3 class="h">ข้อความยุ่ง ไม่มีหัวข้อ</h3>
+        <ul>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>AI แบ่งเรื่องเป็นหัวข้อ แยกหน้าให้</li>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>AI เสนอชื่อหน้า คุณเลือกเอง</li>
+          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ใช้คำและตัวเลขของคุณ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ 3 ขั้น + วิดีโอ (เข้ม) -->
+<section class="dark" id="how">
+  <div class="wrap">
+    <h2 class="sec-h h rv">3 ขั้น ได้ไฟล์ PowerPoint</h2>
+    <p class="sec-l rv">ใช้ได้ทั้งคอม แท็บเล็ต มือถือ ไม่ต้องลงโปรแกรม</p>
+    <div class="vid glow rv" data-vid data-px="0.05" style="max-width:520px;margin:36px auto 0">
+      <img class="vposter" src="assets/studio-preset-poster.webp" alt="" width="720" height="720" loading="lazy">
+      <video muted loop playsinline preload="none" poster="assets/studio-preset-poster.webp" aria-label="วางข้อความ ดูรายการหน้า ได้สไลด์ เปลี่ยนหน้าตา บันทึกเป็น PowerPoint"><source src="studio-preset-720.mp4" type="video/mp4"></video>
+      <button class="vbtn vexp" type="button" data-open="studio-preset.mp4" aria-label="ดูวิดีโอเต็มพร้อมปุ่มควบคุม"><svg class="ico" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      <button class="vbtn pp" type="button" aria-label="หยุดวิดีโอ"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg></button>
+    </div>
+    <div class="chips" data-stagger>
+      <span class="chip"><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6"/></svg>1 วางหรือแนบไฟล์</span>
+      <span class="chip"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>2 ดูรายการหน้า</span>
+      <span class="chip"><svg class="ico" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>3 บันทึกเป็น PowerPoint</span>
+    </div>
+  </div>
+</section>
+
+<!-- ④ ตัวอย่างงานจริง -->
+<section class="band" id="examples">
   <div class="wrap">
     <h2 class="sec-h h rv">ตัวอย่างจาก<span class="gw">งานจริง</span></h2>
     <div class="ex-tabs rv" role="tablist">
-      <button role="tab" class="on" data-ex="school">รายงานโครงการโรงเรียน</button>
+      <button role="tab" class="on" data-ex="school">รายงานโรงเรียน</button>
       <button role="tab" data-ex="lesson">แผนการสอน</button>
-      <button role="tab" data-ex="cafe">แผนเปิดร้าน 3 หน้าตา</button>
+      <button role="tab" data-ex="cafe">แผนเปิดร้าน</button>
     </div>
-    <p class="ex-cap" id="exCap"></p>
   </div>
   <div class="ex-wrap rv">
     <div class="ex-track" id="exTrack" tabindex="0" aria-label="ปัดซ้ายขวาเพื่อดูสไลด์"></div>
     <button class="ex-nav prev" type="button" aria-label="สไลด์ก่อนหน้า"><svg class="ico" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
     <button class="ex-nav next" type="button" aria-label="สไลด์ถัดไป"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
   </div>
-  <div class="wrap"><div class="ex-dots" id="exDots" aria-hidden="true"></div><p class="ex-count" id="exCount"></p><p class="ex-hint"><svg class="ico" viewBox="0 0 24 24"><path d="M8 12h11M15 8l4 4-4 4M5 8v8"/></svg>ปัดซ้ายเพื่อดูหน้าต่อไป</p></div>
-  <div class="wrap"><p class="trust rv">ตัวเลขของแพ็กเทมเพลต Coach Tarn 499 บาท (ไม่ใช่ของ Slide Studio ซึ่งเพิ่งเปิดใหม่): ผู้ใช้ 7,000+ คน คะแนนรีวิว <span class="stars">★★★★★</span> 4.9 จาก 5 เทมเพลต 6,500+ สไลด์</p></div>
+  <div class="wrap"><div class="ex-dots" id="exDots" aria-hidden="true"></div><p class="ex-cap" id="exCap"></p></div>
 </section>
 
-<!-- ③ วิธีทำงาน -->
-<section class="dark" id="how">
+<!-- ⑥ เทียบ (3 แถว) -->
+<section id="compare" class="dark">
   <div class="wrap">
-    <h2 class="sec-h h rv">เริ่มจากเนื้อหาที่คุณมี<span class="soft">จบที่<span class="gw">ไฟล์ PowerPoint</span></span></h2>
-    <div class="how rv" id="howBox">
-      <div class="steps" role="tablist" data-stagger>
-        <button class="step on" role="tab" data-i="0"><span class="no">ขั้น 1</span><b>วางข้อความหรือแนบไฟล์</b><small>พิมพ์เอง วางจากไลน์หรืออีเมล หรือแนบ Word, Excel, PDF</small><span class="bar"></span></button>
-        <button class="step" role="tab" data-i="1"><span class="no">ขั้น 2</span><b>บอกว่าให้ใครดู</b><small>หัวหน้า ลูกค้า ทีม นักเรียน กรรมการ ระบบเลือกรูปประกอบให้เข้ากับคนดู</small><span class="bar"></span></button>
-        <button class="step" role="tab" data-i="2"><span class="no">ขั้น 3</span><b>ดูรายการหน้าก่อนสร้าง</b><small>เห็นก่อนว่าได้กี่หน้า หน้าไหนพูดอะไร สลับลำดับ แยก รวม ได้</small><span class="bar"></span></button>
-        <button class="step" role="tab" data-i="3"><span class="no">ขั้น 4</span><b>เลือกหน้าตา</b><small>ระบบแนะนำดีไซน์ที่เข้ากับเนื้อหา กดดูแบบอื่นได้</small><span class="bar"></span></button>
-        <button class="step" role="tab" data-i="4"><span class="no">ขั้น 5</span><b>แก้บนสไลด์ แล้วบันทึก</b><small>คลิกที่ข้อความแล้วพิมพ์ได้เลย บันทึกเป็นไฟล์ PowerPoint, PDF หรือรูปภาพ</small><span class="bar"></span></button>
-      </div>
-      <div>
-        <div class="shots" id="shots" data-px="0.05">
-          <img class="on" src="assets/b-pasted.webp" alt="หน้าแรกของ Slide Studio วางข้อความแผนเปิดร้านกาแฟ" loading="lazy">
-          <img src="assets/c-flow0.webp" alt="คำถามให้ใครดู มีตัวเลือก 6 แบบ" loading="lazy">
-          <img src="assets/d-outline3.webp" alt="รายการ 5 หน้า ก่อนสร้างสไลด์" loading="lazy">
-          <img src="assets/e-look1.webp" alt="หน้าตาที่ระบบแนะนำ พร้อมปุ่มสร้างสไลด์" loading="lazy">
-          <img src="assets/g-editor.webp" alt="หน้าแก้สไลด์ของ Slide Studio" loading="lazy">
-        </div>
-        <p class="shot-cap">ภาพจากหน้าจอจริงของ Slide Studio</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ④ ฟีเจอร์หลัก -->
-<section id="features">
-  <div class="wrap">
-    <h2 class="sec-h h rv">ทำสไลด์เร็วขึ้น<span class="soft">โดยที่<span class="gw">เนื้อหายังเป็นของคุณ</span></span></h2>
-
-    <div class="feat rv">
-      <div>
-        <span class="tag">ดูก่อนสร้าง</span>
-        <h3 class="h">เห็นรายการหน้าก่อน ค่อยกดสร้าง</h3>
-        <p>ระบบอ่านหัวข้อ รายการ ตาราง และวันที่ในเนื้อหา แล้วแบ่งเป็นหน้าให้ดูก่อน ไม่ต้องลุ้นว่าจะออกมากี่หน้า หน้าไหนพูดเรื่องอะไร</p>
-        <ul class="ticks">
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ลากสลับลำดับ แยกหน้า รวมหน้า ได้</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>เปลี่ยนแบบหน้า เช่น จากข้อ ๆ เป็นเส้นลำดับเวลา</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ตั้งจำนวนหน้าที่ต้องการได้</li>
-        </ul>
-      </div>
-      <div class="media-col" data-px="0.06"><div class="media sq" data-vid><video muted loop playsinline preload="none" poster="assets/clip-outline.webp" aria-label="รายการ 5 หน้า แล้วลากหน้ากำหนดการขึ้นไปก่อนหน้างบประมาณ"><source src="clip-outline.mp4" type="video/mp4"></video><button class="pp" type="button" aria-label="หยุดวิดีโอ"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg></button></div></div>
-    </div>
-
-    <div class="feat flip rv">
-      <div>
-        <span class="tag">หน้าตา</span>
-        <h3 class="h">เปลี่ยนหน้าตาทั้งไฟล์ในแตะเดียว</h3>
-        <p>เลือกดีไซน์ของ Coach Tarn แล้วทุกหน้าเปลี่ยนตาม ข้อความที่แก้ไว้และรูปที่ใส่เองยังอยู่ครบ</p>
-        <ul class="ticks">
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ดีไซน์ไทยโดยทีม Coach Tarn</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ใส่โลโก้และสีประจำหน่วยงานหรือร้านของคุณได้</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ไม่ชอบ กดกลับหน้าตาเดิมได้</li>
-        </ul>
-      </div>
-      <div class="media-col" data-px="0.06"><div class="media sq" data-vid><video muted loop playsinline preload="none" poster="assets/clip-looks.webp" aria-label="สไลด์ 5 หน้าเปลี่ยนจากหน้าตาเขียวเป็นน้ำเงินและแดงเข้ม"><source src="clip-looks.mp4" type="video/mp4"></video><button class="pp" type="button" aria-label="หยุดวิดีโอ"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg></button></div></div>
-    </div>
-
-    <div class="feat rv">
-      <div>
-        <span class="tag">กราฟ</span>
-        <h3 class="h">ตารางตัวเลขกลายเป็นกราฟ</h3>
-        <p>ใส่ตัวเลขเป็นตาราง ระบบทำเป็นกราฟในดีไซน์ที่เลือก เปลี่ยนชนิดกราฟและคู่สีได้ ตัวเลขยังครบทุกตัว</p>
-        <ul class="ticks">
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ตัวเลขมีคอมมาคั่นหลักพันให้เลย</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>เปิดใน PowerPoint แล้วกดแก้ตัวเลขใน Excel ได้</li>
-        </ul>
-      </div>
-      <div class="media-col" data-px="0.06"><div class="media wide xfade">
-        <img src="assets/slide-green-4.webp" alt="กราฟงบประมาณ หน้าตาเขียว" loading="lazy">
-        <img src="assets/slide-blue-4.webp" alt="กราฟงบประมาณ หน้าตาน้ำเงิน" loading="lazy">
-        <img src="assets/slide-red-4.webp" alt="กราฟงบประมาณ หน้าตาแดงเข้ม" loading="lazy">
-      </div></div>
-    </div>
-
-    <div class="feat flip rv">
-      <div>
-        <span class="tag">แก้ไข</span>
-        <h3 class="h">แก้บนสไลด์ได้เลย ทั้งคอมและมือถือ</h3>
-        <p>คลิกเลือกกล่องเพื่อย้ายหรือย่อขยาย คลิกซ้ำเพื่อพิมพ์ บนมือถือแก้ทีละหน้า ปัดซ้ายขวาเพื่อเปลี่ยนหน้า</p>
-        <ul class="ticks">
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>กดย้อนกลับได้ และเรียกฉบับที่แก้ไว้ก่อนหน้ากลับมาได้</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>เพิ่มหน้า ทำสำเนา ลบ ย้ายหน้า</li>
-        </ul>
-      </div>
-      <div class="media-col" data-px="0.06"><div class="duo">
-        <div class="pc"><img src="assets/g-editor.webp" alt="หน้าแก้สไลด์บนคอม" loading="lazy"></div>
-        <div class="ph"><img src="assets/i-editor-m.webp" alt="หน้าแก้สไลด์บนมือถือ" loading="lazy"></div>
-      </div></div>
-    </div>
-
-    <div class="feat rv">
-      <div>
-        <span class="tag">บันทึก</span>
-        <h3 class="h">ได้ไฟล์ PowerPoint (.pptx) จริง ไม่ใช่รูปภาพ</h3>
-        <p>ข้อความเป็นตัวอักษรที่พิมพ์แก้ได้ กราฟเป็นกราฟจริง เปิดในโปรแกรม PowerPoint แล้วทำงานต่อได้ทุกหน้า</p>
-        <ul class="ticks">
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>บันทึกเป็นไฟล์ PowerPoint, PDF หรือรูปภาพ (PNG, JPG)</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>บทพูดที่จดไว้ (คนดูไม่เห็น) ติดไปในไฟล์ PowerPoint ด้วย</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>เลือกบันทึกทุกหน้าหรือเฉพาะบางหน้า</li>
-        </ul>
-      </div>
-      <div class="media-col" data-px="0.06"><div class="media sq" data-vid><video muted loop playsinline preload="none" poster="assets/clip-pptx.webp" aria-label="กดดาวน์โหลด PowerPoint 5 หน้า แล้วเปิดไฟล์ที่แก้ข้อความได้"><source src="clip-pptx.mp4" type="video/mp4"></video><button class="pp" type="button" aria-label="หยุดวิดีโอ"><svg class="ico" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg></button></div></div>
-    </div>
-
-    <div class="mini" data-stagger>
-      <div><svg class="ico" viewBox="0 0 24 24"><path d="M6 4h12v16H6z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg><b>บทพูดที่คนดูไม่เห็น</b><small>จดสิ่งที่จะพูดในแต่ละหน้า ดูได้ตอนนำเสนอ</small></div>
-      <div><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M10 9l4 2-4 2z"/></svg><b>นำเสนอเต็มจอ</b><small>กดนำเสนอจากเว็บได้ทันที</small></div>
-      <div><svg class="ico" viewBox="0 0 24 24"><path d="M4 7h10M4 12h16M4 17h7"/><circle cx="17" cy="7" r="2"/><circle cx="14" cy="17" r="2"/></svg><b>ลูกเล่นตอนเปลี่ยนหน้า</b><small>ใส่ลูกเล่นตอนกดไปหน้าถัดไปเวลานำเสนอ</small></div>
-      <div><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></svg><b>ใส่รูปของคุณ</b><small>แตะกรอบรูปแล้วเลือกรูปจากเครื่อง</small></div>
-      <div><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l7 4v6c0 4-3 7-7 8-4-1-7-4-7-8V7z"/></svg><b>โลโก้และสีของหน่วยงาน</b><small>ใส่ครั้งเดียว ขึ้นทุกหน้า</small></div>
-      <div><svg class="ico" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5M12 7v5l3 2"/></svg><b>ย้อนกลับไปฉบับก่อน</b><small>แก้พลาด เรียกฉบับที่แก้ไว้ก่อนหน้ากลับมาได้</small></div>
-    </div>
-  </div>
-</section>
-
-<!-- ⑤ ทุกอุปกรณ์ -->
-<section class="band">
-  <div class="wrap">
-    <h2 class="dev-h h rv">ใช้ได้ทุกอุปกรณ์<span class="dev-line"><span class="gw"><span class="nw">คอม · แท็บเล็ต · มือถือ</span> <span class="nw">— ทำบนเว็บ ไม่ต้องติดตั้ง</span></span></span></h2>
-    <div class="devices rv" id="devices">
-      <div class="lap" data-px="0.04"><img src="assets/g-editor.webp" alt="Slide Studio บนคอม" loading="lazy"></div>
-      <div class="tab"><img src="assets/i-editor-t.webp" alt="Slide Studio บนแท็บเล็ต" loading="lazy"></div>
-      <div class="ph"><img src="assets/i-editor-m.webp" alt="Slide Studio บนมือถือ" loading="lazy"></div>
-    </div>
-    <div class="perks" data-stagger>
-      <span><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>เปิดผ่าน Chrome หรือ Safari</span>
-      <span><svg class="ico" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>ไฟล์อ่านในเครื่อง ไม่อัปโหลด</span>
-      <span><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>เก็บงานให้อัตโนมัติในเครื่องที่ใช้ทำ</span>
-    </div>
-  </div>
-</section>
-
-<!-- ⑥ เทียบตามจริง -->
-<section class="dark" id="compare">
-  <div class="wrap">
-    <h2 class="sec-h h rv">ต่างจากเดิมตรงไหน</h2>
-    <p class="sec-lead rv">เทียบงานเดียวกัน: มีเนื้อหาอยู่แล้ว 1 เรื่อง อยากได้สไลด์สวย ๆ ไปนำเสนอ</p>
+    <h2 class="sec-h h rv">ต่างจากซื้อเทมเพลตอย่างเดียว</h2>
     <div class="cmp rv">
       <table>
-        <thead><tr><th></th><th class="c1">ทำเองใน PowerPoint</th><th>ซื้อเทมเพลต 499</th><th class="me">Slide Studio</th></tr></thead>
+        <thead><tr><th></th><th>เทมเพลต 499</th><th>Slide Studio</th><th class="me">+ AI</th></tr></thead>
         <tbody>
-          <tr><th>เริ่มจาก</th><td class="c1" data-l="ทำเองใน PowerPoint">หน้าเปล่า</td><td data-l="เทมเพลต 499">เลือกชุดที่ชอบ แล้วพิมพ์ทับทีละกล่อง</td><td class="me" data-l="Slide Studio">วางเนื้อหาที่มี หรือแนบไฟล์</td></tr>
-          <tr><th>จัดหน้า</th><td class="c1" data-l="ทำเองใน PowerPoint">จัดเองทุกหน้า</td><td data-l="เทมเพลต 499">ก๊อปเนื้อหาลงแบบเอง</td><td class="me" data-l="Slide Studio"><span class="yes"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ระบบจัดให้ในไม่ถึงนาที</span></td></tr>
-          <tr><th>เปลี่ยนหน้าตาทั้งไฟล์</th><td class="c1" data-l="ทำเองใน PowerPoint">ทำใหม่</td><td data-l="เทมเพลต 499">เปลี่ยนชุดแล้วก๊อปเนื้อหาใหม่</td><td class="me" data-l="Slide Studio"><span class="yes"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>แตะเดียว เนื้อหาตามไป</span></td></tr>
-          <tr><th>กราฟ</th><td class="c1" data-l="ทำเองใน PowerPoint">สร้างเอง</td><td data-l="เทมเพลต 499">มีกราฟที่แก้ตัวเลขใน Excel ได้</td><td class="me" data-l="Slide Studio"><span class="yes"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>สร้างจากตัวเลขของคุณ แก้ใน Excel ได้</span></td></tr>
-          <tr><th>เนื้อหาบนสไลด์</th><td class="c1" data-l="ทำเองใน PowerPoint">ของคุณ</td><td data-l="เทมเพลต 499">ของคุณ</td><td class="me" data-l="Slide Studio">ของคุณทุกคำ ระบบไม่แต่งเพิ่ม</td></tr>
-          <tr><th>ไฟล์ที่ได้</th><td class="c1" data-l="ทำเองใน PowerPoint">PowerPoint</td><td data-l="เทมเพลต 499">PowerPoint</td><td class="me" data-l="Slide Studio">PowerPoint, PDF, รูปภาพ</td></tr>
-          <tr><th>ยังไม่มีเนื้อหาเลย</th><td class="c1" data-l="ทำเองใน PowerPoint">เขียนเอง</td><td data-l="เทมเพลต 499">เขียนเอง</td><td class="me" data-l="Slide Studio">ยังต้องเขียนเอง (ระบบไม่เขียนเนื้อหาให้)</td></tr>
+          <tr><th>เริ่มจาก</th><td data-l="เทมเพลต 499">เลือกแบบ พิมพ์ทับเอง</td><td data-l="Slide Studio">วางเนื้อหาที่มีหัวข้อ</td><td class="me" data-l="+ AI"><span class="yes">ข้อความก้อนเดียวก็ได้</span></td></tr>
+          <tr><th>จัดหน้า</th><td data-l="เทมเพลต 499">จัดเอง</td><td data-l="Slide Studio">ระบบจัดให้</td><td class="me" data-l="+ AI"><span class="yes">AI ตั้งหัวข้อ แยกหน้า</span></td></tr>
+          <tr><th>ไฟล์ที่ได้</th><td data-l="เทมเพลต 499">PowerPoint</td><td data-l="Slide Studio">PowerPoint, PDF, รูป</td><td class="me" data-l="+ AI">PowerPoint, PDF, รูป</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="cmp-note">ซื้อเทมเพลตอย่างเดียวยังคุ้มถ้าคุณชอบหยิบแบบมาจัดเอง Slide Studio เหมาะกับคนที่มีเนื้อหาแล้วอยากได้สไลด์เร็ว</p>
   </div>
 </section>
 
-<!-- ⑦ ราคา
-     ข้อเสนอจาก research/ai-usage-packages.md (ใบ 043) รอไอซ์อนุมัติ ยังไม่ใช่ราคาจริง
-     คำว่า "ผู้ช่วย" แทน AI ตามกฎปัจจุบัน / "ไม่ต้องต่ออายุ" = ตลอดอายุการให้บริการ (อธิบายใน FAQ) -->
+<!-- ⑦ ราคา: ข้อเสนอใบ 043 รอไอซ์ / เครดิต AI เป็นจุดขายหลัก / ปุ่มสั่งซื้อชี้หน้า /order?pack= ที่ยังไม่ได้สร้าง -->
 <section class="band" id="price">
   <div class="wrap">
-    <h2 class="sec-h h rv">เลือกแพ็กที่เหมาะกับ<span class="nw">งานของคุณ</span><span class="soft">จ่ายครั้งเดียว ไม่ตัดเงินอัตโนมัติ</span></h2>
-    <p class="sec-lead rv"><b>ลองทำและดูสไลด์ได้ฟรีทุกหน้า</b> ดาวน์โหลดไฟล์ได้เมื่อมี Code ของแพ็ก</p>
+    <h2 class="sec-h h rv">จ่ายครั้งเดียว <span class="gw">ไม่มีรายเดือน</span></h2>
     <div class="seg rv" role="tablist" aria-label="ราคาสำหรับ">
       <button role="tab" class="on" aria-selected="true" data-who="new">ยังไม่เคยซื้อ</button>
-      <button role="tab" aria-selected="false" data-who="old">มี Code เทมเพลต 499 แล้ว</button>
+      <button role="tab" aria-selected="false" data-who="old">มี Code เทมเพลต 499</button>
     </div>
-    <p class="seg-note rv" id="segNote">ราคาลูกค้าใหม่ ได้เทมเพลตทุกชุดรวมอยู่ในแพ็กแล้ว</p>
-    <div class="plans" id="plans">
-      <div class="plan rv">
-        <b class="pn">เริ่มต้น</b>
-        <p class="fit"><b>เหมาะกับ</b> เจ้าของร้าน คนที่ทำสไลด์เดือนละ 1-3 เรื่อง</p>
-        <div class="pp-price"><span data-new="990" data-old="490">990</span> บาท</div>
-        <p class="lh"><span class="for-new">สิ่งที่ได้</span><span class="for-old">สิ่งที่ได้เพิ่ม</span></p>
-        <ul>
-          <li class="for-new"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ดาวน์โหลดเทมเพลต Coach Tarn ได้ทุกชุด ไม่ต้องต่ออายุ</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ใช้ Slide Studio ได้ 1 ปี</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>สั่งผู้ช่วยได้ 200 ครั้ง</b> ≈ ทำสไลด์ 25 เรื่อง ใช้ภายใน 1 ปี</span></li>
-          <li class="for-old"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>เทมเพลตที่มีอยู่ใช้ได้เหมือนเดิม</li>
-        </ul>
-        <a class="btn btn-line buy" href="#buy" data-pack="เริ่มต้น">สั่งซื้อแพ็กนี้</a>
+    <div class="plans" id="plans" data-stagger>
+      <div class="plan">
+        <b class="pn h">เริ่มต้น</b><span class="fit">ทำสไลด์เดือนละ 1-3 เรื่อง</span>
+        <div class="price"><span data-new="990" data-old="490">990</span> บาท</div>
+        <div class="ai-line"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg><div>AI ช่วยได้ ~25 เรื่อง<small>200 เครดิต ใช้ภายใน 1 ปี</small></div></div>
+        <p class="base-line">Slide Studio 1 ปี<span class="for-new"> + เทมเพลตทุกชุด</span></p>
+        <details><summary>ดูรายละเอียด</summary><ul><li class="for-new">ดาวน์โหลดเทมเพลต Coach Tarn ทุกชุด ไม่ต้องต่ออายุ</li><li>ใช้ Slide Studio ได้ 1 ปี</li><li>1 เครดิต = สั่ง AI 1 ครั้ง ไฟล์หนึ่งใช้ราว 8 ครั้ง</li></ul></details>
+        <a class="btn btn-line buyb" href="#buy" data-pack="เริ่มต้น">สั่งซื้อแพ็กนี้</a>
       </div>
-      <div class="plan best rv" style="--d:.05s">
+      <div class="plan best">
         <span class="pick">แนะนำ</span>
-        <b class="pn">ทำงานประจำ</b>
-        <p class="fit"><b>เหมาะกับ</b> ครู ธุรการ ข้าราชการ คนที่ทำรายงานหรือสอนทุกสัปดาห์ (เดือนละ 4-9 เรื่อง)</p>
-        <div class="pp-price"><span data-new="1,490" data-old="990">1,490</span> บาท</div>
-        <p class="lh"><span class="for-new">สิ่งที่ได้</span><span class="for-old">สิ่งที่ได้เพิ่ม</span></p>
-        <ul>
-          <li class="for-new"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ดาวน์โหลดเทมเพลต Coach Tarn ได้ทุกชุด ไม่ต้องต่ออายุ</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ใช้ Slide Studio ได้ ไม่ต้องต่ออายุ</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ไอคอนและภาพตกแต่งสไลด์ ไม่ต้องต่ออายุ</li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>สั่งผู้ช่วยได้ 800 ครั้ง</b> ≈ ทำสไลด์ 100 เรื่อง ใช้ภายใน 1 ปี</span></li>
-        </ul>
-        <a class="btn btn-dark buy" href="#buy" data-pack="ทำงานประจำ">สั่งซื้อแพ็กนี้</a>
+        <b class="pn h">ทำงานประจำ</b><span class="fit">ครู ธุรการ ทำรายงานหรือสอนทุกสัปดาห์</span>
+        <div class="price"><span data-new="1,490" data-old="990">1,490</span> บาท</div>
+        <div class="ai-line"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg><div>AI ช่วยได้ ~100 เรื่อง<small>800 เครดิต ใช้ภายใน 1 ปี</small></div></div>
+        <p class="base-line">Slide Studio ไม่ต้องต่ออายุ<span class="for-new"> + เทมเพลตทุกชุด</span></p>
+        <details><summary>ดูรายละเอียด</summary><ul><li class="for-new">ดาวน์โหลดเทมเพลต Coach Tarn ทุกชุด ไม่ต้องต่ออายุ</li><li>ใช้ Slide Studio ได้ ไม่ต้องต่ออายุ</li><li>ไอคอนและภาพตกแต่งสไลด์</li><li>1 เครดิต = สั่ง AI 1 ครั้ง ไฟล์หนึ่งใช้ราว 8 ครั้ง</li></ul></details>
+        <a class="btn btn-dark buyb" href="#buy" data-pack="ทำงานประจำ">สั่งซื้อแพ็กนี้</a>
       </div>
-      <div class="plan rv" style="--d:.1s">
-        <b class="pn">ใช้หนักทั้งปี</b>
-        <p class="fit"><b>เหมาะกับ</b> ฝ่ายขาย วิทยากร คนที่ทำสไลด์ใหม่เกือบทุกวัน (เดือนละ 10 เรื่องขึ้นไป)</p>
-        <div class="pp-price"><span data-new="1,990" data-old="1,490">1,990</span> บาท</div>
-        <p class="lh"><span class="for-new">สิ่งที่ได้</span><span class="for-old">สิ่งที่ได้เพิ่ม</span></p>
-        <ul>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ทุกอย่างในแพ็กทำงานประจำ<span class="for-old">&nbsp;(ยกเว้นเทมเพลตที่คุณมีแล้ว)</span></li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span><b>สั่งผู้ช่วยได้ 2,000 ครั้ง</b> ≈ ทำสไลด์ 250 เรื่อง ใช้ภายใน 1 ปี</span></li>
-          <li><svg class="ico" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>ฟีเจอร์ใหม่ที่เพิ่มใน Slide Studio ภายหลัง ไม่ต้องจ่ายเพิ่ม</li>
-        </ul>
-        <a class="btn btn-line buy" href="#buy" data-pack="ใช้หนักทั้งปี">สั่งซื้อแพ็กนี้</a>
+      <div class="plan">
+        <b class="pn h">ใช้หนักทั้งปี</b><span class="fit">ฝ่ายขาย วิทยากร ทำเกือบทุกวัน</span>
+        <div class="price"><span data-new="1,990" data-old="1,490">1,990</span> บาท</div>
+        <div class="ai-line"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/></svg><div>AI ช่วยได้ ~250 เรื่อง<small>2,000 เครดิต ใช้ภายใน 1 ปี</small></div></div>
+        <p class="base-line">ทุกอย่างในแพ็กทำงานประจำ</p>
+        <details><summary>ดูรายละเอียด</summary><ul><li>ทุกอย่างในแพ็กทำงานประจำ</li><li>ฟีเจอร์ใหม่ใน Slide Studio ภายหลัง ไม่ต้องจ่ายเพิ่ม</li><li>1 เครดิต = สั่ง AI 1 ครั้ง ไฟล์หนึ่งใช้ราว 8 ครั้ง</li></ul></details>
+        <a class="btn btn-line buyb" href="#buy" data-pack="ใช้หนักทั้งปี">สั่งซื้อแพ็กนี้</a>
       </div>
     </div>
-    <div class="credit rv">
-      <b>สั่งผู้ช่วย 1 ครั้ง = 1 เครดิต</b>
-      <p>เช่น สร้างสไลด์จากเอกสาร จัดหัวข้อใหม่ แบ่งหน้า ย่อข้อความ สไลด์หนึ่งเรื่องใช้ประมาณ 8 ครั้ง (สร้าง 1 ครั้ง สั่งแก้ 7 ครั้ง) ถ้าผู้ช่วยทำไม่สำเร็จ ไม่หักเครดิต</p>
-      <p>พิมพ์แก้เอง เปลี่ยนหน้าตา ทำกราฟ และบันทึกไฟล์ <b>ไม่ใช้เครดิต</b></p>
-      <p><b>เครดิตหมด หรือครบ 1 ปี:</b> เครดิตที่เหลือหมดอายุ แต่ยังพิมพ์แก้เอง เปลี่ยนหน้าตา และบันทึกไฟล์ได้ตามอายุแพ็ก อยากสั่งผู้ช่วยต่อ เติม 300 ครั้ง 199 บาท</p>
-    </div>
-
-    <!-- วิธีซื้อ: ข้อเสนอ ยึดตามขั้นตอนสั่งเทมเพลต 499 ที่ใช้อยู่ (/order > สลิป > ตรวจอัตโนมัติ > อีเมล Code)
-         หน้าสั่งซื้อแพ็ก Studio ยังไม่ได้ทำ ปุ่ม "ไปหน้าสั่งซื้อ" ชี้ไป path ที่เสนอ /order?pack= -->
-    <div class="buy-box rv" id="buy">
-      <b class="h">วิธีซื้อ</b>
-      <p class="buy-pick" id="buyPick">เลือกแพ็กด้านบน แล้วทำตาม 3 ขั้นนี้</p>
-      <ol>
-        <li><span>1</span><div><b>กดสั่งซื้อ กรอกชื่อและอีเมล</b><small>อีเมลนี้ใช้รับ Code</small></div></li>
-        <li><span>2</span><div><b>โอนเงิน แล้วแนบสลิป</b><small>ระบบตรวจสลิปให้อัตโนมัติ</small></div></li>
-        <li><span>3</span><div><b>ได้ Code ทางอีเมล</b><small>กรอก Code ใน Slide Studio แล้วดาวน์โหลดไฟล์ได้เลย</small></div></li>
-      </ol>
+    <!-- วิธีซื้อ: ข้อเสนอ ยึดขั้นตอนสั่ง 499 ที่ใช้จริง (/order > สลิป > ตรวจอัตโนมัติ > อีเมล Code) หน้าสั่งซื้อแพ็กยังไม่ได้ทำ -->
+    <div class="buy rv" id="buy">
+      <p class="buy-pick" id="buyPick">วิธีซื้อ</p>
+      <div class="steps3"><div><b>1</b>กรอกชื่อ อีเมล</div><div><b>2</b>โอน แนบสลิป</div><div><b>3</b>ได้ Code ทางอีเมล</div></div>
       <a class="btn btn-dark" id="goOrder" href="/order?pack=work">ไปหน้าสั่งซื้อ</a>
-      <p class="buy-help">ติดขัดตรงไหน <a href="https://m.me/coachtarn" target="_blank" rel="noopener">ทักแอดมินทาง Messenger</a></p>
+      <small>ติดขัด <a href="https://m.me/coachtarn" target="_blank" rel="noopener">ทักแอดมิน</a></small>
     </div>
-    <p class="tpl-only rv">อยากได้แค่เทมเพลต? <a href="/demo/home/#deal">ดูเทมเพลต 499 บาท</a></p>
   </div>
 </section>
 
-<!-- ⑧ คำถาม -->
+<!-- ⑧ คำถาม 5 ข้อ -->
 <section id="faq">
   <div class="wrap">
     <h2 class="sec-h h rv">คำถามที่พบบ่อย</h2>
     <div class="faq rv">
-      <details><summary>ต้องมีเนื้อหาก่อนไหม<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ใช่ครับ นำเนื้อหาที่มีอยู่แล้วมาวาง Slide Studio จัดเนื้อหาของคุณลงดีไซน์ ไม่ได้เขียนเนื้อหาใหม่ให้ อย่างน้อยพิมพ์หัวเรื่องบรรทัดแรก แล้วตามด้วยหัวข้อย่อยหรือรายละเอียดทีละบรรทัด</p></details>
-      <details><summary>ใส่ไฟล์แบบไหนได้บ้าง<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>พิมพ์หรือวางข้อความได้เลย หรือแนบไฟล์ Word, Excel และ PDF ไฟล์อ่านในเครื่องคุณ ไม่อัปโหลดขึ้นเซิร์ฟเวอร์ ตารางตัวเลขในเนื้อหาจะกลายเป็นกราฟหรือตาราง</p></details>
-      <details><summary>เปิดใน PowerPoint แล้วแก้ต่อได้ไหม<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ได้ครับ ไฟล์ที่บันทึกเป็นไฟล์ PowerPoint (.pptx) ข้อความเป็นกล่องข้อความจริง กราฟเป็นกราฟจริงที่กดแก้ตัวเลขใน Excel ได้</p></details>
-      <details><summary>ใช้บนมือถือได้ไหม<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ได้ครับ เปิดผ่าน Chrome หรือ Safari ในมือถือ แท็บเล็ต หรือคอม บนมือถือแก้ทีละหน้า ปัดซ้ายขวาเพื่อเปลี่ยนหน้า</p></details>
-      <details><summary>ไฟล์ที่แนบถูกส่งขึ้นอินเทอร์เน็ตไหม<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ไม่ครับ ข้อความและไฟล์ Word, Excel, PDF ที่แนบ อ่านและจัดเป็นสไลด์ในเครื่องของคุณ ไม่อัปโหลดขึ้นเซิร์ฟเวอร์ งานเก็บไว้ในเครื่องที่ใช้ทำ</p></details>
-      <details><summary>ซื้อเทมเพลต 499 แล้ว ต้องจ่ายเพิ่มไหม<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ต้องจ่ายเพิ่มครับ แต่ได้ลด 500 บาททุกแพ็ก เหลือ 490, 990 หรือ 1,490 บาท ลองทำและดูสไลด์ได้ฟรีทุกหน้าก่อนตัดสินใจ</p></details>
-      <details><summary>"ไม่ต้องต่ออายุ" หมายถึงอะไร<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>จ่ายครั้งเดียว ใช้ได้ต่อเนื่องโดยไม่มีค่าต่ออายุรายปี ตลอดช่วงที่ coachtarnslide.com ยังเปิดให้บริการ ไฟล์ที่บันทึกลงเครื่องแล้วเป็นของคุณตลอด ส่วนเครดิตผู้ช่วยใช้ได้ภายใน 1 ปี</p></details>
-      <details><summary>ฟรีถึงตรงไหน<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ลองทำและดูสไลด์ได้ฟรีทุกหน้า ดาวน์โหลดไฟล์ได้เมื่อมี Code ของแพ็ก</p></details>
+      <details><summary>ต้องมีเนื้อหาก่อนไหม<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ใช่ครับ AI จัดหัวข้อจากเนื้อหาที่คุณวาง ไม่ได้เขียนเรื่องใหม่ให้</p></details>
+      <details><summary>AI แต่งตัวเลขเพิ่มไหม<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ไม่ครับ ระบบตรวจทุกครั้งว่าตัวเลขบนสไลด์ต้องมีในต้นฉบับ ถ้าไม่ตรงจะไม่ใช้ผลนั้น</p></details>
+      <details><summary>ข้อความของฉันถูกส่งไปไหน<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>การจัดสไลด์ปกติทำในเครื่องคุณ ไม่อัปโหลด เมื่อกดใช้ AI ข้อความจะถูกส่งไปให้ AI ประมวลผล</p></details>
+      <details><summary>ฟรีแค่ไหน ลูกค้า 499 ต้องจ่ายเพิ่มไหม<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ลองทำและดูสไลด์ได้ฟรีทุกหน้า ดาวน์โหลดเมื่อมี Code ของแพ็ก ลูกค้า 499 จ่ายเพิ่มแต่ลด 500 บาททุกแพ็ก</p></details>
+      <details><summary>เครดิตหมดแล้วทำยังไง<svg class="ico" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>ยังแก้เอง เปลี่ยนหน้าตา บันทึกไฟล์ได้ตามอายุแพ็ก อยากใช้ AI ต่อ เติม 300 เครดิต 199 บาท เครดิตที่เหลือหมดอายุเมื่อครบ 1 ปี</p></details>
     </div>
   </div>
 </section>
@@ -658,146 +425,126 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:space-bet
 <!-- ⑨ ปิดท้าย -->
 <section class="final dark">
   <div class="wrap rv">
-    <h2 class="h">สไลด์เรื่องต่อไป<br><span class="gw">เริ่มจากข้อความที่คุณมี</span></h2>
+    <h2 class="h">สไลด์เรื่องต่อไป<br><span class="gw">ให้ AI ช่วยจัด</span></h2>
     <a class="btn btn-dark" href="/studio/">ลองทำฟรี</a>
   </div>
 </section>
 </main>
 
-<footer>
-  <div class="wrap"><span>Slide Studio โดย Coach Tarn · บริษัท ดับเบิลคราฟท์ จำกัด</span><span><a href="/demo/home/">คลังเทมเพลต</a> · <a href="/privacy">นโยบายความเป็นส่วนตัว</a> · <a href="/terms">เงื่อนไข</a></span></div>
-</footer>
+<footer><div class="wrap"><span>Slide Studio โดย Coach Tarn · บริษัท ดับเบิลคราฟท์ จำกัด</span><span><a href="/demo/home/">คลังเทมเพลต</a> · <a href="/privacy">ความเป็นส่วนตัว</a> · <a href="/terms">เงื่อนไข</a></span></div></footer>
+
+<dialog id="vidDlg" aria-label="วิดีโอ Slide Studio">
+  <div class="dlg-in">
+    <button class="dlg-x" type="button" aria-label="ปิดวิดีโอ"><svg class="ico" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <video id="fullVid" controls playsinline preload="none"></video>
+  </div>
+</dialog>
 
 <script>
 const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-// ตัวอย่างงานจริง: ปัดดูได้ ภาพเล็ก 720px โหลดเฉพาะชุดที่เปิด (3 ใบแรก eager ที่เหลือ lazy)
+const $ = id => document.getElementById(id);
+
+// การ์ด/ชิปในกลุ่มไล่ขึ้นทีละใบ
+document.querySelectorAll('[data-stagger]').forEach(g => [...g.children].forEach((c, i) => { c.classList.add('rv'); c.style.setProperty('--d', i * 60 + 'ms'); }));
+
+// เผยตอนเลื่อน (เริ่มก่อนถึงจอ 25% + กันพลาดตอนเลื่อนเร็ว + 1.5 วิเผยทุกอย่าง)
+const show = el => { el.classList.add('in'); el.querySelectorAll('.gw').forEach(g => g.classList.add('in')); io.unobserve(el); };
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) show(e.target); }), { rootMargin: '0px 0px 25% 0px' });
+document.querySelectorAll('.rv,.gw').forEach(el => io.observe(el));
+addEventListener('scroll', () => document.querySelectorAll('.rv:not(.in)').forEach(el => { if (el.getBoundingClientRect().top < innerHeight * 1.25) show(el); }), { passive: true });
+setTimeout(() => document.documentElement.classList.remove('rvjs'), 1500);
+const darkIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('seen'); darkIO.unobserve(e.target); } }), { rootMargin: '0px 0px -15% 0px' });
+document.querySelectorAll('.dark').forEach(d => darkIO.observe(d));
+
+// พารัลแลกซ์เบา ๆ (translate แยกจาก transform)
+if (!calm) {
+  const vis = new Set(), pio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? vis.add(e.target) : vis.delete(e.target)), { rootMargin: '20% 0px' });
+  document.querySelectorAll('[data-px]').forEach(el => pio.observe(el));
+  let tk = false; const upd = () => { tk = false; const mid = innerHeight / 2; vis.forEach(el => { const r = el.getBoundingClientRect(); el.style.setProperty('--py', Math.max(-20, Math.min(20, (r.top + r.height / 2 - mid) * -el.dataset.px)).toFixed(1) + 'px'); }); };
+  addEventListener('scroll', () => { if (!tk) { tk = true; requestAnimationFrame(upd); } }, { passive: true });
+}
+
+// วิดีโอเล่นเฉพาะตอนเห็น + ปุ่มหยุด + ปุ่มเปิดเต็มพร้อมปุ่มควบคุม
+const P = '<svg class="ico" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg>', Y = '<svg class="ico" viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>';
+document.querySelectorAll('[data-vid]').forEach(box => {
+  const v = box.querySelector('video'), b = box.querySelector('.pp'); let user = calm ? 'pause' : null;
+  if (calm) v.removeAttribute('autoplay');
+  const icon = () => { b.innerHTML = v.paused ? Y : P; b.setAttribute('aria-label', v.paused ? 'เล่นวิดีโอ' : 'หยุดวิดีโอ'); };
+  b.onclick = () => { if (v.paused) { user = null; v.play(); } else { user = 'pause'; v.pause(); } };
+  v.addEventListener('play', icon); v.addEventListener('pause', icon);
+  new IntersectionObserver(([e]) => { if (e.isIntersecting && !user) v.play().catch(() => {}); else if (!e.isIntersecting) v.pause(); }, { threshold: .35 }).observe(box);
+  icon();
+});
+const dlg = $('vidDlg'), fv = $('fullVid');
+document.querySelectorAll('[data-open]').forEach(b => b.onclick = () => { fv.src = b.dataset.open; dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', ''); fv.play().catch(() => {}); });
+const closeDlg = () => { fv.pause(); dlg.close ? dlg.close() : dlg.removeAttribute('open'); };
+dlg.querySelector('.dlg-x').onclick = closeDlg;
+dlg.addEventListener('click', e => { if (e.target === dlg) closeDlg(); });
+dlg.addEventListener('close', () => fv.pause());
+
+// ก่อน/หลัง AI
+const BA_CAP = ['หน้าไม่มีชื่อ ข้อความยาวต่อกัน', 'หน้ามีชื่อ "ยอดเดือนตุลาคม" ตัวเลขครบตามต้นฉบับ'];
+document.querySelectorAll('[data-ba]').forEach(b => b.onclick = () => {
+  const k = +b.dataset.ba;
+  document.querySelectorAll('[data-ba]').forEach(x => x.classList.toggle('on', x === b));
+  document.querySelectorAll('.ba-frame img').forEach((m, j) => m.classList.toggle('on', j === k));
+  $('baCap').textContent = BA_CAP[k];
+});
+
+// ตัวอย่างงานจริง (ภาพจริงจาก Studio)
 const EX = {
-  school: { cap: 'จากไฟล์ Word รายงานโครงการรักการอ่าน 1 ไฟล์ ได้ 8 หน้า (ตัวอย่าง 6 หน้า)', s: ['school-1', 'school-2', 'school-3', 'school-4', 'school-5', 'school-6'] },
-  lesson: { cap: 'จากแผนการสอนวิทยาศาสตร์ ป.5 ที่พิมพ์ไว้ (ตัวอย่าง 4 หน้า)', s: ['lesson-1', 'lesson-3', 'lesson-4', 'lesson-5'] },
-  cafe: { cap: 'ข้อความเดียวกัน "แผนเปิดร้านกาแฟสาขาใหม่" เปลี่ยนแค่หน้าตา', s: ['green-1', 'blue-1', 'red-1', 'green-4', 'blue-4', 'red-4', 'green-3', 'blue-3', 'red-5'] }
+  school: { cap: 'จากไฟล์ Word รายงานโครงการ 1 ไฟล์', s: ['school-1', 'school-2', 'school-3', 'school-4', 'school-5', 'school-6'] },
+  lesson: { cap: 'จากแผนการสอนวิทยาศาสตร์ ป.5', s: ['lesson-1', 'lesson-3', 'lesson-4', 'lesson-5'] },
+  cafe: { cap: 'ข้อความเดียวกัน เปลี่ยนแค่หน้าตา', s: ['green-1', 'blue-1', 'red-1', 'green-4', 'blue-4', 'red-4'] }
 };
-const exTrack = document.getElementById('exTrack'), exCap = document.getElementById('exCap');
+const exTrack = $('exTrack');
+function exPos() { const f = exTrack.querySelector('figure'); if (!f) return; const n = exTrack.children.length, i = Math.min(n - 1, Math.round(exTrack.scrollLeft / (f.offsetWidth + 12)));
+  const cur = exTrack.scrollLeft + exTrack.clientWidth >= exTrack.scrollWidth - 4 ? n - 1 : i; document.querySelectorAll('#exDots i').forEach((d, j) => d.classList.toggle('on', j === cur)); }
 function showEx(k) {
-  exCap.textContent = EX[k].cap;
+  $('exCap').textContent = EX[k].cap;
   exTrack.innerHTML = EX[k].s.map((n, i) => `<figure><img src="assets/sm/slide-${n}.webp" alt="ตัวอย่างสไลด์ ${i + 1}" width="720" height="405" decoding="async" ${i < 3 ? '' : 'loading="lazy"'}></figure>`).join('');
-  exTrack.scrollLeft = 0;
-  document.getElementById('exDots').innerHTML = EX[k].s.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('');
-  exPos();
+  exTrack.scrollLeft = 0; $('exDots').innerHTML = EX[k].s.map(() => '<i></i>').join(''); exPos();
   document.querySelectorAll('.ex-tabs button').forEach(b => { const on = b.dataset.ex === k; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
 }
-function exPos() { const f = exTrack.querySelector('figure'); if (!f) return; const n = exTrack.children.length, step = f.offsetWidth + 12;
-  const i = Math.min(n - 1, Math.round(exTrack.scrollLeft / step)), atEnd = exTrack.scrollLeft + exTrack.clientWidth >= exTrack.scrollWidth - 4, cur = atEnd ? n - 1 : i;
-  document.querySelectorAll('#exDots i').forEach((d, j) => d.classList.toggle('on', j === cur)); document.getElementById('exCount').textContent = `หน้า ${cur + 1} จาก ${n}`; }
 exTrack.addEventListener('scroll', () => requestAnimationFrame(exPos), { passive: true });
 document.querySelectorAll('.ex-tabs button').forEach(b => b.onclick = () => showEx(b.dataset.ex));
 document.querySelector('.ex-nav.prev').onclick = () => exTrack.scrollBy({ left: -exTrack.clientWidth * .8, behavior: 'smooth' });
 document.querySelector('.ex-nav.next').onclick = () => exTrack.scrollBy({ left: exTrack.clientWidth * .8, behavior: 'smooth' });
 showEx('school');
 
-// ราคา: สลับลูกค้าใหม่ / มี Code 499 (มี ct_lib ในเครื่อง = ลูกค้า 499 เปิดแท็บอัปเกรดให้เลย)
-const NOTE = { new: 'ราคาลูกค้าใหม่ ได้เทมเพลตทุกชุดรวมอยู่ในแพ็กแล้ว', old: 'ราคาอัปเกรดสำหรับคนที่มี Code เทมเพลต 499 แล้ว (ลด 500 บาททุกแพ็ก) แสดงเฉพาะสิ่งที่ได้เพิ่ม' };
+// ราคา: ลูกค้าใหม่ / มี Code 499 (มี ct_lib = เปิดแท็บอัปเกรด)
 let WHO = 'new';
 function setWho(who, anim) {
   WHO = who;
   document.querySelectorAll('.seg button').forEach(x => { const on = x.dataset.who === who; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
-  document.getElementById('plans').classList.toggle('old', who === 'old');
-  document.querySelectorAll('.pp-price span').forEach(sp => { if (!anim || calm) { sp.textContent = sp.dataset[who]; return; } sp.classList.add('flip'); setTimeout(() => { sp.textContent = sp.dataset[who]; sp.classList.remove('flip'); }, 160); });
-  document.getElementById('segNote').textContent = NOTE[who];
+  $('plans').classList.toggle('old', who === 'old');
+  document.querySelectorAll('.price span').forEach(sp => { if (!anim || calm) { sp.textContent = sp.dataset[who]; return; } sp.classList.add('flip'); setTimeout(() => { sp.textContent = sp.dataset[who]; sp.classList.remove('flip'); }, 160); });
 }
 document.querySelectorAll('.seg button').forEach(b => b.onclick = () => setWho(b.dataset.who, true));
-document.getElementById('upBar').addEventListener('click', () => setWho('old', false));
+$('upBar').addEventListener('click', () => setWho('old', false));
 let member = false; try { member = !!localStorage.getItem('ct_lib'); } catch (e) {}
 setWho(member ? 'old' : 'new', false);
-if (!member) document.getElementById('upBar').hidden = false;
-
-// วิธีซื้อ: ปุ่มบนการ์ดพาลงมาที่ 3 ขั้น พร้อมบอกแพ็กที่เลือก
 const SLUG = { 'เริ่มต้น': 'start', 'ทำงานประจำ': 'work', 'ใช้หนักทั้งปี': 'heavy' };
-document.querySelectorAll('.buy').forEach(a => a.addEventListener('click', () => {
-  const pk = a.dataset.pack, price = a.closest('.plan').querySelector('.pp-price span').dataset[WHO];
-  document.getElementById('buyPick').innerHTML = `แพ็กที่เลือก: <b>${pk} ${price} บาท</b>${WHO === 'old' ? ' (ราคาอัปเกรด)' : ''}`;
-  document.getElementById('goOrder').href = `/order?pack=${SLUG[pk]}${WHO === 'old' ? '&upgrade=1' : ''}`;
+document.querySelectorAll('.buyb').forEach(a => a.addEventListener('click', () => {
+  const pk = a.dataset.pack, pr = a.closest('.plan').querySelector('.price span').dataset[WHO];
+  $('buyPick').innerHTML = `วิธีซื้อแพ็ก <b>${pk} ${pr} บาท</b>`;
+  $('goOrder').href = `/order?pack=${SLUG[pk]}${WHO === 'old' ? '&upgrade=1' : ''}`;
 }));
+// ราคานับขึ้นครั้งแรกที่เห็น (จบที่ราคาจริงของแท็บที่เลือก)
+const priceIO = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting || calm) return; priceIO.disconnect();
+  document.querySelectorAll('.price span').forEach(sp => { const t0 = performance.now();
+    const step = n => { const end = +sp.dataset[WHO].replace(/,/g, ''), k = Math.min(1, (n - t0) / 600), v = Math.round(end * (0.7 + 0.3 * (1 - Math.pow(1 - k, 3))) / 10) * 10; sp.textContent = (k < 1 ? v : end).toLocaleString('en-US'); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step); });
+}), { threshold: .4 });
+priceIO.observe($('plans'));
 
-// ดูวิดีโอวิธีใช้: เปิดวิดีโอเต็มพร้อมปุ่มควบคุม แล้วเล่นทันที
-const dlg = document.getElementById('vidDlg'), fv = document.getElementById('fullVid');
-document.getElementById('openVid').onclick = () => { if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', ''); fv.currentTime = 0; fv.play().catch(() => {}); };
-const closeDlg = () => { fv.pause(); dlg.close ? dlg.close() : dlg.removeAttribute('open'); };
-dlg.querySelector('.dlg-x').onclick = closeDlg;
-dlg.addEventListener('click', e => { if (e.target === dlg) closeDlg(); });
-dlg.addEventListener('close', () => fv.pause());
-
-// คำถาม: เปิดแล้วให้คำตอบอยู่ในจอ ไม่กระโดดกลับ
+// คำถาม: เปิดแล้วคำตอบอยู่ในจอ
 document.querySelectorAll('.faq details').forEach(d => d.addEventListener('toggle', () => {
-  if (!d.open) return;
-  const r = d.getBoundingClientRect(), over = r.bottom - innerHeight + 16;
+  if (!d.open) return; const r = d.getBoundingClientRect(), over = r.bottom - innerHeight + 16;
   if (r.top < 70) d.scrollIntoView({ block: 'start', behavior: calm ? 'auto' : 'smooth' });
   else if (over > 0) scrollBy({ top: Math.min(over, r.top - 76), behavior: calm ? 'auto' : 'smooth' });
 }));
-
-
-
-// รอบ 4: การ์ดในกลุ่มไล่ขึ้นทีละใบ (60ms)
-document.querySelectorAll('[data-stagger]').forEach(g => [...g.children].forEach((c, i) => { c.classList.add('rv'); c.style.setProperty('--d', i * 60 + 'ms'); }));
-// ส่วนพื้นเข้ม: แสงส้ม/ฟ้าลอยเข้าตอนส่วนเข้าจอ
-const darkIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('seen'); darkIO.unobserve(e.target); } }), { rootMargin: '0px 0px -15% 0px' });
-document.querySelectorAll('.dark').forEach(d => darkIO.observe(d));
-// พารัลแลกซ์เบา ๆ: ขยับตามระยะจากกลางจอ คูณ data-px เฉพาะชิ้นที่อยู่ในจอ ทำใน rAF ครั้งเดียวต่อเฟรม
-if (!calm) {
-  const PX = [...document.querySelectorAll('[data-px]')], vis = new Set();
-  const pio = new IntersectionObserver(es => es.forEach(e => e.isIntersecting ? vis.add(e.target) : vis.delete(e.target)), { rootMargin: '20% 0px' });
-  PX.forEach(el => pio.observe(el));
-  let ticking = false;
-  const upd = () => { ticking = false; const mid = innerHeight / 2; vis.forEach(el => { const r = el.getBoundingClientRect(); const d = (r.top + r.height / 2 - mid) * -(+el.dataset.px); el.style.setProperty('--py', Math.max(-40, Math.min(40, d)).toFixed(1) + 'px'); }); };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
-  upd();
-}
-// ราคานับขึ้นครั้งแรกที่เห็น (จาก 70% ของราคาจริง 0.6 วิ ตัวเลขจบที่ราคาจริงเสมอ)
-const priceIO = new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting || calm) return; priceIO.disconnect();
-  document.querySelectorAll('.pp-price span').forEach(sp => {
-    const t0 = performance.now();
-    const step = now => { const end = +sp.dataset[WHO].replace(/,/g, ''), k = Math.min(1, (now - t0) / 600), v = Math.round(end * (0.7 + 0.3 * (1 - Math.pow(1 - k, 3))) / 10) * 10; sp.textContent = (k < 1 ? v : end).toLocaleString('en-US'); if (k < 1) requestAnimationFrame(step); };
-    requestAnimationFrame(step);
-  });
-}), { threshold: .4 });
-priceIO.observe(document.getElementById('plans'));
-
-// เผยตอนเลื่อน + เล่นวิดีโอเฉพาะตอนเห็น
-const show = el => { el.classList.add('in'); el.querySelectorAll('.gw').forEach(g => g.classList.add('in')); io.unobserve(el); };
-const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) show(e.target); }), { rootMargin: '0px 0px 25% 0px', threshold: 0 });
-document.querySelectorAll('.rv,.devices,.gw').forEach(el => io.observe(el));
-// ponytail: กันพลาด เลื่อนเร็วแค่ไหนก็ไม่มีจอว่าง ของที่อยู่เหนือขอบล่างจอเผยทันที
-addEventListener('scroll', () => document.querySelectorAll('.rv:not(.in),.devices:not(.in)').forEach(el => { if (el.getBoundingClientRect().top < innerHeight * 1.25) show(el); }), { passive: true });
-setTimeout(() => document.documentElement.classList.remove('rvjs'), 1500);
-
-document.querySelectorAll('[data-vid]').forEach(box => {
-  const v = box.querySelector('video'), b = box.querySelector('.pp');
-  let user = calm ? 'pause' : null;   // ลดการเคลื่อนไหว = ไม่เล่นเอง กดเล่นเองได้
-  if (calm) v.removeAttribute('autoplay');
-  const icon = () => { const on = !v.paused; b.setAttribute('aria-label', on ? 'หยุดวิดีโอ' : 'เล่นวิดีโอ'); b.innerHTML = on ? '<svg class="ico" viewBox="0 0 24 24"><path d="M9 6v12M15 6v12"/></svg>' : '<svg class="ico" viewBox="0 0 24 24"><path d="M8 5.5l11 6.5-11 6.5z"/></svg>'; };
-  b.onclick = () => { if (v.paused) { user = null; v.play(); } else { user = 'pause'; v.pause(); } };
-  v.addEventListener('play', icon); v.addEventListener('pause', icon);
-  new IntersectionObserver(([e]) => { if (e.isIntersecting && !user) v.play().catch(() => {}); else if (!e.isIntersecting) v.pause(); }, { threshold: .35 }).observe(box);
-  icon();
-});
-
-// วิธีทำงาน: แท็บเล่นเองทีละขั้นเมื่อเห็น กดเลือกเองแล้วหยุด
-(() => {
-  const box = document.getElementById('howBox'), steps = [...box.querySelectorAll('.step')], imgs = [...document.querySelectorAll('#shots img')];
-  const DUR = 5000; let i = 0, timer = null, seen = false;
-  const go = k => { i = k; steps.forEach((s, j) => { s.classList.toggle('on', j === k); s.setAttribute('aria-selected', j === k); }); imgs.forEach((m, j) => m.classList.toggle('on', j === k));
-    const s = steps[k]; s.querySelector('.bar').style.animation = 'none'; void s.offsetWidth; s.querySelector('.bar').style.animation = '';
-    if (innerWidth < 1024) s.parentElement.scrollTo({ left: s.offsetLeft - 20, behavior: calm ? 'auto' : 'smooth' }); };
-  const run = () => { clearInterval(timer); if (calm || box.classList.contains('paused')) return; timer = setInterval(() => go((i + 1) % steps.length), DUR); };
-  steps.forEach((s, k) => s.onclick = () => { box.classList.add('paused'); clearInterval(timer); go(k); });
-  if (calm) box.classList.add('paused');
-  new IntersectionObserver(([e]) => { if (e.isIntersecting) { if (!seen) { seen = true; go(0); } run(); } else clearInterval(timer); }, { threshold: .3 }).observe(box);
-  box.style.setProperty('--dur', DUR / 1000 + 's');
-})();
-
-// เส้นใต้แถบบนเมื่อเลื่อน
-const nav = document.getElementById('nav');
-addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 8), { passive: true });
 </script>
 </body>
 </html>
