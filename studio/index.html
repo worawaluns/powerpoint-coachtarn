@@ -123,7 +123,7 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 .pg.on .slide::after{opacity:1;transform:none}
 .slide.swap .hits::before{content:'';position:absolute;inset:0;border-radius:8px;box-shadow:inset 0 0 0 3px rgba(235,125,74,.7);animation:fadeOut 1.4s forwards;pointer-events:none;z-index:3}
 .hits{position:absolute;inset:0;z-index:2;pointer-events:none}   /* คลิกที่ว่างทะลุถึงสไลด์/ชั้นพิมพ์ เฉพาะกล่องรับคลิก */
-.hit{position:absolute;border-radius:3px;cursor:text;pointer-events:auto}
+.hit{position:absolute;border-radius:3px;cursor:default;pointer-events:auto}.hit.can{cursor:move}   /* ใบ 042 คลิกแรก = เลือก/ลาก ตัว I เฉพาะตอนแก้คำ */
 .hit::after{content:'';position:absolute;inset:-2px;border:1px dashed var(--orange);border-radius:3px;opacity:0;pointer-events:none}
 .pg.on .hit::after{animation:hitIn .3s var(--ease) both;animation-delay:min(calc(var(--i,0) * 40ms),320ms)}
 @keyframes hitIn{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
@@ -327,6 +327,7 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 /* เลือก ลากย้าย ย่อขยายกล่อง (ใบ 017 + research/drag-motion-spec.md): transform/opacity ระหว่างลาก ไม่แตะ layout */
 .sel{position:absolute;left:0;top:0;pointer-events:none;opacity:0;transform-origin:0 0;transition:opacity .12s cubic-bezier(.4,0,1,1);z-index:3;contain:layout style;box-shadow:0 0 0 2px var(--red);border-radius:2px}
 .sel.on{opacity:1;transition:opacity .18s var(--ease)}
+.sel:not(.on) *{pointer-events:none!important}   /* ใบ 042 กรอบที่ซ่อนแล้ว: ปุ่มหมุน/ย้าย/ที่จับที่มองไม่เห็นไม่กินแตะของกล่องข้างใต้ */
 .sel.lock{box-shadow:0 0 0 2px var(--sub)}
 .sel::before{content:'';position:absolute;inset:0;border-radius:4px;box-shadow:0 4px 12px rgba(20,20,26,.22);opacity:0;transition:opacity .12s var(--ease)}
 .sel.lift::before{opacity:1}
@@ -1955,7 +1956,7 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261102a';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261102b';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2656,7 +2657,7 @@ function done(my, t0) {
   const notes = P.notes.filter(n => /ยังไม่ได้ทำเป็นสไลด์|ใส่ในหน้าตานี้ไม่ได้|กล่องข้อความเล็ก/.test(n));
   if (olN && slides.length > olN) notes.unshift(`จากโครง ${olN} หน้า ได้ ${slides.length} หน้า บางหน้าข้อความยาว จึงแบ่งเพิ่มให้ตัวหนังสือใหญ่พออ่านตอนฉาย ไม่ย่อตัวอักษร`);   // ใบ 037 ประกอบการพูด (ไอซ์ 2 พ.ย.)   // ส่วนที่ไม่ได้ทำเป็นสไลด์ (Excel เกิน 8x8, เอกสารเกิน 30 หน้า, ใส่ไม่ได้) บอกตรง ๆ ในฟองจบ
   const m = botMsg(`<p>เสร็จแล้วครับ <b>${slides.length} หน้า</b> หน้าตา${esc(s.style)} ใช้เวลา ${((performance.now() - (t0 || performance.now())) / 1000).toFixed(1)} วินาที${did.length ? ' สิ่งที่ทำ: ' + did.join(' / ') : ''}</p>${notes.map(n => `<p class="sub">${esc(n)}</p>`).join('')}
-    <p>${touch() ? 'แตะข้อความเพื่อเลือก ลากเพื่อย้าย แตะอีกครั้งเพื่อแก้ข้อความ' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย กดที่กล่องแล้วลากเพื่อย้าย'} ถ้ามี Code กดบันทึกเพื่อโหลดไฟล์ได้เลย</p>
+    <p>${touch() ? 'แตะข้อความเพื่อเลือก แตะอีกครั้งเพื่อแก้คำ ลากเพื่อย้าย' : 'คลิกข้อความเพื่อเลือก ดับเบิลคลิกเพื่อแก้คำ ลากเพื่อย้าย'} ถ้ามี Code กดบันทึกเพื่อโหลดไฟล์ได้เลย</p>
     <p class="sub">ไม่ชอบหน้าตานี้ เลือกแบบอื่นได้เลย ระบบจัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย ถ้ามีจุดที่ตามไปไม่ได้ จะบอกก่อนเปลี่ยน</p>
     <div class="looks">${lookCards(slug)}</div>
     <div class="follow"><button class="btn btn-line btn-sm" data-f="view" type="button">${ico('slides')}ดูสไลด์</button>
@@ -3144,16 +3145,27 @@ $('pages').addEventListener('click', ev => {
   if (ev.target.closest('.edit,.tip,.etb,.tlay,.selbar,.chin,.crp')) return;   // ใบ 026 ลากในชั้นปรับจุดที่เห็น ไม่ใช่แตะที่ว่าง
   const k = pgs().indexOf(pg), hit = ev.target.closest('.hit');
   if (ev.target.closest('.chit')) return chClick(k, ev);   // ใบ 023: แตะกราฟ = เลือกกราฟ / เลือกอยู่แล้ว = แตะชิ้นเพื่อพิมพ์หรือเปลี่ยนสี
-  // จอสัมผัส (ใบ 017 แบบ Canva): แตะกล่อง = เลือกหน้า + เลือกกล่อง (ไม่ขึ้นคีย์บอร์ด) แตะกล่องที่เลือกอยู่อีกครั้ง = พิมพ์ / เมาส์: คลิก = พิมพ์ทันที (015 เดิม)
-  if (hit) {
-    const j = +hit.dataset.j;
-    if (k !== cur) select(k);
-    if (CH) chOff();
-    if (touch() && !(SEL && SEL.k === k && pk(SEL.p) === pk(BOX[k][j].p))) return selectBox(k, j);
-    openEdit(k, j, {x: ev.clientX, y: ev.clientY}); return;
-  }
+  // ใบ 042 แบบ Canva ทางเดียวทุกกล่อง (ของดีไซน์ + ที่เพิ่ม): คลิก/แตะแรก = เลือก (ที่จับ หมุน แถบ ลากได้ทันที) / แตะซ้ำกล่องที่เลือกอยู่ (จอสัมผัส) หรือดับเบิลคลิก/Enter (คอม) = แก้คำ
+  if (hit) { const j = +hit.dataset.j, b = BOX[k][j]; if (b) boxTap(k, b, ev); return; }
+  if (ev.target.closest('.sel .mvh') && SEL?.k === k) { const s_ = selBox(); if (s_) return boxTap(k, s_.b, ev); }   // ใบ 042 ปุ่มย้ายทับข้อความของกล่องเตี้ยที่กรอบกอดคำ: แตะเฉย ๆ (ไม่ลาก) = แตะกล่อง
   if (ev.target.closest('.sel')) return;
   deselectBox(); if (k !== cur) select(k);
+});
+function boxTap(k, b, ev) {
+  const go = () => {
+    if (ED || busyNow) return; const j = BOX[k]?.findIndex(x => pk(x.p) === pk(b.p)); if (j < 0) return;
+    if (k !== cur) select(k);
+    if (CH) chOff();
+    if (!(SEL && SEL.k === k && pk(SEL.p) === pk(b.p))) return selectBox(k, j);
+    if (ev && (ev.pointerType ? ev.pointerType !== 'mouse' : touch())) openEdit(k, j, {x: ev.clientX, y: ev.clientY});   // นิ้ว/ปากกา แตะซ้ำ = แก้คำ / เมาส์: dblclick จัดการ
+  };
+  if (ED) { const E = ED; if (!finishEdit(true)) return; if (E.p) { E.p.then(go); return; } }   // พิมพ์อยู่แล้วคลิกกล่องอื่น: เก็บคำ แล้วเลือกกล่องนั้น
+  go();
+}
+$('pages').addEventListener('dblclick', ev => {   // ใบ 042 คอม: ดับเบิลคลิก = แก้คำ (ในชั้นพิมพ์ = เลือกคำของเบราว์เซอร์ตามปกติ)
+  if (viewing || ED) return; const hit = ev.target.closest('.hit'); if (!hit) return;
+  const k = pgs().indexOf(hit.closest('.pg')), j = +hit.dataset.j; if (k < 0 || !BOX[k]?.[j]) return;
+  ev.preventDefault(); openEdit(k, j, {x: ev.clientX, y: ev.clientY});
 });
 $('canvas').addEventListener('click', ev => { if (Date.now() - eatClick < 600) return; if (ev.target === $('canvas') || ev.target === $('pages')) select(-1); });
 $('thumbs').addEventListener('click', ev => {
@@ -3360,7 +3372,7 @@ function openEdit(k, j, at) {
   ed.addEventListener('keydown', ev => {
     if (ev.isComposing || ev.keyCode === 229) return;
     const mod = ev.metaKey || ev.ctrlKey, kk = ev.key.toLowerCase();
-    if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); finishEdit(true); return; }   // Esc = เก็บคำ (เหมือน Google Slides) อยากได้คำเดิมกดเลิกทำ
+    if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); ED.keep = true; finishEdit(true); return; }   // Esc = เก็บคำ กล่องยังเลือกอยู่ (ใบ 042) (เหมือน Google Slides) อยากได้คำเดิมกดเลิกทำ
     if (mod && ev.key === 'Enter') { ev.preventDefault(); return; }
     if (mod && !ev.shiftKey && !ev.altKey && ['b', 'i', 'u'].includes(kk)) { ev.preventDefault(); toggleFmt(kk); return; }   // ใบ 019: ทั้งกล่อง (เก็บคำก่อน) DOM ไม่มี <b> <i> <u>
     if (mod && kk === 'z' && !ev.shiftKey && ED && val(ED) === ED.orig && !styleDirty(ED)) { ev.preventDefault(); const rz = ED.rz; finishEdit(false); if (!rz) undoRedo(-1); }   // ปรับกรอบระหว่างพิมพ์ = เลิกทำกรอบนั้น
@@ -3433,7 +3445,7 @@ function openTa(k, j, b, orig) {
   ta_.addEventListener('input', () => { grow(); clearTimeout(ED?.chk); if (ED) { ED.chk = setTimeout(checkEdit, 500); } });
   ta_.addEventListener('keydown', ev => {
     if (ev.isComposing || ev.keyCode === 229) return;   // กำลังประกอบคำไทย ห้ามจับ Enter
-    if (ev.key === 'Escape') { ev.preventDefault(); finishEdit(true); }   // เหมือนกล่องข้อความ: Esc เก็บคำ อยากได้คำเดิมกดเลิกทำ
+    if (ev.key === 'Escape') { ev.preventDefault(); ED.keep = true; finishEdit(true); }   // เหมือนกล่องข้อความ: Esc เก็บคำ อยากได้คำเดิมกดเลิกทำ
     if (ev.key === 'Enter' && !ev.shiftKey) { ev.preventDefault(); finishEdit(true); }   // Enter จบ Shift+Enter ขึ้นบรรทัดใหม่
   });
 }
@@ -4066,7 +4078,7 @@ const MAC = /Mac|iPhone|iPad/.test(navigator.platform);
 $('undo').dataset.tip = `เลิกทำ (${MAC ? '⌘' : 'Ctrl+'}Z)`; $('redo').dataset.tip = `ทำซ้ำ (${MAC ? '⌘⇧' : 'Ctrl+Shift+'}Z)`;
 document.addEventListener('keydown', ev => {
   if (!$('pres').classList.contains('hidden')) return presKey(ev);
-  if (ED && ev.key === 'Escape' && !ev.target.closest?.('textarea')) { ev.preventDefault(); finishEdit(true); return; }   // Esc เก็บคำ ทุกกล่องรวมช่องตาราง
+  if (ED && ev.key === 'Escape' && !ev.target.closest?.('textarea')) { ev.preventDefault(); ED.keep = true; finishEdit(true); return; }   // Esc เก็บคำ ทุกกล่องรวมช่องตาราง / ใบ 042 กล่องยังเลือกอยู่แบบ Canva
   if ($('pWork').classList.contains('hidden') || !slides.length) return;
   const typing = ev.target.closest?.('textarea,input,[contenteditable]');
   if (typing) return;                     // ในช่องพิมพ์: Ctrl+Z ของเบราว์เซอร์ย้อนตัวอักษรตามปกติ
@@ -6680,7 +6692,7 @@ function armDrag(ev, k, j, b, h) {
 }
 window.addEventListener('pointermove', ev => {
   if (LP) return lpMove(ev);
-  if (!DR) return hover(ev);
+  if (!DR) return;
   if (ev.pointerId !== DR.id) return;
   DR.lx = ev.clientX; DR.ly = ev.clientY; DR.shift = ev.shiftKey; DR.alt = ev.altKey;   // เก็บจุดล่าสุด วาดเฟรมละครั้ง
   if (!DR.raf) DR.raf = requestAnimationFrame(dragFrame);
@@ -6752,11 +6764,6 @@ function endDrag(cancel) {
   const un = () => { for (const n of D.nodes) { n.style.translate = ''; n.style.willChange = ''; } D.hit.style.translate = ''; liveUndo(D); paintSel(); };
   if (cancel || !D.cur) return un();
   (D.h == null ? commitMove : commitResize)(D, un);
-}
-function hover(ev) {                                  // คอม: ชี้ขอบนอก 6px = เคอร์เซอร์ย้าย ด้านใน = ตัว I
-  if (ev.pointerType !== 'mouse' || ED) return; const hit = ev.target.closest?.('.hit.can'); if (!hit) return;
-  const r = hit.getBoundingClientRect();
-  hit.style.cursor = editZone({x: 0, y: 0, w: r.width, h: r.height}, {x: ev.clientX - r.left, y: ev.clientY - r.top}, 6) === 'frame' ? 'move' : '';
 }
 // ย้ายเฉย ๆ: Python ไม่วาดใหม่ ภาพที่เลื่อนแล้วบนจอเก็บลงแคชด้วยลายนิ้วมือใหม่ (ไฟล์ที่บันทึกวาดใหม่ทั้งไฟล์จาก mv อยู่แล้ว)
 async function commitMove(D, un) {
@@ -7112,7 +7119,7 @@ function tour(force) {
   try { if (!force && localStorage.getItem('d2s_tour')) return; } catch (e) { return; }
   if (TR || !slides.length || viewing || $('xdw')) return;   // ใบ 024: หน้าต่างบันทึกเปิดอยู่ ไม่สอนทับ
   const t = touch(), hb = () => pgs()[cur >= 0 ? cur : 0]?.querySelector('.hit.can') || pgs()[cur >= 0 ? cur : 0]?.querySelector('.hit');
-  const steps = [{el: hb, ps: t ? ['แตะกล่องเพื่อเลือก', 'ลากเพื่อย้าย', 'แตะอีกครั้งเพื่อแก้ข้อความ'] : ['คลิกที่ข้อความเพื่อพิมพ์', 'กดที่กล่องแล้วลากเพื่อย้าย']}];
+  const steps = [{el: hb, ps: t ? ['แตะเพื่อเลือก', 'แตะอีกครั้งเพื่อแก้คำ'] : ['คลิกเพื่อเลือก', 'ดับเบิลคลิกเพื่อแก้คำ']}];
   if (one()) steps.push({el: () => $('gridb'), ps: ['ปัดซ้ายขวาเพื่อเปลี่ยนหน้า', 'กดตรงนี้เพื่อดูทุกหน้า', 'หรือบีบสองนิ้วเพื่อดูทุกหน้า']});
   steps.push({el: () => $('savebtn'), ps: ['กดตรงนี้เพื่อโหลดหรือส่งไฟล์ PowerPoint']});
   TR = {steps, i: 0, ring: mk('tring'), card: mk('tcard')};
