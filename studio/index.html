@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#ffffff">
-<title>สร้างงานใหม่ - Slide Studio</title>
+<title>งานของฉัน - Slide Studio</title>
 <script>/* เลือกจอก่อนวาดครั้งแรก: ลิงก์งาน (#p=) = ตัวแก้ / เคยมีงาน = งานของฉัน ไม่แว้บหน้าพิมพ์ถาม (ไอซ์ 1 พ.ย.) */try{if(/^#p=./.test(location.hash))document.documentElement.className='bw';else if(localStorage.getItem('d2s_has'))document.documentElement.className='bl'}catch(e){}</script>
 <link rel="icon" href="/img/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,8 +22,8 @@ button{font-family:inherit;cursor:pointer;color:inherit}
 button:disabled{cursor:not-allowed}
 svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .hidden{display:none!important}
-html.bw #pHome,html.bl #pHome,html.bw #toptag,html.bl .top{display:none!important}
-html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block!important}html.bl body{background:#fff}
+html.bw #pList,html.bw #toptag{display:none!important}
+html.bw #pWork.hidden{display:grid!important}
 .spin{width:18px;height:18px;border-radius:50%;border:2.5px solid #F2D6CC;border-top-color:var(--red);animation:sp .8s linear infinite;flex:none;display:inline-block}
 @keyframes sp{to{transform:rotate(360deg)}}
 @keyframes rise{from{opacity:0;transform:translateY(12px)}}
@@ -45,68 +45,90 @@ html.bw #pWork.hidden{display:grid!important}html.bl #pList.hidden{display:block
 .btn-line{background:#fff;border:1px solid var(--line);color:var(--text)}
 .btn-big{height:52px;font-size:16px;border-radius:14px}
 .btn-sm{height:36px;font-size:14px;padding:0 12px;border-radius:10px}
-/* ไอคอนผู้ช่วย (งาน 006 แบบ A ลูกแก้วของเหลว): สีเขียวน้ำทะเล คู่ตรงข้ามของส้ม ขยับแค่ transform/opacity บนชั้นที่เบลอไว้แล้ว ลื่นแม้ Python บล็อก */
-:root{--t1:#0B6E80;--t2:#1F9FB0;--t3:#7DD9E0;--t4:#DDF6F7;--tpeach:rgba(125,217,224,.6)}   /* --tpeach: ไอซ์เลือกเขียวล้วน (29 ต.ค. 2569) จุดใน .b2 เป็นฟ้าอมเขียว ไม่มีพีช */
-.orb{--s:34px;position:relative;width:var(--s);height:var(--s);flex:none;display:grid;place-items:center;border-radius:50%;isolation:isolate;
-  box-shadow:0 calc(var(--s)*.1) calc(var(--s)*.3) rgba(31,159,176,.32)}
-.orb .core{position:absolute;inset:0;border-radius:50%;overflow:hidden;clip-path:circle(50%);background:radial-gradient(circle at 50% 110%,var(--t1),#168A9C 55%,var(--t2))}
-.orb .b{position:absolute;inset:-30%;filter:blur(calc(var(--s)*.09))}
-.orb .b1{background:radial-gradient(34% 34% at 36% 38%,var(--t3),transparent),radial-gradient(30% 30% at 66% 66%,#3FC1C9,transparent);animation:orbRot 11s linear infinite}
-.orb .b2{background:radial-gradient(30% 30% at 64% 34%,rgba(221,246,247,.95),transparent),radial-gradient(22% 22% at 32% 70%,var(--tpeach),transparent);animation:orbRot 15s linear infinite reverse}
-.orb .b3{background:radial-gradient(28% 28% at 40% 30%,#BFF1F4,transparent),radial-gradient(26% 26% at 62% 70%,var(--t3),transparent);opacity:0;transition:opacity .22s ease;animation:orbRot 2.2s linear infinite;animation-play-state:paused}
-.orb .gl{position:absolute;inset:0;border-radius:50%;z-index:2;background:radial-gradient(55% 40% at 34% 20%,rgba(255,255,255,.7),transparent 70%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
-.orb svg{position:relative;z-index:3;width:50%;height:50%;fill:#fff;stroke:none}
-.orb::after{content:'';position:absolute;inset:-28%;border-radius:50%;z-index:-1;background:radial-gradient(closest-side,rgba(125,217,224,.7),transparent);opacity:0;transition:opacity .22s ease;pointer-events:none}
-.orb .orp{position:absolute;inset:0;border-radius:50%;border:2px solid var(--t2);opacity:0;pointer-events:none}
-.orb.idle .core{animation:orbBreathe 4s ease-in-out infinite alternate}
-.orb.think .core{animation:orbBreathe 1.4s ease-in-out infinite alternate}
-.orb.think .b3{opacity:1;animation-play-state:running;transition:opacity .4s var(--ease)}
-.orb.think::after{animation:orbHalo 1.6s ease-in-out infinite;transition:opacity .4s var(--ease)}
+/* ไอคอนผู้ช่วย (ใบ 039): ลูกแก้ว AIOrb (studio/ai-orb.js WebGL) ในวงกลมกรมท่าเข้ม สี ก ฟ้า-น้ำเงิน-ม่วง (ไอซ์อนุมัติ 2 พ.ย. 2569)
+   สดได้ทีละลูก (ตัวจัดการ orbSync ใน JS) ลูกอื่น/ข้อความเก่า/ลดการเคลื่อนไหว = ภาพนิ่ง CSS ท่าเดียวกับท่าพัก */
+:root{--navy:#0E1633;--oc1:#19f5e0;--oc2:#2f6bff;--oc3:#a83cff}
+.orb{--s:34px;position:relative;width:var(--s);height:var(--s);flex:none;border-radius:50%;background:radial-gradient(circle at 50% 35%,#1A2550,var(--navy) 70%);box-shadow:0 calc(var(--s)*.08) calc(var(--s)*.24) rgba(14,22,51,.22),inset 0 0 0 1px rgba(255,255,255,.06)}
+.orb::before{content:'';position:absolute;inset:16%;border-radius:50%;transition:opacity .3s;
+  background:linear-gradient(90deg,transparent 30%,rgba(220,255,255,.9) 31.5%,transparent 34%),linear-gradient(90deg,var(--oc1) 8%,var(--oc2) 62%,var(--oc3) 100%);
+  box-shadow:0 0 calc(var(--s)*.18) color-mix(in srgb,var(--oc1) 55%,transparent)}
+.orb canvas{position:absolute;inset:0;width:100%;height:100%;display:block;border-radius:50%;animation:orbIn .3s ease-out both}
+.orb.live::before{opacity:0}
 .orb.yay{animation:orbPop .5s var(--spring)}
-.orb.yay .orp{animation:orbRipple .6s var(--ease)}
-.orb:not(.idle):not(.think) .b{animation-play-state:paused}   /* ลูกเก่าในแชทหยุดวน */
 .orb.s26{--s:26px}.orb.s30{--s:30px}
-@keyframes orbRot{to{transform:rotate(360deg)}}
-@keyframes orbBreathe{from{transform:scale(1)}to{transform:scale(1.045)}}
-@keyframes orbHalo{0%,100%{opacity:.3;transform:scale(.92)}50%{opacity:.85;transform:scale(1.06)}}
+@keyframes orbIn{from{opacity:0}}
 @keyframes orbPop{40%{transform:scale(1.12)}}
 @keyframes orbRipple{from{opacity:.7;transform:scale(.95)}to{opacity:0;transform:scale(1.7)}}
 /* แสงวิ่งบนข้อความสถานะ ใช้ transform (ไม่ค้างตอนระบบคำนวณ) */
 .shimmer{position:relative;display:inline-block;overflow:hidden;color:var(--mid);vertical-align:bottom}
 .shimmer::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.85),transparent);transform:translateX(-100%);animation:sweep 1.6s linear infinite}
 @keyframes sweep{to{transform:translateX(100%)}}
-/* ── หน้าแรก: กล่องพิมพ์ใหญ่กลางจอ ── */
-.home{position:relative;min-height:calc(100dvh - 56px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:max(28px,calc(50dvh - 300px)) 16px 40px;overflow:hidden}
-.glow{position:absolute;inset:-20% -30% auto;height:70%;z-index:0;pointer-events:none;opacity:.75;
-  background:radial-gradient(40% 50% at 30% 50%,#FFC7AE 0,transparent 70%),radial-gradient(35% 45% at 70% 40%,#FFD9C2 0,transparent 70%),radial-gradient(30% 40% at 50% 70%,#F9B79A 0,transparent 70%);
-  animation:drift 16s ease-in-out infinite alternate}
-@keyframes drift{to{transform:translate3d(4%,6%,0) scale(1.08)}}
-.home:focus-within .glow{animation-play-state:paused}   /* motion A7: พิมพ์อยู่ แสงพื้นหลังหยุด */
-.home>:not(.glow){animation:rise .45s var(--ease) both}.home>:nth-child(3){animation-delay:.05s}.home>:nth-child(4){animation-delay:.1s}.home>:nth-child(5){animation-delay:.15s}.home>:nth-child(n+6){animation-delay:.2s}   /* A10 */
-.home>*{position:relative;z-index:1}
-.home .orb{--s:60px;margin-bottom:14px}
-.home h1{font-size:28px;line-height:1.35;text-align:center;font-weight:700}
-.home .lead{font-size:15px;color:var(--mid);text-align:center;margin-top:6px;max-width:520px}
-.prompt{width:100%;max-width:680px;margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:12px;box-shadow:0 18px 50px rgba(211,71,36,.12),0 2px 6px rgba(21,21,26,.04);transition:border-color .2s}
-.prompt::before{content:'';position:absolute;inset:-1px;border-radius:inherit;box-shadow:0 18px 50px rgba(211,71,36,.1);opacity:0;transition:opacity .2s;pointer-events:none}   /* A7: เงาเข้มขึ้นด้วย opacity ไม่วาดเงาใหม่ */
-.prompt:focus-within{border-color:#F0B9A3}.prompt:focus-within::before{opacity:1}
-.prompt.over{border-color:var(--red);background:var(--soft)}
-.prompt textarea{width:100%;border:none;outline:none;resize:none;font:inherit;font-size:16px;line-height:1.55;padding:6px 6px;min-height:96px;max-height:240px;background:transparent;color:var(--text)}
+/* ── แผงสร้าง (ใบ 039): อยู่บนสุดของงานของฉัน เลื่อนลงจากบน รายการงานดันลง+จาง 55% ไม่มีหน้าแรกแยก ไม่มีเงาส้ม ── */
+.cp{display:none;position:relative;z-index:2;border-radius:20px;background:linear-gradient(180deg,#F4F6FB 0%,#fff 62%);box-shadow:inset 0 0 0 1px var(--line);padding:28px 16px 20px;margin:4px 0 24px;
+  flex-direction:column;align-items:center;text-align:center;overflow:hidden;transform-origin:50% 0}
+.lst.cpon .cp{display:flex}
+html.bl .lst .cp{display:none}   /* โหลดแรกของคนที่มีงาน: แผงปิด (JS ตัดสินต่อ) */
+.lcont{transition:opacity .28s var(--ease)}
+.lst.cpon .lcont{opacity:.55}
+.lst.cpon .lcont:hover,.lst.cpon .lcont:focus-within{opacity:1}
+.cp .cpx{position:absolute;top:12px;right:12px;z-index:3;color:var(--mid)}
+.cp .cpx svg.i{transform:rotate(180deg)}
+.stage{position:relative;--s:96px;width:var(--s);height:var(--s);margin-bottom:18px;flex:none}
+.stage .orb{--s:inherit;width:100%;height:100%;position:absolute;inset:0;box-shadow:0 10px 30px rgba(14,22,51,.22),inset 0 0 0 1px rgba(255,255,255,.06)}
+.ring{position:absolute;left:50%;top:50%;border-radius:50%;border:1px solid #E3E6EF;transform:translate(-50%,-50%);pointer-events:none}
+.ring.r1{width:152%;height:152%}.ring.r2{width:200%;height:200%;border-color:#EDEFF5}
+.ring.r1,.ring.r2{-webkit-mask-image:linear-gradient(to bottom,#000 25%,transparent 62%);mask-image:linear-gradient(to bottom,#000 25%,transparent 62%)}
+.ring.p{border-color:#B9C3E6;opacity:0;width:100%;height:100%}
+.cp.think .ring.p{animation:cpRip 1.6s linear infinite}.cp.think .ring.p+.ring.p{animation-delay:.8s}
+@keyframes cpRip{from{transform:translate(-50%,-50%) scale(1);opacity:.6}to{transform:translate(-50%,-50%) scale(1.9);opacity:0}}
+.cp h1{font-size:24px;line-height:1.6;font-weight:700;letter-spacing:-.01em}
+.cp.think h1{background:linear-gradient(90deg,var(--text) 0%,var(--text) 40%,#B8BAC6 50%,var(--text) 60%,var(--text) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:cpShim 1.6s linear infinite}
+@keyframes cpShim{from{background-position:100% 0}to{background-position:-150% 0}}
+.cp .lead{font-size:14px;color:var(--mid);margin-top:6px;max-width:520px;line-height:1.7}
+.cpsteps{display:flex;flex-direction:column;gap:6px;margin-top:14px;font-size:14px;color:var(--sub);text-align:left;line-height:1.7}
+.cpsteps span{display:flex;align-items:center;gap:8px}.cpsteps .d svg{color:var(--ok);animation:ckPop .35s var(--spring) both}.cpsteps .now{color:var(--text);font-weight:600}
+.cpsteps .dot{width:20px;height:20px;display:grid;place-items:center;flex:none}.cpsteps .dot i{width:6px;height:6px;border-radius:50%;background:#C4C6D0}.cpsteps .now .dot i{background:var(--text)}
+.cpsaid{display:flex;align-items:center;gap:10px;margin-top:18px;padding:12px 16px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font-size:15px;text-align:left;line-height:1.7;max-width:560px;animation:rise .45s var(--ease) both}
+.cpsaid svg{color:var(--ok)}
+.cp.think .prompt{opacity:.55;pointer-events:none}
+.cp.think .chips,.cp.think .priv,.cp.think .lead,.cp.said .prompt,.cp.said .chips,.cp.said .priv,.cp.said .lead{display:none}
+.prompt{position:relative;width:100%;max-width:680px;margin-top:22px;background:#fff;border-radius:20px;padding:12px;text-align:left;transition:opacity .3s;
+  box-shadow:inset 0 0 0 1px #E2E3EA,0 1px 2px rgba(21,21,26,.04),0 12px 32px rgba(21,21,26,.06)}
+.prompt::before{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1.5px var(--text);opacity:0;transition:opacity .2s;pointer-events:none}
+.prompt:focus-within::before,.prompt.over::before{opacity:1}
+.prompt.over{background:#F4F6FB}
+.prompt.shake{animation:cpShake .3s ease-in-out}
+@keyframes cpShake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.prompt textarea{width:100%;border:none;outline:none;resize:none;font:inherit;font-size:16px;line-height:1.65;padding:6px;min-height:96px;max-height:240px;background:transparent;color:var(--text)}
 .prow{display:flex;align-items:center;gap:8px}
 .prow .grow{flex:1}
-.attach{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:100px;border:1px solid var(--line);background:#fff;font-size:14px;font-weight:600;color:var(--mid);transition:transform .15s,border-color .2s}
+.attach{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px 0 12px;border-radius:100px;border:none;box-shadow:inset 0 0 0 1px var(--line);background:#fff;font-size:14px;font-weight:600;color:var(--mid);transition:transform .15s}
 .attach svg{width:20px;height:20px}
-.filepill{display:flex;align-items:center;gap:8px;margin:0 4px 8px;padding:8px 10px;border-radius:12px;background:var(--soft);font-size:14px;font-weight:600;animation:rise .3s var(--ease) both}
+.filepill{display:flex;align-items:center;gap:8px;margin:0 2px 8px;padding:8px 6px 8px 12px;border-radius:12px;background:var(--bg);font-size:14px;font-weight:600;animation:rise .3s var(--ease) both}
 .filepill span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.75}
-.filepill svg{color:var(--red)}
-.send{width:44px;height:44px;border-radius:50%;border:none;display:grid;place-items:center;background:var(--text);color:#fff;transition:transform .2s var(--spring),opacity .2s}   /* ปุ่มหลัก: ดำแบน ไม่ไล่สี ไม่มีเงา (กฎไอซ์) กดไม่ได้ = จางเป็นเทาอ่อน */
-.send:disabled{opacity:.3;transform:scale(.9);box-shadow:none}
+.filepill small{color:var(--sub);font-weight:500;font-size:13px;flex:none}
+.send{width:44px;height:44px;border-radius:50%;border:none;display:grid;place-items:center;background:var(--text);color:#fff;transition:transform .3s var(--spring)}   /* ปุ่มหลัก: ดำแบน กดได้เสมอ (ห้าม disabled) */
+.cphint{font-size:13px;color:var(--mid);margin-top:8px;animation:rise .25s var(--ease) both}
 .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px;max-width:680px}
-.chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:100px;border:1px solid var(--line);background:rgba(255,255,255,.85);font-size:13px;font-weight:600;color:var(--mid);transition:transform .15s,border-color .2s}
-.chip svg{width:16px;height:16px;color:var(--red);stroke-width:2.5}
-.priv{display:flex;gap:6px;align-items:center;justify-content:center;color:var(--sub);font-size:12px;margin-top:16px;text-align:center}
-.priv svg{width:16px;height:16px;color:var(--ok);stroke-width:2.5}
+.chip{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px 0 12px;border-radius:100px;border:none;box-shadow:inset 0 0 0 1px var(--line);background:#fff;font-size:14px;font-weight:600;color:var(--mid);transition:transform .15s}
+.chip svg{width:20px;height:20px;color:var(--text)}
+.priv{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:center;color:var(--sub);font-size:12px;margin-top:16px;line-height:1.7}
+.priv span{display:inline-flex;align-items:center;gap:6px}.priv svg.i{width:16px;height:16px}.priv .ok{color:var(--ok)}
+.cphandle{display:none;width:100%;height:28px;margin:12px 0 -14px;place-items:center;border:none;background:none;touch-action:none;cursor:grab}
+.cphandle i{width:40px;height:4px;border-radius:4px;background:#D6D7DE}
 .homeerr{animation:rise .3s var(--ease) both;margin-top:12px;padding:10px 12px;border-radius:12px;background:#FFF1F0;color:#B42318;font-size:14px;max-width:680px;width:100%}
+.lghost{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:8px}
+.lghost i{display:block;border-radius:14px;border:1.5px dashed #DCDDE4;padding:8px}
+.lghost i::before{content:'';display:block;aspect-ratio:16/9;border-radius:8px;background:var(--bg)}
+.lghost i::after{content:'';display:block;height:10px;width:70%;border-radius:6px;background:var(--bg);margin:12px 4px 6px}
+.lghost i:nth-child(n+3){display:none}
+.lgnote{font-size:14px;color:var(--sub);margin-top:4px;line-height:1.7}
+@media (max-width:767px){.cphandle{display:grid}}
+@media (min-width:768px){.cp{padding:36px 32px 28px}.stage{--s:112px}.cp h1{font-size:30px}.cp .lead{font-size:15px}.lghost{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.lghost i:nth-child(3){display:block}}
+@media (min-width:1024px){.cp{padding:44px 40px 32px}.stage{--s:128px}.cp h1{font-size:34px}.lghost{grid-template-columns:repeat(4,minmax(0,1fr))}.lghost i:nth-child(4){display:block}
+  .attach{height:40px}.chip{height:36px}.cp .cpx{height:36px}}
+@media (max-width:1023px){.cp .cpx{height:44px}}
+@media (prefers-reduced-motion:reduce){.lcont{transition:opacity .15s}.cp.think .ring.p,.cp.think h1,.prompt.shake{animation:none}.cp.think h1{color:var(--text);background:none}}
 /* ── หน้าทำงาน: ตัวแก้สไลด์ (ใบงาน 003) ภาพย่อซ้าย / canvas เลื่อนต่อกัน / แผงขวา + แถบไอคอนขวา  มือถือ: canvas + แถบล่าง ── */
 .work{position:relative;height:calc(100dvh - 56px);display:grid;grid-template-columns:1fr;min-height:0}
 .canvas{position:relative;min-width:0;min-height:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);overscroll-behavior:contain;overflow-anchor:none}
@@ -531,7 +553,6 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .pages.swapin .slide .slidebox{animation:lookIn .5s var(--ease) both;animation-delay:min(calc(var(--i,0) * 70ms),700ms)}
 .top .ttl.in{animation:rise .3s var(--ease)}
 #tact:not(.hidden){animation:pop .45s var(--spring) both}
-.rp:not(.on) .orb,.rp:not(.on) .orb *,.rp:not(.on) .orb::after{animation-play-state:paused}   /* A4: แผงผู้ช่วยปิด ลูกแก้วไม่หมุนทั้งที่มองไม่เห็น */
 .skel .ph:nth-child(n+10)::before{animation:none}
 .skel.fail .ph{opacity:.45;transition:opacity .3s}.skel.fail .ph::before{animation:none}   /* A10: ทำไม่สำเร็จ โครงจางลง ไม่หายวูบ */
 .send:active,.attach:active{transform:scale(.92);transition-duration:.08s}
@@ -772,7 +793,6 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 }
 @media (max-width:359px){.top{padding:0 6px}}   /* 320: 7 ปุ่ม × 44 พอดีจอ */
 @media (min-width:768px) and (pointer:fine), (min-width:768px) and (min-height:501px){
-  .home h1{font-size:38px}
   /* ใบ 025: ทุกหน้าเรียงลงแบบ Canva ไม่มีคอลัมน์ภาพย่อ / แถบล่าง โน้ต · หน้า N/M · ซูม · หน้าทั้งหมด (แถวที่ 2 ของ grid นอกพื้นที่เลื่อน) */
   .work{grid-template-columns:minmax(0,1fr) 56px;grid-template-rows:minmax(0,1fr) 56px}
   .canvas{grid-column:1;grid-row:1;overflow:auto}
@@ -867,10 +887,9 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .tring::after{display:none}
   #savebtn.mk::after{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .orb,.orb *,.orb::after{animation:none!important}
-  .orb.think .b3,.shimmer{animation:fadePulse 2s ease-in-out infinite!important}
+  .shimmer{animation:fadePulse 2s ease-in-out infinite!important}
   .shimmer::after{display:none}
-  .bar::after,.skel .ph::before,.glow{display:none}
+  .bar::after,.skel .ph::before{display:none}
   #skel.open .ph,.th.sk .slidebox{animation:skIn .01ms .3s forwards!important}
   .edit.saving::after,.medit.saving::after,.edit.checking::after,.medit.checking::after,.slide.repaint .slidebox::after{animation:fadePulse 2s ease-in-out infinite!important;transform:none}
   .edit.no,.medit.no,.bdg.no{animation:none!important}
@@ -880,7 +899,6 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 :root{--eo:cubic-bezier(.2,.8,.2,1);--ei:cubic-bezier(.4,0,1,1)}
 body.onlist{background:#fff}
 body.onlist .top{display:none}
-.home>.hback{position:absolute;top:12px;left:12px;z-index:2;height:44px}
 .lst{min-height:100dvh;background:#fff}
 .lbar{position:sticky;top:0;z-index:20;height:56px;display:flex;align-items:center;gap:6px;padding:0 12px 0 16px;background:#fff;border-bottom:1px solid var(--line)}
 .lbar .grow{flex:1}
@@ -950,6 +968,7 @@ textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:i
 .lempty .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:14px}
 .fab{position:fixed;right:16px;bottom:calc(16px + var(--safe) + var(--vb));z-index:25;height:52px;border-radius:16px;padding:0 18px 0 16px;font-size:16px}
 .fab svg.i{transition:transform .2s var(--eo)}.fab.on svg.i{transform:rotate(45deg)}
+.fab{transition:transform .42s var(--ease),opacity .3s var(--ease)}.lst.cpon .fab{transform:scale(.8);opacity:0;pointer-events:none}   /* ใบ 039: แผงเปิด ปุ่มลอยหลบ */
 /* เมนูลอย: จอใหญ่เด้งจากปุ่ม / มือถือเป็นแผ่นล่าง */
 .hscrim{position:fixed;inset:0;z-index:79;background:rgba(21,21,26,.32);opacity:0;pointer-events:none;transition:opacity .2s var(--eo)}
 .hscrim.on{pointer-events:auto;opacity:1}
@@ -1018,7 +1037,7 @@ textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:i
   .lnew2,.hchips{display:none}
   .side{display:flex;flex-direction:column;gap:2px;position:sticky;top:56px;height:calc(100dvh - 56px);overflow:auto;padding:16px 12px 12px;border-right:1px solid var(--line)}
   .side .new{align-self:flex-start;height:40px;padding:0 12px 0 14px;margin-bottom:14px;font-size:15px}
-  .side .new .cr{width:16px;height:16px;margin-left:2px}
+  .side .new.on{background:#2B2B33}
   .sn{display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border:none;background:none;border-radius:10px;font-size:15px;color:var(--text);text-align:left;width:100%;position:relative;z-index:0;flex:none}
   .sn::before{content:'';position:absolute;inset:0;border-radius:10px;background:var(--bg);opacity:0;transition:opacity .16s var(--eo);z-index:-1}
   .sn:hover::before{opacity:.7}.sn.on::before{opacity:1}.sn.on{font-weight:600}
@@ -1684,7 +1703,7 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
 @media (prefers-reduced-motion:reduce){.flow *,.fl-sheet,.fl-scrim{animation:none!important;transition:none!important}}
 </style>
 </head>
-<body>
+<body class="onlist">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-orb" viewBox="0 0 24 24"><path d="M11 4C11.7 9 15 12.3 20 13C15 13.7 11.7 17 11 22C10.3 17 7 13.7 2 13C7 12.3 10.3 9 11 4Z"/><path d="M19.5 1.5C19.7 3.2 20.8 4.3 22.5 4.5C20.8 4.7 19.7 5.8 19.5 7.5C19.3 5.8 18.2 4.7 16.5 4.5C18.2 4.3 19.3 3.2 19.5 1.5Z"/></symbol>
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 1.5c.6 4.6 2.7 7.6 7.6 8.6-4.9 1-7 4-7.6 8.6-.6-4.6-2.7-7.6-7.6-8.6 4.9-1 7-4 7.6-8.6z"/><path d="M19.5 15.5c.25 1.9 1.1 3 3 3.4-1.9.4-2.75 1.5-3 3.4-.25-1.9-1.1-3-3-3.4 1.9-.4 2.75-1.5 3-3.4z"/></symbol>
@@ -1827,7 +1846,7 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
 </header>
 
 <!-- งานของฉัน (ใบ 009) -->
-<main class="lst hidden" id="pList">
+<main class="lst cpon" id="pList">
   <header class="lbar">
     <a href="#" class="lg" id="lglogo" aria-label="Slide Studio งานของฉัน"><img src="img/slide-studio.svg" alt="Slide Studio" width="164" height="22"></a>
     <label class="lsearch" id="lsearch"><svg class="i"><use href="#i-search"/></svg><input id="lq" type="search" placeholder="ค้นหาชื่องาน" autocomplete="off" aria-label="ค้นหาชื่องาน"><kbd>/</kbd></label>
@@ -1839,40 +1858,43 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
   <div class="lbody">
     <aside class="side" id="side"></aside>
     <section class="lmain">
+      <section class="cp" id="cp" aria-label="สร้างงานใหม่">
+        <button class="btn btn-line btn-sm cpx" id="cpx" type="button" aria-label="ปิดแผงสร้าง"><svg class="i"><use href="#i-caret"/></svg>ปิด</button>
+        <div class="stage" id="stage"><i class="ring r2"></i><i class="ring r1"></i><i class="ring p"></i><i class="ring p"></i><div class="orb" id="cporb"></div></div>
+        <h1 id="cph">อยากทำสไลด์เรื่องอะไรดี</h1>
+        <p class="lead">พิมพ์หรือวางเนื้อหา หรือแนบไฟล์ ผู้ช่วยจัดเป็นสไลด์ดีไซน์ Coach Tarn ให้ เนื้อหาและตัวเลขทุกตัวมาจากของคุณ</p>
+        <div class="cpsteps hidden" id="cpsteps"></div>
+        <div class="cpsaid hidden" id="cpsaid"></div>
+        <div class="prompt" id="prompt">
+          <div class="filepill hidden" id="filepill"><svg class="i"><use href="#i-file"/></svg><span id="fpname"></span><small id="fpsize"></small><button class="ib" id="fpx" type="button" aria-label="เอาไฟล์ออก" style="width:44px;height:44px;margin:-6px 0"><svg class="i"><use href="#i-x"/></svg></button></div>
+          <textarea id="ta" placeholder="เช่น สรุปผลโครงการรักการอ่าน ปี 2568&#10;เป้าหมาย&#10;- นักเรียนเข้าร่วม 412 คน"></textarea>
+          <div class="prow">
+            <input type="file" id="fin" accept=".docx,.pdf,.xlsx" hidden>
+            <button class="attach" id="attach" type="button"><svg class="i"><use href="#i-clip"/></svg>แนบไฟล์</button>
+            <span class="grow"></span>
+            <button class="send" id="send" type="button" aria-label="สร้างสไลด์"><svg class="i"><use href="#i-up"/></svg></button>
+          </div>
+        </div>
+        <p class="cphint hidden" id="cphint">พิมพ์ วาง หรือแนบไฟล์ก่อนนะ</p>
+        <div class="homeerr hidden" id="homeerr"></div>
+        <div class="chips">
+          <button class="chip" data-chip="sampletext" type="button"><svg class="i"><use href="#i-paste"/></svg>ลองวางเนื้อหาตัวอย่าง</button>
+          <button class="chip" data-chip="samplefile" type="button"><svg class="i"><use href="#i-sample"/></svg>ลองไฟล์ตัวอย่าง</button>
+        </div>
+        <p class="priv"><span><svg class="i ok"><use href="#i-lock"/></svg>เนื้อหาไม่ถูกส่งออกจากเครื่องคุณ</span><span><svg class="i"><use href="#i-slides"/></svg>ลองทำได้ฟรีทุกหน้า โหลดไฟล์เมื่อมี Code</span></p>
+        <button class="cphandle" id="cphandle" type="button" aria-label="ปัดขึ้นเพื่อปิดแผง"><i></i></button>
+      </section>
+      <div class="lcont" id="lcont">
       <div class="mh" id="mh"></div>
       <div class="hchips" id="hchips"></div>
       <div class="lnote hidden" id="lnote"></div>
       <div class="wgrid" id="wgrid"></div>
+      </div>
     </section>
   </div>
   <button class="btn btn-red fab" data-new type="button"><svg class="i"><use href="#i-plus"/></svg><span>สร้างใหม่</span></button>
 </main>
 
-<!-- หน้าแรก -->
-<main class="home" id="pHome">
-  <div class="glow"></div>
-  <button class="btn btn-line btn-sm hback hidden" id="hback" type="button"><svg class="i"><use href="#i-home"/></svg>งานของฉัน</button>
-  <div class="orb idle"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></div>
-  <h1>อยากทำสไลด์เรื่องอะไรดี</h1>
-  <p class="lead">พิมพ์หรือวางหัวข้อกับเนื้อหา หรือแนบไฟล์ ผู้ช่วยจะจัดเป็นสไลด์ดีไซน์ Coach Tarn ให้ เนื้อหาและตัวเลขทุกตัวมาจากของคุณ</p>
-  <div class="prompt" id="prompt">
-    <div class="filepill hidden" id="filepill"><svg class="i"><use href="#i-file"/></svg><span id="fpname"></span><button class="ib" id="fpx" type="button" aria-label="เอาไฟล์ออก" style="width:32px;height:32px"><svg class="i"><use href="#i-x"/></svg></button></div>
-    <textarea id="ta" placeholder="เช่น สรุปผลโครงการรักการอ่าน ปี 2568&#10;เป้าหมาย&#10;- นักเรียนเข้าร่วม 412 คน"></textarea>
-    <div class="prow">
-      <input type="file" id="fin" accept=".docx,.pdf,.xlsx" hidden>
-      <button class="attach" id="attach" type="button"><svg class="i"><use href="#i-clip"/></svg>แนบไฟล์</button>
-      <span class="grow"></span>
-      <button class="send" id="send" type="button" aria-label="สร้างสไลด์" disabled><svg class="i"><use href="#i-up"/></svg></button>
-    </div>
-  </div>
-  <div class="homeerr hidden" id="homeerr"></div>
-  <div class="chips">
-    <button class="chip" data-chip="sampletext" type="button"><svg class="i"><use href="#i-paste"/></svg>ลองวางเนื้อหาตัวอย่าง</button>
-    <button class="chip" data-chip="samplefile" type="button"><svg class="i"><use href="#i-sample"/></svg>ลองไฟล์ตัวอย่าง</button>
-  </div>
-  <p class="priv"><svg class="i"><use href="#i-lock"/></svg>เนื้อหาไม่ถูกส่งออกจากเครื่องคุณ ระบบทำงานในเบราว์เซอร์ทั้งหมด</p>
-  <p class="freeline"><svg class="i"><use href="#i-slides"/></svg>ลองทำและดูสไลด์ได้ฟรีทุกหน้า โหลดไฟล์ PowerPoint ได้เมื่อมี Code จากคลัง Coach Tarn</p>
-</main>
 
 <!-- ใบ 037 ก่อนสร้าง: ให้ใครดู > โครงหน้า > หน้าตาที่แนะนำ (วาดด้วย JS ใน #flowv) -->
 <main class="flow hidden" id="pFlow"><div id="flowv"></div></main>
@@ -1882,7 +1904,7 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
   <nav class="thumbs" id="thumbs" aria-label="ภาพย่อสไลด์"></nav>
   <section class="canvas" id="canvas">
     <div id="vbarslot"></div>
-    <div id="skel" class="open"><div class="skelnote"><span class="orb think s26"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
+    <div id="skel" class="open"><div class="skelnote"><span class="orb think s26"></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
     <div class="pages hidden" id="pages"></div>
     <button class="dots" id="dots" type="button"><span class="dw"></span><span class="cnt"></span></button>
   </section>
@@ -1956,12 +1978,12 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261102b';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261102c';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
 const CHECK = `<svg class="i check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>`;
-const ORB = think => `<div class="orb${think ? ' think' : ''}"><div class="core"><div class="b b1"></div><div class="b b2"></div><div class="b b3"></div></div><div class="gl"></div><svg><use href="#i-orb"/></svg><span class="orp"></span></div>`;
+const ORB = think => `<div class="orb${think ? ' think' : ''}"></div>`;   // ใบ 039: ภาพนิ่ง CSS ลูกล่าสุดได้ canvas จาก orbSync
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 // motion ที่สั่งจาก JS: transform/opacity เท่านั้น ปิดเองเมื่อเครื่องตั้งลดการเคลื่อนไหว
 const calm = matchMedia('(prefers-reduced-motion:reduce)');
@@ -2015,7 +2037,7 @@ const SAMPLE_TEXT = `แผนเปิดร้านกาแฟสาขา�
 // ── หน้าจอ ──
 let morphing = Promise.resolve();
 function morph(fn) {                    // กดส่งจากหน้าแรก: กล่องพิมพ์แปลงร่างเป็นฟองแชท (เบราว์เซอร์ที่ไม่มี View Transitions ตัดฉับแบบเดิม)
-  if (!document.startViewTransition || calm.matches || document.hidden || $('pHome').classList.contains('hidden')) return fn();
+  if (!document.startViewTransition || calm.matches || document.hidden || $('pList').classList.contains('hidden')) return fn();
   $('prompt').style.viewTransitionName = 'ask';
   const t = document.startViewTransition(() => {
     $('prompt').style.viewTransitionName = ''; fn();
@@ -2026,15 +2048,15 @@ function morph(fn) {                    // กดส่งจากหน้า�
 }
 function show(p, push = true) {
   const w = p === 'pWork'; document.documentElement.classList.remove('bw', 'bl'); if (typeof flowHide === 'function') flowHide();
-  $('pHome').classList.toggle('hidden', w); $('pWork').classList.toggle('hidden', !w); $('pList').classList.add('hidden'); document.body.classList.remove('onlist');
+  $('pList').classList.toggle('hidden', w); $('pWork').classList.toggle('hidden', !w); document.body.classList.toggle('onlist', !w);   // ใบ 039: ไม่มีหน้าแรกแยก หน้าเริ่ม = งานของฉัน + แผงสร้าง
   $('topback').classList.toggle('hidden', !w); $('tsep').classList.toggle('hidden', !w);
   $('toptag').classList.toggle('hidden', w);
   ['tmeta', 'ur', 'topgrow'].forEach(k => $(k).classList.toggle('hidden', !w));
   if (!w) $('tact').classList.add('hidden');
   setTtl(w ? ttl : '', w && !ttl ? (running ? 'กำลังเตรียมสไลด์' : 'ยังไม่มีสไลด์') : '');
-  if (!w) document.title = 'สร้างงานใหม่ - Slide Studio';
+  if (!w) document.title = 'งานของฉัน - Slide Studio';
   if (push && p === 'pWork' && history.state?.p !== p) history.pushState({p}, '');   // ปุ่มย้อนของมือถือกลับหน้าแรก
-  window.scrollTo(0, 0);
+  window.scrollTo(0, 0); orbSync();
 }
 window.addEventListener('popstate', () => {
   if (!$('pres').classList.contains('hidden')) return closePres(true);   // ย้อนกลับตอนนำเสนอ = ออกจากนำเสนอ ไม่ออกจากหน้า
@@ -2059,7 +2081,7 @@ $('thread').addEventListener('scroll', () => { const t = $('thread'); stick = t.
 function scrollEnd(force) { const t = $('thread'); if (force) stick = true; if (stick) requestAnimationFrame(() => t.scrollTo({top: t.scrollHeight, behavior: SMOOTH()})); }
 function botMsg(html, think) {
   const m = document.createElement('div'); m.className = 'msg bot';
-  m.innerHTML = `${ORB(think)}<div class="bubble">${html}</div>`; $('inner').appendChild(m); idleLatest(); scrollEnd();
+  m.innerHTML = `${ORB(think)}<div class="bubble">${html}</div>`; $('inner').appendChild(m); if (!think) orbSay(m.querySelector('.orb')); idleLatest(); scrollEnd();
   if (!panelOpen('chat')) $('chatdot').classList.add('on');   // จุดแดงบน "ผู้ช่วย" เมื่อมีข้อความใหม่
   return m;
 }
@@ -2067,11 +2089,8 @@ function meMsg(html) {
   const m = document.createElement('div'); m.className = 'msg me';
   m.innerHTML = `<div class="bubble">${html}</div>`; $('inner').appendChild(m); scrollEnd(true); return m;
 }
-function setBot(m, html, think) { m.querySelector('.bubble').innerHTML = html; m.querySelector('.orb').classList.toggle('think', !!think); idleLatest(); scrollEnd(); }
-function idleLatest() {                 // ลูกแก้วหายใจเฉพาะข้อความผู้ช่วยล่าสุด ลูกเก่าหยุด
-  document.querySelectorAll('#inner .orb.idle').forEach(o => o.classList.remove('idle'));
-  const o = [...document.querySelectorAll('#inner .msg.bot .orb')].pop(); if (o && !o.classList.contains('think')) o.classList.add('idle');
-}
+function setBot(m, html, think) { m.querySelector('.bubble').innerHTML = html; const o = m.querySelector('.orb'); o.classList.toggle('think', !!think); if (!think) orbSay(o); idleLatest(); scrollEnd(); }
+const idleLatest = () => orbSync();     // ใบ 039: ลูกแก้วสดเฉพาะข้อความผู้ช่วยล่าสุด ลูกเก่าเป็นภาพนิ่ง
 
 // ── เครื่องมือ Python ในเบราว์เซอร์ ──
 const NET = 'โหลดส่วนประกอบไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วโหลดหน้าใหม่';
@@ -2130,8 +2149,8 @@ const setsReady = fetch('sets.json?v=' + V).then(r => r.json()).then(s => { SETS
 const ta = $('ta'), ta2 = $('ta2');
 let pouring = false;
 const okInput = () => !pouring && !!(pending || ta.value.trim());
-function refresh() { $('send').disabled = !okInput(); ta2.style.height = 'auto'; ta2.style.height = Math.min(ta2.scrollHeight, 120) + 'px'; $('send2').disabled = !ta2.value.trim() || running; }
-ta.addEventListener('input', () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 240) + 'px'; refresh(); });
+function refresh() { ta2.style.height = 'auto'; ta2.style.height = Math.min(ta2.scrollHeight, 120) + 'px'; $('send2').disabled = !ta2.value.trim() || running; }
+ta.addEventListener('input', () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 240) + 'px'; refresh(); cpListen(); });
 ta2.addEventListener('input', refresh);
 [ta, ta2].forEach(t => t.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); (t === ta ? $('send') : $('send2')).click(); } }));
 function homeErr(m) { $('homeerr').textContent = m; $('homeerr').classList.toggle('hidden', !m); }
@@ -2141,7 +2160,8 @@ function setFile(f) {
   if (!['docx', 'pdf', 'xlsx'].includes(ext))
     return homeErr(ext === 'doc' ? 'ไฟล์ .doc แบบเก่ายังอ่านไม่ได้ เปิดใน Word แล้วบันทึกเป็น .docx ก่อน หรือคัดลอกเนื้อหามาวางแทน' : 'อ่านได้เฉพาะ Word (.docx), Excel (.xlsx) และ PDF หรือคัดลอกเนื้อหามาวางแทน');
   if (f.size > 15e6) return homeErr('ไฟล์ใหญ่เกิน 15MB ลองคัดลอกเฉพาะส่วนที่จะทำสไลด์มาวาง');
-  pending = f; $('fpname').textContent = f.name; $('filepill').classList.remove('hidden'); refresh();
+  pending = f; $('fpname').textContent = f.name; $('fpsize').textContent = f.size >= 1e6 ? (f.size / 1e6).toFixed(1) + ' MB' : Math.max(1, Math.round(f.size / 1e3)) + ' KB';
+  $('filepill').classList.remove('hidden'); $('cphint').classList.add('hidden'); refresh(); cpListen();
 }
 $('fpx').onclick = () => { pending = null; $('filepill').classList.add('hidden'); refresh(); };
 $('attach').onclick = () => { warm(); $('fin').click(); };
@@ -2151,10 +2171,11 @@ $('fin').addEventListener('change', ev => {
   if (ev.target.dataset.from === 'work') { ev.target.dataset.from = ''; return startFile(f); }
   setFile(f);
 });
-const pr = $('prompt');
-['dragenter', 'dragover'].forEach(e => pr.addEventListener(e, ev => { ev.preventDefault(); pr.classList.add('over'); }));
-['dragleave', 'drop'].forEach(e => pr.addEventListener(e, ev => { ev.preventDefault(); pr.classList.remove('over'); }));
-pr.addEventListener('drop', ev => { const f = ev.dataTransfer.files[0]; if (f) setFile(f); });
+const pr = $('prompt'), cpEl = $('cp');   // ใบ 039: ลากไฟล์มาวางได้ทั้งแผง
+['dragenter', 'dragover'].forEach(e => cpEl.addEventListener(e, ev => { ev.preventDefault(); if (!pr.classList.contains('over')) { pr.classList.add('over'); cpListen(); } }));
+['dragleave', 'drop'].forEach(e => cpEl.addEventListener(e, ev => { ev.preventDefault(); if (ev.type === 'drop' || !cpEl.contains(ev.relatedTarget)) pr.classList.remove('over'); }));
+cpEl.addEventListener('drop', ev => { const f = ev.dataTransfer.files[0]; if (f && !cpEl.classList.contains('think')) setFile(f); });
+ta.addEventListener('paste', () => cpListen());
 document.querySelector('.chips').onclick = async ev => {
   const c = ev.target.closest('[data-chip]'); if (!c) return; if (c.dataset.chip !== 'sampletext') warm();
   if (c.dataset.chip === 'sampletext' && !pouring) {     // ข้อความไหลลงทีละบรรทัด ให้รู้สึกว่ามีคนวางให้
@@ -2168,23 +2189,127 @@ document.querySelector('.chips').onclick = async ev => {
   }
 };
 $('send').onclick = async () => {
-  const t = ta.value.trim(), b = $('send'); if (b.classList.contains('go')) return;
-  if (!pending) { if (!t) return;
+  const t = ta.value.trim(), b = $('send'); if (b.classList.contains('go') || pouring || cpEl.classList.contains('think')) return;
+  if (!pending && !t) {                  // ใบ 039: ปุ่มส่งกดได้เสมอ ว่างอยู่ = เคอร์เซอร์เข้าช่อง + ช่องสั่น + บอกใต้ช่อง ไม่มีป๊อปอัป
+    ta.focus(); pr.classList.remove('shake'); void pr.offsetWidth; pr.classList.add('shake'); $('cphint').classList.remove('hidden'); return; }
+  ani(b, [{transform: 'scale(.9)'}, {transform: 'scale(1)'}], {duration: 300, easing: 'cubic-bezier(.34,1.56,.64,1)'});
+  if (!pending) {
     if (t.split('\n').filter(x => x.trim()).length < 2 && t.length < 120)   // ย่อหน้ายาวย่อหน้าเดียว ตัวจัดแบ่งเป็นข้อเอง
       return homeErr('ขอเนื้อหาอีกนิด พิมพ์หัวข้อบรรทัดแรก แล้วตามด้วยหัวข้อย่อยหรือรายละเอียดทีละบรรทัด'); }
-  b.classList.add('go'); if (!calm.matches) await sleep(140);   // ลูกศรพุ่งขึ้นก่อนจอเปลี่ยน
-  startFlow(pending ? {file: pending} : {text: t});   // ใบ 037: คำถามเดียว > โครงหน้า > หน้าตาที่แนะนำ ก่อนสร้าง (#demo และกล่องพิมพ์ในหน้าแก้ ใช้ทางตรงเดิม)
+  homeErr(''); startFlow(pending ? {file: pending} : {text: t});   // ใบ 037: คำถามเดียว > โครงหน้า > หน้าตาที่แนะนำ ก่อนสร้าง (#demo และกล่องพิมพ์ในหน้าแก้ ใช้ทางตรงเดิม)
 };
 $('send2').onclick = () => { const t = ta2.value.trim(); if (!t || running) return;
   if (t.split('\n').filter(x => x.trim()).length < 2 && t.length < 120) { botMsg('ขอเนื้อหาอีกนิดครับ พิมพ์หัวข้อบรรทัดแรก แล้วตามด้วยรายละเอียดทีละบรรทัด'); return; }
   ta2.value = ''; refresh(); startText(t, true); };
+// ── ใบ 039 ลูกแก้วผู้ช่วย AIOrb ──
+// ai-orb.js โหลดตอนจะแสดงลูกแรกเท่านั้น (ไม่อยู่ในโหลดแรก) / สดได้ทีละลูก: orbSync หาลูกที่ควรสดลูกเดียว ลูกเดิม destroy (loseContext) กลับเป็นภาพนิ่ง CSS
+// ท่า: ambient (ท่าพักที่หมุน/บิดช้าๆ ตั้งแต่เปิด ไอซ์ 2 พ.ย. 2569 "พอเปิดมาแล้วอยากให้มันเคลื่อนไหวเลยแบบช้าๆ") / listening (พิมพ์ วาง ลากไฟล์ 1.5 วิ) / thinking (.think) / speaking (.say ~1.5 วิ)
+const ORBC = ['#19f5e0', '#2f6bff', '#a83cff'];
+let orbLib = null, OL = null;
+function loadOrb() {
+  return orbLib = orbLib || new Promise((ok, no) => {
+    const sc = document.createElement('script'); sc.src = 'ai-orb.js?v=' + V;
+    sc.onload = () => {   // ponytail: เพิ่มท่าพักช้าผ่าน AIOrb.STATES ไม่แก้ไฟล์ไลบรารีของไอซ์ / ต่างจาก listening ชัด: คลื่นเล็ก 1/3 หมุนช้า 1/3
+      AIOrb.STATES.ambient = {twist: 0.9, spin: 0.22, a1: 0.07, f1: 1.0, s1: 0.5, a2: 0.0, f2: 2.0, s2: 0.0, breath: 1.0, glow: 0.9};
+      ok();
+    };
+    sc.onerror = () => { orbLib = null; no(); }; document.head.appendChild(sc);
+  });
+}
+function orbTarget() {
+  if (document.hidden || calm.matches) return null;
+  if (!$('pList').classList.contains('hidden')) return $('pList').classList.contains('cpon') && $('cporb').offsetParent ? $('cporb') : null;   // โหลดแรกของคนมีงาน แผงซ่อนด้วย html.bl = ไม่โหลด ai-orb.js
+  if ($('pWork').classList.contains('hidden')) return null;
+  const m = panelOpen('chat') && [...document.querySelectorAll('#inner .msg.bot .orb')].pop();
+  if (m) return m;
+  const k = $('skel').querySelector('.orb'); return k && k.offsetParent && !$('skel').classList.contains('hidden') ? k : null;
+}
+const orbSt = el => el.classList.contains('think') ? 'thinking' : el.classList.contains('say') ? 'speaking' : el.classList.contains('listen') ? 'listening' : 'ambient';
+function orbKill() { if (!OL) return; OL.o?.destroy(); OL.el.querySelector('canvas')?.remove(); OL.el.classList.remove('live'); OL = null; }
+function orbSync() {
+  const el = orbTarget();
+  if (!el) return orbKill();
+  if (OL?.el === el) { OL.o?.setState(orbSt(el)); return; }
+  orbKill(); const tok = OL = {el, o: null};
+  loadOrb().then(() => {
+    if (OL !== tok || !el.isConnected) return;
+    const c = document.createElement('canvas'); el.appendChild(c);
+    tok.o = new AIOrb(c, {colors: ORBC, state: orbSt(el), radius: el.offsetWidth > 60 ? .34 : .42}); el.classList.add('live');
+  }, () => { if (OL === tok) OL = null; });   // โหลดไม่ได้ = ภาพนิ่งต่อไป
+}
+function orbFlag(el, cls, ms) { if (!el) return; el.classList.add(cls); clearTimeout(el['_' + cls]); el['_' + cls] = setTimeout(() => { el.classList.remove(cls); orbSync(); }, ms); orbSync(); }
+const orbSay = el => orbFlag(el, 'say', 1500);
+const cpListen = () => { $('cphint').classList.add('hidden'); if (!cpEl.classList.contains('think')) orbFlag($('cporb'), 'listen', 1500); };
+document.addEventListener('visibilitychange', orbSync);   // แท็บซ่อน = destroy ไม่ใช่แค่หยุดวาด กลับมาสร้างใหม่
+calm.addEventListener?.('change', orbSync);
+
+// ── ใบ 039 แผงสร้าง: เปิด/ปิดในหน้างานของฉัน (FLIP: แผงเข้าเลย์เอาต์ทันที รายการชดเชยด้วย transform) ──
+let cpBusy = null;
+function cpSet(on, anim) {
+  const L = $('pList'), cp = cpEl, lc = $('lcont');
+  if (L.classList.contains('cpon') === on) { orbSync(); return; }
+  cpBusy?.forEach(a => a?.cancel()); cpBusy = null;
+  document.querySelectorAll('.side .new').forEach(b => b.classList.toggle('on', on));
+  const empty = !live().length;
+  if (!anim || calm.matches || L.classList.contains('hidden')) { L.classList.toggle('cpon', on); if (empty) renderList(); orbSync(); return; }
+  if (on) {
+    window.scrollTo(0, 0); L.classList.add('cpon'); if (empty) renderList();
+    const H = cp.offsetHeight + 28, o = {duration: 420};
+    cpBusy = [ani(cp, [{transform: `translateY(${-H * .35}px) scaleY(.96)`, opacity: 0}, {transform: 'none', opacity: 1}], o),
+      ani(lc, [{transform: `translateY(${-H}px)`, opacity: 1}, {transform: 'none', opacity: .55}], o),
+      ...[...cp.querySelectorAll('.stage,h1,.lead,.prompt,.chips,.priv')].map((el, i) => ani(el, el.classList.contains('stage') ? [{transform: 'scale(.82)', opacity: 0}, {transform: 'none', opacity: 1}] : [{transform: 'translateY(12px)', opacity: 0}, {transform: 'none', opacity: 1}], {duration: 500, delay: 80 + i * 40, fill: 'backwards'}))];
+    orbSync();
+  } else {
+    const H = cp.offsetHeight + 28, o = {duration: 280, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'};
+    const a = ani(cp, [{transform: 'none', opacity: 1}, {transform: `translateY(${-H * .35}px) scaleY(.96)`, opacity: 0}], o), b = ani(lc, [{transform: 'none', opacity: .55}, {transform: `translateY(${-H}px)`, opacity: 1}], o);
+    cpBusy = [a, b]; orbKill();
+    after(a).then(() => { if (cpBusy?.[0] !== a) return; L.classList.remove('cpon'); a?.cancel(); b?.cancel(); cpBusy = null; if (empty) renderList(); cp.style.transform = ''; });
+  }
+}
+function cpClose() { if (cpEl.classList.contains('think')) { gen++; FL.src = null; cpRead(false); } cpSet(false, true); }   // ปิดตอนกำลังอ่าน = ยกเลิก ข้อความยังอยู่
+$('cpx').onclick = cpClose;
+document.addEventListener('keydown', ev => {
+  if (ev.key !== 'Escape' || $('pList').classList.contains('hidden') || !$('pList').classList.contains('cpon') || $('hp').classList.contains('on') || ev.target === $('lq')) return;
+  ev.preventDefault(); ta.blur(); cpClose();
+});
+(() => {   // มือถือ: ปัดขึ้นที่ขีดจับล่างแผง
+  const h = $('cphandle'); let y0 = null, dy = 0;
+  h.addEventListener('pointerdown', ev => { y0 = ev.clientY; dy = 0; h.setPointerCapture(ev.pointerId); });
+  h.addEventListener('pointermove', ev => { if (y0 == null) return; dy = Math.min(0, ev.clientY - y0); cpEl.style.transform = `translateY(${dy}px)`; });
+  const end = () => { if (y0 == null) return; y0 = null;
+    if (dy < -50) return cpClose();
+    ani(cpEl, [{transform: `translateY(${dy}px)`}, {transform: 'none'}], {duration: 200}); cpEl.style.transform = ''; };
+  h.addEventListener('pointerup', end); h.addEventListener('pointercancel', end);
+})();
+// กำลังอ่านในแผง: 3 ขั้น ติ๊กตามงานที่เสร็จจริง (Python อ่านหัวข้อ > เก็บตัวเลข > วางโครงหน้า)
+function cpRead(on) {
+  cpEl.classList.toggle('think', on); cpEl.classList.remove('said'); $('cporb').classList.toggle('think', on); $('cporb').classList.remove('listen');
+  $('cph').textContent = on ? 'กำลังอ่านเนื้อหา' : 'อยากทำสไลด์เรื่องอะไรดี';
+  $('cpsteps').classList.toggle('hidden', !on); $('cpsaid').classList.add('hidden'); if (on) cpStep(0);
+  orbSync();
+}
+function cpStep(n, f, ol) {
+  const nums = f?.nums?.length ? ' ' + f.nums.slice(0, 2).join(', ') : '';
+  const L = [n >= 1 ? 'อ่านหัวข้อแล้ว' : bootStep >= 4 ? 'อ่านหัวข้อ' : 'เตรียมเครื่องมือ (ครั้งแรกที่เปิดหน้านี้)',
+    n >= 2 ? (nums ? 'เก็บตัวเลข' + nums : 'ไม่มีตัวเลขเด่นในเนื้อหานี้') : 'เก็บตัวเลข', n >= 3 && ol ? `วางโครงได้ ${ol.pages.length} หน้า` : 'วางโครงหน้า'];
+  $('cpsteps').innerHTML = L.map((t, i) => i < n ? `<span class="d">${ico('check')}${esc(t)}</span>` : `<span class="${i === n ? 'now' : ''}"><span class="dot"><i></i></span>${esc(t)}</span>`).join('');
+}
+async function cpSaid(my, f, ol) {
+  const n = ol.pages.length, sec = f?.sections >= 2 ? ` ${f.sections} หัวข้อ` : '';
+  ani($('cph'), [{opacity: 0}, {opacity: 1}], {duration: 300});
+  cpEl.classList.remove('think'); cpEl.classList.add('said'); $('cporb').classList.remove('think'); $('cph').textContent = 'อ่านครบแล้ว';
+  $('cpsteps').classList.add('hidden');
+  $('cpsaid').innerHTML = `${ico('check')}<span>อ่านได้ ${n} หน้า${sec} ต่อไปเลือกว่าจะให้ใครดู</span>`; $('cpsaid').classList.remove('hidden');
+  orbSay($('cporb'));
+  await sleep(1600);   // ผลขึ้นพร้อมท่าพูด แล้วต่อเข้าขั้น "ให้ใครดู" ของใบ 037 เอง ไม่ต้องกดปุ่ม
+}
 function enterWork(again) {
   if (!again) { $('inner').innerHTML = ''; }
   if (ED) finishEdit(false);
   deselectBox(); closeGrid(-1, true); $('skelg').classList.remove('fail');
   ttl = ''; slides = []; KEYS = []; cur = 0; $('tact').classList.add('hidden'); $('pages').innerHTML = ''; $('thumbs').innerHTML = '';
   if (viewing) { viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; }
-  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา'; $('skelt').classList.add('shimmer'); $('skel').querySelector('.orb')?.classList.add('think');
+  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา'; $('skelt').classList.add('shimmer'); $('skel').querySelector('.orb')?.classList.add('think'); orbSync();
   $('skelg').classList.remove('all'); $('skel').classList.remove('open'); $('thumbs').querySelectorAll('.sk').forEach(e => e.remove()); $('skelg').innerHTML = Array.from({length: 6}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
   show('pWork'); openPanel('chat');
 }
@@ -2256,7 +2381,7 @@ async function run(src) {
       ${f.nums.length || f.tables ? `<p class="note" style="animation-delay:${rows.length * 300 + 200}ms">${ico('shield')}ตัวเลขทุกค่ามาจากเนื้อหาของคุณ ระบบไม่แต่งตัวเลขขึ้นเอง</p>` : ''}`, true);
     await sleep(rows.length * 300 + (f.nums.length || f.tables ? 550 : 350));   // รอกล่องเขียวขึ้นครบก่อนย่อ
     if (my !== gen) return;
-    m.querySelector('.orb').classList.remove('think');
+    m.querySelector('.orb').classList.remove('think'); orbSync();
     // อ่านจบแล้วย่อเหลือบรรทัดเดียว กดเปิดดูขั้นตอนได้ (แบบ "คิดเสร็จใน 8 วินาที")
     const ul = m.querySelector('.found'); ul.querySelectorAll('li').forEach(li => li.style.animation = 'none');
     ul.insertAdjacentHTML('beforebegin', `<details class="trail" open><summary>${ico('next')}อ่านเสร็จใน ${((performance.now() - t0) / 1000).toFixed(1)} วินาที ดูว่าเจออะไร</summary></details>`);
@@ -2267,7 +2392,7 @@ async function run(src) {
     if (my !== gen) return;
     const msg = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน');
     setBot(m, `<div class="err">${esc(msg)}${msg === NET ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : ''}</div>`);
-    $('skelt').textContent = 'ยังไม่มีสไลด์'; $('skelt').classList.remove('shimmer'); $('skel').querySelector('.orb')?.classList.remove('think');
+    $('skelt').textContent = 'ยังไม่มีสไลด์'; $('skelt').classList.remove('shimmer'); $('skel').querySelector('.orb')?.classList.remove('think'); orbSync();
     $('skelg').classList.add('fail'); running = false; busyNow = false; setTtl('', 'ยังไม่มีสไลด์'); refresh(); if (msg === NET) failMain(msg);   // A10: โครงจางลง ไม่หายวูบ   // ไม่มีงานค้าง: หยุดโครงเทาและป้ายกำลังเตรียม
   }
 }
@@ -2317,7 +2442,7 @@ json.dumps(_st)`));
     document.getElementById('ol' + my).innerHTML = P.outline.map((o, i) => `<li class="ok" style="animation:none"><span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(KIND[o.kind] || o.th)}</span><span class="st">${CHECK}</span></li>`).join('');
     $('skelt').textContent = 'ผู้ช่วยกำลังวาดสไลด์'; bar.firstChild.style.transform = 'scaleX(.95)'; await frame();
     LOST = 0; arranged = false; await guard(paint()); if (my !== gen) return;   // วาดครั้งแรกค้าง (pptx-preview/รูป) = จบที่ข้อความผิดพลาด
-    bar.firstChild.style.transform = 'scaleX(1)'; bar.classList.add('done'); m.querySelector('.orb').classList.remove('think');
+    bar.firstChild.style.transform = 'scaleX(1)'; bar.classList.add('done'); m.querySelector('.orb').classList.remove('think'); orbSync();
     if (wide()) { await after(ani($('skel'), [{opacity: 1}, {opacity: 0}], {duration: 180, easing: 'ease-out', fill: 'forwards'})); if (my !== gen) return; }
     $('skel').classList.add('hidden'); $('skel').getAnimations().forEach(a => a.cancel()); $('pages').classList.remove('hidden'); cur = -1; relayout();
     $('tact').classList.remove('hidden'); commit(`สร้างสไลด์ ${slides.length} หน้า`);
@@ -2325,7 +2450,7 @@ json.dumps(_st)`));
     done(my, t0);
   } catch (e) {
     console.error(e); if (my !== gen) return;
-    m.querySelector('.orb').classList.remove('think');
+    m.querySelector('.orb').classList.remove('think'); orbSync();
     const em = pyErr(e, 'สร้างไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองเลือกหน้าตาอื่นได้เลย');
     botMsg(`<div class="err">${esc(em)}</div>`); if (!slides.length) failMain(em);
   }
@@ -2341,7 +2466,7 @@ const FL = {src: null, ol: null, ol0: null, hist: [], aud: null, sel: -1, doc: f
 const flDesk = () => matchMedia('(min-width:1024px)').matches;
 const flv = () => $('flowv');
 function flowShow() {
-  $('pHome').classList.add('hidden'); $('pWork').classList.add('hidden'); $('pList').classList.add('hidden'); document.body.classList.remove('onlist');
+  $('pWork').classList.add('hidden'); $('pList').classList.add('hidden'); document.body.classList.remove('onlist');
   $('pFlow').classList.remove('hidden'); document.body.classList.add('onflow'); document.documentElement.classList.remove('bw', 'bl');
 }
 function flowHide() { $('pFlow').classList.add('hidden'); document.body.classList.remove('onflow'); flClose(); }
@@ -2351,17 +2476,28 @@ function startFlow(src) {
   FL.cv.clear(); $('send').classList.remove('go'); warm();
   const my = ++gen;
   FL.ready = (async () => {                      // อ่านเอกสารอยู่เบื้องหลังระหว่างลูกค้าตอบคำถาม
-    await boot(); await setsReady; await sleep(60); await frame(); if (my !== gen) return;
+    await boot(); await setsReady; cpStep(0); await sleep(60); await frame(); if (my !== gen) return;
     let path, name, kind = 'text';
     if (src.text) { path = '/tmp/in.txt'; name = 'ข้อความที่คุณวาง'; py.FS.writeFile(path, src.text); }
     else { const ext = src.file.name.split('.').pop().toLowerCase(); path = '/tmp/in.' + ext; name = src.file.name; kind = ext; py.FS.writeFile(path, new Uint8Array(await src.file.arrayBuffer())); }
     py.globals.set('SRC', path); py.globals.set('NAME', name); py.globals.set('KIND', kind);
-    const ol = JSON.parse(py.runPython('TTL, WANT = D.analyze(SRC, NAME); json.dumps(D.outline_of(WANT, TTL, NAME, KIND), ensure_ascii=False)'));
+    py.runPython('TTL, WANT = D.analyze(SRC, NAME)'); cpStep(1); await frame(); if (my !== gen) return;   // ใบ 039: ติ๊กขั้นในแผงหลังงานแต่ละขั้นเสร็จจริง
+    const f = JSON.parse(py.runPython('json.dumps(D.findings(WANT), ensure_ascii=False)')); cpStep(2, f); await frame(); if (my !== gen) return;
+    const ol = JSON.parse(py.runPython('json.dumps(D.outline_of(WANT, TTL, NAME, KIND), ensure_ascii=False)'));
+    FL.found = f; cpStep(3, f, ol);
     if (ol.pages.length < 2) throw new Error('ไม่พบเนื้อหาที่จัดเป็นสไลด์ได้ ถ้าเป็น PDF ที่สแกนจากกระดาษ ระบบอ่านไม่ได้ ลองคัดลอกเนื้อหามาวางแทน');
     if (my !== gen) return;
     FL.ol = ol; FL.ol0 = JSON.stringify(ol);
   })().catch(e => { console.warn(e); FL.err = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน'); });
-  flowShow(); history.pushState({p: 'flow', s: 'q'}, ''); flowStep('q');
+  // ใบ 039: อ่านในแผงเดิม (หัว "กำลังอ่านเนื้อหา" + 3 ขั้น) อ่านครบ = ข้อความผู้ช่วย 1 บรรทัด แล้วต่อเข้า "ให้ใครดู" เอง
+  if ($('pList').classList.contains('hidden')) { flowShow(); history.pushState({p: 'flow', s: 'q'}, ''); flowStep('q'); return; }
+  cpRead(true);
+  FL.ready.then(async () => {
+    if (my !== gen) return;
+    if (FL.err) { cpRead(false); homeErr(FL.err); return; }
+    await cpSaid(my, FL.found, FL.ol); if (my !== gen) return;
+    flowShow(); history.pushState({p: 'flow', s: 'q'}, ''); flowStep('q'); cpRead(false); orbSync();
+  });
 }
 function flowStep(s) {
   flClose(); window.scrollTo(0, 0); $('toast').classList.remove('on'); document.body.classList.toggle('fldes', s === 'design');
@@ -4011,14 +4147,14 @@ function openPanel(p) {
   if (p === 'img') paintImg();
   if (p === 'el') { ELFOCUS = false; paintEl(); }
   if (p === 'elc') paintElc();
-  requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
+  requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit)); orbSync();
 }
 function closePanel() {
   if ($('rp').dataset.p === 'ch') { $('chbk')?.remove(); CHPC = null; document.querySelectorAll('.slide.chlift').forEach(x => x.classList.remove('chlift')); if (CHC?.view === 'custom' && CH) { const w = pgs()[CH.k]?.querySelector('.slidebox'); if (w) { delete w._gsig; mount(w, slides[CH.k]); } CHC.view = 'main'; } }
   if (BRV) { BRV = ''; THD = null; brandHead(); }
   $('rp').classList.remove('on'); $('pWork').classList.remove('rpon', 'bsheet'); document.body.classList.remove('panelon');
   document.querySelectorAll('#rail [data-p]').forEach(b => b.classList.remove('on'));
-  requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit));
+  requestAnimationFrame(() => document.querySelectorAll('#pages .slidebox').forEach(fit)); orbSync();
 }
 const panelOpen = p => $('rp').classList.contains('on') && (!p || $('rp').dataset.p === p);
 $('rail').onclick = ev => { const b = ev.target.closest('[data-p]'); if (!b) return; if (b.dataset.p === 'add') return openIns(Math.max(0, cur));
@@ -4225,13 +4361,13 @@ $('wipeask').onclick = wipeAsk;
 async function wipeAll() {                 // ใบ 009: ย้ายงานที่เปิดอยู่ไปถังขยะ เหมือนการ์ด (กู้คืนได้ 30 วัน + เลิกทำ) งานอื่นไม่โดน
   let w = null;
   try { const db = await DB(), t = db.transaction('p', 'readwrite'), ps = t.objectStore('p'); w = PID && await req(ps.get(PID)); if (w) { w.del = Date.now(); ps.put(w); } await tdone(t); } catch (e) { w = null; }
-  STACK = []; SP = -1; slides = []; KEYS = []; viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; closePanel(); closeGrid(-1, true); deselectBox(); gen++; running = false; show('pHome', false);
+  STACK = []; SP = -1; slides = []; KEYS = []; viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; closePanel(); closeGrid(-1, true); deselectBox(); gen++; running = false; show('pList', false);
   await paintResume();
   if (w) htoast('ย้ายไปถังขยะแล้ว', async () => { await putW({...w, del: null}); await paintResume(); htoast('เลิกทำแล้ว'); });
 }
 // เปิดหน้าใหม่ในเครื่องเดิม: กลับมาที่งานล่าสุด
 function failMain(msg) {                  // พื้นที่สไลด์: เลิกโครงเทาที่กะพริบ บอกตรง ๆ + ปุ่มโหลดหน้าใหม่ (ไม่ต้องเปิดแผงผู้ช่วย)
-  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelg').classList.add('fail'); $('skel').querySelector('.orb')?.classList.remove('think');
+  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelg').classList.add('fail'); $('skel').querySelector('.orb')?.classList.remove('think'); orbSync();
   const t = $('skelt'); t.classList.remove('shimmer'); t.innerHTML = `<span>${esc(msg)}</span> <button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>`;
   setTtl(ttl || '', ttl ? '' : 'ยังไม่มีสไลด์');
 }
@@ -7183,19 +7319,14 @@ async function coverNow() {          // เปิดงานแล้ว: ภ�
   try { const db = await DB(), t = db.transaction('p', 'readwrite'), ps = t.objectStore('p'), w = await req(ps.get(id)); if (w && w.cover !== html) { w.cover = html; ps.put(w); } await tdone(t); } catch (e) {}
 }
 // ── หน้าจอ ──
-// หน้าแรก: มีงานในเครื่อง = งานของฉัน / ยังไม่เคยมีงาน (หรือเครื่องเก็บไม่ได้) = หน้าสร้างงานใหม่แบบเดิม ไม่มีปุ่มกลับ
-async function paintResume() {
+// หน้าเริ่ม = งานของฉันเสมอ (ใบ 039) / ยังไม่มีงาน (หรือเครื่องเก็บไม่ได้) = แผงสร้างเปิดไว้แล้ว / open = เปิดแผง (ย้อนจากคำถาม "ให้ใครดู")
+async function paintResume(open) {
   PID = null; if (location.hash.startsWith('#p=')) history.replaceState(history.state, '', location.pathname + location.search);
   try { await Promise.all([loadHome(), setsReady.catch(() => {})]); } catch (e) { W = []; F = []; }
-  if (!W.length) return showCreate(false);
-  show('pHome', false); $('pHome').classList.add('hidden'); $('pList').classList.remove('hidden'); document.body.classList.add('onlist'); document.title = 'งานของฉัน - Slide Studio';
-  $('avl').textContent = PROF.name[0]; renderList();
+  $('pList').classList.toggle('cpon', !!open || !live().length); document.querySelectorAll('.side .new').forEach(b => b.classList.toggle('on', $('pList').classList.contains('cpon')));
+  show('pList', false); $('avl').textContent = PROF.name[0]; renderList();
 }
-function showCreate(push) {
-  closePop(); show('pHome', false); $('hback').classList.toggle('hidden', !W.length);
-  if (push) history.pushState({p: 'pHome'}, '');           // ย้อนกลับของเบราว์เซอร์ = กลับงานของฉัน
-}
-$('hback').onclick = () => history.state?.p === 'pHome' ? history.back() : paintResume();
+function showCreate() { closePop(); if ($('pList').classList.contains('hidden')) return paintResume(true); cpSet(true, true); }
 $('lglogo').onclick = ev => { ev.preventDefault(); go({k: 'all'}); };
 $('toplogo').addEventListener('click', ev => { if (!W.length && !PID) return; ev.preventDefault(); history.state ? history.back() : goHome(); });   // โลโก้ในหน้าสร้าง/ตัวแก้ = กลับงานของฉัน ไม่ออกไปหน้าขาย
 const live = () => W.filter(w => !w.del);
@@ -7210,7 +7341,7 @@ function inView(w) {
 function go(v) { VW = v; Q = ''; $('lq').value = ''; $('pList').querySelector('.lbar').classList.remove('srch'); renderList(); window.scrollTo(0, 0); }
 function sideHtml() {
   const L = live(), n = f => L.filter(f).length, on = (k, x) => VW.k === k && (x == null || VW.id === x || VW.i === x) ? ' on' : '';
-  return `<button class="btn btn-red new" data-new type="button">${ico('plus')}สร้างใหม่<svg class="i cr"><use href="#i-caret"/></svg></button>
+  return `<button class="btn btn-red new${$('pList').classList.contains('cpon') ? ' on' : ''}" data-new type="button">${ico('plus')}สร้างใหม่</button>
     <button class="sn${on('all')}" data-go="all" type="button">${ico('home')}<span>งานของฉัน</span><small>${L.length}</small></button>
     <div class="sh">โฟลเดอร์<button class="ib" data-nf type="button" aria-label="สร้างโฟลเดอร์" title="สร้างโฟลเดอร์">${ico('plus')}</button></div>
     ${F.map(f => `<button class="sn${on('f', f.id)}" data-go="f" data-id="${f.id}" type="button">${ico('folder')}<span>${esc(f.name)}</span><small>${n(w => w.fid === f.id)}</small></button>`).join('')}
@@ -7267,7 +7398,9 @@ function renderList() {
     else if (VW.k === 'lb') empty = `${ico('tag')}<p>ยังไม่มีงานที่ติดป้ายนี้ กด ... บนงานแล้วเลือก ใส่ป้าย</p>`;
     else empty = `${ico('slides')}<p>ยังไม่มีงาน งานที่ลบไว้อยู่ในถังขยะ</p><div class="row"><button class="btn btn-red" data-new type="button">${ico('plus')}สร้างใหม่</button><button class="btn btn-line" data-go="trash" type="button">${ico('trash')}เปิดถังขยะ</button></div>`;
   }
-  $('wgrid').innerHTML = empty ? `<div class="lempty">${empty.replace('<svg class="i">', '<svg class="i big">')}</div>` : list.map(cardHtml).join('');
+  const ghost = !list.length && !q && VW.k === 'all' && $('pList').classList.contains('cpon');   // ใบ 039 ลูกค้าใหม่ แผงเปิดอยู่: การ์ดเส้นประบอกว่างานจะมาอยู่ตรงนี้
+  $('wgrid').innerHTML = ghost ? `<div class="lempty" style="grid-column:1/-1;padding:0;text-align:left"><p class="lgnote">งานที่สร้างจะเก็บไว้ตรงนี้ เปิดแก้ต่อได้ทุกเมื่อ</p><div class="lghost" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>`
+    : empty ? `<div class="lempty">${empty.replace('<svg class="i">', '<svg class="i big">')}</div>` : list.map(cardHtml).join('');
   fitCovers();
 }
 // ── เมนูลอย ──
@@ -7309,15 +7442,11 @@ async function leave(id) {            // การ์ดออกจากหน
   const c = document.querySelector(`.wk[data-w="${id}"]`);
   if (c) { c.classList.add('go'); await after(ani(c, [{opacity: 1, transform: 'none'}, {opacity: 0, transform: 'scale(.96)'}], {duration: 180, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards'})); }
 }
-// ── เมนูสร้างใหม่ ──
-function newMenu(a) {
-  const into = VW.k === 'f' ? VW.id : null;
-  pop(a, `<h5>สร้างใหม่</h5>${row('text', 'paste', 'วางข้อความ')}${row('file', 'clip', 'แนบไฟล์ Word Excel PDF')}${row('sample', 'spark', 'ลองจากตัวอย่าง')}`, m => {
-    NEWF = into; closePop(); showCreate(true);
-    if (m === 'text') ta.focus();
-    if (m === 'file') { warm(); $('fin').click(); }
-    if (m === 'sample') { const c = document.querySelector('.chips'); c.scrollIntoView({block: 'center', behavior: calm.matches ? 'auto' : 'smooth'}); ani(c, [{transform: 'scale(1)'}, {transform: 'scale(1.04)'}, {transform: 'scale(1)'}], {duration: 420, delay: 200}); }
-  });
+// ── สร้างใหม่ (ใบ 039): กดแล้วเปิดแผงเลย ไม่มีเมนูหล่นลง (ไอซ์ 2 พ.ย. 2569 "ใช่ครับ") ──
+function newMenu() {
+  NEWF = VW.k === 'f' ? VW.id : null; closePop();
+  if ($('pList').classList.contains('cpon')) { window.scrollTo({top: 0, behavior: SMOOTH()}); if (matchMedia('(hover:hover)').matches) ta.focus({preventScroll: true}); return; }
+  cpSet(true, true);
 }
 // ── เมนูการ์ด ──
 function cardMenu(a, w, page) {
@@ -7438,7 +7567,7 @@ let openT = 0;
 $('pList').addEventListener('click', ev => {
   const g = ev.target.closest('[data-go]');
   if (g) return go({k: g.dataset.go, id: g.dataset.id, i: g.dataset.i != null ? +g.dataset.i : undefined});
-  if (ev.target.closest('[data-new]')) return newMenu(ev.target.closest('[data-new]'));
+  if (ev.target.closest('[data-new]')) return newMenu();
   if (ev.target.closest('[data-nf]')) return askName(ev.target.closest('[data-nf]'), 'โฟลเดอร์ใหม่', 'โฟลเดอร์ใหม่', 40, async name => { const f = await newFolder(name); go({k: 'f', id: f.id}); });
   if (ev.target.closest('[data-lbe]')) return labelEdit(ev.target.closest('[data-lbe]'));
   if (ev.target.closest('[data-sort]')) return sortMenu(ev.target.closest('[data-sort]'));
