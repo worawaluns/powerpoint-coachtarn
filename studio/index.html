@@ -1592,6 +1592,19 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 @media (max-width:767px), (pointer:coarse) and (max-height:500px){.rp[data-p=el]{height:78dvh}}
 @media (min-width:768px) and (max-width:1023px){.rp[data-p=el],.rp[data-p=elc]{right:56px}}
 @media (prefers-reduced-motion:reduce){.e27-t{transition:none}.e27-lab{animation:none}}
+/* ── ใบ 040 เข้าจากเทมเพลต (037 r2 ภาพ 13-14) ── */
+.fl-tp{max-width:720px;margin:0 auto;padding:8px 16px 40px;display:flex;flex-direction:column;align-items:center}
+.fl-tps{display:grid;grid-template-columns:2fr 1fr;gap:8px;width:100%}
+.fl-tps>div{min-width:0}.fl-tps .b{display:grid;gap:8px}
+.fl-tps img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:12px;background:#fff;box-shadow:0 0 0 1px var(--line)}
+.fl-tps .a{animation:rise .32s var(--ease) both}.fl-tps .b>div{animation:rise .32s var(--ease) both;animation-delay:calc(var(--i)*60ms)}
+.fl-tps .a img{border-radius:14px}
+.fl-tp h1{font-size:24px;font-weight:700;line-height:1.6;margin:24px 0 0;text-align:center}
+.fl-tp .prompt{margin-top:16px}
+.fl-own{display:inline-flex;align-items:center;gap:8px;margin-top:12px}
+.fl-pth{width:96px;height:54px;flex:none;border-radius:8px;object-fit:cover;background:var(--bg);box-shadow:0 0 0 1px var(--line)}
+@media (max-width:420px){.fl-pth{width:80px;height:45px}}
+@media (min-width:1024px){.fl-tp{padding-top:24px}.fl-tp h1{font-size:28px}}
 /* ── ใบ 037 ก่อนสร้าง: คำถามเดียว "ให้ใครดู" > โครงหน้า > หน้าตาที่แนะนำ (ไอซ์ 2 พ.ย. "dont make me think") ── */
 body.onflow>.top{display:none}
 body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป้ายอยู่บน ไม่ทับปุ่มล่าง */
@@ -1989,7 +2002,7 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261102e';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261102f';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2071,6 +2084,7 @@ function show(p, push = true) {
 }
 window.addEventListener('popstate', () => {
   if (!$('pres').classList.contains('hidden')) return closePres(true);   // ย้อนกลับตอนนำเสนอ = ออกจากนำเสนอ ไม่ออกจากหน้า
+  if (history.state?.s === 'tpl' && FL.tpl) { FL.src = null; gen++; return flowStep('tpl'); }   // ใบ 040 ย้อนจากคำถามกลับหน้าเข้าจากเทมเพลต ข้อความยังอยู่
   if (FL.src) { if (history.state?.p === 'flow') return flowStep(history.state.s); return flowExit(); }   // ใบ 037 ย้อนทีละขั้น ไม่ทิ้งของ
   goHome();
 });
@@ -2142,9 +2156,11 @@ D.keys._k0 = _k0`);   // ใบ 025: โน้ต/ชื่อหน้าอย
 }
 const warm = () => boot().catch(() => {});   // เริ่มโหลดตอนลูกค้าแตะกล่องพิมพ์ เวลาโหลดจะซ้อนกับเวลาที่เขาพิมพ์
 ['focusin', 'paste', 'pointerdown'].forEach(e => $('prompt').addEventListener(e, warm, {once: true}));
+let decksOk = false;                     // ใบ 040: ต้นฉบับชุดนอก 20 ชุดการ์ดอยู่ใน decks.zip โหลดครั้งแรกที่เปิดชุดเหล่านั้น (py.zip ไม่หนักขึ้น)
 function needSet(s) {
   return guard((async () => {
-    for (const z of s.zips) if (!zips.has(z)) { await unzip('img/' + z); zips.add(z); }
+    if (!s.pick && !decksOk) { await unzip('decks.zip'); py.runPython('D._DECKS.clear()'); decksOk = true; }
+    for (const z of s.zips) if (!zips.has(z)) { await unzip(/^https:/.test(z) ? z : 'img/' + z); zips.add(z); }   // ใบ 040 รูปของชุดอยู่บน R2 (img.coachtarnslide.com/studio/v1 เปิด CORS) ?v= ของ get() กันแคชที่ไม่มี header CORS
     for (const f of s.fonts) if (!fonts.has(f)) { py.FS.writeFile('/k5/fonts/' + f, new Uint8Array(await (await get('fonts/' + f)).arrayBuffer())); fonts.add(f); }
   })());
 }
@@ -2155,6 +2171,8 @@ fetch('fonts.json?v=' + V).then(r => r.json()).then(m => {   // ให้พร�
   document.head.appendChild(st);
 });
 const setsReady = fetch('sets.json?v=' + V).then(r => r.json()).then(s => { SETS = s; slug = s[0].slug; });
+// ใบ 040: การ์ดเลือกหน้าตา = 20 ชุดที่ไอซ์เลือก (pick) ชุดอื่นในคลังเข้าได้ทาง #tpl=<slug> ชุดที่เปิดอยู่ไม่อยู่ใน 20 ชุด = โชว์ไว้หน้าสุด
+const looks = (sel = slug) => { const L = SETS.filter(s => s.pick), c = SETS.find(x => x.slug === sel); return c && !c.pick ? [c, ...L] : L; };
 
 // ── หน้าแรก ──
 const ta = $('ta'), ta2 = $('ta2');
@@ -2482,8 +2500,8 @@ function flowShow() {
 }
 function flowHide() { $('pFlow').classList.add('hidden'); document.body.classList.remove('onflow'); flClose(); }
 function flowExit() { FL.src = null; gen++; flowHide(); showCreate(false); }   // ย้อนจากคำถาม: กลับหน้าแรก ข้อความ/ไฟล์ที่วางยังอยู่
-function startFlow(src) {
-  Object.assign(FL, {src, ol: null, ol0: null, hist: [], aud: null, sel: -1, doc: false, edited: false, fitTried: false, rank: [], ri: 0, by: 'suggest', slug: null, err: '', adding: false});
+function startFlow(src, tpl) {
+  Object.assign(FL, {src, tpl: tpl || null, ol: null, ol0: null, hist: [], aud: null, sel: -1, doc: false, edited: false, fitTried: false, rank: [], ri: 0, by: 'suggest', slug: null, err: '', adding: false});
   FL.cv.clear(); $('send').classList.remove('go'); warm();
   const my = ++gen;
   FL.ready = (async () => {                      // อ่านเอกสารอยู่เบื้องหลังระหว่างลูกค้าตอบคำถาม
@@ -2512,7 +2530,7 @@ function startFlow(src) {
 }
 function flowStep(s) {
   flClose(); window.scrollTo(0, 0); $('toast').classList.remove('on'); document.body.classList.toggle('fldes', s === 'design');
-  if (s === 'q') flQ(); else if (s === 'outline') flOutline(); else if (s === 'design') flDesign();
+  if (s === 'q') flQ(); else if (s === 'outline') flOutline(); else if (s === 'design') flDesign(); else if (s === 'tpl') flTpl();
 }
 const flGo = s => { history.pushState({p: 'flow', s}, ''); flowStep(s); };
 const flBack = () => history.back();
@@ -2548,10 +2566,10 @@ function flOutline() {
   flv().innerHTML = `<header class="fl-top w"><button class="ib" type="button" data-fl="back" aria-label="ย้อนกลับ">${ico('back')}</button>${dk ? '<img class="logo2" src="img/slide-studio.svg" alt="Slide Studio" width="149" height="20">' : '<b>โครงหน้า</b>'}<span class="grow"></span>
       <button class="btn btn-line fl-dk" type="button" data-fl="doc" style="height:44px">${ico('file')}เอกสาร</button>
       <button class="fl-cnt" type="button" data-fl="cnt" id="flcnt"></button>
-      <button class="btn btn-red fl-dk" type="button" data-fl="next" style="height:44px;padding:0 20px">ถัดไป${ico('next')}</button></header>
+      <button class="btn btn-red fl-dk" type="button" data-fl="next" style="height:44px;padding:0 20px">${FL.tpl ? ico('spark') + 'สร้างสไลด์' : 'ถัดไป' + ico('next')}</button></header>
     <div class="fl-lay${FL.doc && dk ? ' open' : ''}" id="fllay"><main class="fl-wrap"><h2 class="fl-h" id="flh"></h2><div id="flg"></div><div class="fl-ol" id="flol"></div>
       <div id="fladd"></div></main><aside class="fl-doc" id="fldoc"></aside></div>
-    <div class="fl-bar ol"><button class="btn btn-red" type="button" data-fl="next">ถัดไป${ico('next')}</button></div>`;
+    <div class="fl-bar ol"><button class="btn btn-red" type="button" data-fl="next">${FL.tpl ? ico('spark') + 'สร้างสไลด์' : 'ถัดไป' + ico('next')}</button></div>`;
   flv().onclick = flOutClick; flDrag($('flol'));
   if (FL.ol) return flList();
   if (FL.err) return flFail();
@@ -2588,8 +2606,8 @@ function flList(still) {
   const g = flGentle();
   $('flg').innerHTML = g ? `<div class="fl-gentle"><i class="dot"></i><span>${esc(g.t)}</span><button class="btn btn-line btn-sm" type="button" data-g="${g.a}">${ico(g.i)}${esc(g.b)}</button></div>` : '';
   const talk = ol.brief.use === 'talk';
-  $('flol').innerHTML = ol.pages.map((p, k) => `<div class="fl-pc${FL.sel === k ? ' on' : ''}${still ? ' still' : ''}" data-i="${k}" style="--i:${k}"><div class="fl-pr"><span class="grip">${ico('grip')}</span><span class="n">${k + 1}</span><span class="fl-tic">${ico(OLT[p.type]?.[1] || 'list')}</span>
-      <span class="t"><b>${esc(olTitle(p))}</b>${olLine(p) && k ? `<small>${esc(olLine(p))}</small>` : ''}</span><button class="ib" type="button" data-m="${k}" aria-label="ตัวเลือกหน้า ${k + 1}">${ico('more')}</button></div>
+  $('flol').innerHTML = ol.pages.map((p, k) => `<div class="fl-pc${FL.sel === k ? ' on' : ''}${still ? ' still' : ''}" data-i="${k}" style="--i:${k}"><div class="fl-pr"><span class="grip">${ico('grip')}</span><span class="n">${k + 1}</span>${FL.tpl ? '' : `<span class="fl-tic">${ico(OLT[p.type]?.[1] || 'list')}</span>`}
+      <span class="t"><b>${esc(olTitle(p))}</b>${olLine(p) && k ? `<small>${esc(olLine(p))}</small>` : ''}</span>${FL.tpl ? `<img class="fl-pth" src="${tplPg(FL.tpl, p)}" alt="" loading="lazy" width="96" height="54">` : ''}<button class="ib" type="button" data-m="${k}" aria-label="ตัวเลือกหน้า ${k + 1}">${ico('more')}</button></div>
       ${FL.sel === k ? `<div class="fl-ex"><q>${esc((p.items.length ? p.items.map(x => x.text) : [p.title.text]).join('\n'))}</q>${talk && p.items.some(x => x.to === 'notes') ? `<p>${ico('notes')}ประโยคยาวย่อบนสไลด์ ข้อความเต็มอยู่ในโน้ตผู้บรรยาย</p>` : ''}${p.by === 'user' && p.title.src === 'user' ? `<p>${ico('pen')}หน้าที่คุณเพิ่มเอง</p>` : ''}</div>` : ''}</div>`).join('');
   $('fladd').innerHTML = FL.adding ? `<div class="fl-addin"><input id="fladdt" type="text" placeholder="พิมพ์หัวข้อหน้าใหม่" maxlength="120" enterkeyhint="done"><button class="btn btn-red" type="button" data-fl="addok" style="height:52px">${ico('plus')}เพิ่ม</button></div>`
     : `<button class="fl-addp" type="button" data-fl="add">${ico('plus')}เพิ่มหน้า</button>`;
@@ -2619,7 +2637,7 @@ function flOutClick(ev) {
 function flvClickAct(a, b) {
   if (a === 'back') return flBack();
   if (a === 'exit') return flBack();
-  if (a === 'next') { if (!FL.ol) return toast('กำลังอ่านเนื้อหา อีกสักครู่'); return flGo('design'); }
+  if (a === 'next') { if (!FL.ol) return toast('กำลังอ่านเนื้อหา อีกสักครู่'); if (FL.tpl) { FL.slug = FL.tpl; FL.by = 'template'; FL.ri = -1; return flowBuild(); } return flGo('design'); }   // ใบ 040 เข้าจากเทมเพลต: ไม่มีขั้นแนะนำหน้าตา
   if (a === 'doc') { FL.doc = !FL.doc; return flDoc(); }
   if (a === 'cnt') return FL.ol && flCount(b);
   if (a === 'add') { FL.adding = true; return flList(true); }
@@ -2728,7 +2746,7 @@ function rankSets(ol) {
   const heads = ol.pages.map(p => p.title.text).join(' '), body = ol.pages.map(p => p.items.map(x => x.text).join(' ')).join(' ');
   const hit = {}; TOPIC_RE.forEach(([k, re]) => { hit[k] = (re.test(ol.title) ? 3 : 0) + (re.test(heads) ? 2 : 0) + (re.test(body) ? 1 : 0); });
   const chart = ol.pages.some(p => ['chart', 'table'].includes(p.type)), aud = ol.brief.audience;
-  return SETS.map((s, i) => {
+  return SETS.filter(s => s.pick).map((s, i) => {
     const tags = (SETTAG[s.slug] || '').split(' ').filter(Boolean); let sc = 0, best = null, bw = 0;
     for (const t of tags) { const w = hit[t] || 0; sc += w; if (w > bw) { bw = w; best = t; } }
     for (const [t, w] of AUDTAG[aud] || []) if (tags.includes(t)) sc += w;
@@ -2761,7 +2779,7 @@ function flPick() {
   retrig($('fldn'), 'in'); flCover(r.slug);
 }
 function flAll() {
-  const sh = flSheet('หน้าตาทั้งหมด', `<div class="fl-dg">${SETS.map(s => `<button class="fl-dc${s.slug === FL.slug ? ' on' : ''}" type="button" data-s="${s.slug}"><img src="${peek(s)}" alt="" loading="lazy"><span>${esc(s.style)}</span></button>`).join('')}</div>`, {modal: true});
+  const sh = flSheet('หน้าตาทั้งหมด', `<div class="fl-dg">${looks(FL.slug).map(s => `<button class="fl-dc${s.slug === FL.slug ? ' on' : ''}" type="button" data-s="${s.slug}"><img src="${peek(s)}" alt="" loading="lazy"><span>${esc(s.style)}</span></button>`).join('')}</div>`, {modal: true});
   sh.onclick = ev => { const b = ev.target.closest('[data-s]'); if (!b) return; flClose(); FL.ri = FL.rank.findIndex(x => x.slug === b.dataset.s); FL.by = 'user'; flPick(); };
 }
 async function flCover(sl) {                     // ปกของลูกค้าเองในดีไซน์นั้น (วาดจริงด้วยตัวจัดเดียวกับตอนสร้าง)
@@ -2789,10 +2807,75 @@ function flowBuild() {
   meMsg(src.text ? `<div class="pre${src.text.split('\n').length <= 5 ? ' short' : ''}">${esc(src.text)}</div>` : `<div class="filechip"><b>${ico('file')}</b><span>${esc(src.file.name)}</span></div>`);
   run({ol});
 }
+// ── ใบ 040 เข้าจากเทมเพลต (#tpl=<slug> จากปุ่ม "เปิดใน Studio" หน้า template.html) แบบ 037 r2 ภาพ 13-14 ──
+// ภาพชุดนั้น + กล่องวางเนื้อหา > ให้ใครดู > โครงหน้า (ภาพย่อหน้าจริงของชุด) > สร้างสไลด์ / "หรือแก้ชุดนี้เอง" = เปิดแบบหน้าของชุดเป็นหน้าว่าง (ไม่มีคำตัวอย่างของดีไซน์)
+const slideImg = (sl, n) => `https://img.coachtarnslide.com/slides/${sl}/${String(n).padStart(2, '0')}.webp`;
+const tplPg = (sl, p) => { const s = SETS.find(x => x.slug === sl) || {}, g = s.pg || {}; return slideImg(sl, g[p.w?.kind] || g[OLKIND[p.type]] || s.peek || 2); };   // ponytail: หน้าแรกของชนิดนั้นในชุด ตัวจัดอาจเลือกแบบอื่นของชนิดเดียวกัน
+const OLKIND = {cover: 'cover', list: 'list', numbers: 'stat', chart: 'chart', table: 'table', quote: 'statement', timeline: 'timeline', compare: 'compare', section: 'divider'};
+let tpFile = null;
+function openTpl(sl) {
+  if (!SETS.some(x => x.slug === sl)) { toast('ชุดนี้ยังเปิดใน Studio ไม่ได้'); return paintResume(); }
+  Object.assign(FL, {tpl: sl, src: null}); tpFile = null; warm();
+  flowShow(); history.replaceState({p: 'flow', s: 'tpl'}, ''); flowStep('tpl');
+}
+function flTpl() {
+  const sl = FL.tpl, s = SETS.find(x => x.slug === sl), g = s.pg || {};
+  document.title = 'เปิดจากเทมเพลต - Slide Studio';
+  const more = [...new Set([g.chart, g.stat, g.pairs, s.peek, 3, 4].filter(n => n && n !== 1))].slice(0, 2);
+  flv().innerHTML = `<header class="fl-top"><button class="ib" type="button" data-fl="back" aria-label="ย้อนกลับ">${ico('back')}</button><img class="logo2" src="img/slide-studio.svg" alt="Slide Studio" width="149" height="20"><span class="grow"></span></header>
+    <main class="fl-tp"><div class="fl-tps" aria-label="${esc(s.th)}"><div class="a"><img src="${slideImg(sl, 1)}" alt="" width="1280" height="720"></div><div class="b">${more.map((n, i) => `<div style="--i:${i + 1}"><img src="${slideImg(sl, n)}" alt="" width="1280" height="720"></div>`).join('')}</div></div>
+      <h1>วางเนื้อหาของคุณ</h1>
+      <div class="prompt" id="tpbox"><div class="filepill${tpFile ? '' : ' hidden'}" id="tpfp">${ico('file')}<span>${esc(tpFile?.name || '')}</span><button class="ib" type="button" data-fl="tpx" aria-label="เอาไฟล์ออก" style="width:44px;height:44px;margin:-6px 0">${ico('x')}</button></div>
+        <textarea id="tpta" placeholder="พิมพ์ วางข้อความ หรือแนบไฟล์">${esc(FL.tpText || '')}</textarea>
+        <div class="prow"><input type="file" id="tpfin" accept=".docx,.pdf,.xlsx" hidden><button class="attach" type="button" data-fl="att">${ico('clip')}แนบไฟล์</button><span class="grow"></span>
+          <button class="send" type="button" data-fl="send" aria-label="สร้างสไลด์">${ico('up')}</button></div></div>
+      <p class="cphint hidden" id="tphint"></p>
+      <button class="fl-lnk fl-own" type="button" data-fl="own">${ico('pen')}หรือแก้ชุดนี้เอง</button></main>`;
+  const t = $('tpta'), hint = m => { $('tphint').textContent = m; $('tphint').classList.toggle('hidden', !m); };
+  t.oninput = () => { FL.tpText = t.value; t.style.height = 'auto'; t.style.height = Math.min(t.scrollHeight, 240) + 'px'; };
+  t.onkeydown = e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); flv().querySelector('[data-fl="send"]').click(); } };
+  $('tpfin').onchange = ev => { const f = ev.target.files[0]; ev.target.value = ''; if (!f) return;
+    const ext = f.name.toLowerCase().split('.').pop();
+    if (!['docx', 'pdf', 'xlsx'].includes(ext)) return hint('อ่านได้เฉพาะ Word (.docx), Excel (.xlsx) และ PDF หรือคัดลอกเนื้อหามาวางแทน');
+    if (f.size > 15e6) return hint('ไฟล์ใหญ่เกิน 15MB ลองคัดลอกเฉพาะส่วนที่จะทำสไลด์มาวาง');
+    tpFile = f; hint(''); $('tpfp').querySelector('span').textContent = f.name; $('tpfp').classList.remove('hidden'); };
+  flv().onclick = ev => { const b = ev.target.closest('[data-fl]'); if (!b) return; const a = b.dataset.fl;
+    if (a === 'back') { if (document.referrer && history.length > 1) return history.back(); flowHide(); FL.tpl = null; history.replaceState(null, '', location.pathname); return paintResume(); }
+    if (a === 'att') return $('tpfin').click();
+    if (a === 'tpx') { tpFile = null; return $('tpfp').classList.add('hidden'); }
+    if (a === 'own') return tplBlank(sl);
+    if (a === 'send') { const v = t.value.trim(), box = $('tpbox');
+      if (!tpFile && !v) { t.focus(); box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake'); return hint('พิมพ์ วาง หรือแนบไฟล์ก่อนนะ'); }
+      if (!tpFile && v.split('\n').filter(x => x.trim()).length < 2 && v.length < 120) return hint('ขอเนื้อหาอีกนิด พิมพ์หัวข้อบรรทัดแรก แล้วตามด้วยหัวข้อย่อยหรือรายละเอียดทีละบรรทัด');
+      hint(''); startFlow(tpFile ? {file: tpFile} : {text: v}, sl); }
+  };
+}
+async function tplBlank(sl) {                    // แก้ชุดนี้เอง: แบบหน้าทั้งหมดของชุด (D.ins_pool) ช่องว่างมีคำใบ้บนจอ ไม่ลงไฟล์ ลูกค้าพิมพ์เอง
+  const s = SETS.find(x => x.slug === sl); if (!s || running) return;
+  const my = ++gen; FL.src = null; FL.tpl = null; flowHide();
+  PID = null; SRCNAME = 'ชุด ' + s.th; lastAsk = ''; olN = 0; running = true;
+  enterWork(false); $('skelt').textContent = 'กำลังเปิดชุดนี้'; refresh();
+  try {
+    await boot(); await needSet(s); if (my !== gen) return; await frame();
+    py.globals.set('S_', sl);
+    py.runPython(`M, _x = D.pool_of(S_); _P = [e for e in D.ins_pool(S_) if e[3] != 'agenda']
+ITEMS = [tuple(e[:2]) for e in _P]; CS = [dict(e[2]) for e in _P]; OUT = []; LOG = []; WANT = []; TTL = ''`);
+    slug = sl; order = Array.from({length: py.runPython('len(ITEMS)')}, (_, i) => i); altCache.clear(); lookGen++; cur = -1;
+    if (!order.length) throw new Error('ชุดนี้ยังเปิดแก้เองไม่ได้ ลองวางเนื้อหาแทน');
+    ttl = ''; LOST = 0; arranged = false; await guard(paint()); if (my !== gen) return;
+    $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout();
+    $('tact').classList.remove('hidden'); setTtl(''); commit(`เปิดชุด ${s.th}`);
+    botMsg(`<p>เปิดหน้าตา <b>${esc(s.style)}</b> แล้วครับ <b>${slides.length} แบบหน้า</b> ช่องว่างทุกช่องพิมพ์เนื้อหาของคุณได้เลย ${touch() ? 'แตะข้อความเพื่อเลือก แตะอีกครั้งเพื่อพิมพ์' : 'ดับเบิลคลิกเพื่อพิมพ์'} หน้าไหนไม่ใช้ลบได้</p>`);
+    if (!matchMedia('(min-width:1200px)').matches) setTimeout(() => { if (my === gen && !running) closePanel(); }, wide() ? 0 : 900);   // เหมือนตอนสร้างเสร็จ: จอกว้างเปิดแผงค้างได้ แท็บเล็ต/มือถือปิดให้เห็นสไลด์
+  } catch (e) {
+    console.error(e); if (my === gen) { const em = pyErr(e, 'เปิดชุดนี้ไม่สำเร็จ ลองโหลดหน้าใหม่'); botMsg(`<div class="err">${esc(em)}</div>`); failMain(em); }
+  }
+  running = false; refresh();
+}
 // ภาพหน้าตัวอย่างหนึ่งหน้าของชุด (ภาพปกคลังมีคำที่ไม่ใช่ของลูกค้า เช่น ครู ว.PA, 20 สไลด์)
 const peek = s => `https://img.coachtarnslide.com/slides/${s.slug}/${String(s.peek || 2).padStart(2, '0')}.webp`;
 function lookCards(sel) {
-  return SETS.map((s, i) => `<button class="look${s.slug === sel ? ' on' : ''}" data-s="${s.slug}" type="button" style="--i:${i}"><img src="${peek(s)}" alt="" loading="lazy"><span>${esc(s.style)}</span><i class="ck">${ico('check')}</i></button>`).join('');
+  return looks(sel).map((s, i) => `<button class="look${s.slug === sel ? ' on' : ''}" data-s="${s.slug}" type="button" style="--i:${i}"><img src="${peek(s)}" alt="" loading="lazy"><span>${esc(s.style)}</span><i class="ck">${ico('check')}</i></button>`).join('');
 }
 function done(my, t0) {
   const s = SETS.find(x => x.slug === slug);
@@ -4079,7 +4162,7 @@ $('shX').onclick = closeSheet;
 })();
 $('sheet').onclick = ev => { if (ev.target === $('sheet')) closeSheet(); };
 function lookHtml() {
-  return SETS.map((s, i) => `<button class="opt${s.slug === slug ? ' on' : ''}" data-s="${s.slug}" type="button" style="animation-delay:${i * 40}ms">
+  return looks().map((s, i) => `<button class="opt${s.slug === slug ? ' on' : ''}" data-s="${s.slug}" type="button" style="animation-delay:${i * 40}ms">
     <img src="${peek(s)}" alt="" loading="lazy"><span class="lb">${esc(s.style)}</span><i class="ck">${ico('check')}</i></button>`).join('');
 }
 // ── เปลี่ยนหน้าตาทั้งไฟล์: คำที่แก้ตามไป (แก้ใน WANT แล้ว) ที่ตามไม่ได้บอกก่อน ──
@@ -8432,6 +8515,7 @@ function chPaint() {
 }
 // ลิงก์ ...#demo เริ่มทำเนื้อหาตัวอย่างให้เลย (เป็นงานใหม่หนึ่งงาน) / #p=<id> เปิดงานนั้นต่อ (รีเฟรชในตัวแก้) / ไม่มี: งานของฉัน
 if (location.hash === '#demo') { warm(); setsReady.then(() => setTimeout(() => startText(SAMPLE_TEXT), 300)); }
+else if (/^#tpl=./.test(location.hash)) { const t = decodeURIComponent(location.hash.slice(5)); loadHome().catch(() => {}); setsReady.then(() => openTpl(t)); }   // ใบ 040 ปุ่ม "เปิดใน Studio" หน้า template.html
 else { const h = (location.hash.match(/^#p=(.+)$/) || [])[1];   // ลิงก์งาน: ตรงเข้าตัวแก้ ไม่ผ่านหน้าแรก/งานของฉัน (ไม่แว้บ)
   if (!h) paintResume();
   else { show('pWork', false);   // เครื่องมือเริ่มโหลดหลังอ่านงานจากเครื่อง (เริ่มก่อน = แย่งเธรด ปกขึ้นช้าไปถึง 1 วิ)
