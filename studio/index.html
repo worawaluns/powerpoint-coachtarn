@@ -509,8 +509,22 @@ body.typing .tring,body.typing .tcard{visibility:hidden}
 .grow{flex:1}
 .tact{display:flex;gap:8px;align-items:center}
 [data-tip]{position:relative}
-@media (hover:hover){[data-tip]:hover::after{content:attr(data-tip);position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#15151A;color:#fff;font-size:12px;font-weight:600;padding:3px 9px;border-radius:7px;white-space:nowrap;pointer-events:none;z-index:99;animation:rise .15s var(--ease) both}}
-.ftb [data-tip]:hover::after,.ftb>button[data-tip]:hover::after{top:50%;left:auto;right:calc(100% + 8px);transform:translateY(-50%)}
+/* ใบ 041: คำใบ้ปุ่ม = กล่องเดียวลอย (ktip) ขึ้นหลังชี้ค้าง 400ms เฉพาะเมาส์ ชื่อปุ่ม + คีย์ลัดในกล่องเล็ก แทน ::after เดิม */
+.ktip{position:fixed;z-index:200;display:flex;align-items:center;gap:8px;max-width:320px;background:#15151A;color:#fff;font-size:12px;font-weight:600;line-height:1.6;padding:3px 9px;border-radius:7px;pointer-events:none;white-space:nowrap;animation:rise .15s var(--ease) both}
+.ktip[hidden]{display:none}
+.ktip kbd{font:inherit;font-size:11px;font-weight:600;line-height:18px;padding:0 5px;margin-right:-4px;border-radius:5px;background:rgba(255,255,255,.16);color:#F1F1F4}
+.ktip kbd+kbd{margin-left:-4px}
+/* ใบ 041: หน้ารวมคีย์ลัด (ใช้หน้าต่าง .xd เดียวกับบันทึกงาน) */
+.kbs .bd{padding:4px 24px 20px;overflow:auto;display:grid;grid-template-columns:1fr 1fr;gap:4px 32px}
+.kbs h4{grid-column:auto;font-size:13px;font-weight:700;color:var(--sub);margin:12px 0 2px}
+.kbs .g{display:flex;flex-direction:column}
+.kbs .r{display:flex;align-items:center;gap:12px;min-height:34px;font-size:14px;border-bottom:1px solid var(--line)}
+.kbs .r:last-child{border-bottom:none}
+.kbs .r span{flex:1;min-width:0}
+.kbs .r small{color:var(--sub);font-size:12px}
+.kbs kbd{font:inherit;font-size:12px;font-weight:600;line-height:22px;padding:0 7px;border-radius:6px;background:var(--bg);box-shadow:inset 0 -1px 0 var(--line),0 0 0 1px var(--line);white-space:nowrap}
+.kbs .ft{padding:12px 24px 16px;font-size:13px;color:var(--sub);border-top:1px solid var(--line)}
+@media (max-width:640px){.kbs .bd{grid-template-columns:1fr}}
 .resume{width:100%;max-width:680px;margin:22px 0 -8px;display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 10px 10px 14px;animation:rise .35s var(--ease) both}
 .resume span{flex:1;min-width:0;font-size:14px;line-height:1.5}
 .resume small{display:block;color:var(--sub);font-size:12px}
@@ -676,7 +690,6 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 .pcap .ib:disabled{opacity:.3}
 .pcap span{min-width:56px;text-align:center;font-size:14px;font-weight:600}
 .pcap i{width:1px;height:22px;background:rgba(255,255,255,.25);margin:0 2px}
-.pcap [data-tip]:hover::after{top:auto;bottom:calc(100% + 10px)}
 .pbadge{position:absolute;left:16px;bottom:calc(20px + var(--safe));background:rgba(30,30,36,.88);color:#ddd;font-size:12px;border-radius:100px;padding:3px 10px;pointer-events:none}
 .prot{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);background:rgba(30,30,36,.9);color:#fff;font-size:13px;border-radius:100px;padding:6px 14px;white-space:nowrap;animation:fadeIn .3s both;pointer-events:none}
 .toast{position:fixed;left:50%;top:68px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:90;background:#15151A;color:#fff;font-size:14px;border-radius:100px;padding:9px 16px;transition:opacity .3s,transform .35s var(--spring);pointer-events:none;max-width:90vw;text-align:center}
@@ -812,9 +825,7 @@ details.trail[open] summary svg{transform:rotate(90deg)}
   .phd .acts .tx{padding:0 12px 0 10px;border:1px solid var(--line);background:#fff}
   .phd .acts button:hover:not(:disabled){background:#ECECF0}.phd .acts button:disabled{color:#C4C4CC}
   .phd .acts hr{width:1px;height:20px;border:none;background:var(--line);margin:0 4px}
-  .phd [data-tip]:hover::after{font-size:13px;font-weight:500;line-height:1.6;padding:4px 10px;border-radius:8px}
-  .phd .tx[data-tip]:hover::after{display:none}
-  .canvas.nrw .phd .tx span{display:none}.canvas.nrw .phd .tx{padding:0;width:36px}.canvas.nrw .phd .tx[data-tip]:hover::after{display:block}
+  .canvas.nrw .phd .tx span{display:none}.canvas.nrw .phd .tx{padding:0;width:36px}
   .nt{display:none;position:sticky;left:16px;width:min(100%,calc(var(--cw,100vw) - 32px));box-sizing:border-box;margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 16px}
   .work.noteson .nt{display:block}
   .nt:focus-within{border-color:#15151A;box-shadow:0 0 0 3px rgba(21,21,26,.08)}
@@ -1944,7 +1955,7 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
   <nav class="rail" id="rail">
     <button type="button" data-p="chat" aria-label="ผู้ช่วย"><svg class="i"><use href="#i-spark"/></svg>ผู้ช่วย<i class="dot" id="chatdot"></i></button>
     <button type="button" data-p="look" aria-label="หน้าตา"><svg class="i"><use href="#i-palette"/></svg>หน้าตา</button>
-    <button type="button" data-p="text" aria-label="เพิ่มข้อความ"><svg class="i"><use href="#i-type"/></svg>ข้อความ</button>
+    <button type="button" data-p="text" aria-label="เพิ่มข้อความ" data-tip="เพิ่มข้อความ" data-k="T"><svg class="i"><use href="#i-type"/></svg>ข้อความ</button>
     <button type="button" data-p="img" aria-label="เพิ่มรูปภาพ"><svg class="i"><use href="#i-image"/></svg>รูปภาพ</button>
     <button type="button" data-p="el" aria-label="ไอคอน อีโมจิ ธง แผนที่ ลายพื้น ลูกศร"><svg class="i"><use href="#i-shapes"/></svg><span class="lb-d">ไอคอน</span><span class="lb-m">องค์ประกอบ</span></button>
     <button type="button" id="mnoteb" class="mob" aria-pressed="false" aria-label="แสดงโน้ตผู้บรรยายใต้สไลด์"><svg class="i"><use href="#i-notes"/></svg>โน้ต<i class="dot"></i></button>
@@ -1978,7 +1989,7 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261102c';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261102d';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -3126,7 +3137,7 @@ function phHtml(k) {
   const b = (a, ic, l, tip, dis) => `<button type="button" data-pa="${a}" aria-label="${l}" data-tip="${tip || l}"${dis ? ' disabled' : ''}>${ico(ic)}</button>`;
   return `<span class="pn">หน้า ${k + 1}</span><button type="button" class="pt${m.nm ? '' : ' em'}" data-pa="name" aria-label="ตั้งชื่อหน้า ${k + 1}">${esc(m.nm || 'ใส่ชื่อหน้า')}</button>
     <div class="acts"><button type="button" class="tx" data-pa="alt" aria-label="เปลี่ยนแบบหน้า ${k + 1}" data-tip="เปลี่ยนแบบหน้า">${ico('layout')}<span>เปลี่ยนแบบ</span></button><hr>
-    ${b('up', 'up', 'เลื่อนหน้าขึ้น', '', k <= 0)}${b('down', 'dn', 'เลื่อนหน้าลง', '', k >= n - 1)}${b('lock', lk ? 'unlock' : 'lock', lk ? 'ปลดล็อกทั้งหน้า' : 'ล็อกทั้งหน้า')}${b('dup', 'copy', 'ทำสำเนาหน้านี้', `ทำสำเนาหน้านี้ ${KM}D`)}${b('del', 'trash', 'ลบหน้านี้', '', n < 2)}<hr>
+    ${b('up', 'up', 'เลื่อนหน้าขึ้น', '', k <= 0)}${b('down', 'dn', 'เลื่อนหน้าลง', '', k >= n - 1)}${b('lock', lk ? 'unlock' : 'lock', lk ? 'ปลดล็อกทั้งหน้า' : 'ล็อกทั้งหน้า')}${b('dup', 'copy', 'ทำสำเนาหน้านี้', `ทำสำเนาหน้านี้ (${kk('mod+d')})`)}${b('del', 'trash', 'ลบหน้านี้', '', n < 2)}<hr>
     <button type="button" class="tx" data-pa="add" aria-label="เพิ่มหน้าต่อจากหน้า ${k + 1}" data-tip="เพิ่มหน้า">${ico('plus')}<span>เพิ่มหน้า</span></button></div>`;
 }
 const mnHtml = k => { const t = META[k]?.nt || ''; return `${ico('notes')}<span><b>โน้ตผู้บรรยาย</b><p class="${t ? '' : 'em'}">${esc(t || 'แตะเพื่อเพิ่มโน้ต')}</p></span><svg class="i go" aria-hidden="true"><use href="#i-next"/></svg>`; };
@@ -4212,19 +4223,89 @@ async function undoRedo(d) {
 $('undo').onclick = () => undoRedo(-1); $('redo').onclick = () => undoRedo(1);
 const MAC = /Mac|iPhone|iPad/.test(navigator.platform);
 $('undo').dataset.tip = `เลิกทำ (${MAC ? '⌘' : 'Ctrl+'}Z)`; $('redo').dataset.tip = `ทำซ้ำ (${MAC ? '⌘⇧' : 'Ctrl+Shift+'}Z)`;
+// ══ ใบ 041 คีย์ลัดแบบ Canva/Figma + คำใบ้ตอนชี้เมาส์ + หน้ารวมคีย์ลัด (? หรือ ⌘/) ══
+// ไอซ์ 2 พ.ย. 2569: "เลือก object กดปุ่ม ลบ แล้วมันลบออกให้ ... เน้นใช้คีย์เดียวกับพวก figma หรือ canva เช่นกด t อาจจะเป็นการเพิ่ม text ... ฝากมี hint ui บอก user"
+// kk('mod+shift+l') = ⇧⌘L บน Mac / Ctrl+Shift+L บน Windows (ลำดับปุ่มตาม Apple: ⌃⌥⇧⌘)
+function kk(spec) {
+  const p = spec.split('+'), key = p.pop(), has = m => p.includes(m);
+  const K = {del: 'Delete', bs: MAC ? '⌫' : 'Backspace', up: '↑', down: '↓', arrows: '←↑→↓', enter: 'Enter', esc: 'Esc', tab: 'Tab', plus: '+', minus: '−', slash: '/', pgup: 'PageUp', pgdn: 'PageDown'}[key] || key.toUpperCase();
+  return MAC ? (has('ctrl') ? '⌃' : '') + (has('alt') ? '⌥' : '') + (has('shift') ? '⇧' : '') + (has('mod') ? '⌘' : '') + K
+    : [has('mod') && 'Ctrl', has('alt') && 'Alt', has('shift') && 'Shift', K].filter(Boolean).join('+');
+}
+$('present').dataset.tip = 'นำเสนอ'; $('present').dataset.k = kk('mod+alt+p');
+// คำใบ้: กล่องเดียวลอย ขึ้นหลังชี้ค้าง 400ms เมาส์เท่านั้น (จอสัมผัสไม่มี hover) / คีย์จาก data-k หรือวงเล็บท้าย data-tip เดิม เช่น "ตัวหนา (⌘B)"
+const KTIP = document.createElement('div'); KTIP.className = 'ktip'; KTIP.setAttribute('role', 'tooltip'); KTIP.hidden = true; document.body.append(KTIP);
+const KRE = /\s*\(([^()]*(?:⌘|Ctrl|Esc|Delete|Shift|⇧|Tab|Enter)[^()]*)\)$/;
+let ktT = 0, ktEl = null;
+function ktHide() { clearTimeout(ktT); ktEl = null; KTIP.hidden = true; }
+document.addEventListener('pointerover', ev => {
+  if (ev.pointerType !== 'mouse') return;
+  const el = ev.target.closest?.('[data-tip]'); if (el === ktEl) return; ktHide(); if (!el) return;
+  ktEl = el; ktT = setTimeout(() => ktShow(el), 400);
+});
+['pointerdown', 'keydown', 'wheel'].forEach(t => document.addEventListener(t, ktHide, true)); addEventListener('blur', ktHide);
+function ktShow(el) {
+  if (!el.isConnected || !el.matches(':hover')) return ktHide();
+  let t = el.dataset.tip || '', k = el.dataset.k || ''; const m = !k && t.match(KRE); if (m) { k = m[1]; t = t.slice(0, m.index); }
+  if (!k && el.matches('.phd .tx') && el.innerText.trim()) return;   // ปุ่มที่มีชื่อบนปุ่มอยู่แล้ว ไม่มีคีย์ = ไม่ต้องบอกซ้ำ (เดิม CSS ซ่อนไว้)
+  KTIP.innerHTML = `<span>${esc(t)}</span>${k ? k.split('|').map(x => `<kbd>${esc(x)}</kbd>`).join('') : ''}`; KTIP.hidden = false;
+  const r = el.getBoundingClientRect(), w = KTIP.offsetWidth, h = KTIP.offsetHeight, side = el.closest('.ftb,#rail') && wide();
+  let x = r.left + r.width / 2 - w / 2, y = r.bottom + 6;
+  if (side) { x = r.left - 8 - w; y = r.top + r.height / 2 - h / 2; }
+  else if (y + h > innerHeight - 4 || el.closest('.pcap')) y = r.top - 6 - h;
+  KTIP.style.left = Math.round(Math.max(4, Math.min(x, innerWidth - w - 4))) + 'px'; KTIP.style.top = Math.round(Math.max(4, y)) + 'px';
+}
+// หน้ารวมคีย์ลัด: หน้าต่างแบบเดียวกับบันทึกงาน จัดเป็นหมวด ภาษาไทย
+const KBS = () => [
+  ['ทั่วไป', [['ดูคีย์ลัดทั้งหมด', '?', 'mod+slash'], ['เลิกทำ', 'mod+z'], ['ทำซ้ำ', 'mod+shift+z'], ['นำเสนอ', 'mod+alt+p'], ['ซูมเข้า / ออก / พอดีจอ', 'mod+plus', 'mod+minus', 'mod+0']]],
+  ['เพิ่ม', [['เพิ่มข้อความ', 't'], ['วางชิ้นที่คัดลอกไว้ (หน้าไหนก็ได้)', 'mod+v']]],
+  ['ชิ้นที่เลือก', [['ลบ', 'del', 'bs'], ['คัดลอก', 'mod+c'], ['ตัด', 'mod+x'], ['ทำสำเนา', 'mod+d'], ['ล็อก / ปลดล็อก', 'mod+shift+l'], ['เลือกชิ้นถัดไป / ก่อนหน้า', 'tab', 'shift+tab'],
+    ['ขยับ', 'arrows'], ['ขยับไกล / ละเอียด', 'shift+arrows', 'alt+arrows'], ['แก้คำ', 'enter', '', 'หรือดับเบิลคลิก'], ['เลิกเลือก', 'esc'], ['ยกขึ้น / ส่งลงหนึ่งชั้น', 'mod+]', 'mod+['], ['ยกขึ้นบนสุด / ล่างสุด', 'mod+shift+]', 'mod+shift+[']]],
+  ['ข้อความ', [['ตัวหนา', 'mod+b'], ['ตัวเอียง', 'mod+i'], ['ขีดเส้นใต้', 'mod+u'], ['ตัวใหญ่ขึ้น / เล็กลง', 'mod+shift+.', 'mod+shift+,'], ['เก็บคำ (กล่องยังเลือกอยู่)', 'esc']]],
+  ['หน้า', [['ทำสำเนาหน้า (ตอนไม่ได้เลือกชิ้น)', 'mod+d'], ['หน้าก่อน / ถัดไป', 'up', 'down'], ['ลบหน้า (ในหน้าทั้งหมด)', 'del']]]];
+function kbClose() { $('kbw')?.remove(); document.removeEventListener('keydown', kbKey, true); }
+function kbKey(ev) { if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); kbClose(); } }
+function kbToggle() {
+  if ($('kbw')) return kbClose(); ktHide();
+  const row = ([l, ...ks]) => { const note = ks.length > 2 && !ks[ks.length - 2] ? ks.splice(-2)[1] : ''; return `<div class="r"><span>${l}${note ? ` <small>${note}</small>` : ''}</span>${ks.filter(Boolean).map(x => `<kbd>${esc(x === '?' ? '?' : kk(x))}</kbd>`).join('')}</div>`; };
+  const g = KBS(), col = gs => `<div class="g">${gs.map(([h, rs]) => `<h4>${h}</h4>${rs.map(row).join('')}`).join('')}</div>`;
+  document.body.insertAdjacentHTML('beforeend', `<div class="xdw" id="kbw"><div class="xd kbs" role="dialog" aria-modal="true" aria-labelledby="kbT" tabindex="-1">
+    <div class="hd"><h3 id="kbT">คีย์ลัด</h3><button class="x" type="button" aria-label="ปิด">${ico('x')}</button></div>
+    <div class="bd">${col([g[0], g[1], g[3]])}${col([g[2], g[4]])}</div><p class="ft">ชี้เมาส์ค้างที่ปุ่มเพื่อดูคีย์ลัดของปุ่มนั้น / กด ? อีกครั้งหรือ Esc เพื่อปิด</p></div></div>`);
+  const w = $('kbw'); w.addEventListener('click', ev => { if (ev.target === w || ev.target.closest('.x')) kbClose(); });
+  w.querySelector('.xd').focus({preventScroll: true}); document.addEventListener('keydown', kbKey, true);
+}
+const kbModal = () => $('sheet').classList.contains('on') || !!document.querySelector('.xdw,.chx,.fl-sheet');
+function kbShort(ev, mod, k) {           // คืน true = ใช้คีย์นี้แล้ว (เรียกหลังเช็กว่าไม่ได้พิมพ์อยู่)
+  if (!ev.altKey && (ev.key === '?' || (ev.code === 'Slash' && (mod || ev.shiftKey)))) { ev.preventDefault(); kbToggle(); return true; }
+  if (kbModal() || CROP || busyNow) return false;
+  const del = !mod && !ev.altKey && (ev.key === 'Delete' || ev.key === 'Backspace');
+  if (SEL || CH) {
+    if (del) { ev.preventDefault(); delSel(); return true; }
+    if (SEL && mod && !ev.altKey && !ev.shiftKey && (k === 'c' || k === 'x')) { ev.preventDefault(); copySel(k === 'x'); return true; }
+    if (SEL && mod && !ev.altKey && !ev.shiftKey && k === 'd') { ev.preventDefault(); dupSel(); return true; }
+    if (SEL && mod && ev.shiftKey && !ev.altKey && k === 'l') { ev.preventDefault(); const s_ = selBox(); if (s_?.b.can || s_?.b.lk) setLock(!s_.b.lk); else toast('ชิ้นนี้ล็อกไม่ได้'); return true; }
+  } else if (del && gridOn && cur >= 0) { ev.preventDefault(); if (slides.length < 2) toast('ต้องมีอย่างน้อย 1 หน้า'); else askDel(); return true; }   // หน้าทั้งหมด: ลบหน้าที่เลือก (ถามก่อน)
+  if (mod && !ev.altKey && !ev.shiftKey && k === 'v' && CLIP) { ev.preventDefault(); pasteClip(); return true; }
+  if (!mod && !ev.altKey && !ev.shiftKey && k === 't' && !gridOn) { ev.preventDefault(); addText(2); return true; }
+  if (mod && ev.altKey && !ev.shiftKey && k === 'p') { ev.preventDefault(); act('present'); return true; }
+  if (ev.key === 'Tab' && !mod && !ev.altKey && !gridOn && (SEL || ev.target === document.body || ev.target.closest?.('#pages'))) { ev.preventDefault(); tabSel(ev.shiftKey ? -1 : 1); return true; }
+  return false;
+}
 document.addEventListener('keydown', ev => {
   if (!$('pres').classList.contains('hidden')) return presKey(ev);
   if (ED && ev.key === 'Escape' && !ev.target.closest?.('textarea')) { ev.preventDefault(); ED.keep = true; finishEdit(true); return; }   // Esc เก็บคำ ทุกกล่องรวมช่องตาราง / ใบ 042 กล่องยังเลือกอยู่แบบ Canva
   if ($('pWork').classList.contains('hidden') || !slides.length) return;
   const typing = ev.target.closest?.('textarea,input,[contenteditable]');
   if (typing) return;                     // ในช่องพิมพ์: Ctrl+Z ของเบราว์เซอร์ย้อนตัวอักษรตามปกติ
-  const mod = ev.metaKey || ev.ctrlKey, k = ev.key.toLowerCase();
+  const mod = ev.metaKey || ev.ctrlKey, k = /^[a-z]$/i.test(ev.key) ? ev.key.toLowerCase() : /^Key[A-Z]$/.test(ev.code) ? ev.code.slice(3).toLowerCase() : ev.key.toLowerCase();   // ใบ 041: แป้นไทย (ะ แทน t) / ⌥ บน Mac (π แทน p) ใช้ตำแหน่งปุ่ม
   if (mod && k === 'z') { ev.preventDefault(); undoRedo(ev.shiftKey ? 1 : -1); return; }
   if (ev.ctrlKey && k === 'y') { ev.preventDefault(); undoRedo(1); return; }
+  if (kbShort(ev, mod, k)) return;
   if (CH && ev.key === 'Escape' && !$('sheet').classList.contains('on')) { if (CHX) chxClose(); else chOff(); return; }
   if (SEL && !$('sheet').classList.contains('on')) {          // กล่องเลือกอยู่ ไม่พิมพ์ (ใบ 017): ลูกศรขยับ 6pt / Alt 1pt  Enter พิมพ์  Esc เลิกเลือก
     const ar = {ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1]}[ev.key];
-    if (ar && !mod) { ev.preventDefault(); nudge(ar[0] * nudgeStep(ev.altKey), ar[1] * nudgeStep(ev.altKey)); return; }
+    if (ar && !mod) { ev.preventDefault(); const st = ev.shiftKey ? nudgeStep(false) * 5 : nudgeStep(ev.altKey); nudge(ar[0] * st, ar[1] * st); return; }   // ใบ 041: Shift = ไกล 30pt (Figma big nudge)
     if (ev.key === 'Enter') { const s_ = selBox(); if (s_) { ev.preventDefault(); openEdit(SEL.k, s_.j); } return; }
     if (ev.key === 'Escape') { if (FP) closePicker(); else if (POP) closeTP(); else deselectBox(); return; }
     if (mod && !ev.altKey && ['b', 'i', 'u'].includes(k) && !ev.shiftKey) { ev.preventDefault(); toggleFmt(k); return; }   // ใบ 019 (Ctrl+U ของ Chrome Windows = ดูซอร์ส กันได้ด้วย preventDefault)
@@ -5121,7 +5202,7 @@ const ptOf = t => t.typing ? ED.pt : PZS && PZS.b === t.b ? PZS.pt : t.b.pt;
 const noBold = fam => { const g = (GF || []).find(x => x.name === fam); return !!g && !g.b; };
 const fmOf = t => t.b.fm || {};
 function tbarHtml(t) {
-  if (t.b.lk) return `<span class="lkl">${ico16('lock')}ล็อกอยู่</span><i class="sep"></i><button type="button" data-e="lock">${ico('unlock')}<span>ปลดล็อก</span></button><i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><i class="sep"></i><button type="button" class="ink" data-e="ok" aria-label="เสร็จ เลิกเลือกกล่อง">${ico('check')}<span>เสร็จ</span></button>`;
+  if (t.b.lk) return `<span class="lkl">${ico16('lock')}ล็อกอยู่</span><i class="sep"></i><button type="button" data-e="lock" data-tip="ปลดล็อก" data-k="${kk('mod+shift+l')}">${ico('unlock')}<span>ปลดล็อก</span></button><i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><i class="sep"></i><button type="button" class="ink" data-e="ok" aria-label="เสร็จ เลิกเลือกกล่อง">${ico('check')}<span>เสร็จ</span></button>`;
   const f = fmOf(t), fam = famOf(t), pt = ptOf(t), [lo, hi] = zRange(t.b);
   const tg = (e, ic, tip, on, dis) => `<button type="button" class="ic${on ? ' tog' : ''}" data-e="${e}" aria-pressed="${!!on}" aria-label="${tip}" data-tip="${tip}"${dis ? ' aria-disabled="true"' : ''}>${ico(ic)}</button>`;
   return `<button type="button" class="ef" data-e="font" aria-label="ฟอนต์ ตอนนี้ ${esc(fam)}" data-tip="ฟอนต์"><span style="font-family:'${esc(fam)}'">${esc(fam)}</span>${ico16('caret')}</button><i class="sep"></i>
@@ -5129,7 +5210,8 @@ function tbarHtml(t) {
     <button type="button" class="ic${OPEN === 'col' ? ' on' : ''}" data-e="col" aria-label="สีตัวอักษร" data-tip="สีตัวอักษร" aria-expanded="${OPEN === 'col'}"><svg class="i" style="--c:${f.col || '#15151A'}"><use href="#i-tcolor"/></svg></button>
     ${TBN < 2 ? tg('b', 'bold', `ตัวหนา (${KM}B)`, f.b, noBold(fam)) + tg('i', 'italic', `ตัวเอียง (${KM}I)`, f.i) + tg('u', 'under', `ขีดเส้นใต้ (${KM}U)`, f.u) : ''}
     <button type="button" class="fmb${OPEN === 'fmt' ? ' on' : ''}" data-e="fmt" data-tip="รูปแบบ" aria-expanded="${OPEN === 'fmt'}">${ico('fmt')}<span>รูปแบบ</span>${ico16('caret')}</button>
-    ${`<i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos" aria-expanded="${panelOpen('pos')}" data-tip="ตำแหน่ง จัดเรียง เลเยอร์">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic${t.b.lk ? ' tog' : ''}" data-e="lock" aria-pressed="${!!t.b.lk}" aria-label="${t.b.lk ? 'ปลดล็อก' : 'ล็อก'}" data-tip="${t.b.lk ? 'ปลดล็อก' : 'ล็อก'}">${ico(t.b.lk ? 'lock' : 'unlock')}</button>`}
+    ${`<i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos" aria-expanded="${panelOpen('pos')}" data-tip="ตำแหน่ง จัดเรียง เลเยอร์">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic${t.b.lk ? ' tog' : ''}" data-e="lock" aria-pressed="${!!t.b.lk}" aria-label="${t.b.lk ? 'ปลดล็อก' : 'ล็อก'}" data-tip="${t.b.lk ? 'ปลดล็อก' : 'ล็อก'}" data-k="${kk('mod+shift+l')}">${ico(t.b.lk ? 'lock' : 'unlock')}</button>`}
+    ${touch() ? '' : `<i class="sep"></i><button type="button" class="ic" data-e="dup" aria-label="ทำสำเนา" data-tip="ทำสำเนา" data-k="${kk('mod+d')}">${ico('copy')}</button>${delWhy(t.k, t.b) ? '' : `<button type="button" class="ic" data-e="del" aria-label="ลบ" data-tip="ลบ" data-k="Delete">${ico('trash')}</button>`}`}
     ${t.b.m && TBN < 1 ? `<i class="sep"></i><button type="button" data-e="reset">${ico('undo')}<span>คืนตำแหน่งเดิม</span></button>` : ''}
     <i class="sep"></i><button type="button" class="ink" data-e="ok" aria-label="${t.typing ? 'เสร็จ เก็บคำที่พิมพ์' : 'เสร็จ เลิกเลือกกล่อง'}">${ico('check')}<span>เสร็จ</span></button>`;
 }
@@ -5322,8 +5404,8 @@ function toolClick(ev) {
     if (e === 'del') return dpSet(t.k, t.b.p[1], {del: 1}, `ลบรูป หน้า ${t.k + 1}`, 'ลบรูปแล้ว');
   }
   if (e === 'rep') { IMGREP = {k: t.k, n: t.b.p[1]}; return $('imgin').click(); }   // ใบ 022 แถบรูป
-  if (e === 'dup') return dupAdd(t.k, t.b);
-  if (e === 'del') return dropAdd(t.k, t.b.p[1], false, t.b.pic, t.b.el);
+  if (e === 'dup') return dupSel();      // ใบ 041: ทุกชนิด (ข้อความดีไซน์ = กล่องข้อความใหม่คำเดิม) ทางเดียวกับ ⌘D
+  if (e === 'del') return delSel();      // ใบ 041: ทางเดียวกับปุ่ม Delete
   if (e === 'lay') { POS.tab = 'lay'; return togglePop('pos'); }
   if (['num', 'col', 'fmt', 'pos'].includes(e)) { if (t.typing) return viaSel(() => togglePop(e)); return togglePop(e); }
   if (['b', 'i', 'u'].includes(e)) return toggleFmt(e);
@@ -5704,21 +5786,79 @@ async function addText(v, at) {
   const j = BOX[k].findIndex(b => b.add && !b.pic && b.p[1] === n); if (j < 0) return;
   touch() ? selectBox(k, j) : openEdit(k, j);   // คอม: พิมพ์ทับคำที่เลือกไว้ได้ทันที / จอสัมผัส: iOS ไม่ขึ้นคีย์บอร์ดถ้าไม่ได้มาจากนิ้ว = เลือกกล่องไว้ แตะครั้งเดียวเข้าแก้พร้อมเลือกคำทั้งหมด
 }
-async function dropAdd(k, n, silent, pic, el) {   // ลบชิ้นที่เพิ่ม (ลบคำจนว่างเองก็ลบกล่อง เข้าประวัติ)
+async function dropAdd(k, n, silent, pic, el, verb = 'ลบ') {   // ลบชิ้นที่เพิ่ม (ลบคำจนว่างเองก็ลบกล่อง เข้าประวัติ)
   const oldKeys = KEYS.slice();
   deselectBox(); busyNow = true; await frame();
   try { py.globals.set('IDX', order[k]); py.globals.set('N', n); py.runPython('D.del_obj(ITEMS, IDX, N)'); await paint(); settle(oldKeys, k);
     const nm = el ? ELNM[el] || 'องค์ประกอบ' : pic ? 'รูป' : 'ข้อความ';
-    if (!silent) { commit(`ลบ${nm} หน้า ${k + 1}`); toast(`ลบ${nm}แล้ว`); } }
+    if (!silent) { commit(`${verb}${nm} หน้า ${k + 1}`); toast(`${verb}${nm}แล้ว`); } }
   catch (e) { console.error(e); toast('ลบไม่สำเร็จ ลองใหม่อีกครั้ง'); } finally { busyNow = false; }
 }
-async function dupAdd(k, b) {           // ทำสำเนา: ชิ้นเดิม เลื่อนลงขวา 16
-  if (busyNow) return; const oldKeys = KEYS.slice(); busyNow = true; await frame();
-  try { py.globals.set('IDX', order[k]); py.globals.set('N', b.p[1]);
-    const o = JSON.parse(py.runPython('_d = ITEMS[IDX][1]; _o = dict(_d["add"][N]); _o["r"] = list((_d.get("mv") or {}).get("add.%d" % N + (".t" if "t" in _o else "")) or _o["r"]); json.dumps(_o, ensure_ascii=False)'));
-    o.r = clampR(o.r[0] + 16, o.r[1] + 16, o.r[2], o.r[3]); const n = await addPy(k, o); settle(oldKeys, k); commit(`ทำสำเนา${b.el ? ELNM[b.el] || 'องค์ประกอบ' : b.pic ? 'รูป' : b.ns ? 'รูปทรง' : 'ข้อความ'} หน้า ${k + 1}`);
-    const j = BOX[k].findIndex(x => x.add && x.p[1] === n); if (j >= 0) selectBox(k, j); }
-  catch (e) { console.error(e); toast('ทำสำเนาไม่สำเร็จ ลองใหม่อีกครั้ง'); } finally { busyNow = false; }
+// ══ ใบ 041 ลบ / ทำสำเนา / คัดลอก ตัด วาง (ข้ามหน้าได้): ปุ่มบนแถบกับคีย์ลัดใช้ทางเดียวกัน 1 คำสั่ง = 1 ขั้นเลิกทำ ══
+// ข้อความของดีไซน์: ทำสำเนา/วาง = กล่องข้อความใหม่ คำเดิม ขนาด ฟอนต์ ตัวหนา สี ใกล้เคียงเดิม / ลบ = ลบคำทั้งกล่อง (เหมือนลบคำเองจนว่าง)
+// ponytail: คลิปบอร์ดอยู่ในงานนี้เท่านั้น (ไม่อ่าน/เขียนคลิปบอร์ดของเครื่อง) วางคำจากที่อื่นยังต้องพิมพ์ในกล่อง
+const nmOf = b => b.el ? ELNM[b.el] || 'องค์ประกอบ' : b.pic ? 'รูป' : b.ns ? 'รูปทรง' : 'ข้อความ';
+function delWhy(k, b) {                  // ลบไม่ได้ = เหตุผลที่บอกลูกค้า / '' = ลบได้
+  if (b.lk) return `ชิ้นนี้ล็อกอยู่ ปลดล็อกก่อน (${kk('mod+shift+l')})`;
+  if (b.add || b.dp) return '';
+  if (b.shp) return 'รูปทรงนี้เป็นส่วนของแบบหน้า ลบไม่ได้ เปลี่ยนสีได้';
+  if (['t', 't1'].includes(b.p[0]) && !META[k]?.ins) return 'หัวเรื่องลบไม่ได้ ทุกหน้าต้องมีหัวเรื่อง ดับเบิลคลิกเพื่อแก้คำแทน';
+  if (!b.can) return 'ช่องตารางหรือกราฟลบทีละช่องไม่ได้ ดับเบิลคลิกเพื่อแก้คำแทน';
+  return '';
+}
+function objOf(k, b) {                   // ชิ้นที่เลือก → {o: ชิ้นแบบ d.add, ex: รูปแบบต่อกล่อง usz ffam tfm rot (คีย์ต่อท้าย), nm} / null = ทำซ้ำไม่ได้
+  py.globals.set('IDX', order[k]);
+  if (b.add) { py.globals.set('N', b.p[1]);
+    const [o, ex] = JSON.parse(py.runPython('_d = ITEMS[IDX][1]; _o = dict(_d["add"][N]); _k = "add.%d" % N; _o["r"] = list((_d.get("mv") or {}).get(_k + (".t" if "t" in _o else "")) or _o["r"]); json.dumps([_o, {f: {x[len(_k):]: v for x, v in (_d.get(f) or {}).items() if x == _k or x.startswith(_k + ".")} for f in ("usz", "ffam", "tfm", "rot")}], ensure_ascii=False)'));
+    return {o, ex, nm: nmOf(b)}; }
+  if (b.dp || b.shp) return null;        // รูป/รูปทรงของแบบหน้า ผูกกับดีไซน์
+  py.globals.set('PATH', py.toPy(b.p)); const t = String(py.runPython('str(D._get(ITEMS[IDX][1], list(PATH)) or "")'));
+  if (!t.trim()) return null;
+  const v = b.pt >= 34 ? 0 : b.pt >= 23 ? 1 : 2, f = b.fm || {};
+  const tf = {b: f.b ? 1 : 0, ...(f.i ? {i: 1} : {}), ...(f.u ? {u: 1} : {}), ...(f.col ? {col: f.col} : {}), ...(f.al && f.al !== 'l' ? {al: f.al} : {})};
+  return {o: {t, r: [b.x, b.y, b.w, b.h], v}, ex: {usz: {'.t': Math.round(Math.min(2, Math.max(.05, b.pt / [40, 28, 18][v])) * 1000) / 1000}, ffam: b.ff ? {'.t': b.ff} : {}, tfm: {'.t': tf}, rot: b.rot ? {'.t': b.rot} : {}}, nm: 'ข้อความ'};
+}
+async function placeObj(k, c, dx, verb) {   // วางชิ้นลงหน้า k เลื่อนลงขวา dx แล้วเลือกชิ้นใหม่
+  if (busyNow || viewing || running || !slides.length) return; if (ED && !(await applyEdit())) return;
+  const oldKeys = KEYS.slice(), o = {...c.o, r: clampR(c.o.r[0] + dx, c.o.r[1] + dx, c.o.r[2], c.o.r[3])};
+  deselectBox(); busyNow = true; await frame(); let n;
+  try { py.globals.set('IDX', order[k]); py.globals.set('O', JSON.stringify(o)); py.globals.set('EX', JSON.stringify(c.ex || {}));
+    n = py.runPython('_n = D.add_obj(ITEMS, IDX, json.loads(O)); _m, _d = ITEMS[IDX]; _k = "add.%d" % _n\nfor _f, _v in json.loads(EX).items():\n    if _v: _d = {**_d, _f: {**(_d.get(_f) or {}), **{_k + _s: _x for _s, _x in _v.items()}}}\nITEMS[IDX] = (_m, _d); _n');
+    await paint(); settle(oldKeys, k); commit(`${verb}${c.nm} หน้า ${k + 1}`); if (verb === 'วาง') toast(`วาง${c.nm}ที่หน้า ${k + 1} แล้ว`); }
+  catch (e) { console.error(e); toast(`${verb}ไม่สำเร็จ ลองใหม่อีกครั้ง`); return; } finally { busyNow = false; }
+  if (k !== cur) select(k);
+  const j = BOX[k].findIndex(x => x.add && x.p[1] === n); if (j >= 0) selectBox(k, j);
+}
+const noCopy = b => b.dp ? 'รูปของแบบหน้าทำสำเนาไม่ได้ เพิ่มรูปใหม่ได้ที่แถบรูปภาพ' : b.shp ? 'รูปทรงของแบบหน้าทำสำเนาไม่ได้' : 'กล่องนี้ว่าง ไม่มีอะไรให้ทำสำเนา';
+function dupSel() {
+  const t = tgt(); if (!t || busyNow) return; if (t.typing) return viaSel(dupSel);
+  const c = objOf(t.k, t.b); if (!c) return toast(noCopy(t.b));
+  return placeObj(t.k, c, 16, 'ทำสำเนา');
+}
+async function delSel(verb = 'ลบ') {
+  if (CH && !SEL) return toast('กราฟลบไม่ได้ เปลี่ยนเป็นแบบหน้าอื่นได้ที่ปุ่มเปลี่ยนแบบ');
+  const t = tgt(); if (!t || busyNow || viewing) return; if (t.typing) return viaSel(() => delSel(verb));
+  const {k, b} = t, why = delWhy(k, b); if (why) return toast(why);
+  if (b.add) return dropAdd(k, b.p[1], false, b.pic, b.el, verb);
+  if (b.dp) return dpSet(k, b.p[1], {del: 1}, `${verb}รูป หน้า ${k + 1}`, `${verb}รูปแล้ว`);
+  deselectBox(); py.globals.set('IDX', order[k]); py.globals.set('PATH', py.toPy(b.p));
+  return boxCall(k, 'D.edit_text(ITEMS, CS, WANT, IDX, list(PATH), "", M, force=True)', `${verb}${FIELD(b.p) || 'ข้อความ'} หน้า ${k + 1}`, () => toast(`${verb}ข้อความแล้ว`));
+}
+let CLIP = null;                          // {c, k, n} ชิ้นที่คัดลอกไว้ / k = หน้าที่วางล่าสุด n = วางซ้ำหน้าเดิมกี่ครั้ง (เลื่อนทีละ 16)
+function copySel(cut) {
+  const t = tgt(); if (!t || t.typing || busyNow) return;
+  if (cut) { const why = delWhy(t.k, t.b); if (why) return toast(why); }
+  const c = objOf(t.k, t.b); if (!c) return toast(noCopy(t.b).replace('ทำสำเนา', 'คัดลอก'));
+  CLIP = {c, k: t.k, n: cut ? -1 : 0};
+  if (cut) delSel('ตัด'); else toast(`คัดลอก${c.nm}แล้ว กด ${kk('mod+v')} ที่หน้าไหนก็ได้เพื่อวาง`);
+}
+function pasteClip() {
+  const k = Math.max(0, cur); CLIP.n = k === CLIP.k ? CLIP.n + 1 : 0; CLIP.k = k;   // หน้าอื่น: ตำแหน่งเดิม / หน้าเดิม: เลื่อนต่อกันไม่ทับ
+  return placeObj(k, CLIP.c, CLIP.n * 16, 'วาง');
+}
+function tabSel(d) {                     // Tab เลือกชิ้นถัดไปในหน้า (Shift ย้อน) วนรอบ
+  const k = SEL ? SEL.k : cur, n = (BOX[k] || []).length; if (k < 0 || !n) return;
+  const j0 = SEL ? selBox()?.j ?? -1 : -1; selectBox(k, j0 < 0 ? (d > 0 ? 0 : n - 1) : (j0 + d + n) % n);
 }
 async function pickedImg(file, at, rep) {   // ย่อในเครื่อง ด้านยาว ≤2000px (PNG คงพื้นใส / อื่น ๆ JPG 0.9) แฮช -> IndexedDB + Pyodide FS
   if (busyNow || viewing || running || !slides.length) return; if (ED && !(await applyEdit())) return;
@@ -5750,8 +5890,8 @@ function picBar(t, m) {                  // แถบรูป: เปลี่�
       <div class="mpin"><button class="mdone" type="button" data-e="ok" aria-label="เสร็จ เลิกเลือกรูป">${ico('check')}เสร็จ</button></div>`; }
   if (t.b.lk) return tbarHtml(t);
   const B = (e, ic, l) => `<button type="button" data-e="${e}">${ico(ic)}<span>${l}</span></button>`;
-  return `${B('rep', 'replace', 'เปลี่ยนรูป')}<i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic" data-e="lock" aria-label="ล็อก" data-tip="ล็อก">${ico('lock')}</button><i class="sep"></i>
-    <button type="button" class="ic" data-e="dup" aria-label="ทำสำเนา" data-tip="ทำสำเนา">${ico('copy')}</button><button type="button" class="ic" data-e="del" aria-label="ลบรูป" data-tip="ลบรูป">${ico('trash')}</button>
+  return `${B('rep', 'replace', 'เปลี่ยนรูป')}<i class="sep"></i><button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic" data-e="lock" aria-label="ล็อก" data-tip="ล็อก" data-k="${kk('mod+shift+l')}">${ico('lock')}</button><i class="sep"></i>
+    <button type="button" class="ic" data-e="dup" aria-label="ทำสำเนา" data-tip="ทำสำเนา" data-k="${kk('mod+d')}">${ico('copy')}</button><button type="button" class="ic" data-e="del" aria-label="ลบรูป" data-tip="ลบรูป" data-k="Delete">${ico('trash')}</button>
     <i class="sep"></i><button type="button" class="ink" data-e="ok" aria-label="เสร็จ เลิกเลือกรูป">${ico('check')}<span>เสร็จ</span></button>`;
 }
 // ══ ใบ 027 คลังองค์ประกอบ: ไอคอน อีโมจิ ธง แผนที่ไทย ลายพื้น ลูกศร/ป้าย/กรอบ ค้นหาไทย/อังกฤษ ══════════════════════════
@@ -6063,8 +6203,8 @@ function elBar(t, m) {
   if (b.lk) return tbarHtml(t);
   const B = (e, ic, l, x = '') => `<button type="button" data-e="${e}"${x}>${ic}<span>${l}</span></button>`, on = panelOpen('elc') ? ' class="on"' : '';
   return `${rc ? (map ? `<button type="button" data-e="prov"${on}>${ico('bucket')}<span>ลงสีจังหวัด</span></button>` : `<button type="button" data-e="elc"${on} class="e27-sw${on ? ' on' : ''}"><i style="background:${sw || 'conic-gradient(#D9481F,#F2A33A,#2E9E6B,#2B6CB0,#6B46C1,#D9481F)'}"></i><span>สี</span></button>`) + '<i class="sep"></i>' : ''}
-    <button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic" data-e="lock" aria-label="ล็อก" data-tip="ล็อก">${ico('lock')}</button><i class="sep"></i>
-    <button type="button" class="ic" data-e="dup" aria-label="ทำสำเนา" data-tip="ทำสำเนา">${ico('copy')}</button><button type="button" class="ic" data-e="del" aria-label="ลบ${ELNM[b.el] || ''}" data-tip="ลบ">${ico('trash')}</button>
+    <button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic" data-e="lock" aria-label="ล็อก" data-tip="ล็อก" data-k="${kk('mod+shift+l')}">${ico('lock')}</button><i class="sep"></i>
+    <button type="button" class="ic" data-e="dup" aria-label="ทำสำเนา" data-tip="ทำสำเนา" data-k="${kk('mod+d')}">${ico('copy')}</button><button type="button" class="ic" data-e="del" aria-label="ลบ${ELNM[b.el] || ''}" data-tip="ลบ" data-k="Delete">${ico('trash')}</button>
     <i class="sep"></i><button type="button" class="ink" data-e="ok" aria-label="เสร็จ เลิกเลือก">${ico('check')}<span>เสร็จ</span></button>`;
 }
 // ── แผงสี (ไอคอน ลายพื้น) / ลงสีจังหวัด (แผนที่) ──
@@ -6188,7 +6328,7 @@ function dpBar(t, m) {                   // แถบรูปในดีไซ
   if (b.lk) return tbarHtml(t);
   const B = (e, ic, l, x = '') => `<button type="button" data-e="${e}"${x}>${ico(ic)}<span>${l}</span></button>`;
   return `${B('rep', 'replace', 'เปลี่ยนรูป')}<i class="sep"></i>${B('crop', 'crop', 'ปรับจุดที่เห็น')}${gy ? B('gray', 'palette', b.gray ? 'ขาวดำ' : 'สีจริง', ` aria-pressed="${!!b.gray}" data-tip="สลับสีจริง / ขาวดำ"`) : ''}<i class="sep"></i>
-    <button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic" data-e="lock" aria-label="ล็อก" data-tip="ล็อก">${ico('lock')}</button><button type="button" class="ic" data-e="del" aria-label="ลบรูป" data-tip="ลบรูป">${ico('trash')}</button>
+    <button type="button" class="${panelOpen('pos') ? 'on' : ''}" data-e="pos">${ico('pos')}<span>ตำแหน่ง</span></button><button type="button" class="ic" data-e="lock" aria-label="ล็อก" data-tip="ล็อก" data-k="${kk('mod+shift+l')}">${ico('lock')}</button><button type="button" class="ic" data-e="del" aria-label="ลบรูป" data-tip="ลบรูป" data-k="Delete">${ico('trash')}</button>
     <i class="sep"></i><button type="button" class="ink" data-e="ok" aria-label="เสร็จ เลิกเลือกรูป">${ico('check')}<span>เสร็จ</span></button>`;
 }
 function shpBar(t, m) {                  // แถบรูปทรงสีพื้น: สี (ชิปสีปัจจุบัน) + เสร็จ
