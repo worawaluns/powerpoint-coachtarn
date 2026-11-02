@@ -1561,6 +1561,126 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 @media (max-width:767px), (pointer:coarse) and (max-height:500px){.rp[data-p=el]{height:78dvh}}
 @media (min-width:768px) and (max-width:1023px){.rp[data-p=el],.rp[data-p=elc]{right:56px}}
 @media (prefers-reduced-motion:reduce){.e27-t{transition:none}.e27-lab{animation:none}}
+/* ── ใบ 037 ก่อนสร้าง: คำถามเดียว "ให้ใครดู" > โครงหน้า > หน้าตาที่แนะนำ (ไอซ์ 2 พ.ย. "dont make me think") ── */
+body.onflow>.top{display:none}
+body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป้ายอยู่บน ไม่ทับปุ่มล่าง */
+.flow{min-height:100dvh;background:var(--bg)}
+.fl-top{position:sticky;top:0;z-index:20;height:56px;display:flex;align-items:center;gap:4px;padding:0 8px;background:var(--bg)}
+.fl-top.w{background:#fff;border-bottom:1px solid var(--line)}
+.fl-top b{font-size:16px;font-weight:700}.fl-top .grow{flex:1}
+.fl-top .ib{width:44px;height:44px;border-radius:12px}
+.fl-top .logo2{height:20px;margin:0 6px}
+.fl-lnk{height:44px;padding:0 12px;font-size:15px;font-weight:600;color:var(--mid);border:none;background:none;border-radius:10px}
+.fl-cnt{display:inline-flex;align-items:center;gap:4px;height:44px;padding:0 10px 0 14px;border:none;border-radius:100px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font-size:15px;font-weight:700;line-height:1.6}
+.fl-cnt svg.i{width:18px;height:18px;color:var(--sub)}
+.fl-cnt.off{background:#FFF4E5;box-shadow:none;color:#B54708}
+.fl-dk{display:none}@media (min-width:1024px){.fl-dk{display:inline-flex}.fl-top{height:64px;padding:0 16px}}
+/* คำถาม */
+.fl-q{max-width:1000px;margin:0 auto;padding:8px 16px 32px}
+.fl-q h1{font-size:28px;line-height:1.6;font-weight:700;margin:8px 0 20px}
+.fl-opts{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.fl-oc{background:#fff;border:none;border-radius:16px;padding:6px;box-shadow:0 0 0 1px var(--line);text-align:left;display:flex;flex-direction:column;transition:box-shadow .16s,transform .16s var(--ease);animation:rise .32s var(--ease) both;animation-delay:calc(var(--i)*40ms)}
+.fl-oc{min-width:0}.fl-oc img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:12px;background:var(--line)}
+.fl-oc span{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:700;padding:8px 8px 4px;line-height:1.6}
+.fl-oc.on{box-shadow:0 0 0 3px var(--text)}
+.fl-oc .ck{margin-left:auto;width:24px;height:24px;border-radius:50%;background:var(--text);color:#fff;display:grid;place-items:center;animation:ckPop .24s var(--spring)}
+.fl-oc .ck svg.i{width:16px;height:16px;stroke-width:2.4}
+@media (hover:hover){.fl-oc:hover{box-shadow:0 0 0 1px #D6D6DD,0 8px 24px rgba(21,21,26,.06)}}
+@media (min-width:768px){.fl-opts{grid-template-columns:repeat(3,1fr)}.fl-q{padding:24px 24px 40px}.fl-q h1{font-size:32px}}
+@media (min-width:1024px){.fl-q{padding-top:40px}}
+/* โครงหน้า */
+.fl-lay{display:block}
+.fl-wrap{max-width:680px;margin:0 auto;padding:8px 16px 120px}
+@media (min-width:768px){.fl-wrap{padding:16px 24px 120px}}
+@media (min-width:1024px){.fl-wrap{padding-bottom:48px}}
+.fl-h{font-size:22px;font-weight:700;line-height:1.6;margin:4px 0 12px;overflow-wrap:anywhere}
+.fl-ol{display:flex;flex-direction:column;gap:8px;position:relative}
+.fl-pc{background:#fff;border-radius:16px;box-shadow:0 0 0 1px var(--line);position:relative;transition:transform .2s var(--ease),box-shadow .16s;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;animation:rise .28s var(--ease) both;animation-delay:calc(var(--i)*30ms)}
+.fl-pc.still{animation:none}
+.fl-pr{display:flex;align-items:center;gap:12px;padding:10px 4px 10px 12px;min-height:72px;cursor:pointer}
+.fl-pr .n{width:20px;font-size:13px;font-weight:700;color:var(--sub);text-align:right;flex:none;line-height:1.6}
+.fl-tic{width:40px;height:40px;border-radius:10px;background:var(--soft);color:var(--red);display:grid;place-items:center;flex:none}
+.fl-pr .t{flex:1;min-width:0}
+.fl-pr .t b{display:block;font-size:16px;line-height:1.6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fl-pr .t small{display:block;font-size:14px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.6}
+.fl-pr .grip{display:none;color:#C4C4CC;width:20px;margin-left:-6px;cursor:grab}
+.fl-pr .ib{width:44px;height:44px}
+@media (min-width:1024px){.fl-pr .grip{display:block;visibility:hidden}.fl-pc:hover .grip{visibility:visible}.fl-pc:hover{box-shadow:0 0 0 1px #D6D6DD}.fl-pr .ib{width:36px;height:36px}}
+@media (pointer:coarse){.fl-pr .ib{width:44px;height:44px}}
+.fl-pc.on{box-shadow:0 0 0 2px var(--text)}
+.fl-ex{padding:0 16px 16px 84px;animation:rise .22s var(--ease)}
+.fl-ex q{display:block;quotes:none;font-size:14px;color:var(--mid);background:var(--bg);border-radius:12px;padding:10px 12px;line-height:1.7;white-space:pre-line;overflow-wrap:anywhere}
+.fl-ex p{font-size:13px;color:var(--sub);margin-top:8px;line-height:1.6;display:flex;gap:6px;align-items:flex-start}.fl-ex p svg.i{width:16px;height:16px;margin-top:3px}
+@media (max-width:767px){.fl-ex{padding:0 12px 12px}}
+.fl-pc.lift{z-index:5;box-shadow:0 0 0 2px var(--text),0 18px 40px rgba(21,21,26,.18);transition:box-shadow .16s}
+.fl-pc.lift>.fl-pr{transform:rotate(-1.2deg) scale(1.02);transition:transform .16s var(--ease)}
+.fl-gentle{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;box-shadow:0 0 0 1px var(--line);padding:6px 6px 6px 14px;margin-bottom:12px;font-size:14px;color:var(--mid);line-height:1.6;animation:rise .24s var(--ease)}
+.fl-gentle .dot{width:8px;height:8px;border-radius:50%;background:var(--orange);flex:none}
+.fl-gentle span{flex:1;min-width:0}
+.fl-gentle .btn{height:44px}
+.fl-addp{display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:16px;color:var(--mid);font-weight:600;font-size:15px;margin-top:8px;width:100%;border:none;background:none}
+.fl-addin{display:flex;gap:8px;margin-top:8px}.fl-addin input{flex:1;min-width:0;height:52px;border-radius:14px;border:1px solid var(--line);padding:0 14px;font:inherit;font-size:16px;background:#fff}
+.fl-bar{position:fixed;left:0;right:0;bottom:var(--vb);background:#fff;border-top:1px solid var(--line);padding:12px 16px calc(12px + var(--safe));display:flex;gap:8px;z-index:15}
+.fl-bar .btn{flex:1;height:52px;font-size:16px;border-radius:12px}
+@media (min-width:768px){.fl-bar{justify-content:center}.fl-bar .btn{flex:none;min-width:320px}}
+@media (min-width:1024px){.fl-bar.ol{display:none}}
+.fl-skel{height:72px;border-radius:16px;background:#fff;box-shadow:0 0 0 1px var(--line);position:relative;overflow:hidden}
+.fl-skel::after{content:'';position:absolute;inset:0;width:40%;background:linear-gradient(90deg,transparent,rgba(21,21,26,.04),transparent);animation:sheen 1.4s linear infinite}
+.fl-wait{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--mid);margin:0 0 12px;line-height:1.6}
+.fl-err{background:#fff;border-radius:16px;box-shadow:0 0 0 1px var(--line);padding:16px;font-size:15px;line-height:1.7}.fl-err .btn{margin-top:12px}
+/* แผงเอกสาร (คอม เปิดเมื่อกด) */
+.fl-doc{display:none}
+@media (min-width:1024px){.fl-lay.open{display:grid;grid-template-columns:minmax(0,680px) 400px;gap:24px;justify-content:center;padding:16px 24px}.fl-lay.open .fl-wrap{padding:0;margin:0;max-width:none}
+ .fl-lay.open .fl-doc{display:block;background:#fff;border-radius:20px;box-shadow:0 0 0 1px var(--line);padding:12px 16px 16px;font-size:14px;line-height:1.75;color:var(--mid);position:sticky;top:80px;max-height:calc(100dvh - 96px);overflow:auto;align-self:start;animation:rise .24s var(--ease)}
+ .fl-doc .dh{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--text);margin-bottom:4px;position:sticky;top:-12px;background:#fff;padding:4px 0}
+ .fl-doc p{margin:2px 0;overflow-wrap:anywhere}.fl-doc p.h{font-weight:700;color:var(--text);margin-top:8px}.fl-doc mark{background:#FFE1D3;color:var(--text);border-radius:4px;padding:0 2px}}
+/* แผ่นล่าง / ป๊อปโอเวอร์ / หน้าต่างกลาง */
+.fl-scrim{position:fixed;inset:0;background:rgba(21,21,26,.32);z-index:40;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}}
+@keyframes slideUp{from{transform:translateY(100%)}}
+.fl-sheet{position:fixed;left:0;right:0;bottom:var(--vb);background:#fff;border-radius:20px 20px 0 0;z-index:41;max-height:88dvh;display:flex;flex-direction:column;animation:slideUp .26s var(--ease);padding-bottom:var(--safe)}
+.fl-sheet .grab{width:40px;height:4px;border-radius:4px;background:#D9D9DF;margin:8px auto 4px;flex:none}
+.fl-sheet .sh{display:flex;align-items:center;padding:4px 8px 8px 16px;flex:none}
+.fl-sheet .sh b{flex:1;font-size:17px;line-height:1.6;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fl-sheet .sh .ib{width:44px;height:44px}
+.fl-sheet .sb{overflow:auto;padding:0 8px 16px}
+@media (min-width:768px){.fl-sheet{left:50%;right:auto;width:560px;margin-left:-280px}}
+@media (min-width:1024px){.fl-sheet.pop{position:absolute;bottom:auto;margin:0;width:320px;border-radius:16px;box-shadow:0 16px 48px rgba(21,21,26,.16),0 0 0 1px var(--line);animation:rise .18s var(--ease)}.fl-sheet.pop .grab{display:none}.fl-scrim.pop{background:transparent}
+ .fl-sheet.modal{top:50%;bottom:auto;left:50%;width:960px;max-width:calc(100vw - 48px);margin:0;transform:translate(-50%,-50%);border-radius:20px;animation:fadeIn .2s}.fl-sheet.modal .grab{display:none}}
+.fl-mi{display:flex;align-items:center;gap:14px;height:52px;padding:0 12px;border:none;background:none;border-radius:12px;font-size:16px;width:100%;text-align:left;line-height:1.6}
+.fl-mi:hover{background:var(--bg)}
+.fl-mi.del{color:var(--red)}
+.fl-mi small{margin-left:auto;color:var(--sub);font-size:14px}
+.fl-mi.on{background:var(--bg);font-weight:700}
+@media (min-width:1024px){.fl-mi{height:44px;font-size:15px}}
+.fl-tg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 8px}
+.fl-tt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 4px 10px;border:none;background:#fff;border-radius:14px;box-shadow:inset 0 0 0 1px var(--line);font-size:14px;font-weight:600;position:relative;line-height:1.6}
+.fl-tt .fl-tic{width:44px;height:44px}
+.fl-tt.on{box-shadow:inset 0 0 0 2px var(--text)}
+.fl-tt .rec{position:absolute;top:6px;right:6px;font-style:normal;font-size:11px;font-weight:700;color:var(--ok);background:#E8F5EC;border-radius:100px;padding:0 6px;line-height:1.6}
+/* หน้าตาที่แนะนำ */
+.fl-dw{max-width:1100px;margin:0 auto;padding:8px 16px 200px}
+.fl-dz{display:grid;gap:16px}
+.fl-big{border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px var(--line),0 18px 50px rgba(21,21,26,.08);background:#fff;aspect-ratio:16/9;position:relative}
+.fl-big .slidebox{width:100%;height:100%;overflow:hidden}
+.fl-big .slidebox>div{transform-origin:0 0;width:960px}
+.fl-big .ph{position:absolute;inset:0;background:#fff}.fl-big .ph::after{content:'';position:absolute;inset:0;width:40%;background:linear-gradient(90deg,transparent,rgba(21,21,26,.05),transparent);animation:sheen 1.4s linear infinite}
+.fl-big .in{animation:fadeIn .32s var(--ease)}
+.fl-dn{font-size:22px;font-weight:700;line-height:1.6}
+.fl-why{font-size:15px;color:var(--sub);line-height:1.6}
+.fl-dact{display:flex;flex-direction:column;gap:8px}
+.fl-dact .row{display:flex;gap:8px}.fl-dact .row .btn{flex:1}
+.fl-dact .btn{height:52px;font-size:16px}
+.fl-dbar{position:fixed;left:0;right:0;bottom:var(--vb);background:#fff;border-top:1px solid var(--line);padding:12px 16px calc(12px + var(--safe));z-index:15}
+@media (min-width:768px){.fl-dbar{padding:12px 24px}.fl-dbar .fl-dact{max-width:520px;margin:0 auto}}
+@media (min-width:1024px){.fl-dz{grid-template-columns:minmax(0,1fr) 320px;align-items:center;gap:40px}.fl-dw{padding:32px 32px 48px}.fl-dbar{position:static;background:none;border:none;padding:0;margin-top:16px}.fl-dbar .fl-dact{margin:0}}
+.fl-dg{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 8px}
+.fl-dc{border:none;border-radius:12px;box-shadow:0 0 0 1px var(--line);overflow:hidden;text-align:left;background:#fff;padding:0}
+.fl-dc img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--line)}
+.fl-dc span{display:block;font-size:14px;font-weight:600;padding:6px 10px 8px;line-height:1.6}
+.fl-dc.on{box-shadow:0 0 0 2px var(--text)}
+@media (min-width:768px){.fl-dg{grid-template-columns:repeat(3,1fr)}}@media (min-width:1024px){.fl-dg{grid-template-columns:repeat(4,1fr)}}
+@media (prefers-reduced-motion:reduce){.flow *,.fl-sheet,.fl-scrim{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -1679,6 +1799,8 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <symbol id="i-shapes" viewBox="0 0 24 24"><path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/></symbol>
   <symbol id="i-rowadd" viewBox="0 0 24 24"><path d="M3 5h18"/><path d="M3 12h10"/><path d="M3 19h10"/><path d="M18 14v6"/><path d="M15 17h6"/></symbol>
   <symbol id="i-coladd" viewBox="0 0 24 24"><path d="M5 3v18"/><path d="M12 3v10"/><path d="M19 3v4"/><path d="M19 12v6"/><path d="M16 15h6"/></symbol>
+  <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/></symbol>
+  <symbol id="i-merge" viewBox="0 0 24 24"><path d="m8 6 4-4 4 4"/><path d="M12 2v10.3a4 4 0 0 1-1.172 2.872L4 22"/><path d="m20 22-5-5"/></symbol>
   <symbol id="i-popen" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="m14 9 3 3-3 3"/></symbol>
 </svg>
 
@@ -1750,6 +1872,9 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
   <p class="priv"><svg class="i"><use href="#i-lock"/></svg>เนื้อหาไม่ถูกส่งออกจากเครื่องคุณ ระบบทำงานในเบราว์เซอร์ทั้งหมด</p>
   <p class="freeline"><svg class="i"><use href="#i-slides"/></svg>ลองทำและดูสไลด์ได้ฟรีทุกหน้า โหลดไฟล์ PowerPoint ได้เมื่อมี Code จากคลัง Coach Tarn</p>
 </main>
+
+<!-- ใบ 037 ก่อนสร้าง: ให้ใครดู > โครงหน้า > หน้าตาที่แนะนำ (วาดด้วย JS ใน #flowv) -->
+<main class="flow hidden" id="pFlow"><div id="flowv"></div></main>
 
 <!-- หน้าทำงาน: ตัวแก้สไลด์ -->
 <main class="work hidden" id="pWork">
@@ -1830,7 +1955,7 @@ svg.i.i16{width:16px;height:16px;stroke-width:2.5}
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261101m';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261102a';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -1899,7 +2024,7 @@ function morph(fn) {                    // กดส่งจากหน้า�
   morphing = Promise.race([t.finished.catch(() => {}), sleep(600)]).then(() => document.querySelectorAll('#inner .bubble').forEach(b => b.style.viewTransitionName = ''));
 }
 function show(p, push = true) {
-  const w = p === 'pWork'; document.documentElement.classList.remove('bw', 'bl');
+  const w = p === 'pWork'; document.documentElement.classList.remove('bw', 'bl'); if (typeof flowHide === 'function') flowHide();
   $('pHome').classList.toggle('hidden', w); $('pWork').classList.toggle('hidden', !w); $('pList').classList.add('hidden'); document.body.classList.remove('onlist');
   $('topback').classList.toggle('hidden', !w); $('tsep').classList.toggle('hidden', !w);
   $('toptag').classList.toggle('hidden', w);
@@ -1912,6 +2037,7 @@ function show(p, push = true) {
 }
 window.addEventListener('popstate', () => {
   if (!$('pres').classList.contains('hidden')) return closePres(true);   // ย้อนกลับตอนนำเสนอ = ออกจากนำเสนอ ไม่ออกจากหน้า
+  if (FL.src) { if (history.state?.p === 'flow') return flowStep(history.state.s); return flowExit(); }   // ใบ 037 ย้อนทีละขั้น ไม่ทิ้งของ
   goHome();
 });
 // งานเก็บในเครื่องอัตโนมัติ ถามก่อนปิดเฉพาะตอนเครื่องนี้เก็บไม่ได้
@@ -1919,7 +2045,7 @@ window.addEventListener('beforeunload', e => { if (slides.length && saveSt === '
 // stay = ค้างจนงานเสร็จ / undo = มีปุ่ม "เลิกทำ" ในป้าย (ใบ 018: ทำสำเนา ลบ ย้ายหน้า)
 function toast(m, stay, undo) {
   const t = $('toast'); t.textContent = m; t.classList.toggle('u', !!undo); clearTimeout(t._h);
-  if (undo) { const b = document.createElement('button'); b.type = 'button'; b.textContent = 'เลิกทำ'; b.onclick = () => { t.classList.remove('on'); undoRedo(-1); }; t.appendChild(b); }
+  if (undo) { const b = document.createElement('button'); b.type = 'button'; b.textContent = 'เลิกทำ'; b.onclick = () => { t.classList.remove('on'); typeof undo === 'function' ? undo() : undoRedo(-1); }; t.appendChild(b); }
   t.classList.add('on'); if (!stay) t._h = setTimeout(() => t.classList.remove('on'), undo ? 4500 : 2600);
 }
 function pyErr(e, fallback) {          // ข้อความของเราเป็นไทย error ที่ไม่ได้ดัก (อังกฤษ) ไม่โชว์ให้ลูกค้า
@@ -2046,7 +2172,7 @@ $('send').onclick = async () => {
     if (t.split('\n').filter(x => x.trim()).length < 2 && t.length < 120)   // ย่อหน้ายาวย่อหน้าเดียว ตัวจัดแบ่งเป็นข้อเอง
       return homeErr('ขอเนื้อหาอีกนิด พิมพ์หัวข้อบรรทัดแรก แล้วตามด้วยหัวข้อย่อยหรือรายละเอียดทีละบรรทัด'); }
   b.classList.add('go'); if (!calm.matches) await sleep(140);   // ลูกศรพุ่งขึ้นก่อนจอเปลี่ยน
-  pending ? startFile(pending) : startText(t);
+  startFlow(pending ? {file: pending} : {text: t});   // ใบ 037: คำถามเดียว > โครงหน้า > หน้าตาที่แนะนำ ก่อนสร้าง (#demo และกล่องพิมพ์ในหน้าแก้ ใช้ทางตรงเดิม)
 };
 $('send2').onclick = () => { const t = ta2.value.trim(); if (!t || running) return;
   if (t.split('\n').filter(x => x.trim()).length < 2 && t.length < 120) { botMsg('ขอเนื้อหาอีกนิดครับ พิมพ์หัวข้อบรรทัดแรก แล้วตามด้วยรายละเอียดทีละบรรทัด'); return; }
@@ -2105,11 +2231,12 @@ async function run(src) {
     await boot(); onBoot.delete(paint); await morphing; if (my !== gen) return;   // รอฟองแชทลงที่ก่อน Python บล็อกจอ
     paint(4); await frame();
     let path, name;
-    if (src.text) { path = '/tmp/in.txt'; name = 'ข้อความ.txt'; py.FS.writeFile(path, src.text); }
+    if (src.ol) { py.globals.set('OLJ', JSON.stringify(src.ol)); py.runPython('_ol = json.loads(OLJ); WANT = D.ol_want(_ol); TTL = _ol["title"]'); }   // ใบ 037 โครงหน้าที่ลูกค้าดูแล้ว = สัญญากับตัวสร้าง
+    else if (src.text) { path = '/tmp/in.txt'; name = 'ข้อความ.txt'; py.FS.writeFile(path, src.text); }
     else { const ext = src.file.name.split('.').pop().toLowerCase(); path = '/tmp/in.' + ext; name = src.file.name;
       py.FS.writeFile(path, new Uint8Array(await src.file.arrayBuffer())); }
-    py.globals.set('SRC', path); py.globals.set('NAME', name);
-    const f = JSON.parse(py.runPython('TTL, WANT = D.analyze(SRC, NAME); json.dumps(D.findings(WANT), ensure_ascii=False)'));
+    if (!src.ol) { py.globals.set('SRC', path); py.globals.set('NAME', name); py.runPython('TTL, WANT = D.analyze(SRC, NAME)'); olN = 0; }
+    const f = JSON.parse(py.runPython('json.dumps(D.findings(WANT), ensure_ascii=False)'));
     if (f.outline.length < 2) throw new Error('ไม่พบเนื้อหาที่จัดเป็นสไลด์ได้ ถ้าเป็น PDF ที่สแกนจากกระดาษ ระบบอ่านไม่ได้ ลองคัดลอกเนื้อหามาวางแทน');
     ttl = py.globals.get('TTL'); setTtl(ttl); retrig($('topttl'), 'in');
     $('skelg').innerHTML = f.outline.map((o, i) => `<div class="ph" style="--i:${i}"><b>${i + 1}</b></div>`).join('');
@@ -2203,6 +2330,317 @@ json.dumps(_st)`));
   }
   running = false; refresh();
 }
+// ── ใบ 037 ก่อนสร้าง: คำถามเดียว "ให้ใครดู" > โครงหน้า (แก้ได้) > หน้าตาที่แนะนำ (ปกของลูกค้าเอง) > สร้าง ──
+// ไอซ์ 2 พ.ย. 2569: ตัดคำถาม "ใช้ทำอะไร" ค่าเริ่ม = ประกอบการพูด / รูปการ์ดคนไทย (Pexels เครดิต img/aud/CREDITS.txt) / หน้าแนะนำโชว์ปกของลูกค้าในดีไซน์นั้น
+// โครงหน้า (JSON v1 ของ doc2slide.outline_of) เป็นข้อมูลกลาง: หน้าจอแก้ผ่านฟังก์ชัน D.ol_* (คำครบ) ตัวสร้างอ่านด้วย D.ol_want  ไม่มี AI
+const AUD = [['boss', 'หัวหน้า'], ['client', 'ลูกค้า'], ['team', 'ทีม'], ['student', 'นักเรียน'], ['committee', 'คณะกรรมการ'], ['general', 'คนทั่วไป']];
+const OLT = {cover: ['ปก', 'slides'], list: ['รายการ', 'list'], numbers: ['ตัวเลข', 'hash'], chart: ['กราฟ', 'chart'], table: ['ตาราง', 'table'], quote: ['ข้อความเด่น', 'type'],
+  timeline: ['ไทม์ไลน์', 'cal'], compare: ['เปรียบเทียบ', 'chlay'], section: ['คั่นบท', 'flag']};
+const FL = {src: null, ol: null, ol0: null, hist: [], aud: null, sel: -1, doc: false, edited: false, fitTried: false, rank: [], ri: 0, by: 'suggest', slug: null, cv: new Map(), cvTok: 0, ready: null, err: '', adding: false};
+const flDesk = () => matchMedia('(min-width:1024px)').matches;
+const flv = () => $('flowv');
+function flowShow() {
+  $('pHome').classList.add('hidden'); $('pWork').classList.add('hidden'); $('pList').classList.add('hidden'); document.body.classList.remove('onlist');
+  $('pFlow').classList.remove('hidden'); document.body.classList.add('onflow'); document.documentElement.classList.remove('bw', 'bl');
+}
+function flowHide() { $('pFlow').classList.add('hidden'); document.body.classList.remove('onflow'); flClose(); }
+function flowExit() { FL.src = null; gen++; flowHide(); showCreate(false); }   // ย้อนจากคำถาม: กลับหน้าแรก ข้อความ/ไฟล์ที่วางยังอยู่
+function startFlow(src) {
+  Object.assign(FL, {src, ol: null, ol0: null, hist: [], aud: null, sel: -1, doc: false, edited: false, fitTried: false, rank: [], ri: 0, by: 'suggest', slug: null, err: '', adding: false});
+  FL.cv.clear(); $('send').classList.remove('go'); warm();
+  const my = ++gen;
+  FL.ready = (async () => {                      // อ่านเอกสารอยู่เบื้องหลังระหว่างลูกค้าตอบคำถาม
+    await boot(); await setsReady; await sleep(60); await frame(); if (my !== gen) return;
+    let path, name, kind = 'text';
+    if (src.text) { path = '/tmp/in.txt'; name = 'ข้อความที่คุณวาง'; py.FS.writeFile(path, src.text); }
+    else { const ext = src.file.name.split('.').pop().toLowerCase(); path = '/tmp/in.' + ext; name = src.file.name; kind = ext; py.FS.writeFile(path, new Uint8Array(await src.file.arrayBuffer())); }
+    py.globals.set('SRC', path); py.globals.set('NAME', name); py.globals.set('KIND', kind);
+    const ol = JSON.parse(py.runPython('TTL, WANT = D.analyze(SRC, NAME); json.dumps(D.outline_of(WANT, TTL, NAME, KIND), ensure_ascii=False)'));
+    if (ol.pages.length < 2) throw new Error('ไม่พบเนื้อหาที่จัดเป็นสไลด์ได้ ถ้าเป็น PDF ที่สแกนจากกระดาษ ระบบอ่านไม่ได้ ลองคัดลอกเนื้อหามาวางแทน');
+    if (my !== gen) return;
+    FL.ol = ol; FL.ol0 = JSON.stringify(ol);
+  })().catch(e => { console.warn(e); FL.err = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน'); });
+  flowShow(); history.pushState({p: 'flow', s: 'q'}, ''); flowStep('q');
+}
+function flowStep(s) {
+  flClose(); window.scrollTo(0, 0); $('toast').classList.remove('on'); document.body.classList.toggle('fldes', s === 'design');
+  if (s === 'q') flQ(); else if (s === 'outline') flOutline(); else if (s === 'design') flDesign();
+}
+const flGo = s => { history.pushState({p: 'flow', s}, ''); flowStep(s); };
+const flBack = () => history.back();
+// ── คำถามเดียว: แตะการ์ด = ไปต่อทันที ──
+function flQ() {
+  document.title = 'ให้ใครดู - Slide Studio';
+  flv().innerHTML = `<header class="fl-top"><button class="ib" type="button" data-fl="back" aria-label="ย้อนกลับ">${ico('back')}</button>${flDesk() ? '<img class="logo2" src="img/slide-studio.svg" alt="Slide Studio" width="149" height="20">' : ''}<span class="grow"></span><button class="fl-lnk" type="button" data-fl="skip">ข้าม</button></header>
+    <main class="fl-q"><h1>ให้ใครดู</h1><div class="fl-opts">${AUD.map(([k, t], i) => `<button class="fl-oc${FL.aud === k ? ' on' : ''}" type="button" data-aud="${k}" style="--i:${i}"><img src="img/aud/${k}.jpg?v=${V}" alt="" width="560" height="420"><span>${t}${FL.aud === k ? `<i class="ck">${ico('check')}</i>` : ''}</span></button>`).join('')}</div></main>`;
+  flv().onclick = ev => {
+    const b = ev.target.closest('[data-fl],[data-aud]'); if (!b) return;
+    if (b.dataset.fl === 'back') return flBack();
+    if (b.dataset.fl === 'skip') { FL.aud = null; return flGo('outline'); }
+    FL.aud = b.dataset.aud; flv().querySelectorAll('.fl-oc').forEach(x => { x.classList.toggle('on', x === b); x.querySelector('.ck')?.remove(); });
+    b.querySelector('span').insertAdjacentHTML('beforeend', `<i class="ck">${ico('check')}</i>`); navigator.vibrate?.(8);
+    setTimeout(() => { if (history.state?.s === 'q' && FL.src) flGo('outline'); }, calm.matches ? 0 : 200);
+  };
+}
+// ── โครงหน้า ──
+function olPy(expr) {                            // เรียกฟังก์ชันโครงหน้าใน Python (JSON เข้า-ออก ไม่ส่ง null ข้าม Pyodide)
+  py.globals.set('OLJ', JSON.stringify(FL.ol));
+  const r = py.runPython(`_r = ${expr}\njson.dumps(_r, ensure_ascii=False)`); return JSON.parse(r);
+}
+function olDo(expr, msg) {                       // การแก้ทุกอย่างในโครงหน้ามีเลิกทำ
+  const before = JSON.stringify(FL.ol), r = olPy(expr);
+  if (!r) { toast('หน้านี้ทำแบบนั้นไม่ได้แล้ว'); return false; }
+  FL.hist.push(before); FL.ol = r; FL.edited = true; flList(true);
+  toast(msg, false, () => { if (!FL.hist.length) return; FL.ol = JSON.parse(FL.hist.pop()); flList(true); });
+  return true;
+}
+function flOutline() {
+  document.title = 'โครงหน้า - Slide Studio';
+  const dk = flDesk();
+  flv().innerHTML = `<header class="fl-top w"><button class="ib" type="button" data-fl="back" aria-label="ย้อนกลับ">${ico('back')}</button>${dk ? '<img class="logo2" src="img/slide-studio.svg" alt="Slide Studio" width="149" height="20">' : '<b>โครงหน้า</b>'}<span class="grow"></span>
+      <button class="btn btn-line fl-dk" type="button" data-fl="doc" style="height:44px">${ico('file')}เอกสาร</button>
+      <button class="fl-cnt" type="button" data-fl="cnt" id="flcnt"></button>
+      <button class="btn btn-red fl-dk" type="button" data-fl="next" style="height:44px;padding:0 20px">ถัดไป${ico('next')}</button></header>
+    <div class="fl-lay${FL.doc && dk ? ' open' : ''}" id="fllay"><main class="fl-wrap"><h2 class="fl-h" id="flh"></h2><div id="flg"></div><div class="fl-ol" id="flol"></div>
+      <div id="fladd"></div></main><aside class="fl-doc" id="fldoc"></aside></div>
+    <div class="fl-bar ol"><button class="btn btn-red" type="button" data-fl="next">ถัดไป${ico('next')}</button></div>`;
+  flv().onclick = flOutClick; flDrag($('flol'));
+  if (FL.ol) return flList();
+  if (FL.err) return flFail();
+  let shown = false; const t = setTimeout(() => { shown = true; if (!FL.ol && $('flol')) { $('flh').textContent = ''; $('flg').innerHTML = `<p class="fl-wait"><span class="spin"></span><span class="shimmer">${bootStep >= 4 ? 'กำลังอ่านเนื้อหา' : 'กำลังเตรียมเครื่องมือ (ครั้งแรกที่เปิดหน้านี้)'}</span></p>`;
+    $('flol').innerHTML = Array.from({length: 5}, () => '<div class="fl-skel"></div>').join(''); $('flcnt').innerHTML = `${ico('slides')}`; } }, 300);   // โครงเปล่าเฉพาะรอเกิน 300ms
+  FL.ready.then(() => { clearTimeout(t); if (history.state?.s !== 'outline' || !FL.src) return; FL.err ? flFail() : flList(); });
+}
+function flFail() {
+  $('flol').innerHTML = `<div class="fl-err">${esc(FL.err)}${FL.err === NET ? `<br><button class="btn btn-line" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : `<br><button class="btn btn-line" type="button" data-fl="exit">${ico('back')}กลับไปแก้เนื้อหา</button>`}</div>`;
+  $('flg').innerHTML = ''; $('flcnt').classList.add('hidden');
+}
+const olLine = p => { const its = ['chart', 'table'].includes(p.type) || !p.title.text ? p.items.slice(1) : p.items; const n = its.length;   // ไม่มีหัวข้อ: ข้อแรกเป็นชื่อการ์ดแล้ว บรรทัดรองเริ่มข้อที่สอง
+  if (p.type === 'cover') return its[0]?.text || '';
+  return n ? its[0].text + (n > 1 ? ` และอีก ${n - 1} ${['chart', 'table'].includes(p.type) ? 'รายการ' : 'ข้อ'}` : '') : ''; };
+const olTitle = p => p.title.text || p.items[0]?.text || '';
+function flGentle() {                            // เตือนได้ทีละเรื่อง แถบบาง + ปุ่มเดียว
+  const ol = FL.ol, n = ol.pages.length, tg = ol.brief.pages;
+  if (tg !== 'auto' && +tg !== n) {
+    if (FL.fitTried) return {t: `ตั้งไว้ ${tg} หน้า เนื้อหามีพอ ${n} หน้า`, b: `ใช้ ${n} หน้า`, i: 'check', a: 'auto'};
+    return n > tg ? {t: `ตั้งไว้ ${tg} หน้า มีเนื้อหา ${n} หน้า`, b: 'รวมให้', i: 'merge', a: 'fit'} : {t: `ตั้งไว้ ${tg} หน้า มีเนื้อหา ${n} หน้า`, b: 'แยกให้', i: 'scissors', a: 'fit'};
+  }
+  const k2 = ol.pages.findIndex(p => p.hints.includes('two_topics'));
+  if (k2 >= 0) return {t: `หน้า ${k2 + 1} มี 2 เรื่อง`, b: 'แยกให้', i: 'scissors', a: 'split:' + k2};
+  const k3 = ol.pages.findIndex(p => p.hints.includes('continues_prev'));
+  if (k3 > 0) return {t: `หน้า ${k3 + 1} ต่อจากหน้าก่อน`, b: 'รวมให้', i: 'merge', a: 'merge:' + (k3 - 1)};
+  return null;
+}
+function flList(still) {
+  if (!$('flol') || !FL.ol) return;
+  const ol = FL.ol, n = ol.pages.length, off = ol.brief.pages !== 'auto' && +ol.brief.pages !== n;
+  if (FL.aud && !ol.brief.audience) ol.brief.audience = FL.aud;
+  $('flh').textContent = ol.title; $('flcnt').classList.remove('hidden');
+  $('flcnt').className = 'fl-cnt' + (off ? ' off' : ''); $('flcnt').innerHTML = `${n} หน้า${ico('caret')}`;
+  const g = flGentle();
+  $('flg').innerHTML = g ? `<div class="fl-gentle"><i class="dot"></i><span>${esc(g.t)}</span><button class="btn btn-line btn-sm" type="button" data-g="${g.a}">${ico(g.i)}${esc(g.b)}</button></div>` : '';
+  const talk = ol.brief.use === 'talk';
+  $('flol').innerHTML = ol.pages.map((p, k) => `<div class="fl-pc${FL.sel === k ? ' on' : ''}${still ? ' still' : ''}" data-i="${k}" style="--i:${k}"><div class="fl-pr"><span class="grip">${ico('grip')}</span><span class="n">${k + 1}</span><span class="fl-tic">${ico(OLT[p.type]?.[1] || 'list')}</span>
+      <span class="t"><b>${esc(olTitle(p))}</b>${olLine(p) && k ? `<small>${esc(olLine(p))}</small>` : ''}</span><button class="ib" type="button" data-m="${k}" aria-label="ตัวเลือกหน้า ${k + 1}">${ico('more')}</button></div>
+      ${FL.sel === k ? `<div class="fl-ex"><q>${esc((p.items.length ? p.items.map(x => x.text) : [p.title.text]).join('\n'))}</q>${talk && p.items.some(x => x.to === 'notes') ? `<p>${ico('notes')}ประโยคยาวย่อบนสไลด์ ข้อความเต็มอยู่ในโน้ตผู้บรรยาย</p>` : ''}${p.by === 'user' && p.title.src === 'user' ? `<p>${ico('pen')}หน้าที่คุณเพิ่มเอง</p>` : ''}</div>` : ''}</div>`).join('');
+  $('fladd').innerHTML = FL.adding ? `<div class="fl-addin"><input id="fladdt" type="text" placeholder="พิมพ์หัวข้อหน้าใหม่" maxlength="120" enterkeyhint="done"><button class="btn btn-red" type="button" data-fl="addok" style="height:52px">${ico('plus')}เพิ่ม</button></div>`
+    : `<button class="fl-addp" type="button" data-fl="add">${ico('plus')}เพิ่มหน้า</button>`;
+  if (FL.adding) { const i = $('fladdt'); i.focus(); i.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); flvClickAct('addok'); } else if (e.key === 'Escape') { FL.adding = false; flList(true); } }; }
+  flDoc();
+}
+function flDoc() {                               // แผงเอกสาร (คอม): ไฮไลต์คำของหน้าที่เลือก (อ้างกลับด้วย ref)
+  const box = $('fldoc'); if (!box || !FL.ol) return;
+  $('fllay').classList.toggle('open', FL.doc && flDesk());
+  if (!FL.doc || !flDesk()) { box.innerHTML = ''; return; }
+  const p = FL.ol.pages[FL.sel], hl = new Map();
+  if (p) for (const x of [p.title, ...p.items]) for (const r of x.ref || []) { const a = hl.get(r.b) || []; a.push(r.span || null); hl.set(r.b, a); }
+  const mk = b => { const sp = hl.get(b.id); if (!sp) return esc(b.text); if (sp.includes(null)) return `<mark>${esc(b.text)}</mark>`;
+    let out = '', at = 0; for (const [a, z] of sp.filter(Boolean).sort((x, y) => x[0] - y[0])) { if (a < at) continue; out += esc(b.text.slice(at, a)) + `<mark>${esc(b.text.slice(a, z))}</mark>`; at = z; } return out + esc(b.text.slice(at)); };
+  box.innerHTML = `<div class="dh">${ico('file')}เอกสารของคุณ<span style="flex:1"></span><button class="ib" type="button" data-fl="doc" aria-label="ปิดแผงเอกสาร">${ico('x')}</button></div>
+    ${FL.ol.doc.blocks.map(b => `<p class="${b.kind === 'heading' ? 'h' : ''}" data-b="${b.id}">${b.kind === 'bullet' ? '- ' : ''}${mk(b)}</p>`).join('')}`;
+  box.querySelector('mark')?.scrollIntoView({block: 'nearest', behavior: SMOOTH()});
+}
+let flNoClick = false;
+function flOutClick(ev) {
+  if (flNoClick) { flNoClick = false; return; }
+  const g = ev.target.closest('[data-g]'); if (g) return flGentleAct(g.dataset.g);
+  const m = ev.target.closest('[data-m]'); if (m) return flMenu(+m.dataset.m, m);
+  const b = ev.target.closest('[data-fl]'); if (b) return flvClickAct(b.dataset.fl, b);
+  const pc = ev.target.closest('.fl-pc'); if (pc) { const k = +pc.dataset.i; FL.sel = FL.sel === k ? -1 : k; flList(true); }
+}
+function flvClickAct(a, b) {
+  if (a === 'back') return flBack();
+  if (a === 'exit') return flBack();
+  if (a === 'next') { if (!FL.ol) return toast('กำลังอ่านเนื้อหา อีกสักครู่'); return flGo('design'); }
+  if (a === 'doc') { FL.doc = !FL.doc; return flDoc(); }
+  if (a === 'cnt') return FL.ol && flCount(b);
+  if (a === 'add') { FL.adding = true; return flList(true); }
+  if (a === 'addok') { const t = ($('fladdt')?.value || '').trim(); FL.adding = false; if (!t) return flList(true);
+    if (olDo(`D.ol_add(json.loads(OLJ), ${JSON.stringify(t)})`, 'เพิ่มหน้าแล้ว')) requestAnimationFrame(() => $('flol').lastElementChild?.scrollIntoView({block: 'nearest', behavior: SMOOTH()})); }
+}
+function flGentleAct(a) {
+  if (a === 'auto') { FL.ol.brief.pages = 'auto'; FL.fitTried = false; return flList(true); }
+  if (a === 'fit') { const n = +FL.ol.brief.pages; olDo(`D.ol_fit(json.loads(OLJ), ${n})`, `จัดเป็น ${n} หน้า`); FL.fitTried = true; return flList(true); }
+  const [op, k] = a.split(':');
+  olDo(op === 'split' ? `D.ol_split(json.loads(OLJ), ${+k})` : `D.ol_merge(json.loads(OLJ), ${+k})`, op === 'split' ? `แยกหน้า ${+k + 1} แล้ว` : `รวมหน้า ${+k + 1} กับ ${+k + 2} แล้ว`);
+}
+// แผ่นล่าง (มือถือ/แท็บเล็ต) = ป๊อปโอเวอร์ใต้ปุ่ม (คอม) / modal = หน้าต่างกลาง
+function flClose() { document.querySelectorAll('.fl-scrim,.fl-sheet').forEach(x => x.remove()); document.removeEventListener('keydown', flEsc); }
+function flEsc(e) { if (e.key === 'Escape') flClose(); }
+function flSheet(title, body, o = {}) {
+  flClose(); const dk = flDesk(), pop = dk && o.anchor && !o.modal;
+  document.body.insertAdjacentHTML('beforeend', `<div class="fl-scrim${pop ? ' pop' : ''}"></div><div class="fl-sheet${pop ? ' pop' : dk && o.modal ? ' modal' : ''}" role="dialog" aria-label="${esc(title)}"><div class="grab"></div>
+    <div class="sh"><b>${esc(title)}</b><button class="ib" type="button" data-x aria-label="ปิด">${ico('x')}</button></div><div class="sb">${body}</div></div>`);
+  const sh = document.querySelector('.fl-sheet'); document.querySelector('.fl-scrim').onclick = flClose; sh.querySelector('[data-x]').onclick = flClose;
+  if (pop) { const r = o.anchor.getBoundingClientRect(); sh.style.left = Math.max(16, Math.min(r.right - 320, innerWidth - 336)) + 'px'; sh.style.top = (r.bottom + scrollY + 8) + 'px'; sh.style.maxHeight = Math.max(240, innerHeight - r.bottom - 24) + 'px'; }
+  document.addEventListener('keydown', flEsc); return sh;
+}
+function flMenu(k, anchor) {
+  const p = FL.ol.pages[k], can = olPy(`D.ol_open(json.loads(OLJ), ${k})`), cov = p.w.kind === 'cover' && k === 0, last = k === FL.ol.pages.length - 1;
+  const rows = [['chlay', 'เปลี่ยนชนิด', 'type', OLT[p.type]?.[0]], can.split && ['scissors', 'แยกหน้า', 'split'], !cov && !last && FL.ol.pages[k + 1].w.kind !== 'cover' && ['merge', 'รวมกับหน้าถัดไป', 'merge'],
+    ['copy', 'ทำสำเนา', 'dup'], !cov && ['trash', 'ลบ', 'del']].filter(Boolean);   // ไม่มีปุ่มที่กดไม่ได้: ทำไม่ได้ = ไม่โชว์
+  const sh = flSheet(`หน้า ${k + 1} ${olTitle(p)}`, rows.map(([i, t, a, s]) => `<button class="fl-mi${a === 'del' ? ' del' : ''}" type="button" data-a="${a}">${ico(i)}${t}${s ? `<small>${esc(s)}</small>` : ''}</button>`).join(''), {anchor});
+  sh.onclick = ev => { const b = ev.target.closest('[data-a]'); if (!b) return; const a = b.dataset.a; flClose();
+    if (a === 'type') return flType(k, anchor);
+    if (a === 'split') return olDo(`D.ol_split(json.loads(OLJ), ${k})`, `แยกหน้า ${k + 1} เป็น 2 หน้าแล้ว`);
+    if (a === 'merge') return olDo(`D.ol_merge(json.loads(OLJ), ${k})`, `รวมหน้า ${k + 1} กับ ${k + 2} แล้ว`);
+    const before = JSON.stringify(FL.ol);
+    if (a === 'dup') { const c = JSON.parse(JSON.stringify(p)); c.id = 'p' + (++FL.ol.seq); c.by = 'user'; FL.ol.pages.splice(k + 1, 0, c); }
+    if (a === 'del') { FL.ol.dropped.push({by: 'user', page: p}); FL.ol.pages.splice(k, 1); FL.sel = -1; }
+    FL.hist.push(before); FL.edited = true; FL.ol = olPy('D.ol_refresh(json.loads(OLJ))'); flList(true);
+    toast(a === 'dup' ? `ทำสำเนาหน้า ${k + 1} แล้ว` : `ลบหน้า ${k + 1} แล้ว`, false, () => { if (!FL.hist.length) return; FL.ol = JSON.parse(FL.hist.pop()); flList(true); }); };
+}
+function flType(k, anchor) {
+  const ts = olPy(`D.ol_types(json.loads(OLJ), ${k})`);
+  const sh = flSheet('เปลี่ยนชนิดหน้า', `<div class="fl-tg">${ts.map(([t, rec, cur]) => `<button class="fl-tt${cur ? ' on' : ''}" type="button" data-t="${t}">${rec && !cur ? '<i class="rec">แนะนำ</i>' : ''}<span class="fl-tic">${ico(OLT[t][1])}</span>${OLT[t][0]}</button>`).join('')}</div>`, {anchor});
+  sh.onclick = ev => { const b = ev.target.closest('[data-t]'); if (!b) return; flClose(); if (b.classList.contains('on')) return;
+    olDo(`D.ol_retype(json.loads(OLJ), ${k}, ${JSON.stringify(b.dataset.t)})`, `เปลี่ยนหน้า ${k + 1} เป็น${OLT[b.dataset.t][0]}แล้ว`); };
+}
+function flCount(anchor) {
+  const n0 = JSON.parse(FL.ol0).pages.length, cur = FL.ol.brief.pages;
+  const rows = [['auto', 'ตามเนื้อหา', `${n0} หน้า`], ...Array.from({length: 26}, (_, i) => [String(i + 5), `${i + 5} หน้า`])];
+  const sh = flSheet('จำนวนหน้า', rows.map(([v, t, s]) => `<button class="fl-mi${String(cur) === v ? ' on' : ''}" type="button" data-v="${v}">${t}${s ? `<small>${s}</small>` : '<small></small>'}${String(cur) === v ? ico('check') : ''}</button>`).join(''), {anchor});
+  sh.querySelector('.fl-mi.on')?.scrollIntoView({block: 'center'});
+  sh.onclick = ev => { const b = ev.target.closest('[data-v]'); if (!b) return; flClose(); const v = b.dataset.v; FL.fitTried = false;
+    if (v === 'auto') { if (!FL.edited) { const a = FL.ol.brief.audience; FL.ol = JSON.parse(FL.ol0); FL.ol.brief.audience = a; } else FL.ol.brief.pages = 'auto'; FL.ol = olPy('D.ol_refresh(json.loads(OLJ))'); return flList(true); }
+    if (FL.edited) { FL.ol.brief.pages = +v; FL.ol = olPy('D.ol_refresh(json.loads(OLJ))'); return flList(true); }   // แก้โครงไว้แล้ว: ไม่ทับเงียบ ให้กด รวมให้/แยกให้ เอง
+    const a = FL.ol.brief.audience; FL.ol = JSON.parse(FL.ol0); FL.ol.brief.audience = a;
+    FL.ol = olPy(`D.ol_fit(json.loads(OLJ), ${+v})`); FL.fitTried = true; flList(true); };
+}
+// ลากสลับหน้า: เมาส์ลากได้ทันที (ที่จับขึ้นตอนชี้) / นิ้วกดค้างแล้วลาก แบบ Canva (ไม่มีที่จับให้รก)
+let FDR = null;
+function flDrag(list) {
+  list.addEventListener('contextmenu', e => { if (e.target.closest('.fl-pc')) e.preventDefault(); });
+  list.addEventListener('touchmove', e => { if (FDR?.on) e.preventDefault(); }, {passive: false});
+  list.addEventListener('pointerdown', e => {
+    const pc = e.target.closest('.fl-pc'); if (!pc || e.target.closest('.ib,.fl-ex') || e.button) return;
+    FDR = {pc, i: +pc.dataset.i, x: e.clientX, y: e.clientY, id: e.pointerId, on: false, touch: e.pointerType !== 'mouse'};
+    if (FDR.touch) { const d = FDR; d.t = setTimeout(() => { if (FDR === d) flDragOn(d); }, 380); }
+  });
+}
+function flDragOn(d) {
+  const cards = [...$('flol').children]; d.on = true; d.cards = cards; d.rects = cards.map(c => c.getBoundingClientRect()); d.h = d.rects[d.i].height + 8; d.k = d.i;
+  d.pc.classList.add('lift'); cards.forEach(c => { c.classList.add('still'); }); navigator.vibrate?.(10);
+  try { d.pc.setPointerCapture(d.id); } catch (e) {}
+}
+addEventListener('pointermove', e => {
+  const d = FDR; if (!d || e.pointerId !== d.id) return;
+  const dx = e.clientX - d.x, dy = e.clientY - d.y;
+  if (!d.on) { if (d.touch) { if (Math.hypot(dx, dy) > 8) { clearTimeout(d.t); FDR = null; } return; } if (Math.hypot(dx, dy) > 6) flDragOn(d); else return; }
+  e.preventDefault();
+  d.pc.style.transform = `translateY(${dy}px)`; d.pc.style.transition = 'none';
+  const c = d.rects[d.i].top + d.rects[d.i].height / 2 + dy; let k = d.i;
+  d.rects.forEach((r, j) => { const m = r.top + r.height / 2; if (j > d.i && c > m) k = Math.max(k, j); if (j < d.i && c < m) k = Math.min(k, j); });
+  d.k = k; d.cards.forEach((el, j) => { if (j === d.i) return; el.style.transform = (d.i < j && j <= k) ? `translateY(${-d.h}px)` : (k <= j && j < d.i) ? `translateY(${d.h}px)` : ''; });
+  const r = d.pc.getBoundingClientRect(); if (r.bottom > innerHeight - 90) scrollBy(0, 8); else if (r.top < 70) scrollBy(0, -8);   // ponytail: เลื่อนจอตามนิ้วแบบคงที่ ไม่เร่งตามระยะ
+}, {passive: false});
+function flDragEnd(e) {
+  const d = FDR; if (!d || e.pointerId !== d.id) return; clearTimeout(d.t); FDR = null; if (!d.on) return;
+  flNoClick = true; setTimeout(() => { flNoClick = false; }, 60);
+  if (d.k === d.i) { d.cards.forEach(el => { el.style.transform = ''; el.style.transition = ''; }); d.pc.classList.remove('lift'); return; }
+  const before = JSON.stringify(FL.ol), [pg] = FL.ol.pages.splice(d.i, 1); FL.ol.pages.splice(d.k, 0, pg);
+  FL.hist.push(before); FL.edited = true; if (FL.sel === d.i) FL.sel = d.k; else FL.sel = -1;
+  FL.ol = olPy('D.ol_refresh(json.loads(OLJ))'); flList(true);
+  toast(`ย้ายไปเป็นหน้า ${d.k + 1} แล้ว`, false, () => { if (!FL.hist.length) return; FL.ol = JSON.parse(FL.hist.pop()); flList(true); });
+}
+addEventListener('pointerup', flDragEnd); addEventListener('pointercancel', flDragEnd);
+// ── หน้าตาที่แนะนำ: คะแนนจากกฎ (ไม่ใช้ AI) ──
+// แท็กต่อชุด: หมวด (จากชื่อชุดในคลังและหมวดลูกค้า) + ทางการ + กราฟดี  ponytail: ตั้งมือ 20 ชุด เพิ่มชุดใหม่ต้องเติมที่นี่ (ไม่มีแท็ก = ได้แต่คะแนนลำดับ)
+const SETTAG = {quartertown: 'ประชุม รายงาน ทางการ', coldchain: 'ขาย บริษัท', shuttlequote: 'เสนอ ขาย', expandarea: 'แผน ขาย การตลาด กราฟ', teacherport: 'สอน โรงเรียน',
+  cafeloyalty: 'การตลาด เสนอ', leadtimecut: 'รายงาน แผน', nichebrand: 'การตลาด แผน', cashbacktiers: 'การตลาด ขาย', followup90: 'อบรม รายงาน', 'coop-b3': 'รายงาน สอน',
+  brandkit: 'การตลาด', timelineset: 'แผน กำหนดการ', salespipeline: 'ขาย กราฟ', grades: 'โรงเรียน รายงาน กราฟ', vpa: 'โรงเรียน ราชการ ทางการ', map: 'ขาย กราฟ',
+  pricing: 'ขาย', creativeclass: 'สอน อบรม', startupseed: 'เสนอ ลงทุน'};
+const TOPIC_RE = [['แผน', /แผน|กลยุทธ์|เป้าหมาย/, 'แผนงาน'], ['การตลาด', /การตลาด|โปรโมชัน|แบรนด์/, 'งานการตลาด'], ['ประชุม', /ประชุม|วาระ/, 'สรุปประชุม'],
+  ['สอน', /การสอน|การเรียนรู้|บทเรียน|ใบความรู้|จุดประสงค์/, 'งานสอน'], ['โรงเรียน', /โรงเรียน|ครู|ปีการศึกษา|นักเรียน/, 'งานโรงเรียน'], ['ราชการ', /ราชการ|สำนักงาน|ประกาศ|บันทึกข้อความ|เรียน /, 'งานราชการ'],
+  ['ขาย', /ยอดขาย|ฝ่ายขาย|ราคา|สินค้า|ลูกค้า/, 'งานขาย'], ['รายงาน', /รายงาน|สรุปผล|ผลการ/, 'รายงาน'], ['อบรม', /อบรม|วิทยากร|หลักสูตร/, 'งานอบรม'],
+  ['เสนอ', /ข้อเสนอ|เสนอราคา|ใบเสนอ/, 'ข้อเสนอ'], ['ลงทุน', /ลงทุน|ระดมทุน|สตาร์ทอัป/, 'การขอทุน'], ['กำหนดการ', /กำหนดการ|ไทม์ไลน์|ระยะที่/, 'กำหนดการ']];
+const AUDTAG = {student: [['สอน', 4], ['โรงเรียน', 4]], committee: [['ทางการ', 4], ['ราชการ', 2], ['รายงาน', 2]], boss: [['รายงาน', 2], ['ทางการ', 2]], client: [['ขาย', 3], ['เสนอ', 3]], team: [['ประชุม', 2], ['แผน', 2]]};
+const AUDWHY = {student: 'เหมาะกับสอนนักเรียน', committee: 'ดูเป็นทางการ เหมาะกับคณะกรรมการ', boss: 'อ่านง่าย เหมาะกับนำเสนอหัวหน้า', client: 'เหมาะกับนำเสนอลูกค้า', team: 'เหมาะกับคุยงานในทีม'};
+function rankSets(ol) {
+  const heads = ol.pages.map(p => p.title.text).join(' '), body = ol.pages.map(p => p.items.map(x => x.text).join(' ')).join(' ');
+  const hit = {}; TOPIC_RE.forEach(([k, re]) => { hit[k] = (re.test(ol.title) ? 3 : 0) + (re.test(heads) ? 2 : 0) + (re.test(body) ? 1 : 0); });
+  const chart = ol.pages.some(p => ['chart', 'table'].includes(p.type)), aud = ol.brief.audience;
+  return SETS.map((s, i) => {
+    const tags = (SETTAG[s.slug] || '').split(' ').filter(Boolean); let sc = 0, best = null, bw = 0;
+    for (const t of tags) { const w = hit[t] || 0; sc += w; if (w > bw) { bw = w; best = t; } }
+    for (const [t, w] of AUDTAG[aud] || []) if (tags.includes(t)) sc += w;
+    if (chart && tags.includes('กราฟ')) sc += 3;
+    const lab = best && (TOPIC_RE.find(x => x[0] === best) || [])[2];
+    const why = lab ? `เข้ากับ${lab}${chart && tags.includes('กราฟ') ? 'ที่มีกราฟ' : ''}` : chart && tags.includes('กราฟ') ? 'เหมาะกับเนื้อหาที่มีกราฟ' : AUDWHY[aud] || 'อ่านง่าย ใช้ได้กับทุกเรื่อง';
+    return {slug: s.slug, sc, i, why};
+  }).sort((a, b) => b.sc - a.sc || a.i - b.i);   // คะแนนเท่ากัน = ลำดับชุดในคลัง (ชุดที่ผ่านการทดสอบสวยสุดก่อน)
+}
+function flDesign() {
+  if (!FL.ol) return flowStep('outline');
+  document.title = 'หน้าตา - Slide Studio';
+  if (!FL.rank.length) { FL.rank = rankSets(FL.ol); FL.ri = 0; FL.by = 'suggest'; }
+  flv().innerHTML = `<header class="fl-top w"><button class="ib" type="button" data-fl="back" aria-label="ย้อนกลับ">${ico('back')}</button>${flDesk() ? '<img class="logo2" src="img/slide-studio.svg" alt="Slide Studio" width="149" height="20">' : '<b>หน้าตา</b>'}<span class="grow"></span></header>
+    <main class="fl-dw"><h1 class="fl-h" style="font-size:24px">แนะนำหน้าตานี้</h1><div class="fl-dz"><div class="fl-big" id="flbig"><div class="ph"></div></div>
+    <div><div class="fl-dn" id="fldn"></div><div class="fl-why" id="flwhy"></div>
+    <div class="fl-dbar"><div class="fl-dact"><button class="btn btn-red" type="button" data-d="go">${ico('spark')}สร้างสไลด์</button>
+      <div class="row"><button class="btn btn-line" type="button" data-d="other">${ico('reload')}แบบอื่น</button><button class="btn btn-line" type="button" data-d="all">${ico('grid')}ดูทั้งหมด</button></div></div></div></div></div></main>`;
+  flv().onclick = ev => { const b = ev.target.closest('[data-fl],[data-d]'); if (!b) return;
+    if (b.dataset.fl === 'back') return flBack();
+    const a = b.dataset.d;
+    if (a === 'go') return flowBuild();
+    if (a === 'other') { FL.ri = (FL.ri + 1) % FL.rank.length; FL.by = 'suggest'; return flPick(); }
+    if (a === 'all') return flAll(); };
+  flPick();
+}
+function flPick() {
+  const r = FL.rank[FL.ri], s = SETS.find(x => x.slug === r.slug); FL.slug = r.slug;
+  $('fldn').textContent = s.style; $('flwhy').textContent = FL.by === 'user' ? 'หน้าตาที่คุณเลือก' : r.why;
+  retrig($('fldn'), 'in'); flCover(r.slug);
+}
+function flAll() {
+  const sh = flSheet('หน้าตาทั้งหมด', `<div class="fl-dg">${SETS.map(s => `<button class="fl-dc${s.slug === FL.slug ? ' on' : ''}" type="button" data-s="${s.slug}"><img src="${peek(s)}" alt="" loading="lazy"><span>${esc(s.style)}</span></button>`).join('')}</div>`, {modal: true});
+  sh.onclick = ev => { const b = ev.target.closest('[data-s]'); if (!b) return; flClose(); FL.ri = FL.rank.findIndex(x => x.slug === b.dataset.s); FL.by = 'user'; flPick(); };
+}
+async function flCover(sl) {                     // ปกของลูกค้าเองในดีไซน์นั้น (วาดจริงด้วยตัวจัดเดียวกับตอนสร้าง)
+  const my = ++FL.cvTok, box = $('flbig'); if (!box) return;
+  const put = node => { if (my !== FL.cvTok || !$('flbig')) return; const b = $('flbig'); b.innerHTML = '<div class="slidebox"><div class="in"></div></div>';
+    const inner = b.querySelector('.in'); inner.appendChild(cloneSlide(node)); const fitc = () => { inner.style.transform = `scale(${b.clientWidth / 960})`; inner.style.transformOrigin = '0 0'; inner.style.width = '960px'; }; fitc();
+    if (!b._ro) { b._ro = new ResizeObserver(() => { const i = b.querySelector('.in'); if (i) i.style.transform = `scale(${b.clientWidth / 960})`; }); b._ro.observe(b); } };
+  if (FL.cv.has(sl)) return put(FL.cv.get(sl));
+  box.innerHTML = '<div class="ph"></div>';
+  try {
+    await FL.ready; await needSet(SETS.find(x => x.slug === sl)); if (my !== FL.cvTok) return; await frame();
+    py.globals.set('OLJ', JSON.stringify(FL.ol)); py.globals.set('CVS', sl);
+    const node = (await preview(pptx(`_nb = list(D.NOTES); _ol = json.loads(OLJ); _cm, _co, _ = D.plan(D.ol_want(_ol)[:1], CVS); D.NOTES[:] = _nb
+D.render([(x['layout'], x['d']) for x in _co], _cm, _ol['title'])`)))[0];
+    if (node) { FL.cv.set(sl, node); put(node); }
+  } catch (e) { console.warn(e); if (my === FL.cvTok && $('flbig')) $('flbig').innerHTML = `<img src="${peek(SETS.find(x => x.slug === sl))}" alt="" style="width:100%;height:100%;object-fit:cover">`; }   // วาดปกไม่ได้ (เน็ต): ภาพตัวอย่างของชุดแทน ปุ่มยังกดได้
+}
+let olN = 0;                                     // จำนวนหน้าในโครงหน้าตอนกดสร้าง (ตัวจัดแบ่งเพิ่มเมื่อตัวหนังสือไม่พอดี 18pt ฟองจบบอกตรง ๆ)
+function flowBuild() {
+  const src = FL.src, ol = FL.ol; if (!src || !ol) return;
+  ol.design = {set: FL.slug, by: FL.by, rank: FL.ri};
+  slug = FL.slug; olN = ol.pages.length; FL.src = null; flowHide();
+  PID = null; SRCNAME = src.text ? 'ข้อความที่คุณวาง' : 'ไฟล์ ' + src.file.name; lastAsk = src.text || '';
+  enterWork(false); ta.value = ''; ta.style.height = ''; pending = null; $('filepill').classList.add('hidden'); refresh();
+  meMsg(src.text ? `<div class="pre${src.text.split('\n').length <= 5 ? ' short' : ''}">${esc(src.text)}</div>` : `<div class="filechip"><b>${ico('file')}</b><span>${esc(src.file.name)}</span></div>`);
+  run({ol});
+}
 // ภาพหน้าตัวอย่างหนึ่งหน้าของชุด (ภาพปกคลังมีคำที่ไม่ใช่ของลูกค้า เช่น ครู ว.PA, 20 สไลด์)
 const peek = s => `https://img.coachtarnslide.com/slides/${s.slug}/${String(s.peek || 2).padStart(2, '0')}.webp`;
 function lookCards(sel) {
@@ -2215,7 +2653,8 @@ function done(my, t0) {
   for (const x of P.stats) did.push(`ทำการ์ดตัวเลขหัวข้อ "${esc(x.t)}" (${esc(x.vals.join(', '))})`);
   if (P.charts.length) did.push(P.charts[0] ? `ทำตาราง "${esc(P.charts[0])}" เป็นกราฟ` : 'ทำตารางเป็นกราฟ'); if (P.tables.length) did.push('จัดตารางให้อ่านง่าย');
   if (P.timelines) did.push(`เรียง ${P.timelines} ช่วงเวลาเป็นไทม์ไลน์`);
-  const notes = P.notes.filter(n => /ยังไม่ได้ทำเป็นสไลด์|ใส่ในหน้าตานี้ไม่ได้|กล่องข้อความเล็ก/.test(n));   // ส่วนที่ไม่ได้ทำเป็นสไลด์ (Excel เกิน 8x8, เอกสารเกิน 30 หน้า, ใส่ไม่ได้) บอกตรง ๆ ในฟองจบ
+  const notes = P.notes.filter(n => /ยังไม่ได้ทำเป็นสไลด์|ใส่ในหน้าตานี้ไม่ได้|กล่องข้อความเล็ก/.test(n));
+  if (olN && slides.length > olN) notes.unshift(`จากโครง ${olN} หน้า ได้ ${slides.length} หน้า บางหน้าข้อความยาว จึงแบ่งเพิ่มให้ตัวหนังสือใหญ่พออ่านตอนฉาย ไม่ย่อตัวอักษร`);   // ใบ 037 ประกอบการพูด (ไอซ์ 2 พ.ย.)   // ส่วนที่ไม่ได้ทำเป็นสไลด์ (Excel เกิน 8x8, เอกสารเกิน 30 หน้า, ใส่ไม่ได้) บอกตรง ๆ ในฟองจบ
   const m = botMsg(`<p>เสร็จแล้วครับ <b>${slides.length} หน้า</b> หน้าตา${esc(s.style)} ใช้เวลา ${((performance.now() - (t0 || performance.now())) / 1000).toFixed(1)} วินาที${did.length ? ' สิ่งที่ทำ: ' + did.join(' / ') : ''}</p>${notes.map(n => `<p class="sub">${esc(n)}</p>`).join('')}
     <p>${touch() ? 'แตะข้อความเพื่อเลือก ลากเพื่อย้าย แตะอีกครั้งเพื่อแก้ข้อความ' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย กดที่กล่องแล้วลากเพื่อย้าย'} ถ้ามี Code กดบันทึกเพื่อโหลดไฟล์ได้เลย</p>
     <p class="sub">ไม่ชอบหน้าตานี้ เลือกแบบอื่นได้เลย ระบบจัดเนื้อหาเดิมทั้งหมดลงหน้าตาใหม่ คำที่แก้ไว้ตามไปด้วย ถ้ามีจุดที่ตามไปไม่ได้ จะบอกก่อนเปลี่ยน</p>
