@@ -288,7 +288,7 @@ function secHTML(list, open){
   const home = mode === 'sets' && group === 'all' && !q && !fCount();
   if (mode !== 'sets') return '';
   if (home) return `<div class="sh"><h2>ชุดใหม่ล่าสุด</h2></div><div class="grid row4">${DATA.slice(0, 4).map(d => cardHTML(d, open)).join('')}</div>
-    <div class="sh"><h2>ทุกชุด ${DATA.length} ชุด</h2></div>`;
+    <div class="sh"><h2>ทุกชุด</h2></div>`;
   if (group === 'studio' && !q && !fCount()) return `<div class="sh"><h2>เปิดใน Studio ได้ ${list.length} ชุด</h2></div><p class="slead">กดชุดไหนก็แก้ใน Slide Studio ได้ทันที</p>`;
   const title = q ? `ผลการค้นหา ${list.length} ชุด` : `${group === 'all' ? 'ทุกชุด' : group === 'studio' ? 'เปิดใน Studio ได้' : esc(GLABEL[group] || '')} ${list.length} ชุด`;
   return `<div class="sh"><h2>${title}</h2>${group !== 'all' ? `<button onclick="setGroup('all')">ดูทั้งหมด${CHEV}</button>` : ''}</div>`;
@@ -301,9 +301,10 @@ function renderSets(){
     : '';
   const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
   const sb = document.getElementById('sban'); if (sb) sb.style.display = open && group !== 'studio' && !q ? 'flex' : 'none';
-  const list = visible();
+  const list = visible(), home = group === 'all' && !q && !fCount();
   document.getElementById('secs').innerHTML = secHTML(list, open);
-  g.innerHTML = list.length ? list.map(d => cardHTML(d, open)).join('') : emptyHtml();
+  // หน้าแรกของคลัง: 4 ชุดใหม่ล่าสุดอยู่แถวบนแล้ว ไม่วาดซ้ำในกริดทุกชุด
+  g.innerHTML = list.length ? (home ? list.slice(4) : list).map(d => cardHTML(d, open)).join('') : emptyHtml();
 }
 function setMode(m){ mode = m; shown = 48; history.replaceState(null, '', m === 'slides' ? '#slides' : location.pathname + location.search); renderFacets(); render(); }
 function setType(t){ type = t; shown = 48; render(); }

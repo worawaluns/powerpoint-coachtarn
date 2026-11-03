@@ -98,7 +98,7 @@ function close() {
 }
 function open(kind, html, btn) {
   close();
-  scrim = document.createElement('div'); scrim.className = 'tb-scrim' + (kind === 'menu' ? ' tb-under' : ''); scrim.onclick = close;
+  scrim = document.createElement('div'); scrim.className = 'tb-scrim tb-k-' + kind; scrim.onclick = close;
   sheet = document.createElement('div'); sheet.className = 'tb-sheet tb-s-' + kind; sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true');
   sheet.innerHTML = html; sheet.addEventListener('click', act);
   document.body.append(scrim, sheet); document.body.style.overflow = 'hidden';

@@ -58,7 +58,8 @@
 
 /* ── แผ่นเมนู / บัญชี / เข้าสู่ระบบ: มือถือ = bottom sheet, เมนู = popover ซ้าย, จอคอม = popover/popup ── */
 .tb-scrim{position:fixed;inset:0;z-index:1000;background:var(--tb-scrim)}
-.tb-scrim.tb-under{top:var(--tb-h)}
+.tb-scrim.tb-k-menu{top:var(--tb-h)}
+@media(min-width:768px){.tb-scrim.tb-k-acct{background:transparent}}   /* จอคอม: popover บัญชีไม่หรี่จอ (ตามภาพ e-member-1280-dd) */
 .tb-sheet{position:fixed;z-index:1001;left:0;right:0;bottom:0;max-height:calc(100% - 16px);overflow:auto;border-radius:20px 20px 0 0;
   padding:8px 16px calc(20px + env(safe-area-inset-bottom));background:#fff;box-shadow:0 -8px 32px rgba(17,17,20,.16)}
 .tb-sheet::before{content:'';display:block;width:36px;height:4px;border-radius:2px;background:#D6D4CF;margin:2px auto 12px}
