@@ -2873,8 +2873,8 @@ fbq('track','PageView');
 
 <div class="pv-anchor">
   <div class="pv-anchor-in">
-    <a href="#library" class="on">หาสไลด์</a><a href="#feat">ฟีเจอร์</a>
-    <a href="#reviews">รีวิว</a><a href="#how">วิธีสั่งซื้อ</a><a href="#deal">ราคา</a><a href="#team">ซื้อให้ทีม</a><a href="#faq">คำถาม</a>
+    <a href="#library" class="on">หาสไลด์</a><a href="#team">ซื้อให้ทีม</a><a href="#feat">ฟีเจอร์</a>
+    <a href="#reviews">รีวิว</a><a href="#how">วิธีสั่งซื้อ</a><a href="#deal">ราคา</a><a href="#faq">คำถาม</a>
   </div>
 </div>
 
@@ -4427,10 +4427,17 @@ function closeDrawer() {
   const bar = document.querySelector('.pv-anchor'); if (!bar) return;
   const links = [...bar.querySelectorAll('a')];
   const targets = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  let hold = 0;
+  const setOn = h => links.forEach(a => { const on = a.getAttribute('href') === h; if (on && !a.classList.contains('on')) { const r = a.parentNode; r.scrollTo({ left: a.offsetLeft - (r.clientWidth - a.offsetWidth) / 2, behavior: 'smooth' }); } a.classList.toggle('on', on); });
+  links.forEach(a => a.addEventListener('click', () => { setOn(a.getAttribute('href')); hold = Date.now() + 900; }));
   const mark = () => {
-    const y = scrollY + 200; let cur = targets[0];
-    targets.forEach(s => { if (s.offsetTop <= y) cur = s; });
-    links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur.id));
+    // ไอซ์ 3 พ.ย. 2569 "ผมเลือกราคาแล้วมันไม่ขึ้นราคาเป็นว่าเลือกอยู่": เดิมเลือกตัวท้ายสุดในลำดับลิงก์ #team อยู่ท้ายลิงก์แต่บนหน้าอยู่ก่อน เลยแย่งไปตลอด
+    // ตอนนี้เลือก section ที่หัวผ่านใต้แถบล่าสุด (ตำแหน่งจริง) / กดแล้วติดตัวที่กดจนเลื่อนเสร็จ / เลื่อนสุดหน้าแล้วเป็นตัวสุดท้าย
+    if (Date.now() < hold) return;
+    const line = bar.getBoundingClientRect().bottom + 40; let cur = targets[0], best = -Infinity;
+    targets.forEach(s => { const t = s.getBoundingClientRect().top; if (t <= line && t > best) { best = t; cur = s; } });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = targets.reduce((a, b) => a.getBoundingClientRect().top > b.getBoundingClientRect().top ? a : b);
+    setOn('#' + cur.id);
     bar.classList.toggle('stuck', bar.getBoundingClientRect().top <= parseFloat(getComputedStyle(bar).top) + 1);
   };
   addEventListener('scroll', mark, { passive: true }); mark();
