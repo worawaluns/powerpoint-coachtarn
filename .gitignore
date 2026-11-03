@@ -21,3 +21,7 @@ PROMPT-*.md
 .env.r2
 .env
 .env.*
+
+# design skill ที่ติดตั้งไว้ใช้ในเครื่อง (impeccable) ห้ามขึ้นเว็บ
+.agents/
+skills-lock.json
