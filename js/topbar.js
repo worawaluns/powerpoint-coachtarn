@@ -23,6 +23,7 @@ const ICONS = {
   "shield-check": "<path d=\"M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z\"/>",
   "shopping-bag": "<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM176,88a48,48,0,0,1-96,0,8,8,0,0,1,16,0,32,32,0,0,0,64,0,8,8,0,0,1,16,0Z\"/>",
   "squares-four-fill": "<path d=\"M120,56v48a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V56A16,16,0,0,1,56,40h48A16,16,0,0,1,120,56Zm80-16H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm-96,96H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm96,0H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Z\"/>",
+  "ticket": "<path d=\"M227.19,104.48A16,16,0,0,0,240,88.81V64a16,16,0,0,0-16-16H32A16,16,0,0,0,16,64V88.81a16,16,0,0,0,12.81,15.67,24,24,0,0,1,0,47.04A16,16,0,0,0,16,167.19V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V167.19a16,16,0,0,0-12.81-15.67,24,24,0,0,1,0-47.04ZM32,167.2a40,40,0,0,0,0-78.4V64H88V192H32Zm192,0V192H104V64H224V88.8a40,40,0,0,0,0,78.4Z\"/>",
   "play-fill": "<path d=\"M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z\"/>"
 };
 const ic = (n, c) => `<svg class="tb-i${c ? ' ' + c : ''}" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">${ICONS[n]}</svg>`;
@@ -50,7 +51,7 @@ function bar() {
   const seg = L.map(([k, h, t]) => `<a href="${h}"${k === on ? ' class="tb-on"' : ''}${k === 'admin' ? ' target="_blank" rel="noopener"' : ''}>${t}</a>`).join('');
   const right = m
     ? `<button class="tb-srch tb-dsk" data-a="search">${ic('magnifying-glass')}<span>ค้นหาเทมเพลต</span></button><button class="tb-av" data-a="acct" aria-label="บัญชีของฉัน">${AV()}</button>`
-    : `<button class="tb-cb tb-dsk" data-a="search" aria-label="ค้นหา">${ic('magnifying-glass')}</button><button class="tb-cb" data-a="login" aria-label="เข้าสู่ระบบ">${ic('user-circle')}</button><a class="tb-cap" href="order.html">สั่งซื้อ 499฿</a>`;
+    : `<button class="tb-cb tb-dsk" data-a="search" aria-label="ค้นหา">${ic('magnifying-glass')}</button><button class="tb-cb" data-a="login" aria-label="เข้าสู่ระบบ">${ic('user-circle')}</button>${on === 'order' ? '' : '<a class="tb-cap" href="order.html">สั่งซื้อ 499฿</a>'}`;   // หน้าสั่งซื้อไม่ต้องมีปุ่มสั่งซื้อซ้ำ
   return `<header class="tb-bar"><div class="tb-in"><span style="display:flex;align-items:center"><button class="tb-cb tb-menu" data-a="menu" aria-label="เมนู">${ic('list')}</button>
     <a class="tb-logo" href="${m ? 'templates.html' : 'index.html'}"><img src="img/logo.svg" alt="Coach Tarn"></a></span>
     <nav class="tb-nav">${seg}</nav><div class="tb-right">${right}</div></div></header>`;
@@ -98,7 +99,11 @@ function close() {
 }
 function open(kind, html, btn) {
   close();
-  scrim = document.createElement('div'); scrim.className = 'tb-scrim tb-k-' + kind; scrim.onclick = close;
+  scrim = document.createElement('div'); scrim.className = 'tb-scrim tb-k-' + kind;
+  // มือถือ: นิ้วที่แตะเปิดยังส่ง click ตามมาโดน scrim เต็มจอ แผ่นเลยปิดทันที ปิดเฉพาะ click ที่เริ่มกดบน scrim จริง และไม่สนใจ 250ms แรกหลังเปิด
+  const t0 = Date.now(); let down = false;
+  scrim.addEventListener('pointerdown', () => { down = Date.now() - t0 > 250; });
+  scrim.addEventListener('click', () => { if (down) close(); down = false; });
   sheet = document.createElement('div'); sheet.className = 'tb-sheet tb-s-' + kind; sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true');
   sheet.innerHTML = html; sheet.addEventListener('click', act);
   document.body.append(scrim, sheet); document.body.style.overflow = 'hidden';

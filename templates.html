@@ -34,12 +34,14 @@ h1,h2,h3{text-wrap:balance}::selection{background:rgba(200,75,47,.18)}
 .search .clr{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:none;background:none;cursor:pointer;width:36px;height:36px;border-radius:8px;display:none;place-items:center;color:var(--sub)}
 .search .clr.show{display:grid}
 .search .clr svg{position:static;transform:none;width:16px;height:16px}
+/* หน้าคลังมีช่องค้นหาในหน้าอยู่แล้ว ซ่อนช่องค้นหาบนแถบ ให้เหลือช่องเดียว */
+#ct-top .tb-srch{display:none!important}
 /* แถวชิป เกาะใต้แถบบน */
 .bar{position:sticky;top:calc(var(--tb-top) + var(--tb-h));z-index:20;background:var(--bg);padding:12px 0;display:flex;gap:6px;align-items:center;margin-top:4px}
 .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;
   -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 24px),transparent);padding-right:16px}
 .chips::-webkit-scrollbar{display:none}
-.chip,.fbtn{flex:none;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:8px;border:1px solid var(--edge);background:#fff;font-family:inherit;font-size:15px;font-weight:500;color:var(--mid);cursor:pointer;white-space:nowrap}
+.chip,.fbtn{flex:none;display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 14px;border-radius:8px;border:1px solid var(--edge);background:#fff;font-family:inherit;font-size:15px;font-weight:500;color:var(--mid);cursor:pointer;white-space:nowrap}
 .chip small{color:var(--sub);font-size:13px;font-weight:400}
 .chip.on{background:var(--text);border-color:var(--text);color:#fff}.chip.on small{color:#B9B9C0}
 .chip img{width:18px;height:18px;display:block}
@@ -57,16 +59,7 @@ h1,h2,h3{text-wrap:balance}::selection{background:rgba(200,75,47,.18)}
 .fo{height:36px;padding:0 12px;border:1px solid var(--edge);background:#fff;border-radius:8px;font-family:inherit;font-size:14px;font-weight:500;color:var(--mid);cursor:pointer}
 .fo.on{background:#FBEDE8;border-color:var(--red);color:var(--red)}
 .fclr{margin-top:12px;font-size:14px;font-weight:600;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit;padding:0}
-/* แบนเนอร์ Studio (สมาชิก) */
-.sban{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;max-width:640px;background:#fff;border:1px solid var(--edge);margin:8px 0 4px}
-.sban>img{width:40px;height:40px;flex:none}
-.sban span{flex:1;min-width:0}.sban b{display:block;font-size:16px;font-weight:600;line-height:1.5}.sban small{display:block;font-size:14px;line-height:1.5;color:var(--mid)}
-.sban svg{width:20px;height:20px;color:var(--sub);flex:none}
-.oldlib{display:flex;align-items:center;gap:12px;margin:8px 0 4px;padding:12px 14px;border-radius:12px;max-width:640px;background:#fff;border:1px solid var(--edge)}
-.oldlib b{font-size:15px;font-weight:600;flex:none}
-.oldlib span{flex:1;min-width:0;font-size:14px;color:var(--sub);line-height:1.5}
-.oldlib svg{flex:none;width:18px;height:18px;color:var(--sub)}
-@media(max-width:640px){.oldlib{flex-wrap:wrap}.oldlib span{flex:0 0 100%;order:3}}
+.oldlib{display:inline-flex;align-items:center;min-height:44px;margin:4px 0 24px;font-size:15px;color:#6B6B74}   /* สมาชิก: คลังเดิมเป็นลิงก์บรรทัดเดียวท้ายหน้า */
 /* หัวข้อส่วน */
 .sh{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 12px}
 .sh h2{font-size:20px;font-weight:700;line-height:1.4}
@@ -82,10 +75,10 @@ h1,h2,h3{text-wrap:balance}::selection{background:rgba(200,75,47,.18)}
 .cv{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:var(--fill);outline:1px solid rgba(17,17,20,.06);outline-offset:-1px}
 .cv>a:first-child{display:block;height:100%}.cv img{width:100%;height:100%;object-fit:cover;display:block}
 /* ป้าย "ใหม่": นิ่ง ไม่เต้น (ไอซ์ไม่ชอบอะไรขยับเอง) */
-.new{position:absolute;top:6px;left:6px;z-index:2;background:#fff;color:var(--text);font-size:12px;font-weight:600;font-style:normal;line-height:1.6;padding:1px 8px;border-radius:6px;box-shadow:0 1px 3px rgba(17,17,20,.2);pointer-events:none}
+.new{position:absolute;top:6px;left:6px;z-index:2;background:#fff;color:var(--text);font-size:13px;font-weight:600;font-style:normal;line-height:1.6;padding:0 8px;border-radius:6px;border:1px solid rgba(17,17,20,.12);pointer-events:none}
 /* ป้าย Studio มุมขวาบนของปก = ชุดนี้เปิดใน Slide Studio ได้ (studio/tpl.json) */
-.sbadge{position:absolute;right:6px;top:6px;z-index:2;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:#fff;box-shadow:0 1px 3px rgba(17,17,20,.2);pointer-events:none}.sbadge img{width:18px;height:18px;display:block}
-.dl{position:absolute;right:6px;bottom:6px;z-index:2;width:36px;height:36px;border-radius:8px;display:grid;place-items:center;background:#fff;color:var(--text);box-shadow:0 1px 3px rgba(17,17,20,.2)}
+.sbadge{position:absolute;right:6px;top:6px;z-index:2;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:#fff;border:1px solid rgba(17,17,20,.12);pointer-events:none}.sbadge img{width:18px;height:18px;display:block}
+.dl{position:absolute;right:6px;bottom:6px;z-index:2;width:44px;height:44px;border-radius:8px;display:grid;place-items:center;background:#fff;color:var(--text);border:1px solid rgba(17,17,20,.12)}
 .dl svg{width:18px;height:18px}
 .cb{display:block;min-width:0;padding-top:10px}
 .cb h3{font-size:15px;font-weight:600;line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -110,27 +103,27 @@ h1,h2,h3{text-wrap:balance}::selection{background:rgba(200,75,47,.18)}
 .lfoot{border-top:1px solid var(--line);margin-top:10px;padding:22px 20px 34px;text-align:center}
 .lfoot p{font-size:13px;line-height:1.9;color:var(--sub);max-width:640px;margin:0 auto}
 .lfoot p+p{margin-top:6px}
-.lfoot a{color:var(--mid);text-decoration:underline;text-underline-offset:3px;margin:0 12px}
-.lfoot .c{font-size:12px;color:#9A9AA2;margin-top:10px}
+.lfoot a{color:var(--mid);text-decoration:underline;text-underline-offset:3px;margin:0 12px;font-size:14px}
+.lfoot .c{font-size:13px;color:#6B6B74;margin-top:10px}
 .sep{display:inline-block;width:4px;height:4px;border-radius:50%;background:currentColor;opacity:.4;margin:0 7px;vertical-align:middle}
 @media(min-width:768px){
   .wrap{padding:0 40px}.hero{padding:24px 40px 0;gap:16px;scroll-padding:0 40px}.hero a{width:calc(50% - 8px);border-radius:16px}
   .lib-top h1{font-size:40px}.lib-top .n .xl{display:inline}
 }
 /* motion: กดแล้วยุบนิดเดียว hover เฉพาะเครื่องที่มีเมาส์ */
-.chip,.fbtn,.fo,.btn,.dl,.sban{transition:transform .12s ease-out,background-color .12s,border-color .12s}
+.chip,.fbtn,.fo,.btn,.dl{transition:transform .12s ease-out,background-color .12s,border-color .12s}
 .chip:active,.fbtn:active,.fo:active,.btn:active,.dl:active{transform:scale(.96)}
-.card,.sl,.hero a,.sban{transition:transform .14s ease-out}
-.card:active,.sl:active,.hero a:active,.sban:active{transform:scale(.98)}
+.card,.sl,.hero a{transition:transform .14s ease-out}
+.card:active,.sl:active,.hero a:active{transform:scale(.98)}
 @media(hover:hover){
   .cv img,.sl img,.hero img{transition:opacity .2s}
   .card:hover .cv img,.sl:hover img,.hero a:hover img{opacity:.92}
   .card:hover h3{color:var(--red)}
   .chip:not(.on):hover,.fo:not(.on):hover,.fbtn:hover{border-color:#C9C6BF}
-  .sban:hover,.oldlib:hover{border-color:#C9C6BF}
+  .oldlib:hover{color:var(--text)}
   .dl:hover{background:var(--fill)}
 }
-@media(prefers-reduced-motion:reduce){*{transition:none!important}.card:active,.sl:active,.hero a:active,.sban:active,.chip:active,.fbtn:active,.fo:active,.btn:active,.dl:active{transform:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}.card:active,.sl:active,.hero a:active,.chip:active,.fbtn:active,.fo:active,.btn:active,.dl:active{transform:none}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -166,14 +159,11 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
     </button>
   </div>
   <div class="facets" id="facets"></div>
-  <a class="sban" id="sban" href="studio/" style="display:none"><img src="img/studio-mark.svg" alt=""><span><b>เปิด Slide Studio</b><small>วางเนื้อหา ได้สไลด์ดีไซน์ Coach Tarn</small></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 6 6 6-6 6"/></svg></a>
-  <a class="oldlib" id="oldlib" href="https://drive.google.com/drive/folders/1JoTiE8D6egndF6nbiQCdOeKs8KuISIon" target="_blank" rel="noopener" style="display:none">
-    <b>คลังเดิม 6,500+ สไลด์</b><span>ชุดสากลแยกตามหัวข้อ (PowerPoint / Keynote / Google Slides) อยู่ใน Google Drive ไม่ได้แสดงบนเว็บนี้</span>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
   <div class="types" id="types"></div>
   <div id="secs"></div>
   <section class="grid" id="grid"></section>
   <div class="licnote" id="licnote"></div>
+  <a class="oldlib" id="oldlib" href="https://drive.google.com/drive/folders/1JoTiE8D6egndF6nbiQCdOeKs8KuISIon" target="_blank" rel="noopener" style="display:none">คลังเดิม 6,500+ สไลด์ ใน Google Drive ›</a>
 </main>
 <div class="toast" id="toast"></div>
 <script src="js/newbadge.js"></script>
@@ -300,7 +290,6 @@ function renderSets(){
     ? 'ใช้ไฟล์ได้ทุกงานรวมงานที่รับเงินลูกค้า ห้ามแจกหรือขายต่อตัวไฟล์และ Code <a href="terms" target="_blank" rel="noopener">อ่านสิทธิ์การใช้ไฟล์</a>'
     : '';
   const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
-  const sb = document.getElementById('sban'); if (sb) sb.style.display = open && group !== 'studio' && !q ? 'flex' : 'none';
   const list = visible(), home = group === 'all' && !q && !fCount();
   document.getElementById('secs').innerHTML = secHTML(list, open);
   // หน้าแรกของคลัง: 4 ชุดใหม่ล่าสุดอยู่แถวบนแล้ว ไม่วาดซ้ำในกริดทุกชุด
@@ -337,7 +326,7 @@ function render(){
   const T = document.getElementById('types'), g = document.getElementById('grid');
   T.classList.toggle('show', mode === 'slides'); g.classList.toggle('sgrid', mode === 'slides');
   if (mode === 'sets') return renderSets();
-  document.getElementById('secs').innerHTML = ''; document.getElementById('sban').style.display = 'none';
+  document.getElementById('secs').innerHTML = '';
   const sets = visible();
   T.innerHTML = [['all', 'ทุกประเภท']].concat(TYPES.map(t => [t, t])).map(([k, t]) => {
     const n = k === 'all' ? sets.reduce((a, d) => a + (TAGS[d.slug] || []).length, 0) : sets.reduce((a, d) => a + (TAGS[d.slug] || []).filter(x => x === k).length, 0);

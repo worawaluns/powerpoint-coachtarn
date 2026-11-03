@@ -105,10 +105,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 }
 .dl-hero-icon{
   width:64px;height:64px;
-  background:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
-  border-radius:18px;
+  background:#C84B2F;   /* ไอซ์ 3 พ.ย.: ส้มทึบเรียบ ไม่มีเงา */
+  border-radius:14px;
   display:flex;align-items:center;justify-content:center;margin:0 auto 14px;
-  box-shadow:0 8px 20px rgba(211,71,36,0.28);
 }
 .dl-hero-icon svg{width:34px;height:34px}
 .dl-hero-h{font-size:22px;font-weight:900;color:var(--text);margin-bottom:6px;letter-spacing:-0.5px}
@@ -150,7 +149,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   cursor:pointer;border-bottom:3px solid transparent;
   transition:color .2s,border-color .2s;
   display:flex;align-items:center;justify-content:center;gap:7px;
-}
+white-space:nowrap;}
 .os-tab.active{color:var(--red);border-bottom-color:var(--red)}
 .os-tab svg{width:18px;height:18px}
 
@@ -260,9 +259,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 /* Redeem section */
 .redeem-wrap{background:#fff;border-bottom:1px solid var(--border);padding:16px 16px 20px}
 .redeem-box{
-  background:linear-gradient(145deg,var(--bg-soft) 0%,#FFE8DC 100%);
-  border:1.5px solid rgba(211,71,36,0.15);
-  border-radius:16px;padding:18px;
+  background:#fff;
+  border:1px solid rgba(17,17,20,.09);
+  border-radius:12px;padding:18px;
 }
 .redeem-input-row{display:flex;gap:8px;margin-top:12px}
 .redeem-input{
@@ -274,10 +273,10 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .redeem-input:focus{border-color:var(--orange)}
 .redeem-input.error{border-color:#EF4444}
 .redeem-btn{
-  background-image:linear-gradient(-190deg,var(--grad-start) 0%,var(--grad-end) 99%);
-  color:#fff;border:none;border-radius:100px;padding:0 20px;
-  font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;white-space:nowrap;
-  box-shadow:0 4px 12px rgba(211,71,36,0.3);transition:opacity .15s,transform .15s;
+  background:#C84B2F;min-height:48px;
+  color:#fff;border:none;border-radius:10px;padding:0 20px;
+  font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;white-space:nowrap;
+  transition:background-color .15s,transform .12s;
 }
 .redeem-btn:disabled{opacity:.45;cursor:not-allowed}
 /* Error state */
@@ -367,7 +366,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .nav-link--active{color:var(--red);background:rgba(211,71,36,0.08);font-weight:700}
 @media(hover:hover){
   .nav-cta:hover{opacity:.88;transform:translateY(-1px)}
-  .redeem-btn:hover:not(.loading){opacity:.9;transform:translateY(-1px)}
+  .redeem-btn:hover:not(.loading):not(:disabled){background:#B5422A}
   .dls-item:hover{background:rgba(255,255,255,0.08)}
   .os-tab:not(.active):hover{color:var(--text);background:rgba(0,0,0,0.02)}
 }
@@ -561,7 +560,7 @@ fbq('track','PageView');
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
         <span style="font-size:14px;font-weight:700;color:var(--text)">กรอก Redeem Code ที่ได้รับทางอีเมล</span>
       </div>
-      <p style="font-size:13px;color:var(--text-sub);line-height:1.5">Code อยู่ในอีเมลที่ส่งหลังจากชำระเงิน รูปแบบ <strong>TARN-XXXXXXXX</strong></p>
+      <p style="font-size:13px;color:var(--text-sub);line-height:1.5">Code อยู่ในอีเมลที่ส่งหลังจากชำระเงิน รูปแบบ <strong style="white-space:nowrap">TARN-XXXXXXXX</strong></p>
       <div class="redeem-input-row">
         <input type="text" class="redeem-input" id="redeemInput" placeholder="TARN-XXXXXXXX" maxlength="13" oninput="onRedeemInput(this)">
         <button class="redeem-btn" id="redeemBtn" onclick="verifyCode()" disabled>ยืนยัน</button>
@@ -631,7 +630,7 @@ fbq('track','PageView');
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <svg viewBox="0 0 256 256" fill="#C84B2F" aria-hidden="true"><path d="M227.19,104.48A16,16,0,0,0,240,88.81V64a16,16,0,0,0-16-16H32A16,16,0,0,0,16,64V88.81a16,16,0,0,0,12.81,15.67,24,24,0,0,1,0,47.04A16,16,0,0,0,16,167.19V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V167.19a16,16,0,0,0-12.81-15.67,24,24,0,0,1,0-47.04ZM32,167.2a40,40,0,0,0,0-78.4V64H88V192H32Zm192,0V192H104V64H224V88.8a40,40,0,0,0,0,78.4Z"/></svg>
           </div>
           <div>
             <div class="card-title">กรอก Code และเปิด Google Drive</div>
@@ -655,7 +654,7 @@ fbq('track','PageView');
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
               <div class="step-title">พิมพ์ Code จากอีเมล</div>
-              <div class="step-desc">กรอก Code รูปแบบ <strong>TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
+              <div class="step-desc">กรอก Code รูปแบบ <strong style="white-space:nowrap">TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
             </div>
           </div>
           <div class="step-item">
@@ -804,7 +803,7 @@ fbq('track','PageView');
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <svg viewBox="0 0 256 256" fill="#C84B2F" aria-hidden="true"><path d="M227.19,104.48A16,16,0,0,0,240,88.81V64a16,16,0,0,0-16-16H32A16,16,0,0,0,16,64V88.81a16,16,0,0,0,12.81,15.67,24,24,0,0,1,0,47.04A16,16,0,0,0,16,167.19V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V167.19a16,16,0,0,0-12.81-15.67,24,24,0,0,1,0-47.04ZM32,167.2a40,40,0,0,0,0-78.4V64H88V192H32Zm192,0V192H104V64H224V88.8a40,40,0,0,0,0,78.4Z"/></svg>
           </div>
           <div>
             <div class="card-title">กรอก Code และเปิด Google Drive</div>
@@ -826,7 +825,7 @@ fbq('track','PageView');
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
               <div class="step-title">พิมพ์ Code จากอีเมล</div>
-              <div class="step-desc">กรอก Code รูปแบบ <strong>TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
+              <div class="step-desc">กรอก Code รูปแบบ <strong style="white-space:nowrap">TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
             </div>
           </div>
           <div class="step-item">
@@ -950,7 +949,7 @@ fbq('track','PageView');
       <div class="card">
         <div class="card-header">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <svg viewBox="0 0 256 256" fill="#C84B2F" aria-hidden="true"><path d="M227.19,104.48A16,16,0,0,0,240,88.81V64a16,16,0,0,0-16-16H32A16,16,0,0,0,16,64V88.81a16,16,0,0,0,12.81,15.67,24,24,0,0,1,0,47.04A16,16,0,0,0,16,167.19V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V167.19a16,16,0,0,0-12.81-15.67,24,24,0,0,1,0-47.04ZM32,167.2a40,40,0,0,0,0-78.4V64H88V192H32Zm192,0V192H104V64H224V88.8a40,40,0,0,0,0,78.4Z"/></svg>
           </div>
           <div>
             <div class="card-title">กรอก Code และเปิด Google Drive</div>
@@ -972,7 +971,7 @@ fbq('track','PageView');
             <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
             <div class="step-body">
               <div class="step-title">พิมพ์ Code จากอีเมล</div>
-              <div class="step-desc">กรอก Code รูปแบบ <strong>TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
+              <div class="step-desc">กรอก Code รูปแบบ <strong style="white-space:nowrap">TARN-XXXXXXXX</strong> ในช่องด้านบน แล้วกด <strong>"ยืนยัน"</strong></div>
             </div>
           </div>
           <div class="step-item">

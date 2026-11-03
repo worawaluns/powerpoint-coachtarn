@@ -33,6 +33,7 @@
 .tb-right .tb-cap{margin:0 4px 0 4px}
 .tb-cap.tb-lg{height:52px;border-radius:12px;font-size:17px;padding:0 22px;width:100%}
 .tb-cap:disabled{opacity:.7;cursor:default}
+@media(max-width:767px){.tb-cap:not(.tb-lg){height:44px;border-radius:10px}}   /* นิ้วแตะได้ ≥44 */
 .tb-nav{display:none;height:100%}
 .tb-nav a{position:relative;display:flex;align-items:center;height:100%;padding:0 16px;font-size:15px;font-weight:500;color:var(--tb-mid);white-space:nowrap}
 .tb-nav a.tb-on{color:var(--tb-text);font-weight:600}

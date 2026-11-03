@@ -2214,12 +2214,12 @@ body{
   .price-old{font-size:16px}
   .price-save{font-size:12px;padding:3px 10px}
   .hero-btn-row{justify-content:flex-end;flex-direction:row-reverse;gap:26px;margin-bottom:4px}
-  .btn-hero-fill{
-    background:linear-gradient(135deg,var(--orange),var(--red));
-    border-color:transparent;color:#fff;
-    padding:15px 42px;font-size:17px;box-shadow:0 10px 26px rgba(211,71,36,.32);
+  .btn-hero-fill{   /* ไอซ์ 3 พ.ย.: ส้มทึบเรียบ ไม่ไล่สี ไม่มีเงา */
+    background:#C84B2F;
+    border-color:transparent;color:#fff;border-radius:10px;
+    padding:15px 42px;font-size:17px;box-shadow:none;
   }
-  .btn-hero-fill:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(211,71,36,.42)}
+  .btn-hero-fill:hover{background:#B5422A;transform:none;box-shadow:none;opacity:1}
   .btn-hero-out{text-decoration:none;font-size:16px;color:var(--text-mid)}
   .btn-hero-out:hover{color:var(--red)}
   .trust-line{justify-content:flex-start;font-size:13px;margin-top:12px;gap:10px}
@@ -2739,12 +2739,12 @@ fbq('track','PageView');
 @media(min-width:768px){
   .pv-facts{
     grid-template-columns:repeat(4,1fr);gap:0;padding:0;margin-top:12px;max-width:100%;
-    background:linear-gradient(105deg,#EB7D4A,#D34724);
+    background:#fff;border-block:1px solid rgba(17,17,20,.09);
   }
   .pv-fact{background:none;border:none;border-radius:0;box-shadow:none;padding:16px 12px}
-  .pv-fact:not(:last-child){border-right:1px solid rgba(255,255,255,.22)}
-  .pv-fact b{color:#fff}
-  .pv-fact span{color:rgba(255,255,255,.88)}
+  .pv-fact:not(:last-child){border-right:1px solid rgba(17,17,20,.09)}
+  .pv-fact b{color:var(--text)}
+  .pv-fact span{color:#6B6B74}
   .pv-outs{grid-template-columns:repeat(3,1fr)}
   .pv-rv-stats{grid-template-columns:190px 1fr;align-items:center;gap:26px}
 }
@@ -3136,7 +3136,6 @@ async function setFile(slug){
 <!-- ★ WHAT YOU GET (preview) -->
 <section class="section pv-b2b-section" id="team">
   <div class="reveal" style="text-align:center">
-    <div class="section-pill">ซื้อในนามองค์กร</div>
     <h2 class="section-h2">ซื้อให้ทั้งทีม<br>ยิ่งหลายคนยิ่งถูก</h2>
     <p class="section-sub">เริ่ม 299฿ ต่อคน แต่ละคนได้ Redeem Code ของตัวเอง ออกใบกำกับภาษีในนามบริษัทได้ทุกแพ็ก</p>
   </div>
