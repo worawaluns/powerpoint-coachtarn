@@ -2002,7 +2002,7 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261102f';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261104a';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -6439,7 +6439,7 @@ function paintDpic() {
   if (!t?.b.dp) { P.innerHTML = '<p class="help" style="text-align:left">แตะรูปบนสไลด์ก่อน แล้วเลือกรูปใหม่ที่นี่</p>'; return; }
   DPT = {k: t.k, n: t.b.p[1]}; const b = t.b;
   let mine = [], pool = [], base = '';
-  try { [mine, pool, base] = JSON.parse(py.runPython('json.dumps([sorted({"%x" % int(v) for _, d in ITEMS for v in [o.get("img") for o in (d.get("add") or []) if isinstance(o, dict)] + [o.get("img") for o in (d.get("dpic") or {}).values()] if v is not None}), sorted(M.get("topic", "office") + "/" + f for f in D.os.listdir(D.os.path.join(D.eng.IMG, M.get("topic", "office"))) if f.lower().endswith((".jpg", ".jpeg", ".png", ".webp"))), D.eng.IMG])')); } catch (e) { console.error(e); }
+  try { [mine, pool, base] = JSON.parse(py.runPython('D.dpic_lists(ITEMS, M)')); } catch (e) { console.error(e); }
   const now = b.src || (b.rep ? '' : b.orig);
   const th = (kind, v, on) => `<button type="button" class="dpt${on ? ' on' : ''}" data-dk="${kind}" data-dv="${esc(v)}" aria-pressed="${on}" aria-label="${kind === 'u' ? 'รูปที่ใส่ไว้' : 'รูปของดีไซน์'}${on ? ' ใช้อยู่' : ''}"><img alt="" data-p="${esc(kind === 'u' ? '/k5/user/' + v : base + '/' + v)}">${on ? `<i class="ck">${ico16('check')}</i><i class="tagu">ใช้อยู่</i>` : ''}</button>`;
   P.innerHTML = `<button class="dpbig" type="button" data-dk="dev">${ico('upload')}เลือกรูปจากเครื่อง</button>
