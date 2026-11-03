@@ -9,104 +9,70 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="topbar.css">
 <style>
+/* หน้าเทมเพลตแบบ dd (ไอซ์ 3 พ.ย. 2569 อนุมัติ e-template-*-full-dd): ไม่มี eyebrow/ภาษาอังกฤษ/เลข 01-05/กล่องตัวเลข/การ์ดไอคอน ปุ่มแถวเดียว ส้มทึบเรียบ */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--red:#D34724;--orange:#EB7D4A;--text:#15151A;--mid:#4A4A55;--sub:#8A8A96;--line:#ECECF0;--soft:#FFF6F2;--bg:#F6F6F8;--white:#fff;--ease:cubic-bezier(.16,1,.3,1)}
-body{font-family:"Sukhumvit Set","Noto Sans Thai",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+:root{--red:#C84B2F;--text:#111114;--mid:#4A4A55;--sub:#6B6B74;--line:rgba(17,17,20,.09);--edge:#DCDAD5;--fill:#F1F0ED;--bg:#FAFAF8;--ease:cubic-bezier(.2,.8,.2,1);--c1:#2F6BFF;--c2:#14B8A6}
+body{font-family:"Sukhumvit Set","Noto Sans Thai",sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.6}
 a{color:inherit;text-decoration:none}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:100px;font-family:inherit;font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .12s,opacity .15s}
-.btn:active{transform:scale(.97)}
-.btn-red{background:#C84B2F;color:#fff;padding:10px 20px;font-size:15px}   /* ไอซ์ 3 พ.ย.: ส้มทึบเรียบ ไม่ไล่สี ไม่มีเงาส้ม ไม่เต้น */
-.btn-ghost{background:#fff;color:var(--text);border:1.5px solid var(--line);padding:9px 18px;font-size:14px}
-.btn svg{width:18px;height:18px}
-.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-.pill{display:inline-flex;align-items:center;gap:6px;border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700}
-
-:root{--c1:#2F6BFF;--c2:#14B8A6}
-/* ---------- hero: cover left, buy card right ---------- */
-.top{padding-top:18px;padding-bottom:48px}
-.crumb{font-size:13px;color:var(--sub);margin-bottom:16px}.crumb a{font-weight:700;color:var(--mid)}
-.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:32px;align-items:start}
-.main{position:relative;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 50px rgba(20,20,40,.1);aspect-ratio:3/2;cursor:zoom-in}
+h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}::selection{background:rgba(200,75,47,.18)}
+.wrap{max-width:1232px;margin:0 auto;padding:0 16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:52px;padding:0 16px;border-radius:12px;font-family:inherit;font-size:17px;font-weight:600;cursor:pointer;white-space:nowrap;border:1px solid var(--edge);background:#fff;color:var(--text)}
+.btn-red{background:var(--red);border-color:var(--red);color:#fff}   /* ไอซ์ 3 พ.ย.: ส้มทึบเรียบ ไม่ไล่สี ไม่มีเงาส้ม ไม่เต้น */
+.btn svg,.btn img{width:22px;height:22px;flex:none;display:block}
+.btn.ico{width:52px;padding:0;flex:none}
+.btn .ls{display:none}@media(max-width:640px){.btn .lw{display:none}.btn .ls{display:inline}}
+/* ---------- ส่วนบน: ปก + ข้อมูล ---------- */
+.top{padding-top:16px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px}
+.main{position:relative;border-radius:12px;overflow:hidden;background:var(--fill);aspect-ratio:16/9;cursor:zoom-in;outline:1px solid rgba(17,17,20,.06);outline-offset:-1px}
 .main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease}
 .main img.on{opacity:1}
-.main img+img{object-fit:contain;padding:4% 4% 9%;background:#EEF0F4}
-.main .pv{position:absolute;left:16px;bottom:16px;background:rgba(15,17,23,.78);color:#fff;border:none;border-radius:100px;padding:10px 18px;font:700 14px 'Noto Sans Thai',sans-serif;display:flex;gap:8px;align-items:center;cursor:pointer;backdrop-filter:blur(6px)}
-.main .pv svg{width:16px;height:16px}
-.thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:12px}
-.thumbs button{border:2px solid transparent;padding:0;border-radius:10px;overflow:hidden;cursor:pointer;background:#fff;position:relative;transition:border-color .2s}
-.thumbs button.on{border-color:var(--text)}
+.main img+img{object-fit:contain;padding:3%;background:#EEF0F4}
+.thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px}
+.thumbs button{border:none;padding:0;border-radius:8px;overflow:hidden;cursor:pointer;background:var(--fill);position:relative;outline:1px solid rgba(17,17,20,.06);outline-offset:-1px}
+.thumbs button.on{outline:2px solid var(--text);outline-offset:1px}
 .thumbs img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block}
-.thumbs .more{position:absolute;inset:0;background:rgba(15,17,23,.62);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px}
-.side{position:sticky;top:calc(var(--tb-space) + 8px);background:#fff;border-radius:22px;padding:26px;box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 50px rgba(20,20,40,.08)}
-.cat{display:inline-block;background:color-mix(in srgb,var(--c1) 12%,#fff);color:var(--c1);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:800}
-.side h1{font-size:clamp(26px,2.6vw,34px);font-weight:800;line-height:1.2;margin:12px 0 4px;text-wrap:balance}
-.side .en{letter-spacing:2px;font-size:12px;font-weight:700;color:var(--sub)}
-.rate{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--mid)}.rate .st{color:#F5A524;letter-spacing:1px;font-size:15px}.rate b{color:var(--text)}
-.side .sub{font-size:14px;color:var(--mid);margin-top:8px;line-height:1.5}
-.facts{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}.facts span{background:var(--bg);border-radius:8px;padding:5px 10px;font-size:12.5px;font-weight:600;color:var(--mid)}
-.val{margin-top:18px;border:1.5px dashed #F2C9BB;background:var(--soft);border-radius:14px;padding:14px 16px}
-.val b{display:block;font-size:13px;color:var(--red);margin-bottom:8px}
-.val li{list-style:none;display:flex;gap:8px;font-size:14px;line-height:1.5;padding:2px 0}.val li::before{content:'';flex-shrink:0;width:18px;height:18px;margin-top:2px;border-radius:50%;background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center/11px no-repeat}
-.price{display:flex;align-items:baseline;gap:10px;margin-top:18px;flex-wrap:wrap}.price b{font-size:36px;font-weight:800;line-height:1}.price s{color:var(--sub);font-size:17px}.price em{font-style:normal;background:#FFE4DB;color:var(--red);font-size:12.5px;font-weight:800;border-radius:100px;padding:4px 10px}
-.bonus{margin-top:12px;display:none;align-items:center;gap:8px;font-size:13px;color:var(--mid)}.bonus.show{display:flex}.bonus svg{width:16px;height:16px;flex-shrink:0;color:var(--red)}.bonus b{font-variant-numeric:tabular-nums;color:var(--text);background:var(--bg);border-radius:6px;padding:2px 8px}
-.cta{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.cta .btn{width:100%;padding:15px 20px;font-size:17px}
-.cta .btn-ghost{font-size:15px;padding:12px 18px}
-/* ไอซ์ 3 พ.ย. 2569: "เปิดใน Studio" + ปุ่มไอคอนดูแบบนำเสนอ แถวเดียว */
-/* งาน 046: ปุ่มแถวเดียว ดาวน์โหลด/สั่งซื้อ (ยืด) + เปิดใน Studio + ไอคอน play (+ เข้าสู่ระบบ สำหรับผู้เยี่ยมชม) */
-.row2{display:flex;gap:10px;align-items:stretch}.cta .row2 .btn{width:auto;flex:none;padding-left:16px;padding-right:16px}.cta .row2 .btn-red{flex:1;min-width:0}
-.cta .row2 .ico{width:54px;padding:0;display:grid;place-items:center}.row2 .st img,.mbar .st img{width:22px;height:22px;display:block}
-.btn .ls{display:none}@media(max-width:640px){.btn .lw{display:none}.btn .ls{display:inline}}@media(max-width:400px){.cta .row2 .btn-red svg{display:none}}
-.trust{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--sub)}.trust span{display:flex;align-items:center;gap:5px}.trust svg{width:14px;height:14px}
-.have{display:block;text-align:center;margin-top:12px;font-size:13.5px;color:var(--mid)}.have a{color:var(--red);font-weight:700;text-decoration:underline;text-underline-offset:3px}
-/* ---------- marquee ---------- */
-.mq{padding:46px 0 36px;background:#0f1117;overflow:hidden;position:relative}
-.mq h2{color:#fff;text-align:center;font-size:26px;font-weight:800;margin-bottom:6px}.mq p{color:#9aa0b4;text-align:center;font-size:14px;margin-bottom:26px}
-.row{display:flex;gap:18px;width:max-content;animation:mq 60s linear infinite;margin-bottom:18px}
-.row.r2{animation-direction:reverse;animation-duration:70s}
-.row img{width:300px;aspect-ratio:16/9;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:block}
+.thumbs .more{position:absolute;inset:0;background:rgba(17,17,20,.55);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
+.side h1{font-size:27px;font-weight:700;letter-spacing:-.015em;line-height:1.3}
+.side .sub{font-size:16px;color:var(--sub);margin-top:4px}
+.meta{font-size:15px;color:var(--sub);margin-top:6px}.meta b{color:var(--text);font-weight:600}
+.rate{display:flex;align-items:center;gap:6px;margin-top:6px;font-size:14px;color:var(--mid)}.rate .st{color:#F2A33A;letter-spacing:1px;font-size:14px}.rate b{color:var(--text)}
+.row2{display:flex;gap:10px;align-items:center;margin-top:18px}.row2 .btn-red{flex:1;min-width:0}
+@media(max-width:400px){.row2 .btn-red svg{display:none}}
+.val{margin-top:18px;background:#fff;border:1px solid #E3E1DC;border-radius:12px;padding:16px 18px}
+.val b{display:block;font-size:16px;font-weight:600}
+.val li{list-style:none;display:flex;gap:10px;align-items:center;font-size:15px;color:var(--mid);min-height:34px}
+.val li svg{width:20px;height:20px;flex:none;color:#1E7F46}
+.price{display:flex;align-items:baseline;gap:10px;margin-top:16px;flex-wrap:wrap}.price b{font-size:40px;font-weight:700;line-height:1.2}.price s{color:var(--sub);font-size:18px}
+.price em{font-style:normal;background:rgba(30,127,70,.12);color:#1E7F46;font-size:14px;font-weight:600;border-radius:6px;padding:2px 10px}
+.bonus{margin-top:8px;display:none;align-items:center;gap:8px;font-size:14px;color:var(--mid)}.bonus.show{display:flex}.bonus svg{width:18px;height:18px;flex-shrink:0;color:var(--red)}
+.bonus b{font-variant-numeric:tabular-nums;color:var(--text);background:#fff;border:1px solid #E3E1DC;border-radius:6px;padding:2px 10px}
+.trust{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:14px;color:var(--sub)}.trust span{display:flex;align-items:center;gap:6px}.trust svg{width:18px;height:18px}
+.chap{display:none;margin-top:36px}.chap>b{font-size:16px;font-weight:600}
+.tl{margin-top:8px;border-top:1px solid var(--line)}.tl div{display:flex;gap:12px;align-items:center;min-height:48px;border-bottom:1px solid var(--line);font-size:16px}
+.tl svg{width:18px;height:18px;flex:none;color:var(--red)}.tl .dim{color:var(--sub)}
+/* ---------- ส่วนล่าง ---------- */
+.sect{margin-top:56px}.sect h2{font-size:24px;font-weight:700;line-height:1.4}.sect .lead{font-size:16px;color:var(--sub);margin-top:2px}
+.mq{overflow:hidden;margin-top:16px}
+.row{display:flex;gap:12px;width:max-content;animation:mq 80s linear infinite;margin-bottom:12px}
+.row.r2{animation-direction:reverse;animation-duration:90s}
+.row img{width:200px;aspect-ratio:16/9;border-radius:10px;display:block;object-fit:cover;outline:1px solid rgba(17,17,20,.06);outline-offset:-1px;background:var(--fill)}
 .mq:hover .row{animation-play-state:paused}
-.mq::before,.mq::after{content:'';position:absolute;top:0;bottom:0;width:120px;z-index:2;pointer-events:none}
-.mq::before{left:0;background:linear-gradient(90deg,#0f1117,transparent)}.mq::after{right:0;background:linear-gradient(-90deg,#0f1117,transparent)}
 @keyframes mq{to{transform:translateX(-50%)}}
-/* ---------- story ---------- */
-.sec{padding:60px 0}.sec h2{font-size:30px;font-weight:800;text-align:center}.sec .lead{text-align:center;color:var(--mid);margin:8px auto 30px;max-width:640px;line-height:1.6}
-/* จอใหญ่: สารบัญสองคอลัมน์ | มือถือ: ยุบเป็นแถบเดียว (.slim) */
-.tocw{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:56px;align-items:start}
-.toch h2{font-size:28px;font-weight:800;line-height:1.35;text-align:left}
-.toch p{color:var(--mid);line-height:1.7;margin-top:12px;font-size:15px}
-.tocm{margin-top:20px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--sub)}
-.tocm div{display:flex;gap:8px;align-items:baseline}.tocm b{color:var(--text);font-weight:700}
-.toc{border-top:1px solid var(--line)}
-.toc.two{columns:2;column-gap:52px;border-top:none}
-.tr{display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--line);break-inside:avoid}
-.toc.two .tr{border-top:1px solid var(--line);border-bottom:none;margin-top:-1px}
-.tr i{font-style:normal;font-variant-numeric:tabular-nums;font-size:13px;font-weight:800;color:var(--sub);letter-spacing:.04em;transform:translateY(-1px)}
-.tr b{font-size:17px;font-weight:700;line-height:1.5}
-.tr.dim b{color:var(--sub);font-weight:600}
-.slim{display:none;background:var(--soft);border-radius:20px;padding:22px 18px 24px}
-.slim>b{display:block;font-size:15px;font-weight:800}
-.slim>p{font-size:14px;color:var(--mid);margin-top:4px;line-height:1.6}
-.sl{margin-top:14px}
-.sr{display:grid;grid-template-columns:26px minmax(0,1fr);gap:4px;align-items:baseline;padding:9px 0;border-top:1px solid rgba(211,71,36,.14)}
-.sr i{font-style:normal;font-variant-numeric:tabular-nums;font-size:12px;font-weight:800;color:var(--red);opacity:.6}
-.sr b{font-size:15px;font-weight:700;line-height:1.45}
-/* ---------- features ---------- */
-.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.ft{padding:24px 22px;border-left:1px solid var(--line)}
-.ft:first-child{border-left:none}
-.ft .ic{width:34px;height:34px;display:grid;place-items:center;color:var(--red);margin-bottom:12px}
-.ft .ic svg{width:26px;height:26px}.ft b{font-size:16px;display:block}.ft p{font-size:13.5px;color:var(--mid);margin-top:5px;line-height:1.55}
-/* ---------- gallery ---------- */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.in{opacity:1;transform:none}
-/* ---------- CTA band ---------- */
-.band{margin:10px 0 70px;border-radius:26px;padding:40px;color:#fff;background:#C84B2F;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;overflow:hidden}
-.band::after{content:'';position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.12)}
-.band h3{font-size:28px;font-weight:800;line-height:1.3}.band p{opacity:.9;margin-top:6px}
-.band .btn{background:#fff;color:var(--red);padding:15px 28px;font-size:17px;position:relative;z-index:1}
-.rel{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding-bottom:90px}
-.rel a{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 8px 24px rgba(20,20,40,.06);transition:transform .3s var(--ease)}.rel a:hover{transform:translateY(-4px)}
-.rel img{width:100%;display:block;aspect-ratio:3/2;object-fit:cover}.rel div{padding:12px 14px;font-weight:700;font-size:15px}
+.fl{display:grid;grid-template-columns:1fr;margin-top:14px;border-top:1px solid var(--line)}
+.fl div{display:grid;grid-template-columns:24px 1fr;column-gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.fl svg{width:22px;height:22px;color:var(--mid);margin-top:2px}.fl b{font-size:16px;font-weight:600;line-height:1.5}.fl p{grid-column:2;font-size:15px;color:var(--sub);line-height:1.6}
+.story>div+div{margin-top:48px}
+.band{margin-top:56px;border-radius:16px;padding:32px 40px;color:#fff;background:var(--red);display:flex;align-items:center;justify-content:space-between;gap:24px}
+.band h3{font-size:22px;font-weight:700;line-height:1.4}.band p{font-size:15px;opacity:.92;margin-top:4px}
+.band .btn{background:#fff;border-color:#fff;color:var(--red);padding:0 22px}
+.rel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px;margin-top:16px;padding-bottom:24px}
+.rel a{display:block;min-width:0}
+.rel .cv{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:var(--fill);outline:1px solid rgba(17,17,20,.06);outline-offset:-1px}
+.rel img{width:100%;height:100%;display:block;object-fit:cover}
+.rel b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:15px;font-weight:600;line-height:1.6;margin-top:10px}
+.rel small{display:block;font-size:14px;color:var(--sub)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease)}.reveal.in{opacity:1;transform:none}
 /* ---------- presenter ---------- */
 .pr{position:fixed;inset:0;background:#07080c;z-index:200;display:none;flex-direction:column}
 .pr.show{display:flex}
@@ -130,18 +96,35 @@ body.owned .pr .wm{display:none}
 .pr .strip img{height:60px;aspect-ratio:16/9;border-radius:6px;opacity:.45;cursor:pointer;border:2px solid transparent;transition:opacity .2s}
 .pr .strip img.on{opacity:1;border-color:#fff}
 .pr .prog{height:3px;background:rgba(255,255,255,.12)}.pr .prog i{display:block;height:100%;background:linear-gradient(90deg,var(--c1),var(--c2));width:0;transition:width .4s}
-.mbar{display:none}
-@media(max-width:980px){.grid{grid-template-columns:minmax(0,1fr);gap:20px}.side{position:static}.rel{grid-template-columns:repeat(2,1fr)}
-  .tocw{grid-template-columns:1fr;gap:24px}.toc.two{columns:1}.toc.two .tr{border-bottom:none}
-  .feats{grid-template-columns:repeat(2,1fr)}.ft:nth-child(odd){border-left:none}.ft:nth-child(n+3){border-top:1px solid var(--line)}}
-@media(max-width:640px){.tocw{display:none}.slim{display:block}.sec{padding:40px 0}
-  .feats{grid-template-columns:1fr}.ft{border-left:none;border-top:1px solid var(--line)}.ft:first-child{border-top:none}.row img{width:220px}.pr .mid{padding:0 8px}.pr .arr{display:none}.band{padding:28px}.band h3{font-size:22px}.side{padding:20px}.thumbs{gap:6px}.main .pv{padding:8px 14px;font-size:13px}
-  .mbar{display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 -1px 0 rgba(0,0,0,.08)}.mbar .btn{flex:1;padding:13px}}
+.mbar{display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 16px calc(14px + env(safe-area-inset-bottom));
+  background:rgba(250,250,248,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--line)}
+.mbar .btn-red{flex:1}
+@media(min-width:768px){
+  .wrap{padding:0 40px}.top{padding-top:32px}
+  .grid{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:56px;align-items:start}
+  .main{border-radius:16px}
+  .side h1{font-size:40px}
+  .chap{display:block}.story .toc{display:none}
+  .sect{margin-top:88px}.sect h2{font-size:28px}
+  .row img{width:300px}
+  .fl2{grid-template-columns:1fr 1fr;column-gap:48px}
+  .rel{grid-template-columns:repeat(4,minmax(0,1fr));gap:32px 24px;padding-bottom:40px}
+  .mbar{display:none}
+}
+@media(max-width:767px){.band{display:none}.pr .mid{padding:0 8px}.pr .arr{display:none}}
 .lfoot{border-top:1px solid var(--line);margin-top:10px;padding:22px 20px 34px;text-align:center}
-.lfoot p{font-size:12.5px;line-height:1.9;color:var(--sub);max-width:640px;margin:0 auto}
+.lfoot p{font-size:13px;line-height:1.9;color:var(--sub);max-width:640px;margin:0 auto}
 .lfoot p+p{margin-top:6px}
 .lfoot a{color:var(--mid);text-decoration:underline;text-underline-offset:3px;margin:0 12px}
-.lfoot .c{font-size:11.5px;color:#B0B0BA;margin-top:10px}
+.lfoot .c{font-size:12px;color:#9A9AA2;margin-top:10px}
+@media(max-width:767px){.lfoot{padding-bottom:110px}}
+/* motion: สงบ transform/opacity เท่านั้น hover เฉพาะเครื่องที่มีเมาส์ */
+.btn,.thumbs button{transition:transform .12s ease-out,background-color .12s}
+.btn:active,.thumbs button:active{transform:scale(.96)}
+.rel a{transition:transform .14s ease-out}.rel a:active{transform:scale(.98)}
+@media(hover:hover){.btn-red:hover{background:#B5422A}.btn:not(.btn-red):hover{background:var(--fill)}.band .btn:hover{background:#fff;opacity:.92}
+  .rel img{transition:opacity .2s}.rel a:hover img{opacity:.92}.rel a:hover b{color:var(--red)}}
+@media(prefers-reduced-motion:reduce){.row{animation:none}.reveal{opacity:1;transform:none;transition:none}.btn,.thumbs button,.rel a{transition:none}.btn:active,.thumbs button:active,.rel a:active{transform:none}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -183,36 +166,12 @@ async function dlThis(e){ e.preventDefault(); const a = e.currentTarget, t = a.i
   a.innerHTML = t; location.href = url || DRIVE; return false; }
 const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } } };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-// flow ที่เป็นลูกโซ่ (โอกาส → ตัวเลข → ...) พูดซ้ำกับสารบัญที่อยู่ข้าง ๆ อยู่แล้ว โชว์เฉพาะที่เป็นชื่อโครงจริง
-const CHAIN = /[→>›➔➝]/;
-const framework = () => (D.flow && !CHAIN.test(D.flow)) ? D.flow : '';
-const n2 = i => String(i + 1).padStart(2, '0');
-function tocHTML(){
-  const ag = D.agenda || [], fw = framework();
-  const rows = (cls, n) => ag.length
-    ? ag.map((a, i) => `<div class="${cls}"><i>${n2(i)}</i><b>${esc(a)}</b></div>`).join('')
-    : `<div class="${cls} dim"><i>—</i><b>${n}</b></div>`;
-  const empty = 'ชุดนี้เป็นหน้าเปล่าให้ประกอบเอง ลำดับหน้าจัดไว้ให้แล้วในไฟล์';
-  return `<div class="tocw">
-    <div class="toch">
-      <h2>เปิดไฟล์มาก็เล่าได้เลย</h2>
-      <p>ลำดับหน้าเรียงมาให้ครบตั้งแต่เปิดจนปิด คุณแค่เปลี่ยนตัวเลขกับชื่อให้เป็นของคุณ</p>
-      <div class="tocm">
-        <div>สารบัญในชุด<b>${ag.length ? ag.length + ' ตอน' : 'จัดลำดับไว้แล้ว'}</b></div>
-        <div>จำนวนหน้า<b>${D.slides} สไลด์</b></div>
-        ${fw ? `<div>วางโครงตาม<b>${esc(fw)}</b></div>` : ''}
-      </div>
-    </div>
-    <div class="toc${ag.length > 6 ? ' two' : ''}">${rows('tr', empty)}</div>
-  </div>
-  <div class="slim">
-    <b>${ag.length ? 'สารบัญที่มาในชุดนี้ · ' + ag.length + ' ตอน' : 'ลำดับหน้าจัดไว้ให้แล้ว'}</b>
-    <p>${ag.length
-      ? `เรียงมาให้ครบตั้งแต่เปิดจนปิด${fw ? ' ตามโครง ' + esc(fw) : ''} เหลือแค่เปลี่ยนข้อมูลเป็นของคุณ`
-      : empty}</p>
-    ${ag.length ? `<div class="sl">${rows('sr', empty)}</div>` : ''}
-  </div>`;
+// สารบัญ: รายการตอนพร้อมเส้นคั่น ไม่มีเลข 01-05 (ไอซ์ 3 พ.ย. dd)
+function tlHTML(){
+  const ag = D.agenda || [];
+  return `<div class="tl">${ag.length ? ag.map(a => `<div>${I.check}${esc(a)}</div>`).join('') : '<div class="dim">ชุดนี้เป็นหน้าเปล่าให้ประกอบเอง ลำดับหน้าจัดไว้ให้แล้วในไฟล์</div>'}</div>`;
 }
+const chapTitle = () => (D.agenda || []).length ? `ในชุดนี้มี ${D.agenda.length} ตอน` : 'ลำดับหน้าจัดไว้ให้แล้ว';
 const I = {
   dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>',
   lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
@@ -223,7 +182,9 @@ const I = {
   shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>',
   mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>',
   clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
-  story:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h10M4 18h13"/></svg>' };
+  story:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h10M4 18h13"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>',
+  okc:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.7 7.7-5.5 5.5a1 1 0 0 1-1.4 0l-2.5-2.5a1 1 0 1 1 1.4-1.4l1.8 1.8 4.8-4.8a1 1 0 1 1 1.4 1.4z"/></svg>' };
 let D, cur = 1, timer = null, prCur = 1, prTimer = null, playing = true;
 const img = k => `https://img.coachtarnslide.com/slides/${D.slug}/${String(k).padStart(2, '0')}.webp`;
 const range = n => Array.from({ length: n }, (_, i) => i + 1);
@@ -232,25 +193,22 @@ const range = n => Array.from({ length: n }, (_, i) => i + 1);
 const TOTAL = '6,500+';
 function cardHTML(){
   const s = store.get();
-  const head = `<span class="cat">${esc(D.cat)}</span>
-      <h1>${esc(D.th)}</h1><div class="en">${esc(D.en).toUpperCase()}</div>
-      <div class="rate"><span class="st">★★★★★</span><b>4.9/5</b><span>· ใช้งานแล้ว 7,000+ คน</span></div>
-      <p class="sub">${esc(D.sub || '')}</p>
-      <div class="facts"><span>${D.slides} สไลด์</span><span>16:9</span><span>PowerPoint</span>${D.excel === false ? '<span>แก้ข้อความทุกหน้า</span>' : '<span>กราฟแก้ใน Excel</span>'}</div>`;
-  const play = `<button class="btn btn-ghost ico" onclick="openPr()" aria-label="ดูแบบนำเสนอ" title="ดูแบบนำเสนอ">${I.play}</button>`;
-  if (s) return head + `<div class="cta"><div class="row2"><a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl}<span class="lw">ดาวน์โหลดชุดนี้</span><span class="ls">ดาวน์โหลด</span></a>
-      ${studioOk() ? `<a class="btn btn-ghost st" href="studio/#tpl=${encodeURIComponent(D.slug)}">${STUDIO_IC}<span class="lw">เปิดใน Studio</span><span class="ls">Studio</span></a>` : ''}${play}</div></div>`;
-  return head + `<div class="val"><b>ซื้อครั้งเดียว ได้ทั้งคลัง</b><ul>
-        <li>ชุดนี้ + อีก ${window.ALL.length - 1} ชุด ครบทุกอาชีพ</li>
-        <li>สไลด์รวม ${TOTAL} หน้า โหลดไม่จำกัด</li>
-        <li>จ่ายครั้งเดียว ไม่มีรายเดือน</li></ul></div>
+  const head = `<h1>${esc(D.th)}</h1>${D.sub ? `<p class="sub">${esc(D.sub)}</p>` : ''}
+      <p class="meta"><b>${D.slides} สไลด์</b> · 16:9 · ${esc(D.cat)} · ${D.excel === false ? 'แก้ข้อความทุกหน้า' : 'กราฟแก้ใน Excel'}</p>
+      <div class="rate"><span class="st">★★★★★</span><b>4.9</b> จากผู้ใช้ 7,000+ คน</div>`;
+  const play = `<button class="btn ico" onclick="openPr()" aria-label="ดูแบบนำเสนอ" title="ดูแบบนำเสนอ">${I.play}</button>`;
+  const chap = `<div class="chap"><b>${chapTitle()}</b>${tlHTML()}</div>`;   // จอคอม: สารบัญใต้ปุ่ม ฝั่งขวาไม่โล่ง
+  if (s) return head + `<div class="row2"><a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl}<span class="lw">ดาวน์โหลดชุดนี้</span><span class="ls">ดาวน์โหลด</span></a>
+      ${studioOk() ? `<a class="btn st" href="studio/#tpl=${encodeURIComponent(D.slug)}">${STUDIO_IC}<span class="lw">เปิดใน Studio</span><span class="ls">Studio</span></a>` : ''}${play}</div>` + chap;
+  return head + `<div class="val"><b>ซื้อครั้งเดียว ได้ทั้งคลัง</b><ul style="margin-top:6px">
+        <li>${I.okc}ชุดนี้ + อีก ${window.ALL.length - 1} ชุด ครบทุกอาชีพ</li>
+        <li>${I.okc}สไลด์รวม ${TOTAL} หน้า โหลดไม่จำกัด</li>
+        <li>${I.okc}จ่ายครั้งเดียว ไม่มีรายเดือน</li></ul></div>
       <div class="price"><b>499฿</b><s>999฿</s><em>ประหยัด 500฿</em></div>
       <div class="bonus" id="bonus">${I.clock}<span>สั่งวันนี้ รับ Bonus Slides ฟรี หมดใน</span><b id="bonusT"></b></div>
-      <div class="cta"><div class="row2"><a class="btn btn-red" href="order.html">${ctTop.ic('shopping-bag')}สั่งซื้อ 499฿</a>${play}
-        <button class="btn btn-ghost ico" onclick="ctTop.login()" aria-label="เข้าสู่ระบบ" title="เข้าสู่ระบบ">${ctTop.ic('user-circle')}</button></div></div>
-      <div class="trust"><span>${I.shield} ตรวจสลิปอัตโนมัติ</span><span>${I.mail} ได้โค้ดทางอีเมล</span></div>
-      <p class="have">ซื้อแล้ว? <a href="#" onclick="ctTop.login();return false">เข้าสู่ระบบด้วย Code</a></p>${studioOk() ? `
-      <p class="have">ชุดนี้เปิดแก้ใน Slide Studio ได้หลังกรอก Code</p>` : ''}`;
+      <div class="row2"><a class="btn btn-red" href="order.html">${ctTop.ic('shopping-bag')}สั่งซื้อ 499฿</a>${play}
+        <button class="btn ico" onclick="ctTop.login()" aria-label="เข้าสู่ระบบ" title="เข้าสู่ระบบ">${ctTop.ic('user-circle')}</button></div>
+      <div class="trust"><span>${I.shield}ตรวจสลิปอัตโนมัติ</span><span>${I.mail}ได้ Code ทางอีเมล</span></div>` + chap;
 }
 // ปุ่ม "เปิดใน Studio" (ไอซ์ 2 พ.ย. 2569) เฉพาะชุดที่ Studio เปิดได้ (studio/tpl.json) โหลดเสร็จทีหลังก็วาดการ์ดข้างใหม่
 const STUDIO_IC = '<img src="img/studio-mark.svg" alt="">';   // ไอซ์ 3 พ.ย.: ไอคอน Studio = studio-mark.svg
@@ -267,8 +225,8 @@ function bonusTick(){
   el.classList.add('show');
 }
 const mbarHTML = () => store.get()
-    ? `<a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl} ดาวน์โหลดชุดนี้</a>${studioOk() ? `<a class="btn btn-ghost st" style="flex:none;width:52px;padding:0" href="studio/#tpl=${encodeURIComponent(D.slug)}" aria-label="เปิดใน Studio">${STUDIO_IC}</a>` : ''}`
-    : `<a class="btn btn-red" href="order.html">${ctTop.ic('shopping-bag')} สั่งซื้อ 499฿ ได้ทุกชุด</a>`;
+    ? `<a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl}ดาวน์โหลดชุดนี้</a>${studioOk() ? `<a class="btn ico st" href="studio/#tpl=${encodeURIComponent(D.slug)}" aria-label="เปิดใน Studio">${STUDIO_IC}</a>` : ''}`
+    : `<a class="btn btn-red" href="order.html">${ctTop.ic('shopping-bag')}สั่งซื้อ 499฿ ได้ทุกชุด</a>`;
 function render(){
   document.title = D.th + ' — Coach Tarn';
   document.documentElement.style.setProperty('--c1', '#' + D.c1); document.documentElement.style.setProperty('--c2', '#' + D.c2);
@@ -277,37 +235,32 @@ function render(){
   const pick = range(D.slides).filter(k => k > 2);
   const r1 = pick.filter((_, i) => i % 2 === 0), r2 = pick.filter((_, i) => i % 2 === 1);
   const row = a => a.concat(a).map(k => `<img loading="lazy" src="${img(k)}" alt="">`).join('');
+  const feats = [D.excel === false ? [I.chart, 'ทุกชิ้นเป็นรูปทรงแก้ได้', 'แท่ง วง และลูกศรทุกอันเป็นรูปทรง PowerPoint คลิกลากย่อขยายได้ตรง ๆ'] : [I.chart, 'กราฟเชื่อม Excel', 'คลิกขวา Edit Data แก้ตัวเลข กราฟเปลี่ยนตามทันที'],
+    [I.palette, 'เปลี่ยนสีได้ในคลิกเดียว', 'ไอคอนเป็นเวกเตอร์ สีทั้งชุดปรับตามแบรนด์ของคุณ'], [I.font, 'ฟอนต์ไทยอ่านง่าย', 'IBM Plex Sans Thai ฟรีเชิงพาณิชย์ สระไม่ลอย'],
+    [I.story, 'หัวเรื่องเป็นประโยคสรุป', 'ผู้ฟังเข้าใจเร็วขึ้น ตามงานวิจัย Assertion-Evidence']].map(([i, t, p]) => `<div>${i}<b>${t}</b><p>${p}</p></div>`).join('');
   document.getElementById('app').innerHTML = `
   <section class="top wrap">
-    <div class="crumb"><a href="templates.html">คลังเทมเพลต</a> › ${esc(D.cat)}</div>
     <div class="grid">
       <div>
-        <div class="main" id="view" onclick="openPr(cur > 1 ? cur - 1 : 1)">${shots.map((u, i) => `<img src="${u}" alt="" ${i ? 'loading="lazy"' : 'class="on"'}>`).join('')}
-          <button class="pv" onclick="event.stopPropagation();openPr()">${I.play} ดูแบบนำเสนอ <span id="cap"></span></button></div>
+        <div class="main" id="view" onclick="openPr(cur > 1 ? cur - 1 : 1)" title="ดูแบบนำเสนอ">${shots.map((u, i) => `<img src="${u}" alt="" ${i ? 'loading="lazy"' : 'class="on"'}>`).join('')}</div>
         <div class="thumbs" id="dots">${shots.slice(0, 6).map((u, i) => `<button aria-label="ภาพ ${i + 1}" onclick="show(${i + 1},true)"><img loading="lazy" src="${u}" alt="">${i === 5 ? `<span class="more">+${D.slides - 5}</span>` : ''}</button>`).join('')}</div>
       </div>
-      <aside class="side">${cardHTML()}</aside>
+      <div class="side">${cardHTML()}</div>
     </div>
   </section>
 
-  <section class="mq"><h2>${D.slides} สไลด์ ออกแบบมาให้เล่าเรื่องต่อกัน</h2><p>ชี้เพื่อหยุด  |  คลิก "ดูแบบนำเสนอ" เพื่อดูเต็มจอ</p>
-    <div class="row">${row(r1)}</div><div class="row r2">${row(r2)}</div></section>
+  <section class="sect"><div class="wrap"><h2>${D.slides} สไลด์ ออกแบบมาให้เล่าเรื่องต่อกัน</h2><p class="lead">แตะ "ดูแบบนำเสนอ" เพื่อดูเต็มจอ</p></div>
+    <div class="mq"><div class="row">${row(r1)}</div><div class="row r2">${row(r2)}</div></div></section>
 
-  <section class="sec wrap reveal">${tocHTML()}</section>
-
-  <section class="sec wrap reveal" style="padding-top:10px"><div class="feats">
-    ${D.excel === false
-      ? `<div class="ft"><div class="ic">${I.chart}</div><b>ทุกชิ้นเป็นรูปทรงแก้ได้</b><p>แท่ง วง และลูกศรทุกอันเป็นรูปทรง PowerPoint คลิกลากย่อขยายได้ตรง ๆ</p></div>`
-      : `<div class="ft"><div class="ic">${I.chart}</div><b>กราฟเชื่อม Excel</b><p>คลิกขวา › Edit Data แก้ตัวเลข กราฟเปลี่ยนตามทันที</p></div>`}
-    <div class="ft"><div class="ic">${I.palette}</div><b>เปลี่ยนสีได้ในคลิกเดียว</b><p>ไอคอนเป็นเวกเตอร์ สีทั้งชุดปรับตามแบรนด์ของคุณ</p></div>
-    <div class="ft"><div class="ic">${I.font}</div><b>ฟอนต์ไทยอ่านง่าย</b><p>IBM Plex Sans Thai ฟรีเชิงพาณิชย์ สระไม่ลอย</p></div>
-    <div class="ft"><div class="ic">${I.story}</div><b>หัวเรื่องเป็นประโยคสรุป</b><p>ผู้ฟังเข้าใจเร็วขึ้น ตามงานวิจัย Assertion-Evidence</p></div>
-  </div></section>
+  <section class="sect wrap story reveal">
+    <div class="toc"><h2>${chapTitle()}</h2><p class="lead">เรียงหน้าไว้ตั้งแต่เปิดจนปิด เปลี่ยนตัวเลขกับชื่อเป็นของคุณ แล้วนำเสนอได้เลย</p>${tlHTML()}</div>
+    <div><h2>แก้ง่ายใน PowerPoint</h2><div class="fl fl2">${feats}</div></div>
+  </section>
 
   <div class="wrap">
     ${store.get() ? '' : `<div class="band reveal"><div><h3>ได้ทุกชุด ${TOTAL} สไลด์ ในราคาเดียว</h3><p>จ่ายครั้งเดียว 499 บาท (ปกติ 999 บาท) ครบทุกอาชีพ</p></div><a class="btn" href="order.html">สั่งซื้อ 499฿</a></div>`}
-    <h2 style="font-size:24px;font-weight:800;margin:10px 0 18px">ชุดอื่นที่น่าสนใจ</h2>
-    <section class="rel">${rel.map(x => `<a href="template.html?id=${x.slug}"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${x.slug}.webp" alt=""><div>${esc(x.th)}</div></a>`).join('')}</section>
+    <section class="sect"><h2>ชุดอื่นที่น่าสนใจ</h2>
+    <div class="rel">${rel.map(x => `<a href="template.html?id=${x.slug}"><div class="cv"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${x.slug}.webp" alt=""></div><b>${esc(x.th)}</b><small>${x.slides} สไลด์ · ${esc(x.cat)}</small></a>`).join('')}</div></section>
   </div>`;
   document.getElementById('mbar').innerHTML = mbarHTML();
   show(1); autoplay(); bonusTick(); setInterval(bonusTick, 1000);
@@ -319,7 +272,7 @@ function show(k, user){
   const n = D.slides + 1; cur = (k - 1 + n) % n + 1;
   document.querySelectorAll('#view img').forEach((el, i) => el.classList.toggle('on', i + 1 === cur));
   document.querySelectorAll('#dots button').forEach((el, i) => el.classList.toggle('on', i + 1 === cur));
-  document.getElementById('cap').textContent = cur > 1 ? `· ${cur - 1}/${D.slides}` : '';
+
   if (user) autoplay();
 }
 function autoplay(){ clearInterval(timer); timer = setInterval(() => show(cur + 1), 3000); }
