@@ -56,6 +56,8 @@ a{color:inherit;text-decoration:none}
 .cta .btn-red{animation:pulse 2.6s ease-in-out infinite}
 @keyframes pulse{0%,100%{box-shadow:0 8px 20px rgba(211,71,36,.3)}50%{box-shadow:0 8px 20px rgba(211,71,36,.3),0 0 0 7px rgba(211,71,36,.12)}}
 .cta .btn-ghost{font-size:15px;padding:12px 18px}
+/* ไอซ์ 3 พ.ย. 2569: "เปิดใน Studio" + ปุ่มไอคอนดูแบบนำเสนอ แถวเดียว */
+.row2{display:flex;gap:10px}.row2 .btn{flex:1}.cta .row2 .ico{flex:none;width:52px;padding:0;display:grid;place-items:center}
 .trust{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--sub)}.trust span{display:flex;align-items:center;gap:5px}.trust svg{width:14px;height:14px}
 .have{display:block;text-align:center;margin-top:12px;font-size:13.5px;color:var(--mid)}.have a{color:var(--red);font-weight:700;text-decoration:underline;text-underline-offset:3px}
 /* ---------- marquee ---------- */
@@ -245,8 +247,8 @@ function cardHTML(){
       <p class="sub">${esc(D.sub || '')}</p>
       <div class="facts"><span>${D.slides} สไลด์</span><span>16:9</span><span>PowerPoint</span>${D.excel === false ? '<span>แก้ข้อความทุกหน้า</span>' : '<span>กราฟแก้ใน Excel</span>'}</div>`;
   if (s) return head + `<div class="cta"><a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl} ดาวน์โหลดชุดนี้</a>
-      <button class="btn btn-ghost" onclick="openPr()">${I.play} ดูแบบนำเสนอ</button>${studioOk() ? `
-      <a class="btn btn-ghost" href="studio/#tpl=${encodeURIComponent(D.slug)}">${STUDIO_IC} เปิดใน Studio</a>` : ''}</div>
+      ${studioOk() ? `<div class="row2"><a class="btn btn-ghost" href="studio/#tpl=${encodeURIComponent(D.slug)}">${STUDIO_IC} เปิดใน Studio</a>
+      <button class="btn btn-ghost ico" onclick="openPr()" aria-label="ดูแบบนำเสนอ" title="ดูแบบนำเสนอ">${I.play}</button></div>` : `<button class="btn btn-ghost" onclick="openPr()">${I.play} ดูแบบนำเสนอ</button>`}</div>
       <p class="have">ปลดล็อกแล้ว ดาวน์โหลดได้ทุกชุดใน <a href="templates.html">คลังเทมเพลต</a></p>`;
   return head + `<div class="val"><b>ซื้อครั้งเดียว ได้ทั้งคลัง</b><ul>
         <li>ชุดนี้ + อีก ${window.ALL.length - 1} ชุด ครบทุกอาชีพ</li>
