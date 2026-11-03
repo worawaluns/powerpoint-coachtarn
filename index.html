@@ -1507,16 +1507,21 @@ body{
 }
 .btn-sticky{
   flex:1;
-  background:#C84B2F;   /* ไอซ์ 3 พ.ย.: ส้มทึบเรียบ ไม่ไล่สี ไม่มีเงาส้ม ไม่มีแสงวิ่ง */
-  color:#fff;border:none;border-radius:12px;
+  background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));
+  box-shadow:var(--btn-shadow);
+  color:#fff;border:none;border-radius:100px;
   padding:13px 16px;
   font-family:inherit;cursor:pointer;
   display:flex;align-items:center;justify-content:center;gap:8px;
   text-decoration:none;font-size:15px;font-weight:800;letter-spacing:-0.2px;
   transition:transform .15s;overflow:hidden;position:relative;
 }
+.btn-sticky::after{
+  content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);
+  animation:shimmer 2.4s ease-in-out infinite;
+}
 .btn-sticky:active{transform:scale(0.98)}
-@media(prefers-reduced-motion:reduce){.btn-sticky:active{transform:none}}
 .btn-sticky svg{width:18px;height:18px;flex-shrink:0}
 
 /* ══════════════════════════════════════
@@ -1656,17 +1661,18 @@ body{
 
 .sticky-spacer{display:none}
 
-/* แถบล่างให้เข้าชุดกับแถบบน (ไอซ์ 3 พ.ย. 2569 "ปุ่มล่างนี้ยังไม่เหมือน ui ด้านบนเลย"): กระจกเดียวกัน เส้นบน 1px ไม่มีเงา ฟอนต์เดียวกัน
-   ปุ่มแบบ .tb-cap (มุม 10 น้ำหนัก 600) ตัวนับเป็นบรรทัดเทาเรียบ ไม่มีกล่องชมพู ป้ายลดเป็นส้มอ่อน */
-.sticky-bar{background:var(--tb-surface);-webkit-backdrop-filter:var(--tb-blur);backdrop-filter:var(--tb-blur);border-top:1px solid var(--tb-sep);box-shadow:none;font-family:var(--tb-font);padding:8px 16px calc(12px + env(safe-area-inset-bottom))}
+/* แถบล่างเข้าชุดกับแถบบน Liquid Glass (ไอซ์ 3 พ.ย. 2569 "ปุ่มล่างนี้ยังไม่เหมือน ui ด้านบนเลย" + ไม่เอาเงาส้มเบลอ/ไล่สี)
+   กระจกเดียวกับแถบบน ปุ่มทรงแคปซูลแบบ .tb-cap ส้มทึบ ตัวนับเป็นบรรทัดเทา ไม่มีกล่องชมพู */
+.sticky-bar{background:var(--tb-surface);-webkit-backdrop-filter:var(--tb-blur);backdrop-filter:var(--tb-blur);border-top:var(--tb-border);box-shadow:0 -6px 20px rgba(17,17,20,.08);font-family:var(--tb-font);padding:8px 16px calc(12px + env(safe-area-inset-bottom))}
 .sticky-urgency{background:none;padding:0 0 6px;margin:0;border-radius:0;color:var(--tb-mid);font-size:13px;font-weight:500;gap:6px}
 .su-timer{color:var(--tb-text);font-size:13px;font-weight:600;letter-spacing:.2px}
 .sticky-price-main{color:var(--tb-text);font-size:20px;font-weight:700;letter-spacing:-.3px}
 .sticky-price-old{color:var(--tb-sub);font-size:12px;font-weight:400}
-.discount-badge{background:#F6E4DE;color:#C84B2F;border-radius:6px;font-size:11px;font-weight:600;padding:1px 6px}
-.btn-sticky{height:48px;padding:0 16px;border-radius:10px;font-size:16px;font-weight:600;letter-spacing:0}
+.discount-badge{background:#F6E4DE;color:#C84B2F;border-radius:20px;font-size:11px;font-weight:600;padding:1px 7px}
+.btn-sticky{background:#C84B2F!important;box-shadow:none!important;height:48px;padding:0 18px;border-radius:24px;font-size:16px;font-weight:700;letter-spacing:0}
+.btn-sticky::before,.btn-sticky::after{display:none!important}
 .btn-sticky svg{width:20px;height:20px}
-@media(min-width:768px){.sticky-urgency{padding:0}.btn-sticky{height:44px}}
+@media(min-width:768px){.sticky-urgency{padding:0}.btn-sticky{height:44px;border-radius:22px}}
 .nav-spacer{height:60px}
 
 /* ══════════════════════════════════════
@@ -2226,12 +2232,12 @@ body{
   .price-old{font-size:16px}
   .price-save{font-size:12px;padding:3px 10px}
   .hero-btn-row{justify-content:flex-end;flex-direction:row-reverse;gap:26px;margin-bottom:4px}
-  .btn-hero-fill{   /* ไอซ์ 3 พ.ย.: ส้มทึบเรียบ ไม่ไล่สี ไม่มีเงา */
-    background:#C84B2F;
-    border-color:transparent;color:#fff;border-radius:10px;
-    padding:15px 42px;font-size:17px;box-shadow:none;
+  .btn-hero-fill{
+    background:linear-gradient(135deg,var(--orange),var(--red));
+    border-color:transparent;color:#fff;
+    padding:15px 42px;font-size:17px;box-shadow:0 10px 26px rgba(211,71,36,.32);
   }
-  .btn-hero-fill:hover{background:#B5422A;transform:none;box-shadow:none;opacity:1}
+  .btn-hero-fill:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(211,71,36,.42)}
   .btn-hero-out{text-decoration:none;font-size:16px;color:var(--text-mid)}
   .btn-hero-out:hover{color:var(--red)}
   .trust-line{justify-content:flex-start;font-size:13px;margin-top:12px;gap:10px}
@@ -2741,8 +2747,8 @@ fbq('track','PageView');
 @media(min-width:768px){.pv-tiers{grid-template-columns:repeat(4,1fr);gap:14px}}
 /* sticky section nav */
 /* แถบหัวข้อใต้แถบบน (ไอซ์ 3 พ.ย. 2569 "ui แปลกไม่เหมาะกับ top bar อันใหม่"): กระจกเดียวกับแถบบน แท็บตัวหนังสือ ขีดส้มบอกหัวข้อที่อยู่ ตอนติดหัวจอ ::before เติมกระจกขึ้นไปถึงขอบจอ ไม่เห็นเนื้อหาลอดช่องระหว่างสองแถบ */
-.pv-anchor{position:sticky;top:calc(var(--tb-top) + var(--tb-h));z-index:120;background:var(--tb-surface);-webkit-backdrop-filter:var(--tb-blur);backdrop-filter:var(--tb-blur);border-bottom:1px solid var(--tb-sep);font-family:var(--tb-font)}
-.pv-anchor::before{content:'';position:absolute;left:0;right:0;bottom:100%;height:calc(var(--tb-top) + var(--tb-h));background:inherit;-webkit-backdrop-filter:inherit;backdrop-filter:inherit;opacity:0;pointer-events:none;transition:opacity .2s}
+.pv-anchor{position:sticky;top:calc(var(--tb-top) + var(--tb-h) + 6px);z-index:120;background:var(--tb-surface);-webkit-backdrop-filter:var(--tb-blur);backdrop-filter:var(--tb-blur);border-bottom:1px solid var(--tb-sep);font-family:var(--tb-font)}
+.pv-anchor::before{content:'';position:absolute;left:0;right:0;bottom:100%;height:calc(var(--tb-top) + var(--tb-h) + 6px);background:inherit;-webkit-backdrop-filter:inherit;backdrop-filter:inherit;opacity:0;pointer-events:none;transition:opacity .2s}
 .pv-anchor.stuck::before{opacity:1}
 .pv-anchor-in{display:flex;gap:2px;overflow-x:auto;padding:0 12px;max-width:var(--max);margin:0 auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .pv-anchor-in::-webkit-scrollbar{display:none}
@@ -2751,12 +2757,12 @@ fbq('track','PageView');
 @media(min-width:768px){
   .pv-facts{
     grid-template-columns:repeat(4,1fr);gap:0;padding:0;margin-top:12px;max-width:100%;
-    background:#fff;border-block:1px solid rgba(17,17,20,.09);
+    background:linear-gradient(105deg,#EB7D4A,#D34724);
   }
   .pv-fact{background:none;border:none;border-radius:0;box-shadow:none;padding:16px 12px}
-  .pv-fact:not(:last-child){border-right:1px solid rgba(17,17,20,.09)}
-  .pv-fact b{color:var(--text)}
-  .pv-fact span{color:#6B6B74}
+  .pv-fact:not(:last-child){border-right:1px solid rgba(255,255,255,.22)}
+  .pv-fact b{color:#fff}
+  .pv-fact span{color:rgba(255,255,255,.88)}
   .pv-outs{grid-template-columns:repeat(3,1fr)}
   .pv-rv-stats{grid-template-columns:190px 1fr;align-items:center;gap:26px}
 }
@@ -2776,7 +2782,7 @@ fbq('track','PageView');
 }
 
 /* the two sticky bars must not cover a heading when a chip is clicked */
-#library,#feat,#reviews,#how,#deal,#team,#faq{scroll-margin-top:calc(var(--tb-h) + 56px)}
+#library,#feat,#reviews,#how,#deal,#team,#faq{scroll-margin-top:150px}
 </style>
 </head>
 <body>
@@ -3148,6 +3154,7 @@ async function setFile(slug){
 <!-- ★ WHAT YOU GET (preview) -->
 <section class="section pv-b2b-section" id="team">
   <div class="reveal" style="text-align:center">
+    <div class="section-pill">ซื้อในนามองค์กร</div>
     <h2 class="section-h2">ซื้อให้ทั้งทีม<br>ยิ่งหลายคนยิ่งถูก</h2>
     <p class="section-sub">เริ่ม 299฿ ต่อคน แต่ละคนได้ Redeem Code ของตัวเอง ออกใบกำกับภาษีในนามบริษัทได้ทุกแพ็ก</p>
   </div>

@@ -23,15 +23,11 @@ const ICONS = {
   "shield-check": "<path d=\"M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z\"/>",
   "shopping-bag": "<path d=\"M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM176,88a48,48,0,0,1-96,0,8,8,0,0,1,16,0,32,32,0,0,0,64,0,8,8,0,0,1,16,0Z\"/>",
   "squares-four-fill": "<path d=\"M120,56v48a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V56A16,16,0,0,1,56,40h48A16,16,0,0,1,120,56Zm80-16H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V56A16,16,0,0,0,200,40Zm-96,96H56a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,104,136Zm96,0H152a16,16,0,0,0-16,16v48a16,16,0,0,0,16,16h48a16,16,0,0,0,16-16V152A16,16,0,0,0,200,136Z\"/>",
-  "ticket": "<path d=\"M227.19,104.48A16,16,0,0,0,240,88.81V64a16,16,0,0,0-16-16H32A16,16,0,0,0,16,64V88.81a16,16,0,0,0,12.81,15.67,24,24,0,0,1,0,47.04A16,16,0,0,0,16,167.19V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V167.19a16,16,0,0,0-12.81-15.67,24,24,0,0,1,0-47.04ZM32,167.2a40,40,0,0,0,0-78.4V64H88V192H32Zm192,0V192H104V64H224V88.8a40,40,0,0,0,0,78.4Z\"/>",
   "play-fill": "<path d=\"M240,128a15.74,15.74,0,0,1-7.6,13.51L88.32,229.65a16,16,0,0,1-16.2.3A15.86,15.86,0,0,1,64,216.13V39.87a15.86,15.86,0,0,1,8.12-13.82,16,16,0,0,1,16.2.3L232.4,114.49A15.74,15.74,0,0,1,240,128Z\"/>"
 };
 const ic = (n, c) => `<svg class="tb-i${c ? ' ' + c : ''}" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">${ICONS[n]}</svg>`;
 const STUDIO = '<img class="tb-i" src="img/studio-mark.svg" alt="">';
 const chev = ic('caret-right', 'tb-chev');
-// ไอซ์ 3 พ.ย.: avatar = ไอคอนรูปคน ในวงกลมส้มอ่อน
-const AV = () => `<i><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="8.2" r="4.2"/><path d="M3.8 20.1c.4-4 3.9-6.6 8.2-6.6s7.8 2.6 8.2 6.6c0 .5-.3.9-.8.9H4.6c-.5 0-.9-.4-.8-.9z"/></svg></i>`;
-const REDUCE = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 // same Edge Function + public anon key as templates.html / download.html
 const SB_URL = 'https://uyubtzyhuqalmjpjhmap.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
@@ -46,18 +42,18 @@ const locked = root.hasAttribute('data-locked'), on = root.dataset.on || '';
 const m = me();
 
 function bar() {
-  if (locked) return `<header class="tb-bar tb-locked"><div class="tb-in"><span class="tb-logo"><img src="img/logo.svg" alt="Coach Tarn"></span></div></header>`;
+  if (locked) return `<header class="tb-bar tb-locked"><span class="tb-logo"><img src="img/logo.svg" alt="Coach Tarn"></span></header>`;
   const L = [['templates', 'templates.html', 'คลังเทมเพลต'], ['download', 'download.html', 'วิธีดาวน์โหลด'], ['admin', ADMIN, 'ติดต่อแอดมิน']];
   const seg = L.map(([k, h, t]) => `<a href="${h}"${k === on ? ' class="tb-on"' : ''}${k === 'admin' ? ' target="_blank" rel="noopener"' : ''}>${t}</a>`).join('');
   const right = m
-    ? `<button class="tb-srch tb-dsk" data-a="search">${ic('magnifying-glass')}<span>ค้นหาเทมเพลต</span></button><button class="tb-av" data-a="acct" aria-label="บัญชีของฉัน">${AV()}</button>`
-    : `<button class="tb-cb tb-dsk" data-a="search" aria-label="ค้นหา">${ic('magnifying-glass')}</button><button class="tb-cb" data-a="login" aria-label="เข้าสู่ระบบ">${ic('user-circle')}</button>${on === 'order' ? '' : '<a class="tb-cap" href="order.html">สั่งซื้อ 499฿</a>'}`;   // หน้าสั่งซื้อไม่ต้องมีปุ่มสั่งซื้อซ้ำ
-  return `<header class="tb-bar"><div class="tb-in"><span style="display:flex;align-items:center"><button class="tb-cb tb-menu" data-a="menu" aria-label="เมนู">${ic('list')}</button>
-    <a class="tb-logo" href="${m ? 'templates.html' : 'index.html'}"><img src="img/logo.svg" alt="Coach Tarn"></a></span>
-    <nav class="tb-nav">${seg}</nav><div class="tb-right">${right}</div></div></header>`;
+    ? `<button class="tb-srch tb-dsk" data-a="search">${ic('magnifying-glass')}<span>ค้นหาเทมเพลต</span></button><button class="tb-av" data-a="acct" aria-label="บัญชีของฉัน">${ic('user-circle')}</button>`
+    : `<button class="tb-cb tb-dsk" data-a="search" aria-label="ค้นหา">${ic('magnifying-glass')}</button><button class="tb-cb" data-a="login" aria-label="เข้าสู่ระบบ">${ic('user-circle')}</button>${on === 'order' ? '' : '<a class="tb-cap" href="order.html">สั่งซื้อ 499฿</a>'}`;
+  return `<header class="tb-bar"><button class="tb-cb tb-menu" data-a="menu" aria-label="เมนู">${ic('list')}</button>
+    <a class="tb-logo" href="${m ? 'templates.html' : 'index.html'}"><img src="img/logo.svg" alt="Coach Tarn"></a>
+    <nav class="tb-seg">${seg}</nav><div class="tb-right">${right}</div></header>`;
 }
 
-const row = (a, icon, text, end, attr) => `<${a ? 'a' : 'button'} class="tb-row${attr && attr.red ? ' tb-red' : ''}${a && a.split('.')[0] === on ? ' tb-here' : ''}" ${a ? `href="${a}"` : `data-a="${attr.act}"`}${a === ADMIN ? ' target="_blank" rel="noopener"' : ''}>${icon}${text}${end || ''}</${a ? 'a' : 'button'}>`;
+const row = (a, icon, text, end, attr) => `<${a ? 'a' : 'button'} class="tb-row${attr && attr.red ? ' tb-red' : ''}" ${a ? `href="${a}"` : `data-a="${attr.act}"`}${a === ADMIN ? ' target="_blank" rel="noopener"' : ''}>${icon}${text}${end || ''}</${a ? 'a' : 'button'}>`;
 
 function menuBody() {
   const tail = m ? '' : `<div class="tb-grp">${row(0, ic('user-circle'), 'เข้าสู่ระบบ', '', { act: 'login' })}${row('order.html', ic('shopping-bag'), 'สั่งซื้อ 499฿')}</div>`;
@@ -66,7 +62,7 @@ function menuBody() {
 }
 function acctBody() {
   const u = me() || {}, code = String(u.code || '');
-  return `<div class="tb-phd"><span class="tb-av tb-lg">${AV()}</span><span><b>${esc(u.name || 'สมาชิก')}</b>
+  return `<div class="tb-phd"><span class="tb-av tb-lg">${ic('user-circle')}</span><span><b>${esc(u.name || 'สมาชิก')}</b>
       <small>${esc(code.slice(0, 5))}••••${esc(code.slice(-4))} <span class="tb-ok">${ic('seal-check-fill')}ใช้งานได้ทุกชุด</span></small></span></div>
     <div class="tb-grp">${row('download.html', ic('download-simple'), 'หน้าดาวน์โหลด', chev)}${row('studio/', STUDIO, 'เปิด Slide Studio', ic('arrow-square-out', 'tb-chev'))}</div>
     <div class="tb-grp">${row('guide.html', ic('question'), 'วิธีดาวน์โหลด', chev)}${row(ADMIN, ic('chat-circle-dots'), 'ติดต่อแอดมิน', chev)}${row('terms.html', ic('file-text'), 'สิทธิ์การใช้ไฟล์', chev)}</div>
@@ -78,32 +74,28 @@ function loginBody() {
     <form class="tb-fld" data-f="login" novalidate><label for="tbCode">Code จากอีเมล</label>
       <input id="tbCode" placeholder="TARN-XXXXXXXX" maxlength="13" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
       <p class="tb-err" id="tbErr" role="alert"></p>
-      <button class="tb-cap tb-lg" style="margin-top:14px" id="tbGo">เข้าสู่ระบบ</button></form>
+      <button class="tb-cap tb-lg" style="margin-top:16px" id="tbGo">เข้าสู่ระบบ</button></form>
     <p class="tb-lnk">ยังไม่มี Code? <a href="order.html">สั่งซื้อ 499฿</a></p>`;
 }
 function doneBody(name) {
   return `<div class="tb-done"><span>${ic('check-circle-fill')}</span><h3>เข้าสู่ระบบแล้ว</h3>
       <p>${name ? `สวัสดี คุณ${esc(name)} ` : ''}โหลดได้ทุกชุดในคลัง</p></div>
-    <div class="tb-lic">${ic('shield-check')}<p>ใช้ได้ไม่จำกัด ห้ามแจกหรือขายต่อไฟล์และ Code <a href="terms.html" target="_blank" rel="noopener">อ่านสิทธิ์ฉบับเต็ม</a></p></div>
-    <a class="tb-cap tb-lg" style="margin-top:16px" href="templates.html">ไปที่คลังเทมเพลต</a>`;
+    <div class="tb-grp tb-lic">${ic('shield-check')}<p>ใช้ได้ไม่จำกัด ห้ามแจกหรือขายต่อไฟล์และ Code <a href="terms.html" target="_blank" rel="noopener">อ่านสิทธิ์ฉบับเต็ม</a></p></div>
+    <a class="tb-cap tb-lg" style="margin:16px 4px 4px;width:calc(100% - 8px)" href="templates.html">ไปที่คลังเทมเพลต</a>`;
 }
 
 let scrim = null, sheet = null, done = false;
 function close() {
   if (!sheet) return;
-  const s = sheet, c = scrim; scrim = sheet = null; document.body.style.overflow = '';
+  scrim.remove(); sheet.remove(); scrim = sheet = null; document.body.style.overflow = '';
   root.querySelectorAll('.tb-on[data-a]').forEach(b => b.classList.remove('tb-on'));
-  const gone = () => { s.remove(); c.remove(); if (done) location.reload(); };   // เพิ่งเข้าสู่ระบบ: วาดหน้าใหม่ให้เห็นปุ่มดาวน์โหลด
-  if (REDUCE()) return gone();
-  s.classList.add('tb-out'); c.classList.add('tb-out'); setTimeout(gone, 160);   // ปิด 160ms แล้วค่อยถอด
+  if (done) location.reload();            // เพิ่งเข้าสู่ระบบ: วาดหน้าใหม่ให้เห็นปุ่มดาวน์โหลด
 }
 function open(kind, html, btn) {
   close();
-  scrim = document.createElement('div'); scrim.className = 'tb-scrim tb-k-' + kind;
-  // มือถือ: นิ้วที่แตะเปิดยังส่ง click ตามมาโดน scrim เต็มจอ แผ่นเลยปิดทันที ปิดเฉพาะ click ที่เริ่มกดบน scrim จริง และไม่สนใจ 250ms แรกหลังเปิด
-  const t0 = Date.now(); let down = false;
-  scrim.addEventListener('pointerdown', () => { down = Date.now() - t0 > 250; });
-  scrim.addEventListener('click', () => { if (down) close(); down = false; });
+  // มือถือ: แตะเปิดแล้ว tap เดียวกันไปโดน scrim ปิดทันที ปิดเฉพาะที่นิ้วเริ่มกดบน scrim หลังเปิดเกิน 250ms
+  scrim = document.createElement('div'); scrim.className = 'tb-scrim'; const t0 = Date.now();
+  scrim.onpointerdown = () => { scrim._d = Date.now() - t0 > 250; }; scrim.onclick = () => { if (scrim && scrim._d) close(); };
   sheet = document.createElement('div'); sheet.className = 'tb-sheet tb-s-' + kind; sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true');
   sheet.innerHTML = html; sheet.addEventListener('click', act);
   document.body.append(scrim, sheet); document.body.style.overflow = 'hidden';
@@ -122,14 +114,12 @@ function login() {
 }
 function err(msg) {
   const e = document.getElementById('tbErr'); if (!e) return;
-  const inp = document.getElementById('tbCode');
-  e.textContent = msg; e.classList.toggle('show', !!msg); inp.classList.toggle('tb-bad', !!msg);
-  if (msg) { inp.classList.remove('tb-shake'); void inp.offsetWidth; inp.classList.add('tb-shake'); }   // สั่นทุกครั้งที่ผิด
+  e.textContent = msg; e.classList.toggle('show', !!msg); document.getElementById('tbCode').classList.toggle('tb-bad', !!msg);
 }
 async function verify() {
   const code = document.getElementById('tbCode').value.trim().toUpperCase(), btn = document.getElementById('tbGo');
   if (!PATTERN.test(code)) return err('รูปแบบ Code ไม่ถูกต้อง ตัวอย่าง: TARN-A3K9P2MX');
-  btn.disabled = true; btn.innerHTML = '<span class="tb-spin"></span>กำลังตรวจสอบ...'; err('');
+  btn.disabled = true; btn.textContent = 'กำลังตรวจสอบ...'; err('');
   try {
     const r = await fetch(`${SB_URL}/functions/v1/verify-code`, { method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SB_KEY}` }, body: JSON.stringify({ code }) });
