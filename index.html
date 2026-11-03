@@ -1655,6 +1655,18 @@ body{
 }
 
 .sticky-spacer{display:none}
+
+/* แถบล่างให้เข้าชุดกับแถบบน (ไอซ์ 3 พ.ย. 2569 "ปุ่มล่างนี้ยังไม่เหมือน ui ด้านบนเลย"): กระจกเดียวกัน เส้นบน 1px ไม่มีเงา ฟอนต์เดียวกัน
+   ปุ่มแบบ .tb-cap (มุม 10 น้ำหนัก 600) ตัวนับเป็นบรรทัดเทาเรียบ ไม่มีกล่องชมพู ป้ายลดเป็นส้มอ่อน */
+.sticky-bar{background:var(--tb-surface);-webkit-backdrop-filter:var(--tb-blur);backdrop-filter:var(--tb-blur);border-top:1px solid var(--tb-sep);box-shadow:none;font-family:var(--tb-font);padding:8px 16px calc(12px + env(safe-area-inset-bottom))}
+.sticky-urgency{background:none;padding:0 0 6px;margin:0;border-radius:0;color:var(--tb-mid);font-size:13px;font-weight:500;gap:6px}
+.su-timer{color:var(--tb-text);font-size:13px;font-weight:600;letter-spacing:.2px}
+.sticky-price-main{color:var(--tb-text);font-size:20px;font-weight:700;letter-spacing:-.3px}
+.sticky-price-old{color:var(--tb-sub);font-size:12px;font-weight:400}
+.discount-badge{background:#F6E4DE;color:#C84B2F;border-radius:6px;font-size:11px;font-weight:600;padding:1px 6px}
+.btn-sticky{height:48px;padding:0 16px;border-radius:10px;font-size:16px;font-weight:600;letter-spacing:0}
+.btn-sticky svg{width:20px;height:20px}
+@media(min-width:768px){.sticky-urgency{padding:0}.btn-sticky{height:44px}}
 .nav-spacer{height:60px}
 
 /* ══════════════════════════════════════
