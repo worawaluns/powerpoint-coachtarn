@@ -100,7 +100,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 
 /* ── Progress bar ── */
 .progress-bar{
-  position:fixed;top:0;left:0;right:0;   /* ขอบบนสุดของจอ เหนือแถบบนแบบลอย */
+  position:fixed;top:var(--tb-h);left:0;right:0;   /* ใต้เส้นล่างของแถบบน (แถบชิดขอบจอแล้ว ไม่ลอย) */
   height:3px;background:linear-gradient(90deg,var(--grad-start),var(--grad-end));
   width:50%;transition:width .4s var(--ease);
   z-index:199;
