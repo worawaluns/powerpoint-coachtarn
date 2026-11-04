@@ -199,6 +199,7 @@ html.jsimg .cv a img:not(.ld){opacity:0}
 .grid.anim>.card:nth-child(-n+12),.grid.anim>.sl:nth-child(-n+12){animation:rise .22s var(--ease) backwards;animation-delay:calc(var(--i,0) * 25ms)}
 @keyframes rise{from{opacity:0;transform:translateY(6px)}}
 /* 8. ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที */
+@view-transition{navigation:auto}   /* ไอซ์ 4 พ.ย.: เข้าหน้าดีเทลแบบจางต่อกัน ไม่กระพริบขาว */
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <script>/* ภาพค่อยโผล่เมื่อโหลดเสร็จ — พังก็โชว์ (error) ถ้าสคริปต์นี้ไม่รัน html ไม่มี jsimg ภาพก็โชว์ตามปกติ */
@@ -459,5 +460,15 @@ fetch('https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers', {
   <p><a href="privacy">นโยบายความเป็นส่วนตัว</a><a href="terms">เงื่อนไขการใช้งานและสิทธิ์การใช้ไฟล์</a></p>
   <p class="c">© 2026 บริษัท ดับเบิ้ลคราฟ์ จำกัด, All rights reserved</p>
 </footer>
+<script>/* ไอซ์ 4 พ.ย. 2569 (แบบแอป HeyTea): กดการ์ดชุดแล้วภาพปกลอยไปวางเป็นภาพใหญ่หน้าดีเทล ส่งตำแหน่งปกที่เห็นให้ template.html ทำต่อ */
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="template.html?id="]');
+  if (!a || a.href.includes('&s=') || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;   // ลิงก์หน้าสไลด์ไปเปิดแบบนำเสนอ ไม่ลอย
+  const im = (a.closest('.card') || a).querySelector('img'), r = im && im.getBoundingClientRect();
+  if (!r || !im.naturalWidth || r.bottom < 0 || r.top > innerHeight) return;
+  const rad = parseFloat(getComputedStyle(im.closest('.card') || im).borderTopLeftRadius) || 14;
+  try { sessionStorage.setItem('ct_morph2', JSON.stringify({x: r.left, y: r.top, w: r.width, h: r.height, rad, src: im.currentSrc || im.src, slug: new URL(a.href).searchParams.get('id'), t: Date.now()})); } catch (_) {}
+});
+</script>
 </body>
 </html>
