@@ -525,6 +525,8 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 .hm-steps li::before{content:counter(step);width:22px;height:22px;background:#F1F5F9;color:var(--text-mid);border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .hm-hours{font-size:13px;color:var(--text-sub);text-align:center;margin:16px 0 12px;padding:10px;background:#F5F5F7;border-radius:10px}
 .hm-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#0084FF,#0068D1);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;font-family:inherit}
+/* ไอซ์ 4 พ.ย. 2569: ปุ่มหลักส้มเรียบ #C84B2F ไม่ไล่สี ไม่มีเงาเบลอ ไม่มีแสงวิ่ง */
+.redeem-btn,.dl-cta,.drawer-cta-btn,.nav-cta{background:#C84B2F!important;background-image:none!important;box-shadow:none!important}@media(hover:hover){.redeem-btn:hover:not(.loading){transform:none!important}}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -1202,7 +1204,7 @@ async function verifyCode() {
       document.getElementById('redeemWrap').style.display = 'none';
       // Show customer name if returned
       const nameEl = document.getElementById('successName');
-      if (data.name) nameEl.textContent = `คุณ${data.name} 🎉`;
+      if (data.name) nameEl.textContent = `คุณ${data.name}`;
       document.getElementById('successZone').classList.add('show');
       // remember the unlock so the rest of the site (library, popup) shows download buttons
       try { localStorage.setItem('ct_lib', JSON.stringify({ code, name: data.name || '', t: Date.now() })); } catch (_) {}
