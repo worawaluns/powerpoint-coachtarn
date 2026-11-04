@@ -130,14 +130,9 @@ a{color:inherit;text-decoration:none}
 .sub2{margin-top:3px;font-size:11.5px;color:var(--sub);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(min-width:768px){.cb{padding:12px 14px 14px}.cb h3{font-size:15.5px}.sub2{font-size:12.5px;margin-top:4px}}
 .m1{background:var(--soft);color:var(--red)}.m2{background:#F1F2F6;color:var(--mid)}
-.dl{position:absolute;right:8px;bottom:8px;width:34px;height:34px;border-radius:100px;display:grid;place-items:center;
-  border:none;cursor:pointer;background:rgba(255,255,255,.93);backdrop-filter:blur(6px);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.16)}
-@media(min-width:768px){.dl{position:static;width:42px;height:42px;border-radius:12px;background:#F1F2F6;color:var(--mid);box-shadow:none;backdrop-filter:none}}
-.dl.open{background:#C84B2F;color:#fff}
 /* ป้าย Studio มุมขวาบนของปก = ชุดนี้เปิดใน Slide Studio ได้ (studio/tpl.json) */
 .sbadge{position:absolute;right:8px;top:8px;z-index:2;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.85);box-shadow:0 2px 6px rgba(17,17,20,.18)}.sbadge img{width:20px;height:20px;display:block}
 .chip.st{display:inline-flex;align-items:center;gap:6px}.chip.st img{width:18px;height:18px}
-.dl svg{width:19px;height:19px}
 /* browse mode: by set / by slide type */
 .mode{display:inline-flex;background:#fff;border:1.5px solid var(--line);border-radius:100px;padding:4px;gap:4px;margin-top:22px}
 .mode button{border:none;background:none;border-radius:100px;padding:9px 18px;font-family:inherit;font-size:14.5px;font-weight:700;color:var(--mid);cursor:pointer}
@@ -153,8 +148,6 @@ a{color:inherit;text-decoration:none}
 .sl .pill{flex-shrink:0;padding:2px 8px;font-size:11px}
 .more{grid-column:1/-1;justify-self:center}
 .empty{grid-column:1/-1;text-align:center;color:var(--sub);padding:60px 0}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#15151A;color:#fff;padding:12px 20px;border-radius:14px;font-size:14px;transition:transform .4s var(--ease);z-index:99}
-.toast.show{transform:translateX(-50%) translateY(0)}
 
 .oldlib{display:flex;align-items:center;gap:12px;margin:0 0 16px;padding:14px 16px;border-radius:16px;
   background:#F6F7F9;border:1px solid #E7E8EC;text-decoration:none;color:#15151A}
@@ -268,7 +261,6 @@ addEventListener('pagereveal', e => { document.querySelectorAll('.cv img').forEa
   <div class="types" id="types"></div>
   <section class="grid" id="grid"></section>
 </main>
-<div class="toast" id="toast"></div>
 <script src="js/newbadge.js"></script>
 <script>
 const GROUPS = [['all','ทั้งหมด'],['chart','กราฟ & อินโฟกราฟิก'],['office','พนักงานออฟฟิศ'],['teacher','ครู / อาจารย์'],['sales','ฝ่ายขาย'],['owner','เจ้าของธุรกิจ'],['health','บุคลากรสุขภาพ'],['engineer','วิศวกร / QMS'],['gov','ข้าราชการ / ท้องถิ่น'],['trainer','วิทยากร / โค้ช'],['proposal','ใบเสนองาน']];
@@ -288,21 +280,7 @@ let NEWSET = new Set();   // slugs that get the "ใหม่" badge — rule li
 { const u = new URLSearchParams(location.search); if (location.hash === '#slides' || u.get('view') === 'slides') mode = 'slides'; if (u.get('type')) type = u.get('type'); if (u.get('g')) group = u.get('g'); }
 const TYPES = ['กราฟ', 'ตัวเลข KPI', 'ตาราง', 'ตารางราคา', 'ไทม์ไลน์ / ขั้นตอน', 'เปรียบเทียบ', 'อินโฟกราฟิก', 'สารบัญ', 'สรุปผู้บริหาร', 'ทีม / องค์กร', 'แผนที่', 'ภาพ / คำคม', 'ปก', 'คั่นบท', 'เปิดเรื่อง', 'ปิดท้าย'];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const toast = m => { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2400); };
 
-// same Edge Function + public anon key as download.html
-const SUPABASE_URL = 'https://uyubtzyhuqalmjpjhmap.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
-// members: ask the server for this set's own file link (links are not public)
-const SB_URL = SUPABASE_URL, SB_KEY = SUPABASE_ANON_KEY;
-async function setFile(slug){
-  let v = null; try { v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); } catch (e) {}
-  if (!(v && v.code)) return null;
-  const r = await fetch(`${SB_URL}/functions/v1/verify-code`, { method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SB_KEY}` },
-    body: JSON.stringify({ code: v.code, slug }) });
-  const d = await r.json(); return d.valid && d.file ? d.file : null;
-}
 function renderChips(){
   const fresh = {}; DATA.forEach(d => fresh[d.group] = Math.max(fresh[d.group] || 0, d.no));
   const order = GROUPS.slice().sort((a, b) => a[0] === 'all' ? -1 : b[0] === 'all' ? 1 : (fresh[b[0]] || 0) - (fresh[a[0]] || 0));
@@ -376,11 +354,6 @@ function renderFacets(){
       ${opt(F.photo, "setFlag('photo')", 'มีรูปภาพประกอบ')}${opt(F.excel, "setFlag('excel')", 'กราฟแก้ใน Excel ได้')}</div></div>
     ${n ? '<button class="fclr" onclick="clearF()">ล้างตัวกรองทั้งหมด</button>' : ''}`;
 }
-async function dlSet(e, slug, name){   // download that one set; folder is the fallback
-  e.preventDefault(); toast(`กำลังเตรียมไฟล์ ${name}`);
-  const url = await setFile(slug).catch(() => null);
-  location.href = url || DRIVE; return false;
-}
 function renderSets(){
   const open = !!store.get(), g = document.getElementById('grid');
   const ln = document.getElementById('licnote');
@@ -390,8 +363,7 @@ function renderSets(){
   const ob = document.getElementById('oldlib'); if (ob) ob.style.display = open ? 'flex' : 'none';
   const list = visible();
   g.innerHTML = list.length ? list.map((d, i) => `
-    <article class="card"${i < 12 ? ` style="--i:${i}"` : ''}><div class="cv"><a href="template.html?id=${d.slug}"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${d.slug}.webp" alt="${esc(d.th)}"></a>${NEWSET.has(d.slug) ? '<i class="new"><span>ใหม่</span></i>' : ''}${TPL.has(d.slug) ? '<span class="sbadge" title="เปิดใน Studio ได้"><img src="img/studio-mark.svg" alt=""></span>' : ''}
-        ${open ? `<a class="dl open" title="ดาวน์โหลด" href="${d.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlSet(event,'${d.slug}','${esc(d.th)}')">${ICON.dl}</a>` : ''}</div>
+    <article class="card"${i < 12 ? ` style="--i:${i}"` : ''}><div class="cv"><a href="template.html?id=${d.slug}"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${d.slug}.webp" alt="${esc(d.th)}"></a>${NEWSET.has(d.slug) ? '<i class="new"><span>ใหม่</span></i>' : ''}${TPL.has(d.slug) ? '<span class="sbadge" title="เปิดใน Studio ได้"><img src="img/studio-mark.svg" alt=""></span>' : ''}</div>
       <a class="cb" href="template.html?id=${d.slug}"><h3>${esc(d.th)}</h3>
         <div class="sub2">${esc(d.cat)}<span class="sep"></span>${d.slides} สไลด์</div></a></article>`).join('')
     : emptyHtml();
