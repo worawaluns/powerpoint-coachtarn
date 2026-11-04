@@ -41,6 +41,8 @@ td.k{color:#8a8a92;white-space:nowrap}td.v{text-align:right;font-weight:700;word
 .codes div{background:#FAFAFA;border:1px solid #EFEFEF;border-radius:10px;padding:9px 12px;margin-bottom:6px;font-family:'Courier New',monospace;font-size:15px;font-weight:700;letter-spacing:1.5px}
 .spin{width:22px;height:22px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;display:inline-block;vertical-align:-5px;animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+/* ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที (ไอซ์ 4 พ.ย. 2569) */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>

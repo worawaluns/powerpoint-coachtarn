@@ -40,3 +40,6 @@ body.en [lang-en]{display:block}
 body.en li[lang-en],body.en span[lang-en],body.en a[lang-en]{display:list-item}
 body.en span[lang-en],body.en a[lang-en]{display:inline}
 @media(min-width:768px){.langrow{padding:0 24px}.doc{padding:34px 24px 90px}.doc h1{font-size:32px}.doc h2{font-size:20px}}
+
+/* ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที (ไอซ์ 4 พ.ย. 2569) */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}

@@ -527,6 +527,18 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 .hm-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#0084FF,#0068D1);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;font-family:inherit}
 /* ไอซ์ 4 พ.ย. 2569: ปุ่มหลักส้มเรียบ #C84B2F ไม่ไล่สี ไม่มีเงาเบลอ ไม่มีแสงวิ่ง */
 .redeem-btn,.dl-cta,.drawer-cta-btn,.nav-cta{background:#C84B2F!important;background-image:none!important;box-shadow:none!important}@media(hover:hover){.redeem-btn:hover:not(.loading){transform:none!important}}
+/* ── motion (ไอซ์ 4 พ.ย. 2569 "เอาทั้ง8ข้อเลย") — CSS ล้วน เล่นตอน .show/.error ติด ไม่แตะ logic ตรวจ Code ── */
+.redeem-btn:active:not(:disabled){transform:scale(.97)!important}
+.redeem-err.show{animation:errIn .18s var(--ease)}
+@keyframes errIn{from{opacity:0;transform:translateY(-4px)}}
+.redeem-input.error{animation:shake .28s ease-in-out}
+@keyframes shake{20%,60%{transform:translateX(-4px)}40%,80%{transform:translateX(4px)}}
+.dl-success-zone.show{animation:zoneIn .35s var(--ease)}
+@keyframes zoneIn{from{opacity:0;transform:translateY(10px)}}
+.dl-success-zone.show .dls-check{animation:checkPop .4s var(--ease) .12s backwards}
+@keyframes checkPop{from{opacity:0;transform:scale(.6)}}
+/* 8. ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <!-- Meta Pixel -->
 <script>

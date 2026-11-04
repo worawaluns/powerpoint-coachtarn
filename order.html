@@ -189,9 +189,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   border-radius:8px;padding:5px 10px;
   font-size:12px;font-weight:700;color:var(--red);cursor:pointer;
   font-family:inherit;white-space:nowrap;margin-left:8px;
-  transition:background .15s;
+  transition:background .15s,transform .1s var(--ease);
 }
-.copy-btn:active{background:#FFE5DB}
+.copy-btn:active{background:#FFE5DB;transform:scale(.95)}
 .copy-btn svg{width:13px;height:13px}
 
 .bank-note{
@@ -236,9 +236,10 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   border:2px dashed rgba(211,71,36,0.25);
   border-radius:16px;padding:28px 16px;
   text-align:center;cursor:pointer;
-  transition:border-color .2s,background .2s;
+  transition:border-color .2s,background .2s,transform .1s var(--ease);
   display:block;
 }
+.upload-area:active{transform:scale(.985)}
 .upload-area:hover,.upload-area.dragover{
   border-color:var(--orange);background:#FFF0E8;
 }
@@ -258,7 +259,9 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   padding:3px 8px;font-size:11px;font-weight:600;color:var(--text-sub);
 }
 /* Preview after upload */
-.upload-preview{display:none;align-items:center;gap:12px;padding:12px 14px;background:#F0FAF0;border-radius:12px;margin-top:12px;border:1px solid #BBF7D0}
+.upload-preview{display:none;align-items:center;gap:12px;padding:12px 14px;background:#F0FAF0;border-radius:12px;margin-top:12px;border:1px solid #BBF7D0;
+  animation:upIn .25s var(--ease)}   /* เล่นทุกครั้งที่ JS เปลี่ยน display จาก none เป็น flex */
+@keyframes upIn{from{opacity:0;transform:translateY(6px)}}
 .up-img{width:48px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0}
 .up-info{flex:1;min-width:0}
 .up-name{font-size:13px;font-weight:700;color:#166534;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -292,7 +295,14 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   backdrop-filter:blur(8px);z-index:200;
   flex-direction:column;align-items:center;justify-content:center;gap:16px;
 }
-.loading-overlay.show{display:flex}
+.loading-overlay.show{display:flex;animation:ovIn .2s ease-out}
+/* ลูกในแผงค่อยลอยขึ้นทีละชิ้น — ใช้ translate แยกจาก transform ไม่ชนกับ spin ของวงหมุน (ไอซ์ 4 พ.ย. CSS ล้วน) */
+.loading-overlay.show>*{animation:ovRise .3s var(--ease) backwards}
+.loading-overlay.show>.spinner{animation:ovRise .3s var(--ease) backwards,spin .8s linear infinite}
+.loading-overlay.show>:nth-child(2){animation-delay:80ms}
+.loading-overlay.show>:nth-child(3){animation-delay:160ms}
+@keyframes ovIn{from{opacity:0}}
+@keyframes ovRise{from{opacity:0;translate:0 8px}}
 .spinner{
   width:48px;height:48px;border:3px solid var(--border);
   border-top-color:var(--red);border-radius:50%;
@@ -338,7 +348,8 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 /* Steps */
 .bbl-steps{padding:18px 24px;display:flex;flex-direction:column;gap:12px;border-bottom:1px solid var(--border)}
 .bbl-step{display:flex;align-items:center;gap:10px;font-size:14px}
-.bbl-step-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bbl-step-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .25s}
+.bbl-step-label{transition:color .25s}
 .bbl-step-icon svg{width:14px;height:14px}
 .bbl-step.done .bbl-step-icon{background:rgba(34,197,94,0.12)}
 .bbl-step.done .bbl-step-icon svg{stroke:#16A34A}
@@ -829,6 +840,8 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 .hm-steps li::before{content:counter(step);width:22px;height:22px;background:#F1F5F9;color:var(--text-mid);border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .hm-hours{font-size:13px;color:var(--text-sub);text-align:center;margin:16px 0 12px;padding:10px;background:#F5F5F7;border-radius:10px}
 .hm-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#0084FF,#0068D1);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;font-family:inherit}
+/* ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที (ไอซ์ 4 พ.ย. 2569) */
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <!-- Meta Pixel -->
 <script>
