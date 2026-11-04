@@ -442,8 +442,9 @@ document.getElementById('q').addEventListener('input', e => {
   clearTimeout(_qt);                      // 366 ชุด × กรองทุกตัวอักษร = มือถือกระตุก
   _qt = setTimeout(() => { q = v.trim().toLowerCase(); shown = 48; render(1); }, 120);
 });
-Promise.all([fetch('library/data.json').then(r => r.json()), fetch('library/slides.json').then(r => r.json()).catch(() => ({})),
-             fetch('library/pick.json').then(r => r.json()).catch(() => ({})), fetch('library/search.json').then(r => r.json()).catch(() => ({})),
+const _bk = (performance.getEntriesByType('navigation')[0] || {}).type === 'back_forward', _fo = _bk ? {cache: 'force-cache'} : {};   // ไอซ์ 4 พ.ย.: กดย้อนกลับ ใช้ไฟล์ที่เพิ่งโหลด ไม่ต้องถามเซิร์ฟเวอร์ใหม่ระหว่างเลื่อน
+Promise.all([fetch('library/data.json', _fo).then(r => r.json()), fetch('library/slides.json', _fo).then(r => r.json()).catch(() => ({})),
+             fetch('library/pick.json', _fo).then(r => r.json()).catch(() => ({})), fetch('library/search.json', _fo).then(r => r.json()).catch(() => ({})),
              fetch('studio/tpl.json').then(r => r.json()).catch(() => [])]).then(([d, t, p, x, st]) => {
   TPL = new Set(st);
   PICK = p;
@@ -477,7 +478,7 @@ document.addEventListener('click', e => {
   const im = (a.closest('.card') || a).querySelector('img'), r = im && im.getBoundingClientRect();
   if (!r || !im.naturalWidth || r.bottom < 0 || r.top > innerHeight) return;
   const rad = parseFloat(getComputedStyle(im.closest('.card') || im).borderTopLeftRadius) || 14;
-  try { sessionStorage.setItem('ct_morph2', JSON.stringify({x: r.left, y: r.top, w: r.width, h: r.height, rad, src: im.currentSrc || im.src, slug: new URL(a.href).searchParams.get('id'), t: Date.now()})); } catch (_) {}
+  try { sessionStorage.setItem('ct_morph2', JSON.stringify({x: r.left, y: r.top, w: r.width, h: r.height, rad, src: im.currentSrc || im.src, slug: new URL(a.href).searchParams.get('id'), t: Date.now(), n: DATA.length, d: DATA.find(x => x.slug === new URL(a.href).searchParams.get('id'))})); } catch (_) {}
 });
 </script>
 </body>
