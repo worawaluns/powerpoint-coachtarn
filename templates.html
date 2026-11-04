@@ -200,6 +200,12 @@ html.jsimg .cv a img:not(.ld){opacity:0}
 @keyframes rise{from{opacity:0;transform:translateY(6px)}}
 /* 8. ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที */
 @view-transition{navigation:auto}   /* ไอซ์ 4 พ.ย.: เข้าหน้าดีเทลแบบจางต่อกัน ไม่กระพริบขาว */
+/* ไอซ์ 4 พ.ย.: กลับจากหน้าดีเทล หน้าดีเทลเลื่อนออกทางขวา หน้าคลังเลื่อนตามจากซ้ายนิดหน่อย แบบแอป HeyTea/iOS */
+html:active-view-transition-type(back)::view-transition-old(root){animation:ct-out .38s cubic-bezier(.32,.72,0,1) both;z-index:2;box-shadow:-8px 0 30px rgba(0,0,0,.12)}
+html:active-view-transition-type(back)::view-transition-new(root){animation:ct-under .38s cubic-bezier(.32,.72,0,1) both}
+@keyframes ct-out{to{transform:translateX(100%)}}
+@keyframes ct-under{from{transform:translateX(-25%)}}
+@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none!important}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <script>/* ภาพค่อยโผล่เมื่อโหลดเสร็จ — พังก็โชว์ (error) ถ้าสคริปต์นี้ไม่รัน html ไม่มี jsimg ภาพก็โชว์ตามปกติ */
@@ -218,6 +224,10 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
+<script>/* ไอซ์ 4 พ.ย.: มาจากหน้าดีเทล (ปุ่มย้อนกลับหรือลิงก์คลังเทมเพลต) = ทางกลับ ใช้แอนิเมชันเลื่อนออกขวา */
+addEventListener('pagereveal', e => { let t = 0; try { t = +sessionStorage.getItem('ct_from_tpl'); sessionStorage.removeItem('ct_from_tpl'); } catch (_) {}
+  if (e.viewTransition && Date.now() - t < 3000) e.viewTransition.types.add('back'); });
+</script>
 </head>
 <body>
 <div id="ct-top" data-on="templates"></div>
