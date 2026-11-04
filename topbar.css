@@ -90,3 +90,22 @@
 .tb-done h3{font-size:24px;font-weight:800;line-height:1.4;margin-top:12px}.tb-done p{font-size:16px;color:var(--tb-mid);margin-top:4px}
 .tb-lic{padding:14px 16px;display:flex;gap:12px;align-items:flex-start}.tb-lic .tb-i{color:var(--tb-accent);margin-top:2px}
 .tb-lic p{font-size:15px;line-height:1.6;color:var(--tb-mid)}.tb-lic a{color:var(--tb-accent)!important;font-weight:700;white-space:nowrap}
+
+/* ── motion (ไอซ์ 4 พ.ย. 2569: กดเมนู/ไอคอนเข้าสู่ระบบแล้วต้องมี motion) ใช้ scale/translate/opacity เท่านั้น ไม่ชนกับ transform เดิมของแผ่น ── */
+.tb-cb,.tb-av,.tb-cap{transition:scale .16s cubic-bezier(.3,0,.2,1),background-color .2s,box-shadow .2s}
+.tb-cb:active,.tb-av:active,.tb-cap:active{scale:.9}
+.tb-row{transition:background-color .15s}.tb-row:active{background:rgba(17,17,20,.05)}
+.tb-scrim{animation:tb-fade .22s ease-out both}
+.tb-sheet{animation:tb-up .34s cubic-bezier(.2,.9,.25,1.08) both}
+.tb-sheet.tb-s-menu{transform-origin:24px 0;animation-name:tb-pop}
+.tb-sheet.tb-s-acct{transform-origin:calc(100% - 24px) 0}
+.tb-sheet>*{animation:tb-in .3s cubic-bezier(.2,.8,.2,1) both}
+.tb-sheet>:nth-child(2){animation-delay:.04s}.tb-sheet>:nth-child(3){animation-delay:.08s}.tb-sheet>:nth-child(4){animation-delay:.12s}
+.tb-scrim.tb-out{animation:tb-fade .18s ease-in reverse both}
+.tb-sheet.tb-out{animation:tb-up .18s ease-in reverse both}.tb-sheet.tb-s-menu.tb-out{animation-name:tb-pop}
+@media(min-width:1024px){.tb-sheet.tb-s-acct,.tb-sheet.tb-s-login{animation-name:tb-pop}.tb-sheet.tb-s-login{transform-origin:50% 50%}}
+@keyframes tb-fade{from{opacity:0}}
+@keyframes tb-up{from{opacity:0;translate:0 40px}}
+@keyframes tb-pop{from{opacity:0;scale:.9}}
+@keyframes tb-in{from{opacity:0;translate:0 8px}}
+@media(prefers-reduced-motion:reduce){.tb-scrim,.tb-sheet,.tb-sheet>*{animation:none!important}.tb-cb,.tb-av,.tb-cap{transition:none}}

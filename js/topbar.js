@@ -27,7 +27,7 @@ const ICONS = {
 };
 const ic = (n, c) => `<svg class="tb-i${c ? ' ' + c : ''}" viewBox="0 0 256 256" fill="currentColor" aria-hidden="true">${ICONS[n]}</svg>`;
 const STUDIO = '<img class="tb-i" src="img/studio-mark.svg" alt="">';
-const chev = ic('caret-right', 'tb-chev');
+const chev = '';   // ไอซ์ 4 พ.ย. 2569: ไม่ชอบเครื่องหมาย > ท้ายแถวเมนู
 // same Edge Function + public anon key as templates.html / download.html
 const SB_URL = 'https://uyubtzyhuqalmjpjhmap.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
@@ -87,7 +87,10 @@ function doneBody(name) {
 let scrim = null, sheet = null, done = false;
 function close() {
   if (!sheet) return;
-  scrim.remove(); sheet.remove(); scrim = sheet = null; document.body.style.overflow = '';
+  // เล่นท่าปิดก่อนค่อยลบ (ไอซ์ 4 พ.ย. 2569 อยากให้เมนูมี motion) ปิดแล้วเปิดใหม่ทันทีก็ไม่ค้าง เพราะตัวแปรถูกล้างก่อน
+  const s = scrim, d = sheet, gone = () => { s.remove(); d.remove(); };
+  s.classList.add('tb-out'); d.classList.add('tb-out'); setTimeout(gone, matchMedia('(prefers-reduced-motion:reduce)').matches ? 0 : 180);
+  scrim = sheet = null; document.body.style.overflow = '';
   root.querySelectorAll('.tb-on[data-a]').forEach(b => b.classList.remove('tb-on'));
   if (done) location.reload();            // เพิ่งเข้าสู่ระบบ: วาดหน้าใหม่ให้เห็นปุ่มดาวน์โหลด
 }
