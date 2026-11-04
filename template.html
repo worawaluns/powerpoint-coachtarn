@@ -157,7 +157,13 @@ body.owned .pr .wm{display:none}
 html.jsimg .main img.on:not(.ld),html.jsimg .thumbs img:not(.ld),html.jsimg .rel img:not(.ld){opacity:0}
 /* 8. ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที */
 .mph{position:fixed;will-change:transform;z-index:9999;object-fit:cover;pointer-events:none;transform-origin:0 0;box-shadow:0 18px 50px rgba(20,20,40,.14)}
-@view-transition{navigation:auto}   /* ไอซ์ 4 พ.ย.: ข้ามไป Studio แบบจางต่อกัน ไม่กระพริบขาว */
+@view-transition{navigation:auto}
+::view-transition-old(root){animation:none}   /* ไอซ์ 4 พ.ย.: หน้าเดิมอยู่นิ่ง หน้าดีเทลค่อยจางขึ้นทับ แบบ HeyTea ไม่ใช่สองหน้าจางสวนกัน */
+::view-transition-new(root){animation:ct-in .28s ease-out both}
+@keyframes ct-in{from{opacity:0}}
+.back{display:flex;align-items:center;gap:12px;margin-bottom:14px}.back .crumb{margin:0}
+.bk{width:44px;height:44px;flex:none;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:grid;place-items:center;color:var(--text);cursor:pointer;transition:transform .15s ease}
+.bk:active{transform:scale(.92)}.bk svg{width:20px;height:20px}   /* ไอซ์ 4 พ.ย.: ข้ามไป Studio แบบจางต่อกัน ไม่กระพริบขาว */
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <script>/* ภาพค่อยโผล่เมื่อโหลดเสร็จ — พังก็โชว์ (error) ถ้าสคริปต์นี้ไม่รัน html ไม่มี jsimg ภาพก็โชว์ตามปกติ */
@@ -188,6 +194,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph2') || 'null'); sessi
     const i = document.createElement('img'); i.id = 'mph'; i.className = 'mph'; i.src = m.src; i.alt = '';
     Object.assign(i.style, {left: m.x + 'px', top: m.y + 'px', width: m.w + 'px', height: m.h + 'px', borderRadius: m.rad + 'px'});
     document.body.appendChild(i); setTimeout(() => i.remove(), 6000);   // ponytail: ข้อมูลชุดไม่มาใน 6 วิ เลิกลอย
+    window.CT_M = m;   // มีข้อมูลชุดติดมา วาดหน้าได้ทันทีไม่ต้องรอ data.json
   } } catch (_) {}
 </script>
 <div id="ct-top" data-on="templates"></div>
@@ -275,7 +282,7 @@ function cardHTML(){
   if (s) return head + `<div class="cta"><div class="row2"><a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl}<span class="lw">ดาวน์โหลดชุดนี้</span><span class="ls">ดาวน์โหลด</span></a>
       ${studioOk() ? `<a class="btn btn-ghost st" href="studio/#tpl=${encodeURIComponent(D.slug)}">${STUDIO_IC}<span class="lw">เปิดใน Studio</span><span class="ls">Studio</span></a>` : ''}${play}</div></div>`;
   return head + `<div class="val"><b>ซื้อครั้งเดียว ได้ทั้งคลัง</b><ul>
-        <li>ชุดนี้ + อีก ${window.ALL.length - 1} ชุด ครบทุกอาชีพ</li>
+        <li>ชุดนี้ + อีก ${(window.ALL ? window.ALL.length : CT_M.n) - 1} ชุด ครบทุกอาชีพ</li>
         <li>สไลด์รวม ${TOTAL} หน้า โหลดไม่จำกัด</li>
         <li>จ่ายครั้งเดียว ไม่มีรายเดือน</li></ul></div>
       <div class="price"><b>499฿</b><s>999฿</s><em>ประหยัด 500฿</em></div>
@@ -314,17 +321,19 @@ function bonusTick(){
 const mbarHTML = () => store.get()
     ? `<a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl} ดาวน์โหลดชุดนี้</a>${studioOk() ? `<a class="btn btn-ghost st" style="flex:none;width:52px;padding:0" href="studio/#tpl=${encodeURIComponent(D.slug)}" aria-label="เปิดใน Studio">${STUDIO_IC}</a>` : ''}`
     : `<a class="btn btn-red" href="order.html">${ctTop.ic('shopping-bag')} สั่งซื้อ 499฿ ได้ทุกชุด</a>`;
+const relHTML = () => { const all = window.ALL || [], rel = all.filter(x => x.group === D.group && x.slug !== D.slug).concat(all.filter(x => x.group !== D.group)).slice(0, 4);
+  return rel.map(x => `<a href="template.html?id=${x.slug}"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${x.slug}.webp" alt=""><div>${esc(x.th)}</div></a>`).join(''); };
 function render(){
   document.title = D.th + ' — Coach Tarn';
   document.documentElement.style.setProperty('--c1', '#' + D.c1); document.documentElement.style.setProperty('--c2', '#' + D.c2);
-  const all = window.ALL, rel = all.filter(x => x.group === D.group && x.slug !== D.slug).concat(all.filter(x => x.group !== D.group)).slice(0, 4);
   const shots = [`https://img.coachtarnslide.com/cover/${D.slug}.webp`].concat(range(D.slides).map(img));
   const pick = range(D.slides).filter(k => k > 2);
   const r1 = pick.filter((_, i) => i % 2 === 0), r2 = pick.filter((_, i) => i % 2 === 1);
   const row = a => a.concat(a).map(k => `<img loading="lazy" src="${img(k)}" alt="">`).join('');
   document.getElementById('app').innerHTML = `
   <section class="top wrap">
-    <div class="crumb"><a href="templates.html">คลังเทมเพลต</a> › ${esc(D.cat)}</div>
+    <div class="back"><button class="bk" onclick="goBack()" aria-label="ย้อนกลับ"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg></button>
+      <div class="crumb"><a href="templates.html">คลังเทมเพลต</a> › ${esc(D.cat)}</div></div>
     <div class="grid">
       <div>
         <div class="main" id="view" onclick="openPr(cur > 1 ? cur - 1 : 1)">${shots.map((u, i) => `<img src="${u}" alt="" ${i ? 'loading="lazy"' : 'class="on"'}>`).join('')}
@@ -352,7 +361,7 @@ function render(){
   <div class="wrap">
     ${store.get() ? '' : `<div class="band reveal"><div><h3>ได้ทุกชุด ${TOTAL} สไลด์ ในราคาเดียว</h3><p>จ่ายครั้งเดียว 499 บาท (ปกติ 999 บาท) ครบทุกอาชีพ</p></div><a class="btn" href="order.html">สั่งซื้อ 499฿</a></div>`}
     <h2 style="font-size:24px;font-weight:800;margin:10px 0 18px">ชุดอื่นที่น่าสนใจ</h2>
-    <section class="rel">${rel.map(x => `<a href="template.html?id=${x.slug}"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${x.slug}.webp" alt=""><div>${esc(x.th)}</div></a>`).join('')}</section>
+    <section class="rel">${relHTML()}</section>
   </div>`;
   document.getElementById('mbar').innerHTML = mbarHTML();
   show(1); flyIn(); autoplay(); bonusTick(); setInterval(bonusTick, 1000);
@@ -368,6 +377,8 @@ function flyIn(){
   m.animate([{transform: 'none'}, {transform: `translate(${b.left - a.left}px,${b.top - a.top}px) scale(${b.width / a.width},${b.height / a.height})`}], {duration: 520, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards'})
     .onfinish = () => { im.style.visibility = ''; m.animate([{opacity: 1}, {opacity: 0}], {duration: 160, fill: 'forwards'}).onfinish = done; };
 }
+// ไอซ์ 4 พ.ย.: ปุ่มลูกศรย้อนกลับ มาจากหน้าคลังใช้ history กลับไปตำแหน่งเดิม เข้าตรงจากลิงก์อื่นไปหน้าคลัง
+function goBack(){ if (/\/templates(\.html)?(\?|#|$)/.test(new URL(document.referrer || location.origin).pathname + '') && history.length > 1) history.back(); else location.href = 'templates.html'; }
 // hero gallery: cover first, then slides; thumbnails show the first 6
 function show(k, user){
   const n = D.slides + 1; cur = (k - 1 + n) % n + 1;
@@ -405,10 +416,13 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closePr(); if (e.key === 'ArrowRight' || e.key === ' ') go(1); if (e.key === 'ArrowLeft') go(-1);
 });
 document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.getElementById('pr').classList.contains('show') && window.innerWidth > 640) closePr(); });
+// ไอซ์ 4 พ.ย. "กระตุก": มาจากหน้าคลังมีข้อมูลชุดติดมา วาดทันที ภาพปกลอยได้เลยไม่ต้องรอ data.json (400KB) ชุดอื่นที่น่าสนใจค่อยเติมทีหลัง
+if (window.CT_M && CT_M.d && CT_M.d.slug === new URLSearchParams(location.search).get('id')) { D = CT_M.d; render(); }
 fetch('library/data.json').then(r => r.json()).then(all => {
   window.ALL = all; const id = new URLSearchParams(location.search).get('id');
   const hit = all.find(x => x.slug === id);
-  D = hit || all[0]; render();
+  if (D) { document.querySelector('.rel').innerHTML = relHTML(); document.querySelector('.side').innerHTML = cardHTML(); }
+  else { D = hit || all[0]; render(); }
   document.body.classList.toggle('owned', !!store.get());   // คนที่ซื้อแล้วดูได้โดยไม่มีลายน้ำ
   const k = +new URLSearchParams(location.search).get('s'); if (k >= 1 && k <= D.slides) openPr(k);  // deep link from the slide-type browser
   // คนที่ยังไม่ปลดล็อก = ยังไม่ซื้อ ยิง ViewContent ไว้ทำ audience "ดูชุดนี้แล้วไม่ซื้อ"
@@ -442,7 +456,7 @@ document.addEventListener('click', e => {
   const im = (a.closest('.card') || a).querySelector('img'), r = im && im.getBoundingClientRect();
   if (!r || !im.naturalWidth || r.bottom < 0 || r.top > innerHeight) return;
   const rad = parseFloat(getComputedStyle(im.closest('.card') || im).borderTopLeftRadius) || 14;
-  try { sessionStorage.setItem('ct_morph2', JSON.stringify({x: r.left, y: r.top, w: r.width, h: r.height, rad, src: im.currentSrc || im.src, slug: new URL(a.href).searchParams.get('id'), t: Date.now()})); } catch (_) {}
+  try { sessionStorage.setItem('ct_morph2', JSON.stringify({x: r.left, y: r.top, w: r.width, h: r.height, rad, src: im.currentSrc || im.src, slug: new URL(a.href).searchParams.get('id'), t: Date.now(), n: (window.ALL || []).length, d: (window.ALL || []).find(x => x.slug === new URL(a.href).searchParams.get('id'))})); } catch (_) {}
 });
 </script>
 </body>
