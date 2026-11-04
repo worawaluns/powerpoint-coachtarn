@@ -176,6 +176,9 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
+<script>/* ไอซ์ 4 พ.ย.: บอกหน้าคลังว่ามาจากหน้าดีเทล จะได้เลื่อนออกขวาแบบย้อนกลับ */
+addEventListener('pageswap', () => { try { sessionStorage.setItem('ct_from_tpl', Date.now()); } catch (_) {} });
+</script>
 </head>
 <body>
 <script>/* ไอซ์ 4 พ.ย. 2569: ภาพปกจากหน้าคลัง วางไว้ตำแหน่งเดิมตั้งแต่เฟรมแรก แล้ว flyIn() ค่อยให้ลอยไปเป็นภาพใหญ่ */
