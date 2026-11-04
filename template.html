@@ -156,7 +156,10 @@ body.owned .pr .wm{display:none}
 .thumbs img,.rel img{position:relative;transition:opacity .25s ease}
 html.jsimg .main img.on:not(.ld),html.jsimg .thumbs img:not(.ld),html.jsimg .rel img:not(.ld){opacity:0}
 /* 8. ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที */
-.mph{position:fixed;will-change:transform;z-index:9999;object-fit:cover;pointer-events:none;transform-origin:0 0;box-shadow:0 18px 50px rgba(20,20,40,.14)}
+/* ไอซ์ 4 พ.ย. "เด้งซ้ำสองรอบ": ใช้ตัวขยายของเบราว์เซอร์ตัวเดียว (ชื่อ ct-hero ปกในการ์ด → ภาพใหญ่) ไม่ก๊อปรูปลอยเองซ้อนกับการจางหน้า */
+::view-transition-group(ct-hero){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.8,.2,1);border-radius:20px;overflow:hidden}
+::view-transition-old(ct-hero),::view-transition-new(ct-hero){animation-duration:.42s;height:100%;object-fit:cover}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 @view-transition{navigation:auto}
 ::view-transition-old(root){animation:none}   /* ไอซ์ 4 พ.ย.: หน้าเดิมอยู่นิ่ง หน้าดีเทลค่อยจางขึ้นทับ แบบ HeyTea ไม่ใช่สองหน้าจางสวนกัน */
 ::view-transition-new(root){animation:ct-in .28s ease-out both}
@@ -183,19 +186,14 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
 <script>/* ไอซ์ 4 พ.ย.: บอกหน้าคลังว่ามาจากหน้าดีเทล จะได้เลื่อนออกขวาแบบย้อนกลับ */
+addEventListener('pagereveal', () => document.querySelectorAll('.rel img').forEach(i => i.style.viewTransitionName = ''));   // กลับมาจาก bfcache ล้างชื่อที่ติดการ์ด
 addEventListener('pageswap', () => { try { sessionStorage.setItem('ct_from_tpl', Date.now()); } catch (_) {} });
 </script>
 </head>
 <body>
-<script>/* ไอซ์ 4 พ.ย. 2569: ภาพปกจากหน้าคลัง วางไว้ตำแหน่งเดิมตั้งแต่เฟรมแรก แล้ว flyIn() ค่อยให้ลอยไปเป็นภาพใหญ่ */
+<script>/* ไอซ์ 4 พ.ย. 2569: มาจากหน้าคลังมีข้อมูลชุดติดมา วาดหน้าทันทีให้ภาพใหญ่อยู่ตั้งแต่เฟรมแรก เบราว์เซอร์จะขยายปกจากการ์ดมาวาง */
 try { const m = JSON.parse(sessionStorage.getItem('ct_morph2') || 'null'); sessionStorage.removeItem('ct_morph2');
-  const q = new URLSearchParams(location.search);
-  if (m && Date.now() - m.t < 6000 && q.get('id') === m.slug && !q.get('s') && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
-    const i = document.createElement('img'); i.id = 'mph'; i.className = 'mph'; i.src = m.src; i.alt = '';
-    Object.assign(i.style, {left: m.x + 'px', top: m.y + 'px', width: m.w + 'px', height: m.h + 'px', borderRadius: m.rad + 'px'});
-    document.body.appendChild(i); setTimeout(() => i.remove(), 6000);   // ponytail: ข้อมูลชุดไม่มาใน 6 วิ เลิกลอย
-    window.CT_M = m;   // มีข้อมูลชุดติดมา วาดหน้าได้ทันทีไม่ต้องรอ data.json
-  } } catch (_) {}
+  if (m && Date.now() - m.t < 6000 && new URLSearchParams(location.search).get('id') === m.slug && m.d) window.CT_M = m; } catch (_) {}
 </script>
 <div id="ct-top" data-on="templates"></div>
 <script src="js/topbar.js"></script>
@@ -336,7 +334,7 @@ function render(){
       <div class="crumb"><a href="templates.html">คลังเทมเพลต</a> › ${esc(D.cat)}</div></div>
     <div class="grid">
       <div>
-        <div class="main" id="view" onclick="openPr(cur > 1 ? cur - 1 : 1)">${shots.map((u, i) => `<img src="${u}" alt="" ${i ? 'loading="lazy"' : 'class="on"'}>`).join('')}
+        <div class="main" id="view"${window.CT_M ? ' style="view-transition-name:ct-hero"' : ''} onclick="openPr(cur > 1 ? cur - 1 : 1)">${shots.map((u, i) => `<img src="${u}" alt="" ${i ? 'loading="lazy"' : window.CT_M ? 'class="on ld"' : 'class="on"'}>`).join('')}
           <button class="pv" onclick="event.stopPropagation();openPr()">${I.play} ดูแบบนำเสนอ <span id="cap"></span></button></div>
         <div class="thumbs" id="dots">${shots.slice(0, 6).map((u, i) => `<button aria-label="ภาพ ${i + 1}" onclick="show(${i + 1},true)"><img loading="lazy" src="${u}" alt="">${i === 5 ? `<span class="more">+${D.slides - 5}</span>` : ''}</button>`).join('')}</div>
       </div>
@@ -364,18 +362,9 @@ function render(){
     <section class="rel">${relHTML()}</section>
   </div>`;
   document.getElementById('mbar').innerHTML = mbarHTML();
-  show(1); flyIn(); autoplay(); bonusTick(); setInterval(bonusTick, 1000);
+  show(1); autoplay(); bonusTick(); setInterval(bonusTick, 1000);
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-}
-// ไอซ์ 4 พ.ย.: ปกที่วางไว้ (#mph) ลอยไปทับภาพใหญ่ transform อย่างเดียว ลงแล้วค่อยจางออก ใช้ได้ครั้งเดียว
-function flyIn(){
-  const m = document.getElementById('mph'), im = document.querySelector('#view img.on');
-  if (!m || !im) return; m.id = '';
-  const done = () => { im.style.visibility = ''; m.remove(); }; im.style.visibility = 'hidden'; setTimeout(done, 1200);
-  const a = m.getBoundingClientRect(), b = im.getBoundingClientRect();
-  m.animate([{transform: 'none'}, {transform: `translate(${b.left - a.left}px,${b.top - a.top}px) scale(${b.width / a.width},${b.height / a.height})`}], {duration: 520, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards'})
-    .onfinish = () => { im.style.visibility = ''; m.animate([{opacity: 1}, {opacity: 0}], {duration: 160, fill: 'forwards'}).onfinish = done; };
 }
 // ไอซ์ 4 พ.ย.: ปุ่มลูกศรย้อนกลับ มาจากหน้าคลังใช้ history กลับไปตำแหน่งเดิม เข้าตรงจากลิงก์อื่นไปหน้าคลัง
 function goBack(){ if (/\/templates(\.html)?(\?|#|$)/.test(new URL(document.referrer || location.origin).pathname + '') && history.length > 1) history.back(); else location.href = 'templates.html'; }
@@ -417,7 +406,7 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && document.getElementById('pr').classList.contains('show') && window.innerWidth > 640) closePr(); });
 // ไอซ์ 4 พ.ย. "กระตุก": มาจากหน้าคลังมีข้อมูลชุดติดมา วาดทันที ภาพปกลอยได้เลยไม่ต้องรอ data.json (400KB) ชุดอื่นที่น่าสนใจค่อยเติมทีหลัง
-if (window.CT_M && CT_M.d && CT_M.d.slug === new URLSearchParams(location.search).get('id')) { D = CT_M.d; render(); }
+if (window.CT_M) { D = CT_M.d; render(); setTimeout(() => document.getElementById('view').style.viewTransitionName = '', 1500); }   // ชื่อใช้ครั้งเดียว ไม่ให้ไปลอยตอนออกไปหน้าอื่น
 fetch('library/data.json').then(r => r.json()).then(all => {
   window.ALL = all; const id = new URLSearchParams(location.search).get('id');
   const hit = all.find(x => x.slug === id);
@@ -453,10 +442,10 @@ fetch('https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers', {
 document.addEventListener('click', e => {
   const a = e.target.closest('a[href^="template.html?id="]');
   if (!a || a.href.includes('&s=') || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;   // ลิงก์หน้าสไลด์ไปเปิดแบบนำเสนอ ไม่ลอย
-  const im = (a.closest('.card') || a).querySelector('img'), r = im && im.getBoundingClientRect();
-  if (!r || !im.naturalWidth || r.bottom < 0 || r.top > innerHeight) return;
-  const rad = parseFloat(getComputedStyle(im.closest('.card') || im).borderTopLeftRadius) || 14;
-  try { sessionStorage.setItem('ct_morph2', JSON.stringify({x: r.left, y: r.top, w: r.width, h: r.height, rad, src: im.currentSrc || im.src, slug: new URL(a.href).searchParams.get('id'), t: Date.now(), n: (window.ALL || []).length, d: (window.ALL || []).find(x => x.slug === new URL(a.href).searchParams.get('id'))})); } catch (_) {}
+  const id = new URL(a.href).searchParams.get('id'), d = (window.ALL || []).find(x => x.slug === id), im = (a.closest('.card') || a).querySelector('img');
+  if (!d || !im) return;
+  im.style.viewTransitionName = 'ct-hero';
+  try { sessionStorage.setItem('ct_morph2', JSON.stringify({slug: id, t: Date.now(), n: window.ALL.length, d})); } catch (_) {}
 });
 </script>
 </body>
