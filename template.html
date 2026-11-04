@@ -136,7 +136,8 @@ body.owned .pr .wm{display:none}
   .feats{grid-template-columns:repeat(2,1fr)}.ft:nth-child(odd){border-left:none}.ft:nth-child(n+3){border-top:1px solid var(--line)}}
 @media(max-width:640px){.tocw{display:none}.slim{display:block}.sec{padding:40px 0}
   .feats{grid-template-columns:1fr}.ft{border-left:none;border-top:1px solid var(--line)}.ft:first-child{border-top:none}.row img{width:220px}.pr .mid{padding:0 8px}.pr .arr{display:none}.band{padding:28px}.band h3{font-size:22px}.side{padding:20px}.thumbs{gap:6px}.main .pv{padding:8px 14px;font-size:13px}
-  .mbar{display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 -1px 0 rgba(0,0,0,.08)}.mbar .btn{flex:1;padding:13px}}
+  .mbar{display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 -1px 0 rgba(0,0,0,.08);transform:translateY(110%);transition:transform .32s var(--ease)}.mbar .btn{flex:1;padding:13px}
+  .mbar.show{transform:none}}   /* ไอซ์ 4 พ.ย.: ปุ่มในการ์ดกับแถบล่างไม่ซ้อนกัน เห็นปุ่มในการ์ดเมื่อไหร่แถบล่างหลบลง พ้นจอแล้วค่อยเลื่อนขึ้นมาแทน */
 .lfoot{border-top:1px solid var(--line);margin-top:10px;padding:22px 20px 34px;text-align:center}
 .lfoot p{font-size:12.5px;line-height:1.9;color:var(--sub);max-width:640px;margin:0 auto}
 .lfoot p+p{margin-top:6px}
@@ -294,7 +295,7 @@ function cardHTML(){
 // ปุ่ม "เปิดใน Studio" (ไอซ์ 2 พ.ย. 2569) เฉพาะชุดที่ Studio เปิดได้ (studio/tpl.json) โหลดเสร็จทีหลังก็วาดการ์ดข้างใหม่
 const STUDIO_IC = '<img src="img/studio-mark.svg" alt="">';   // ไอซ์ 3 พ.ย.: ไอคอน Studio = studio-mark.svg
 const studioOk = () => !!(window.TPL && D && window.TPL.has(D.slug));
-fetch('studio/tpl.json').then(r => r.json()).then(a => { window.TPL = new Set(a); const el = document.querySelector('.side'); if (D && el) { el.innerHTML = cardHTML(); document.getElementById('mbar').innerHTML = mbarHTML(); } }).catch(() => {});
+fetch('studio/tpl.json').then(r => r.json()).then(a => { window.TPL = new Set(a); const el = document.querySelector('.side'); if (D && el) { el.innerHTML = cardHTML(); document.getElementById('mbar').innerHTML = mbarHTML(); watchCta(); } }).catch(() => {});
 // ไอซ์ 4 พ.ย. 2569: กดเปิดใน Studio แล้วภาพสไลด์ลอยไปวางในหน้า Studio ต่อเนื่อง ส่งตำแหน่งภาพที่เห็นจริง (หักขอบ+contain) ให้ studio/index.html ทำต่อ
 document.addEventListener('click', e => {
   const im = e.target.closest('a[href^="studio/#tpl="]') && document.querySelector('#view img.on');
@@ -316,6 +317,8 @@ function bonusTick(){
   document.getElementById('bonusT').textContent = `${p(Math.floor(rem / 3.6e6))}:${p(Math.floor(rem / 6e4) % 60)}:${p(Math.floor(rem / 1e3) % 60)}`;
   el.classList.add('show');
 }
+const ctaOn = new Set(), ctaIO = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? ctaOn.add(e.target) : ctaOn.delete(e.target)); document.getElementById('mbar').classList.toggle('show', !ctaOn.size); });
+const watchCta = () => { ctaIO.disconnect(); ctaOn.clear(); document.querySelectorAll('.side .cta, .band .btn').forEach(c => ctaIO.observe(c)); };   // ปุ่มสั่งซื้อในแถบโปรด้านล่างก็นับ   // การ์ดถูกวาดใหม่ทุกครั้งที่ข้อมูลมา ต้องผูกใหม่
 const mbarHTML = () => store.get()
     ? `<a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl} ดาวน์โหลดชุดนี้</a>${studioOk() ? `<a class="btn btn-ghost st" style="flex:none;width:52px;padding:0" href="studio/#tpl=${encodeURIComponent(D.slug)}" aria-label="เปิดใน Studio">${STUDIO_IC}</a>` : ''}`
     : `<a class="btn btn-red" href="order.html">${ctTop.ic('shopping-bag')} สั่งซื้อ 499฿ ได้ทุกชุด</a>`;
@@ -361,7 +364,7 @@ function render(){
     <h2 style="font-size:24px;font-weight:800;margin:10px 0 18px">ชุดอื่นที่น่าสนใจ</h2>
     <section class="rel">${relHTML()}</section>
   </div>`;
-  document.getElementById('mbar').innerHTML = mbarHTML();
+  document.getElementById('mbar').innerHTML = mbarHTML(); watchCta();
   show(1); autoplay(); bonusTick(); setInterval(bonusTick, 1000);
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12 });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
@@ -410,7 +413,7 @@ if (window.CT_M) { D = CT_M.d; render(); setTimeout(() => document.getElementByI
 fetch('library/data.json').then(r => r.json()).then(all => {
   window.ALL = all; const id = new URLSearchParams(location.search).get('id');
   const hit = all.find(x => x.slug === id);
-  if (D) { document.querySelector('.rel').innerHTML = relHTML(); document.querySelector('.side').innerHTML = cardHTML(); }
+  if (D) { document.querySelector('.rel').innerHTML = relHTML(); document.querySelector('.side').innerHTML = cardHTML(); watchCta(); }
   else { D = hit || all[0]; render(); }
   document.body.classList.toggle('owned', !!store.get());   // คนที่ซื้อแล้วดูได้โดยไม่มีลายน้ำ
   const k = +new URLSearchParams(location.search).get('s'); if (k >= 1 && k <= D.slides) openPr(k);  // deep link from the slide-type browser
