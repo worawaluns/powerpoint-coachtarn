@@ -581,16 +581,18 @@ details.trail[open] summary svg{transform:rotate(90deg)}
 ::view-transition-old(wopen),::view-transition-new(wopen){animation-duration:.42s;height:100%}
 html.vto::view-transition-old(root){animation:none}html.vto::view-transition-new(root){animation:skIn .28s ease-out both;opacity:0}
 #skel.open.now,#skel.open.now .ph.cv{animation:none;opacity:1}#skel.open.now .skelnote{opacity:0;animation:skIn .2s ease-out .3s forwards}
-/* ไอซ์ 4 พ.ย.: ปกขึ้นแล้วดูเหมือนพร้อมใช้ ทั้งที่ยังโหลด / สเปก motion-master: ม่านขาวบาง + วงหมุนกลางปก (rotate บน compositor หมุนต่อแม้ Pyodide บล็อก) หน่วง .45s ให้ morph จบก่อน โหลดไวไม่เห็น */
-#skel.open .ph.cv::after{display:block;content:'';position:absolute;inset:0;left:0;top:0;width:auto;height:auto;border-radius:0;box-shadow:none;background:rgba(255,255,255,.4);z-index:2;opacity:0;animation:skIn .2s ease-out .45s forwards}
-#skel.open .ph.cv::before{display:block;content:'';position:absolute;inset:0;margin:auto;width:28px;height:28px;border-radius:50%;border:2.5px solid rgba(21,21,26,.12);border-top-color:#C84B2F;background:#fff;box-shadow:0 0 0 5px #fff,0 2px 10px 5px rgba(21,21,26,.10);z-index:3;opacity:0;will-change:transform;animation:skIn .2s ease-out .45s forwards,ldspin .8s linear infinite}
-@keyframes ldspin{to{transform:rotate(360deg)}}
-#skel.open .ph.cv{transition:transform .22s var(--ease)}#skel.open .ph.cv:active{transform:scale(.98);transition-duration:.12s}
+/* ไอซ์ 4 พ.ย. (รอบ 2): วงหมุนบนปก "ช้า รอนาน" → สัญญาณโหลดอยู่แถบบน/ล่าง ปกสะอาด (สเปก motion-master v2) / เส้นส้มวิ่งใต้แถบบน + ปุ่มจาง แล้วติดขึ้นตอนพร้อม / หน่วง .45s โหลดไวไม่เห็น */
+.top::after{content:'';position:absolute;left:0;bottom:-1px;width:40%;height:2px;background:#C84B2F;opacity:0;pointer-events:none}
+body.wopening .top::after{will-change:transform;animation:skIn .2s ease-out .45s forwards,ldline .9s cubic-bezier(.45,0,.55,1) infinite alternate}
+@keyframes ldline{from{transform:translateX(0)}to{transform:translateX(150%)}}
+@keyframes ldim{to{opacity:var(--o)}}
+body.wopening #tact>*,body.wopening #rail button:not([data-p=chat]){pointer-events:none;animation:ldim .2s ease-out .45s forwards}
+body.wopening #tact>*{--o:.3;animation-delay:0s}body.wopening #rail button{--o:.4}
+body.wopened #tact>*,body.wopened #rail button:not([data-p=chat]){animation:lit .32s var(--ease) both}
+body.wopened #tact>:nth-child(2){animation-delay:40ms}body.wopened #tact>:nth-child(3){animation-delay:80ms}body.wopened #tact>:nth-child(4){animation-delay:120ms}body.wopened #tact>:nth-child(5){animation-delay:160ms}
+@keyframes lit{from{opacity:.3;transform:scale(.92)}}
 #skel.open .skelnote{color:var(--text)}
-body:has(#skel.open:not(.hidden)) #rail button:not([data-p=chat]){opacity:.4;pointer-events:none;transition:opacity .16s}
-#skel.open.ready .ph.cv::before,#skel.open.ready .ph.cv::after{animation:none;opacity:0;transition:opacity .22s ease-out}
-#skel.open .skel.fail .ph.cv::before{display:none}
-@media (prefers-reduced-motion:reduce){#skel.open .ph.cv::before{animation:skIn .01ms .45s forwards}#skel.open .ph.cv::after{animation:skIn .01ms .45s forwards}#skel.open .ph.cv:active{transform:none}}
+@media (prefers-reduced-motion:reduce){body.wopening .top::after{display:none}body.wopened #tact>*,body.wopened #rail button{animation-duration:.01ms;animation-delay:0s}}
 .opt .kd{display:block;padding:5px 8px 6px;font-size:12px;font-weight:700;color:var(--mid)}
 .opt.ph{aspect-ratio:16/11;background:#F1E9E5;position:relative;overflow:hidden}
 .opt.ph::before{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.7) 50%,transparent 70%);animation:sheen 1.4s linear infinite}
@@ -2103,7 +2105,7 @@ function show(p, push = true) {
   ['tmeta', 'ur', 'topgrow'].forEach(k => $(k).classList.toggle('hidden', !w));
   if (!w) $('tact').classList.add('hidden');
   setTtl(w ? ttl : '', w && !ttl ? (running ? 'กำลังเตรียมสไลด์' : 'ยังไม่มีสไลด์') : '');
-  if (!w) document.title = 'งานของฉัน - Slide Studio';
+  if (!w) { document.title = 'งานของฉัน - Slide Studio'; document.body.classList.remove('wopening', 'wopened'); }
   if (push && p === 'pWork' && history.state?.p !== p) history.pushState({p}, '');   // ปุ่มย้อนของมือถือกลับหน้าแรก
   window.scrollTo(0, 0); orbSync();
 }
@@ -4568,7 +4570,7 @@ function failMain(msg) {                  // พื้นที่สไลด�
   setTtl(ttl || '', ttl ? '' : 'ยังไม่มีสไลด์');
 }
 async function resume(v, vs = [v], cover) {
-  SRCNAME = v.src; gen++; const my = gen; const t0 = performance.now(); $('skel').classList.remove('ready');
+  SRCNAME = v.src; gen++; const my = gen; const t0 = performance.now(); document.body.classList.remove('wopened'); document.body.classList.add('wopening'); $('tact').classList.remove('hidden');
   $('inner').innerHTML = ''; ttl = v.ttl || ''; slides = []; KEYS = []; STACK = []; SP = -1;
   const head = 'กำลังเปิดงานล่าสุดของคุณ' + (v.ttl ? `: ${v.ttl}` : '') + (v.n ? ` ${v.n} หน้า` : '');
   const sk = n => { $('skelt').textContent = n === 1 ? 'กำลังโหลดเครื่องมือ… ครั้งแรกอาจใช้เวลาสักครู่' : n === 2 ? 'กำลังเตรียมเครื่องมือ… ครั้งแรกอาจใช้เวลาสักครู่' : head; };   // เน็ตช้า: เห็นว่ายังโหลดอยู่ทีละขั้น
@@ -4581,16 +4583,15 @@ async function resume(v, vs = [v], cover) {
   show('pWork'); setTtl(ttl);
   if (cv) mount($('skelg').querySelector('.slidebox'), cv);
   try {
-    await frame(); await boot(); onBoot.delete(sk); await guard(setsReady); if (my !== gen) return;
+    await frame(); await openFx; await boot(); onBoot.delete(sk);   // ไอซ์ 4 พ.ย. กระตุกตอนกดเปิด: Python บล็อกเครื่อง ~0.8 วิ กลางภาพขยาย → รอภาพลงก่อนค่อยโหลด await guard(setsReady); if (my !== gen) return;
     busyNow = true; await guard(restore(v)); busyNow = false; if (my !== gen) return;   // ค้างที่ไหนก็จบที่ข้อความผิดพลาดภายใน ~90 วิ
     STACK = vs.slice(-40); SP = STACK.length - 1; urState(); setSave('ok'); coverNow();   // เลิกทำหลังรีโหลด = ย้อนตามเวอร์ชันที่เก็บในเครื่อง
-    if (performance.now() - t0 > 450) { $('skel').classList.add('ready'); await sleep(220); if (my !== gen) return; }   // ม่าน+วงหมุนจางออกก่อนสลับเป็นหน้าจริง (โหลดไว = สลับทันที)
-    $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(cv ? 'settled' : undefined); $('tact').classList.remove('hidden');   // ปกขึ้นอยู่แล้ว: ไม่เด้งซ้ำ
+    $('skel').classList.add('hidden'); $('pages').classList.remove('hidden'); cur = -1; relayout(cv ? 'settled' : undefined); document.body.classList.remove('wopening'); if (performance.now() - t0 > 450) { document.body.classList.add('wopened'); setTimeout(() => document.body.classList.remove('wopened'), 600); }   // ปกขึ้นอยู่แล้ว: ไม่เด้งซ้ำ
     const s = SETS.find(x => x.slug === slug);
     const m = botMsg(`<p>เปิดงานล่าสุดของคุณแล้วครับ <b>${esc(ttl)}</b> ${slides.length} หน้า หน้าตา${esc(s?.style || '')}</p><p class="sub">${touch() ? 'แตะข้อความเพื่อเลือก แตะอีกครั้งเพื่อแก้ข้อความ' : 'คลิกข้อความบนสไลด์เพื่อแก้ได้เลย'} ${saveSt === 'no' ? 'เครื่องนี้เก็บงานไม่ได้ กดบันทึกเมื่อแก้เสร็จ (ต้องมี Code)' : 'ทุกการแก้เก็บในเครื่องนี้ให้เอง'}</p>`);
     if (!wide()) $('chatdot').classList.add('on');
     toast('เปิดงานล่าสุดของคุณแล้ว'); tour();
-  } catch (e) { console.error(e); busyNow = false; onBoot.delete(sk); if (my !== gen) return;
+  } catch (e) { console.error(e); busyNow = false; onBoot.delete(sk); document.body.classList.remove('wopening'); if (my !== gen) return;
     failMain(pyErr(e, 'เปิดงานเดิมไม่สำเร็จ ลองโหลดหน้าใหม่'));   // ไอซ์เจอบนเว็บจริง: โครงเทา "กำลังเปิดงาน…" ค้าง ข้อความผิดพลาดอยู่แค่แผงผู้ช่วยที่อาจปิดอยู่
     botMsg(`<div class="err">${esc(pyErr(e, 'เปิดงานเดิมไม่สำเร็จ ลองโหลดหน้าใหม่'))}<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button></div>`); openPanel('chat'); }
 }
@@ -6741,10 +6742,10 @@ function paintFoot() {
 }
 async function pickFont(name, row) {        // แตะแถว = กล่องนี้เปลี่ยนทันที รายการยังเปิด (แบบ Canva) โหลดยังไม่เสร็จ กล่องคงฟอนต์เดิม (ไม่แวบฟอนต์สำรอง)
   const E = ED; if (!E) return pickFontSel(name, row); if (!E.ed) return; const design = name === setFont();
-  row?.classList.add('ld');
+  row?.classList.add('wopening');
   try { if (!design && !localF.has(name)) await loadFont(name); }
-  catch (e) { row?.classList.remove('ld'); if (row) row.querySelector('.fs').textContent = 'โหลดไม่สำเร็จ แตะเพื่อลองอีกครั้ง'; return; }
-  row?.classList.remove('ld'); if (ED !== E) return;
+  catch (e) { row?.classList.remove('wopening'); if (row) row.querySelector('.fs').textContent = 'โหลดไม่สำเร็จ แตะเพื่อลองอีกครั้ง'; return; }
+  row?.classList.remove('wopening'); if (ED !== E) return;
   const prev = E.fam; E.fam = design ? '' : name;
   E.ed.style.fontFamily = `'${design ? setFont() : name}',${getComputedStyle(E.ed).fontFamily}`;
   E.tb.querySelector('.ef span').textContent = name; E.tb.querySelector('.ef span').style.fontFamily = `'${name}'`;
@@ -6759,10 +6760,10 @@ async function pickFont(name, row) {        // แตะแถว = กล่อ
 }
 async function pickFontSel(name, row) {    // เลือกกล่องอยู่ ไม่พิมพ์: ลงไฟล์ทันทีผ่าน set_style(font=) 1 แตะ = 1 ขั้นเลิกทำ ล้น = ย่อ 0.95-0.8 ยังล้น = ฟอนต์เดิม
   const s = selBox(); if (!s) return closePicker(); const design = name === setFont(), fa = fieldAt(SEL.k, s.b);
-  row?.classList.add('ld');
+  row?.classList.add('wopening');
   try { if (!design && !localF.has(name)) await loadFont(name); }
-  catch (e) { row?.classList.remove('ld'); if (row) row.querySelector('.fs').textContent = 'โหลดไม่สำเร็จ แตะเพื่อลองอีกครั้ง'; return; }
-  row?.classList.remove('ld');
+  catch (e) { row?.classList.remove('wopening'); if (row) row.querySelector('.fs').textContent = 'โหลดไม่สำเร็จ แตะเพื่อลองอีกครั้ง'; return; }
+  row?.classList.remove('wopening');
   const st = await stylePy({font: design ? '' : name}, () => `ฟอนต์ ${fa}: ${name}`, st => st === 'over' ? 'ฟอนต์นี้กว้างกว่า ข้อความไม่พอดีกล่อง ใช้ฟอนต์เดิม' : st === 'shrink' ? 'ตัวอักษรเล็กลงเล็กน้อยให้พอดีกล่อง' : '');
   if (!FP || st === 'over' || st === 'busy') return;
   FP.applied = design ? null : name; const sc = FP.el.querySelector('.fbody').scrollTop; paintPicker(); FP.el.querySelector('.fbody').scrollTop = sc; placePicker();
@@ -7824,6 +7825,7 @@ function renameCard(id) {
   inp.onkeydown = e => { e.stopPropagation(); if (e.key === 'Enter') { e.preventDefault(); fin(true); } if (e.key === 'Escape') { e.preventDefault(); fin(false); } };
   inp.onblur = () => fin(true); inp.onclick = e => e.stopPropagation();
 }
+let openFx = Promise.resolve();
 async function openWork(id) {
   const w = W.find(x => x.id === id); let vs = [];
   try { vs = await versions(id); } catch (e) {}
@@ -7835,7 +7837,7 @@ async function openWork(id) {
   else {                                   // ไอซ์ 4 พ.ย.: ปกการ์ดขยายไปเป็นปกในตัวแก้ ไม่ตัดฉับ
     c.style.viewTransitionName = 'wopen'; document.documentElement.classList.add('vto');
     const t = document.startViewTransition(() => { c.style.viewTransitionName = ''; go(); $('skel').classList.add('now'); const p = $('skelg').querySelector('.ph.cv'); if (p) p.style.viewTransitionName = 'wopen'; });
-    t.ready.catch(() => {});
+    t.ready.catch(() => {}); openFx = Promise.race([t.finished.catch(() => {}), sleep(700)]);
     t.finished.catch(() => {}).then(() => { document.documentElement.classList.remove('vto'); const p = $('skelg').querySelector('.ph.cv'); if (p) p.style.viewTransitionName = ''; });
   }
   history.replaceState(history.state, '', '#p=' + id);      // รีเฟรชแล้วอยู่งานเดิม
@@ -7864,7 +7866,6 @@ $('pList').addEventListener('click', ev => {
   else openWork(w.id);
 });
 $('pList').addEventListener('dblclick', ev => { const t = ev.target.closest('.wk:not(.del) .wt'); if (!t) return; clearTimeout(openT); renameCard(t.closest('.wk').dataset.w); });
-$('pList').addEventListener('pointerdown', ev => { if (ev.target.closest('.wk')) warm(); }, {passive: true});   // แตะงาน = เริ่มโหลดเครื่องมือระหว่างนิ้วยังไม่ปล่อย
 $('avb').onclick = () => profMenu($('avb'));
 $('lsq').onclick = () => { $('pList').querySelector('.lbar').classList.add('srch'); $('lq').focus(); };
 $('lq').addEventListener('input', () => { Q = $('lq').value; renderList(); });
