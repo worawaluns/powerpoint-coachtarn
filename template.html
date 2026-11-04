@@ -156,6 +156,7 @@ body.owned .pr .wm{display:none}
 .thumbs img,.rel img{position:relative;transition:opacity .25s ease}
 html.jsimg .main img.on:not(.ld),html.jsimg .thumbs img:not(.ld),html.jsimg .rel img:not(.ld){opacity:0}
 /* 8. ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที */
+@view-transition{navigation:auto}   /* ไอซ์ 4 พ.ย.: ข้ามไป Studio แบบจางต่อกัน ไม่กระพริบขาว */
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <script>/* ภาพค่อยโผล่เมื่อโหลดเสร็จ — พังก็โชว์ (error) ถ้าสคริปต์นี้ไม่รัน html ไม่มี jsimg ภาพก็โชว์ตามปกติ */
@@ -276,6 +277,17 @@ function cardHTML(){
 const STUDIO_IC = '<img src="img/studio-mark.svg" alt="">';   // ไอซ์ 3 พ.ย.: ไอคอน Studio = studio-mark.svg
 const studioOk = () => !!(window.TPL && D && window.TPL.has(D.slug));
 fetch('studio/tpl.json').then(r => r.json()).then(a => { window.TPL = new Set(a); const el = document.querySelector('.side'); if (D && el) { el.innerHTML = cardHTML(); document.getElementById('mbar').innerHTML = mbarHTML(); } }).catch(() => {});
+// ไอซ์ 4 พ.ย. 2569: กดเปิดใน Studio แล้วภาพสไลด์ลอยไปวางในหน้า Studio ต่อเนื่อง ส่งตำแหน่งภาพที่เห็นจริง (หักขอบ+contain) ให้ studio/index.html ทำต่อ
+document.addEventListener('click', e => {
+  const im = e.target.closest('a[href^="studio/#tpl="]') && document.querySelector('#view img.on');
+  if (!im || !im.naturalWidth) return;
+  const r = im.getBoundingClientRect(), cs = getComputedStyle(im), p = k => parseFloat(cs['padding' + k]) || 0;
+  const bw = r.width - p('Left') - p('Right'), bh = r.height - p('Top') - p('Bottom'), s = Math.min(bw / im.naturalWidth, bh / im.naturalHeight);
+  const fit = cs.objectFit === 'contain', w = fit ? im.naturalWidth * s : r.width, h = fit ? im.naturalHeight * s : r.height;
+  const x = fit ? r.left + p('Left') + (bw - w) / 2 : r.left, y = fit ? r.top + p('Top') + (bh - h) / 2 : r.top;
+  if (y + h < 0 || y > innerHeight) return;   // ภาพเลื่อนพ้นจอไปแล้ว ไม่ต้องลอย
+  try { sessionStorage.setItem('ct_morph', JSON.stringify({x, y, w, h, src: im.currentSrc || im.src, rad: fit ? 6 : 20, slug: D.slug, t: Date.now()})); } catch (_) {}
+});
 // bonus countdown: reads the landing page's 24h deadline (ct_bdl), never creates one here
 function bonusTick(){
   let dl = 0; try { dl = parseInt(localStorage.getItem('ct_bdl')) || 0; } catch (e) {}
