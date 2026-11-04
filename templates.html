@@ -225,7 +225,8 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
 <script>/* ไอซ์ 4 พ.ย.: มาจากหน้าดีเทล (ปุ่มย้อนกลับหรือลิงก์คลังเทมเพลต) = ทางกลับ ใช้แอนิเมชันเลื่อนออกขวา */
-addEventListener('pagereveal', e => { let t = 0; try { t = +sessionStorage.getItem('ct_from_tpl'); sessionStorage.removeItem('ct_from_tpl'); } catch (_) {}
+addEventListener('pagereveal', e => { document.querySelectorAll('.cv img').forEach(i => i.style.viewTransitionName = '');   // กลับมาแล้วล้างชื่อที่ติดปกไว้ตอนกดเข้า
+  let t = 0; try { t = +sessionStorage.getItem('ct_from_tpl'); sessionStorage.removeItem('ct_from_tpl'); } catch (_) {}
   if (e.viewTransition && Date.now() - t < 3000) e.viewTransition.types.add('back'); });
 </script>
 </head>
@@ -475,10 +476,10 @@ fetch('https://uyubtzyhuqalmjpjhmap.supabase.co/functions/v1/recent-buyers', {
 document.addEventListener('click', e => {
   const a = e.target.closest('a[href^="template.html?id="]');
   if (!a || a.href.includes('&s=') || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;   // ลิงก์หน้าสไลด์ไปเปิดแบบนำเสนอ ไม่ลอย
-  const im = (a.closest('.card') || a).querySelector('img'), r = im && im.getBoundingClientRect();
-  if (!r || !im.naturalWidth || r.bottom < 0 || r.top > innerHeight) return;
-  const rad = parseFloat(getComputedStyle(im.closest('.card') || im).borderTopLeftRadius) || 14;
-  try { sessionStorage.setItem('ct_morph2', JSON.stringify({x: r.left, y: r.top, w: r.width, h: r.height, rad, src: im.currentSrc || im.src, slug: new URL(a.href).searchParams.get('id'), t: Date.now(), n: DATA.length, d: DATA.find(x => x.slug === new URL(a.href).searchParams.get('id'))})); } catch (_) {}
+  const id = new URL(a.href).searchParams.get('id'), d = DATA.find(x => x.slug === id), im = (a.closest('.card') || a).querySelector('img');
+  if (!d || !im) return;
+  im.style.viewTransitionName = 'ct-hero';   // เบราว์เซอร์ขยายปกนี้ไปเป็นภาพใหญ่หน้าดีเทล
+  try { sessionStorage.setItem('ct_morph2', JSON.stringify({slug: id, t: Date.now(), n: DATA.length, d})); } catch (_) {}
 });
 </script>
 </body>
