@@ -2690,6 +2690,17 @@ body{
 }
 /* ไอซ์ 4 พ.ย. 2569: ปุ่มหลักส้มเรียบ #C84B2F ไม่ไล่สี ไม่มีเงาเบลอ ไม่มีแสงวิ่ง */
 .btn-main,.drawer-cta-btn{background:#C84B2F!important;box-shadow:none!important}.btn-main::after{display:none!important}.fin-btn,.pv-tier-btn-hot{background:#C84B2F!important;box-shadow:none!important}.btn-hero-fill{box-shadow:none!important}@media(min-width:1024px){.btn-hero-fill{background:#C84B2F!important}}@media(hover:hover){.fin-btn:hover,.btn-hero-fill:hover{box-shadow:none!important}}@media(hover:hover){.btn-main:hover{box-shadow:none!important;transform:none!important;opacity:.92}}
+/* heading key word: a warm colour band keeps running across the ink word every 4.5s
+   (motion copied from pheel-os.com "Manifest", warm colours; Ice 5 Nov). currentColor = the heading's own ink, so it works on the dark closing card too */
+.kw{background-image:linear-gradient(90deg,currentColor 0,currentColor 33.33%,#F5A524 38%,#F97316 43%,#EF4444 50%,#E11D48 56%,#C84B2F 61%,currentColor 66.67%,currentColor 100%);
+  background-size:300% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  padding:.12em .06em;margin:-.12em -.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:kwSweep 4.5s linear infinite}
+@keyframes kwSweep{to{background-position:0 0}}
+@media(prefers-reduced-motion:reduce){.kw{animation:none;background-position:50% 0}}
+/* Thai has no spaces between words: lines break only between the phrase spans the script below adds (Ice: no one-word lines).
+   text-wrap-style only, because the text-wrap shorthand would reset nowrap */
+h1,h2,h3,.section-sub,.pick-lead,.hero-sub,.flow-detail-desc,.fin-sub,.fin-note,.pv-tier-note,.pv-rv-note{text-wrap-style:balance;word-break:keep-all}
+.nw{white-space:nowrap}
 </style>
 <!-- Meta Pixel -->
 <script>
@@ -2727,7 +2738,7 @@ fbq('track','PageView');
 .pv-rv-score b{display:block;font-size:44px;font-weight:800;line-height:1;color:var(--text-dark)}
 .pv-rv-stars{color:#F5A623;font-size:17px;letter-spacing:2px}
 .pv-rv-score small{display:block;font-size:12.5px;color:var(--text-mid);margin-top:4px}
-.pv-rv-row{display:grid;grid-template-columns:1fr 84px 34px;align-items:center;gap:8px;font-size:13px;color:var(--text-mid);margin-bottom:8px}
+.pv-rv-row{display:grid;grid-template-columns:1fr 56px 36px;align-items:center;gap:8px;font-size:13px;color:var(--text-mid);margin-bottom:8px}
 .pv-rv-row i{height:7px;border-radius:100px;background:linear-gradient(-135deg,var(--grad-start),var(--grad-end));display:block}
 .pv-rv-row b{font-size:12.5px;color:var(--text-dark);text-align:right}
 .pv-rv-note{font-size:12.5px;color:var(--text-mid);border-top:1px dashed rgba(0,0,0,.1);padding-top:9px}
@@ -2972,8 +2983,7 @@ html.member .sticky-bar{display:none!important}
 <!-- ⑦ PARALLAX TEMPLATE STRIP -->
 <section class="strip-section" id="strip">
   <div class="strip-header reveal">
-    <div class="section-pill">Template Collection</div>
-    <h2 class="section-h2">6,500+ สไลด์<br>ครบทุกสไตล์</h2>
+    <h2 class="section-h2">6,500+ สไลด์<br>ครบ<span class="kw">ทุกสไตล์</span></h2>
     <p class="section-sub" style="margin-bottom:0">เลือกใช้ตามงานที่ต้องการ แก้ไขง่าย ใช้ได้ทันที</p>
   </div>
   <div class="strip-track-wrap" id="stripWrap">
@@ -2999,7 +3009,7 @@ html.member .sticky-bar{display:none!important}
 </section>
 
 <section class="pick-section reveal" id="library">
-  <h2>หาสไลด์ที่ตรงกับงานของคุณ</h2>
+  <h2>หาสไลด์ที่ตรงกับ<span class="kw">งานของคุณ</span></h2>
   <p class="pick-lead" id="pickLead">เลือกตามอาชีพ หรือตามประเภทสไลด์ หยิบข้ามชุดมารวมกันได้</p>
   <div class="pick-seg"><button class="on" data-m="job">ตามอาชีพ</button><button data-m="type">ตามประเภทสไลด์</button></div>
   <div class="pick-chips" id="pickChips"><a href="templates?g=office">พนักงานออฟฟิศ</a><a href="templates?g=teacher">ครู / อาจารย์</a><a href="templates?g=sales">ฝ่ายขาย</a><a href="templates">ดูทั้งหมด</a></div>
@@ -3155,8 +3165,7 @@ async function setFile(slug){
 <!-- ★ WHAT YOU GET (preview) -->
 <section class="section pv-b2b-section" id="team">
   <div class="reveal" style="text-align:center">
-    <div class="section-pill">ซื้อในนามองค์กร</div>
-    <h2 class="section-h2">ซื้อให้ทั้งทีม<br>ยิ่งหลายคนยิ่งถูก</h2>
+    <h2 class="section-h2">ซื้อให้ทั้งทีม<br>ยิ่งหลายคน<span class="kw">ยิ่งถูก</span></h2>
     <p class="section-sub">เริ่ม 299฿ ต่อคน แต่ละคนได้ Redeem Code ของตัวเอง ออกใบกำกับภาษีในนามบริษัทได้ทุกแพ็ก</p>
   </div>
   <div class="pv-tiers">
@@ -3218,7 +3227,7 @@ async function setFile(slug){
   <div class="ft-wrap">
 
     <div class="ft-list reveal">
-      <h2 class="ft-h2">ซื้อไปแล้วทำอะไรได้บ้าง</h2>
+      <h2 class="ft-h2">ซื้อไปแล้ว<span class="kw">ทำอะไรได้บ้าง</span></h2>
 
       <button class="ft-item on" type="button">
         <span class="ft-num">01</span>
@@ -3301,8 +3310,7 @@ async function setFile(slug){
     </div>
   </div>
   <div class="reviews-head reveal">
-    <div class="section-pill">รีวิวจากผู้ใช้จริง</div>
-    <h2 class="section-h2">ลูกค้าพูดถึง<br>Coach Tarn ว่าไง</h2>
+    <h2 class="section-h2">ลูกค้าพูดถึง<br><span class="kw">Coach Tarn</span> ว่าไง</h2>
   </div>
   <div class="reviews-rating-bar reveal">
     <div class="reviews-stars">
@@ -3439,8 +3447,7 @@ async function setFile(slug){
 <!-- ⑧ EMAIL FLOW SECTION (merged with how-it-works) -->
 <section class="flow-section" id="how">
   <div class="reveal" style="text-align:center">
-    <div class="section-pill">ขั้นตอนสั่งซื้อ</div>
-    <h2 class="section-h2">ง่าย 3 ขั้นตอน<br>เริ่มใช้งานได้ทันที</h2>
+    <h2 class="section-h2">ง่าย 3 ขั้นตอน<br>เริ่มใช้งาน<span class="kw">ได้ทันที</span></h2>
     <p class="section-sub" style="margin-bottom:0">ดูว่าเกิดอะไรขึ้นหลังกดสั่งซื้อ ทีละขั้นตอน</p>
   </div>
 
@@ -3761,8 +3768,7 @@ async function setFile(slug){
 <!-- ⑭ FAQ -->
 <section class="section faq-section" id="faq">
   <div class="reveal" style="text-align:center">
-    <div class="section-pill">คำถามที่พบบ่อย</div>
-    <h2 class="section-h2">มีข้อสงสัย?</h2>
+    <h2 class="section-h2">มี<span class="kw">ข้อสงสัย</span>?</h2>
   </div>
   <div class="faq-list">
     <div class="faq-item reveal">
@@ -3812,7 +3818,7 @@ async function setFile(slug){
 <!-- ⑫ FINAL CTA -->
 <section class="section fin-section">
   <div class="fin-card reveal">
-    <h2 class="fin-h2">เลิกนั่งทำสไลด์เอง<br>ตั้งแต่หน้าแรกได้แล้ว</h2>
+    <h2 class="fin-h2">เลิกนั่งทำสไลด์เอง<br>ตั้งแต่<span class="kw">หน้าแรก</span>ได้แล้ว</h2>
     <p class="fin-sub">คนใช้งานแล้วกว่า 7,000 คน จ่ายครั้งเดียวได้คลัง 376 ชุด 6,500+ สไลด์ ชุดใหม่ที่เพิ่มเข้าคลัง โหลดฟรีด้วยโค้ดเดิมตลอด</p>
     <div class="fin-price"><s>999฿</s><b>499฿</b></div>
     <a href="order" class="fin-btn">สั่งซื้อเลย</a>
@@ -4582,6 +4588,40 @@ function closeDrawer() {
       box.classList.remove('on');
     }
   })();
+})();
+</script>
+<script>
+(function(){
+  // Thai has no spaces between words, so the browser breaks anywhere in a phrase.
+  // wrap each space-separated phrase in a nowrap span: lines then break only at spaces.
+  var sel='h1,h2,h3,.section-sub,.pick-lead,.hero-sub,.flow-detail-desc,.fin-sub,.fin-note,.pv-tier-note,.pv-rv-row span,.faq-q';
+  document.querySelectorAll(sel).forEach(function(el){
+    var w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),t,list=[];
+    while(t=w.nextNode()) if(t.nodeValue.trim()) list.push(t);
+    list.forEach(function(t){
+      var f=document.createDocumentFragment();
+      // glue tiny chunks so they never sit alone: "·" sticks to the word before, "20" / "98%" to the word after
+      var parts=t.nodeValue.split(/\s+/), lead=/^\s/.test(t.nodeValue), tail=/\s$/.test(t.nodeValue), out=[];
+      parts.forEach(function(p){
+        if(!p) return;
+        if(p==='·'&&out.length){out[out.length-1]+=' ·';return}
+        if(/^\./.test(p)&&out.length){out[out.length-1]+=' '+p;return}  // "ไฟล์ .pptx"
+        if(out.length&&/\d$/.test(out[out.length-1])){out[out.length-1]+=' '+p;return}  // "376 ชุด", "20 คน"
+        if(/^\d/.test(p)&&out.length&&out[out.length-1].length<=5&&!/·$/.test(out[out.length-1])){out[out.length-1]+=' '+p;return}  // "เกิน 20"
+        if(out.length&&out[out.length-1].length<=3&&out[out.length-1]!=='·'&&out[out.length-1].indexOf(' ')<0){out[out.length-1]+=' '+p;return}
+        out.push(p);
+      });
+      if(lead) f.appendChild(document.createTextNode(' '));
+      out.forEach(function(p,i){
+        if(i) f.appendChild(document.createTextNode(' '));
+        var s=document.createElement('span');s.className='nw';s.textContent=p;f.appendChild(s);
+      });
+      if(tail) f.appendChild(document.createTextNode(' '));
+      // .faq-q is a flex row: keep the phrase spans inside one wrapper so they stay a single flex item
+      if(t.parentNode.classList&&t.parentNode.classList.contains('faq-q')){var w2=document.createElement('span');w2.appendChild(f);f=w2}
+      t.parentNode.replaceChild(f,t);
+    });
+  });
 })();
 </script>
 </body>
