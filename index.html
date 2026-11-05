@@ -248,6 +248,13 @@ body{
 
 /* ── Hero Content ── */
 .hero-inner{padding:0 24px;position:relative;z-index:1}
+/* first load: each hero line rises in one after another, headline first (infograpia.com style: 18px up + fade, .9s, .15s apart; Ice 5 Nov) */
+.hero-inner>*,.hero-visual{animation:heroRise .9s cubic-bezier(.22,1,.36,1) both}
+.hero-inner>:nth-child(1){animation-delay:.05s}.hero-inner>:nth-child(2){animation-delay:.15s}.hero-inner>:nth-child(3){animation-delay:.3s}
+.hero-inner>:nth-child(4){animation-delay:.45s}.hero-inner>:nth-child(5){animation-delay:.6s}.hero-inner>:nth-child(6){animation-delay:.75s}
+.hero-inner>:nth-child(7){animation-delay:.9s}.hero-visual{animation-delay:.45s}
+@keyframes heroRise{from{opacity:0;transform:translateY(18px)}}
+@media(prefers-reduced-motion:reduce){.hero-inner>*,.hero-visual{animation:none}}
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(211,71,36,0.08);border-radius:100px;
@@ -2820,7 +2827,7 @@ fbq('track','PageView');
     <div class="hbc hbc5"></div>
   </div>
 
-  <div class="hero-inner reveal">
+  <div class="hero-inner">
     <a href="#bonus" class="hero-flash" id="heroFlash">
       <span class="hf-badge">แถมฟรี</span>
       <span class="hf-txt">Bonus Slides อีก 1 ชุด หมดใน <b id="heroTimer">--:--:--</b></span>
