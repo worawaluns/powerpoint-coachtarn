@@ -2701,10 +2701,12 @@ fbq('track','PageView');
 <!-- End Meta Pixel -->
 <style>
 /* ── preview-only sections ── */
-.pv-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:10px 20px 4px;max-width:var(--max);margin:0 auto}
-.pv-fact{background:linear-gradient(180deg,#FFF4EE,#FFFAF7);border:1px solid rgba(211,71,36,.16);border-radius:14px;padding:12px 14px;text-align:center;box-shadow:0 2px 10px rgba(211,71,36,.06)}
-.pv-fact b{display:block;font-size:18px;font-weight:800;color:var(--red);line-height:1.25;margin-bottom:2px}
-.pv-fact span{font-size:12.5px;color:#8A6A5E;text-wrap:balance}
+.pv-facts{display:grid;grid-template-columns:repeat(2,1fr);margin:8px 20px 4px;border:1px solid rgba(211,71,36,.15);border-radius:14px;overflow:hidden}
+.pv-fact{position:relative;padding:11px 8px;text-align:center}
+.pv-fact b{display:block;font-size:15.5px;font-weight:800;color:var(--red);line-height:1.3}
+/* hairline dividers like the hero stats strip (Ice 5 Nov: one box, titles only) */
+.pv-fact:nth-child(odd)::after{content:'';position:absolute;right:0;top:16%;height:68%;width:1px;background:rgba(211,71,36,.15)}
+.pv-fact:nth-child(-n+2)::before{content:'';position:absolute;bottom:0;left:12%;width:76%;height:1px;background:rgba(211,71,36,.15)}
 .pv-out-section{padding-top:8px}
 .pv-outs{display:grid;gap:12px;margin-top:16px}
 .pv-out{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:16px 18px;box-shadow:0 3px 14px rgba(20,20,30,.05)}
@@ -2757,23 +2759,20 @@ fbq('track','PageView');
 .pv-anchor a{flex:0 0 auto;text-decoration:none;font-size:15px;font-weight:600;color:var(--tb-mid);height:44px;display:flex;align-items:center;padding:0 12px;white-space:nowrap;transition:color .18s,box-shadow .18s}
 .pv-anchor a.on{color:var(--tb-text);box-shadow:inset 0 -2px 0 var(--tb-accent)}
 @media(min-width:768px){
-  .pv-facts{
-    grid-template-columns:repeat(4,1fr);gap:0;padding:0;margin-top:12px;max-width:100%;
-    background:linear-gradient(105deg,#EB7D4A,#D34724);
-  }
-  .pv-fact{background:none;border:none;border-radius:0;box-shadow:none;padding:16px 12px}
-  .pv-fact:not(:last-child){border-right:1px solid rgba(255,255,255,.22)}
-  .pv-fact b{color:#fff}
-  .pv-fact span{color:rgba(255,255,255,.88)}
+  .pv-facts{grid-template-columns:repeat(4,1fr);max-width:960px;margin:16px 20px 4px}
+  @media(min-width:1000px){.pv-facts{margin-left:auto;margin-right:auto}}
+  .pv-fact{padding:16px 12px}
+  .pv-fact::before{display:none}
+  .pv-fact:not(:last-child)::after{content:'';position:absolute;right:0;top:18%;height:64%;width:1px;background:rgba(211,71,36,.15)}
   .pv-outs{grid-template-columns:repeat(3,1fr)}
   .pv-rv-stats{grid-template-columns:190px 1fr;align-items:center;gap:26px}
 }
 /* desktop: same gutters and max widths as the rest of the page */
 @media(min-width:1024px){
   .pv-anchor-in{max-width:var(--tb-max);padding:0 22px}
-  .pv-facts{margin-top:14px}
-  .pv-fact{padding:20px 14px}
-  .pv-fact b{font-size:22px}
+  .pv-facts{margin-top:14px;margin-bottom:4px}
+  .pv-fact{padding:18px 14px}
+  .pv-fact b{font-size:19px}
   .pv-out-section{max-width:1280px;margin:0 auto;padding:60px 64px 40px}
   .pv-outs{gap:18px;margin-top:22px}
   .pv-out{padding:22px 24px}
@@ -2880,10 +2879,10 @@ fbq('track','PageView');
 <section class="pv-facts reveal">
   <!-- hero already says 6,500+ / unlimited / one-time — these four add what it does not.
        each one is a plain statement, not a word the reader has to decode -->
-  <div class="pv-fact"><b>376 ชุด</b><span>ผสมข้ามชุดได้ รวมเป็นไฟล์เดียว</span></div>
-  <div class="pv-fact"><b>แก้ได้ทุกหน้า</b><span>ไฟล์ .pptx ไม่ใช่รูปภาพ</span></div>
-  <div class="pv-fact"><b>กราฟต่อ Excel</b><span>พิมพ์เลขใหม่ กราฟขยับตาม</span></div>
-  <div class="pv-fact"><b>โอนแล้วได้เลย</b><span>ระบบส่งโค้ดเข้าอีเมลให้เอง</span></div>
+  <div class="pv-fact"><b>376 ชุด</b></div>
+  <div class="pv-fact"><b>แก้ได้ทุกหน้า</b></div>
+  <div class="pv-fact"><b>กราฟต่อ Excel</b></div>
+  <div class="pv-fact"><b>โอนแล้วได้เลย</b></div>
 </section>
 
 <div class="pv-anchor">
