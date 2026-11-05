@@ -1376,6 +1376,9 @@ body{
    FAQ
 ══════════════════════════════════════ */
 .faq-section{background:#fff}
+.faq-side{text-align:center}
+.faq-lead{display:none}
+.faq-lead a{color:var(--red);font-weight:700;text-decoration:none}
 .faq-list{display:flex;flex-direction:column;gap:8px;margin-top:20px}
 .faq-item{background:var(--bg-soft);border-radius:var(--radius-md);overflow:hidden}
 .faq-q{
@@ -2371,6 +2374,13 @@ body{
 
   /* FAQ — constrain width */
   .faq-section{max-width:960px;margin:0 auto}
+  /* desktop FAQ: heading + short lead on the left, questions as white bordered rows on the right (infograpia layout, Ice 5 Nov) */
+  .faq-section{max-width:1200px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}
+  .faq-side{position:sticky;top:150px;text-align:left}
+  .faq-side .section-h2{margin:0;text-align:left}
+  .faq-lead{display:block;margin-top:18px;font-size:17px;line-height:1.7;color:var(--text-mid);max-width:420px}
+  .faq-list{margin-top:0}
+  .faq-item{background:#fff;border:1px solid var(--border,#ECE7E2)}
 
   /* Section generic text headings */
   .section-h2{max-width:800px;margin-left:auto;margin-right:auto}
@@ -2706,7 +2716,7 @@ body{
 @media(prefers-reduced-motion:reduce){.kw{animation:none;background-position:50% 0}}
 /* Thai has no spaces between words: lines break only between the phrase spans the script below adds (Ice: no one-word lines).
    text-wrap-style only, because the text-wrap shorthand would reset nowrap */
-h1,h2,h3,.section-sub,.pick-lead,.hero-sub,.flow-detail-desc,.fin-sub,.fin-note,.pv-tier-note,.pv-rv-note{text-wrap-style:balance;word-break:keep-all}
+h1,h2,h3,.faq-lead,.section-sub,.pick-lead,.hero-sub,.flow-detail-desc,.fin-sub,.fin-note,.pv-tier-note,.pv-rv-note{text-wrap-style:balance;word-break:keep-all}
 .nw{white-space:nowrap}
 </style>
 <!-- Meta Pixel -->
@@ -3774,8 +3784,9 @@ async function setFile(slug){
 
 <!-- ⑭ FAQ -->
 <section class="section faq-section" id="faq">
-  <div class="reveal" style="text-align:center">
+  <div class="faq-side reveal">
     <h2 class="section-h2">มี<span class="kw">ข้อสงสัย</span>?</h2>
+    <p class="faq-lead">รวมเรื่องที่คนถามบ่อยก่อนสั่งซื้อ ไม่เจอคำตอบที่หา ทักแอดมินได้ที่ <a href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener">แชท Facebook</a></p>
   </div>
   <div class="faq-list">
     <div class="faq-item reveal">
@@ -4601,7 +4612,7 @@ function closeDrawer() {
 (function(){
   // Thai has no spaces between words, so the browser breaks anywhere in a phrase.
   // wrap each space-separated phrase in a nowrap span: lines then break only at spaces.
-  var sel='h1,h2,h3,.section-sub,.pick-lead,.hero-sub,.flow-detail-desc,.fin-sub,.fin-note,.pv-tier-note,.pv-rv-row span,.faq-q';
+  var sel='h1,h2,h3,.faq-lead,.section-sub,.pick-lead,.hero-sub,.flow-detail-desc,.fin-sub,.fin-note,.pv-tier-note,.pv-rv-row span,.faq-q';
   document.querySelectorAll(sel).forEach(function(el){
     var w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT),t,list=[];
     while(t=w.nextNode()) if(t.nodeValue.trim()) list.push(t);
