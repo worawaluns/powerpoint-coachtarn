@@ -187,9 +187,14 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
-<script>/* ไอซ์ 4 พ.ย.: บอกหน้าคลังว่ามาจากหน้าดีเทล จะได้เลื่อนออกขวาแบบย้อนกลับ */
+<script>/* ไอซ์ 4 พ.ย.: บอกหน้าคลังว่ามาจากหน้าดีเทล (ทางกลับ) / ไอซ์ 6 พ.ย.: กลับไปหน้าคลัง = ภาพใหญ่ใช้ชื่อ ct-hero ให้เบราว์เซอร์ย่อไปวางที่การ์ดเดิม */
 addEventListener('pagereveal', () => document.querySelectorAll('.rel img').forEach(i => i.style.viewTransitionName = ''));   // กลับมาจาก bfcache ล้างชื่อที่ติดการ์ด
-addEventListener('pageswap', () => { try { sessionStorage.setItem('ct_from_tpl', Date.now()); } catch (_) {} });
+addEventListener('pageswap', e => {
+  const to = e.activation && e.activation.entry && e.activation.entry.url, lib = !!to && /\/templates(\.html)?$/.test(new URL(to).pathname);
+  try { sessionStorage.setItem('ct_from_tpl', JSON.stringify({t: Date.now(), slug: lib && typeof D === 'object' && D ? D.slug : ''})); } catch (_) {}
+  const v = lib && e.viewTransition && document.getElementById('view'), r = v && v.getBoundingClientRect();
+  if (r && r.bottom > 0 && r.top < innerHeight) v.style.viewTransitionName = 'ct-hero';   // ภาพใหญ่เลื่อนพ้นจอแล้ว = ไม่ย่อ จางอย่างเดียว
+});
 </script>
 </head>
 <body>

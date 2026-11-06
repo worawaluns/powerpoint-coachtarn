@@ -193,12 +193,14 @@ html.jsimg .cv a img:not(.ld){opacity:0}
 @keyframes rise{from{opacity:0;transform:translateY(6px)}}
 /* 8. ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที */
 @view-transition{navigation:auto}   /* ไอซ์ 4 พ.ย.: เข้าหน้าดีเทลแบบจางต่อกัน ไม่กระพริบขาว */
-/* ไอซ์ 4 พ.ย.: กลับจากหน้าดีเทล หน้าดีเทลเลื่อนออกทางขวา หน้าคลังเลื่อนตามจากซ้ายนิดหน่อย แบบแอป HeyTea/iOS */
-html:active-view-transition-type(back)::view-transition-old(root){animation:ct-out .38s cubic-bezier(.32,.72,0,1) both;z-index:2;box-shadow:-8px 0 30px rgba(0,0,0,.12)}
-html:active-view-transition-type(back)::view-transition-new(root){animation:ct-under .38s cubic-bezier(.32,.72,0,1) both}
-@keyframes ct-out{to{transform:translateX(100%)}}
-@keyframes ct-under{from{transform:translateX(-25%)}}
-@media (prefers-reduced-motion:reduce){::view-transition-old(root),::view-transition-new(root){animation:none!important}}
+/* ไอซ์ 6 พ.ย.: กลับจากหน้าดีเทล ภาพใหญ่ย่อกลับไปวางที่ปกการ์ดเดิม (ct-hero ตัวเดียวกับขาเข้า เบราว์เซอร์ทำเอง ไม่ซ้อนแอนิเมชันเอง)
+   หน้าดีเทลจางหายทับหน้าคลังที่อยู่นิ่ง การ์ดไม่อยู่บนจอ = จางอย่างเดียว (แทนการเลื่อนออกขวาของ 4 พ.ย.) */
+html:active-view-transition-type(back)::view-transition-old(root){animation:ct-fade .28s ease-out both;z-index:2}
+html:active-view-transition-type(back)::view-transition-new(root){animation:none}
+@keyframes ct-fade{to{opacity:0}}
+::view-transition-group(ct-hero){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.8,.2,1);border-radius:20px;overflow:hidden}
+::view-transition-old(ct-hero),::view-transition-new(ct-hero){animation-duration:.42s;height:100%;object-fit:cover}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <script>/* ภาพค่อยโผล่เมื่อโหลดเสร็จ — พังก็โชว์ (error) ถ้าสคริปต์นี้ไม่รัน html ไม่มี jsimg ภาพก็โชว์ตามปกติ */
@@ -217,10 +219,15 @@ try { var _m = JSON.parse(localStorage.getItem('ct_lib') || 'null'); if (_m && _
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
-<script>/* ไอซ์ 4 พ.ย.: มาจากหน้าดีเทล (ปุ่มย้อนกลับหรือลิงก์คลังเทมเพลต) = ทางกลับ ใช้แอนิเมชันเลื่อนออกขวา */
+<script>/* มาจากหน้าดีเทล (ปุ่มย้อนกลับ ปุ่มย้อนของเบราว์เซอร์ หรือลิงก์คลังเทมเพลต) = ทางกลับ
+   ไอซ์ 6 พ.ย. 2569: ปกการ์ดของชุดนั้นอยู่บนจอ (กลับตำแหน่งเดิมจาก bfcache) = ตั้งชื่อ ct-hero ให้ภาพใหญ่ย่อกลับมาวาง ไม่อยู่ = จางอย่างเดียว */
 addEventListener('pagereveal', e => { document.querySelectorAll('.cv img').forEach(i => i.style.viewTransitionName = '');   // กลับมาแล้วล้างชื่อที่ติดปกไว้ตอนกดเข้า
-  let t = 0; try { t = +sessionStorage.getItem('ct_from_tpl'); sessionStorage.removeItem('ct_from_tpl'); } catch (_) {}
-  if (e.viewTransition && Date.now() - t < 3000) e.viewTransition.types.add('back'); });
+  let f = null; try { f = JSON.parse(sessionStorage.getItem('ct_from_tpl') || 'null'); sessionStorage.removeItem('ct_from_tpl'); } catch (_) {}
+  if (!e.viewTransition || !f || !(Date.now() - f.t < 3000)) return;
+  e.viewTransition.types.add('back');
+  const a = f.slug && [...document.querySelectorAll('a[href^="template.html?id="]')].find(x => !x.href.includes('&s=') && new URL(x.href).searchParams.get('id') === f.slug);
+  const im = a && (a.closest('.card') || a).querySelector('img'), r = im && im.getBoundingClientRect();
+  if (r && r.width && r.bottom > 0 && r.top < innerHeight) { im.style.viewTransitionName = 'ct-hero'; e.viewTransition.finished.finally(() => { im.style.viewTransitionName = ''; }); } });
 </script>
 </head>
 <body>
