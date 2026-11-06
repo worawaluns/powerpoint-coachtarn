@@ -1,7 +1,8 @@
 /* แถบบนเดียวกันทุกหน้า + popup เข้าสู่ระบบ + แผ่นบัญชี (งาน 046, ไอซ์ 3 พ.ย. 2569) คู่กับ topbar.css
    ใช้: <link rel="stylesheet" href="topbar.css"> ในหัว + <div id="ct-top" data-on="templates"></div> + <script src="js/topbar.js"></script>
    data-locked = หน้าสั่งซื้อ (โลโก้อย่างเดียว ไม่มีลิงก์ออก)
-   ตรวจ Code ด้วย verify-code ตัวเดียวกับ templates.html / download.html เก็บ ct_lib รูปเดิม {code, name, t}
+   ตรวจ Code ด้วย verify-code ตัวเดียวกับ templates.html / download.html เก็บ ct_lib {code, name, t, studio, su} (t = ตรวจล่าสุด, studio/su จากใบ 050)
+   ไม่มี #ct-top (หน้า studio/) = ไม่วาดแถบ แต่ยังใช้ ctTop.login / check / sheet ได้
 
    Icons: Phosphor Icons 2.1.1 (https://phosphoricons.com), MIT License, Copyright (c) 2023 Phosphor Icons */
 (function () {
@@ -37,8 +38,14 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const me = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return v && v.code ? v : null; } catch (e) { return null; } };
 
 const root = document.getElementById('ct-top');
-if (!root) return;
-const locked = root.hasAttribute('data-locked'), on = root.dataset.on || '';
+const locked = !!root && root.hasAttribute('data-locked'), on = root ? root.dataset.on || '' : '';
+const BASE = new URL('..', document.currentScript.src).href;   // ลิงก์ในแผ่นต้องใช้ได้จาก studio/ ด้วย
+// ใบ 050: เก็บสิทธิ์ Studio คู่กับ Code
+const keep = (code, d) => { try { localStorage.setItem('ct_lib', JSON.stringify({ code, name: d.name || '', t: Date.now(), studio: !!d.studio, su: d.studio_until || null })); } catch (e) {} };
+const ask = code => fetch(`${SB_URL}/functions/v1/verify-code`, { method: 'POST',
+  headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SB_KEY}` }, body: JSON.stringify({ code }) }).then(r => r.json());
+// ตรวจ Code ที่เก็บไว้ใหม่ คืนคำตอบ verify-code / ไม่มี Code = null / เน็ตหลุด = throw
+async function check() { const u = me(); if (!u) return null; const d = await ask(u.code); if (d.valid) keep(u.code, d); return d; }
 const m = me();
 
 function bar() {
@@ -75,7 +82,7 @@ function loginBody() {
       <input id="tbCode" placeholder="TARN-XXXXXXXX" maxlength="13" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
       <p class="tb-err" id="tbErr" role="alert"></p>
       <button class="tb-cap tb-lg" style="margin-top:16px" id="tbGo">เข้าสู่ระบบ</button></form>
-    <p class="tb-lnk">ยังไม่มี Code? <a href="order.html">สั่งซื้อ 499฿</a></p>`;
+    <p class="tb-lnk">ยังไม่มี Code? <a href="${BASE}order.html">สั่งซื้อ 499฿</a></p>`;
 }
 function doneBody(name) {
   return `<div class="tb-done"><span>${ic('check-circle-fill')}</span><h3>เข้าสู่ระบบแล้ว</h3>
@@ -91,7 +98,7 @@ function close() {
   const s = scrim, d = sheet, gone = () => { s.remove(); d.remove(); };
   s.classList.add('tb-out'); d.classList.add('tb-out'); setTimeout(gone, matchMedia('(prefers-reduced-motion:reduce)').matches ? 0 : 180);
   scrim = sheet = null; document.body.style.overflow = '';
-  root.querySelectorAll('.tb-on[data-a]').forEach(b => b.classList.remove('tb-on'));
+  if (root) root.querySelectorAll('.tb-on[data-a]').forEach(b => b.classList.remove('tb-on'));
   if (done) location.reload();            // เพิ่งเข้าสู่ระบบ: วาดหน้าใหม่ให้เห็นปุ่มดาวน์โหลด
 }
 function open(kind, html, btn) {
@@ -124,11 +131,10 @@ async function verify() {
   if (!PATTERN.test(code)) return err('รูปแบบ Code ไม่ถูกต้อง ตัวอย่าง: TARN-A3K9P2MX');
   btn.disabled = true; btn.textContent = 'กำลังตรวจสอบ...'; err('');
   try {
-    const r = await fetch(`${SB_URL}/functions/v1/verify-code`, { method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SB_KEY}` }, body: JSON.stringify({ code }) });
-    const d = await r.json();
+    const d = await ask(code);
     if (!d.valid) return err(d.reason === 'not_found' ? 'ไม่พบ Code นี้ ตรวจตัวอักษรในอีเมลอีกครั้ง' : 'ตรวจสอบไม่สำเร็จ ลองใหม่อีกครั้ง');
-    try { localStorage.setItem('ct_lib', JSON.stringify({ code, name: d.name || '', t: Date.now() })); } catch (e) {}
+    keep(code, d);
+    if (!root) return location.reload();   // studio/: โหลดหน้าใหม่ให้ตรวจสิทธิ์ Studio
     done = true; sheet.innerHTML = doneBody(d.name || '');
   } catch (e) { err('เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง'); }
   finally { if (btn.isConnected) { btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ'; } }
@@ -151,9 +157,9 @@ function act(e) {
     location.href = 'templates.html';
   }
 }
-root.innerHTML = bar();
-root.addEventListener('click', act);
+if (root) { root.innerHTML = bar(); root.addEventListener('click', act); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 if (location.hash === '#search') addEventListener('DOMContentLoaded', () => { if (document.getElementById('q')) setTimeout(search, 300); });
-window.ctTop = { login, ic };   // ic = same Phosphor icons for page buttons (template.html)
+const info = html => open('login', html);   // แผ่นข้อความ ใช้ทรงเดียวกับแผ่นเข้าสู่ระบบ (template.html แผ่น Studio เป็นแพ็กแยก)
+window.ctTop = { login, ic, check, info };   // ic = same Phosphor icons for page buttons (template.html)
 })();
