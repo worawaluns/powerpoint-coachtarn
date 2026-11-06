@@ -82,7 +82,9 @@ function loginBody() {
       <input id="tbCode" placeholder="TARN-XXXXXXXX" maxlength="13" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
       <p class="tb-err" id="tbErr" role="alert"></p>
       <button class="tb-cap tb-lg" style="margin-top:16px" id="tbGo">เข้าสู่ระบบ</button></form>
-    <p class="tb-lnk">ยังไม่มี Code? <a href="${BASE}order.html">สั่งซื้อ 499฿</a></p>`;
+    ${/\/studio\//.test(location.pathname)   // ใบ 050: ใน Studio ห้ามชวนซื้อ 499 (คนเข้าใจว่ารวม Studio)
+      ? '<p class="tb-lnk">ยังไม่มีแพ็ก Studio? <a href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener">สอบถามแพ็ก Studio</a></p>'
+      : `<p class="tb-lnk">ยังไม่มี Code? <a href="${BASE}order.html">สั่งซื้อ 499฿</a></p>`}`;
 }
 function doneBody(name) {
   return `<div class="tb-done"><span>${ic('check-circle-fill')}</span><h3>เข้าสู่ระบบแล้ว</h3>
