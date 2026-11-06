@@ -56,7 +56,7 @@ a{color:inherit;text-decoration:none}
 /* งาน 046: ปุ่มแถวเดียว ดาวน์โหลด/สั่งซื้อ (ยืด) + เปิดใน Studio + ไอคอน play (+ เข้าสู่ระบบ สำหรับผู้เยี่ยมชม) */
 .row2{display:flex;gap:10px;align-items:stretch}.cta .row2 .btn{width:auto;flex:none;padding-left:16px;padding-right:16px}.cta .row2 .btn-red{flex:1;min-width:0}
 .cta .row2 .ico{width:54px;padding:0;display:grid;place-items:center}.row2 .st img,.mbar .st img{width:22px;height:22px;display:block}
-.stx{margin:12px 8px 0!important;padding-left:20px!important;font-size:15px;line-height:1.6;color:var(--tb-mid)}.stx li{text-wrap:balance}.stx li+li{margin-top:6px}   /* ใบ 050 แผ่น Studio เป็นแพ็กแยก */
+.stx{margin:12px 8px 0!important;padding-left:20px!important;font-size:15px;line-height:1.6;color:var(--tb-mid)}.stx li{text-wrap:pretty}.stx li+li{margin-top:6px}   /* ใบ 050 แผ่น Studio เป็นแพ็กแยก */
 .btn .ls{display:none}@media(max-width:640px){.btn .lw{display:none}.btn .ls{display:inline}}@media(max-width:400px){.cta .row2 .btn-red svg{display:none}}
 .trust{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--sub)}.trust span{display:flex;align-items:center;gap:5px}.trust svg{width:14px;height:14px}
 .have{display:block;text-align:center;margin-top:12px;font-size:13.5px;color:var(--mid)}.have a{color:var(--red);font-weight:700;text-decoration:underline;text-underline-offset:3px}
@@ -311,9 +311,9 @@ function stGo(e){
 }
 function stSheet(){
   ctTop.info(`<div class="tb-shd"><h3>Slide Studio เป็นแพ็กแยก</h3><button class="tb-cb" data-a="close" aria-label="ปิด">${ctTop.ic('x')}</button></div>
-    <p class="tb-lsub">Code นี้ใช้กับเทมเพลตได้ ยังไม่รวม Studio</p>
+    <p class="tb-lsub">Code ของคุณใช้กับเทมเพลตได้ แต่ยังไม่รวม Studio</p>
     <ul class="stx"><li>เปิดเทมเพลตชุดนี้แก้ต่อบนเว็บ ไม่ต้องลงโปรแกรม</li>
-      <li>วางข้อความ Word Excel หรือ PDF จัดเป็นสไลด์ในดีไซน์ที่เลือก</li>
+      <li>วางข้อความ Word Excel PDF ได้สไลด์ในดีไซน์นี้</li>
       <li>บันทึกเป็น PowerPoint ที่แก้ต่อได้ PDF หรือรูป</li></ul>
     <a class="tb-cap tb-lg" style="margin-top:16px" href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener">${ctTop.ic('chat-circle-dots')}สอบถามแพ็ก Studio</a>`);
 }
