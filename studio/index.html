@@ -1752,20 +1752,28 @@ html.gt .gate{display:flex}html.gt body{overflow:hidden}
 .gate .gtc{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px 22px 22px;text-align:center}
 .gate img{width:56px;height:56px;display:block;margin:0 auto 14px}
 .gate h1{font-size:22px;font-weight:800;line-height:1.4}
-.gate p{font-size:15px;color:var(--mid);margin-top:8px;text-wrap:balance}
+.gate p{font-size:15px;color:var(--mid);margin-top:8px;text-wrap:balance;white-space:pre-line}   /* ขึ้นบรรทัดที่ \n ระหว่างวลี (Chrome ตัดกลางวลีไทยเอง) */
 .gate .gtb{display:grid;gap:10px;margin-top:22px}
 .gate .gtb .btn{height:52px;border-radius:26px;font-size:16px;width:100%}
 .gate .gtb .btn svg{width:22px;height:22px;flex:none}
 .gate .gtp{background:#C84B2F;color:#fff}
+.gate .gtd{color:var(--text)}
+.gate .gtl{display:inline-flex;align-items:center;min-height:44px;margin-top:6px;font-size:15px;font-weight:600;color:var(--mid);text-decoration:none}
+.gate .gtn{display:none}.gate.own .gtn{display:block}.gate.own .gtd{display:none}
+.gate.own #gateP{color:var(--text);font-weight:600}
+.gate.own .gtb a{order:-1;background:#C84B2F;color:#fff;border-color:#C84B2F}.gate.own .gtp{background:#fff;color:var(--text);border:1px solid var(--line)}
 @media (prefers-reduced-motion:no-preference){html.gt .gate .gtc{animation:gtin .5s cubic-bezier(.16,1,.3,1) both}@keyframes gtin{from{opacity:0;transform:translateY(14px)}}}
 </style>
 </head>
 <body class="onlist">
 <script src="../js/topbar.js"></script>
 <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateT"><div class="gtc"><img src="../img/studio-mark.svg" alt="">
-  <h1 id="gateT">Slide Studio<br>สำหรับสมาชิกแพ็ก Studio</h1><p id="gateP">เข้าสู่ระบบด้วย Code ที่มีแพ็ก Studio</p>
+  <h1 id="gateT">Slide Studio</h1><p class="gtd">วางข้อความหรือไฟล์ Word/Excel
+แล้วได้สไลด์ที่แก้ได้ในเทมเพลตที่เลือก</p><p id="gateP">ใช้ได้กับ Code ที่มีแพ็ก Studio</p><p class="gtn">ตั้งแต่ 6 พ.ย. 2569
+Slide Studio แยกเป็นแพ็กเฉพาะ
+เทมเพลตที่ซื้อไว้ยังโหลดได้ครบตามเดิม</p>
   <div class="gtb"><button class="btn gtp" type="button" onclick="ctTop.login()"></button>
-    <a class="btn btn-line" href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener"></a></div></div></div>
+    <a class="btn btn-line" href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener"></a></div><a class="gtl" href="../templates.html">กลับไปคลังเทมเพลต</a></div></div>
 <script>/* ใบ 050 (ไอซ์ 6 พ.ย. 2569): Studio ใช้ได้เฉพาะ Code ที่มีแพ็ก Studio ตรวจกับ verify-code ทุกครั้งที่เปิด
    ผ่าน = เปิด GATE ให้ boot() โหลด Python / ไม่ผ่าน = จอล็อกทับทั้งหน้า GATE ไม่เปิด เลยไม่โหลดอะไรหนัก
    เน็ตหลุด/เซิร์ฟเวอร์ล่ม = ใช้ค่าที่เก็บไว้ถ้าตรวจล่าสุดไม่เกิน 7 วัน
@@ -1784,7 +1792,7 @@ var gateOpen, GATE = new Promise(function (r) { gateOpen = r; });
   if (!(v && v.code)) return;
   ctTop.check().then(function (d) {
     if (d && d.valid && d.studio) return open();
-    if (d && d.valid) return lock('Code นี้ใช้กับเทมเพลตได้ ยังไม่รวม Studio');
+    if (d && d.valid) { g.classList.add('own'); b[0].textContent = 'ใช้ Code อื่น'; return lock('Code ของคุณใช้กับเทมเพลตได้\nแต่ยังไม่รวม Studio'); }   // ล็อกอินอยู่แล้ว: ปุ่มหลัก = สอบถามแพ็ก ไม่วนให้ล็อกอินซ้ำ
     if (d && (d.reason === 'not_found' || d.reason === 'invalid_format')) return lock('ไม่พบ Code นี้ เข้าสู่ระบบด้วย Code ที่ได้ทางอีเมล');
     throw 0;                                 // server_error = เหมือนเน็ตหลุด
   }).catch(function () { if (!fresh(v)) lock('ตรวจ Code ไม่สำเร็จ เชื่อมต่ออินเทอร์เน็ตแล้วโหลดหน้านี้ใหม่'); });
