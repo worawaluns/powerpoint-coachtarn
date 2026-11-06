@@ -1219,7 +1219,7 @@ async function verifyCode() {
       if (data.name) nameEl.textContent = `คุณ${data.name}`;
       document.getElementById('successZone').classList.add('show');
       // remember the unlock so the rest of the site (library, popup) shows download buttons
-      try { localStorage.setItem('ct_lib', JSON.stringify({ code, name: data.name || '', t: Date.now() })); } catch (_) {}
+      try { localStorage.setItem('ct_lib', JSON.stringify({ code, name: data.name || '', t: Date.now(), studio: !!data.studio, su: data.studio_until || null })); } catch (_) {}   // studio/su = สิทธิ์ Slide Studio (ใบ 050)
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } else {
