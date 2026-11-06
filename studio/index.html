@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../topbar.css">
 <style>
 :root{--red:#D34724;--orange:#EB7D4A;--text:#15151A;--mid:#4A4A55;--sub:#8A8A96;--line:#ECECF0;--soft:#FFF6F2;--bg:#F6F6F8;--ok:#2E7D4F;
   --ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);--safe:env(safe-area-inset-bottom,0px);
@@ -1744,9 +1745,51 @@ body.onflow .toast{top:68px;bottom:auto}   /* ก่อนสร้าง: ป�
 .fl-dc.on{box-shadow:0 0 0 2px var(--text)}
 @media (min-width:768px){.fl-dg{grid-template-columns:repeat(3,1fr)}}@media (min-width:1024px){.fl-dg{grid-template-columns:repeat(4,1fr)}}
 @media (prefers-reduced-motion:reduce){.flow *,.fl-sheet,.fl-scrim{animation:none!important;transition:none!important}}
+/* ใบ 050 จอล็อก: Studio เฉพาะ Code ที่มีแพ็ก Studio ซ่อนทุกอย่างใต้จอล็อก (เหลือแผ่นเข้าสู่ระบบของ topbar) */
+html.gt body>*:not(.gate):not(.tb-scrim):not(.tb-sheet){visibility:hidden}
+.gate{display:none;position:fixed;inset:0;z-index:900;background:var(--bg);align-items:center;justify-content:center;padding:24px 20px calc(24px + env(safe-area-inset-bottom))}
+html.gt .gate{display:flex}html.gt body{overflow:hidden}
+.gate .gtc{width:100%;max-width:420px;background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px 22px 22px;text-align:center}
+.gate img{width:56px;height:56px;display:block;margin:0 auto 14px}
+.gate h1{font-size:22px;font-weight:800;line-height:1.4}
+.gate p{font-size:15px;color:var(--mid);margin-top:8px;text-wrap:balance}
+.gate .gtb{display:grid;gap:10px;margin-top:22px}
+.gate .gtb .btn{height:52px;border-radius:26px;font-size:16px;width:100%}
+.gate .gtb .btn svg{width:22px;height:22px;flex:none}
+.gate .gtp{background:#C84B2F;color:#fff}
+@media (prefers-reduced-motion:no-preference){html.gt .gate .gtc{animation:gtin .5s cubic-bezier(.16,1,.3,1) both}@keyframes gtin{from{opacity:0;transform:translateY(14px)}}}
 </style>
 </head>
 <body class="onlist">
+<script src="../js/topbar.js"></script>
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gateT"><div class="gtc"><img src="../img/studio-mark.svg" alt="">
+  <h1 id="gateT">Slide Studio<br>สำหรับสมาชิกแพ็ก Studio</h1><p id="gateP">เข้าสู่ระบบด้วย Code ที่มีแพ็ก Studio</p>
+  <div class="gtb"><button class="btn gtp" type="button" onclick="ctTop.login()"></button>
+    <a class="btn btn-line" href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener"></a></div></div></div>
+<script>/* ใบ 050 (ไอซ์ 6 พ.ย. 2569): Studio ใช้ได้เฉพาะ Code ที่มีแพ็ก Studio ตรวจกับ verify-code ทุกครั้งที่เปิด
+   ผ่าน = เปิด GATE ให้ boot() โหลด Python / ไม่ผ่าน = จอล็อกทับทั้งหน้า GATE ไม่เปิด เลยไม่โหลดอะไรหนัก
+   เน็ตหลุด/เซิร์ฟเวอร์ล่ม = ใช้ค่าที่เก็บไว้ถ้าตรวจล่าสุดไม่เกิน 7 วัน
+   ponytail: ตัดสินในเครื่องลูกค้า ไฟล์ py/kit/decks ยังสาธารณะ ย้ายไปหลังการตรวจ Code เป็นรอบ 2 */
+var gateOpen, GATE = new Promise(function (r) { gateOpen = r; });
+(function () {
+  var g = document.getElementById('gate'), b = g.querySelectorAll('.gtb .btn');
+  b[0].innerHTML = ctTop.ic('user-circle') + 'เข้าสู่ระบบด้วย Code'; b[1].innerHTML = ctTop.ic('chat-circle-dots') + 'สอบถามแพ็ก Studio';
+  var lib = function () { try { return JSON.parse(localStorage.getItem('ct_lib') || 'null'); } catch (e) { return null; } };
+  var fresh = function (v) { return !!(v && v.code && v.studio && Date.now() - (v.t || 0) < 7 * 864e5); };
+  var msg = function (t) { document.getElementById('gateP').textContent = t; };
+  var lock = function (t) { if (t) msg(t); document.documentElement.classList.add('gt'); };
+  var open = function () { document.documentElement.classList.remove('gt'); gateOpen(); };
+  var v = lib();
+  if (fresh(v)) open(); else lock(v && v.code ? 'กำลังตรวจ Code ของคุณ' : '');
+  if (!(v && v.code)) return;
+  ctTop.check().then(function (d) {
+    if (d && d.valid && d.studio) return open();
+    if (d && d.valid) return lock('Code นี้ใช้กับเทมเพลตได้ ยังไม่รวม Studio');
+    if (d && (d.reason === 'not_found' || d.reason === 'invalid_format')) return lock('ไม่พบ Code นี้ เข้าสู่ระบบด้วย Code ที่ได้ทางอีเมล');
+    throw 0;                                 // server_error = เหมือนเน็ตหลุด
+  }).catch(function () { if (!fresh(v)) lock('ตรวจ Code ไม่สำเร็จ เชื่อมต่ออินเทอร์เน็ตแล้วโหลดหน้านี้ใหม่'); });
+})();
+</script>
 <script>/* ไอซ์ 4 พ.ย. 2569: ภาพสไลด์จากหน้าเทมเพลต วางไว้ตำแหน่งเดิมตั้งแต่เฟรมแรก แล้ว flTpl() ค่อยให้ลอยไปช่องภาพใหญ่ */
 try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessionStorage.removeItem('ct_morph');
   if (m && Date.now() - m.t < 6000 && location.hash === '#tpl=' + encodeURIComponent(m.slug) && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
@@ -1904,7 +1947,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
     <span class="grow"></span>
     <button class="ib lsq" id="lsq" type="button" aria-label="ค้นหา"><svg class="i"><use href="#i-search"/></svg></button>
     <button class="btn btn-red btn-sm lnew2" data-new type="button"><svg class="i"><use href="#i-plus"/></svg>สร้างใหม่</button>
-    <button class="av" id="avb" type="button" aria-label="บัญชีของฉัน"><b id="avl"></b><i class="gb"></i></button>
+    <button class="av" id="avb" type="button" aria-label="บัญชีของฉัน"><b id="avl"></b><i class="gtb"></i></button>
   </header>
   <div class="lbody">
     <aside class="side" id="side"></aside>
@@ -2162,7 +2205,7 @@ function guard(p) {
 }
 function stepTo(n) { bootStep = n; onBoot.forEach(f => f(n)); }
 function boot() {                       // ล้มแล้วไม่ลองซ้ำในหน้าเดิม (หน่วยความจำเบิ้ล) ให้โหลดหน้าใหม่
-  return booting = booting || guard((async () => {
+  return booting = booting || GATE.then(() => guard((async () => {   // ใบ 050: รอผ่านจอล็อกก่อน (ไม่ผ่าน = ค้างไว้ ไม่โหลด)
     if (!window.loadPyodide || !window.pptxPreview) throw new Error(NET);
     try {
       stepTo(1);
@@ -2179,7 +2222,7 @@ _k0 = getattr(D.keys, '_k0', D.keys)
 D.keys = lambda items, order, ttl, slug: _k0([(n, {x: y for x, y in d.items() if x not in ('_note', '_name')}) for n, d in items], order, ttl, slug)
 D.keys._k0 = _k0`);   // ใบ 025: โน้ต/ชื่อหน้าอยู่ใน d ของหน้า ไม่ใช่ข้อความบนสไลด์ (ไม่นับเป็นกล่อง ไม่ทำให้วาดหน้าใหม่) ponytail: ย้ายเข้า doc2slide.py เมื่อรวม bundle ครั้งหน้า
     stepTo(4);
-  })());
+  })()));
 }
 const warm = () => boot().catch(() => {});   // เริ่มโหลดตอนลูกค้าแตะกล่องพิมพ์ เวลาโหลดจะซ้อนกับเวลาที่เขาพิมพ์
 ['focusin', 'paste', 'pointerdown'].forEach(e => $('prompt').addEventListener(e, warm, {once: true}));
@@ -4655,7 +4698,7 @@ function save(blob, name) {
 }
 // ซื้อแล้ว = เคยกรอก Code ที่ /download (ค่าเดียวกับที่หน้าคลังใช้) อ่านอย่างเดียว ไม่แตะระบบขาย
 // ponytail: เช็กในเครื่องลูกค้า คนเก่งเทคนิคข้ามได้ ถ้าจะเข้มต้องตรวจ Code กับ verify-code ก่อนให้ไฟล์
-const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code); } catch (e) { return false; } };
+const member = () => { try { const v = JSON.parse(localStorage.getItem('ct_lib') || 'null'); return !!(v && v.code && v.studio); } catch (e) { return false; } };   // ใบ 050: ต้องมีแพ็ก Studio
 const fname = () => (ttl || 'slides').replace(/[\\/:*?"<>|]/g, ' ').trim().slice(0, 80);
 let lastFile = null, ovOk = '', awOk = '', smOk = '', fontToolsOK = false;
 async function act(a, skip) {
@@ -7803,8 +7846,8 @@ function sortMenu(a) {
 }
 function profMenu(a) {
   let code = ''; try { code = (JSON.parse(localStorage.getItem('ct_lib') || 'null') || {}).code || ''; } catch (e) {}
-  pop(a, `<div class="pfh"><span class="av"><b>${esc(PROF.name[0])}</b><i class="gb"></i></span><span><b class="n">${esc(PROF.name)}</b><small>${esc(PROF.email)}</small></span></div><hr>
-    <div class="hr" style="cursor:default">${ico('link')}<span>บัญชีที่เชื่อม</span><span class="v"><i class="gb" style="position:static;box-shadow:none"></i>${PROF.via}</span></div>
+  pop(a, `<div class="pfh"><span class="av"><b>${esc(PROF.name[0])}</b><i class="gtb"></i></span><span><b class="n">${esc(PROF.name)}</b><small>${esc(PROF.email)}</small></span></div><hr>
+    <div class="hr" style="cursor:default">${ico('link')}<span>บัญชีที่เชื่อม</span><span class="v"><i class="gtb" style="position:static;box-shadow:none"></i>${PROF.via}</span></div>
     <div class="pbox"><div class="h">${ico('ticket')}เทมเพลตที่ซื้อแล้ว</div>${code ? `<div class="c">TARN-••••${esc(String(code).slice(-4).toUpperCase())}</div>` : '<div class="d" style="margin-top:6px">ยังไม่ได้กรอก Code ในเบราว์เซอร์นี้</div>'}
       <a href="/download" target="_blank" rel="noopener">${ico('open')}${code ? 'เปิดคลังของฉัน' : 'กรอก Code'}</a></div>
     <div class="hr" style="cursor:default">${ico('drive')}<span>พื้นที่ที่ใช้</span><span class="v">${live().length} งาน ในเบราว์เซอร์นี้</span></div><hr>
