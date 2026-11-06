@@ -56,6 +56,7 @@ a{color:inherit;text-decoration:none}
 /* งาน 046: ปุ่มแถวเดียว ดาวน์โหลด/สั่งซื้อ (ยืด) + เปิดใน Studio + ไอคอน play (+ เข้าสู่ระบบ สำหรับผู้เยี่ยมชม) */
 .row2{display:flex;gap:10px;align-items:stretch}.cta .row2 .btn{width:auto;flex:none;padding-left:16px;padding-right:16px}.cta .row2 .btn-red{flex:1;min-width:0}
 .cta .row2 .ico{width:54px;padding:0;display:grid;place-items:center}.row2 .st img,.mbar .st img{width:22px;height:22px;display:block}
+.stx{margin:12px 8px 0!important;padding-left:20px!important;font-size:15px;line-height:1.6;color:var(--tb-mid)}.stx li{text-wrap:balance}.stx li+li{margin-top:6px}   /* ใบ 050 แผ่น Studio เป็นแพ็กแยก */
 .btn .ls{display:none}@media(max-width:640px){.btn .lw{display:none}.btn .ls{display:inline}}@media(max-width:400px){.cta .row2 .btn-red svg{display:none}}
 .trust{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:12.5px;color:var(--sub)}.trust span{display:flex;align-items:center;gap:5px}.trust svg{width:14px;height:14px}
 .have{display:block;text-align:center;margin-top:12px;font-size:13.5px;color:var(--mid)}.have a{color:var(--red);font-weight:700;text-decoration:underline;text-underline-offset:3px}
@@ -279,7 +280,7 @@ function cardHTML(){
       <div class="facts"><span>${D.slides} สไลด์</span><span>16:9</span><span>PowerPoint</span>${D.excel === false ? '<span>แก้ข้อความทุกหน้า</span>' : '<span>กราฟแก้ใน Excel</span>'}</div>`;
   const play = `<button class="btn btn-ghost ico" onclick="openPr()" aria-label="ดูแบบนำเสนอ" title="ดูแบบนำเสนอ">${I.play}</button>`;
   if (s) return head + `<div class="cta"><div class="row2"><a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl}<span class="lw">ดาวน์โหลดชุดนี้</span><span class="ls">ดาวน์โหลด</span></a>
-      ${studioOk() ? `<a class="btn btn-ghost st" href="studio/#tpl=${encodeURIComponent(D.slug)}">${STUDIO_IC}<span class="lw">เปิดใน Studio</span><span class="ls">Studio</span></a>` : ''}${play}</div></div>`;
+      ${studioOk() ? `<a class="btn btn-ghost st" href="studio/#tpl=${encodeURIComponent(D.slug)}" onclick="return stGo(event)">${STUDIO_IC}<span class="lw">เปิดใน Studio</span><span class="ls">Studio</span></a>` : ''}${play}</div></div>`;
   return head + `<div class="val"><b>ซื้อครั้งเดียว ได้ทั้งคลัง</b><ul>
         <li>ชุดนี้ + อีก ${(window.ALL ? window.ALL.length : CT_M.n) - 1} ชุด ครบทุกอาชีพ</li>
         <li>สไลด์รวม ${TOTAL} หน้า โหลดไม่จำกัด</li>
@@ -295,6 +296,22 @@ function cardHTML(){
 // ปุ่ม "เปิดใน Studio" (ไอซ์ 2 พ.ย. 2569) เฉพาะชุดที่ Studio เปิดได้ (studio/tpl.json) โหลดเสร็จทีหลังก็วาดการ์ดข้างใหม่
 const STUDIO_IC = '<img src="img/studio-mark.svg" alt="">';   // ไอซ์ 3 พ.ย.: ไอคอน Studio = studio-mark.svg
 const studioOk = () => !!(window.TPL && D && window.TPL.has(D.slug));
+// ใบ 050: Studio เป็นแพ็กแยก ล็อกอินแล้วแต่ Code ไม่มี Studio = ปุ่มเดิม กดแล้วขึ้นแผ่นอธิบาย ไม่พาไป Studio (ห้ามไอคอนกุญแจ ไอซ์ 6 พ.ย.)
+// ค่าในเครื่องบอกว่ายังไม่มี = ถามเซิร์ฟเวอร์ก่อน 1 ครั้ง (เพิ่งซื้อแพ็ก Studio ก็กดเข้าได้เลย ไม่ต้องล็อกอินใหม่)
+function stGo(e){
+  if (store.get() && store.get().studio) return true;
+  e.preventDefault(); const href = e.currentTarget.href;
+  ctTop.check().catch(() => null).then(d => d && d.valid && d.studio ? (location.href = href) : stSheet());
+  return false;
+}
+function stSheet(){
+  ctTop.info(`<div class="tb-shd"><h3>Slide Studio เป็นแพ็กแยก</h3><button class="tb-cb" data-a="close" aria-label="ปิด">${ctTop.ic('x')}</button></div>
+    <p class="tb-lsub">Code นี้ใช้กับเทมเพลตได้ ยังไม่รวม Studio</p>
+    <ul class="stx"><li>เปิดเทมเพลตชุดนี้แก้ต่อบนเว็บ ไม่ต้องลงโปรแกรม</li>
+      <li>วางข้อความ Word Excel หรือ PDF จัดเป็นสไลด์ในดีไซน์ที่เลือก</li>
+      <li>บันทึกเป็น PowerPoint ที่แก้ต่อได้ PDF หรือรูป</li></ul>
+    <a class="tb-cap tb-lg" style="margin-top:16px" href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener">${ctTop.ic('chat-circle-dots')}สอบถามแพ็ก Studio</a>`);
+}
 fetch('studio/tpl.json').then(r => r.json()).then(a => { window.TPL = new Set(a); const el = document.querySelector('.side'); if (D && el) { el.innerHTML = cardHTML(); document.getElementById('mbar').innerHTML = mbarHTML(); watchCta(); } }).catch(() => {});
 // ไอซ์ 4 พ.ย. 2569: กดเปิดใน Studio แล้วภาพสไลด์ลอยไปวางในหน้า Studio ต่อเนื่อง ส่งตำแหน่งภาพที่เห็นจริง (หักขอบ+contain) ให้ studio/index.html ทำต่อ
 document.addEventListener('click', e => {
@@ -320,7 +337,7 @@ function bonusTick(){
 const ctaOn = new Set(), ctaIO = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? ctaOn.add(e.target) : ctaOn.delete(e.target)); document.getElementById('mbar').classList.toggle('show', !ctaOn.size); });
 const watchCta = () => { ctaIO.disconnect(); ctaOn.clear(); document.querySelectorAll('.side .cta, .band .btn').forEach(c => ctaIO.observe(c)); };   // ปุ่มสั่งซื้อในแถบโปรด้านล่างก็นับ   // การ์ดถูกวาดใหม่ทุกครั้งที่ข้อมูลมา ต้องผูกใหม่
 const mbarHTML = () => store.get()
-    ? `<a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl} ดาวน์โหลดชุดนี้</a>${studioOk() ? `<a class="btn btn-ghost st" style="flex:none;width:52px;padding:0" href="studio/#tpl=${encodeURIComponent(D.slug)}" aria-label="เปิดใน Studio">${STUDIO_IC}</a>` : ''}`
+    ? `<a class="btn btn-red" href="${D.file || DRIVE}" target="_blank" rel="noopener" onclick="return dlThis(event)">${I.dl} ดาวน์โหลดชุดนี้</a>${studioOk() ? `<a class="btn btn-ghost st" style="flex:none;width:52px;padding:0" href="studio/#tpl=${encodeURIComponent(D.slug)}" onclick="return stGo(event)" aria-label="เปิดใน Studio">${STUDIO_IC}</a>` : ''}`
     : `<a class="btn btn-red" href="order.html">${ctTop.ic('shopping-bag')} สั่งซื้อ 499฿ ได้ทุกชุด</a>`;
 const relHTML = () => { const all = window.ALL || [], rel = all.filter(x => x.group === D.group && x.slug !== D.slug).concat(all.filter(x => x.group !== D.group)).slice(0, 4);
   return rel.map(x => `<a href="template.html?id=${x.slug}"><img loading="lazy" src="https://img.coachtarnslide.com/cover/${x.slug}.webp" alt=""><div>${esc(x.th)}</div></a>`).join(''); };
