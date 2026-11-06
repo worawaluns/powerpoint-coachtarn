@@ -34,7 +34,7 @@ serve(async (req) => {
     // ── Look up code in redeem_codes ───────────────────────────────────────
     const { data, error } = await supabase
       .from('redeem_codes')
-      .select('id, customer_name, order_id, created_at')
+      .select('id, customer_name, order_id, created_at, studio_until')
       .eq('code', normalizedCode)
       .single()
 
@@ -63,8 +63,12 @@ serve(async (req) => {
     }
 
     // ── Return success ─────────────────────────────────────────────────────
+    // ── Slide Studio entitlement: studio_until is a date (Bangkok) inclusive, null = template-only ─
+    const today = new Date(Date.now() + 7 * 3600e3).toISOString().slice(0, 10)
+    const studio = !!data.studio_until && data.studio_until >= today
+
     return Response.json(
-      { valid: true, name: data.customer_name, file, drive },
+      { valid: true, name: data.customer_name, file, drive, studio, studio_until: data.studio_until ?? null },
       { headers: CORS }
     )
 
