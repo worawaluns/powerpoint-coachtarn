@@ -1535,118 +1535,53 @@ body{
 .btn-sticky svg{width:18px;height:18px;flex-shrink:0}
 
 /* ══════════════════════════════════════
-   DEAL SECTION (pricing + flip clock)
+   DEAL SECTION — แบบ D "ได้ 2 ชุด" (ไอซ์เลือก 6 พ.ย. 2569, mockup docs/mockups/deal-cta ?v=d)
+   หมดเวลา: setExpired() ใส่ .is-over ที่ #deal
 ══════════════════════════════════════ */
-.deal-section{
-  background:linear-gradient(160deg,var(--red) 0%,#A02D12 100%);
-  padding:36px 24px 28px;
-  position:relative;overflow:hidden;
+.section.deal-section{padding:28px 20px;display:flex;flex-direction:column;--o:#C84B2F;--dc-mid:#55555F}
+.deal-section [hidden]{display:none!important}
+.deal-section.is-over .dc-live{display:none!important}
+.deal-section:not(.is-over) .dc-over{display:none!important}
+.dc-left{display:contents}
+.dc-pair{order:1}.dc-urg{order:2}.dc-btn{order:3}
+.dc-h2{font-size:28px;font-weight:800;line-height:1.3;letter-spacing:-.4px;color:#15151A}
+.dc-h2 em{font-style:normal;color:var(--o)}
+.dc-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.dc-tile{border:1px solid #ECE6E3;border-radius:14px;overflow:hidden}
+.dc-im{height:92px;background-size:cover;background-position:center}
+.dc-t{padding:8px 12px 12px}
+.dc-t b{display:block;font-size:16px;font-weight:700;line-height:1.35;color:#15151A}
+.dc-t span{font-size:14px;color:var(--dc-mid)}
+.dc-t s{font-size:14px;margin-left:4px;color:#8A8A94;font-weight:500}
+.dc-tile.dc-bn{border:1.5px solid var(--o)}
+.dc-bn .dc-im{background:url(img/bonus-slide.png) 50% 30%/190% auto no-repeat #FFFBEB}
+.dc-free{display:inline-block;background:var(--o);color:#fff!important;font-size:16px!important;font-weight:800;border-radius:8px;padding:2px 10px;line-height:1.5;margin-top:4px}
+.dc-urg{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 0 16px;padding:8px 8px 8px 12px;border-radius:12px;background:#FFF6F2}
+.dc-urg>span{font-size:14px;font-weight:700;color:var(--o)}
+.dc-cd{display:flex;align-items:center;gap:4px}
+.dc-cd i{font-style:normal;width:40px;height:44px;border-radius:10px;background:#15151A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+.dc-cd u{text-decoration:none;font-weight:800;color:#15151A}
+.dc-btn{display:flex;align-items:center;justify-content:center;height:52px;border-radius:999px;background:var(--o);color:#fff;font:inherit;font-size:16px;font-weight:700;text-decoration:none}
+.dc-btn:active{opacity:.9}
+/* หมดเวลา: กล่องเทา ของแถมจางขาวดำ */
+.is-over .dc-tile.dc-bn{border-color:#ECE6E3}
+.is-over .dc-bn .dc-im{filter:grayscale(1);opacity:.35}
+.is-over .dc-bn b{color:#9A9AA2}
+.is-over .dc-urg{background:#F4F4F6}
+.is-over .dc-urg>span{color:#8A8A94}
+.is-over .dc-cd i{background:#D9D9DE;color:#8A8A94}
+.is-over .dc-cd u{color:#B0B0B8}
+@media(min-width:768px){
+  .section.deal-section{padding:56px 32px;max-width:640px;margin:0 auto}
+  .dc-im{height:150px}
 }
-/* decorative circles (like final-cta) */
-.deal-section::before{
-  content:'';position:absolute;top:-60px;right:-60px;
-  width:200px;height:200px;
-  background:rgba(255,255,255,0.06);border-radius:50%;
+@media(min-width:1024px){
+  .section.deal-section{max-width:1180px;padding:64px 40px;display:grid;grid-template-columns:1fr minmax(0,560px);gap:64px;align-items:center}
+  .dc-h2{font-size:44px;line-height:1.25}
+  .dc-left{display:block}
+  .dc-pair{margin-top:0}
+  .dc-btn{margin-top:24px;max-width:400px}
 }
-.deal-section::after{
-  content:'';position:absolute;bottom:-80px;left:-40px;
-  width:240px;height:240px;
-  background:rgba(255,255,255,0.04);border-radius:50%;
-}
-.deal-section > *{position:relative;z-index:1}
-
-/* deal layout */
-.deal-inner{display:flex;flex-direction:column}
-.deal-left{display:flex;flex-direction:column}
-.deal-right{order:99}/* bonus card below on mobile */
-.deal-tag-wrap{text-align:center;margin-bottom:12px}
-.deal-h2{font-size:24px;font-weight:900;color:#fff;line-height:1.25;margin-bottom:24px;letter-spacing:-0.4px;text-align:center}
-
-/* flip-clock countdown */
-.flip-clock-wrap{text-align:center;margin-bottom:28px}
-.flip-clock-eyebrow{font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);letter-spacing:0.5px;margin-bottom:14px}
-.flip-clock{display:inline-flex;align-items:flex-start;gap:8px}
-.flip-unit{display:flex;flex-direction:column;align-items:center;gap:6px}
-.flip-block{
-  width:70px;height:72px;
-  background:rgba(255,255,255,0.92);
-  border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;
-  box-shadow:0 4px 18px rgba(0,0,0,0.18);
-}
-.flip-block::after{
-  content:'';position:absolute;left:0;right:0;top:50%;
-  height:2px;background:rgba(0,0,0,0.10);
-}
-.flip-block::before{
-  content:'';position:absolute;left:0;right:0;bottom:0;top:50%;
-  background:rgba(0,0,0,0.04);
-}
-.flip-digit{
-  font-size:38px;font-weight:900;color:#A02D12;
-  font-variant-numeric:tabular-nums;letter-spacing:-1px;
-  line-height:1;position:relative;z-index:1;
-}
-.flip-label{font-size:10px;font-weight:800;color:rgba(255,255,255,0.65);text-transform:uppercase;letter-spacing:1.2px}
-.flip-sep{
-  display:flex;flex-direction:column;gap:7px;
-  margin-top:20px;
-}
-.flip-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.6)}
-
-/* checklist */
-.deal-gets{margin-bottom:20px}
-.deal-gets-lbl{font-size:10.5px;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:10px}
-.deal-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.15);font-size:14px;color:rgba(255,255,255,0.88);font-weight:500}
-.deal-row:first-of-type{border-top:1px solid rgba(255,255,255,0.15)}
-.deal-tick{color:#86EFAC;font-size:15px;font-weight:900;flex-shrink:0;margin-top:1px}
-
-/* bonus card */
-.deal-bonus{
-  background:linear-gradient(145deg,#FFFBEB,#FEF3C7);
-  border:1.5px solid rgba(252,211,77,0.6);
-  border-radius:16px;padding:16px 16px 14px;margin-bottom:24px;
-}
-.deal-bonus-ribbon{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:10.5px;font-weight:700;background:#F59E0B;color:#fff;
-  border-radius:100px;padding:3px 10px;margin-bottom:12px;letter-spacing:0.5px;text-transform:uppercase;
-}
-.deal-bonus-title{font-size:20px;font-weight:900;color:#78350F;margin-bottom:6px;line-height:1.2;letter-spacing:-0.4px}
-.deal-bonus-note{font-size:12.5px;color:#B45309;margin-bottom:14px;line-height:1.5;font-weight:500}
-.deal-bonus-img{width:100%;border-radius:10px;display:block}
-/* expired state */
-.deal-bonus.bonus-expired{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2)}
-.deal-bonus.bonus-expired .deal-bonus-ribbon{background:rgba(255,255,255,0.3);color:rgba(255,255,255,0.6)}
-.deal-bonus.bonus-expired .deal-bonus-title{color:rgba(255,255,255,0.4)}
-.deal-bonus.bonus-expired .deal-bonus-note{color:rgba(255,255,255,0.3)}
-.deal-bonus.bonus-expired .deal-bonus-img{opacity:0.2;filter:grayscale(1)}
-
-/* price block */
-.deal-price-box{text-align:center;margin-bottom:20px}
-.deal-price-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:6px;flex-wrap:wrap}
-.deal-old-price{font-size:15px;color:rgba(255,255,255,0.4);text-decoration:line-through;font-weight:500}
-.deal-main-price{font-size:56px;font-weight:900;color:#fff;letter-spacing:-2px;line-height:1}
-.deal-main-price span{font-size:28px;font-weight:700;letter-spacing:0}
-.deal-badge-50{background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);color:#fff;font-size:12px;font-weight:800;border-radius:100px;padding:4px 10px;align-self:center}
-.deal-once-lbl{font-size:12.5px;color:rgba(255,255,255,0.55);font-weight:500}
-
-/* cta — white button on orange bg */
-.btn-deal{
-  display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
-  background:#fff;color:var(--red);
-  box-shadow:0 6px 20px rgba(0,0,0,0.2);
-  border:none;border-radius:100px;
-  padding:16px 20px;font-family:inherit;cursor:pointer;
-  text-decoration:none;font-size:17px;font-weight:800;letter-spacing:-0.2px;
-  margin-bottom:14px;transition:opacity .15s;
-}
-.btn-deal:active{opacity:.9}
-.btn-deal svg{width:20px;height:20px;flex-shrink:0}
-.deal-stars{text-align:center;font-size:13px;font-weight:700;color:rgba(255,255,255,0.55);margin-bottom:8px}
-.deal-stars span{color:#FDE68A;letter-spacing:1.5px}
-.deal-secure-line{text-align:center;font-size:11.5px;color:rgba(255,255,255,0.35);font-weight:500}
 
 /* urgency row above sticky inner */
 .sticky-urgency{
@@ -2076,22 +2011,6 @@ body{
   .rv-card{width:46%}
   .rv-outer{mask-image:none;-webkit-mask-image:none;overflow:visible}
 
-  /* DEAL */
-  .deal-section{padding:52px 32px}
-  .deal-inner{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:36px;
-    align-items:start;
-    max-width:100%;
-  }
-  .deal-right{order:0}
-  .deal-tag-wrap{text-align:left}
-  .deal-h2{text-align:left;font-size:28px}
-  .flip-clock-wrap{text-align:left}
-  .deal-price-box{text-align:left}
-  .deal-price-row{justify-content:flex-start}
-
   /* FAQ */
   .faq-section{padding:48px 32px}
 
@@ -2159,7 +2078,6 @@ body{
   .social-text{font-size:16px}
   .bonus-h{font-size:22px}
   .bonus-sub{font-size:14px}
-  .deal-h2{font-size:32px}
   .pf-note{font-size:14px}
   .feat-grid-title{font-size:14px}
   .feat-grid-sub{font-size:12px}
@@ -2322,16 +2240,6 @@ body{
   .reviews-section{padding:64px 0}
   .rv-card{width:30%}
 
-  /* ── DEAL SECTION ── */
-  .deal-section{padding:72px 80px}
-  .deal-inner{
-    grid-template-columns:1fr 440px;
-    gap:64px;
-    max-width:1100px;
-    margin:0 auto;
-  }
-  .deal-h2{font-size:36px}
-  .deal-right{position:sticky;top:100px}
 
 
 /* ── FAQ ── */
@@ -2369,8 +2277,6 @@ body{
   /* Reviews section — center carousel */
   .rv-outer{max-width:1400px;margin:0 auto;padding:0 64px;mask-image:none;-webkit-mask-image:none}
 
-  /* Deal section — constrain inner */
-  .deal-inner{max-width:1100px;margin:0 auto}
 
   /* FAQ — constrain width */
   .faq-section{max-width:960px;margin:0 auto}
@@ -2412,7 +2318,6 @@ body{
   .social-text{font-size:17px}
   .bonus-h{font-size:25px}
   .bonus-sub{font-size:16px}
-  .deal-h2{font-size:36px}
   .pf-note{font-size:15px}
   .pf-old{font-size:18px}
   .feat-grid-title{font-size:15px}
@@ -2463,7 +2368,6 @@ body{
   .feat-items-wrap{gap:56px}
   .flow-section{padding:96px 80px}
   .reviews-section{padding-bottom:48px}
-  .deal-section{padding:96px 80px}
   .faq-section{padding:96px 80px}
   /* Section heading rhythm */
   .section-h2{margin-bottom:16px;letter-spacing:-1px;line-height:1.1}
@@ -3707,77 +3611,18 @@ async function setFile(slug){
 
 <!-- ⑫ VALUE STACK + PRICING -->
 <section class="section deal-section" id="deal">
-  <div class="deal-inner">
-
-    <!-- ── LEFT: title + countdown + content ── -->
-    <div class="deal-left">
-      <div class="deal-tag-wrap">
-        <div class="final-cta-tag">
-          <svg style="display:inline;vertical-align:-2px;margin-right:4px" width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M20 12v10H4V12M22 7H2v5h20V7zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>
-          Bonus Slides ฟรี! สำหรับวันนี้
-        </div>
-      </div>
-      <h2 class="deal-h2">พร้อมทำสไลด์โปร<br>ในเวลาที่น้อยลงไหม?</h2>
-
-      <!-- Flip-clock countdown -->
-      <div class="flip-clock-wrap">
-        <p class="flip-clock-eyebrow">สิทธิ์รับ Bonus หมดใน</p>
-        <div class="flip-clock">
-          <div class="flip-unit">
-            <div class="flip-block"><span class="flip-digit" id="cdH">00</span></div>
-            <div class="flip-label">ชั่วโมง</div>
-          </div>
-          <div class="flip-sep"><div class="flip-dot"></div><div class="flip-dot"></div></div>
-          <div class="flip-unit">
-            <div class="flip-block"><span class="flip-digit" id="cdM">00</span></div>
-            <div class="flip-label">นาที</div>
-          </div>
-          <div class="flip-sep"><div class="flip-dot"></div><div class="flip-dot"></div></div>
-          <div class="flip-unit">
-            <div class="flip-block"><span class="flip-digit" id="cdS">00</span></div>
-            <div class="flip-label">วินาที</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- สิ่งที่คุณได้รับ -->
-      <div class="deal-gets">
-        <div class="deal-gets-lbl">สิ่งที่คุณได้รับ</div>
-        <div class="deal-row"><span class="deal-tick">✓</span><span>6,500+ สไลด์สำเร็จรูป ครบทุกหมวด</span></div>
-        <div class="deal-row"><span class="deal-tick">✓</span><span>ใช้งานตลอดชีพ ไม่มีรายเดือน</span></div>
-        <div class="deal-row"><span class="deal-tick">✓</span><span>Template ใหม่ฟรีเสมอ ไม่มีค่าเพิ่ม</span></div>
-        <div class="deal-row"><span class="deal-tick">✓</span><span>รับไฟล์ทางอีเมลทันที อัตโนมัติ</span></div>
-      </div>
-
-      <!-- Price -->
-      <div class="deal-price-box">
-        <div class="deal-price-row">
-          <div class="deal-old-price">ปกติ 999฿</div>
-          <div class="deal-main-price">499<span>฿</span></div>
-          <div class="deal-badge-50">ลด 50%</div>
-        </div>
-        <div class="deal-once-lbl">จ่ายครั้งเดียว · ใช้ได้ตลอดชีพ</div>
-      </div>
-
-      <a href="order" class="btn-deal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
-        <span id="dealBtnTxt">สั่งซื้อเลย รับ Bonus ด้วย!</span>
-      </a>
-      <div class="deal-stars"><span>★★★★★</span> 4.9/5 · ลูกค้าพึงพอใจกว่า 7,000 คน</div>
-      <div class="deal-secure-line">🔒 ปลอดภัย · ได้ไฟล์ทางอีเมล · มีคู่มือการดาวน์โหลดให้</div>
-    </div><!-- /deal-left -->
-
-    <!-- ── RIGHT: bonus card ── -->
-    <div class="deal-right">
-      <div id="bonus" class="deal-bonus" id="bonusCard">
-        <div class="deal-bonus-ribbon" id="bonusRibbon"><!-- Phosphor gift (MIT) --><svg class="gift-ic" aria-hidden="true" width="1.15em" height="1.15em" style="vertical-align:-.18em;flex:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,72H180.92c.39-.33.79-.65,1.17-1A29.53,29.53,0,0,0,192,49.57,32.62,32.62,0,0,0,158.44,16,29.53,29.53,0,0,0,137,25.91a54.94,54.94,0,0,0-9,14.48,54.94,54.94,0,0,0-9-14.48A29.53,29.53,0,0,0,97.56,16,32.62,32.62,0,0,0,64,49.57,29.53,29.53,0,0,0,73.91,71c.38.33.78.65,1.17,1H40A16,16,0,0,0,24,88v32a16,16,0,0,0,16,16v64a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V136a16,16,0,0,0,16-16V88A16,16,0,0,0,216,72ZM149,36.51a13.69,13.69,0,0,1,10-4.5h.49A16.62,16.62,0,0,1,176,49.08a13.69,13.69,0,0,1-4.5,10c-9.49,8.4-25.24,11.36-35,12.4C137.7,60.89,141,45.5,149,36.51Zm-64.09.36A16.63,16.63,0,0,1,96.59,32h.49a13.69,13.69,0,0,1,10,4.5c8.39,9.48,11.35,25.2,12.39,34.92-9.72-1-25.44-4-34.92-12.39a13.69,13.69,0,0,1-4.5-10A16.6,16.6,0,0,1,84.87,36.87ZM40,88h80v32H40Zm16,48h64v64H56Zm144,64H136V136h64Zm16-80H136V88h80v32Z"/></svg> ของแถม · มูลค่า 299฿</div>
-        <div class="deal-bonus-title" id="bonusTitle">Bonus Slides ฟรีอีก 1 ชุด</div>
-        <div class="deal-bonus-note" id="bonusNote">สั่งก่อนหมดเวลา รับทันทีพร้อมอีเมล</div>
-        <img src="img/bonus-slide.png" alt="Bonus Slides ตัวอย่าง" class="deal-bonus-img" loading="lazy">
-      </div>
-    </div><!-- /deal-right -->
-
-  </div><!-- /deal-inner -->
+  <div class="dc-left">
+    <h2 class="dc-h2 dc-live">ซื้อวันนี้ได้ 2 ชุด<br>จ่าย <em>499฿</em></h2>
+    <h2 class="dc-h2 dc-over"><em>499฿</em> ได้ทั้งคลัง<br>จ่ายครั้งเดียว</h2>
+    <div class="dc-urg"><span class="dc-live">ของแถมฟรีหายใน</span><span class="dc-over">ของแถมรอบนี้หมดเวลาแล้ว</span><div class="dc-cd"><i id="cdH">00</i><u>:</u><i id="cdM">00</i><u>:</u><i id="cdS">00</i></div></div>
+    <a href="order" class="dc-btn"><span class="dc-live">สั่งซื้อ รับของแถมด้วย</span><span class="dc-over">สั่งซื้อ 499฿</span></a>
+  </div>
+  <div class="dc-pair">
+    <div class="dc-tile"><div class="dc-im" style="background-image:url(img/sample-slide/sales_slide_02.jpg)"></div>
+      <div class="dc-t"><b>คลังเทมเพลต</b><span>6,500+ สไลด์</span></div></div>
+    <div class="dc-tile dc-bn" id="bonus"><div class="dc-im"></div>
+      <div class="dc-t"><b>Bonus 150 ไฟล์</b><span class="dc-free dc-live">ฟรี</span><s class="dc-live">299฿</s><span class="dc-over">หมดเวลาแล้ว</span></div></div>
+  </div>
 </section>
 
 <!-- ★ FOR COMPANIES (preview) -->
@@ -4036,7 +3881,7 @@ async function setFile(slug){
   function pad(n){ return String(n).padStart(2,'0'); }
 
   function setExpired(){
-    /* Flip clock blocks → 00 */
+    /* Countdown boxes → 00 */
     var h=document.getElementById('cdH'), m=document.getElementById('cdM'), s=document.getElementById('cdS');
     if(h) h.textContent='00'; if(m) m.textContent='00'; if(s) s.textContent='00';
     /* Sticky bar */
@@ -4046,17 +3891,8 @@ async function setFile(slug){
     if(hf){ hf.classList.add('hf-over');
       hf.querySelector('.hf-badge').textContent='หมดเวลา';
       hf.querySelector('.hf-txt').textContent='ของแถมรอบนี้หมดเวลาแล้ว'; }
-    /* Flip clock eyebrow */
-    var ey=document.querySelector('.flip-clock-eyebrow'); if(ey) ey.textContent='Bonus หมดอายุแล้ว';
-    /* Flip blocks → grey */
-    document.querySelectorAll('.flip-block').forEach(function(b){ b.style.background='#CBD5E1'; });
-    /* Bonus card → expired */
-    var card=document.querySelector('.deal-bonus'); if(card) card.classList.add('bonus-expired');
-    var ribbon=document.getElementById('bonusRibbon'); if(ribbon) ribbon.textContent='Bonus หมดอายุแล้ว';
-    var title=document.getElementById('bonusTitle'); if(title) title.textContent='Bonus Slides (หมดเวลาแล้ว)';
-    var note=document.getElementById('bonusNote'); if(note) note.innerHTML='ขออภัย Bonus นี้หมดอายุแล้ว<br>คุณยังซื้อ Template ได้ในราคา 499฿ เหมือนเดิม';
-    /* CTA */
-    var btn=document.getElementById('dealBtnTxt'); if(btn) btn.textContent='สั่งซื้อเลย 499฿';
+    /* Deal section → expired look (grey boxes, bonus greyscale, heading + button swap) */
+    var deal=document.getElementById('deal'); if(deal) deal.classList.add('is-over');
   }
 
   function tick(){
@@ -4065,7 +3901,7 @@ async function setFile(slug){
     var hv=Math.floor(rem/3600000);
     var mv=Math.floor((rem%3600000)/60000);
     var sv=Math.floor((rem%60000)/1000);
-    /* flip clock (main section) */
+    /* deal countdown boxes */
     var h=document.getElementById('cdH'), m=document.getElementById('cdM'), s=document.getElementById('cdS');
     if(h) h.textContent=pad(hv); if(m) m.textContent=pad(mv); if(s) s.textContent=pad(sv);
     /* sticky bar + hero pill (compact HH:MM:SS) */
