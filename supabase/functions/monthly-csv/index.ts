@@ -1,14 +1,36 @@
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { encodeBase64 } from 'https://deno.land/std@0.208.0/encoding/base64.ts'
+import { amountOf, isTest, monthWindow, renderMonthly, summarizeMonth, useCaseLabel, type Order } from '../_shared/summary-email.ts'
 
 // ── Cron: วันที่ 1 ของทุกเดือน 08:00 (Bangkok) = 01:00 UTC ─────────────────
 // ตั้งใน Supabase → Edge Functions → Schedule: "0 1 1 * *"
+// หน้าตาอีเมลตาม docs/mockups/email-summary/monthly.html (ไอซ์ผ่าน 7 พ.ย. 2569)
 
 const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
 const OWNER_EMAIL    = Deno.env.get('OWNER_EMAIL')!
 
 const FROM_EMAIL = 'Coach Tarn Slide · Report <noreply@coachtarnslide.com>'
+const COLS = 'name, email, status, ref_source, use_case, created_at, reject_reason, verify_detail, recheck_count'
+
+const prevYm = (ym: string) => {
+  const [y, m] = ym.split('-').map(Number)
+  return m === 1 ? `${y - 1}-12` : `${y}-${String(m - 1).padStart(2, '0')}`
+}
+
+/** CSV columns unchanged; ยอด (฿) is now the amount on the slip (499 only for hand-verified orders). */
+function buildCsv(rows: any[]): string {
+  const thDate = (iso: string) => new Date(iso).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok' })
+  const header = 'ลำดับ,วันที่,เวลา,ชื่อ,อีเมล,Redeem Code,ใช้งานล่าสุด,ช่องทาง,ด้านการใช้งาน,ยอด (฿)\n'
+  const body = rows.map((o, i) => {
+    const time = new Date(o.created_at).toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit' })
+    const rc = o.redeem_codes?.[0]
+    const lastUsed = rc?.last_used_at ? thDate(rc.last_used_at) : 'ยังไม่ได้ใช้'
+    const q = (s: string) => `"${String(s ?? '').replace(/"/g, '""')}"`
+    return `${i + 1},${thDate(o.created_at)},${time},${q(o.name)},${q(o.email)},${rc?.code ?? '-'},${lastUsed},${o.ref_source ?? 'direct'},${q(useCaseLabel(o.use_case))},${amountOf(o).amt}`
+  }).join('\n')
+  return '﻿' + header + body  // BOM สำหรับ Excel ภาษาไทย
+}
 
 serve(async (req) => {
   try {
@@ -20,134 +42,39 @@ serve(async (req) => {
     // ── optional override_month สำหรับ test (YYYY-MM) ───────────────────────
     let body: any = {}
     try { body = await req.json() } catch { /* cron has no body */ }
-    const overrideMonth: string | undefined = body?.override_month
+    const om = body?.override_month
+    const ym: string = (typeof om === 'string' && /^\d{4}-\d{2}$/.test(om))
+      ? om
+      : prevYm(new Date(Date.now() + 7 * 3600000).toISOString().slice(0, 7))
 
-    // ── เดือนที่แล้ว (หรือ override) ───────────────────────────────────────
-    const now = new Date()
-    let lastMonth: Date, lastMonthEnd: Date
-    if (overrideMonth) {
-      const [oy, om] = overrideMonth.split('-').map(Number)
-      lastMonth    = new Date(oy, om - 1, 1)
-      lastMonthEnd = new Date(oy, om, 0, 23, 59, 59)
-    } else {
-      lastMonth    = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-      lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59)
-    }
-
-    const monthStr = lastMonth.toLocaleDateString('th-TH', {
-      timeZone: 'Asia/Bangkok', year: 'numeric', month: 'long',
-    })
-
-    const { data: orders } = await supabase
-      .from('orders')
-      .select(`
-        id, name, email, status, ref_source, use_case, created_at,
-        redeem_codes ( code, last_used_at )
-      `)
-      .eq('status', 'verified')
-      .gte('created_at', lastMonth.toISOString())
-      .lte('created_at', lastMonthEnd.toISOString())
+    // เดือนตามเวลาไทย (วันที่ 1 00:00 ไทย = 17:00Z ของวันก่อน)
+    const cur = monthWindow(ym), prev = monthWindow(prevYm(ym))
+    const { data: rows, error: e1 } = await supabase.from('orders')
+      .select(`${COLS}, redeem_codes ( code, last_used_at )`)
+      .gte('created_at', cur.start).lt('created_at', cur.end)
       .order('created_at', { ascending: true })
+    if (e1) throw e1
+    const { data: prevRows, error: e2 } = await supabase.from('orders').select(COLS)
+      .eq('status', 'verified').gte('created_at', prev.start).lt('created_at', prev.end)
+    if (e2) throw e2
 
-    const rows = orders ?? []
-    const revenue = rows.length * 499
-
-    // ── สร้าง CSV ───────────────────────────────────────────────────────────
-    function useCaseLabel(val: string | null): string {
-      if (!val) return '-'
-      const map: Record<string, string> = {
-        'employee': 'พนักงาน / คนทำงาน',
-        'teacher' : 'ครู / วิทยากร',
-        'business': 'เจ้าของธุรกิจ',
-        'sales'   : 'งานขาย / Pitching',
-        'other'   : 'อื่นๆ',
-      }
-      if (val.startsWith('other:')) return `อื่นๆ (${val.slice(6) || '-'})`
-      return map[val] ?? val
-    }
-
-    const csvHeader = 'ลำดับ,วันที่,เวลา,ชื่อ,อีเมล,Redeem Code,ใช้งานล่าสุด,ช่องทาง,ด้านการใช้งาน,ยอด (฿)\n'
-    const csvRows = rows.map((o, i) => {
-      const date = new Date(o.created_at).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok' })
-      const time = new Date(o.created_at).toLocaleTimeString('th-TH', { timeZone: 'Asia/Bangkok', hour: '2-digit', minute: '2-digit' })
-      const code = (o.redeem_codes as any)?.[0]?.code ?? '-'
-      const lastUsed = (o.redeem_codes as any)?.[0]?.last_used_at
-        ? new Date((o.redeem_codes as any)[0].last_used_at).toLocaleDateString('th-TH', { timeZone: 'Asia/Bangkok' })
-        : 'ยังไม่ได้ใช้'
-      const src = o.ref_source ?? 'direct'
-      const uc  = `"${useCaseLabel(o.use_case).replace(/"/g, '""')}"`
-      // escape commas in name/email
-      const safeName  = `"${o.name.replace(/"/g, '""')}"`
-      const safeEmail = `"${o.email.replace(/"/g, '""')}"`
-      return `${i + 1},${date},${time},${safeName},${safeEmail},${code},${lastUsed},${src},${uc},499`
-    }).join('\n')
-
-    const csv = '\uFEFF' + csvHeader + csvRows  // BOM สำหรับ Excel ภาษาไทย
-
-    // ── Build summary email ─────────────────────────────────────────────────
-    const html = `<!DOCTYPE html>
-<html lang="th">
-<body style="margin:0;padding:0;background:#F5F5F7;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:32px 16px;">
-<tr><td align="center">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
-  <tr><td style="height:4px;background:#D34724;font-size:0;">&nbsp;</td></tr>
-  <tr><td style="padding:32px 40px;border-bottom:1px solid #F0F0F0;">
-    <p style="margin:0 0 4px;font-size:11px;font-weight:600;color:#D34724;letter-spacing:1.5px;text-transform:uppercase;">สรุปยอดขายรายเดือน</p>
-    <h1 style="margin:0;font-size:22px;font-weight:700;color:#1D1D1F;">${monthStr}</h1>
-  </td></tr>
-  <tr><td style="padding:28px 40px;border-bottom:1px solid #F0F0F0;">
-    <table width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr>
-        <td align="center" style="background:#F0FDF4;border-radius:12px;padding:24px;width:45%;">
-          <div style="font-size:32px;font-weight:700;color:#166534;">฿${revenue.toLocaleString()}</div>
-          <div style="font-size:12px;color:#16A34A;margin-top:4px;">รายได้รวม</div>
-        </td>
-        <td width="16">&nbsp;</td>
-        <td align="center" style="background:#F5F5F7;border-radius:12px;padding:24px;width:45%;">
-          <div style="font-size:32px;font-weight:700;color:#1D1D1F;">${rows.length}</div>
-          <div style="font-size:12px;color:#6E6E73;margin-top:4px;">ลูกค้าทั้งหมด</div>
-        </td>
-      </tr>
-    </table>
-  </td></tr>
-  <tr><td style="padding:24px 40px;">
-    <p style="margin:0;font-size:14px;color:#6E6E73;line-height:1.6;">
-      ไฟล์ CSV แนบมาด้วยครับ เปิดด้วย Excel ได้เลย<br>
-      มีข้อมูลลูกค้า ${rows.length} รายของเดือน${monthStr} ครบถ้วน
-    </p>
-  </td></tr>
-  <tr><td style="padding:16px 40px 24px;border-top:1px solid #F0F0F0;">
-    <p style="margin:0;font-size:12px;color:#AEAEB2;">ส่งอัตโนมัติทุกวันที่ 1 ของเดือน 08:00 น. · PowerPoint Template by Coach Tarn</p>
-  </td></tr>
-</table>
-</td></tr></table>
-</body></html>`
-
-    // ── ส่งอีเมลพร้อมแนบ CSV via Resend ────────────────────────────────────
-    const filename = `coachtarn-${lastMonth.getFullYear()}-${String(lastMonth.getMonth() + 1).padStart(2, '0')}.csv`
-    const csvBase64 = encodeBase64(new TextEncoder().encode(csv))
+    const all = ((rows ?? []) as any[]).filter((o) => !isTest(o))
+    const summary = summarizeMonth(ym, all as Order[], (prevRows ?? []) as Order[])
+    const filename = `coachtarn-${ym}.csv`
+    const { html, subject } = renderMonthly(summary, filename)
+    const csv = buildCsv(all.filter((o) => o.status === 'verified'))
 
     const resendRes = await fetch('https://api.resend.com/emails', {
       method : 'POST',
-      headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
-        'Content-Type' : 'application/json',
-      },
+      headers: { 'Authorization': `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [OWNER_EMAIL],
-        subject: `📁 สรุปลูกค้าเดือน${monthStr}: ${rows.length} ราย · ฿${revenue.toLocaleString()}`,
-        html,
-        attachments: [{ filename, content: csvBase64 }],
+        from: FROM_EMAIL, to: [OWNER_EMAIL], subject, html,
+        attachments: [{ filename, content: encodeBase64(new TextEncoder().encode(csv)) }],
       }),
     })
-    if (!resendRes.ok) {
-      const err = await resendRes.text()
-      throw new Error(`Resend ${resendRes.status}: ${err}`)
-    }
+    if (!resendRes.ok) throw new Error(`Resend ${resendRes.status}: ${await resendRes.text()}`)
 
-    console.log(`Monthly CSV sent: ${rows.length} orders, ฿${revenue}`)
+    console.log(`Monthly CSV sent ${ym}: ${summary.people} people, ${summary.orders} orders, ฿${summary.baht}`)
     return new Response('ok', { status: 200 })
 
   } catch (err) {
