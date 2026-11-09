@@ -10,7 +10,7 @@ const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY')!
 const OWNER_EMAIL    = Deno.env.get('OWNER_EMAIL')!
 
 const FROM_EMAIL = 'Coach Tarn Slide · Report <noreply@coachtarnslide.com>'
-const COLS = 'name, email, status, ref_source, use_case, created_at, reject_reason, verify_detail, recheck_count, last_recheck_at'
+const COLS = 'name, email, status, slip_url, ref_source, use_case, created_at, reject_reason, verify_detail, recheck_count, last_recheck_at'
 
 serve(async (req) => {
   try {
@@ -55,6 +55,13 @@ serve(async (req) => {
     const { data: chartRows, error: e3 } = await supabase.from('orders').select(COLS)
       .eq('status', 'verified').gte('created_at', chartStart).lt('created_at', endUTC)
     if (e3) throw e3
+
+    // slip images for the email (signed 7 days, the bucket is private): every order of the day that has one
+    await Promise.all(today.map(async (o: Order) => {
+      if (!o.slip_url) return
+      const { data } = await supabase.storage.from('slips').createSignedUrl(o.slip_url, 7 * 24 * 3600)
+      o.slipUrl = data?.signedUrl ?? null
+    }))
 
     const { html, subject, people, revenue } = renderDaily({
       todayStr, orders: today, verifiedLater, bars: buildBars(todayStr, (chartRows ?? []) as Order[]),
