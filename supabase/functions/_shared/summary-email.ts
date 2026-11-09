@@ -16,6 +16,8 @@ export type Order = {
   verify_detail?: { actualAmount?: number | string | null } | null
   recheck_count?: number | null
   last_recheck_at?: string | null
+  slip_url?: string | null
+  slipUrl?: string | null      // signed URL, set by daily-summary before rendering
 }
 
 export const isTest = (o: { ref_source: string | null }) => o.ref_source === 'internal_test'
@@ -87,8 +89,8 @@ function shell(title: string, sub: string, body: string, footer: string, logoSrc
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;700;800&display=swap" rel="stylesheet">
 </head>
-<body style="margin:0;padding:0;background:#FFF6F2;font-family:'Noto Sans Thai','Helvetica Neue',Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0;">
+<body style="margin:0;padding:0;background:#FFF6F2;font-family:'Sukhumvit Set','Noto Sans Thai','Helvetica Neue',Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding:24px 0;font-family:'Sukhumvit Set','Noto Sans Thai','Helvetica Neue',Arial,sans-serif;">
 <tr><td align="center" style="padding:0 8px;">
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:480px;background:#FFFFFF;border-radius:16px;overflow:hidden;border:1px solid ${C.line};">
 <tr><td style="background:${C.red};padding:16px 20px;">
@@ -280,11 +282,21 @@ export function renderDaily(inp: DailyInput): { html: string; subject: string; p
   <table width="100%" cellpadding="0" cellspacing="0" border="0">${custRows}</table>
 </td></tr>` : '<tr><td style="padding:0 0 18px;"></td></tr>'
 
+  // ── 10. slips (Ice 8 Nov: "สลิปไม่ขึ้นภาพมานะ"): every order of the day with a slip, by time, failed ones marked
+  const slips = inp.orders.filter((o) => o.slipUrl).sort((a, b) => a.created_at.localeCompare(b.created_at))
+  const slipBlock = slips.length ? `<tr><td style="padding:0 20px 18px;">
+  ${sectionTitle('สลิปวันนี้')}
+  ${slips.map((o) => `<div style="padding:10px 0;border-top:1px solid ${C.line};">
+    <p style="margin:0 0 8px;font-size:12.5px;color:${C.ink};line-height:1.6;"><span style="color:${C.soft};">${hhmm(o.created_at)}</span>&nbsp; <b>${escHtml(o.name)}</b>${o.status === 'verified' ? '' : ` <span style="color:#B42318;font-weight:700;">· ${o.status === 'pending' ? 'รอตรวจ' : 'ไม่ผ่าน'}</span>`}</p>
+    <img src="${escHtml(o.slipUrl)}" alt="สลิป ${escHtml(o.name)}" width="220" style="display:block;width:220px;max-width:100%;border-radius:10px;border:1px solid ${C.line};">
+  </div>`).join('')}
+</td></tr>` : ''
+
   const [y, m, d] = inp.todayStr.split('-').map(Number)
   const dow = TH_DAY[new Date(Date.UTC(y, m - 1, d)).getUTCDay()]
   const sub = `${dow} ${d} ${TH_MON[m - 1]} ${y + 543} · ส่งตอน 23:00`
   const html = shell('สรุปยอดขาย Coach Tarn', sub,
-    top + statusBlock + failBlock + channelBlock(channelsOf(verified)) + custBlock,
+    top + statusBlock + failBlock + channelBlock(channelsOf(verified)) + custBlock + slipBlock,
     'ส่งอัตโนมัติทุกวัน 23:00 น. · PowerPoint Template by Coach Tarn', inp.logoSrc ?? LOGO_URL)
 
   const subject = `สรุปยอดขาย ${d} ${TH_MON[m - 1]} · ${people} คน ${baht(revenue)}`
