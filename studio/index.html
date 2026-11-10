@@ -1987,7 +1987,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
           <button class="chip" data-chip="sampletext" type="button"><svg class="i"><use href="#i-paste"/></svg>ลองวางเนื้อหาตัวอย่าง</button>
           <button class="chip" data-chip="samplefile" type="button"><svg class="i"><use href="#i-sample"/></svg>ลองไฟล์ตัวอย่าง</button>
         </div>
-        <p class="priv"><span><svg class="i ok"><use href="#i-lock"/></svg>เนื้อหาไม่ถูกส่งออกจากเครื่องคุณ</span><span><svg class="i"><use href="#i-slides"/></svg>ลองทำได้ฟรีทุกหน้า โหลดไฟล์เมื่อมี Code</span></p>
+        <p class="priv"><span><svg class="i ok"><use href="#i-shield"/></svg>เนื้อหาไม่ถูกส่งออกจากเครื่องคุณ</span><span><svg class="i"><use href="#i-slides"/></svg>ใช้ได้กับ Code ที่มีแพ็ก Studio</span></p>
         <button class="cphandle" id="cphandle" type="button" aria-label="ปัดขึ้นเพื่อปิดแผง"><i></i></button>
       </section>
       <div class="lcont" id="lcont">
@@ -2043,7 +2043,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
     <section class="rps" data-p="pos"><div class="bpan tpop inrp" id="posp"></div></section>
     <section class="rps" data-p="ch"><div class="chp" id="chp"></div></section>
     <section class="rps" data-p="hist"><div class="hist" id="hist"></div>
-      <div class="hfoot"><p><svg class="i"><use href="#i-info"/></svg>ประวัติเก็บในเครื่องนี้เท่านั้น ล้างข้อมูลเบราว์เซอร์แล้วหาย ถ้ามี Code กดบันทึกเพื่อเก็บเป็นไฟล์ได้</p>
+      <div class="hfoot"><p><svg class="i"><use href="#i-info"/></svg>ประวัติเก็บในเครื่องนี้เท่านั้น ล้างข้อมูลเบราว์เซอร์แล้วหาย กดบันทึกเพื่อเก็บเป็นไฟล์ได้</p>
         <div id="wipebox"><button class="linkred" id="wipeask" type="button"><svg class="i"><use href="#i-trash"/></svg>ย้ายงานนี้ไปถังขยะ</button></div></div>
     </section>
   </aside>
@@ -4545,7 +4545,7 @@ function setSave(st) {
 }
 $('savest').onclick = () => {
   if (saveSt === 'no') {
-    openSheet('ยังไม่ได้เก็บงาน', 'เครื่องนี้เก็บงานไม่ได้ ปิดหน้าแล้วงานหาย ถ้ามี Code กดบันทึกเพื่อเก็บเป็นไฟล์ได้',
+    openSheet('ยังไม่ได้เก็บงาน', 'เครื่องนี้เก็บงานไม่ได้ ปิดหน้าแล้วงานหาย กดบันทึกเพื่อเก็บเป็นไฟล์ได้',
       `<div class="confirm"><button class="btn btn-line btn-big" data-m="no" type="button">เข้าใจแล้ว</button><button class="btn btn-red btn-big" data-m="save" type="button">${ico('down')}บันทึก</button></div>`);
     $('shBody').onclick = ev => { const b = ev.target.closest('[data-m]'); if (!b) return; closeSheet(); if (b.dataset.m === 'save') act('save'); };
   } else openPanel('hist');
@@ -4948,17 +4948,17 @@ function xdZip(files) {                   // zip แบบเก็บ (ไม�
   e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true); e.setUint32(12, cl, true); e.setUint32(16, off, true);
   return new Blob([...parts, ...cd, new Uint8Array(e.buffer)], {type: 'application/zip'});
 }
-function codeSheet() {                    // ยังไม่มี Code: แผ่นเดิม (ระบบบัญชีจริงไปทำในใบ 011)
-  openSheet('', '', `<div class="done"><div class="paycover"><div class="slidebox" id="paycv"></div></div>
-    <h3>สไลด์ของคุณพร้อมแล้ว ${slides.length} หน้า</h3><p>ดูได้ฟรีทุกหน้า โหลดไฟล์ได้เมื่อมี Code</p>
-    <p>สำหรับลูกค้าที่ซื้อคลังเทมเพลต Coach Tarn แล้ว กรอก Code ที่ได้ทางอีเมล แล้วกลับมากดบันทึกที่หน้านี้ได้เลย (ถ้าล้างข้อมูลเบราว์เซอร์ ต้องกรอกใหม่)</p>
-    ${saveSt === 'no' ? '' : '<p>งานที่แก้ไว้เก็บในเครื่องนี้ กลับมาทำต่อได้</p>'}
-    <a class="btn btn-red btn-big" href="/download" target="_blank" rel="noopener">${ico('lock')}กรอก Code</a>
-    <a class="btn btn-line btn-big" href="/" target="_blank" rel="noopener">ดูคลังเทมเพลต</a></div>`);
+function codeSheet() {                    // ใบ 054: Code ในเบราว์เซอร์นี้ไม่มีแพ็ก Studio (เช่นออกจากระบบในแท็บอื่น) ข้อความเดียวกับจอล็อก ไม่มีกุญแจ
+  xdClose(); openSheet('', '', `<div class="done"><div class="paycover"><div class="slidebox" id="paycv"></div></div>
+    <h3>สไลด์ของคุณพร้อมแล้ว ${slides.length} หน้า</h3><p>ใช้ได้กับ Code ที่มีแพ็ก Studio</p>
+    ${saveSt === 'no' ? '' : '<p>งานที่แก้ไว้เก็บในเครื่องนี้ เข้าสู่ระบบแล้วกดบันทึกอีกครั้ง</p>'}
+    <button class="btn btn-red btn-big" type="button" data-m="login">${ico('user')}เข้าสู่ระบบด้วย Code</button>
+    <a class="btn btn-line btn-big" href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener">${ico('chat')}สอบถามแพ็ก Studio</a></div>`);
+  $('shBody').onclick = ev => { if (ev.target.closest('[data-m="login"]')) { closeSheet(); ctTop.login(); } };
   if (slides[0]) mount($('paycv'), slides[0]);
 }
 async function xdGo(skip) {
-  if (!member()) return codeSheet();      // คงการตรวจ Code แบบเดิมไว้จนกว่าจะมีระบบบัญชี (ใบ 011) แผ่นนี้ขึ้นทับหน้าต่าง ปิดแล้วกลับมาที่ตัวเลือกเดิม
+  if (!member()) return codeSheet();      // คงการตรวจ Code แบบเดิมไว้จนกว่าจะมีระบบบัญชี (ใบ 060) ปิดหน้าต่างบันทึกก่อน บนจอเหลือแผ่นเดียว (ใบ 054)
   let ks = xdPages();
   // หน้าที่ข้อความล้นกรอบ: เตือนครั้งเดียวต่อชุดหน้าที่ล้น ไม่บล็อก (ของเดิม ขึ้นหลังกดดาวน์โหลด)
   const ov = ks.filter(k => META[k]?.ov && !(skip || []).includes(k)), key = ov.join(',');
