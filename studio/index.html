@@ -966,6 +966,8 @@ body.onlist .top{display:none}
 .lnote{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:12px;padding:10px 12px;border-radius:12px;background:var(--bg);font-size:14px;color:var(--mid);line-height:1.6}
 .lnote>span{flex:1;min-width:180px;display:flex;gap:8px;align-items:center}
 .lnote svg.i{color:var(--sub)}
+.lnote.local{margin-top:8px;padding:0 4px;background:none;font-size:13px;color:var(--sub)}
+@media (min-width:1024px){.lnote.local{display:none}}
 .wgrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px}
 .wk{position:relative;display:grid;grid-template-columns:112px minmax(0,1fr);align-items:center;gap:12px;padding:10px 46px 10px 10px;background:#fff;border:1px solid var(--line);border-radius:12px;cursor:pointer;outline:none;
   animation:wkIn .24s var(--eo) both;animation-delay:calc(var(--i,0) * 15ms);transition:transform .12s var(--eo);-webkit-tap-highlight-color:transparent}
@@ -1013,6 +1015,7 @@ textarea.wt{display:block;width:100%;resize:none;border:none;outline:none;font:i
 .hr:hover,.hr:focus-visible{background:var(--bg);outline:none}
 .hr svg.i{color:var(--mid)}.hr .k{margin-left:auto;font-size:12px;color:var(--sub)}.hr .ck{margin-left:auto;color:var(--text)}
 .hr.red,.hr.red svg.i{color:#C62828}
+.hr span small{display:block;font-size:12.5px;color:var(--sub)}
 .hr .chev{margin-left:auto;width:16px;height:16px}
 .hp hr{border:none;border-top:1px solid var(--line);margin:4px 0}
 .hp h5{font-size:13px;font-weight:600;color:var(--sub);padding:8px 12px 4px;display:flex;align-items:center;gap:6px;line-height:1.6}
@@ -1811,6 +1814,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
   <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 1.5c.6 4.6 2.7 7.6 7.6 8.6-4.9 1-7 4-7.6 8.6-.6-4.6-2.7-7.6-7.6-8.6 4.9-1 7-4 7.6-8.6z"/><path d="M19.5 15.5c.25 1.9 1.1 3 3 3.4-1.9.4-2.75 1.5-3 3.4-.25-1.9-1.1-3-3-3.4 1.9-.4 2.75-1.5 3-3.4z"/></symbol>
   <symbol id="i-clip" viewBox="0 0 24 24"><path d="M21.4 11.1l-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></symbol>
   <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
   <symbol id="i-layout" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="7" rx="1"/><rect x="3" y="14" width="9" height="7" rx="1"/><rect x="16" y="14" width="5" height="7" rx="1"/></symbol>
   <symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1"/><circle cx="17.5" cy="10.5" r="1"/><circle cx="8.5" cy="7.5" r="1"/><circle cx="6.5" cy="12.5" r="1"/><path d="M12 2a10 10 0 0 0 0 20c.9 0 1.6-.7 1.6-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.7 1.7-1.7h2c3 0 5.5-2.5 5.5-5.5C22 6 17.5 2 12 2z"/></symbol>
@@ -1955,7 +1959,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
     <span class="grow"></span>
     <button class="ib lsq" id="lsq" type="button" aria-label="ค้นหา"><svg class="i"><use href="#i-search"/></svg></button>
     <button class="btn btn-red btn-sm lnew2" data-new type="button"><svg class="i"><use href="#i-plus"/></svg>สร้างใหม่</button>
-    <button class="av" id="avb" type="button" aria-label="บัญชีของฉัน"><b id="avl"></b><i class="gtb"></i></button>
+    <button class="av" id="avb" type="button" aria-label="บัญชีของฉัน"><b id="avl"><svg class="i"><use href="#i-user"/></svg></b></button>
   </header>
   <div class="lbody">
     <aside class="side" id="side"></aside>
@@ -1989,7 +1993,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
       <div class="lcont" id="lcont">
       <div class="mh" id="mh"></div>
       <div class="hchips" id="hchips"></div>
-      <div class="lnote hidden" id="lnote"></div>
+      <div class="lnote" id="lnote"></div>
       <div class="wgrid" id="wgrid"></div>
       </div>
     </section>
@@ -2412,6 +2416,7 @@ async function cpSaid(my, f, ol) {
 }
 function enterWork(again) {
   if (!again) { $('inner').innerHTML = ''; }
+  STACK = []; SP = -1;                     // ใบ 052: เนื้อหาใหม่ = งานใหม่ (ใบ 009) เลิกทำห้ามข้ามกลับเด็คเดิม ไม่งั้นงานใหม่เก็บเด็คเดิมซ้ำเป็นอีกใบ งานเดิมยังอยู่ในงานของฉัน
   if (ED) finishEdit(false);
   deselectBox(); closeGrid(-1, true); $('skelg').classList.remove('fail');
   ttl = ''; slides = []; KEYS = []; cur = 0; $('tact').classList.add('hidden'); $('pages').innerHTML = ''; $('thumbs').innerHTML = '';
@@ -2597,7 +2602,7 @@ function startFlow(src, tpl) {
     FL.ol = ol; FL.ol0 = JSON.stringify(ol);
   })().catch(e => { console.warn(e); FL.err = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน'); });
   // ใบ 039: อ่านในแผงเดิม (หัว "กำลังอ่านเนื้อหา" + 3 ขั้น) อ่านครบ = ข้อความผู้ช่วย 1 บรรทัด แล้วต่อเข้า "ให้ใครดู" เอง
-  if ($('pList').classList.contains('hidden')) { flowShow(); history.pushState({p: 'flow', s: 'q'}, ''); flowStep('q'); return; }
+  if ($('pList').classList.contains('hidden')) { const st = tpl ? 'outline' : 'q'; flowShow(); history.pushState({p: 'flow', s: st}, ''); flowStep(st); return; }   // ใบ 052: เข้าจากเทมเพลต = ข้ามคำถามผู้ชม (เลือกชุดแล้ว ค่านี้ไม่มีผล)
   cpRead(true);
   FL.ready.then(async () => {
     if (my !== gen) return;
@@ -4406,7 +4411,7 @@ const KRE = /\s*\(([^()]*(?:⌘|Ctrl|Esc|Delete|Shift|⇧|Tab|Enter)[^()]*)\)$/;
 let ktT = 0, ktEl = null;
 function ktHide() { clearTimeout(ktT); ktEl = null; KTIP.hidden = true; }
 document.addEventListener('pointerover', ev => {
-  if (ev.pointerType !== 'mouse') return;
+  if (ev.pointerType !== 'mouse' || touch()) return;   // ใบ 052: จอสัมผัสไม่มีคีย์ลัด ไม่โชว์ ⌥⌘P
   const el = ev.target.closest?.('[data-tip]'); if (el === ktEl) return; ktHide(); if (!el) return;
   ktEl = el; ktT = setTimeout(() => ktShow(el), 400);
 });
@@ -7597,8 +7602,6 @@ const LBC = ['#B4705A', '#A88A3D', '#768F6D', '#6A84A0', '#917595', '#8B8B94'];
 const HS = (() => { try { return JSON.parse(localStorage.getItem('d2s_home')) || {}; } catch (e) { return {}; } })();
 HS.sort = HS.sort || 't'; HS.lb = HS.lb || ['ด่วน', 'รอตรวจ', 'ส่งแล้ว', 'ลูกค้า', 'ไอเดีย', 'เก็บไว้ดู'];
 const saveHS = () => { try { localStorage.setItem('d2s_home', JSON.stringify(HS)); } catch (e) {} };
-// ponytail: โปรไฟล์ยังเป็นหน้าตาอย่างเดียว ยังไม่มีล็อกอิน (ใบ 011 จะเปลี่ยนเป็นข้อมูลบัญชีจริง) ส่วน Code อ่านจากที่ลูกค้ากรอกไว้จริง
-const PROF = {name: 'สมใจ รักงาน', email: 'somjai.r@gmail.com', via: 'Google'};
 const DAY = 864e5, SORTS = {t: 'แก้ล่าสุด', c: 'สร้างล่าสุด', n: 'ชื่อ ก-ฮ'};
 let W = [], F = [], VW = {k: 'all'}, Q = '';
 const tdone = t => new Promise((res, rej) => { t.oncomplete = res; t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
@@ -7646,7 +7649,7 @@ async function paintResume(open) {
   PID = null; if (location.hash.startsWith('#p=')) history.replaceState(history.state, '', location.pathname + location.search);
   try { await Promise.all([loadHome(), setsReady.catch(() => {})]); } catch (e) { W = []; F = []; }
   $('pList').classList.toggle('cpon', !!open || !live().length); document.querySelectorAll('.side .new').forEach(b => b.classList.toggle('on', $('pList').classList.contains('cpon')));
-  show('pList', false); $('avl').textContent = PROF.name[0]; renderList();
+  show('pList', false); renderList();
 }
 function showCreate() { closePop(); if ($('pList').classList.contains('hidden')) return paintResume(true); cpSet(true, true); }
 $('lglogo').onclick = ev => { ev.preventDefault(); go({k: 'all'}); };
@@ -7710,7 +7713,8 @@ function renderList() {
   const q = Q.trim().toLowerCase(), cmp = {t: (a, b) => b.t - a.t, c: (a, b) => (b.c || 0) - (a.c || 0), n: (a, b) => a.ttl.localeCompare(b.ttl, 'th')}[VW.k === 'trash' ? 't' : HS.sort];
   const list = W.filter(inView).filter(w => !q || w.ttl.toLowerCase().includes(q)).sort(VW.k === 'trash' ? (a, b) => b.del - a.del : cmp);
   const N = $('lnote');
-  N.classList.toggle('hidden', VW.k !== 'trash');
+  N.classList.toggle('local', VW.k !== 'trash');   // ใบ 052: มือถือไม่มีแถบข้าง บอกตรงนี้แทน (คอมซ่อน มีในแถบข้างแล้ว)
+  N.innerHTML = `<span>${ico('info')}งานเก็บในเบราว์เซอร์นี้ เปิดจากเครื่องอื่นจะไม่เห็น</span>`;
   if (VW.k === 'trash') N.innerHTML = `<span>${ico('info')}งานในถังขยะจะหายถาวรเมื่อครบ 30 วัน</span>${list.length ? `<button class="btn btn-line btn-sm" data-empty type="button">${ico('trash')}ล้างถังขยะ</button>` : ''}`;
   let empty = '';
   if (!list.length) {
@@ -7786,7 +7790,7 @@ function cardMenu(a, w, page) {
   const html = page === 'lb' ? `<h5><button class="ib" data-m="back" type="button" aria-label="กลับ">${ico('back')}</button>ใส่ป้าย (เลือกได้หลายอัน)</h5>${HS.lb.map((nm, i) => nm ? row('l' + i, lbl(i), esc(nm), L.includes(i) ? CK : '') : '').join('')}<hr>${row('lbe', 'pen', 'แก้ไขชื่อป้าย')}`
     : page === 'mv' ? `<h5><button class="ib" data-m="back" type="button" aria-label="กลับ">${ico('back')}</button>ย้ายไปโฟลเดอร์</h5>${F.map(f => row('f' + f.id, 'folder', esc(f.name), f.id === fid ? CK : '')).join('')}${fid ? row('out', 'x', 'เอาออกจากโฟลเดอร์') : ''}<hr>${row('nf', 'plus', 'โฟลเดอร์ใหม่')}`
     : page === 'trash' ? `<div class="hcf"><b>ย้ายงานนี้ไปถังขยะ?</b><p>กู้คืนได้ภายใน 30 วัน</p><div class="row"><button class="btn btn-line" data-m="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-m="yes" type="button">${ico('trash')}ย้ายไปถังขยะ</button></div></div>`
-    : `${row('open', 'open', 'เปิด', '<span class="k">Enter</span>')}${row('ren', 'pen', 'เปลี่ยนชื่อ', '<span class="k">F2</span>')}${row('dup', 'copy', 'ทำสำเนา')}${row('lb', 'tag', 'ใส่ป้าย', CHEV)}${row('mv', 'folder', 'ย้ายไปโฟลเดอร์', CHEV)}<hr>${row('trash', 'trash', 'ย้ายไปถังขยะ')}`;
+    : `${row('open', 'open', 'เปิด', touch() ? '' : '<span class="k">Enter</span>')}${row('ren', 'pen', 'เปลี่ยนชื่อ', touch() ? '' : '<span class="k">F2</span>')}${row('dup', 'copy', 'ทำสำเนา')}${row('lb', 'tag', 'ใส่ป้าย', CHEV)}${row('mv', 'folder', 'ย้ายไปโฟลเดอร์', CHEV)}<hr>${row('trash', 'trash', 'ย้ายไปถังขยะ')}`;
   pop(a, html, async (m, b) => {
     if (m === 'back') return cardMenu(a, w);
     if (m === 'lb' || m === 'mv' || m === 'trash') return cardMenu(a, w, m);
@@ -7854,12 +7858,12 @@ function sortMenu(a) {
 }
 function profMenu(a) {
   let code = ''; try { code = (JSON.parse(localStorage.getItem('ct_lib') || 'null') || {}).code || ''; } catch (e) {}
-  pop(a, `<div class="pfh"><span class="av"><b>${esc(PROF.name[0])}</b><i class="gtb"></i></span><span><b class="n">${esc(PROF.name)}</b><small>${esc(PROF.email)}</small></span></div><hr>
-    <div class="hr" style="cursor:default">${ico('link')}<span>บัญชีที่เชื่อม</span><span class="v"><i class="gtb" style="position:static;box-shadow:none"></i>${PROF.via}</span></div>
-    <div class="pbox"><div class="h">${ico('ticket')}เทมเพลตที่ซื้อแล้ว</div>${code ? `<div class="c">TARN-••••${esc(String(code).slice(-4).toUpperCase())}</div>` : '<div class="d" style="margin-top:6px">ยังไม่ได้กรอก Code ในเบราว์เซอร์นี้</div>'}
+  pop(a, `<div class="pbox"><div class="h">${ico('ticket')}เทมเพลตที่ซื้อแล้ว</div>${code ? `<div class="c">TARN-••••${esc(String(code).slice(-4).toUpperCase())}</div>` : '<div class="d" style="margin-top:6px">ยังไม่ได้กรอก Code ในเบราว์เซอร์นี้</div>'}
       <a href="/download" target="_blank" rel="noopener">${ico('open')}${code ? 'เปิดคลังของฉัน' : 'กรอก Code'}</a></div>
     <div class="hr" style="cursor:default">${ico('drive')}<span>พื้นที่ที่ใช้</span><span class="v">${live().length} งาน ในเบราว์เซอร์นี้</span></div><hr>
-    ${row('set', 'gear', 'ตั้งค่า')}${row('out', 'logout', 'ออกจากระบบ')}`, () => closePop(), true);
+    ${row('out', 'logout', 'ออกจากระบบ<small>งานยังอยู่ในเครื่องนี้</small>')}`, m => {   // ใบ 052: ล้าง Code ในเบราว์เซอร์นี้จริง แล้วกลับจอล็อก งานใน IndexedDB ไม่แตะ
+      if (m !== 'out') return; try { localStorage.removeItem('ct_lib'); } catch (e) {} location.replace(location.pathname);
+    }, true);
 }
 // ── เปลี่ยนชื่อในที่: ดับเบิลคลิกชื่อ / F2 / ... > เปลี่ยนชื่อ  Enter หรือคลิกนอก = บันทึก  Esc = ยกเลิก  ว่างหรือเหมือนเดิม = ชื่อเดิมเงียบ ๆ ──
 function renameCard(id) {
