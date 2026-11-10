@@ -475,10 +475,12 @@ body.typing .tring,body.typing .tcard{visibility:hidden}
 .hrow.now i{background:var(--ok)}.hrow.now b{color:var(--ok)}
 .hrow.now{background:var(--bg)}
 .hrow::after{content:'';position:absolute;inset:-1px;border-radius:12px;box-shadow:inset 0 0 0 1px var(--red);opacity:0;transition:opacity .15s;pointer-events:none}
-.hrow.sel::after{opacity:1}
-.hrow.sel{background:var(--soft)}.hrow.sel b{color:var(--red)}.hrow.sel i{background:var(--red)}
+.hrow.hsel{background:#FFF6F2;border-color:#F3C9B5}.hrow.hsel b{color:var(--red)}.hrow.hsel i{background:var(--red)}   /* ใบ 053: ไม่ใช้คลาส .sel เพราะชนกรอบเลือกกล่อง (.sel absolute opacity:0) แถวที่ดูอยู่หายจากรายการ */
+/* ใบ 053 (ไอซ์ 10 พ.ย.): ยังไม่มี AI ถอดแผงแชท ช่องพิมพ์ #ta2 และลูกแก้ว ออกจากจอ โค้ดเก็บไว้ใช้ตอนมี AI */
+#rail [data-p=chat],.rp[data-p=chat],#cp .stage,.skelnote .orb{display:none!important}
+#cp>h1{margin-top:52px}
 .hfoot{flex:none;border-top:1px solid var(--line);padding:12px 16px calc(12px + var(--safe));font-size:13px;color:var(--sub);display:grid;gap:8px}
-.hfoot p{display:flex;gap:6px}.hfoot p svg{width:16px;height:16px;flex:none;margin-top:2px;stroke-width:2.5}
+.hfoot p{display:flex;gap:6px;line-height:1.6}.hfoot p svg{width:16px;height:16px;flex:none;margin-top:2px;stroke-width:2.5}
 .linkred{display:inline-flex;align-items:center;gap:6px;border:none;background:none;color:#D92D20;font-weight:600;font-size:14px;padding:6px 0;justify-self:start}
 .linkred svg{width:16px;height:16px;stroke-width:2.5}
 .wipe{background:#FEF3F2;border-radius:12px;padding:10px 12px;color:var(--text);display:grid;gap:8px;animation:rise .22s var(--ease) both}
@@ -1968,7 +1970,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
         <button class="btn btn-line btn-sm cpx" id="cpx" type="button" aria-label="ปิดแผงสร้าง"><svg class="i"><use href="#i-caret"/></svg>ปิด</button>
         <div class="stage" id="stage"><i class="ring r2"></i><i class="ring r1"></i><i class="ring p"></i><i class="ring p"></i><div class="orb" id="cporb"></div></div>
         <h1 id="cph">อยากทำสไลด์เรื่องอะไรดี</h1>
-        <p class="lead">พิมพ์หรือวางเนื้อหา หรือแนบไฟล์ ผู้ช่วยจัดเป็นสไลด์ดีไซน์ Coach Tarn ให้ เนื้อหาและตัวเลขทุกตัวมาจากของคุณ</p>
+        <p class="lead">วางข้อความหรือแนบไฟล์ เราจัดลงหน้าให้ ไม่เขียนเพิ่ม ตัวเลขตรงตามของคุณ</p>
         <div class="cpsteps hidden" id="cpsteps"></div>
         <div class="cpsaid hidden" id="cpsaid"></div>
         <div class="prompt" id="prompt">
@@ -2010,7 +2012,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
   <nav class="thumbs" id="thumbs" aria-label="ภาพย่อสไลด์"></nav>
   <section class="canvas" id="canvas">
     <div id="vbarslot"></div>
-    <div id="skel" class="open"><div class="skelnote"><span class="orb think s26"></span><span class="shimmer" id="skelt">ผู้ช่วยกำลังเตรียมสไลด์</span></div><div class="skel" id="skelg"></div></div>
+    <div id="skel" class="open"><div class="skelnote"><span class="orb think s26"></span><span class="shimmer" id="skelt">กำลังอ่านเนื้อหา</span></div><div class="skel" id="skelg"></div></div>
     <div class="pages hidden" id="pages"></div>
     <button class="dots" id="dots" type="button"><span class="dw"></span><span class="cnt"></span></button>
   </section>
@@ -2019,8 +2021,8 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
     <div class="zr"><input type="range" id="zsl" min="0" max="1000" step="1" value="500" aria-label="ซูม"><button class="b pct" id="zpct" type="button" aria-haspopup="menu" aria-expanded="false">100%</button></div><i class="sep"></i>
     <button class="b" id="gridd" type="button"><svg class="i"><use href="#i-grid"/></svg>หน้าทั้งหมด</button></div>
   <div class="gridh" id="gridh"><h2 id="gridt"></h2><p>คลิกเพื่อไปหน้านั้น ลากเพื่อเรียงใหม่</p><button class="b" id="gridx" type="button"><svg class="i"><use href="#i-x"/></svg>กลับ</button></div>
-  <aside class="rp" id="rp" data-p="chat">
-    <div class="rph"><h3 id="rpT">ผู้ช่วย</h3><button class="ib" id="rpX" type="button" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <aside class="rp" id="rp" data-p="hist">
+    <div class="rph"><h3 id="rpT">ประวัติการแก้ไข</h3><button class="ib" id="rpX" type="button" aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button></div>
     <section class="rps pchat" data-p="chat">
       <div class="thread" id="thread"><div class="inner" id="inner"></div></div>
       <div class="mini">
@@ -2043,7 +2045,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
     <section class="rps" data-p="pos"><div class="bpan tpop inrp" id="posp"></div></section>
     <section class="rps" data-p="ch"><div class="chp" id="chp"></div></section>
     <section class="rps" data-p="hist"><div class="hist" id="hist"></div>
-      <div class="hfoot"><p><svg class="i"><use href="#i-info"/></svg>ประวัติเก็บในเครื่องนี้เท่านั้น ล้างข้อมูลเบราว์เซอร์แล้วหาย กดบันทึกเพื่อเก็บเป็นไฟล์ได้</p>
+      <div class="hfoot"><p><svg class="i"><use href="#i-info"/></svg>เก็บ 50 ครั้งล่าสุดในเครื่องนี้ แตะแถวเพื่อดูเวอร์ชันนั้น</p>
         <div id="wipebox"><button class="linkred" id="wipeask" type="button"><svg class="i"><use href="#i-trash"/></svg>ย้ายงานนี้ไปถังขยะ</button></div></div>
     </section>
   </aside>
@@ -2084,7 +2086,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph') || 'null'); sessio
 <script src="https://cdn.jsdelivr.net/npm/pptx-preview@1.0.7/dist/pptx-preview.umd.js"></script>
 <script>
 const $ = id => document.getElementById(id);
-const V = '20261104c';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
+const V = '20261110a';                 // เปลี่ยนเมื่ออัปเดต bundle กันเบราว์เซอร์จำของเก่า
 const PKGS = ['python-pptx==1.0.2', 'python-docx==1.2.0', 'pypdf==6.19.0', 'openpyxl==3.1.5', 'XlsxWriter==3.2.9'];   // ล็อกรุ่นที่ทดสอบแล้ว
 const PPTX = 'application/vnd.openxmlformats-officedocument.presentationml.presentation';
 const ico = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
@@ -2421,9 +2423,9 @@ function enterWork(again) {
   deselectBox(); closeGrid(-1, true); $('skelg').classList.remove('fail');
   ttl = ''; slides = []; KEYS = []; cur = 0; $('tact').classList.add('hidden'); $('pages').innerHTML = ''; $('thumbs').innerHTML = '';
   if (viewing) { viewing = null; $('pWork').classList.remove('viewing'); $('vbarslot').innerHTML = ''; }
-  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'ผู้ช่วยกำลังอ่านเนื้อหา'; $('skelt').classList.add('shimmer'); $('skel').querySelector('.orb')?.classList.add('think'); orbSync();
+  $('pages').classList.add('hidden'); $('skel').classList.remove('hidden'); $('skelt').textContent = 'กำลังอ่านเนื้อหา'; $('skelt').classList.add('shimmer'); $('skel').querySelector('.orb')?.classList.add('think'); orbSync();
   $('skelg').classList.remove('all'); $('skel').classList.remove('open', 'now'); $('thumbs').querySelectorAll('.sk').forEach(e => e.remove()); $('skelg').innerHTML = Array.from({length: 6}, (_, i) => `<div class="ph" style="--i:${i}"></div>`).join('');
-  show('pWork'); openPanel('chat');
+  show('pWork'); if (matchMedia('(min-width:1200px)').matches) openPanel('hist'); else closePanel();   // ใบ 053: ไม่มีแชทแล้ว คอมเปิดประวัติค้าง จอแคบเห็นโครงหน้าเต็มจอ
 }
 let lastAsk = '';                          // ย้อนกลับระหว่างสร้าง: ข้อความที่วางยังอยู่ในกล่องพิมพ์
 function startText(t, again) {
@@ -2451,8 +2453,8 @@ async function run(src) {
   const my = ++gen; running = true; refresh(); const t0 = performance.now();
   document.querySelectorAll('#inner .msg.bot').forEach(x => x.classList.add('past'));
   const ready = bootStep >= 4;
-  const STEPS = ['เตรียมผู้ช่วย (ครั้งแรกที่เปิดหน้านี้)', 'โหลดตัวอ่าน Word, Excel, PDF', 'โหลดชุดดีไซน์ Coach Tarn', 'อ่านเนื้อหาของคุณ'];
-  const m = botMsg(`<div class="thinking"><span class="shimmer">${ready ? 'กำลังอ่านเนื้อหา' : 'กำลังเตรียมผู้ช่วย'}</span></div>
+  const STEPS = ['เตรียมเครื่องมือ (ครั้งแรกที่เปิดหน้านี้)', 'โหลดตัวอ่าน Word, Excel, PDF', 'โหลดชุดดีไซน์ Coach Tarn', 'อ่านเนื้อหาของคุณ'];
+  const m = botMsg(`<div class="thinking"><span class="shimmer">${ready ? 'กำลังอ่านเนื้อหา' : 'กำลังเตรียมเครื่องมือ'}</span></div>
     ${ready ? '' : `<ul class="steps" id="bs${my}">${STEPS.map(t => `<li><span class="st"></span>${t}</li>`).join('')}</ul><div class="bar"><i id="bb${my}"></i></div>`}`, true);
   const paint = n => {                    // ติ๊กขั้นที่เสร็จจริง แถบวิ่งได้แค่ 85% ของขั้นที่กำลังทำ
     const ul = document.getElementById('bs' + my); if (!ul) return;
@@ -2478,7 +2480,7 @@ async function run(src) {
     if (f.outline.length < 2) throw new Error('ไม่พบเนื้อหาที่จัดเป็นสไลด์ได้ ถ้าเป็น PDF ที่สแกนจากกระดาษ ระบบอ่านไม่ได้ ลองคัดลอกเนื้อหามาวางแทน');
     ttl = py.globals.get('TTL'); setTtl(ttl); retrig($('topttl'), 'in');
     $('skelg').innerHTML = f.outline.map((o, i) => `<div class="ph" style="--i:${i}"><b>${i + 1}</b></div>`).join('');
-    $('skelt').textContent = 'ผู้ช่วยกำลังจัดหน้า';
+    $('skelt').textContent = 'กำลังจัดหน้า';
     // ผู้ช่วยเล่าว่าเจออะไรและจะทำอะไรกับมัน ทุกบรรทัดมาจากผลอ่านจริง
     const nIt = f.outline.filter(o => o.kind !== 'cover' && o.kind !== 'agenda').reduce((a, o) => a + (o.n || 1), 0);
     const rows = [['heading', `<span id="fr${my}">${f.sections >= 2 ? `แบ่งเนื้อหาได้ <b>${f.sections}</b> หัวข้อ` : `แบ่งเนื้อหาเป็น <b>${nIt}</b> ข้อ`}</span>`, '']];
@@ -2505,7 +2507,7 @@ async function run(src) {
     const msg = pyErr(e, 'อ่านเนื้อหานี้ไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองบันทึกเป็นไฟล์ใหม่ หรือคัดลอกเนื้อหามาวางแทน');
     setBot(m, `<div class="err">${esc(msg)}${msg === NET ? `<br><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">${ico('reload')}โหลดหน้าใหม่</button>` : ''}</div>`);
     $('skelt').textContent = 'ยังไม่มีสไลด์'; $('skelt').classList.remove('shimmer'); $('skel').querySelector('.orb')?.classList.remove('think'); orbSync();
-    $('skelg').classList.add('fail'); running = false; busyNow = false; setTtl('', 'ยังไม่มีสไลด์'); refresh(); if (msg === NET) failMain(msg);   // A10: โครงจางลง ไม่หายวูบ   // ไม่มีงานค้าง: หยุดโครงเทาและป้ายกำลังเตรียม
+    $('skelg').classList.add('fail'); running = false; busyNow = false; setTtl('', 'ยังไม่มีสไลด์'); refresh(); failMain(msg);   // ใบ 053: ไม่มีแชทให้อ่านคำเตือนแล้ว บอกบนพื้นที่สไลด์เสมอ   // A10: โครงจางลง ไม่หายวูบ   // ไม่มีงานค้าง: หยุดโครงเทาและป้ายกำลังเตรียม
   }
 }
 // จัดหน้า: ติ๊กโครงทีละหน้า ฝั่งสไลด์ช่องจองค่อยเปลี่ยนสี แล้วพรีวิวจริงขึ้นแทน
@@ -2552,7 +2554,7 @@ json.dumps(_st)`));
     const fr = document.getElementById('fr' + my), body = P.outline.filter(o => !['cover', 'agenda'].includes(o.kind)).length;
     if (fr) fr.innerHTML = P.sections >= 2 ? `แบ่งเนื้อหาได้ <b>${P.sections}</b> หัวข้อ` : `จัดเป็น <b>${P.pages}</b> หน้า`;   // ตัวเลขเดียวกับจำนวนหน้าทั้งหมดที่ลูกค้าเห็น
     document.getElementById('ol' + my).innerHTML = P.outline.map((o, i) => `<li class="ok" style="animation:none"><span class="no">${i + 1}</span><span class="t">${esc(o.t)}</span><span class="k">${esc(KIND[o.kind] || o.th)}</span><span class="st">${CHECK}</span></li>`).join('');
-    $('skelt').textContent = 'ผู้ช่วยกำลังวาดสไลด์'; bar.firstChild.style.transform = 'scaleX(.95)'; await frame();
+    $('skelt').textContent = 'กำลังจัดหน้า'; bar.firstChild.style.transform = 'scaleX(.95)'; await frame();
     LOST = 0; arranged = false; await guard(paint()); if (my !== gen) return;   // วาดครั้งแรกค้าง (pptx-preview/รูป) = จบที่ข้อความผิดพลาด
     bar.firstChild.style.transform = 'scaleX(1)'; bar.classList.add('done'); m.querySelector('.orb').classList.remove('think'); orbSync();
     if (wide()) { await after(ani($('skel'), [{opacity: 1}, {opacity: 0}], {duration: 180, easing: 'ease-out', fill: 'forwards'})); if (my !== gen) return; }
@@ -2564,7 +2566,7 @@ json.dumps(_st)`));
     console.error(e); if (my !== gen) return;
     m.querySelector('.orb').classList.remove('think'); orbSync();
     const em = pyErr(e, 'สร้างไม่สำเร็จครับ ไม่เสียสิทธิ์อะไร ลองเลือกหน้าตาอื่นได้เลย');
-    botMsg(`<div class="err">${esc(em)}</div>`); if (!slides.length) failMain(em);
+    botMsg(`<div class="err">${esc(em)}</div>`); if (!slides.length) failMain(em); else toast(em);
   }
   running = false; refresh();
 }
@@ -3919,7 +3921,7 @@ document.addEventListener('pointerdown', ev => {   // คลิก/แตะน�
 let altToken = 0;
 async function altsInto(box) {
   const my = ++altToken, lg = lookGen, idx = order[cur], at = cur;
-  box.innerHTML = `<p class="empty" style="padding:4px 0 0"><span class="shimmer">ผู้ช่วยกำลังลองจัดหน้านี้หลายแบบ</span></p>` + '<div class="opt ph"></div>'.repeat(4);
+  box.innerHTML = `<p class="empty" style="padding:4px 0 0"><span class="shimmer">กำลังลองจัดหน้านี้หลายแบบ</span></p>` + '<div class="opt ph"></div>'.repeat(4);
   await frame(); if (my !== altToken) return;
   try {
     let a = altCache.get(idx);
@@ -4271,7 +4273,7 @@ async function changeLook(s2, sure) {
   const prev = STACK[SP], s = SETS.find(x => x.slug === s2);
   busyNow = true; deselectBox(); pgs().forEach((p, k) => { if (Math.abs(k - Math.max(cur, 0)) <= 2) p.querySelector('.slide').classList.add('repaint'); });   // A6: แสงวิ่งเฉพาะหน้าใกล้จอ
   const um = botMsg(`<div class="thinking"><span class="shimmer">กำลังจัดลงหน้าตา${esc(s.style)}…</span></div>`, true);
-  toast('ผู้ช่วยกำลังจัดเนื้อหาลงหน้าตา' + s.style, true); await frame();
+  toast('กำลังจัดเนื้อหาลงหน้าตา' + s.style, true); await frame();
   try {
     await needSet(s);
     py.globals.set('ORDER', py.toPy(order)); py.runPython('_OI, _OC, _OO = ITEMS, CS, list(ORDER)');
@@ -4310,7 +4312,7 @@ function paintLooks() { $('lookg').innerHTML = lookHtml(); }
 $('lookg').onclick = ev => { const b = ev.target.closest('.opt'); if (b) changeLook(b.dataset.s); };
 
 // ── แผงขวา (คอม) / แผ่นเต็มจอ (มือถือ): ผู้ช่วย หน้าตา ประวัติ ──
-const PANEL_T = {el: 'องค์ประกอบ', elc: 'สีไอคอน', dpic: 'เปลี่ยนรูป', shc: 'สีของชิ้นนี้', ch: 'กราฟ', text: 'ข้อความ', img: 'รูปภาพ', pos: 'ตำแหน่ง', chat: 'ผู้ช่วย', look: 'หน้าตา', hist: 'ประวัติการแก้ไข', brand: 'แบรนด์และเลขหน้า', trans: 'ทรานซิชัน'};
+const PANEL_T = {el: 'องค์ประกอบ', elc: 'สีไอคอน', dpic: 'เปลี่ยนรูป', shc: 'สีของชิ้นนี้', ch: 'กราฟ', text: 'ข้อความ', img: 'รูปภาพ', pos: 'ตำแหน่ง', chat: '', look: 'หน้าตา', hist: 'ประวัติการแก้ไข', brand: 'แบรนด์และเลขหน้า', trans: 'ทรานซิชัน'};
 function openPanel(p) {
   const rp = $('rp'); if (rp.dataset.p !== p) { rp.dataset.p = p; }
   $('rpT').textContent = PANEL_T[p]; rp.classList.add('on'); $('pWork').classList.add('rpon'); document.body.classList.add('panelon');
@@ -4531,6 +4533,7 @@ async function store(s) {
     ps.put(w);
     await new Promise((res, rej) => { t.oncomplete = res; t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
     if (saving === my) { clearTimeout(saveT); setSave('ok'); }
+    if (panelOpen('hist') && !viewing) paintHist();   // ใบ 053: แผงประวัติค้างบนคอม แถวใหม่ขึ้นเอง
   } catch (e) { console.warn(e); clearTimeout(saveT); setSave('no'); }
 }
 function setSave(st) {
@@ -4558,11 +4561,12 @@ function dayName(t) {
 async function paintHist() {
   const H = $('hist'); let vs = [];
   try { vs = (await versions()).reverse(); } catch (e) {}
+  if (!vs.length && running) { H.innerHTML = `<h4>วันนี้</h4><div class="hrow now"><i></i><b>ตอนนี้</b><span class="shimmer">กำลังจัดหน้า</span></div>`; return; }   // ใบ 053: ระหว่างจัดเด็คใหม่
   if (!vs.length) { H.innerHTML = `<p class="empty">ยังไม่มีประวัติในเครื่องนี้${saveSt === 'no' ? ' เพราะเครื่องนี้เก็บงานไม่ได้' : ''}</p>`; return; }
   let day = '', html = '';
   vs.forEach((v, i) => {
     const dn = dayName(v.t); if (dn !== day) { day = dn; html += `<h4>${dn}</h4>`; }
-    html += `<button class="hrow${i === 0 ? ' now' : ''}${viewing && viewing.id === v.id ? ' sel' : ''}" data-id="${v.id}" type="button"><i></i><b>${i === 0 ? 'ตอนนี้' : hhmm(v.t)}</b><span>${esc(v.label)}</span>${viewing && viewing.id === v.id ? ico('eye') : ''}</button>`;
+    html += `<button class="hrow${i === 0 ? ' now' : ''}${viewing && viewing.id === v.id ? ' hsel' : ''}" data-id="${v.id}" type="button"><i></i><b>${i === 0 ? 'ตอนนี้' : hhmm(v.t)}</b><span>${esc(v.label)}</span>${viewing && viewing.id === v.id ? ico('eye') : ''}</button>`;
   });
   H.innerHTML = html;
   H.onclick = async ev => {
@@ -4576,7 +4580,7 @@ async function paintHist() {
 async function viewVersion(v) {
   if (ED) finishEdit(false);
   const keep = cur; busyNow = true;
-  document.querySelectorAll('.hrow').forEach(r => r.classList.toggle('sel', +r.dataset.id === v.id));
+  document.querySelectorAll('.hrow').forEach(r => r.classList.toggle('hsel', +r.dataset.id === v.id));
   pgs().forEach(p => p.querySelector('.slide').classList.add('repaint'));
   await frame(); await frame();
   try {
@@ -4584,7 +4588,7 @@ async function viewVersion(v) {
     viewing.id = v.id; viewing.v = v; $('pWork').classList.add('viewing'); urState();
     if (!matchMedia('(min-width:1200px)').matches) closePanel();   // แผงทับ canvas อยู่ ปิดให้เห็นเวอร์ชันนั้นเต็ม ๆ
     cur = keep; await restore(v);                          // หน้าที่เลือกไว้ยังอยู่ = เลือกค้างไว้ (restore เลือกหน้าเดิมถ้ายังมี)
-    $('vbarslot').innerHTML = `<div class="vbar"><span>${ico('eye')}<span><b>กำลังดูเวอร์ชัน ${hhmm(v.t)}</b> ดูอย่างเดียว แก้ไม่ได้</span></span>
+    $('vbarslot').innerHTML = `<div class="vbar"><span>${ico('eye')}<span><b>กำลังดูเวอร์ชัน ${hhmm(v.t)}</b> ดูอย่างเดียว</span></span>
       <button class="btn btn-line btn-sm" data-v="back" type="button">${ico('back')}กลับไปล่าสุด</button><button class="btn btn-red btn-sm" data-v="use" type="button">${ico('history')}ใช้เวอร์ชันนี้</button></div>`;
     $('vbarslot').querySelector('.vbar').onclick = ev => { const b = ev.target.closest('[data-v]'); if (!b) return; b.dataset.v === 'use' ? useVersion() : backToLatest(); };
     paintHist();
@@ -4601,7 +4605,7 @@ async function backToLatest() {
 }
 async function useVersion() {
   if (!viewing) return; const t = hhmm(viewing.v.t);
-  await leaveView(); commit(`กลับไปใช้เวอร์ชัน ${t}`); toast(`กลับไปใช้เวอร์ชัน ${t} แล้ว`); if (panelOpen('hist')) paintHist();
+  await leaveView(); commit(`กลับไปใช้เวอร์ชัน ${t}`); toast(`กลับไปใช้เวอร์ชัน ${t} แล้ว`, false, true);   // ใบ 053: ปุ่มเลิกทำ = ย้อนขั้นนี้ (undoRedo) if (panelOpen('hist')) paintHist();
 }
 function wipeAsk() {
   $('wipebox').innerHTML = `<div class="wipe"><b>ย้ายงานนี้ไปถังขยะ? กู้คืนได้ภายใน 30 วัน</b><div class="row"><button class="btn btn-line" data-w="no" type="button">ยกเลิก</button><button class="btn btn-danger" data-w="yes" type="button">ย้ายไปถังขยะ</button></div></div>`;
