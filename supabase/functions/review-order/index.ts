@@ -37,7 +37,8 @@ const esc = (v: unknown) => String(v ?? '').replace(/[<>&]/g, c => ({ '<': '&lt;
 
 // ── customer mail: codes (+ tax invoice note only when they asked for one) ────
 function customerHtml(order: any, codes: string[]): string {
-  const paid = Number(PACK_PRICE[Number(order.pack) || 1] ?? '499').toLocaleString('en-US')
+  // ออเดอร์โค้ดส่วนลดใช้ยอดที่ verify-slip คำนวณไว้ ไม่ใช่ราคาเต็มของแพ็ก
+  const paid = Number(order.expected_amount ?? PACK_PRICE[Number(order.pack) || 1] ?? '499').toLocaleString('en-US')
   const list = codes.map((c, i) => `
     <tr><td style="padding:9px 14px;border:1px solid #EFEFEF;border-radius:10px;background:#FAFAFA;
       font-family:'Courier New',monospace;font-size:17px;font-weight:800;letter-spacing:2px;color:#1D1D1F;">
@@ -120,7 +121,8 @@ serve(async (req) => {
     }
 
     const seats     = PACK_PRICE[Number(order.pack) || 1] ? (Number(order.pack) || 1) : 1
-    const packPrice = PACK_PRICE[seats]
+    // expected_amount มาจาก verify-slip (ราคาหลังหักโค้ด) ถ้าไม่มีคือราคาเต็มของแพ็ก
+    const packPrice = order.expected_amount != null ? String(order.expected_amount) : PACK_PRICE[seats]
 
     // ── info: what the review page shows ────────────────────────────────────
     if (action === 'info') {

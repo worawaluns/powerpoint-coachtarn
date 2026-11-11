@@ -414,7 +414,7 @@ serve(async (req) => {
     // ── 2. ดึง order ─────────────────────────────────────────────────────────
     const { data: order, error: orderErr } = await supabase
       .from('orders')
-      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, pack, pay_channel, tax_invoice, tax_type, tax_name, tax_branch, tax_id, tax_address, tax_ship_address, tax_phone')
+      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, pack, pay_channel, promo_code, ref, tax_invoice, tax_type, tax_name, tax_branch, tax_id, tax_address, tax_ship_address, tax_phone')
       .eq('id', order_id)
       .single()
 
@@ -433,6 +433,26 @@ serve(async (req) => {
     // ── 2b. ราคาตามแพ็ก (order.pack) ─────────────────────────────────────────
     const seats     = PACK_PRICE[Number(order.pack) || 1] ? (Number(order.pack) || 1) : 1
     const packPrice = PACK_PRICE[seats]
+
+    // ── 2c. โค้ดส่วนลด — ลดเฉพาะแพ็ก 1 สิทธิ์ แพ็กทีมใช้เส้นทางเดิมทุกบาท ──
+    // ตัวตัดสินคือเวลาที่ server เรียกฟังก์ชันนี้ ไม่ใช่เวลาจากเครื่องลูกค้า
+    // ลูกค้าโอนช้าได้ถึง ends_at + grace_hours (ค่าตั้งต้น 6 ชั่วโมง)
+    const hasPromo = seats === 1 && !!order.promo_code
+    let price = packPrice
+    if (hasPromo) {
+      const { data: promo } = await supabase
+        .from('promo_codes')
+        .select('code, discount_price, starts_at, ends_at, grace_hours, active')
+        .eq('code', String(order.promo_code).toUpperCase())
+        .maybeSingle()
+      const now = Date.now()
+      const inWindow = !!promo && promo.active
+        && now >= new Date(promo.starts_at).getTime()
+        && now <= new Date(promo.ends_at).getTime() + (promo.grace_hours ?? 6) * 3600_000
+      if (inWindow) price = String(promo.discount_price)
+      else console.warn('[verify-slip] promo not usable, falling back to full price:', order.promo_code, { found: !!promo })
+    }
+    await supabase.from('orders').update({ expected_amount: Number(price) }).eq('id', order_id)
 
     // ── 3. Signed URL ────────────────────────────────────────────────────────
     const { data: signedData } = await supabase.storage
@@ -468,7 +488,7 @@ serve(async (req) => {
                     accountNumber: ACCOUNT_NUMBER,
                   })),
                 ],
-                checkAmount: { type: 'eq', amount: packPrice },
+                checkAmount: { type: 'eq', amount: price },
               },
             },
           }),
@@ -483,7 +503,7 @@ serve(async (req) => {
       await supabase.from('orders').update({
         verify_detail : { error: 'slip2go_fetch_failed', message: String(e) },
       }).eq('id', order_id)
-      await queueForReview(supabase, order, seats, packPrice, 'ระบบตรวจสลิปขัดข้อง ต้องเช็คด้วยตา')
+      await queueForReview(supabase, order, seats, price, 'ระบบตรวจสลิปขัดข้อง ต้องเช็คด้วยตา')
       return Response.json({ status: 'pending_review' }, { headers: CORS })
     }
 
@@ -513,7 +533,7 @@ serve(async (req) => {
         slip2go_code: s2gCode, slip2go_message: s2gMessage,
         verify_detail: { actualAmount, transRef },
       }).eq('id', order_id)
-      await queueForReview(supabase, order, seats, packPrice,
+      await queueForReview(supabase, order, seats, price,
         'ลูกค้าแจ้งว่าโอนจากบัญชีบริษัท ต้องเช็คยอดเงินเข้าบัญชีด้วยตา')
       return Response.json({ status: 'pending_review' }, { headers: CORS })
     }
@@ -545,7 +565,7 @@ serve(async (req) => {
     let bankId = '', receiverAccount = '', accountDigits = ''
 
     if (s2gCode === '200200') {
-      amountOk        = Number(actualAmount) === Number(packPrice)
+      amountOk        = Number(actualAmount) === Number(price)
       bankId          = slip?.data?.receiver?.bank?.id ?? slip?.data?.bank?.id ?? ''
       receiverAccount = slip?.data?.receiver?.account?.bank?.account ?? ''
       accountDigits   = receiverAccount.replace(/\D/g, '')
@@ -553,6 +573,16 @@ serve(async (req) => {
       console.log('[verify-slip] 200200 sanity check:', {
         amountOk, bankId, receiverAccount, accountDigits, actualAmount,
       })
+
+      if (!amountOk && hasPromo) {
+        await supabase.from('orders').update({
+          slip2go_code: s2gCode, slip2go_message: s2gMessage,
+          verify_detail: { amountOk, actualAmount, transRef, expected: price, promo: order.promo_code },
+        }).eq('id', order_id)
+        await queueForReview(supabase, order, seats, price,
+          `ออเดอร์ใช้โค้ด ${order.promo_code} โอนมา ${actualAmount ?? 'ไม่ทราบยอด'} บาท ต้องได้ ${price} บาท`)
+        return Response.json({ status: 'pending_review' }, { headers: CORS })
+      }
 
       if (!amountOk) {
         await supabase.from('orders').update({
@@ -571,7 +601,7 @@ serve(async (req) => {
       // 200404 = slip ยังหาไม่เจอใน BBL/bank system → bbl_pending (real BBL delay)
       if (s2gCode === '200404') {
         if (final) {                       // รอครบทุกรอบแล้วยังอ่านไม่ได้ ส่งให้แอดมินตรวจมือ
-          await queueForReview(supabase, order, seats, packPrice, 'สลิปไม่มี QR ตรวจอัตโนมัติไม่ได้')
+          await queueForReview(supabase, order, seats, price, 'สลิปไม่มี QR ตรวจอัตโนมัติไม่ได้')
           return Response.json({ status: 'pending_review' }, { headers: CORS })
         }
         return Response.json({ status: 'bbl_pending' }, { headers: CORS })
@@ -586,10 +616,21 @@ serve(async (req) => {
           slip2go_code: s2gCode, slip2go_message: s2gMessage,
           verify_detail: { actualAmount, transRef },
         }).eq('id', order_id)
-        await queueForReview(supabase, order, seats, packPrice,
+        await queueForReview(supabase, order, seats, price,
           s2gCode === '200500'
             ? 'ระบบอ่านสลิปแล้วสงสัยว่าไฟล์ถูกแก้ไข ต้องเช็คยอดเงินเข้าในบัญชีด้วยตาก่อนยืนยัน'
             : `ระบบตรวจสลิปตอบรหัส ${s2gCode} ที่ยังไม่รู้จัก ต้องเช็คด้วยตา`)
+        return Response.json({ status: 'pending_review' }, { headers: CORS })
+      }
+
+      // ออเดอร์ที่ใช้โค้ดส่วนลด ยอดไม่ตรงไม่ปฏิเสธอัตโนมัติ ส่งให้แอดมินกดเองในหน้า review
+      if (s2gCode === '200402' && hasPromo) {
+        await supabase.from('orders').update({
+          slip2go_code: s2gCode, slip2go_message: s2gMessage,
+          verify_detail: { actualAmount, transRef, expected: price, promo: order.promo_code },
+        }).eq('id', order_id)
+        await queueForReview(supabase, order, seats, price,
+          `ออเดอร์ใช้โค้ด ${order.promo_code} โอนมา ${actualAmount ?? 'ไม่ทราบยอด'} บาท ต้องได้ ${price} บาท`)
         return Response.json({ status: 'pending_review' }, { headers: CORS })
       }
 
@@ -647,6 +688,7 @@ serve(async (req) => {
     await supabase.from('orders').update({
       status         : 'verified',
       trans_ref      : transRef ?? null,
+      expected_amount: Number(price),
       slip2go_code   : s2gCode,
       slip2go_message: s2gMessage,
       verify_detail  : { amountOk, bankId, accountDigits, actualAmount, transRef },
@@ -656,7 +698,7 @@ serve(async (req) => {
     await sendEmailViaResend(
       order.email,
       seats > 1 ? `✅ Redeem Code ${seats} สิทธิ์ของคุณพร้อมแล้ว` : `✅ Redeem Code ของคุณพร้อมแล้ว ${redeemCode}`,
-      buildEmailHtml(order.name, codes, packPrice),
+      buildEmailHtml(order.name, codes, price),
     )
 
     // ── 10b. ขอใบกำกับภาษีมาด้วย บอกแอดมินให้ออกเอกสาร ────────────────────
@@ -664,8 +706,8 @@ serve(async (req) => {
       try {
         await sendEmailViaResend(
           ADMIN_EMAIL,
-          `ออกใบกำกับภาษี ${order.tax_name ?? order.name} ${Number(packPrice).toLocaleString('en-US')} บาท`,
-          taxNoticeHtml(order, packPrice, codes),
+          `ออกใบกำกับภาษี ${order.tax_name ?? order.name} ${Number(price).toLocaleString('en-US')} บาท`,
+          taxNoticeHtml(order, price, codes),
         )
       } catch (e) { console.error('[verify-slip] tax notice mail failed:', e) }
     }
