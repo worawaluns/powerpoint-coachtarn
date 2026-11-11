@@ -155,9 +155,25 @@
     });
   }
 
+  var shown = {};                     // กันเด้งซ้ำในหน้าเดียวกันแม้เขียน storage ไม่ได้
+
+  function markSeen(k) {
+    shown[k] = 1;
+    try { localStorage.setItem(k, '1'); } catch (e) {}
+    try { sessionStorage.setItem(k, '1'); } catch (e) {}
+  }
+
+  function wasSeen(k) {
+    if (shown[k]) return true;
+    try { if (localStorage.getItem(k)) return true; } catch (e) {}
+    try { if (sessionStorage.getItem(k)) return true; } catch (e) {}
+    return false;
+  }
+
   function sheet(p, vars) {
     var seen = 'ct_promo_seen_' + p.code;
-    try { if (localStorage.getItem(seen)) return; } catch (e) {}
+    if (wasSeen(seen)) return;
+    shown[seen] = 1;
     var buy = 'order?code=' + encodeURIComponent(p.code) + (p.ref ? '&ref=' + encodeURIComponent(p.ref) : '');
     var o = document.createElement('div');
     o.className = 'ct-ovl';
@@ -187,15 +203,18 @@
     function close() {
       if (closing) return;
       closing = true;
-      try { localStorage.setItem(seen, '1'); } catch (e) {}
+      markSeen(seen);
       document.documentElement.style.overflow = '';
-      if (SLOW) { o.remove(); land(); return; }
-      collect(o);                      // ตั๋วบินไปเก็บที่แถบโปร แล้วราคาค่อยลงจอด
-      o.classList.add('ct-out');
-      setTimeout(function () { o.remove(); }, 200);
+      // ปิดให้ได้ก่อนเสมอ แล้วค่อยเล่นท่าสวย ถ้า animation พังด้วยเหตุใดก็ตาม
+      // ป๊อปอัพต้องไม่ค้างคาจอจนลูกค้าปิดไม่ได้
+      try { o.classList.add('ct-out'); } catch (e) {}
+      setTimeout(function () { o.remove(); }, SLOW ? 0 : 200);
+      try { if (!SLOW) collect(o); else land(); } catch (e) { land(); }
     }
     o.querySelector('.ct-x').addEventListener('click', close);
     o.addEventListener('click', function (e) { if (e.target === o) close(); });
+    // กดปุ่มสั่งซื้อก็ถือว่าเก็บโค้ดแล้ว ไม่งั้นกดย้อนกลับมาจะเจอป๊อปอัพเดิมอีก
+    o.querySelector('.ct-go').addEventListener('click', function () { markSeen(seen); });
     document.addEventListener('keydown', function esc(e) {
       if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
     });
@@ -222,6 +241,7 @@
     var dot = document.querySelector('.ct-pstrip svg');
     if (!t || !dot) { land(); return; }
     var a = t.getBoundingClientRect(), b = dot.getBoundingClientRect();
+    if (typeof t.animate !== 'function') { land(); return; }
     var c = t.cloneNode(true);
     c.querySelector('.ct-burst') && c.querySelector('.ct-burst').remove();
     c.style.cssText = 'position:fixed;z-index:301;margin:0;pointer-events:none;transform-origin:0 0;left:' +
