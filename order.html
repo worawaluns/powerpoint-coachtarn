@@ -844,7 +844,7 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <!-- โค้ดส่วนลด: อ่านโค้ดที่เครื่องจำไว้ ก่อน pixel จะยิงราคา -->
-<script src="js/promo.js?v=20261111c"></script>
+<script src="js/promo.js?v=20261111d"></script>
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
@@ -899,22 +899,43 @@ window.ctRenderPrice = function renderPrice(){
     document.querySelectorAll('.item-price.free').forEach(e => e.textContent = 'ฟรี');
   }
 
-  // แถวส่วนลด: เป็นแถวหนึ่งของรายการเหมือน Bonus Slides ไม่ใช่กล่องลอยมาใหม่
-  // ฟังก์ชันนี้ถูกเรียกได้สองรอบ (DOMContentLoaded กับตอน promo.js ตรวจโค้ดเสร็จ)
-  // ถ้าสร้างแถวใหม่ทุกรอบ animation จะเล่นซ้ำจนกะพริบ
-  const had = document.querySelector('.ct-dsc');
-  if (had && p && had.dataset.c === p.code) return;
-  if (had) had.remove();
-  const total = document.querySelector('.total-row');
-  if (!p || !total) return;
-  const row = document.createElement('div');
-  row.className = 'ct-dsc';
-  row.dataset.c = p.code;
-  row.innerHTML =
-    '<div class="ct-ic"><svg viewBox="0 0 24 24"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.8 7.8a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg></div>' +
-    '<div class="ct-i"><b>โค้ดส่วนลด ' + p.code + '</b><span>' + (p.label || '') + '</span></div>' +
-    '<div class="ct-amt">ลด ' + baht(FULL - p.price) + '฿</div>';
-  total.parentNode.insertBefore(row, total);
+  // โมดูลโค้ดส่วนลด — บล็อกเดียวจบ 3 สถานะ: ใส่โค้ดแล้ว / ยังไม่มีโค้ด / โค้ดผิด
+  // จุดต่อ logic (promo.js): #ctPromoInput #ctPromoApply #ctPromoErr #ctPromoRemove
+  //   กำลังตรวจ = ใส่ ctPromoApply.disabled = true (ปุ่มสลับข้อความเองและกดซ้ำไม่ได้)
+  //   โค้ดผิด   = ctPromoErr.textContent = 'เหตุผล' (ช่องเปลี่ยนเป็นสีแจ้งเตือนเอง)
+  const anchor = document.querySelector('.total-row');
+  if (!anchor) return;
+  if (window.ctPromoCss) window.ctPromoCss();   // สไตล์โมดูลอยู่ใน promo.js ไฟล์เดียว
+  const box = document.querySelector('.ct-promo');
+  if (PACK !== 1) { if (box) box.remove(); return; }   // แพ็กทีมไม่มีโค้ดส่วนลด
+  // สร้างใหม่เฉพาะตอนสถานะเปลี่ยน ไม่งั้น animation เล่นซ้ำ ข้อความ error กับที่พิมพ์ค้างไว้จะหาย
+  const key = p ? 'on:' + p.code : 'off';
+  if (box && box.dataset.k === key) return;
+  if (box) box.remove();
+  const el = document.createElement('div');
+  el.className = 'ct-promo';
+  el.dataset.k = key;
+  el.dataset.state = p ? 'applied' : 'empty';
+  el.innerHTML = p
+    ? '<div class="ct-pr">' +
+        '<span class="ct-tkt"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>' +
+        '<button type="button" class="ct-rm" id="ctPromoRemove" aria-label="เอาโค้ดส่วนลดออก">' +
+          '<svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>' +
+        '<span class="ct-amt">\u2212' + baht(FULL - p.price) + '฿</span>' +
+      '</div><div class="ct-note">ใช้โค้ดแล้ว</div>'
+    : '<div class="ct-f">' +
+        '<svg viewBox="0 0 24 24"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.8 7.8a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg>' +
+        '<input id="ctPromoInput" class="ct-in" type="text" placeholder="กรอกโค้ดส่วนลด" aria-label="โค้ดส่วนลด" ' +
+          'maxlength="24" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" inputmode="latin">' +
+        '<button type="button" class="ct-ap" id="ctPromoApply">' +
+          '<span class="ct-apt">ใช้โค้ด</span><span class="ct-bz"><i class="ct-sp"></i>กำลังตรวจ</span></button>' +
+      '</div><p class="ct-er" id="ctPromoErr" role="alert"></p>';
+  // โค้ดกับชื่อโปรมาจาก URL/localStorage ใส่เป็น text node ไม่ให้กลายเป็น HTML
+  if (p) {
+    el.querySelector('.ct-tkt').appendChild(document.createTextNode(p.code));
+    if (p.label) el.querySelector('.ct-note').appendChild(document.createTextNode(' \u00B7 ' + p.label));
+  }
+  anchor.parentNode.insertBefore(el, anchor);
 };
 document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
 </script>

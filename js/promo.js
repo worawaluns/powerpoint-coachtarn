@@ -39,20 +39,31 @@
   else ready(!!code);     // กดลิงก์โปรซ้ำก็ต้องได้ป๊อปอัพอีก เว้นคนที่เคยกดปิดไปแล้ว
 
   function lookup(c) {
+    // กดลิงก์โปรมา: ใช้ไม่ได้ก็เงียบ หน้าแรกปกติ ไม่บอกว่ามีโปร
+    check(c, function (p) {
+      if (!p) return ready(false);
+      window.CT_PROMO = p;
+      store(p);
+      ready(true);
+    });
+  }
+
+  // ตรวจโค้ดกับตาราง promo_codes — cb(โปร) ถ้าใช้ได้ cb(null, เหตุผล) ถ้าไม่ได้
+  // RLS คืนมาแค่โค้ดที่ active อยู่ เลยไม่ต้องเช็ก active เองอีก
+  function check(c, cb) {
     fetch(API + '/rest/v1/promo_codes?select=code,discount_price,label,starts_at,ends_at&code=eq.' + encodeURIComponent(c), {
       headers: { apikey: ANON, Authorization: 'Bearer ' + ANON }
     })
       .then(function (r) { return r.json(); })
       .then(function (rows) {
-        var p = rows && rows[0];                // RLS คืนมาแค่โค้ดที่ active
+        var p = rows && rows[0];
+        if (!p) return cb(null, 'ไม่พบโค้ดนี้ ลองเช็กตัวสะกดอีกครั้ง');
         var now = Date.now();
-        // ยังไม่ถึงวันเริ่ม หรือหมดเขตแล้ว = หน้าแรกปกติ ไม่บอกว่ามีโปร
-        if (!p || now < Date.parse(p.starts_at) || now > Date.parse(p.ends_at)) return ready(false);
-        window.CT_PROMO = { code: p.code, price: +p.discount_price, label: p.label, ends: p.ends_at, ref: ref };
-        store(window.CT_PROMO);
-        ready(true);
+        if (now < Date.parse(p.starts_at)) return cb(null, 'โค้ดนี้ยังใช้ไม่ได้ในตอนนี้');
+        if (now > Date.parse(p.ends_at))   return cb(null, 'โค้ดนี้หมดอายุแล้ว');
+        cb({ code: p.code, price: +p.discount_price, label: p.label, ends: p.ends_at, ref: ref });
       })
-      .catch(function () { ready(false); });
+      .catch(function () { cb(null, 'เช็กโค้ดไม่สำเร็จ ลองอีกครั้ง'); });
   }
 
   // fromLink = เข้ามาด้วยลิงก์ที่มีโค้ด (ใช้ตัดสินว่าจะเด้งป๊อปอัพไหม)
@@ -270,6 +281,56 @@
   }
 
   // ใส่สไตล์เฉพาะตอนโหมดโปร คนที่เห็นราคาปกติไม่ต้องโหลดอะไรเพิ่ม
+  // (หน้าสั่งซื้อเรียกเองได้ด้วย เพราะช่องกรอกโค้ดต้องมีสไตล์แม้ยังไม่มีโปร)
+  window.ctPromoCss = css;
+
+  // ── ช่องกรอกโค้ดเองในหน้าสั่งซื้อ ───────────────────────────────────────
+  // ผูกที่ document เพราะโมดูลถูกสร้างใหม่ทุกครั้งที่สถานะเปลี่ยน
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    if (t.closest('#ctPromoApply'))  return applyTyped(document.getElementById('ctPromoApply'));
+    if (t.closest('#ctPromoRemove')) return dropPromo();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target && e.target.id === 'ctPromoInput') {
+      e.preventDefault();
+      applyTyped(document.getElementById('ctPromoApply'));
+    }
+  });
+  document.addEventListener('input', function (e) {
+    if (e.target && e.target.id === 'ctPromoInput') say('');   // พิมพ์ใหม่ = ล้างคำเตือน
+  });
+
+  function say(msg) {
+    var el = document.getElementById('ctPromoErr');
+    if (el) el.textContent = msg;
+  }
+
+  function applyTyped(btn) {
+    if (!btn || btn.disabled) return;
+    var input = document.getElementById('ctPromoInput');
+    var c = (input ? input.value : '').trim().toUpperCase();
+    if (!c) { say('กรอกโค้ดส่วนลดก่อนนะคะ'); if (input) input.focus(); return; }
+    say('');
+    btn.disabled = true;
+    check(c, function (p, why) {
+      btn.disabled = false;
+      if (!p) { say(why); if (input) input.focus(); return; }
+      window.CT_PROMO = p;
+      store(p);
+      if (window.ctRenderPrice) window.ctRenderPrice();
+      strip(p, money(SELL - p.price));
+    });
+  }
+
+  function dropPromo() {
+    window.CT_PROMO = null;
+    store(null);
+    var s = document.querySelector('.ct-pstrip');
+    if (s) s.remove();
+    if (window.ctRenderPrice) window.ctRenderPrice();
+  }
   function css() {
     if (document.getElementById('ct-promo-css')) return;
     var s = document.createElement('style');
@@ -324,19 +385,46 @@
       '.ct-go{position:relative;overflow:hidden;display:block;background:#D34724;color:#fff;border-radius:100px;padding:15px 24px;font-size:17px;font-weight:800;text-decoration:none;text-align:center;line-height:1.6;transition:transform .12s ease-out}',
       '.ct-go:active{transform:scale(.98)}',
       '.ct-go::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.3) 50%,transparent 65%);transform:translateX(-120%);animation:ctSheen .8s ease-out 1.05s both}',
-      /* แถวส่วนลดในหน้าสั่งซื้อ */
-      '.ct-dsc{position:relative;overflow:hidden;display:flex;align-items:center;gap:11px;padding:14px 18px;border-top:1px solid #EBEBEB;animation:ctRow .5s cubic-bezier(.22,1,.36,1) .15s both}',
-      '@keyframes ctRow{from{transform:translateY(8px);opacity:0}}',
-      '.ct-dsc::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(235,125,74,.16),transparent 70%);transform:translateX(-100%);animation:ctSheen .9s ease-out .5s both}',
-      '.ct-dsc .ct-ic{width:44px;height:44px;border-radius:8px;flex:none;background:#FFF8F5;display:flex;align-items:center;justify-content:center;animation:ctTag .6s cubic-bezier(.34,1.56,.64,1) .45s both}',
-      '.ct-dsc .ct-ic svg{width:21px;height:21px;stroke:#D34724;fill:none;stroke-width:1.7}',
-      '.ct-dsc .ct-i{flex:1;position:relative}',
-      '.ct-dsc .ct-i b{display:block;font-size:14px;font-weight:700;line-height:1.6;color:#0A0A0A}',
-      '.ct-dsc .ct-i span{display:block;font-size:13px;color:#6A6A72;line-height:1.65;margin-top:1px}',
-      '.ct-dsc .ct-amt{position:relative;font-size:14px;font-weight:800;color:#16A34A;flex:none;text-align:right;transform-origin:right center;animation:ctLand .45s cubic-bezier(.34,1.56,.64,1) .6s both}',
+      /* ── โมดูลโค้ดส่วนลด (มีโค้ดแล้ว / ยังไม่มี / โค้ดผิด) ──
+         ponytail: ไม่มี selector ไหนอ้างการ์ดสรุปยอด ยกบล็อกนี้ไปวางในตะกร้าได้เลย */
+      '.ct-promo{position:relative;padding:12px 18px 14px;border-top:1px solid #EBEBEB;background:#fff}',
+      '.ct-promo[data-state="applied"]{overflow:hidden;padding:12px 18px;background:#FFF8F5;animation:ctRow .5s cubic-bezier(.22,1,.36,1) .1s both}',
+      '@keyframes ctRow{from{transform:translateY(10px);opacity:0}}',
+      '.ct-promo[data-state="applied"]::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(100deg,transparent 22%,rgba(255,255,255,.8) 50%,transparent 78%);transform:translateX(-110%);animation:ctSheen .9s ease-out .45s both}',
+      '.ct-pr{position:relative;display:flex;align-items:center;gap:2px}',
+      /* ตั๋วเส้นประ + ติ๊กเขียว: แวบเดียวรู้ว่าเป็นคูปองที่ใช้ไปแล้ว ไม่ใช่สินค้าอีกชิ้น */
+      '.ct-tkt{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 10px;border:1.5px dashed rgba(211,71,36,.45);border-radius:9px;background:#fff;font-size:13.5px;font-weight:800;letter-spacing:.9px;color:#D34724;white-space:nowrap;animation:ctTag .55s cubic-bezier(.34,1.56,.64,1) .3s both}',
+      '.ct-tkt svg{width:13px;height:13px;flex:none;stroke:#16A34A;fill:none;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}',
+      /* ปุ่มเอาโค้ดออก: ไอคอนเล็กแต่พื้นที่กด 44px ตามเป้าแตะมือถือ */
+      '.ct-rm{flex:none;width:18px;height:18px;padding:13px;margin:-13px -7px;box-sizing:content-box;border:0;background:none;cursor:pointer;line-height:0}',
+      '.ct-rm svg{width:18px;height:18px;stroke:#A98B7E;fill:none;stroke-width:2.2;stroke-linecap:round}',
+      '.ct-rm:active svg{stroke:#D34724}',
+      '.ct-amt{margin-left:auto;padding-left:8px;font-size:15px;font-weight:800;color:#16A34A;letter-spacing:-.2px;white-space:nowrap;transform-origin:right center;animation:ctLand .45s cubic-bezier(.34,1.56,.64,1) .45s both}',
+      '.ct-note{margin:7px 0 0;font-size:12.5px;font-weight:600;color:#76574C;line-height:1.6}',
+      /* ยังไม่มีโค้ด: ช่องกรอกเงียบๆ สีอ่อน ไม่แย่งปุ่มสั่งซื้อ */
+      '.ct-f{position:relative;display:flex;gap:8px}',
+      '.ct-f>svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:#C2A79C;fill:none;stroke-width:1.9;pointer-events:none}',
+      '.ct-in{flex:1;min-width:0;height:48px;padding:0 12px 0 39px;border:1.5px solid #E3E3E3;border-radius:12px;background:#fff;font-family:inherit;font-size:16px;font-weight:700;letter-spacing:1.1px;color:#0A0A0A;text-transform:uppercase;-webkit-appearance:none;transition:border-color .15s,box-shadow .15s}',
+      '.ct-in::placeholder{font-size:14.5px;font-weight:500;letter-spacing:0;color:#9A9A9A;text-transform:none}',
+      '.ct-in:focus{outline:none;border-color:#D34724;box-shadow:0 0 0 3px rgba(211,71,36,.13)}',
+      '.ct-ap{flex:none;min-width:116px;height:48px;padding:0 16px;display:inline-flex;align-items:center;justify-content:center;gap:7px;border:1.5px solid rgba(211,71,36,.38);border-radius:12px;background:#fff;font-family:inherit;font-size:15px;font-weight:800;color:#D34724;cursor:pointer;transition:transform .12s ease-out,background .15s}',
+      '.ct-ap:active{transform:scale(.97);background:#FFF8F5}',
+      '.ct-ap .ct-bz{display:none;align-items:center;gap:7px;font-size:13.5px}',
+      /* กำลังตรวจ: ใส่ disabled อย่างเดียว ปุ่มสลับข้อความเองและกดซ้ำไม่ได้ */
+      '.ct-ap[disabled]{color:#9A8880;border-color:#E3E3E3;background:#FAFAFA;cursor:default;transform:none}',
+      '.ct-ap[disabled] .ct-apt{display:none}',
+      '.ct-ap[disabled] .ct-bz{display:inline-flex}',
+      '.ct-sp{width:14px;height:14px;flex:none;border-radius:50%;border:2px solid rgba(154,136,128,.3);border-top-color:#9A8880;animation:ctSpin .6s linear infinite}',
+      '@keyframes ctSpin{to{transform:rotate(360deg)}}',
+      '.ct-er{margin:8px 0 0;font-size:12.5px;font-weight:600;color:#DC2626;line-height:1.6}',
+      '.ct-er:empty{display:none}',
+      /* โค้ดผิด/หมดอายุ: ฝั่ง JS ใส่แค่ข้อความ ช่องเปลี่ยนเป็นสีแจ้งเตือนเอง */
+      '.ct-promo:has(.ct-er:not(:empty)) .ct-in{border-color:#DC2626;background:#FFFAFA}',
+      '.ct-promo:has(.ct-er:not(:empty)) .ct-f>svg{stroke:#E8A0A0}',
+      '@media(min-width:1024px){.ct-tkt{font-size:15px;height:32px}.ct-amt{font-size:17px}.ct-note{font-size:13.5px}.ct-in{font-size:17px}.ct-ap{font-size:16px}}',
       '@media(min-width:768px){.ct-pstrip{justify-content:center}.ct-pstrip p{text-align:center}.ct-ovl{align-items:center}.ct-sheet{max-width:470px;padding:26px 30px 22px;border-radius:24px}.ct-tl b{font-size:46px}}',
       /* ลดการเคลื่อนไหว: ไล่สีที่อยู่นิ่งเก็บไว้ได้ ตัดเฉพาะของที่ขยับ */
-      '@media(prefers-reduced-motion:reduce){.ct-ovl,.ct-sheet,.ct-sheet>*,.ct-ticket,.ct-ticket::after,.ct-go::after,.ct-pstrip::after,.ct-pstrip svg,.ct-land,.ct-dsc,.ct-dsc::before,.ct-dsc .ct-ic,.ct-dsc .ct-amt{animation:none!important;transition:none!important}.ct-burst{display:none}}'
+      '@media(prefers-reduced-motion:reduce){.ct-ovl,.ct-sheet,.ct-sheet>*,.ct-ticket,.ct-ticket::after,.ct-go::after,.ct-pstrip::after,.ct-pstrip svg,.ct-land,.ct-promo,.ct-promo::before,.ct-tkt,.ct-amt,.ct-ap{animation:none!important;transition:none!important}.ct-burst,.ct-sp{display:none}}'
     ].join('\n');
     document.head.appendChild(s);
   }
