@@ -900,23 +900,21 @@ window.ctRenderPrice = function renderPrice(){
   }
 
   // แถวส่วนลด: เป็นแถวหนึ่งของรายการเหมือน Bonus Slides ไม่ใช่กล่องลอยมาใหม่
-  document.querySelectorAll('.ct-dsc,.ct-np').forEach(e => e.remove());
+  // ฟังก์ชันนี้ถูกเรียกได้สองรอบ (DOMContentLoaded กับตอน promo.js ตรวจโค้ดเสร็จ)
+  // ถ้าสร้างแถวใหม่ทุกรอบ animation จะเล่นซ้ำจนกะพริบ
+  const had = document.querySelector('.ct-dsc');
+  if (had && p && had.dataset.c === p.code) return;
+  if (had) had.remove();
   const total = document.querySelector('.total-row');
   if (!p || !total) return;
   const row = document.createElement('div');
   row.className = 'ct-dsc';
+  row.dataset.c = p.code;
   row.innerHTML =
     '<div class="ct-ic"><svg viewBox="0 0 24 24"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.8 7.8a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg></div>' +
     '<div class="ct-i"><b>โค้ดส่วนลด ' + p.code + '</b><span>' + (p.label || '') + '</span></div>' +
     '<div class="ct-amt">ลด ' + baht(FULL - p.price) + '฿</div>';
   total.parentNode.insertBefore(row, total);
-  const note = total.querySelector('.total-note');
-  if (note) {
-    const np = document.createElement('span');
-    np.className = 'ct-np';
-    np.innerHTML = 'ราคาปกติ <s>' + baht(FULL) + '฿</s> ก่อนหักส่วนลด';
-    note.parentNode.appendChild(np);
-  }
 };
 document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
 </script>
