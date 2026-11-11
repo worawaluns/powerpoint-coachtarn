@@ -907,7 +907,7 @@ window.ctRenderPrice = function renderPrice(){
   row.className = 'ct-dsc';
   row.innerHTML =
     '<div class="ct-ic"><svg viewBox="0 0 24 24"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.8 7.8a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg></div>' +
-    '<div class="ct-i"><b>โค้ดส่วนลด ' + p.code + '</b><span>' + (p.label || '') + ' เฉพาะซื้อเดี่ยว</span></div>' +
+    '<div class="ct-i"><b>โค้ดส่วนลด ' + p.code + '</b><span>' + (p.label || '') + '</span></div>' +
     '<div class="ct-amt">ลด ' + baht(FULL - p.price) + '฿</div>';
   total.parentNode.insertBefore(row, total);
   const note = total.querySelector('.total-note');

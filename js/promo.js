@@ -100,7 +100,7 @@
     var d = document.createElement('div');
     d.className = 'ct-pstrip';
     d.innerHTML = TAG + '<p>ใส่โค้ดส่วนลด <b>' + p.code + '</b> ให้แล้ว ลด <b>' + money(cut) +
-      '฿</b> เฉพาะซื้อเดี่ยว ถึง <b>' + endText(p.ends, true) + '</b></p>';
+      '฿</b> ถึง <b>' + endText(p.ends, true) + '</b></p>';
     host.parentNode.insertBefore(d, host.nextSibling);
   }
 
@@ -162,7 +162,7 @@
         '</div>' +
         '<div class="ct-meta">' +
           '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>ใช้ได้ถึง <b>' + endText(p.ends, true) + '</b></div>' +
-          '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.3 3.1-5 7-5s7 1.7 7 5"/></svg>ลดเฉพาะซื้อเดี่ยว 1 สิทธิ์ แพ็กทีมราคาปกติ</div>' +
+          '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.3 3.1-5 7-5s7 1.7 7 5"/></svg>ใช้กับแพ็ก 1 สิทธิ์ แพ็กทีมราคาปกติ</div>' +
         '</div>' +
         '<a class="ct-go" href="' + buy + '">สั่งซื้อราคาโปร ' + money(p.price) + '฿</a>' +
         '<p class="ct-fine">เก็บลิงก์นี้ไว้ เปิดอีกครั้งเมื่อไหร่ก็ได้ส่วนลดเหมือนเดิม จนถึง ' + endText(p.ends, true) + '</p>' +
