@@ -843,12 +843,14 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 /* ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที (ไอซ์ 4 พ.ย. 2569) */
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
+<!-- โค้ดส่วนลด: อ่านโค้ดที่เครื่องจำไว้ ก่อน pixel จะยิงราคา -->
+<script src="js/promo.js"></script>
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1266196328254901');
 fbq('track','PageView');
-fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',content_ids:['pptx-coachtarn'],content_type:'product',value:499,currency:'THB'});
+fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',content_ids:['pptx-coachtarn'],content_type:'product',value:(window.CT_PROMO&&!new URLSearchParams(location.search).get('pack')?window.CT_PROMO.price:499),currency:'THB'});
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1266196328254901&ev=PageView&noscript=1"/></noscript>
 <!-- End Meta Pixel -->
@@ -873,20 +875,50 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
 // ── team packs: ?pack=5|10|20 switches the whole page to that price ──────────
 const PACKS = { 1:499, 5:1990, 10:3490, 20:5990 };
 const PACK  = PACKS[+new URLSearchParams(location.search).get('pack')] ? +new URLSearchParams(location.search).get('pack') : 1;
-const PRICE = PACKS[PACK];
+const FULL  = PACKS[PACK];
+let   PRICE = FULL;
 const baht  = n => n.toLocaleString('en-US');
-document.addEventListener('DOMContentLoaded', function applyPack(){
-  if (PACK === 1) return;
+
+// โค้ดส่วนลดลดเฉพาะแพ็ก 1 สิทธิ์ แพ็กทีมไม่เกี่ยว
+// promo.js เป็นคนตรวจโค้ดกับตาราง promo_codes แล้ววางไว้ที่ window.CT_PROMO
+// ราคาที่เห็นตรงนี้เป็นแค่การแสดงผล ตัวตัดสินจริงคือ verify-slip ฝั่ง server
+const promo = () => (PACK === 1 && window.CT_PROMO) ? window.CT_PROMO : null;
+
+window.ctRenderPrice = function renderPrice(){
+  const p = promo();
+  PRICE = p ? p.price : FULL;
   const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
   set('sumAmt', '฿' + baht(PRICE));
-  set('itemPrice', baht(PRICE) + '฿');
   set('totalPrice', baht(PRICE) + '฿');
   set('bankAmt', baht(PRICE) + ' บาท');
   set('vatNote', 'รวม VAT 7% แล้ว (฿' + (PRICE * 7 / 107).toFixed(2) + ')');
-  set('itemDesc', '6,500+ สไลด์ · แพ็กทีม ' + PACK + ' สิทธิ์ · ได้ Redeem Code ' + PACK + ' ชุด');
-  const old = document.querySelector('.item-price + div'); if (old) old.style.display = 'none';
-  document.querySelectorAll('.item-price.free').forEach(e => e.textContent = 'ฟรี');
-});
+  if (PACK !== 1) {
+    set('itemPrice', baht(FULL) + '฿');
+    set('itemDesc', '6,500+ สไลด์ · แพ็กทีม ' + PACK + ' สิทธิ์ · ได้ Redeem Code ' + PACK + ' ชุด');
+    const old = document.querySelector('.item-price + div'); if (old) old.style.display = 'none';
+    document.querySelectorAll('.item-price.free').forEach(e => e.textContent = 'ฟรี');
+  }
+
+  // แถวส่วนลด: เป็นแถวหนึ่งของรายการเหมือน Bonus Slides ไม่ใช่กล่องลอยมาใหม่
+  document.querySelectorAll('.ct-dsc,.ct-np').forEach(e => e.remove());
+  const total = document.querySelector('.total-row');
+  if (!p || !total) return;
+  const row = document.createElement('div');
+  row.className = 'ct-dsc';
+  row.innerHTML =
+    '<div class="ct-ic"><svg viewBox="0 0 24 24"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.8 7.8a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.3"/></svg></div>' +
+    '<div class="ct-i"><b>โค้ดส่วนลด ' + p.code + '</b><span>' + (p.label || '') + ' เฉพาะซื้อเดี่ยว</span></div>' +
+    '<div class="ct-amt">ลด ' + baht(FULL - p.price) + '฿</div>';
+  total.parentNode.insertBefore(row, total);
+  const note = total.querySelector('.total-note');
+  if (note) {
+    const np = document.createElement('span');
+    np.className = 'ct-np';
+    np.innerHTML = 'ราคาปกติ <s>' + baht(FULL) + '฿</s> ก่อนหักส่วนลด';
+    note.parentNode.appendChild(np);
+  }
+};
+document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
 </script>
 
 <div class="page">
@@ -1668,6 +1700,8 @@ async function handleSubmit() {
         pack      : PACK,
         ...taxPayload(),
         pay_channel: payChannel,
+        promo_code: promo() ? promo().code : null,
+        ref       : promo() && promo().ref ? promo().ref : null,
         manychat_subscriber_id: manychatSubscriberId,
       }),
     });

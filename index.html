@@ -2724,6 +2724,8 @@ fbq('track','PageView');
 <!-- ① NAV -->
 <div id="ct-top"></div>
 <script src="js/topbar.js"></script>
+<!-- โค้ดส่วนลด: เปลี่ยนราคาทุกจุดที่มี data-p1 เฉพาะเครื่องที่กดลิงก์ /dd/ มา -->
+<script src="js/promo.js"></script>
 
 <!-- ② ANNOUNCE BAR — the hero flash pill says the same thing with a live clock, so this stays hidden -->
 <a href="#bonus" class="announce" style="display:none">
@@ -2752,9 +2754,9 @@ fbq('track','PageView');
     </h1>
     <p class="hero-sub">คลังสไลด์พร้อมใช้ 376 ชุด หยิบข้ามชุดมารวมเป็นไฟล์เดียวได้ เปิดใน PowerPoint แก้ได้ทุกหน้า</p>
     <div class="hero-price">
-      <span class="price-save">ลด 50%</span>
-      <span class="price-big">499฿</span>
-      <span class="price-old">999฿</span>
+      <span class="price-save" data-p1="ลด {off}%">ลด 50%</span>
+      <span class="price-big" data-p1="{p}฿">499฿</span>
+      <span class="price-old" data-p1="{full}฿">999฿</span>
     </div>
 
     <div class="hero-btn-row">
@@ -2946,7 +2948,7 @@ html.member .sticky-bar{display:none!important}
       <div class="pp-more"><p>หน้าอื่นในชุดนี้</p><div class="pp-thumbs"></div></div>
       <div class="pp-deal"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 17.5l9 5 9-5" opacity=".5"/></svg>
         <div><b>ซื้อครั้งเดียว ได้ทุกชุดในคลัง</b><span>ไม่ใช่แค่ชุดนี้ โหลดได้ทุกชุด ทุกอาชีพ 6,500+ สไลด์</span></div>
-        <div class="pr"><b>499฿</b><s>999฿</s></div></div>
+        <div class="pr"><b data-p1="{p}฿">499฿</b><s data-p1="{full}฿">999฿</s></div></div>
       <div class="pp-cta"><a class="pp-link" href="#">ดูชุดนี้</a><a class="pp-buy" href="order">สั่งซื้อ รับทุกชุด</a></div>
     </div>
   </div>
@@ -3092,8 +3094,8 @@ async function setFile(slug){
   <div class="pv-tiers">
     <div class="pv-tier reveal">
       <div class="pv-tier-n">1 คน</div>
-      <div class="pv-tier-p">499<small>฿</small></div>
-      <div class="pv-tier-u">499฿ ต่อคน</div>
+      <div class="pv-tier-p"><span data-p1="{p}">499</span><small>฿</small></div>
+      <div class="pv-tier-u" data-p1="{p}฿ ต่อคน">499฿ ต่อคน</div>
       <a href="order" class="pv-tier-btn">สั่งซื้อ</a>
     </div>
     <div class="pv-tier reveal pv-tier-hot">
@@ -3385,7 +3387,7 @@ async function setFile(slug){
   <div class="flow-detail" id="flowDetail">
     <div class="flow-detail-item fd-active" id="flowStep0">
       <div class="flow-detail-num">ขั้นตอนที่ 1</div>
-      <div class="flow-detail-title">กดสั่งซื้อ กรอกฟอร์ม โอนเงิน 499฿</div>
+      <div class="flow-detail-title" data-p1="กดสั่งซื้อ กรอกฟอร์ม โอนเงิน {p}฿">กดสั่งซื้อ กรอกฟอร์ม โอนเงิน 499฿</div>
       <div class="flow-detail-desc">ใส่ชื่อ อีเมล แล้วถ่ายรูปสลิปอัปขึ้นไป ทำได้จากมือถือเลย ไม่ยุ่งยาก</div>
     </div>
     <div class="flow-detail-item" id="flowStep1">
@@ -3425,7 +3427,7 @@ async function setFile(slug){
               </div>
             </div>
             <div class="ns1-title">ชำระเงินสำเร็จ!</div>
-            <div class="ns1-price">499฿</div>
+            <div class="ns1-price" data-p1="{p}฿">499฿</div>
             <div class="ns1-ref">ORDER #CT-241234</div>
             <!-- Step progress: 1(done) → 2(next) → 3(next) -->
             <div class="ns1-steps">
@@ -3612,10 +3614,10 @@ async function setFile(slug){
 <!-- ⑫ VALUE STACK + PRICING -->
 <section class="section deal-section" id="deal">
   <div class="dc-left">
-    <h2 class="dc-h2 dc-live">ซื้อวันนี้ได้ 2 ชุด<br>จ่าย <em>499฿</em></h2>
-    <h2 class="dc-h2 dc-over"><em>499฿</em> ได้ทั้งคลัง<br>จ่ายครั้งเดียว</h2>
+    <h2 class="dc-h2 dc-live">ซื้อวันนี้ได้ 2 ชุด<br>จ่าย <em data-p1="{p}฿">499฿</em></h2>
+    <h2 class="dc-h2 dc-over"><em data-p1="{p}฿">499฿</em> ได้ทั้งคลัง<br>จ่ายครั้งเดียว</h2>
     <div class="dc-urg"><span class="dc-live">สิทธิ์รับโบนัสฟรี สิ้นสุดใน</span><span class="dc-over">สิทธิ์รับโบนัสรอบนี้สิ้นสุดแล้ว</span><div class="dc-cd"><i id="cdH">00</i><u>:</u><i id="cdM">00</i><u>:</u><i id="cdS">00</i></div></div>
-    <a href="order" class="dc-btn"><span class="dc-live">สั่งซื้อ รับของแถมด้วย</span><span class="dc-over">สั่งซื้อ 499฿</span></a>
+    <a href="order" class="dc-btn"><span class="dc-live">สั่งซื้อ รับของแถมด้วย</span><span class="dc-over" data-p1="สั่งซื้อ {p}฿">สั่งซื้อ 499฿</span></a>
   </div>
   <div class="dc-pair">
     <div class="dc-tile"><div class="dc-im" style="background-image:url(img/sample-slide/sales_slide_02.jpg)"></div>
@@ -3683,7 +3685,7 @@ async function setFile(slug){
   <div class="fin-card reveal">
     <h2 class="fin-h2">เลิกนั่งทำสไลด์เอง<br>ตั้งแต่<span class="kw">หน้าแรก</span>ได้แล้ว</h2>
     <p class="fin-sub">คนใช้งานแล้วกว่า 7,000 คน จ่ายครั้งเดียวได้คลัง 376 ชุด 6,500+ สไลด์ ชุดใหม่ที่เพิ่มเข้าคลัง โหลดฟรีด้วยโค้ดเดิมตลอด</p>
-    <div class="fin-price"><s>999฿</s><b>499฿</b></div>
+    <div class="fin-price"><s data-p1="{full}฿">999฿</s><b data-p1="{p}฿">499฿</b></div>
     <a href="order" class="fin-btn">สั่งซื้อเลย</a>
     <div class="fin-note">โอนผ่านธนาคาร ระบบตรวจสลิปให้อัตโนมัติ ได้โค้ดทางอีเมลทันที</div>
     <div class="fin-fan">
@@ -3851,8 +3853,8 @@ async function setFile(slug){
   </div>
   <div class="sticky-inner">
     <div class="sticky-price-col">
-      <div class="sticky-price-main">499฿<span class="discount-badge">ลด 50%</span></div>
-      <div class="sticky-price-old">ปกติ 999฿</div>
+      <div class="sticky-price-main"><span data-p1="{p}฿">499฿</span><span class="discount-badge" data-p1="ลด {off}%">ลด 50%</span></div>
+      <div class="sticky-price-old" data-p1="ปกติ {full}฿">ปกติ 999฿</div>
     </div>
     <a href="order" class="btn-sticky">
       <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
