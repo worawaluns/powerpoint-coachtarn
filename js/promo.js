@@ -185,7 +185,6 @@
     var seen = 'ct_promo_seen_' + p.code;
     if (wasSeen(seen)) return;
     shown[seen] = 1;
-    var buy = 'order?code=' + encodeURIComponent(p.code) + (p.ref ? '&ref=' + encodeURIComponent(p.ref) : '');
     var o = document.createElement('div');
     o.className = 'ct-ovl';
     o.innerHTML =
@@ -204,7 +203,8 @@
           '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>ใช้ได้ถึง <b>' + endText(p.ends, true) + '</b></div>' +
           '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.3 3.1-5 7-5s7 1.7 7 5"/></svg>ใช้กับแพ็ก 1 สิทธิ์ แพ็กทีมราคาปกติ</div>' +
         '</div>' +
-        '<a class="ct-go" href="' + buy + '">สั่งซื้อเลย</a>' +
+        '<button type="button" class="ct-go" id="ctPromoKeep">เก็บโค้ดไว้ใช้</button>' +
+        '<p class="ct-fine">เก็บแล้วลดให้อัตโนมัติตอนสั่งซื้อ ไม่ต้องพิมพ์โค้ดเอง</p>' +
       '</div>';
     document.body.appendChild(o);
     document.documentElement.style.overflow = 'hidden';
@@ -219,13 +219,12 @@
       // ปิดให้ได้ก่อนเสมอ แล้วค่อยเล่นท่าสวย ถ้า animation พังด้วยเหตุใดก็ตาม
       // ป๊อปอัพต้องไม่ค้างคาจอจนลูกค้าปิดไม่ได้
       try { o.classList.add('ct-out'); } catch (e) {}
-      setTimeout(function () { o.remove(); }, SLOW ? 0 : 200);
+      setTimeout(function () { o.remove(); }, SLOW ? 0 : 140);
       try { if (!SLOW) collect(o); else land(); } catch (e) { land(); }
     }
     o.querySelector('.ct-x').addEventListener('click', close);
     o.addEventListener('click', function (e) { if (e.target === o) close(); });
-    // กดปุ่มสั่งซื้อก็ถือว่าเก็บโค้ดแล้ว ไม่งั้นกดย้อนกลับมาจะเจอป๊อปอัพเดิมอีก
-    o.querySelector('.ct-go').addEventListener('click', function () { markSeen(seen); });
+    o.querySelector('#ctPromoKeep').addEventListener('click', close);
     document.addEventListener('keydown', function esc(e) {
       if (e.key === 'Escape') { close(); document.removeEventListener('keydown', esc); }
     });
@@ -255,14 +254,19 @@
     if (typeof t.animate !== 'function') { land(); return; }
     var c = t.cloneNode(true);
     c.querySelector('.ct-burst') && c.querySelector('.ct-burst').remove();
-    c.style.cssText = 'position:fixed;z-index:301;margin:0;pointer-events:none;transform-origin:0 0;left:' +
+    // ปิด animation ของ .ct-ticket ในตัวโคลน ไม่งั้นมันแย่ง opacity กับท่าบิน
+    c.style.cssText = 'animation:none;position:fixed;z-index:301;margin:0;pointer-events:none;transform-origin:0 0;left:' +
       a.left + 'px;top:' + a.top + 'px;width:' + a.width + 'px;height:' + a.height + 'px';
     document.body.appendChild(c);
+    var gone = false;
+    function fin() { if (gone) return; gone = true; c.remove(); land(); }
     c.animate(
       [{ transform: 'none', opacity: 1 },
        { transform: 'translate(' + (b.left - a.left) + 'px,' + (b.top - a.top) + 'px) scale(' + (b.width / a.width).toFixed(3) + ')', opacity: 0.1 }],
       { duration: 460, easing: 'cubic-bezier(.5,0,.2,1)', fill: 'forwards' }
-    ).onfinish = function () { c.remove(); land(); };
+    ).onfinish = fin;
+    // กันตั๋วค้างคาจอถ้าเบราว์เซอร์ไม่เล่น animation (แท็บถูกซ่อน ประหยัดแบต ฯลฯ)
+    setTimeout(fin, 900);
   }
 
   // ราคาถูกสลับเป็นราคาโปรตั้งแต่ตอนป๊อปอัพยังบังอยู่ จังหวะนี้คือตอนที่ตาได้เห็นจริง
@@ -270,6 +274,7 @@
     var strip = document.querySelector('.ct-pstrip');
     if (strip && !SLOW) { strip.classList.add('ct-hit'); setTimeout(function () { strip.classList.remove('ct-hit'); }, 1100); }
     if (SLOW) return;
+    nextStep();
     ['.price-big', '.price-save', '.sticky-price-main'].forEach(function (sel, i) {
       var el = document.querySelector(sel);
       if (!el) return;
@@ -277,6 +282,16 @@
         el.classList.add('ct-land');
         setTimeout(function () { el.classList.remove('ct-land'); }, 700);
       }, i * 110);
+    });
+  }
+
+  // เก็บโค้ดแล้วขั้นต่อไปคือกดสั่งซื้อ วงแหวนกระเพื่อมที่ปุ่ม 2 ครั้งแล้วหยุด
+  function nextStep() {
+    ['.btn-sticky', '#ct-top .tb-cap'].forEach(function (sel) {
+      var el = document.querySelector(sel);
+      if (!el) return;
+      el.classList.add('ct-pulse');
+      setTimeout(function () { el.classList.remove('ct-pulse'); }, 2600);
     });
   }
 
@@ -346,14 +361,17 @@
       '@keyframes ctSheen{to{transform:translateX(120%)}}',
       '@keyframes ctTag{40%{transform:scale(1.3) rotate(-14deg)}}',
       '.ct-land{animation:ctLand .5s cubic-bezier(.34,1.56,.64,1) both}',
+      '.ct-pulse{position:relative}',
+      '.ct-pulse::after{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid #D34724;pointer-events:none;animation:ctRing 1.1s ease-out 2}',
+      '@keyframes ctRing{from{transform:scale(1);opacity:.75}to{transform:scale(1.14);opacity:0}}',
       '@keyframes ctLand{from{transform:scale(1.14);opacity:.4}}',
       '.ct-sticker{display:inline-flex;align-items:baseline;gap:7px;background:linear-gradient(135deg,#fff,#FFF1EA);border:1.5px solid #D34724;border-radius:10px;padding:5px 12px 6px;transform:rotate(-1.6deg);box-shadow:0 2px 0 rgba(211,71,36,.18);margin-bottom:14px}',
       '.ct-sticker b{font-size:17px;font-weight:900;color:#D34724;letter-spacing:-.4px}',
       '.ct-sticker span{font-size:12px;font-weight:700;color:#8A6A5E}',
       /* ป๊อปอัพ */
-      '.ct-ovl{position:fixed;inset:0;background:rgba(58,20,10,.46);display:flex;align-items:flex-end;justify-content:center;z-index:300;transition:opacity .2s ease-in}',
+      '.ct-ovl{position:fixed;inset:0;background:rgba(58,20,10,.46);display:flex;align-items:flex-end;justify-content:center;z-index:300;transition:opacity .14s ease-in}',
       '.ct-ovl.ct-out{opacity:0}',
-      '.ct-out .ct-sheet{transform:translateY(24px);opacity:0;transition:.2s ease-in}',
+      '.ct-out .ct-sheet{transform:translateY(24px);opacity:0;transition:.14s ease-in}',
       '.ct-sheet{position:relative;width:100%;max-width:430px;background:#fff;border-radius:22px 22px 0 0;padding:18px 20px 16px;animation:ctUp .42s cubic-bezier(.16,1,.3,1) both}',
       '@keyframes ctUp{from{transform:translateY(28px);opacity:0}}',
       '.ct-sheet>:nth-child(n+2){animation:ctIn .4s cubic-bezier(.22,1,.36,1) both}',
@@ -382,7 +400,8 @@
       '.ct-meta div{display:flex;align-items:center;gap:9px;font-size:13px;color:#444;line-height:1.7}',
       '.ct-meta svg{width:18px;height:18px;flex:none;stroke:#D34724;fill:none;stroke-width:2}',
       '.ct-meta b{font-weight:800;color:#0A0A0A}',
-      '.ct-go{position:relative;overflow:hidden;display:block;background:#D34724;color:#fff;border-radius:100px;padding:15px 24px;font-size:17px;font-weight:800;text-decoration:none;text-align:center;line-height:1.6;transition:transform .12s ease-out}',
+      '.ct-go{position:relative;overflow:hidden;display:block;width:100%;border:0;font-family:inherit;cursor:pointer;background:#D34724;color:#fff;border-radius:100px;padding:15px 24px;font-size:17px;font-weight:800;text-decoration:none;text-align:center;line-height:1.6;transition:transform .12s ease-out}',
+      '.ct-fine{font-size:12.5px;color:#6A6A72;line-height:1.7;text-align:center;margin:9px 0 0}',
       '.ct-go:active{transform:scale(.98)}',
       '.ct-go::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.3) 50%,transparent 65%);transform:translateX(-120%);animation:ctSheen .8s ease-out 1.05s both}',
       /* ── โมดูลโค้ดส่วนลด (มีโค้ดแล้ว / ยังไม่มี / โค้ดผิด) ──
@@ -424,7 +443,7 @@
       '@media(min-width:1024px){.ct-tkt{font-size:15px;height:32px}.ct-amt{font-size:17px}.ct-note{font-size:13.5px}.ct-in{font-size:17px}.ct-ap{font-size:16px}}',
       '@media(min-width:768px){.ct-pstrip{justify-content:center}.ct-pstrip p{text-align:center}.ct-ovl{align-items:center}.ct-sheet{max-width:470px;padding:26px 30px 22px;border-radius:24px}.ct-tl b{font-size:46px}}',
       /* ลดการเคลื่อนไหว: ไล่สีที่อยู่นิ่งเก็บไว้ได้ ตัดเฉพาะของที่ขยับ */
-      '@media(prefers-reduced-motion:reduce){.ct-ovl,.ct-sheet,.ct-sheet>*,.ct-ticket,.ct-ticket::after,.ct-go::after,.ct-pstrip::after,.ct-pstrip svg,.ct-land,.ct-promo,.ct-promo::before,.ct-tkt,.ct-amt,.ct-ap{animation:none!important;transition:none!important}.ct-burst,.ct-sp{display:none}}'
+      '@media(prefers-reduced-motion:reduce){.ct-ovl,.ct-sheet,.ct-sheet>*,.ct-ticket,.ct-ticket::after,.ct-go::after,.ct-pstrip::after,.ct-pstrip svg,.ct-land,.ct-pulse::after,.ct-promo,.ct-promo::before,.ct-tkt,.ct-amt,.ct-ap{animation:none!important;transition:none!important}.ct-burst,.ct-sp{display:none}}'
     ].join('\n');
     document.head.appendChild(s);
   }
