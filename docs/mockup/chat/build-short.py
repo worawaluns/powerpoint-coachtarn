@@ -60,7 +60,7 @@ s = s.replace("""}, {threshold:0}).observe(document.querySelector('.footer'));""
 
 # ลิงก์หน้าสั่งซื้อให้เปิดได้บน localhost
 s = s.replace('โอนเงิน · ได้ไฟล์ทางอีเมลทันที · ใช้ง่าย ไม่ต้องเป็นผู้เชี่ยวชาญ',
-              'โอนเงินแล้วรับโค้ดทางอีเมล ใช้โหลดไฟล์ได้เลย ไม่ต้องเป็นผู้เชี่ยวชาญ')
+              'โอนแล้วรับโค้ดทางอีเมล ใช้โหลดไฟล์ได้ทันที')
 s = s.replace('href="order"', 'href="order.html"')
 
 # การ์ดตัวอย่างสไลด์: หน้าแรกโชว์ 6 ใบ หน้าแชทเอา 4 พอ ให้ถึงปุ่มซื้อเร็วขึ้น
@@ -120,6 +120,11 @@ EXTRA_CSS = """
 /* แถบล่างเตี้ยลง คืนพื้นที่จอ */
 .sticky-bar{padding-top:6px}
 .sticky-bar .sticky-urgency{font-size:12.5px;padding-bottom:4px}
+
+/* บรรทัดรับประกันใต้ปุ่ม ไอคอนกับข้อความต้องอยู่แถวเดียวกัน */
+.trust-line{flex-wrap:wrap;justify-content:center;row-gap:2px}
+/* ปุ่มทักแชทต้องขึ้นบรรทัดของตัวเอง ไม่ไปแทรกกลางประโยค */
+.cg-pay a{display:flex;width:fit-content}
 
 .chat-get{padding-top:8px}
 .cg-list{list-style:none;border:1px solid var(--border);border-radius:16px;padding:6px 16px}
