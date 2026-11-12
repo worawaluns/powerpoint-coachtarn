@@ -83,6 +83,10 @@
 
   function money(n) { return (+n).toLocaleString('en-US'); }
 
+  // โค้ดจากแชทตั้งวันหมดอายุไว้ไกลมาก (ปี 2031) โชว์วันที่แล้วลูกค้าจะอ่านว่าเดือนหน้า
+  // ไอซ์ 12 พ.ย. 2569: ซ่อนวันที่เฉพาะโค้ดแชท แล้วเร่งให้โอนแทน
+  function isChat(p) { return p.label === 'ราคาพิเศษจากแชท'; }
+
   function endText(iso, withTime) {
     var d = new Date(iso);
     var m = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'][d.getMonth()];
@@ -118,8 +122,8 @@
     if (!host || document.querySelector('.ct-pstrip')) return;
     var d = document.createElement('div');
     d.className = 'ct-pstrip';
-    d.innerHTML = TAG + '<p>ใส่โค้ด <b>' + p.code + '</b> ให้แล้ว ลดเพิ่มอีก <b>' + cut +
-      '฿</b> ถึง <b>' + endText(p.ends, false) + '</b></p>';
+    d.innerHTML = TAG + '<p>ใส่โค้ด <b>' + p.code + '</b> ให้แล้ว ลดเพิ่มอีก <b>' + cut + '฿</b> ' +
+      (isChat(p) ? 'โอนแล้วรับโค้ดทางอีเมลทันที' : 'ถึง <b>' + endText(p.ends, false) + '</b>') + '</p>';
     host.parentNode.insertBefore(d, host.nextSibling);
   }
 
@@ -200,7 +204,7 @@
           '<span class="ct-burst"></span>' +
         '</div>' +
         '<div class="ct-meta">' +
-          '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>ใช้ได้ถึง <b>' + endText(p.ends, true) + '</b></div>' +
+          '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>' + (isChat(p) ? 'โอนแล้วรับโค้ดทางอีเมล ปกติใน 1 นาที' : 'ใช้ได้ถึง <b>' + endText(p.ends, true) + '</b>') + '</div>' +
           '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.3 3.1-5 7-5s7 1.7 7 5"/></svg>ใช้กับแพ็ก 1 สิทธิ์ แพ็กทีมราคาปกติ</div>' +
         '</div>' +
         '<button type="button" class="ct-go" id="ctPromoKeep">เก็บโค้ดไว้ใช้</button>' +
