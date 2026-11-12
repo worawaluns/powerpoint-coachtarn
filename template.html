@@ -203,7 +203,7 @@ try { const m = JSON.parse(sessionStorage.getItem('ct_morph2') || 'null'); sessi
   if (m && Date.now() - m.t < 6000 && new URLSearchParams(location.search).get('id') === m.slug && m.d) window.CT_M = m; } catch (_) {}
 </script>
 <div id="ct-top" data-on="templates"></div>
-<script src="js/topbar.js"></script>
+<script src="js/topbar.js?v=20261112a"></script>
 <div id="app"></div>
 <div class="mbar" id="mbar"></div>
 <div class="pr" id="pr">

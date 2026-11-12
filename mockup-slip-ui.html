@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>ไอเดีย UI ตรวจสลิป</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--grad-start:#EB7D4A;--grad-end:#D34724;--red:#D34724;--orange:#EB7D4A;
+ --text:#0A0A0A;--text-mid:#444;--text-sub:#888;--border:#EBEBEB;--bg-soft:#FFF8F5;--ease:cubic-bezier(.16,1,.3,1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;background:#EDEDF0;color:var(--text);padding:26px}
+.sheet{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap;justify-content:center}
+.phone{width:430px;background:#F5F5F7;border-radius:26px;padding:18px;box-shadow:0 10px 40px rgba(20,20,30,.13)}
+.cap{font-size:13px;font-weight:800;color:#fff;background:#1D1D1F;border-radius:100px;padding:6px 14px;display:inline-block;margin-bottom:10px}
+.cap i{font-style:normal;opacity:.6;font-weight:600}
+.card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:20px;overflow:hidden;box-shadow:0 4px 18px rgba(20,20,30,.05)}
+.strip{height:5px;background:linear-gradient(90deg,var(--grad-start),var(--grad-end))}
+.strip.amber{background:linear-gradient(90deg,#F5A623,#EB7D4A)}
+.pad{padding:20px}
+h2{font-size:22px;font-weight:800;line-height:1.35;margin-bottom:8px}
+p.sub{font-size:14px;color:var(--text-sub);line-height:1.7}
+.badge{display:inline-block;font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:100px;background:#FFF4E5;color:#B26A00;margin-bottom:10px}
+.badge.g{background:#E8F7EF;color:#1F8F54}
+/* upload box */
+.drop{border:2px dashed #E3E3E8;border-radius:16px;padding:26px 16px;text-align:center;background:#FAFAFB}
+.drop svg{width:34px;height:34px;color:#C9C9D0;margin-bottom:8px}
+.drop b{display:block;font-size:15px;font-weight:700}
+.drop span{font-size:12.5px;color:var(--text-sub)}
+.note{display:flex;gap:10px;background:var(--bg-soft);border:1px solid rgba(211,71,36,.14);border-radius:14px;padding:13px 14px;margin-top:14px}
+.note svg{width:18px;height:18px;color:var(--red);flex:none;margin-top:1px}
+.note p{font-size:12.8px;line-height:1.7;color:var(--text-mid)}
+.note p b{color:var(--text)}
+.chk{display:flex;gap:10px;align-items:flex-start;margin-top:14px;font-size:13.5px}
+.box{width:19px;height:19px;border-radius:6px;border:2px solid var(--red);background:var(--red);flex:none;display:flex;align-items:center;justify-content:center}
+.box svg{width:12px;height:12px;color:#fff}
+.tax-note{margin-top:10px;background:#F4F7FF;border:1px solid #DCE5FF;border-radius:12px;padding:11px 13px;font-size:12.5px;line-height:1.7;color:#3A4A6B}
+.btn{display:block;text-align:center;margin-top:16px;background:linear-gradient(135deg,#1A8A47,#136130);color:#fff;font-weight:800;font-size:16px;padding:15px;border-radius:100px;box-shadow:0 6px 20px rgba(19,97,48,.3)}
+.btn.out{background:none;border:1.5px solid var(--red);color:var(--red);box-shadow:none;font-size:14.5px;padding:12px}
+/* steps */
+.steps{margin:18px 0 16px;border-left:2px solid #EFEFEF;padding-left:18px}
+.step{position:relative;font-size:13.5px;color:var(--text-sub);padding-bottom:14px}
+.step:last-child{padding-bottom:0}
+.step::before{content:'';position:absolute;left:-25px;top:3px;width:10px;height:10px;border-radius:50%;background:#DCDCE2}
+.step.done{color:var(--text);font-weight:600}
+.step.done::before{background:#17915A}
+.step.now{color:var(--text);font-weight:700}
+.step.now::before{background:var(--red);box-shadow:0 0 0 4px rgba(211,71,36,.18)}
+.step small{display:block;font-weight:400;color:var(--text-sub);font-size:12px;margin-top:2px}
+/* spinner + ring */
+.ring{width:74px;height:74px;border-radius:50%;border:4px solid #F0EAE6;border-top-color:var(--red);margin:6px auto 14px}
+.big{width:66px;height:66px;border-radius:50%;background:#FFF4E5;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.big svg{width:30px;height:30px;color:#D9821A}
+.row{background:#FAFAFA;border:1px solid #F0F0F2;border-radius:13px;padding:12px 14px;margin-top:10px;display:flex;justify-content:space-between;gap:12px;font-size:13px}
+.row span{color:var(--text-sub)}.row b{font-weight:700;text-align:right;word-break:break-all}
+.warn{display:flex;gap:10px;background:#FFF8E8;border:1px solid #F5D9A0;border-radius:14px;padding:13px 14px;margin-top:14px}
+.warn svg{width:18px;height:18px;color:#B26A00;flex:none;margin-top:1px}
+.warn p{font-size:13px;line-height:1.65;color:#7A5A12}
+.warn p b{color:#5A4207}
+.small{font-size:12.5px;color:var(--text-sub);line-height:1.7;margin-top:12px}
+
+/* choose how you transferred */
+.pick{display:grid;gap:10px;margin-top:4px}
+.opt{border:1.5px solid #E6E6EA;border-radius:16px;padding:14px;display:flex;gap:12px;background:#fff;cursor:pointer}
+.opt.on{border-color:var(--red);background:var(--bg-soft);box-shadow:0 2px 12px rgba(211,71,36,.08)}
+.dot{width:20px;height:20px;border-radius:50%;border:2px solid #D4D4DA;flex:none;margin-top:2px;display:flex;align-items:center;justify-content:center}
+.opt.on .dot{border-color:var(--red)}
+.opt.on .dot::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--red)}
+.opt b{display:block;font-size:15px;font-weight:800;line-height:1.4}
+.opt p{font-size:12.5px;color:var(--text-sub);line-height:1.6;margin-top:3px}
+.tag{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:100px}
+.tag.fast{background:#E8F7EF;color:#1F8F54}
+.tag.slow{background:#FFF4E5;color:#B26A00}
+.big.red{background:#FDECEA}.big.red svg{color:#C0392B}
+.btn.fb{background:#1877F2;box-shadow:0 6px 20px rgba(24,119,242,.3);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn.fb svg{width:19px;height:19px}
+.btn.ghost{background:none;border:none;color:var(--text-sub);font-weight:600;font-size:13.5px;box-shadow:none;padding:10px;text-decoration:underline;text-underline-offset:3px}
+.dup{background:#F4F4F6;border-radius:12px;padding:11px 13px;margin-top:12px;font-size:12.5px;color:var(--text-sub);line-height:1.65;text-align:left}
+.lbl{font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:8px}
+.recv{display:flex;gap:12px;align-items:center;border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:16px}
+.recv .bk{width:40px;height:40px;border-radius:11px;background:#0F7A4A;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:none}
+.recv b{display:block;font-size:14px;font-weight:800;line-height:1.4}
+.recv span{font-size:12px;color:var(--text-sub)}
+.recv .amt{margin-left:auto;text-align:right;font-size:15px;font-weight:800;color:var(--red);white-space:nowrap}
+.secure{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11.5px;color:var(--text-sub);margin-top:14px}
+.secure svg{width:13px;height:13px}
+</style></head><body><div class="sheet">
+
+<div class="phone" id="p1"><div class="cap">① หน้าแจ้งสลิป <i>ค่าตั้งต้น</i></div>
+ <div class="card"><div class="strip"></div><div class="pad">
+  <h2 style="font-size:19px">แจ้งการโอน</h2>
+  <div class="recv"><div class="bk">K</div><div><b>บจก. ดับเบิ้ลคราฟ์</b><span>ธนาคารกสิกรไทย 229-3-98096-1</span></div><div class="amt">499 บาท</div></div>
+  <div class="lbl">โอนจากบัญชีแบบไหน</div>
+  <div class="pick"><div class="opt on"><div class="dot"></div><div><b>บัญชีส่วนตัว</b><p>สลิปจากแอปธนาคาร มี QR</p><span class="tag fast">ตรวจอัตโนมัติ รู้ผลใน 1 ถึง 2 นาที</span></div></div><div class="opt"><div class="dot"></div><div><b>บัญชีบริษัท</b><p>สลิปจากระบบธนาคารของบริษัท หรือไฟล์ PDF</p><span class="tag slow">ทีมงานตรวจ ไม่เกิน 2 ชั่วโมงทำการ</span></div></div></div>
+  <div class="drop" style="margin-top:16px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v13"/></svg><b>แนบสลิปการโอน</b><span>JPG หรือ PNG</span></div>
+  <div class="btn">ส่งสลิป</div><div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7"/></svg>ไฟล์สลิปส่งผ่านการเชื่อมต่อที่เข้ารหัส</div>
+ </div></div></div>
+
+<div class="phone" id="p2"><div class="cap">② เลือกบัญชีบริษัท</div>
+ <div class="card"><div class="strip"></div><div class="pad">
+  <h2 style="font-size:19px">แจ้งการโอน</h2>
+  <div class="recv"><div class="bk">K</div><div><b>บจก. ดับเบิ้ลคราฟ์</b><span>ธนาคารกสิกรไทย 229-3-98096-1</span></div><div class="amt">499 บาท</div></div>
+  <div class="lbl">โอนจากบัญชีแบบไหน</div>
+  <div class="pick"><div class="opt"><div class="dot"></div><div><b>บัญชีส่วนตัว</b><p>สลิปจากแอปธนาคาร มี QR</p></div></div><div class="opt on"><div class="dot"></div><div><b>บัญชีบริษัท</b><p>สลิปจากระบบธนาคารของบริษัท หรือไฟล์ PDF</p><span class="tag slow">ทีมงานตรวจ ไม่เกิน 2 ชั่วโมงทำการ</span></div></div></div>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.2"/></svg><p><b>ตรวจสอบโดยทีมงาน</b><br>สลิปบริษัทไม่มี QR ให้ระบบอ่าน เมื่อตรวจยอดเงินเข้าบัญชีเรียบร้อย ส่ง Redeem Code ทางอีเมลทันที</p></div>
+  <div class="chk"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div><div>ขอใบกำกับภาษีในนามบริษัท</div></div>
+  <div class="tax-note"><b>เมื่อตรวจยอดเงินเข้าบัญชีเรียบร้อย ส่ง Redeem Code ทางอีเมลทันที</b><br>ใบกำกับภาษีจัดส่งทางไปรษณีย์ภายใน 7 ถึง 10 วันทำการ กรอกข้อมูลบริษัทในขั้นถัดไป</div>
+  <div class="drop" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5-5 5 5"/><path d="M12 5v13"/></svg><b>แนบสลิปการโอน</b><span>JPG PNG หรือ PDF</span></div>
+  <div class="btn">ส่งให้ทีมงานตรวจสอบ</div><div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7"/></svg>ไฟล์สลิปส่งผ่านการเชื่อมต่อที่เข้ารหัส</div>
+ </div></div></div>
+
+<div class="phone" id="p3"><div class="cap">③ บัญชีส่วนตัว <i>กำลังตรวจ</i></div>
+ <div class="card"><div class="strip"></div><div class="pad" style="text-align:center">
+  <div class="ring"></div>
+  <span class="badge">กำลังตรวจสอบ</span>
+  <h2>ได้รับสลิปแล้ว</h2>
+  <p class="sub">ผลการตรวจจะส่งเข้าอีเมลของคุณ</p>
+  <div class="steps" style="text-align:left">
+   <div class="step done">ได้รับสลิป</div>
+   <div class="step now">ตรวจยอดเงินเข้า<small>ปกติ 1 ถึง 2 นาที</small></div>
+   <div class="step">ส่ง Redeem Code ทางอีเมล</div>
+  </div>
+  <div class="warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.2"/></svg><p><b>ไม่ต้องส่งสลิปซ้ำ</b><br>ระบบกำลังตรวจให้อยู่</p></div>
+ </div></div></div>
+
+<div class="phone" id="p4"><div class="cap">④ บัญชีบริษัท <i>เข้าคิวตรวจ</i></div>
+ <div class="card"><div class="strip amber"></div><div class="pad">
+  <div class="big"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg></div>
+  <div style="text-align:center"><span class="badge">อยู่ระหว่างตรวจสอบ</span>
+  <h2>ได้รับสลิปแล้ว<br>ทีมงานกำลังตรวจสอบ</h2>
+  <p class="sub">เมื่อตรวจยอดเงินเข้าบัญชีเรียบร้อย ส่ง Redeem Code ทางอีเมลทันที</p></div>
+  <div class="warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg><p><b>ไม่ต้องโอนซ้ำ และไม่ต้องส่งสลิปใหม่</b></p></div>
+  <div class="steps">
+   <div class="step done">ได้รับสลิป<small>วันนี้ 16:41 น.</small></div>
+   <div class="step now">ทีมงานตรวจยอดเงินเข้า<small>ไม่เกิน 2 ชั่วโมงทำการ 10:00 ถึง 24:00 น.</small></div>
+   <div class="step">ส่ง Redeem Code ทางอีเมล</div>
+   <div class="step">ส่งใบกำกับภาษีทางไปรษณีย์<small>ภายใน 7 ถึง 10 วันทำการ</small></div>
+  </div>
+  <div class="row"><span>เลขคำสั่งซื้อ</span><b>8BF49539</b></div>
+  <div class="row"><span>อีเมลรับ Redeem Code</span><b>nipollaw@gmail.com</b></div>
+  <div class="row"><span>ใบกำกับภาษี</span><b>บจก. ตัวอย่าง จำกัด</b></div>
+  <div class="btn out">ติดต่อแอดมิน</div>
+ </div></div></div>
+
+<div class="phone" id="p5"><div class="cap">⑤ บัญชีส่วนตัว <i>ตรวจไม่ผ่าน</i></div>
+ <div class="card"><div class="strip" style="background:linear-gradient(90deg,#E5735E,#C0392B)"></div><div class="pad" style="text-align:center">
+  <div class="big red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.4v.2"/></svg></div>
+  <span class="badge" style="background:#FDECEA;color:#B3261E">ตรวจอัตโนมัติไม่ผ่าน</span>
+  <h2>ระบบอ่านสลิปนี้ไม่ได้</h2>
+  <p class="sub">ส่งสลิปให้แอดมินทางแชทได้เลย เมื่อตรวจสอบเรียบร้อย แอดมินจะส่งลิงก์ดาวน์โหลดให้ในแชททันที ไม่ต้องโอนซ้ำ</p>
+  <div class="row" style="text-align:left"><span>เลขคำสั่งซื้อ</span><b>8BF49539</b></div>
+  <div class="row" style="text-align:left"><span>ยอดที่แจ้งโอน</span><b>499 บาท</b></div>
+  <div class="btn fb"><svg viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>ส่งสลิปให้แอดมินทางแชท</div>
+  <p class="small" style="margin-top:10px">ทีมงานตอบภายใน 10 นาที เวลา 10:00 ถึง 24:00 น.</p><div class="btn ghost">แนบรูปผิด เลือกรูปใหม่</div>
+ </div></div></div>
+
+<div class="phone" id="p6"><div class="cap">⑥ ส่งซ้ำรอบที่ 2 ขึ้นไป</div>
+ <div class="card"><div class="strip" style="background:linear-gradient(90deg,#E5735E,#C0392B)"></div><div class="pad" style="text-align:center">
+  <div class="big red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="12" height="12" rx="2"/><rect x="8.5" y="8.5" width="12" height="12" rx="2"/></svg></div>
+  <span class="badge" style="background:#FDECEA;color:#B3261E">สลิปใบนี้อยู่ในระบบแล้ว</span>
+  <h2>ส่งซ้ำจะได้ผลเหมือนเดิม</h2>
+  <p class="sub">กรุณาส่งสลิปให้แอดมินทางแชท เมื่อตรวจสอบเรียบร้อย แอดมินจะส่งลิงก์ดาวน์โหลดให้ในแชททันที</p>
+  <div class="dup">ได้รับสลิปใบนี้แล้ว 2 ครั้ง เมื่อ 16:41 น. และ 16:43 น.</div>
+  <div class="btn fb"><svg viewBox="0 0 24 24" fill="white"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>ส่งสลิปให้แอดมินทางแชท</div>
+  <p class="small">ทีมงานตอบภายใน 10 นาที เวลา 10:00 ถึง 24:00 น.<br>แจ้งเลขคำสั่งซื้อ 8BF49539 กับแอดมินได้เลย</p>
+ </div></div></div>
+
+</div></body></html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>เสนอแบบ — section โครงเรื่อง</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#D34724;--orange:#EB7D4A;--text:#15151A;--mid:#4A4A55;--sub:#8A8A96;--line:#ECECF0;--soft:#FFF6F2;--bg:#F6F6F8;--ease:cubic-bezier(.16,1,.3,1);--c1:#FB7185;--c2:#FDBA74}
+body{font-family:'Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+
+/* ---- ตัวคุมหน้าเสนอ (ไม่ใช่ของจริง) ---- */
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.07);padding:12px 0}
+.bar .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.bar b{font-size:15px}
+.bar select{font-family:inherit;font-size:14px;font-weight:600;padding:8px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--text)}
+.bar span{font-size:13px;color:var(--sub)}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:100px;padding:3px 10px;background:#fff;border:1.5px solid var(--line);color:var(--mid)}
+
+.opt{padding:54px 0;border-top:1px solid var(--line)}
+.opt>.wrap>header{margin-bottom:26px}
+.opt h1{font-size:13px;font-weight:800;letter-spacing:.08em;color:var(--red);text-transform:uppercase}
+.opt h1 em{font-style:normal;color:var(--sub)}
+.opt .why{font-size:14px;color:var(--mid);margin-top:6px;line-height:1.6;max-width:760px}
+.stage{background:#fff;border-radius:22px;padding:56px 44px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 14px 40px rgba(20,20,40,.06)}
+
+/* ---- ร่วมกัน ---- */
+h2.t{font-size:30px;font-weight:800;text-align:center;line-height:1.35}
+p.lead{text-align:center;color:var(--mid);margin:10px auto 0;max-width:640px;line-height:1.65}
+
+/* ================= ปัจจุบัน ================= */
+.story{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;margin-top:34px}
+.story::before{content:'';position:absolute;left:10%;right:10%;top:30px;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:3px}
+.st{text-align:center;position:relative;padding:0 8px}
+.st i{display:grid;place-items:center;width:60px;height:60px;margin:0 auto 14px;border-radius:50%;background:#fff;border:3px solid var(--c1);font-style:normal;font-weight:800;font-size:20px;color:var(--c1);box-shadow:0 8px 20px rgba(20,20,40,.1)}
+.st:nth-child(n+3) i{border-color:var(--c2);color:var(--c2)}
+.st b{display:block;font-size:16px}
+.flowtag{text-align:center;margin-top:26px}
+.flowtag span{display:inline-block;background:var(--soft);color:var(--red);border-radius:100px;padding:8px 18px;font-size:14px;font-weight:700}
+
+/* ================= A — สารบัญ ================= */
+.aWrap{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:56px;align-items:start}
+.aHead h2{font-size:28px;font-weight:800;line-height:1.35}
+.aHead p{color:var(--mid);line-height:1.7;margin-top:12px;font-size:15px}
+.aMeta{margin-top:20px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--sub)}
+.aMeta div{display:flex;gap:8px;align-items:baseline}
+.aMeta b{color:var(--text);font-weight:700}
+.toc{border-top:1px solid var(--line)}
+.toc.two{columns:2;column-gap:52px;border-top:none}
+.toc.two .row:first-child{border-top:1px solid var(--line)}
+.row{display:grid;grid-template-columns:40px minmax(0,1fr);gap:4px;align-items:baseline;padding:15px 0;border-bottom:1px solid var(--line);break-inside:avoid}
+.toc.two .row{border-top:1px solid var(--line);border-bottom:none;margin-top:-1px}
+.row i{font-style:normal;font-variant-numeric:tabular-nums;font-size:13px;font-weight:800;color:var(--sub);letter-spacing:.04em;transform:translateY(-1px)}
+.row b{font-size:17px;font-weight:700;line-height:1.5}
+.row.dim b{color:var(--sub);font-weight:600}
+
+/* ================= B — การ์ดตอน ================= */
+.chaps{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:14px;margin-top:34px}
+.chap{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 18px 22px;overflow:hidden}
+.chap::before{content:'';position:absolute;left:18px;right:18px;top:0;height:3px;border-radius:0 0 3px 3px;background:linear-gradient(90deg,var(--c1),var(--c2))}
+.chap i{position:absolute;right:12px;top:6px;font-style:normal;font-size:44px;font-weight:800;line-height:1;color:var(--c1);opacity:.13}
+.chap em{font-style:normal;display:block;font-size:12px;font-weight:800;letter-spacing:.06em;color:var(--sub)}
+.chap b{display:block;font-size:16px;font-weight:700;line-height:1.5;margin-top:8px;position:relative;z-index:1;padding-right:22px}
+
+/* ================= C — แถบเดียว ================= */
+.slim{background:var(--soft);border-radius:20px;padding:30px 34px;margin-top:6px}
+.slim>b{display:block;font-size:15px;font-weight:800}
+.slim>b+p{font-size:14px;color:var(--mid);margin-top:4px}
+.slimList{margin-top:18px;columns:2;column-gap:44px}
+.slimRow{display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px;align-items:baseline;padding:9px 0;border-top:1px solid rgba(211,71,36,.14);break-inside:avoid}
+.slimRow i{font-style:normal;font-variant-numeric:tabular-nums;font-size:12px;font-weight:800;color:var(--red);opacity:.6}
+.slimRow b{font-size:15px;font-weight:700;line-height:1.45}
+
+/* ================= feature row ================= */
+.feats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px}
+.ft{background:#fff;border-radius:18px;padding:24px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(20,20,40,.06)}
+.ft .ic{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));margin-bottom:14px}
+.ft .ic svg{width:24px;height:24px}
+.ft b{font-size:17px;display:block}.ft p{font-size:14px;color:var(--mid);margin-top:6px;line-height:1.55}
+.feats2{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:30px;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.ft2{padding:24px 22px;border-left:1px solid var(--line)}
+.ft2:first-child{border-left:none}
+.ft2 .ic{width:34px;height:34px;color:var(--red);margin-bottom:12px}
+.ft2 .ic svg{width:26px;height:26px}
+.ft2 b{font-size:16px;display:block}.ft2 p{font-size:13.5px;color:var(--mid);margin-top:5px;line-height:1.55}
+
+/* ---- โหมดมือถือในกรอบ ---- */
+body.bare{background:#fff}
+body.bare .bar,body.shot .bar{display:none}
+body.shot .phones{grid-template-columns:repeat(4,1fr)}
+body.shot .ph{height:700px;max-width:none}
+body.bare .stage{box-shadow:none;border-radius:0;padding:26px 16px 30px}
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.phones figcaption{font-size:13px;font-weight:800;color:var(--mid);margin-bottom:8px}
+.ph{width:100%;max-width:375px;height:640px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.04),0 14px 40px rgba(20,20,40,.08)}
+.ph iframe{width:375px;height:100%;border:0;display:block}
+
+@media(max-width:900px){
+  .stage{padding:34px 20px;border-radius:18px}
+  .aWrap{grid-template-columns:1fr;gap:26px}
+  .toc.two,.slimList{columns:1}
+  .toc.two .row{border-bottom:none}
+  .story{grid-template-columns:1fr;gap:16px}
+  .story::before{left:29px;right:auto;top:10px;bottom:10px;width:3px;height:auto}
+  .st{display:flex;align-items:center;gap:14px;text-align:left}.st i{margin:0;flex-shrink:0}
+  .feats,.feats2{grid-template-columns:1fr}
+  .ft2{border-left:none;border-top:1px solid var(--line)}
+  .ft2:first-child{border-top:none}
+  h2.t,.aHead h2{font-size:23px}
+}
+</style>
+</head>
+<body>
+
+<div class="bar"><div class="wrap">
+  <b>เสนอแบบ section “โครงเรื่อง”</b>
+  <select id="pick"></select>
+  <span id="meta"></span>
+  <span class="tag" id="warn"></span>
+</div></div>
+
+<main id="out"></main>
+
+<script>
+const I = {
+  chart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 3v18h18"/><path d="M7 16v-5M12 16V8M17 16v-8"/></svg>',
+  palette:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1.3" fill="currentColor"/><circle cx="12" cy="7.5" r="1.3" fill="currentColor"/><circle cx="16" cy="10" r="1.3" fill="currentColor"/></svg>',
+  font:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 20 10 4h1l6 16M6.5 14h8"/></svg>',
+  story:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h10M4 18h13"/></svg>' };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const n2 = i => String(i + 1).padStart(2, '0');
+// โชว์ชื่อโครงเรื่องเฉพาะตอนที่เป็น "ชื่อหลัก" จริง ๆ
+// ถ้าเป็นลูกโซ่ (→ หรือ >) แปลว่าพูดซ้ำกับสารบัญที่อยู่ข้าง ๆ มันเอง ตัดทิ้ง
+const CHAIN = /[→>›➔➝]/;
+const framework = d => (d.flow && !CHAIN.test(d.flow)) ? d.flow : '';
+
+let D, ALL;
+
+const FEATS = [
+  [I.chart,   'กราฟเชื่อม Excel',        'คลิกขวา › Edit Data แก้ตัวเลข กราฟเปลี่ยนตามทันที'],
+  [I.palette, 'เปลี่ยนสีได้ในคลิกเดียว', 'ไอคอนเป็นเวกเตอร์ สีทั้งชุดปรับตามแบรนด์ของคุณ'],
+  [I.font,    'ฟอนต์ไทยอ่านง่าย',        'IBM Plex Sans Thai ฟรีเชิงพาณิชย์ สระไม่ลอย'],
+  [I.story,   'หัวเรื่องเป็นประโยคสรุป', 'ผู้ฟังเข้าใจเร็วขึ้น ตามงานวิจัย Assertion-Evidence'] ];
+
+const block = (kicker, note, inner) => `<section class="opt"><div class="wrap">
+  <header><h1>${kicker}</h1><p class="why">${note}</p></header>
+  <div class="stage">${inner}</div></div></section>`;
+
+function current(){
+  if (!D.agenda.length) return `<h2 class="t">โครงเรื่องพร้อมใช้ ตั้งแต่เปิดจนปิด</h2>
+    <p class="lead">ไม่ต้องคิดว่าจะเรียงหน้าอย่างไร แค่เปลี่ยนข้อมูลเป็นของคุณ</p>
+    <div class="story"></div><div class="flowtag"><span>เรียงตามหลัก ${esc(D.flow)}</span></div>`;
+  return `<h2 class="t">โครงเรื่องพร้อมใช้ ตั้งแต่เปิดจนปิด</h2>
+  <p class="lead">ไม่ต้องคิดว่าจะเรียงหน้าอย่างไร แค่เปลี่ยนข้อมูลเป็นของคุณ</p>
+  <div class="story">${D.agenda.map((a,i)=>`<div class="st"><i>${n2(i)}</i><b>${esc(a)}</b></div>`).join('')}</div>
+  ${D.flow ? `<div class="flowtag"><span>เรียงตามหลัก ${esc(D.flow)}</span></div>` : ''}`;
+}
+
+function optA(){
+  const fw = framework(D), many = D.agenda.length > 6;
+  const rows = D.agenda.length
+    ? D.agenda.map((a,i)=>`<div class="row"><i>${n2(i)}</i><b>${esc(a)}</b></div>`).join('')
+    : `<div class="row dim"><i>—</i><b>ชุดนี้เป็นชุดหน้าเปล่าให้ประกอบเอง ลำดับหน้าจัดไว้ให้แล้วในไฟล์</b></div>`;
+  return `<div class="aWrap">
+    <div class="aHead">
+      <h2>เปิดไฟล์มาก็เล่าได้เลย</h2>
+      <p>ลำดับหน้าเรียงมาให้ครบตั้งแต่เปิดจนปิด คุณแค่เปลี่ยนตัวเลขกับชื่อให้เป็นของคุณ</p>
+      <div class="aMeta">
+        <div>สารบัญในชุด<b>${D.agenda.length ? D.agenda.length + ' ตอน' : 'จัดลำดับไว้แล้ว'}</b></div>
+        <div>จำนวนหน้า<b>${D.slides} สไลด์</b></div>
+        ${fw ? `<div>วางโครงตาม<b>${esc(fw)}</b></div>` : ''}
+      </div>
+    </div>
+    <div class="toc${many?' two':''}">${rows}</div>
+  </div>`;
+}
+
+function optB(){
+  const fw = framework(D);
+  if (!D.agenda.length) return optA();
+  return `<h2 class="t">เปิดไฟล์มาก็เล่าได้เลย</h2>
+    <p class="lead">${D.agenda.length} ตอนใน ${D.slides} สไลด์ เรียงมาให้แล้ว${fw ? ' ตามโครง ' + esc(fw) : ''} เหลือแค่เปลี่ยนข้อมูลเป็นของคุณ</p>
+    <div class="chaps">${D.agenda.map((a,i)=>`<div class="chap"><i>${n2(i)}</i><em>ตอนที่ ${i+1}</em><b>${esc(a)}</b></div>`).join('')}</div>`;
+}
+
+function optC(){
+  const fw = framework(D);
+  if (!D.agenda.length) return `<div class="slim"><b>ลำดับหน้าจัดไว้ให้แล้ว</b><p>เปิดไฟล์มาเรียงต่อกันได้เลย</p></div>`;
+  return `<div class="slim">
+    <b>สารบัญที่มาในชุดนี้ · ${D.agenda.length} ตอน</b>
+    <p>เรียงมาให้ครบตั้งแต่เปิดจนปิด${fw ? ' ตามโครง ' + esc(fw) : ''} เหลือแค่เปลี่ยนข้อมูลเป็นของคุณ</p>
+    <div class="slimList">${D.agenda.map((a,i)=>`<div class="slimRow"><i>${n2(i)}</i><b>${esc(a)}</b></div>`).join('')}</div>
+  </div>`;
+}
+
+const featsOld = () => `<div class="feats">${FEATS.map(([ic,b,p])=>`<div class="ft"><div class="ic">${ic}</div><b>${b}</b><p>${p}</p></div>`).join('')}</div>`;
+const featsNew = () => `<div class="feats2">${FEATS.map(([ic,b,p])=>`<div class="ft2"><div class="ic">${ic}</div><b>${b}</b><p>${p}</p></div>`).join('')}</div>`;
+
+const VIEWS = { cur: current, A: optA, B: optB, C: optC };
+const PHONES = [['cur','ตอนนี้'],['A','แบบ A'],['B','แบบ B'],['C','แบบ C']];
+
+function render(){
+  document.documentElement.style.setProperty('--c1', '#' + (D.c1 || 'FB7185'));
+  document.documentElement.style.setProperty('--c2', '#' + (D.c2 || 'FDBA74'));
+  // โหมด iframe: โชว์แบบเดียว เปล่า ๆ ไว้ส่องมือถือ
+  if (ONLY === 'phones') {
+    document.body.classList.add('shot');
+    document.getElementById('out').innerHTML = `<div class="wrap" style="padding:26px 20px">
+      <div class="phones">${PHONES.map(([k,label])=>`
+        <figure><figcaption>${label}</figcaption>
+          <div class="ph"><iframe src="?only=${k}&slug=${encodeURIComponent(D.slug)}"></iframe></div>
+        </figure>`).join('')}</div></div>`;
+    return;
+  }
+  if (ONLY) {
+    document.body.classList.add('bare');
+    document.getElementById('out').innerHTML =
+      `<div class="stage">${(VIEWS[ONLY] || current)()}${ONLY === 'cur' ? featsOld() : featsNew()}</div>`;
+    return;
+  }
+  document.getElementById('meta').textContent = `${D.th} · ${D.agenda.length} ตอน · ${D.slides} สไลด์`;
+  const w = document.getElementById('warn');
+  w.textContent = !D.flow ? 'ไม่มี flow'
+    : CHAIN.test(D.flow) ? 'flow เป็นลูกโซ่ — ตัดทิ้ง' : 'flow เป็นชื่อโครง — เก็บไว้';
+  document.getElementById('out').innerHTML =
+    block('ตอนนี้ <em>— แบบที่ใช้อยู่</em>',
+      'วงกลม 5 ใบต่อเส้น + ป้าย “เรียงตามหลัก …” ปัญหา: บังคับ 5 ช่องทั้งที่ของจริงมี 5–11 ตอน, ตัวหนังสือถูกบีบจนอ่านยาก, ป้ายลูกศรพูดซ้ำกับหัวข้อที่อยู่ข้างบนมันเอง',
+      current() + featsOld())
+  + block('แบบ A <em>— สารบัญ (แนะนำ)</em>',
+      'เลิกวาดไทม์ไลน์ ใช้สารบัญจริงแบบหนังสือ หัวเรื่องได้พื้นที่เต็มบรรทัด อ่านรวดเดียวจบ รองรับ 5–11 ตอนโดยไม่พัง (เกิน 6 ตอนตัดเป็น 2 คอลัมน์) เลขตอน/จำนวนหน้า/ชื่อโครง ย้ายไปเป็นข้อมูลด้านซ้าย ไม่ใช่ป้ายลอย',
+      optA() + featsNew())
+  + block('แบบ B <em>— การ์ดตอน</em>',
+      'อ่านง่ายเหมือนกันแต่เป็นการ์ด ดูมีสีสันกว่า ข้อเสีย: ซ้ำทรงกับการ์ด 4 ใบที่อยู่ถัดลงไป และกินพื้นที่สูงกว่าแบบ A เกือบเท่าตัวเมื่อมี 11 ตอน',
+      optB() + featsNew())
+  + block('แบบ C <em>— ยุบเป็นแถบเดียว</em>',
+      'ถ้ามองว่าส่วนนี้ไม่ควรกินทั้งหน้าจอ ยุบเหลือแถบเดียวสีพื้นอ่อน วางต่อจากแกลเลอรีได้เลย เบาที่สุด แต่แรงน้อยที่สุดเหมือนกัน',
+      optC() + featsNew())
+  + `<section class="opt"><div class="wrap">
+      <header><h1>มือถือ 375 <em>— ของจริง เลื่อนดูในกรอบได้</em></h1>
+        <p class="why">กรอบละแบบ กว้าง 375 เท่ามือถือจริง เลื่อนในกรอบเพื่อดูทั้งส่วน</p></header>
+      <div class="phones">${PHONES.map(([k,label])=>`
+        <figure><figcaption>${label}</figcaption>
+          <div class="ph"><iframe loading="lazy" src="?only=${k}&slug=${encodeURIComponent(D.slug)}"></iframe></div>
+        </figure>`).join('')}</div>
+    </div></section>`;
+}
+
+const Q = new URLSearchParams(location.search), ONLY = Q.get('only');
+
+fetch('library/data.json').then(r=>r.json()).then(all=>{
+  ALL = all;
+  const pref = ['expand','weekly','proposal01','community-b3','datastory','isoaudit'];
+  const list = pref.map(s=>all.find(x=>x.slug===s)).filter(Boolean)
+    .concat(all.filter(x=>!pref.includes(x.slug)));
+  const want = Q.get('slug');
+  D = (want && all.find(x=>x.slug===want)) || list[0];
+  D.agenda = D.agenda || [];
+  if (!ONLY) {
+    const sel = document.getElementById('pick');
+    sel.innerHTML = list.map(x=>`<option value="${x.slug}"${x.slug===D.slug?' selected':''}>${x.no}. ${x.th} (${(x.agenda||[]).length} ตอน)</option>`).join('');
+    sel.onchange = () => { D = all.find(x=>x.slug===sel.value); D.agenda = D.agenda || []; render(); };
+  }
+  render();
+});
+</script>
+</body>
+</html>

@@ -5,6 +5,21 @@
    ไม่มี #ct-top (หน้า studio/) = ไม่วาดแถบ แต่ยังใช้ ctTop.login / check / sheet ได้
 
    Icons: Phosphor Icons 2.1.1 (https://phosphoricons.com), MIT License, Copyright (c) 2023 Phosphor Icons */
+/* ── ManyChat: เก็บ mc_id ที่ปุ่มในแชทพามา ── ไฟล์นี้โหลดทุกหน้าที่ลูกค้าเดิน
+   (chat, index, templates, template, order, download) จึงเก็บได้ครบทุกทาง ไม่ว่าลูกค้าจะเข้าหน้าไหนก่อน
+   order.html เป็นคนอ่านค่านี้ไปลง orders.manychat_subscriber_id ตอนสร้างออเดอร์ */
+(function () {
+  try {
+    var q = new URLSearchParams(location.search);
+    var mc = q.get('mc_id');
+    var pg = q.get('mc_page');          /* Coach Tarn มี 2 เพจ Contact Id ใช้ข้ามเพจไม่ได้ */
+    var ref = q.get('ref');
+    if (mc) localStorage.setItem('manychat_subscriber_id', mc);
+    if (pg) localStorage.setItem('manychat_page_id', pg);
+    if (ref) localStorage.setItem('traffic_ref', ref);
+  } catch (e) {}
+})();
+
 (function () {
 const ICONS = {
   "list": "<path d=\"M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z\"/>",
