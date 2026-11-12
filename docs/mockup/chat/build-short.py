@@ -123,8 +123,6 @@ EXTRA_CSS = """
 /* รูปโค้ชตาลกินจอเกือบเต็มหน้า ย่อลงให้ถึงเนื้อหาเร็วขึ้น (ต้องแรงกว่า media query ของหน้าแรก) */
 .page .hero-visual{height:236px}
 .page .hero-visual .coach-img{height:232px}
-/* ป้ายยอดขายเหลือบรรทัดเดียว ไม่ซ้อนสองชั้นใต้ปุ่ม */
-.live-pills.ct-inline .lp:nth-child(n+2){display:none}
 /* ท้ายหน้าเผื่อที่ให้แถบปุ่มซื้อ ไม่ทับปุ่มปิดท้าย */
 .page{padding-bottom:124px}
 /* แถบล่างเตี้ยลง คืนพื้นที่จอ */
@@ -187,7 +185,6 @@ html:not(.got-code) .sticky-bar{visibility:hidden;transform:translateX(-50%) tra
 .btn-hero-out{color:#6B6B6B!important;font-weight:600;text-decoration:none}
 .hero-btn-row{gap:14px}
 /* ป้ายยอดขายลอยอยู่ตรงแถบปุ่มซื้อพอดี ดันขึ้นให้พ้นกัน */
-body.ct-got .live-pills{bottom:112px}
 /* ── จังหวะหลังกดรับโค้ด: ส่งสายตาไปจบที่ปุ่มซื้อ (สเปก motion-master) ── */
 .csheet .go{transition:transform .09s var(--ease)}
 .csheet .go:active{transform:scale(.97)}
@@ -197,9 +194,6 @@ body.ct-got .live-pills{bottom:112px}
 
 /* แถบล่างจอ: โผล่แล้วต้องอยู่ ไม่ให้ observer ตาม scroll ดึงกลับลง */
 html.got-code .sticky-bar{visibility:visible;transform:translateX(-50%) translateY(0)}
-/* ป้ายยอดขายสดของเว็บ: ย้ายมาอยู่ใต้ปุ่มใน hero แทนการลอยทับรูปกับแถบปุ่มซื้อ */
-.live-pills.ct-inline{position:static;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;gap:8px;margin:0 0 12px;opacity:1}
-.live-pills.ct-inline .lp{opacity:1!important;transform:none!important;font-size:12.5px}
 /* ราคาในแถบล่างชิดขอบจอเกินไป */
 .sticky-bar .sticky-price-col{padding-left:4px}
 
@@ -274,18 +268,6 @@ SHEET = """
     }, 150);
   }
   document.body.classList.add('ct-sheet');
-  /* ป้ายยอดขายสด ย้ายเข้ามาในหน้า ไม่ให้ลอยทับอย่างอื่น */
-  var mv = 0, mvt = setInterval(function () {
-    var pills = document.querySelector('.live-pills');
-    if (pills && document.getElementById('get')) {
-      pills.classList.add('ct-inline');
-      pills.removeAttribute('style');
-      var get = document.getElementById('get');
-      get.insertBefore(pills, get.firstElementChild);
-      clearInterval(mvt);
-    }
-    if (++mv > 60) clearInterval(mvt);
-  }, 200);
   var RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
   function take(animate) {
     try { sessionStorage.setItem('mock_got', '1'); } catch (e) {}
