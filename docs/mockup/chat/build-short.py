@@ -48,7 +48,7 @@ rep("""    <a href="#bonus" class="hero-flash" id="heroFlash">
 rep("""  <div class="sticky-urgency">""", """  <div class="sticky-urgency" id="stickyNote">""")
 i = s.index('<div class="sticky-urgency" id="stickyNote">')
 j = s.index('</div>', s.index('<span class="su-timer"', i)) + 6
-s = s[:i] + '<div class="sticky-urgency" id="stickyNote">ราคาพิเศษจากแชท ไม่มีวันหมดอายุ</div>' + s[j:]
+s = s[:i] + '<div class="sticky-urgency" id="stickyNote">โอนแล้วรับโค้ดทางอีเมล ปกติใน 1 นาที</div>' + s[j:]
 rep('รับสไลด์ทันที สั่งเลย', '<span id="stickyBtnTx">สั่งซื้อเลย</span>')
 
 # สคริปต์นับถอยหลังโบนัสไม่ได้ใช้บนหน้านี้ และมันเขียน localStorage ct_bdl ร่วมกับเว็บจริง
@@ -230,7 +230,7 @@ SHEET = """
     <div class="cticket">
       <u>ราคาหน้าเว็บ 499฿ ลิงก์แชทลดอีก 50฿</u>
       <b>เหลือ 449฿</b>
-      <span>ลิงก์นี้ใช้ราคานี้ได้ตลอด ไม่มีวันหมดอายุ</span>
+      <span>โอนแล้วระบบส่งโค้ดเข้าอีเมล ปกติใน 1 นาที</span>
     </div>
     <button class="go" id="cget">รับส่วนลด 50฿</button>
   </div>
