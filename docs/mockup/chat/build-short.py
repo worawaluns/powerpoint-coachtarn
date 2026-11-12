@@ -183,6 +183,7 @@ EXTRA_CSS = """
 .cticket{position:relative;border:1px solid #F3DACD;background:#FFF3EC;border-radius:16px;padding:20px 18px;overflow:hidden}
 .cticket::before,.cticket::after{content:'';position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fff;border:1px solid #F3DACD;transform:translateY(-50%)}
 .cticket::before{left:-10px}.cticket::after{right:-10px}
+.cticket .nb,.cticket .nb span{display:inline;margin:0;font:inherit;color:inherit;white-space:nowrap}
 .cticket u{display:block;font-size:13px;font-weight:700;color:var(--text-mid);text-decoration:none;margin-bottom:6px}
 .cticket b{display:block;font-size:40px;font-weight:900;color:var(--red);line-height:1}
 .cticket b s{font-size:17px;font-weight:600;color:#A79F9B;margin-left:6px;vertical-align:middle}
@@ -249,8 +250,8 @@ SHEET = """
     <h3>คูปองจากแชท</h3>
     <p class="lead">ลิงก์นี้มีคูปองติดมาด้วย กดรับก่อนสั่งซื้อ</p>
     <div class="cticket">
-      <u>ราคาหน้าเว็บ 499฿ ลิงก์แชทลดอีก <span id="cutAmt">50</span>฿</u>
-      <b>เหลือ <span id="ticketPrice">449</span>฿</b>
+      <u>ราคาหน้าเว็บ 499฿ ลิงก์แชทลดอีก <span class="nb"><span id="cutAmt">50</span>฿</span></u>
+      <b>เหลือ <span class="nb"><span id="ticketPrice">449</span>฿</span></b>
       <span>โอนแล้วระบบส่งโค้ดเข้าอีเมล ปกติใน 1 นาที</span>
     </div>
     <button class="go" id="cget">รับส่วนลด 50฿</button>
@@ -294,7 +295,7 @@ SHEET = """
     if (window.CT_PROMO) return;
     document.getElementById('ovl').classList.add('hide');
     document.documentElement.classList.add('got-code');
-    document.body.classList.remove('ct-sheet');
+    document.body.style.overflow = '';
     taken = true;
     fill(SELL, SELL_OFF);
     var tx = document.getElementById('stickyBtnTx');
@@ -322,13 +323,13 @@ SHEET = """
       if (++n > 40) clearInterval(t);
     }, 150);
   }
-  document.body.classList.add('ct-sheet');
+  document.body.style.overflow = 'hidden';   /* ล็อกสกรอลล์ตอนป๊อปอัพเปิด ห้ามใช้คลาส ct-sheet ของ promo.js มันเป็นแผ่นขาวที่มี transform */
   var RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
   function take(animate) {
     try { sessionStorage.setItem('mock_got', '1'); } catch (e) {}
     var ovl = document.getElementById('ovl'), root = document.documentElement,
         btn = document.querySelector('.btn-sticky'), note = document.getElementById('stickyNote');
-    document.body.classList.remove('ct-sheet');
+    document.body.style.overflow = '';
     if (!animate || RM) {                       /* กลับเข้าหน้าเดิม หรือปิด motion ไว้ */
       ovl.classList.add('hide'); root.classList.add('got-code'); paint(); return;
     }
