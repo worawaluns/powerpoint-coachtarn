@@ -35,6 +35,13 @@ rep('<meta name="viewport" content="width=device-width, initial-scale=1.0, maxim
     '<meta name="robots" content="noindex,nofollow">\n<base href="/">')
 
 # แถบ Bonus ใน hero -> ป้ายราคาจากแชท (ไม่มีนาฬิกา)
+# ก้อนบนสุดเปลืองบรรทัด (ไอซ์ 12 พ.ย.): ยุบ 6 แถวเหลือ 3 แถว h1 / ป้ายแชท+ราคา / ปุ่ม
+s = s.replace("""    <div class="hero-price">""", """    <div class="hero-price hero-price--chat">
+      <span class="hero-flash chat-flash" id="heroFlash">
+        <span class="hf-badge hf-fb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.14 2 11.24c0 2.9 1.44 5.49 3.68 7.19V22l3.37-1.85c.9.25 1.85.39 2.95.39 5.52 0 10-4.14 10-9.24C22 6.14 17.52 2 12 2zm.99 12.4l-2.53-2.7-4.93 2.7 5.42-5.75 2.6 2.7 4.86-2.7-5.42 5.75z"/></svg></span>
+        <span class="hf-txt" id="chatTag">มีคูปองจากแชท</span>
+      </span>""")
+
 rep("""    <a href="#bonus" class="hero-flash" id="heroFlash">
       <span class="hf-badge">แถมฟรี</span>
       <span class="hf-txt">Bonus Slides อีก 1 ชุด หมดใน <b id="heroTimer">--:--:--</b></span>
@@ -43,6 +50,10 @@ rep("""    <a href="#bonus" class="hero-flash" id="heroFlash">
       <span class="hf-badge hf-fb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.14 2 11.24c0 2.9 1.44 5.49 3.68 7.19V22l3.37-1.85c.9.25 1.85.39 2.95.39 5.52 0 10-4.14 10-9.24C22 6.14 17.52 2 12 2zm.99 12.4l-2.53-2.7-4.93 2.7 5.42-5.75 2.6 2.7 4.86-2.7-5.42 5.75z"/></svg></span>
       <span class="hf-txt">ราคาพิเศษจากแชท <b id="chatHint">รับคูปองแล้วเหลือ 449฿</b></span>
     </div>""")
+# แถวป้ายเดิมไม่ใช้แล้ว (ย้ายไปอยู่ในแถวราคา)
+i = s.index('<div class="hero-flash chat-flash" id="heroFlash">')
+j = s.index('</div>', s.index('</span>', i)) + 6
+s = s[:i] + s[j:]
 
 # แถบติดล่างจอ: เอานาฬิกานับถอยหลังออก
 rep("""  <div class="sticky-urgency">""", """  <div class="sticky-urgency" id="stickyNote">""")
@@ -120,8 +131,15 @@ EXTRA_CSS = """
 .sticky-bar{padding-top:6px}
 .sticky-bar .sticky-urgency{font-size:12.5px;padding-bottom:4px}
 
-/* บรรทัดรับประกันใต้ปุ่ม ไอคอนกับข้อความต้องอยู่แถวเดียวกัน และตัวโตพอสำหรับลูกค้า 30-55 */
-.trust-line{flex-wrap:wrap;justify-content:center;row-gap:2px;font-size:13.5px}
+/* ก้อนบนสุดเหลือ 3 แถว: ป้ายแชทมาอยู่แถวเดียวกับราคา บรรทัดรับประกันไปอยู่บนแถบล่างจอ */
+.page .hero-h1{line-height:1.08;margin-bottom:12px}
+.page .hero-price--chat{display:flex;flex-wrap:nowrap;align-items:center;justify-content:center;gap:8px;margin:0 0 14px}
+.page .hero-price--chat .hero-flash{margin:0;padding:3px 10px 3px 3px;gap:6px;flex:0 0 auto}
+.page .hero-price--chat .hf-badge{width:22px;height:22px;padding:4px!important}
+.page .hero-price--chat .hf-txt{font-size:12px;font-weight:700;color:#0A58B8}
+.page .hero-price--chat .price-save{font-size:11px;padding:2px 7px}
+.page .hero-btn-row{margin-bottom:12px}
+.page .trust-line{display:none}
 /* ท้าย section ตัวอย่าง: ปุ่มโปร่งทรงเดียวกับปุ่มหลักแย่งสายตา และลิงก์พาออกนอกหน้า */
 .pick-more{padding:4px 20px 16px}
 .pick-more button{border:none;background:none;font-family:inherit;font-size:14px;font-weight:700;color:#6B6B6B;text-decoration:underline;text-underline-offset:3px;height:44px}
@@ -180,7 +198,7 @@ body.ct-got .live-pills{bottom:112px}
 /* แถบล่างจอ: โผล่แล้วต้องอยู่ ไม่ให้ observer ตาม scroll ดึงกลับลง */
 html.got-code .sticky-bar{visibility:visible;transform:translateX(-50%) translateY(0)}
 /* ป้ายยอดขายสดของเว็บ: ย้ายมาอยู่ใต้ปุ่มใน hero แทนการลอยทับรูปกับแถบปุ่มซื้อ */
-.live-pills.ct-inline{position:static;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px 0 0;opacity:1}
+.live-pills.ct-inline{position:static;flex-direction:row;flex-wrap:wrap;justify-content:flex-start;gap:8px;margin:0 0 12px;opacity:1}
 .live-pills.ct-inline .lp{opacity:1!important;transform:none!important;font-size:12.5px}
 /* ราคาในแถบล่างชิดขอบจอเกินไป */
 .sticky-bar .sticky-price-col{padding-left:4px}
@@ -237,11 +255,15 @@ SHEET = """
   var PRICE = 449, FULL = 499, LIST = 999;
   var OFF = Math.round((1 - PRICE / LIST) * 100);
   function paint() {
+    var tag = document.getElementById('chatTag');
+    if (tag) tag.textContent = 'ราคาจากแชท';
     document.querySelectorAll('[data-p1]').forEach(function (el) {
       el.textContent = el.getAttribute('data-p1')
         .replace('{p}', PRICE).replace('{full}', LIST).replace('{off}', OFF);
     });
     document.querySelector('.hero').classList.add('got');
+    var tag = document.getElementById('chatTag');
+    if (tag) tag.textContent = 'ราคาจากแชท';
     var tx = document.getElementById('stickyBtnTx');
     if (tx) tx.textContent = 'สั่งซื้อ ' + PRICE + '฿';
     var n = 0, t = setInterval(function () {
@@ -254,10 +276,12 @@ SHEET = """
   document.body.classList.add('ct-sheet');
   /* ป้ายยอดขายสด ย้ายเข้ามาในหน้า ไม่ให้ลอยทับอย่างอื่น */
   var mv = 0, mvt = setInterval(function () {
-    var pills = document.querySelector('.live-pills'), hero = document.querySelector('.hero-inner');
-    if (pills && hero) {
+    var pills = document.querySelector('.live-pills');
+    if (pills && document.getElementById('get')) {
       pills.classList.add('ct-inline');
-      hero.insertBefore(pills, document.querySelector('.hero-stats'));
+      pills.removeAttribute('style');
+      var get = document.getElementById('get');
+      get.insertBefore(pills, get.firstElementChild);
       clearInterval(mvt);
     }
     if (++mv > 60) clearInterval(mvt);
