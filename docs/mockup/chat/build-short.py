@@ -121,8 +121,12 @@ EXTRA_CSS = """
 .sticky-bar{padding-top:6px}
 .sticky-bar .sticky-urgency{font-size:12.5px;padding-bottom:4px}
 
-/* บรรทัดรับประกันใต้ปุ่ม ไอคอนกับข้อความต้องอยู่แถวเดียวกัน */
-.trust-line{flex-wrap:wrap;justify-content:center;row-gap:2px}
+/* บรรทัดรับประกันใต้ปุ่ม ไอคอนกับข้อความต้องอยู่แถวเดียวกัน และตัวโตพอสำหรับลูกค้า 30-55 */
+.trust-line{flex-wrap:wrap;justify-content:center;row-gap:2px;font-size:13.5px}
+/* ท้าย section ตัวอย่าง: ปุ่มโปร่งทรงเดียวกับปุ่มหลักแย่งสายตา และลิงก์พาออกนอกหน้า */
+.pick-more{padding:4px 20px 16px}
+.pick-more button{border:none;background:none;font-family:inherit;font-size:14px;font-weight:700;color:#6B6B6B;text-decoration:underline;text-underline-offset:3px;height:44px}
+.pick-more a{display:none}
 /* ปุ่มทักแชทต้องขึ้นบรรทัดของตัวเอง ไม่ไปแทรกกลางประโยค */
 .cg-pay a{display:flex;width:fit-content}
 
