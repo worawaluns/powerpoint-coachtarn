@@ -367,6 +367,6 @@ SHEET = """
 """
 rep('</body>', SHEET + '</body>')
 
-out = ROOT / 'docs/mockup/chat/short.html'
+out = ROOT / 'chat.html'   # ต้องอยู่ราก เพราะหน้านี้ตัดมาจาก index.html ที่อ้างไฟล์แบบ js/... img/... order.html
 out.write_text(s)
 print('wrote', out, len(s), 'bytes')
