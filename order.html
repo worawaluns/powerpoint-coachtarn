@@ -1691,10 +1691,12 @@ async function handleSubmit() {
 
     document.getElementById('progressBar').style.width = '60%';
 
-    // ── ManyChat subscriber ID — captured by index.html IIFE (null = web/direct) ──
-    let manychatSubscriberId = null;
+    // ── ManyChat subscriber ID + page ID — เก็บโดย js/topbar.js ทุกหน้า (null = เข้าเว็บเอง ไม่ได้มาจากแชท) ──
+    // Coach Tarn มี 2 เพจ Contact Id ใช้ข้ามเพจไม่ได้ verify-slip ต้องรู้เพจเพื่อเลือก token ให้ถูก
+    let manychatSubscriberId = null, manychatPageId = null;
     try {
       manychatSubscriberId = localStorage.getItem('manychat_subscriber_id');
+      manychatPageId       = localStorage.getItem('manychat_page_id');
     } catch (e) {
       // localStorage blocked (private mode / strict cookie policy) → keep null
     }
@@ -1722,6 +1724,7 @@ async function handleSubmit() {
         promo_code: promo() ? promo().code : null,
         ref       : promo() && promo().ref ? promo().ref : null,
         manychat_subscriber_id: manychatSubscriberId,
+        manychat_page_id      : manychatPageId,
       }),
     });
     if (!insertRes.ok) throw new Error('insert_failed');

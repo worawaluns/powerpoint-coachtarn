@@ -179,4 +179,25 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 if (location.hash === '#search') addEventListener('DOMContentLoaded', () => { if (document.getElementById('q')) setTimeout(search, 300); });
 const info = html => open('login', html);   // แผ่นข้อความ ใช้ทรงเดียวกับแผ่นเข้าสู่ระบบ (template.html แผ่น Studio เป็นแพ็กแยก)
 window.ctTop = { login, ic, check, info };   // ic = same Phosphor icons for page buttons (template.html)
+
+/* ── ลิงก์รับไฟล์ที่พา ?code=TARN-... มา (ปุ่มในอีเมล / ปุ่มในแชท ManyChat) ──
+   เดิมหน้า download ไม่ได้อ่าน code จาก URL เลย ลูกค้าที่กดจากอีเมลต้องพิมพ์โค้ดเองทุกคน
+   ที่นี่ล็อกอินให้เลยด้วย verify-code ตัวเดียวกับป๊อปอัพ แล้วลบ code ออกจาก URL
+   ?code= ของโปร (เช่น FLASH449-0DH7) เป็นคนละชุด ไม่เข้าเงื่อนไข TARN- จึงปล่อยให้ promo.js จัดการเหมือนเดิม */
+(function () {
+  var q, c;
+  try { q = new URLSearchParams(location.search); c = (q.get('code') || '').toUpperCase(); } catch (e) { return; }
+  if (!PATTERN.test(c)) return;
+  var cur = me();
+  if (cur && cur.code === c) return clean();
+  ask(c).then(function (d) { if (d && d.valid) { keep(c, d); clean(true); } }).catch(function () {});
+  function clean(reload) {
+    try {
+      q.delete('code');
+      var url = location.pathname + (q.toString() ? '?' + q.toString() : '') + location.hash;
+      if (reload) location.replace(url);            /* โหลดใหม่ แถบบนจะได้วาดแบบล็อกอินแล้ว */
+      else history.replaceState(null, '', url);
+    } catch (e) {}
+  }
+})();
 })();

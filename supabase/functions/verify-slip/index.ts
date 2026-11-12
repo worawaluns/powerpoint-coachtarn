@@ -12,6 +12,18 @@ const TURNSTILE_SECRET = Deno.env.get('TURNSTILE_SECRET_KEY')!
 const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
 const ADMIN_EMAIL      = Deno.env.get('ADMIN_REVIEW_EMAIL') ?? 'powerpoint.officialth@gmail.com'
 const REVIEW_PAGE      = Deno.env.get('REVIEW_PAGE_URL') ?? 'https://coachtarnslide.com/review'
+const LIBRARY_URL      = Deno.env.get('LIBRARY_PAGE_URL') ?? 'https://coachtarnslide.com/templates'
+
+// Coach Tarn มี 2 เพจ = ManyChat 2 บัญชี token แยกกัน ยิงผิดเพจลูกค้าจะไม่ได้ข้อความขอบคุณ
+// secret ชื่อ MANYCHAT_TOKEN_<id เพจ> ส่วนออเดอร์เก่าที่ไม่มี page id ใช้ MANYCHAT_API_TOKEN ตัวเดิม
+function manychatToken(pageId: string | null): string | undefined {
+  if (pageId) {
+    const byPage = Deno.env.get(`MANYCHAT_TOKEN_${pageId}`)
+    if (byPage) return byPage
+    console.warn('[verify-slip] ไม่พบ secret MANYCHAT_TOKEN_' + pageId + ' ใช้ token ตัวเดิมแทน')
+  }
+  return Deno.env.get('MANYCHAT_API_TOKEN')
+}
 
 // Resend sender — DKIM อยู่ที่ resend._domainkey.coachtarnslide.com → ใช้ root domain
 const FROM_EMAIL = 'PowerPoint Template by Coach Tarn <noreply@coachtarnslide.com>'
@@ -414,7 +426,7 @@ serve(async (req) => {
     // ── 2. ดึง order ─────────────────────────────────────────────────────────
     const { data: order, error: orderErr } = await supabase
       .from('orders')
-      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, pack, pay_channel, promo_code, ref, tax_invoice, tax_type, tax_name, tax_branch, tax_id, tax_address, tax_ship_address, tax_phone')
+      .select('id, name, email, slip_url, status, trans_ref, manychat_subscriber_id, manychat_page_id, pack, pay_channel, promo_code, ref, tax_invoice, tax_type, tax_name, tax_branch, tax_id, tax_address, tax_ship_address, tax_phone')
       .eq('id', order_id)
       .single()
 
@@ -712,28 +724,45 @@ serve(async (req) => {
       } catch (e) { console.error('[verify-slip] tax notice mail failed:', e) }
     }
 
-    // ── 11. ManyChat tag (additive, non-critical — only for Messenger-referred users) ────
+    // ── 11. ManyChat (additive, non-critical — เฉพาะลูกค้าที่มาจากปุ่มในแชท) ────
+    // ลำดับสำคัญ: เขียน custom field ให้ครบก่อน แล้วค่อยติดแท็ก เพราะแท็กเป็นตัวจุดชนวน
+    // ข้อความขอบคุณที่อ่าน field พวกนี้ ถ้าติดแท็กก่อน ลูกค้าจะได้ข้อความที่ช่องยังว่าง
     try {
       const mcId = order.manychat_subscriber_id
       if (mcId) {
-        const mcRes = await fetch('https://api.manychat.com/fb/subscriber/addTagByName', {
-          method : 'POST',
-          headers: {
-            'Authorization': `Bearer ${Deno.env.get('MANYCHAT_API_TOKEN')}`,
-            'Content-Type' : 'application/json',
-          },
-          body: JSON.stringify({
-            subscriber_id: Number(mcId),
-            tag_name     : 'website_purchased',
-          }),
-        })
-        if (!mcRes.ok) {
-          const errorBody = await mcRes.text()
-          console.error('[verify-slip] ManyChat API non-200:', mcRes.status, errorBody)
+        const token = manychatToken(order.manychat_page_id)
+        if (!token) {
+          console.error('[verify-slip] ไม่มี ManyChat token ของเพจ', order.manychat_page_id)
+        } else {
+          const mc = async (path: string, body: Record<string, unknown>) => {
+            const res = await fetch(`https://api.manychat.com/fb/subscriber/${path}`, {
+              method : 'POST',
+              headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+              body   : JSON.stringify({ subscriber_id: Number(mcId), ...body }),
+            })
+            if (!res.ok) console.error(`[verify-slip] ManyChat ${path} ${res.status}:`, await res.text())
+            return res.ok
+          }
+
+          const items = [`- PowerPoint Template by Coach Tarn (6,500+ สไลด์)`]
+          if (seats > 1) items.push(`- สิทธิ์ใช้งาน ${seats} คน`)
+
+          const fields: Array<[string, string]> = [
+            ['order_no'   , '#' + String(order.id).slice(0, 8).toUpperCase()],
+            ['order_items', items.join('\n')],
+            ['order_total', Number(price).toLocaleString('en-US')],
+            ['files_url'  , `${LIBRARY_URL}?code=${encodeURIComponent(redeemCode)}`],
+          ]
+          // field ไหนพลาดให้ log ไว้แล้วไปต่อ ห้ามหยุด ออเดอร์ verified กับอีเมลออกไปแล้ว
+          for (const [field_name, field_value] of fields) {
+            try { await mc('setCustomFieldByName', { field_name, field_value }) }
+            catch (e) { console.error('[verify-slip] ManyChat field', field_name, 'failed:', e) }
+          }
+          await mc('addTagByName', { tag_name: 'website_purchased' })
         }
       }
     } catch (error) {
-      console.error('[verify-slip] ManyChat tag call failed (non-critical):', error)
+      console.error('[verify-slip] ManyChat call failed (non-critical):', error)
       // Must NOT throw — order is already verified and email sent
     }
 
