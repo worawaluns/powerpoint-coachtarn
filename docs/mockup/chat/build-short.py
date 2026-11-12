@@ -90,7 +90,6 @@ GET = """
       ติดปัญหา ทักแชทเพจ
     </a>
   </div>
-  <a href="order.html" class="cg-cta" id="getCta">สั่งซื้อ <b data-p1="{p}฿">499฿</b></a>
 </section>
 """
 rep('<!-- Footer -->', GET + '\n<!-- Footer -->')
@@ -143,9 +142,6 @@ EXTRA_CSS = """
 .cg-pay a{display:inline-flex;align-items:center;gap:7px;height:44px;margin-top:10px;padding:0 15px;border-radius:12px;
   border:1px solid #D8DFE6;background:#fff;color:#0084FF;font-size:14px;font-weight:700;text-decoration:none}
 .cg-pay a svg{width:15px;height:15px}
-.cg-cta{display:flex;align-items:center;justify-content:center;gap:8px;height:56px;margin-top:16px;border-radius:14px;
-  background:#C84B2F;color:#fff;font-size:17px;font-weight:800;text-decoration:none}
-.cg-cta b{font-weight:900}
 
 .ovl{position:fixed;inset:0;z-index:300;background:rgba(17,17,20,.5);display:flex;align-items:flex-end;justify-content:center;animation:cfade .2s ease}
 .ovl.hide{display:none}
