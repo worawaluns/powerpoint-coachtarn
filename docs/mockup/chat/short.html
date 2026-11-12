@@ -2723,6 +2723,8 @@ fbq('track','PageView');
 <style>
 /* ── เฉพาะหน้าราคาพิเศษจากแชท ─────────────────────── */
 #ct-top .tb-cap{display:none}            /* มีปุ่มซื้อติดล่างจอแล้ว ไม่ต้องซ้ำ */
+/* promo.js มี UI ของโปรโฆษณาในตัว หน้าแชทใช้ป๊อปอัพของตัวเองแทน */
+.ct-ovl,.ct-pstrip,.ct-sticker{display:none!important}
 .chat-flash{background:#EAF3FF}
 .hf-fb{display:inline-flex;align-items:center;gap:5px;background:#0084FF!important;color:#fff!important}
 .hf-fb{padding:6px!important;border-radius:50%}
@@ -2844,7 +2846,7 @@ html.got-code .sticky-bar{visibility:visible;transform:translateX(-50%) translat
 <div id="ct-top"></div>
 <script src="js/topbar.js"></script>
 <!-- โค้ดส่วนลด: เปลี่ยนราคาทุกจุดที่มี data-p1 เฉพาะเครื่องที่กดลิงก์ /dd/ มา -->
-<!-- ม็อกอัพ: ราคาคุมด้วยสคริปต์ท้ายไฟล์แทน promo.js -->
+<script src="js/promo.js?v=20261111g"></script>
 
 <!-- ตัดออกจากหน้าแชท: แถบประกาศที่ซ่อนอยู่ -->
 <!-- ③ HERO -->
@@ -3769,33 +3771,60 @@ function closeDrawer() {
     <h3>คูปองจากแชท</h3>
     <p class="lead">ลิงก์นี้มีคูปองติดมาด้วย กดรับก่อนสั่งซื้อ</p>
     <div class="cticket">
-      <u>ราคาหน้าเว็บ 499฿ ลิงก์แชทลดอีก 50฿</u>
-      <b>เหลือ 449฿</b>
+      <u>ราคาหน้าเว็บ 499฿ ลิงก์แชทลดอีก <span id="cutAmt">50</span>฿</u>
+      <b>เหลือ <span id="ticketPrice">449</span>฿</b>
       <span>โอนแล้วระบบส่งโค้ดเข้าอีเมล ปกติใน 1 นาที</span>
     </div>
     <button class="go" id="cget">รับส่วนลด 50฿</button>
   </div>
 </div>
 <script>
-/* ม็อกอัพ: จำลองสิ่งที่ promo.js ทำบนของจริง (ทาราคาทุกจุดที่มี data-p1) */
+/* ป๊อปอัพคูปองของหน้าแชท ทำงานคู่กับ promo.js ตัวจริง (promo.js เก็บ ct_promo + หอบโค้ดไปหน้าสั่งซื้อ) */
 (function () {
-  var PRICE = 449, FULL = 499, LIST = 999;
-  var OFF = Math.round((1 - PRICE / LIST) * 100);
-  function paint() {
-    var tag = document.getElementById('chatTag');
-    if (tag) tag.textContent = 'ราคาจากแชท';
+  var LIST = 999, SELL = 499;
+  /* ราคาจริงมาจาก promo.js ที่ตรวจโค้ดกับตาราง promo_codes (โหลดแบบ async) */
+  function price() { return (window.CT_PROMO && window.CT_PROMO.price) || 449; }
+  var SELL_OFF = Math.round((1 - SELL / LIST) * 100);
+  function off(p) { return Math.round((1 - p / LIST) * 100); }
+  function fill(price, off) {
     document.querySelectorAll('[data-p1]').forEach(function (el) {
       el.textContent = el.getAttribute('data-p1')
-        .replace('{p}', PRICE).replace('{full}', LIST).replace('{off}', OFF);
+        .replace('{p}', price).replace('{full}', LIST).replace('{off}', off);
     });
-    document.querySelector('.hero').classList.add('got');
+  }
+  /* ก่อนกดรับส่วนลด หน้าต้องโชว์ราคาเว็บปกติ promo.js ทาราคาโปรไว้ตั้งแต่โหลด ต้องทาทับกลับ */
+  var taken = false;
+  function before() {
+    if (taken) return;
+    fill(SELL, SELL_OFF);
+    var tx = document.getElementById('stickyBtnTx');
+    if (tx) tx.textContent = 'สั่งซื้อเลย';
+  }
+  function ticket() {
+    var P = price(), a = document.getElementById('ticketPrice'), c = document.getElementById('cutAmt');
+    if (a) a.textContent = P;
+    if (c) c.textContent = SELL - P;
+    var g = document.getElementById('cget');
+    if (g && !g.classList.contains('done')) g.textContent = 'รับส่วนลด ' + (SELL - P) + '฿';
+  }
+  var tt = setInterval(ticket, 250);
+  setTimeout(function () { clearInterval(tt); }, 8000);
+  ticket();
+  var bt = setInterval(before, 250);            /* promo.js ทาราคาโปรตอน fetch เสร็จ ต้องทาทับกลับจนกว่าลูกค้าจะกดรับ */
+  setTimeout(function () { clearInterval(bt); }, 8000);
+  before();
+  function paint() {
+    taken = true;
     var tag = document.getElementById('chatTag');
     if (tag) tag.textContent = 'ราคาจากแชท';
+    var P = price();
+    fill(P, off(P));
+    document.querySelector('.hero').classList.add('got');
     var tx = document.getElementById('stickyBtnTx');
-    if (tx) tx.textContent = 'สั่งซื้อ ' + PRICE + '฿';
+    if (tx) tx.textContent = 'สั่งซื้อ ' + P + '฿';
     var n = 0, t = setInterval(function () {
       document.querySelectorAll('#ct-top a, .tb-sheet a').forEach(function (a) {
-        if (/สั่งซื้อ 499฿/.test(a.textContent)) a.innerHTML = a.innerHTML.replace('สั่งซื้อ 499฿', 'สั่งซื้อ ' + PRICE + '฿');
+        if (/สั่งซื้อ 499฿/.test(a.textContent)) a.innerHTML = a.innerHTML.replace('สั่งซื้อ 499฿', 'สั่งซื้อ ' + P + '฿');
       });
       if (++n > 40) clearInterval(t);
     }, 150);
@@ -3812,7 +3841,7 @@ function closeDrawer() {
     }
     if (note) {
       var normal = note.textContent;
-      note.textContent = 'รับส่วนลดแล้ว ' + PRICE + '฿ กดปุ่มส้มสั่งซื้อ';
+      note.textContent = 'รับส่วนลดแล้ว ' + price() + '฿ กดปุ่มส้มสั่งซื้อ';
       setTimeout(function () { note.classList.add('ct-swap'); }, 4300);
       setTimeout(function () { note.textContent = normal; note.classList.remove('ct-swap'); }, 4500);
     }

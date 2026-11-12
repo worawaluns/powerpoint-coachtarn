@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>กำลังเปิดหน้าราคาจากแชท</title>
+<!-- ลิงก์ที่แอดมินส่งในแชท พาเข้าหน้าราคาจากแชทพร้อมโค้ด
+     promo.js เป็นคนตรวจกับตาราง promo_codes แล้วเก็บไว้ในเครื่องลูกค้า
+     ราคาจริงตัดสินที่ server (verify-slip) อ่านจากตารางเดียวกัน -->
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  q.set('code', 'PAYDAY355-M54Q');
+  if (!q.get('ref')) q.set('ref', 'chat');
+  location.replace('/docs/mockup/chat/short?' + q.toString());
+})();
+</script>
+<noscript><meta http-equiv="refresh" content="0;url=/docs/mockup/chat/short?code=PAYDAY355-M54Q&ref=chat"></noscript>
+</head>
+<body></body>
+</html>
