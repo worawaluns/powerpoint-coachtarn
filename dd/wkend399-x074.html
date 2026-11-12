@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>กำลังเปิดหน้าราคาจากแชท</title>
-<!-- ลิงก์ที่แอดมินส่งในแชท พาเข้าหน้าราคาจากแชทพร้อมโค้ด
-     promo.js เป็นคนตรวจกับตาราง promo_codes แล้วเก็บไว้ในเครื่องลูกค้า
-     ราคาจริงตัดสินที่ server (verify-slip) อ่านจากตารางเดียวกัน -->
+<!-- ลิงก์ราคาจากแชท พาเข้าหน้าแรกพร้อมโค้ด เส้นทางเดียวกับลิงก์โฆษณา /dd/deck1111 ที่ลูกค้าโอนสำเร็จแล้ว
+     promo.js เป็นคนตรวจโค้ดกับตาราง promo_codes แล้วทาราคาทั้งหน้า + หอบโค้ดไปหน้าสั่งซื้อ
+     ref=chat ติดไปกับออเดอร์ ใช้แยกยอดแชทออกจากยอดโฆษณาในรายงาน -->
 <script>
 (function () {
   var q = new URLSearchParams(location.search);
   q.set('code', 'WKEND399-X074');
   if (!q.get('ref')) q.set('ref', 'chat');
-  location.replace('/chat?' + q.toString());
+  location.replace('/?' + q.toString());
 })();
 </script>
-<noscript><meta http-equiv="refresh" content="0;url=/chat?code=WKEND399-X074&ref=chat"></noscript>
+<noscript><meta http-equiv="refresh" content="0;url=/?code=WKEND399-X074&ref=chat"></noscript>
 </head>
 <body></body>
 </html>

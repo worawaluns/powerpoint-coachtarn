@@ -69,6 +69,17 @@ cut('/* ── Countdown — single source of truth ── */', '/* ── Featu
 s = s.replace("""}, {threshold:0}).observe(document.querySelector('.footer'));""",
               """}, {threshold:0});   /* หน้าแชทไม่มี footer ไม่ต้องสังเกต */""")
 
+# กันทั้งคลาส: หน้าแรกมี observe(document.querySelector('...')) อยู่หลายที่ (.footer .ft-wrap .rc-demo ฯลฯ)
+# section ไหนถูกตัดออก ตัวนั้นจะเป็น null แล้ว observe(null) โยน error ทำให้สคริปต์ก้อนเดียวกันตายทั้งก้อน
+# รวมถึง revealObs ที่อยู่ท้ายสุด ผลคือ section ที่มีคลาส reveal ไม่โผล่เลย หน้าว่างเป็นหน้าจอ
+SHIM = """<script>
+(function () {
+  var io = IntersectionObserver.prototype.observe;
+  IntersectionObserver.prototype.observe = function (t) { if (t) return io.call(this, t); };
+})();
+</script>
+"""
+
 # ลิงก์หน้าสั่งซื้อให้เปิดได้บน localhost
 s = s.replace('โอนเงิน · ได้ไฟล์ทางอีเมลทันที · ใช้ง่าย ไม่ต้องเป็นผู้เชี่ยวชาญ',
               'โอนแล้วรับโค้ดทางอีเมล ใช้โหลดไฟล์ได้ทันที')
@@ -229,7 +240,7 @@ html.got-code .sticky-bar{visibility:visible;transform:translateX(-50%) translat
 }
 </style>
 """
-rep('</head>', EXTRA_CSS + '</head>')
+rep('</head>', SHIM + EXTRA_CSS + '</head>')
 
 SHEET = """
 <div class="ovl" id="ovl">
