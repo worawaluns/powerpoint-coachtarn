@@ -277,6 +277,21 @@ SHEET = """
   var tt = setInterval(ticket, 250);
   setTimeout(function () { clearInterval(tt); }, 8000);
   ticket();
+  /* เปิดหน้านี้โดยไม่มีโค้ด (ลิงก์ถูกส่งต่อ) = ราคาปกติ ไม่มีป๊อปอัพคูปอง
+     ถ้าปล่อยให้กดรับได้ ลูกค้าจะเห็น 449 แต่ server คิด 499 แล้วสลิปไม่ผ่าน */
+  setTimeout(function () {
+    if (window.CT_PROMO) return;
+    document.getElementById('ovl').classList.add('hide');
+    document.documentElement.classList.add('got-code');
+    document.body.classList.remove('ct-sheet');
+    taken = true;
+    fill(SELL, SELL_OFF);
+    var tx = document.getElementById('stickyBtnTx');
+    if (tx) tx.textContent = 'สั่งซื้อ ' + SELL + '฿';
+    var tag = document.getElementById('chatTag');
+    if (tag && tag.parentElement) tag.parentElement.style.display = 'none';
+  }, 2500);
+
   var bt = setInterval(before, 250);            /* promo.js ทาราคาโปรตอน fetch เสร็จ ต้องทาทับกลับจนกว่าลูกค้าจะกดรับ */
   setTimeout(function () { clearInterval(bt); }, 8000);
   before();
