@@ -166,9 +166,6 @@ EXTRA_CSS = """
 .pick-more{padding:4px 20px 16px}
 .pick-more button{border:none;background:none;font-family:inherit;font-size:14px;font-weight:700;color:#6B6B6B;text-decoration:underline;text-underline-offset:3px;height:44px}
 .pick-more a{display:none}
-/* ปุ่มทักแชทต้องขึ้นบรรทัดของตัวเอง ไม่ไปแทรกกลางประโยค */
-.cg-pay a{display:flex;width:fit-content}
-
 .chat-get{padding-top:8px}
 .cg-list{list-style:none;border:1px solid var(--border);border-radius:16px;padding:6px 16px}
 .cg-list li{display:flex;gap:11px;align-items:flex-start;padding:10px 0;font-size:16px;line-height:1.38;font-weight:700}
@@ -179,7 +176,8 @@ EXTRA_CSS = """
 .cg-list li div span{display:block;font-size:14px;font-weight:500;color:#6B6B6B;margin-top:2px}
 .cg-pay{margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--bg-soft);font-size:14px;line-height:1.55;color:var(--text-mid)}
 .cg-pay b{font-weight:800;color:var(--text)}
-.cg-pay a{display:inline-flex;align-items:center;gap:7px;height:44px;margin-top:10px;padding:0 15px;border-radius:12px;
+/* ปุ่มทักแชทต้องขึ้นบรรทัดของตัวเอง ไม่ไปแทรกกลางประโยค (จอใหญ่ข้อความไม่ตัดบรรทัด มันเลยอัดมาอยู่ด้วยกัน) */
+.cg-pay a{display:flex;width:fit-content;align-items:center;gap:7px;height:44px;margin-top:10px;padding:0 15px;border-radius:12px;
   border:1px solid #D8DFE6;background:#fff;color:#0084FF;font-size:14px;font-weight:700;text-decoration:none}
 .cg-pay a svg{width:15px;height:15px}
 /* จอใหญ่: กล่องนี้ยืดเต็มจอแล้วอ่านไม่ออก ไอซ์ 14 พ.ย. "เปิดบนเดสก์ท็อป section สุดท้ายดูพัง ไม่ได้อยู่ตรงกลาง" */
@@ -194,8 +192,12 @@ EXTRA_CSS = """
 .su-bar{position:absolute;top:0;left:0;right:0;height:3px;overflow:hidden;background:#F3E7E3}
 .su-fill{display:block;height:100%;width:0;background:#C84B2F;transition:width .6s linear}
 #stickyNote b{font-weight:600;font-variant-numeric:tabular-nums}
-#stickyNote.su-last{color:#C84B2F;font-weight:600}
 #stickyNote svg{width:13px;height:13px;flex:none;stroke:currentColor;fill:none;stroke-width:2}
+#stickyNote.su-on{color:var(--tb-text);font-weight:600}       /* คุณนิด 14 พ.ย.: "ตัวอักษรเทาจาง ไม่ตั้งใจมองจะไม่เห็น" */
+#stickyNote.su-last{color:#C84B2F;font-weight:700}
+/* หน้าสั้นแถบราคาค้างอยู่ตลอด ป้ายลอยมุมล่างซ้ายเลยทับบรรทัดเวลา ยกขึ้นเหนือแถบ */
+html.got-code .live-pills{bottom:calc(100px + env(safe-area-inset-bottom))}
+@media(min-width:768px){html.got-code .live-pills{bottom:calc(84px + env(safe-area-inset-bottom))}}
 
 .ovl{position:fixed;inset:0;z-index:300;background:rgba(17,17,20,.5);display:flex;align-items:flex-end;justify-content:center;animation:cfade .2s ease}
 .ovl.hide{display:none}
@@ -367,6 +369,7 @@ SHEET = """
     if (!noteEl) return;
     var u = urgency();
     noteEl.innerHTML = u ? CLOCK + u.html : NOTE;
+    noteEl.classList.toggle('su-on', !!u);
     noteEl.classList.toggle('su-last', !!(u && u.last));
     if (u && u.last) {
       if (!suFill) {
@@ -423,7 +426,7 @@ SHEET = """
     }
     if (note) {
       note.textContent = 'รับส่วนลดแล้ว ' + price() + '฿ กดปุ่มส้มสั่งซื้อ';
-      note.classList.remove('su-last');
+      note.classList.remove('su-last', 'su-on');
       setTimeout(function () { note.classList.add('ct-swap'); }, 4300);
       setTimeout(function () { renderNote(); note.classList.remove('ct-swap'); }, 4500);
     }
