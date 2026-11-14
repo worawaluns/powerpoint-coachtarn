@@ -3836,7 +3836,7 @@ function closeDrawer() {
 })();
 </script>
 
-<div class="ovl" id="ovl">
+<div class="ovl hide" id="ovl">
   <div class="csheet">
     <button class="cx" id="cx" aria-label="ปิด"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     <h3 id="cpH">คูปองส่วนลด</h3>
@@ -3885,11 +3885,22 @@ function closeDrawer() {
   var tt = setInterval(ticket, 250);
   setTimeout(function () { clearInterval(tt); }, 8000);
   ticket();
-  /* เปิดหน้านี้โดยไม่มีโค้ด (ลิงก์ถูกส่งต่อ) = ราคาปกติ ไม่มีป๊อปอัพคูปอง
-     ถ้าปล่อยให้กดรับได้ ลูกค้าจะเห็น 449 แต่ server คิด 499 แล้วสลิปไม่ผ่าน */
-  setTimeout(function () {
-    if (window.CT_PROMO) return;
-    document.getElementById('ovl').classList.add('hide');
+  /* รอผลตรวจโค้ดจริงจาก promo.js ห้ามใช้เวลาตายตัว
+     (QA 15 พ.ย.: เน็ตช้ากว่า 2.5 วิ แล้วป๊อปอัพหายไปเอง ราคากับปุ่มไม่ตรงกัน)
+     เปิดหน้านี้โดยไม่มีโค้ด (ลิงก์ถูกส่งต่อ) = ราคาปกติ ไม่มีป๊อปอัพคูปอง
+     ถ้าปล่อยให้กดรับได้ ลูกค้าจะเห็นราคาโปร แต่ server คิด 499 แล้วสลิปไม่ผ่าน */
+  function whenPromo(cb) {
+    var n = /[?&]code=/.test(location.search) ? 40 : 0;   /* มีโค้ดใน URL รอได้ถึง 8 วินาที */
+    /* ต้องตอบกลับแบบ async เสมอ ถ้าตอบทันทีจะไปเรียกฟังก์ชันที่ยังประกาศไม่ถึง แล้วสคริปต์ตายทั้งก้อน */
+    setTimeout(function look() {
+      if (window.CT_PROMO) return cb(true);
+      if (n-- <= 0) return cb(false);
+      setTimeout(look, 200);
+    }, 0);
+  }
+
+  whenPromo(function (ok) {
+    if (ok) { ticket(); openSheet(); tick(); return; }
     document.documentElement.classList.add('got-code');
     document.body.style.overflow = '';
     taken = true;
@@ -3898,7 +3909,7 @@ function closeDrawer() {
     if (tx) tx.textContent = 'สั่งซื้อ ' + SELL + '฿';
     var tag = document.getElementById('chatTag');
     if (tag && tag.parentElement) tag.parentElement.style.display = 'none';
-  }, 2500);
+  });
 
   /* ── บรรทัดเร่งเวลาบนแถบราคา + หลอดวันสุดท้าย ──────────────────
      ตัวเลขทุกตัวคิดสดจาก CT_PROMO.ends ทุกรอบ ไม่เก็บเวลาเริ่มไว้ที่ไหน
@@ -3961,10 +3972,18 @@ function closeDrawer() {
     suFill = noteEl.querySelector('.su-fill');
   }
 
+  var reloaded = false;
   function renderNote() {
     if (!noteEl) return;
     build();
     var u = urgency();
+    /* โปรหมดเขตตอนเปิดหน้าค้างไว้ (QA 15 พ.ย.): ถ้าไม่โหลดใหม่ หน้าจะยังโชว์ราคาโปร
+       แต่หน้าสั่งซื้อคิดราคาเต็ม โหลดใหม่รอบเดียวให้ promo.js ตัดโค้ดที่หมดอายุทิ้งเอง */
+    if (!u && !reloaded && window.CT_PROMO && Date.parse(window.CT_PROMO.ends) <= Date.now()) {
+      reloaded = true;
+      try { localStorage.removeItem('ct_promo'); } catch (e) {}
+      return location.reload();
+    }
     renderTag(u);
     noteEl.classList.toggle('su-on', !!u);
     noteEl.classList.toggle('su-last', !!(u && u.last));
@@ -3984,7 +4003,7 @@ function closeDrawer() {
     if (!document.hidden) ut = setInterval(renderNote, u && u.last ? 1000 : 60000);   /* วินาทีเฉพาะวันสุดท้าย */
   }
   document.addEventListener('visibilitychange', tick);
-  setTimeout(tick, 1200);                            /* รอ promo.js ตรวจโค้ดเสร็จก่อน */
+  tick();                                            /* whenPromo ข้างบนจะเรียก tick() ซ้ำตอนโค้ดมาถึง */
 
   var bt = setInterval(before, 250);            /* promo.js ทาราคาโปรตอน fetch เสร็จ ต้องทาทับกลับจนกว่าลูกค้าจะกดรับ */
   setTimeout(function () { clearInterval(bt); }, 8000);
@@ -4005,7 +4024,13 @@ function closeDrawer() {
       if (++n > 40) clearInterval(t);
     }, 150);
   }
-  document.body.style.overflow = 'hidden';   /* ล็อกสกรอลล์ตอนป๊อปอัพเปิด ห้ามใช้คลาส ct-sheet ของ promo.js มันเป็นแผ่นขาวที่มี transform */
+  /* ล็อกสกรอลล์เฉพาะตอนป๊อปอัพเปิดจริง ห้ามใช้คลาส ct-sheet ของ promo.js มันเป็นแผ่นขาวที่มี transform */
+  function openSheet() {
+    var ovl = document.getElementById('ovl');
+    if (taken || !ovl || !ovl.classList.contains('hide')) return;
+    ovl.classList.remove('hide');
+    document.body.style.overflow = 'hidden';
+  }
   var RM = matchMedia('(prefers-reduced-motion:reduce)').matches;
   function take(animate) {
     try { sessionStorage.setItem('mock_got', '1'); } catch (e) {}

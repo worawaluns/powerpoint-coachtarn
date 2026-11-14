@@ -3879,6 +3879,8 @@ async function setFile(slug){
     [document.querySelector('.sticky-bar .sticky-urgency'),
      document.querySelector('.dc-urg'),
      document.getElementById('heroFlash')].forEach(function(el){ if(el) el.style.display='none'; });
+    var b = document.querySelector('.dc-btn');     /* แถบเวลาหายแล้วปุ่มไปติดขอบการ์ด ต้องคืนช่องไฟให้ */
+    if (b) b.style.marginTop = '16px';
   }
   function start(end){
     deadline = end;
