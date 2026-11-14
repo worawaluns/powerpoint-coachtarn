@@ -424,9 +424,10 @@ SHEET = """
     if (!animate || RM) {                       /* กลับเข้าหน้าเดิม หรือปิด motion ไว้ */
       ovl.classList.add('hide'); root.classList.add('got-code'); paint(); return;
     }
-    if (note) {
+    /* ไอซ์ 14 พ.ย.: "ชอบตรงที่ราคานี้เหลืออีกกี่นาที แต่อย่าให้มีสลับกับคำที่เขียนว่าได้ไฟล์ภายใน 1 นาที"
+       มีข้อความเร่งอยู่เมื่อไหร่ บรรทัดนี้เป็นของตัวเร่งอย่างเดียว ไม่สลับไปมา */
+    if (note && !urgency()) {
       note.textContent = 'รับส่วนลดแล้ว ' + price() + '฿ กดปุ่มส้มสั่งซื้อ';
-      note.classList.remove('su-last', 'su-on');
       setTimeout(function () { note.classList.add('ct-swap'); }, 4300);
       setTimeout(function () { renderNote(); note.classList.remove('ct-swap'); }, 4500);
     }
