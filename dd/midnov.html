@@ -5,17 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
 <title>กำลังเปิดหน้าโปร</title>
-<!-- ลิงก์โฆษณาของโค้ด MIDNOV พาเข้าหน้าแรกพร้อมโค้ด
+<!-- ลิงก์โฆษณาของโค้ด MIDNOV พาเข้าหน้าสั้น ตัดให้เหลือ hero กับตัวอย่างสไลด์ ถึงปุ่มซื้อเร็วกว่าหน้าแรกเต็ม
      promo.js เป็นคนตรวจกับตาราง promo_codes ว่าอยู่ในช่วงวันไหม
-     ถ้าโปรยังไม่เริ่มหรือหมดเขตแล้ว คนที่กดเข้ามาจะเห็นหน้าแรกราคาปกติ -->
+     ถ้าโปรยังไม่เริ่มหรือหมดเขตแล้ว คนที่กดเข้ามาจะเห็นราคาปกติ ไม่มีป๊อปอัพคูปอง
+     ref ที่ไม่ใช่ chat ทำให้หน้าสั้นตัดคำว่า "แชท" ออกทุกจุด -->
 <script>
 (function () {
   var q = new URLSearchParams(location.search);
   q.set('code', 'MIDNOV');
-  location.replace('/?' + q.toString());
+  if (!q.get('ref')) q.set('ref', 'fbads-midnov');
+  location.replace('/chat?' + q.toString());
 })();
 </script>
-<noscript><meta http-equiv="refresh" content="0;url=/?code=MIDNOV"></noscript>
+<noscript><meta http-equiv="refresh" content="0;url=/chat?code=MIDNOV&ref=fbads-midnov"></noscript>
 </head>
 <body></body>
 </html>

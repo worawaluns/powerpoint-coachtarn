@@ -39,8 +39,8 @@ rep('<meta name="viewport" content="width=device-width, initial-scale=1.0, maxim
 s = s.replace("""    <div class="hero-price">""", """    <div class="hero-price hero-price--chat">
       <span class="hero-flash chat-flash" id="heroFlash">
         <span class="hf-badge hf-fb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.14 2 11.24c0 2.9 1.44 5.49 3.68 7.19V22l3.37-1.85c.9.25 1.85.39 2.95.39 5.52 0 10-4.14 10-9.24C22 6.14 17.52 2 12 2zm.99 12.4l-2.53-2.7-4.93 2.7 5.42-5.75 2.6 2.7 4.86-2.7-5.42 5.75z"/></svg></span>
-        <span class="hf-txt" id="chatTag">มีคูปองจากแชท</span>
-      </span>""")
+        <span class="hf-txt" id="chatTag">มีคูปองส่วนลด</span>
+      </span><script>if (window.CT_FROM_CHAT) document.getElementById('chatTag').textContent = 'มีคูปองจากแชท';</script>""")
 
 rep("""    <a href="#bonus" class="hero-flash" id="heroFlash">
       <span class="hf-badge">แถมฟรี</span>
@@ -73,6 +73,16 @@ s = s.replace("""}, {threshold:0}).observe(document.querySelector('.footer'));""
 # section ไหนถูกตัดออก ตัวนั้นจะเป็น null แล้ว observe(null) โยน error ทำให้สคริปต์ก้อนเดียวกันตายทั้งก้อน
 # รวมถึง revealObs ที่อยู่ท้ายสุด ผลคือ section ที่มีคลาส reveal ไม่โผล่เลย หน้าว่างเป็นหน้าจอ
 SHIM = """<script>
+/* หน้านี้ใช้ทั้งลิงก์แชท (ref=chat) และลิงก์โฆษณา (ref=fbads-...)
+   คนกดมาจากแอดไม่ได้คุยกับใคร คำว่า "แชท" จึงต้องไม่ขึ้นกับเขา
+   ตั้งค่าตั้งแต่ head แล้วให้สคริปต์ที่อยู่ติดกับข้อความแต่ละจุดเป็นคนเปลี่ยนคำ จะได้ไม่เห็นคำวูบก่อน */
+window.CT_FROM_CHAT = (function () {
+  try {
+    var r = new URLSearchParams(location.search).get('ref');
+    if (!r) r = (JSON.parse(localStorage.getItem('ct_promo') || 'null') || {}).ref;
+    return (r || 'chat') === 'chat';
+  } catch (e) { return true; }
+})();
 (function () {
   var io = IntersectionObserver.prototype.observe;
   IntersectionObserver.prototype.observe = function (t) { if (t) return io.call(this, t); };
@@ -247,10 +257,10 @@ SHEET = """
 <div class="ovl" id="ovl">
   <div class="csheet">
     <button class="cx" id="cx" aria-label="ปิด"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-    <h3>คูปองจากแชท</h3>
+    <h3 id="cpH">คูปองส่วนลด</h3>
     <p class="lead">ลิงก์นี้มีคูปองติดมาด้วย กดรับก่อนสั่งซื้อ</p>
     <div class="cticket">
-      <u>ราคาหน้าเว็บ 499฿ ลิงก์แชทลดอีก <span class="nb"><span id="cutAmt">50</span>฿</span></u>
+      <u>ราคาหน้าเว็บ 499฿ <span id="cpCut" class="nb">ลิงก์นี้ลดอีก</span> <span class="nb"><span id="cutAmt">50</span>฿</span></u>
       <b>เหลือ <span class="nb"><span id="ticketPrice">449</span>฿</span></b>
       <span>โอนแล้วระบบส่งโค้ดเข้าอีเมล ปกติใน 1 นาที</span>
     </div>
@@ -260,6 +270,10 @@ SHEET = """
 <script>
 /* ป๊อปอัพคูปองของหน้าแชท ทำงานคู่กับ promo.js ตัวจริง (promo.js เก็บ ct_promo + หอบโค้ดไปหน้าสั่งซื้อ) */
 (function () {
+  if (window.CT_FROM_CHAT) {
+    document.getElementById('cpH').textContent   = 'คูปองจากแชท';
+    document.getElementById('cpCut').textContent = 'ลิงก์แชทลดอีก';
+  }
   var LIST = 999, SELL = 499;
   /* ราคาจริงมาจาก promo.js ที่ตรวจโค้ดกับตาราง promo_codes (โหลดแบบ async) */
   function price() { return (window.CT_PROMO && window.CT_PROMO.price) || 449; }
@@ -310,7 +324,7 @@ SHEET = """
   function paint() {
     taken = true;
     var tag = document.getElementById('chatTag');
-    if (tag) tag.textContent = 'ราคาจากแชท';
+    if (tag) tag.textContent = window.CT_FROM_CHAT ? 'ราคาจากแชท' : 'ราคาโปรวันนี้';
     var P = price();
     fill(P, off(P));
     document.querySelector('.hero').classList.add('got');
