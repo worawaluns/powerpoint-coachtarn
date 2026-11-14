@@ -872,9 +872,10 @@ fbq('track','ViewContent',{content_name:'PowerPoint Template by Coach Tarn',cont
 </head>
 <body>
 <script>
-// ── team packs: ?pack=5|10|20 switches the whole page to that price ──────────
-const PACKS = { 1:499, 5:1990, 10:3490, 20:5990 };
-const PACK  = PACKS[+new URLSearchParams(location.search).get('pack')] ? +new URLSearchParams(location.search).get('pack') : 1;
+// ── เลิกขายแพ็กทีมแล้ว (ไอซ์ 15 พ.ย. "จะขายราคาเดี่ยวครับ") ลิงก์เก่า ?pack=5 ที่หลุดไปแล้ว
+//    ต้องไม่ขายได้อีก บังคับ 1 สิทธิ์เสมอ โค้ดด้านล่างที่รองรับหลายสิทธิ์ปล่อยไว้เผื่อเปิดขายใหม่
+const PACKS = { 1:499 };
+const PACK  = 1;
 const FULL  = PACKS[PACK];
 let   PRICE = FULL;
 const baht  = n => n.toLocaleString('en-US');

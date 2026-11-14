@@ -81,7 +81,7 @@ window.CT_FROM_CHAT = (function () {
   try {
     var r = new URLSearchParams(location.search).get('ref');
     if (!r) r = (JSON.parse(localStorage.getItem('ct_promo') || 'null') || {}).ref;
-    return (r || 'chat') === 'chat';
+    return r === 'chat';   /* ไม่มี ref = ไม่ใช่ลิงก์แชท ไม่งั้นคนมาจากแอดเห็นคำว่าแชท */
   } catch (e) { return true; }
 })();
 (function () {
