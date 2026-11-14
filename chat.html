@@ -2787,6 +2787,20 @@ window.CT_FROM_CHAT = (function () {
 .cg-pay a{display:inline-flex;align-items:center;gap:7px;height:44px;margin-top:10px;padding:0 15px;border-radius:12px;
   border:1px solid #D8DFE6;background:#fff;color:#0084FF;font-size:14px;font-weight:700;text-decoration:none}
 .cg-pay a svg{width:15px;height:15px}
+/* จอใหญ่: กล่องนี้ยืดเต็มจอแล้วอ่านไม่ออก ไอซ์ 14 พ.ย. "เปิดบนเดสก์ท็อป section สุดท้ายดูพัง ไม่ได้อยู่ตรงกลาง" */
+@media(min-width:768px){
+  .chat-get{max-width:720px;margin-left:auto;margin-right:auto;padding-left:24px;padding-right:24px}
+}
+@media(min-width:1200px){
+  .chat-get{max-width:780px}
+}
+
+/* ── หลอดเวลาที่เหลือ ทับเส้นขอบบนของแถบราคา ไม่กินความสูงแถบ ── */
+.su-bar{position:absolute;top:0;left:0;right:0;height:3px;overflow:hidden;background:#F3E7E3}
+.su-fill{display:block;height:100%;width:0;background:#C84B2F;transition:width .6s linear}
+#stickyNote b{font-weight:600;font-variant-numeric:tabular-nums}
+#stickyNote.su-last{color:#C84B2F;font-weight:600}
+#stickyNote svg{width:13px;height:13px;flex:none;stroke:currentColor;fill:none;stroke-width:2}
 
 .ovl{position:fixed;inset:0;z-index:300;background:rgba(17,17,20,.5);display:flex;align-items:flex-end;justify-content:center;animation:cfade .2s ease}
 .ovl.hide{display:none}
@@ -2854,6 +2868,7 @@ html.got-code .sticky-bar{visibility:visible;transform:translateX(-50%) translat
 @media(prefers-reduced-motion:reduce){
   .ovl,.ovl .csheet,.sticky-bar,.btn-sticky{transition:none!important}
   .csheet,[data-p1].p1-swap,.btn-sticky.cta-pop,.btn-sticky.cta-pop::before{animation:none!important}
+  .su-fill,#stickyNote{transition:none!important}
 }
 </style>
 </head>
@@ -3847,6 +3862,64 @@ function closeDrawer() {
     if (tag && tag.parentElement) tag.parentElement.style.display = 'none';
   }, 2500);
 
+  /* ── บรรทัดเร่งเวลาบนแถบราคา + หลอดวันสุดท้าย ──────────────────
+     ตัวเลขทุกตัวคิดสดจาก CT_PROMO.ends ทุกรอบ ไม่เก็บเวลาเริ่มไว้ที่ไหน
+     เปิดหน้าซ้ำเวลาจึงเดินต่อเอง ไม่ใช่เริ่มนับใหม่เหมือนนาฬิกา 24 ชม. ตัวเก่าที่ถอดไปแล้ว */
+  var NOTE = 'โอนแล้วรับโค้ดทางอีเมล ปกติใน 1 นาที';
+  var MON  = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  var CLOCK = '<svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>';
+  var noteEl = document.getElementById('stickyNote');
+  var suFill;   /* ห้ามตั้งชื่อ fill สคริปต์นี้มีฟังก์ชัน fill() ทาราคาอยู่แล้ว ชื่อซ้ำแล้วหลอดไม่ขึ้น */
+
+  function midnight(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime(); }
+
+  /* คืน null ถ้าไม่ต้องเร่ง (ไม่มีโปร / หมดเขตไกลเกิน 7 วัน / หมดเขตแล้ว) */
+  function urgency() {
+    var p = window.CT_PROMO;
+    if (!p || !p.ends) return null;
+    var end = Date.parse(p.ends), left = end - Date.now();
+    if (!end || left <= 0) return null;
+    var e = new Date(end);
+    var days = Math.round((midnight(e) - midnight(new Date())) / 86400000);   /* นับวันปฏิทิน ไม่ใช่ชั่วโมงหาร 24 */
+    if (days > 7) return null;
+    var date = e.getDate() + ' ' + MON[e.getMonth()];
+    if (days >= 2) return { html: 'ราคานี้ถึง <b>' + date + '</b> เหลืออีก <b>' + days + ' วัน</b>', last: false };
+    if (days === 1) return { html: 'พรุ่งนี้วันสุดท้ายของราคานี้', last: false };
+    var mins = Math.floor(left / 60000), hrs = Math.floor(mins / 60);
+    if (hrs >= 6) return { html: 'วันนี้วันสุดท้ายของราคานี้', last: true, pct: left };
+    if (hrs >= 1) return { html: 'ราคานี้เหลืออีก <b>' + hrs + ' ชม. ' + (mins - hrs * 60) + ' นาที</b>', last: true, pct: left };
+    return { html: 'ราคานี้เหลืออีก <b>' + Math.max(1, mins) + ' นาที</b>', last: true, pct: left };
+  }
+
+  function renderNote() {
+    if (!noteEl) return;
+    var u = urgency();
+    noteEl.innerHTML = u ? CLOCK + u.html : NOTE;
+    noteEl.classList.toggle('su-last', !!(u && u.last));
+    if (u && u.last) {
+      if (!suFill) {
+        var bar = document.createElement('div');
+        bar.className = 'su-bar';
+        bar.innerHTML = '<i class="su-fill"></i>';
+        var host = document.getElementById('stickyBar');
+        if (host) { host.insertBefore(bar, host.firstChild); suFill = bar.firstChild; }
+      }
+      /* หลอด = เวลาที่เหลือของวันสุดท้ายเทียบ 24 ชม. ย้อนตรวจได้จาก ends อย่างเดียว */
+      if (suFill) suFill.style.width = Math.max(1, Math.min(100, u.pct / 864000)).toFixed(1) + '%';
+    } else if (suFill) {
+      suFill.parentNode.remove(); suFill = null;
+    }
+  }
+
+  var ut = null;
+  function tick() {                                  /* นาทีเดียวพอ ไม่เอาวินาทีกลับมา */
+    clearInterval(ut);
+    renderNote();
+    if (!document.hidden) ut = setInterval(renderNote, 60000);
+  }
+  document.addEventListener('visibilitychange', tick);
+  setTimeout(tick, 1200);                            /* รอ promo.js ตรวจโค้ดเสร็จก่อน */
+
   var bt = setInterval(before, 250);            /* promo.js ทาราคาโปรตอน fetch เสร็จ ต้องทาทับกลับจนกว่าลูกค้าจะกดรับ */
   setTimeout(function () { clearInterval(bt); }, 8000);
   before();
@@ -3877,10 +3950,10 @@ function closeDrawer() {
       ovl.classList.add('hide'); root.classList.add('got-code'); paint(); return;
     }
     if (note) {
-      var normal = note.textContent;
       note.textContent = 'รับส่วนลดแล้ว ' + price() + '฿ กดปุ่มส้มสั่งซื้อ';
+      note.classList.remove('su-last');
       setTimeout(function () { note.classList.add('ct-swap'); }, 4300);
-      setTimeout(function () { note.textContent = normal; note.classList.remove('ct-swap'); }, 4500);
+      setTimeout(function () { renderNote(); note.classList.remove('ct-swap'); }, 4500);
     }
     document.querySelector('.hero').classList.add('got');   /* ป้ายฟ้าหดตอนยังมีฉากมืดคลุม */
     var go = document.getElementById('cget');
