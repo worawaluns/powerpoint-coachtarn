@@ -196,6 +196,16 @@ EXTRA_CSS = """
 #stickyNote.su-on{color:var(--tb-text);font-weight:600}       /* คุณนิด 14 พ.ย.: "ตัวอักษรเทาจาง ไม่ตั้งใจมองจะไม่เห็น" */
 #stickyNote.su-last{color:#C84B2F;font-weight:700}
 /* หน้าสั้นแถบราคาค้างอยู่ตลอด ป้ายลอยมุมล่างซ้ายเลยทับบรรทัดเวลา ยกขึ้นเหนือแถบ */
+/* ป้ายในหีโร่โหมดเร่ง (คนมาจากแอด) ไอซ์ 14 พ.ย.: "เอาราคาวันนี้ออก เปลี่ยนเป็นตัวเร่งแทน"
+   คนมาจากแชทยังเป็นป้ายฟ้า Messenger เหมือนเดิม เพราะโค้ดแชทหมดเขตปี 2031 ไม่มีอะไรให้นับ */
+.chat-flash.hf-urg{background:#FBE9E3}
+.chat-flash.hf-urg .hf-txt{color:#C84B2F;font-weight:700}
+.chat-flash.hf-urg .hf-badge{background:#C84B2F!important;padding:5px!important}
+.chat-flash.hf-urg .hf-badge svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.2}
+.chat-flash.hf-hot{background:#C84B2F}
+.chat-flash.hf-hot .hf-txt{color:#fff}
+.chat-flash.hf-hot .hf-badge{background:rgba(255,255,255,.24)!important}
+
 html.got-code .live-pills{bottom:calc(100px + env(safe-area-inset-bottom))}
 @media(min-width:768px){html.got-code .live-pills{bottom:calc(84px + env(safe-area-inset-bottom))}}
 
@@ -357,17 +367,33 @@ SHEET = """
     var days = Math.round((midnight(e) - midnight(new Date())) / 86400000);   /* นับวันปฏิทิน ไม่ใช่ชั่วโมงหาร 24 */
     if (days > 7) return null;
     var date = e.getDate() + ' ' + MON[e.getMonth()];
-    if (days >= 2) return { html: 'ราคานี้ถึง <b>' + date + '</b> เหลืออีก <b>' + days + ' วัน</b>', last: false };
-    if (days === 1) return { html: 'พรุ่งนี้วันสุดท้ายของราคานี้', last: false };
+    if (days >= 2) return { html: 'ราคานี้ถึง <b>' + date + '</b> เหลืออีก <b>' + days + ' วัน</b>', tag: days + ' วันสุดท้าย', last: false };
+    if (days === 1) return { html: 'พรุ่งนี้วันสุดท้ายของราคานี้', tag: '1 วันสุดท้าย', last: false };
     var mins = Math.floor(left / 60000), hrs = Math.floor(mins / 60);
-    if (hrs >= 6) return { html: 'วันนี้วันสุดท้ายของราคานี้', last: true, pct: left };
-    if (hrs >= 1) return { html: 'ราคานี้เหลืออีก <b>' + hrs + ' ชม. ' + (mins - hrs * 60) + ' นาที</b>', last: true, pct: left };
-    return { html: 'ราคานี้เหลืออีก <b>' + Math.max(1, mins) + ' นาที</b>', last: true, pct: left };
+    if (hrs >= 6) return { html: 'วันนี้วันสุดท้ายของราคานี้', tag: 'วันสุดท้าย', last: true, pct: left };
+    if (hrs >= 1) return { html: 'ราคานี้เหลืออีก <b>' + hrs + ' ชม. ' + (mins - hrs * 60) + ' นาที</b>', tag: 'เหลือ ' + hrs + ' ชม.', last: true, pct: left };
+    return { html: 'ราคานี้เหลืออีก <b>' + Math.max(1, mins) + ' นาที</b>', tag: 'เหลือ ' + Math.max(1, mins) + ' นาที', last: true, pct: left };
+  }
+
+  /* ป้ายในหีโร่: ตราประทับสั้นๆ ไม่มีวันที่ ส่วนแถบล่างเป็นประโยคเต็มมีวันที่ จะได้ไม่ซ้ำคำกัน */
+  function renderTag(u) {
+    var tag = document.getElementById('chatTag');
+    if (!tag || !tag.parentElement) return;
+    var flash = tag.parentElement;
+    if (window.CT_FROM_CHAT) { tag.textContent = 'ราคาจากแชท'; return; }
+    if (!u) { flash.style.display = 'none'; return; }
+    flash.style.display = '';
+    flash.classList.add('hf-urg');
+    flash.classList.toggle('hf-hot', !!u.last);
+    var badge = flash.querySelector('.hf-badge');
+    if (badge && !badge.dataset.clock) { badge.innerHTML = CLOCK; badge.dataset.clock = '1'; }
+    tag.textContent = u.tag;
   }
 
   function renderNote() {
     if (!noteEl) return;
     var u = urgency();
+    renderTag(u);
     noteEl.innerHTML = u ? CLOCK + u.html : NOTE;
     noteEl.classList.toggle('su-on', !!u);
     noteEl.classList.toggle('su-last', !!(u && u.last));
@@ -401,7 +427,7 @@ SHEET = """
   function paint() {
     taken = true;
     var tag = document.getElementById('chatTag');
-    if (tag) tag.textContent = window.CT_FROM_CHAT ? 'ราคาจากแชท' : 'ราคาโปรวันนี้';
+    renderTag(urgency());   /* ป้ายเป็นของตัวนับ ห้ามเขียนทับด้วยคำตายตัว */
     var P = price();
     fill(P, off(P));
     document.querySelector('.hero').classList.add('got');
