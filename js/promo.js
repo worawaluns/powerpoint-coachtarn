@@ -209,7 +209,6 @@
         '</div>' +
         '<div class="ct-meta">' +
           '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>' + (isChat(p) ? 'โอนแล้วรับโค้ดทางอีเมล ปกติใน 1 นาที' : 'ใช้ได้ถึง <b>' + endText(p.ends, false) + '</b>'   /* ไอซ์ 14 พ.ย.: บนเว็บบอกแค่วัน ไม่บอกเวลา */) + '</div>' +
-          '<div><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.3 3.1-5 7-5s7 1.7 7 5"/></svg>ใช้กับแพ็ก 1 สิทธิ์ แพ็กทีมราคาปกติ</div>' +
         '</div>' +
         '<button type="button" class="ct-go" id="ctPromoKeep">เก็บโค้ดไว้ใช้</button>' +
         '<p class="ct-fine">เก็บแล้วลดให้อัตโนมัติตอนสั่งซื้อ ไม่ต้องพิมพ์โค้ดเอง</p>' +

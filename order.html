@@ -651,8 +651,8 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
 .rej-actions.fb-primary .rej-fb-note{display:block}
 
 /* ── Footer ── */
-.footer{background:#111;padding:40px 24px 0}
-.footer-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:36px;padding-bottom:36px}
+.footer{background:#111;padding:28px 24px 0}
+.footer-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;padding-bottom:24px}
 .footer-col{display:flex;flex-direction:column;gap:10px}
 .footer-col--brand{align-items:center;gap:12px}
 .footer-logo-link{display:block;opacity:0.88}
@@ -733,7 +733,7 @@ body{font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;back
   .trust-chips{padding:10px 0}
   .submit-area{padding:0 0 4px}
   .footer{padding:52px 0 0}
-  .footer-inner{display:grid;grid-template-columns:1.8fr 1fr 1.2fr;align-items:start;text-align:left;gap:40px;padding:0 48px 44px}
+  .footer-inner{display:grid;grid-template-columns:1.6fr 1fr;align-items:start;text-align:left;gap:40px;padding:0 48px 36px}   /* หน้านี้เหลือ 2 คอลัมน์ ตัดเมนูออกแล้ว */
   .footer-col--brand{align-items:flex-start}
   .footer-col-link{justify-content:flex-start}
   .footer-bottom{padding:16px 48px 32px;text-align:center}
@@ -844,7 +844,7 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
 </style>
 <!-- โค้ดส่วนลด: อ่านโค้ดที่เครื่องจำไว้ ก่อน pixel จะยิงราคา -->
-<script src="js/promo.js?v=20261114b"></script>
+<script src="js/promo.js?v=20261115a"></script>
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
@@ -1490,28 +1490,12 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
         <p class="footer-tagline">PowerPoint Template สำเร็จรูป · โหลดไม่จำกัด</p>
         <p class="footer-guarantee">ชำระเงินแล้ว รับ Code ภายใน 60 วินาที<br><strong>อัตโนมัติ ไม่ต้องรอแอดมิน</strong> · ทุกวัน 24 ชม.</p>
       </div>
-      <!-- Col 2: Menu -->
+      <!-- หน้าสั่งซื้อตัดฟุตเตอร์ให้สั้น (ไอซ์ 15 พ.ย.: "ยาวไปคนจะได้ไม่ต้องคิดเยอะ")
+           เหลือแค่ทางติดต่อตอนติดปัญหา ไม่มีเมนูพาออกจากหน้าจ่ายเงิน -->
       <div class="footer-col">
-        <div class="footer-col-label">เมนู</div>
-        <a href="/#strip" class="footer-col-link">ตัวอย่างสไลด์</a>
-        <a href="/#reviews" class="footer-col-link">รีวิวจากลูกค้า</a>
-        <a href="/#how" class="footer-col-link">วิธีสั่งซื้อ</a>
-        <a href="download" class="footer-col-link">วิธีดาวน์โหลด</a>
-      </div>
-      <!-- Col 3: Contact -->
-      <div class="footer-col">
-        <div class="footer-col-label">ติดต่อ</div>
-        <a href="https://www.facebook.com/ThePowerpointTemplate" target="_blank" rel="noopener" class="footer-col-link">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-          Facebook Page
-        </a>
         <a href="https://m.me/ThePowerpointTemplate" target="_blank" rel="noopener" class="footer-col-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          Messenger
-        </a>
-        <a href="mailto:powerpoint.officialth@gmail.com" class="footer-col-link footer-col-link--email">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
-          powerpoint.officialth@gmail.com
+          ติดปัญหา ทักแชทเพจ
         </a>
       </div>
     </div>

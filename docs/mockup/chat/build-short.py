@@ -24,7 +24,7 @@ def rep(a, b):
 # ⚠️ ห้ามตัดเลย <style> ของ ⑦c ไปด้วย ในนั้นมี CSS ของ section หาสไลด์ ถ้าตัดหน้าจะพังทั้งส่วน
 cut('<!-- ★ QUICK FACTS (preview) -->', '<!-- ⑦c PICK BY JOB', 'แถบ 4 ข้อใต้ hero และแถบลิงก์ section')
 cut('<!-- ⑦ PARALLAX TEMPLATE STRIP -->', '<section class="pick-section reveal" id="library">', 'แถบสไลด์พารัลแลกซ์')
-cut('<section class="section pv-b2b-section"', '<!-- Footer -->', 'ซื้อให้ทีม ใช้ได้กับอะไร ฟีเจอร์ รีวิว 3 ขั้นตอน กล่องราคา คำถามที่พบบ่อย กลุ่มคนที่เหมาะ')
+cut('<!-- ④ COMPATIBLE WITH -->', '<!-- Footer -->', 'ใช้ได้กับอะไร ฟีเจอร์ รีวิว 3 ขั้นตอน กล่องราคา คำถามที่พบบ่อย กลุ่มคนที่เหมาะ')   # section ซื้อให้ทีมถูกเอาออกจากหน้าเต็มแล้ว 14 พ.ย.
 
 # ── ของที่หน้าแชทต้องไม่มี ───────────────────────────
 rep("""try { if ((JSON.parse(localStorage.getItem('ct_lib') || 'null') || {}).code) { document.documentElement.style.display = 'none'; location.replace('templates.html' + location.hash); } } catch (e) {}""", '')
@@ -191,9 +191,23 @@ EXTRA_CSS = """
 /* ── หลอดเวลาที่เหลือ ทับเส้นขอบบนของแถบราคา ไม่กินความสูงแถบ ── */
 .su-bar{position:absolute;top:0;left:0;right:0;height:3px;overflow:hidden;background:#F3E7E3}
 .su-fill{display:block;height:100%;width:0;background:#C84B2F;transition:width .6s linear}
+/* จอใหญ่แถบกว้างเต็มจอ เส้นบางพาดทั้งจอดูเหมือนแถบโหลดหน้าเว็บ (ไอซ์ 15 พ.ย. "ขัด")
+   เปลี่ยนเป็นหลอดสั้นทรงแคปซูลต่อท้ายข้อความแทน */
+@media(min-width:768px){
+  .su-bar{position:static;width:120px;height:5px;border-radius:100px;flex:none;margin-left:4px}
+  .su-fill{border-radius:100px}
+}
 #stickyNote b{font-weight:600;font-variant-numeric:tabular-nums}
 #stickyNote svg{width:13px;height:13px;flex:none;stroke:currentColor;fill:none;stroke-width:2}
-#stickyNote.su-on{color:var(--tb-text);font-weight:600}       /* คุณนิด 14 พ.ย.: "ตัวอักษรเทาจาง ไม่ตั้งใจมองจะไม่เห็น" */
+#stickyNote.su-on{color:var(--tb-text);font-weight:600}
+/* แบบ C ที่ไอซ์เลือก 15 พ.ย.: ตัวเลขแยกบล็อก + ไอคอนไฟขยับเบาๆ */
+#stickyNote .su-cd{display:inline-flex;align-items:center;gap:1px}
+#stickyNote .su-cd b{background:#2B2422;color:#fff;border-radius:5px;padding:0 6px;font-size:12.5px;font-weight:800;line-height:1.6;font-variant-numeric:tabular-nums}
+#stickyNote .su-cd u{text-decoration:none;color:#9a938f;font-weight:700;font-size:12px;margin:0 1px}
+#stickyNote .su-ico{display:inline-flex;flex:none}
+#stickyNote .su-ico svg{width:15px;height:15px;display:block}
+#stickyNote.su-last .su-ico{transform-origin:50% 85%;animation:suFlick 1.8s ease-in-out infinite}
+@keyframes suFlick{0%,100%{transform:scale(1) rotate(0)}35%{transform:scale(1.1) rotate(-3deg)}65%{transform:scale(.96) rotate(2deg)}}       /* คุณนิด 14 พ.ย.: "ตัวอักษรเทาจาง ไม่ตั้งใจมองจะไม่เห็น" */
 #stickyNote.su-last{color:#C84B2F;font-weight:700}
 /* หน้าสั้นแถบราคาค้างอยู่ตลอด ป้ายลอยมุมล่างซ้ายเลยทับบรรทัดเวลา ยกขึ้นเหนือแถบ */
 /* ป้ายในหีโร่โหมดเร่ง (คนมาจากแอด) ไอซ์ 14 พ.ย.: "เอาราคาวันนี้ออก เปลี่ยนเป็นตัวเร่งแทน"
@@ -276,6 +290,7 @@ html.got-code .sticky-bar{visibility:visible;transform:translateX(-50%) translat
   .ovl,.ovl .csheet,.sticky-bar,.btn-sticky{transition:none!important}
   .csheet,[data-p1].p1-swap,.btn-sticky.cta-pop,.btn-sticky.cta-pop::before{animation:none!important}
   .su-fill,#stickyNote{transition:none!important}
+  #stickyNote .su-ico{animation:none!important}
 }
 </style>
 """
@@ -351,7 +366,9 @@ SHEET = """
      เปิดหน้าซ้ำเวลาจึงเดินต่อเอง ไม่ใช่เริ่มนับใหม่เหมือนนาฬิกา 24 ชม. ตัวเก่าที่ถอดไปแล้ว */
   var NOTE = 'โอนแล้วรับโค้ดทางอีเมล ปกติใน 1 นาที';
   var MON  = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
-  var CLOCK = '<svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>';
+  var CLOCK = '<svg viewBox="0 0 24 24" stroke-linecap="round" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>';
+  var FIRE  = '<svg viewBox="0 0 24 24" fill="#E8622C"><path d="M12 2c.5 3.5-1.6 5-3.2 6.6C7 10.4 6 12 6 14.2 6 18 9 21 12.5 21S19 18 19 14.4c0-2.6-1.3-4.6-3-6.2-.4 1.2-1.2 2-2.2 2.3.6-2.6.2-5.7-1.8-8.5z"/><path d="M12.4 21c-1.9 0-3.4-1.5-3.4-3.3 0-1.7 1.2-2.6 2-3.9.5 1 1 1.4 1.8 1.8.9.5 1.6 1.3 1.6 2.4 0 1.7-1.3 3-2 3z" fill="#FFC93C"/></svg>';
+  function two(n) { return (n < 10 ? '0' : '') + n; }
   var noteEl = document.getElementById('stickyNote');
   var suFill;   /* ห้ามตั้งชื่อ fill สคริปต์นี้มีฟังก์ชัน fill() ทาราคาอยู่แล้ว ชื่อซ้ำแล้วหลอดไม่ขึ้น */
 
@@ -370,9 +387,11 @@ SHEET = """
     if (days >= 2) return { html: 'ราคานี้ถึง <b>' + date + '</b> เหลืออีก <b>' + days + ' วัน</b>', tag: days + ' วันสุดท้าย', last: false };
     if (days === 1) return { html: 'พรุ่งนี้วันสุดท้ายของราคานี้', tag: '1 วันสุดท้าย', last: false };
     var mins = Math.floor(left / 60000), hrs = Math.floor(mins / 60);
-    if (hrs >= 6) return { html: 'วันนี้วันสุดท้ายของราคานี้', tag: 'วันสุดท้าย', last: true, pct: left };
-    if (hrs >= 1) return { html: 'ราคานี้เหลืออีก <b>' + hrs + ' ชม. ' + (mins - hrs * 60) + ' นาที</b>', tag: 'เหลือ ' + hrs + ' ชม.', last: true, pct: left };
-    return { html: 'ราคานี้เหลืออีก <b>' + Math.max(1, mins) + ' นาที</b>', tag: 'เหลือ ' + Math.max(1, mins) + ' นาที', last: true, pct: left };
+    /* วันสุดท้าย: นับถอยหลังเป็นบล็อกตัวเลขจริง (ชม./นาที/วินาที) ตามแบบ C ที่ไอซ์เลือก */
+    var secs = Math.floor(left / 1000) % 60;
+    var cd = (hrs ? '<b>' + two(hrs) + '</b><u>:</u>' : '') + '<b>' + two(mins - hrs * 60) + '</b><u>:</u><b>' + two(secs) + '</b>';
+    var tag = hrs >= 6 ? 'วันสุดท้าย' : hrs >= 1 ? 'เหลือ ' + hrs + ' ชม.' : 'เหลือ ' + Math.max(1, mins) + ' นาที';
+    return { html: 'ราคานี้หมดใน', cd: cd, tag: tag, last: true, pct: left };
   }
 
   /* ป้ายในหีโร่: ตราประทับสั้นๆ ไม่มีวันที่ ส่วนแถบล่างเป็นประโยคเต็มมีวันที่ จะได้ไม่ซ้ำคำกัน */
@@ -390,33 +409,40 @@ SHEET = """
     tag.textContent = u.tag;
   }
 
+  /* โครงของบรรทัดนี้สร้างครั้งเดียว ห้าม innerHTML ทับทั้งก้อนทุกรอบ ไม่งั้นหลอดโดนล้างทิ้งทุกวินาที */
+  var suIco, suTxt, suCd, suBar;
+  function build() {
+    if (suTxt) return;
+    noteEl.innerHTML = '<span class="su-ico"></span><span class="su-txt"></span><span class="su-cd"></span>' +
+                       '<div class="su-bar"><i class="su-fill"></i></div>';
+    suIco  = noteEl.querySelector('.su-ico');
+    suTxt  = noteEl.querySelector('.su-txt');
+    suCd   = noteEl.querySelector('.su-cd');
+    suBar  = noteEl.querySelector('.su-bar');
+    suFill = noteEl.querySelector('.su-fill');
+  }
+
   function renderNote() {
     if (!noteEl) return;
+    build();
     var u = urgency();
     renderTag(u);
-    noteEl.innerHTML = u ? CLOCK + u.html : NOTE;
     noteEl.classList.toggle('su-on', !!u);
     noteEl.classList.toggle('su-last', !!(u && u.last));
-    if (u && u.last) {
-      if (!suFill) {
-        var bar = document.createElement('div');
-        bar.className = 'su-bar';
-        bar.innerHTML = '<i class="su-fill"></i>';
-        var host = document.getElementById('stickyBar');
-        if (host) { host.insertBefore(bar, host.firstChild); suFill = bar.firstChild; }
-      }
-      /* หลอด = เวลาที่เหลือของวันสุดท้ายเทียบ 24 ชม. ย้อนตรวจได้จาก ends อย่างเดียว */
-      if (suFill) suFill.style.width = Math.max(1, Math.min(100, u.pct / 864000)).toFixed(1) + '%';
-    } else if (suFill) {
-      suFill.parentNode.remove(); suFill = null;
-    }
+    suIco.innerHTML = !u ? '' : (u.last ? FIRE : CLOCK);
+    suTxt.innerHTML = u ? u.html : NOTE;
+    suCd.innerHTML  = (u && u.cd) || '';
+    suBar.style.display = (u && u.last) ? '' : 'none';
+    /* หลอด = เวลาที่เหลือของวันสุดท้ายเทียบ 24 ชม. ย้อนตรวจได้จาก ends อย่างเดียว */
+    if (u && u.last) suFill.style.width = Math.max(1, Math.min(100, u.pct / 864000)).toFixed(1) + '%';
   }
 
   var ut = null;
-  function tick() {                                  /* นาทีเดียวพอ ไม่เอาวินาทีกลับมา */
+  function tick() {
     clearInterval(ut);
     renderNote();
-    if (!document.hidden) ut = setInterval(renderNote, 60000);
+    var u = urgency();
+    if (!document.hidden) ut = setInterval(renderNote, u && u.last ? 1000 : 60000);   /* วินาทีเฉพาะวันสุดท้าย */
   }
   document.addEventListener('visibilitychange', tick);
   setTimeout(tick, 1200);                            /* รอ promo.js ตรวจโค้ดเสร็จก่อน */
@@ -453,7 +479,8 @@ SHEET = """
     /* ไอซ์ 14 พ.ย.: "ชอบตรงที่ราคานี้เหลืออีกกี่นาที แต่อย่าให้มีสลับกับคำที่เขียนว่าได้ไฟล์ภายใน 1 นาที"
        มีข้อความเร่งอยู่เมื่อไหร่ บรรทัดนี้เป็นของตัวเร่งอย่างเดียว ไม่สลับไปมา */
     if (note && !urgency()) {
-      note.textContent = 'รับส่วนลดแล้ว ' + price() + '฿ กดปุ่มส้มสั่งซื้อ';
+      note.innerHTML = 'รับส่วนลดแล้ว ' + price() + '฿ กดปุ่มส้มสั่งซื้อ';
+      suTxt = null;                                  /* โครงถูกเขียนทับแล้ว ให้ build() สร้างใหม่ตอน renderNote */
       setTimeout(function () { note.classList.add('ct-swap'); }, 4300);
       setTimeout(function () { renderNote(); note.classList.remove('ct-swap'); }, 4500);
     }

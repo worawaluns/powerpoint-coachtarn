@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>แบบแถบราคานับถอยหลัง</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#C84B2F;--ink:#1D1D1F;--mid:#6B6460;--line:rgba(0,0,0,.08);--bg:#FAF7F5}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);font-family:'Noto Sans Thai',sans-serif;color:var(--ink);padding:18px 14px 60px}
+  h1{font-size:17px;margin:0 0 4px}
+  .lead{font-size:13px;color:var(--mid);margin:0 0 18px;line-height:1.7}
+  .ctl{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+  .ctl button{font-family:inherit;font-size:13px;font-weight:600;padding:8px 14px;border-radius:100px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+  .ctl button.on{background:var(--red);color:#fff;border-color:var(--red)}
+  .case{margin-bottom:26px}
+  .case h2{font-size:14px;margin:0 0 2px}
+  .case p{font-size:12.5px;color:var(--mid);margin:0 0 10px;line-height:1.6}
+
+  /* ── แถบราคาจำลอง หน้าตาเหมือนของจริง ── */
+  .bar{position:relative;max-width:430px;margin:0 auto;background:rgba(255,255,255,.94);backdrop-filter:blur(18px);
+       border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(17,17,20,.08);padding:6px 16px 12px;border-radius:16px;overflow:hidden}
+  .note{display:flex;align-items:center;justify-content:center;gap:6px;min-height:20px;font-size:12.5px;font-weight:600;color:var(--red);padding-bottom:4px}
+  .row{display:flex;align-items:center;gap:10px}
+  .pcol{line-height:1.1}
+  .pmain{font-size:21px;font-weight:800}
+  .pold{font-size:12px;color:#9a938f;text-decoration:line-through}
+  .cta{flex:1;height:48px;border:none;border-radius:100px;background:var(--red);color:#fff;font-family:inherit;font-size:15.5px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px}
+  .su{position:absolute;top:0;left:0;right:0;height:3px;background:#F3E7E3;overflow:hidden}
+  .su i{display:block;height:100%;background:var(--red);transition:width .6s linear}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* ไฟ: ขยับแบบเบา ไม่กระตุก ใช้ transform กับ opacity เท่านั้น */
+  .fire{width:15px;height:15px;flex:none;transform-origin:50% 85%;animation:flick 1.8s ease-in-out infinite}
+  @keyframes flick{0%,100%{transform:scale(1) rotate(0)}35%{transform:scale(1.1) rotate(-3deg)}65%{transform:scale(.96) rotate(2deg)}}
+  .sec{display:inline-block;min-width:1.6em;text-align:left}
+  .tickpop{animation:pop .5s ease-out}
+  @keyframes pop{0%{opacity:.35}100%{opacity:1}}
+
+  /* B: ป้ายนับถอยหลังทรงยา */
+  .pill{display:inline-flex;align-items:center;gap:6px;background:var(--red);color:#fff;border-radius:100px;padding:4px 11px;font-size:12.5px;font-weight:700}
+  .pill .fire{filter:brightness(0) invert(1)}
+
+  /* C: บล็อกตัวเลข */
+  .blocks{display:inline-flex;align-items:center;gap:3px}
+  .blocks b{background:#2B2422;color:#fff;border-radius:6px;padding:2px 6px;font-size:13px;font-weight:800;line-height:1.3}
+  .blocks u{text-decoration:none;color:#9a938f;font-weight:700;font-size:12px}
+
+  /* D: ปุ่มเต้นเบาๆ ทุก 8 วิ */
+  .beat{animation:beat 8s ease-in-out infinite}
+  @keyframes beat{0%,88%,100%{transform:scale(1)}92%{transform:scale(1.025)}96%{transform:scale(.995)}}
+  @media(prefers-reduced-motion:reduce){.fire,.beat,.tickpop{animation:none}}
+  .pick{margin-top:8px;font-size:12px;color:var(--mid)}
+</style>
+</head>
+<body>
+
+<h1>แถบราคา: แบบมีเลขนับถอยหลัง + ไอคอนไฟ</h1>
+<p class="lead">เลขทุกตัวนับจากเวลาหมดโปรจริง ไม่ใช่นาฬิกาปลอมที่รีเซ็ตเอง กดปุ่มด้านล่างเพื่อดูว่าแต่ละช่วงเวลาหน้าตาเป็นยังไง</p>
+
+<div class="ctl">
+  <button data-left="18000" class="on">เหลือ 5 ชม.</button>
+  <button data-left="2880">เหลือ 48 นาที</button>
+  <button data-left="540">เหลือ 9 นาที</button>
+</div>
+
+<div class="case">
+  <h2>แบบ A — เลขอยู่ในประโยค</h2>
+  <p>อ่านเป็นประโยคเหมือนเดิม แต่เวลาเดินให้เห็นทุกวินาที ไฟขยับเบาๆ ข้างหน้า</p>
+  <div class="bar">
+    <div class="su"><i id="fa"></i></div>
+    <div class="note"><svg class="fire" viewBox="0 0 24 24" fill="#E8622C"><path d="M12 2c.5 3.5-1.6 5-3.2 6.6C7 10.4 6 12 6 14.2 6 18 9 21 12.5 21S19 18 19 14.4c0-2.6-1.3-4.6-3-6.2-.4 1.2-1.2 2-2.2 2.3.6-2.6.2-5.7-1.8-8.5z"/><path d="M12.4 21c-1.9 0-3.4-1.5-3.4-3.3 0-1.7 1.2-2.6 2-3.9.5 1 1 1.4 1.8 1.8.9.5 1.6 1.3 1.6 2.4 0 1.7-1.3 3-2 3z" fill="#FFC93C"/></svg>
+      <span>ราคานี้เหลืออีก <b class="num" id="ta">04:59:58</b></span></div>
+    <div class="row">
+      <div class="pcol"><div class="pmain">395฿</div><div class="pold">ปกติ 999฿</div></div>
+      <button class="cta beat">สั่งซื้อ 395฿</button>
+    </div>
+  </div>
+  <p class="pick">ข้อดี: สั้น อ่านรอบเดียวจบ · ข้อเสีย: ตัวเลขแข่งกับราคา 395฿ ไม่มาก</p>
+</div>
+
+<div class="case">
+  <h2>แบบ B — ป้ายแดงเวลาติดข้างคำเร่ง</h2>
+  <p>คำเร่งเป็นข้อความ เวลาอยู่ในป้ายแดงให้ตาจับได้ทันที</p>
+  <div class="bar">
+    <div class="su"><i id="fb"></i></div>
+    <div class="note"><span>วันสุดท้ายของราคานี้</span>
+      <span class="pill"><svg class="fire" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c.5 3.5-1.6 5-3.2 6.6C7 10.4 6 12 6 14.2 6 18 9 21 12.5 21S19 18 19 14.4c0-2.6-1.3-4.6-3-6.2-.4 1.2-1.2 2-2.2 2.3.6-2.6.2-5.7-1.8-8.5z"/></svg><b class="num" id="tb">04:59:58</b></span></div>
+    <div class="row">
+      <div class="pcol"><div class="pmain">395฿</div><div class="pold">ปกติ 999฿</div></div>
+      <button class="cta beat">สั่งซื้อ 395฿</button>
+    </div>
+  </div>
+  <p class="pick">ข้อดี: เห็นเวลาก่อนอ่านตัวหนังสือ · ข้อเสีย: แถบมีสีแดง 2 ก้อน (ป้ายกับปุ่ม)</p>
+</div>
+
+<div class="case">
+  <h2>แบบ C — ตัวเลขแยกบล็อก</h2>
+  <p>ทรงนาฬิกานับถอยหลังแบบที่เห็นตามเว็บขายของ เร่งที่สุดในสามแบบ</p>
+  <div class="bar">
+    <div class="su"><i id="fc"></i></div>
+    <div class="note"><svg class="fire" viewBox="0 0 24 24" fill="#E8622C"><path d="M12 2c.5 3.5-1.6 5-3.2 6.6C7 10.4 6 12 6 14.2 6 18 9 21 12.5 21S19 18 19 14.4c0-2.6-1.3-4.6-3-6.2-.4 1.2-1.2 2-2.2 2.3.6-2.6.2-5.7-1.8-8.5z"/><path d="M12.4 21c-1.9 0-3.4-1.5-3.4-3.3 0-1.7 1.2-2.6 2-3.9.5 1 1 1.4 1.8 1.8.9.5 1.6 1.3 1.6 2.4 0 1.7-1.3 3-2 3z" fill="#FFC93C"/></svg>
+      <span>ราคานี้หมดใน</span>
+      <span class="blocks" id="tc"></span></div>
+    <div class="row">
+      <div class="pcol"><div class="pmain">395฿</div><div class="pold">ปกติ 999฿</div></div>
+      <button class="cta beat">สั่งซื้อ 395฿</button>
+    </div>
+  </div>
+  <p class="pick">ข้อดี: เร่งแรงสุด · ข้อเสีย: หน้าตาเหมือนเว็บลดราคาทั่วไป ถ้าใช้ทุกวันจะเฝือ</p>
+</div>
+
+<script>
+var left = 18000;                      /* วินาทีที่เหลือ ใช้จำลองเท่านั้น ของจริงลบจาก ends */
+document.querySelectorAll('.ctl button').forEach(function (b) {
+  b.onclick = function () {
+    document.querySelectorAll('.ctl button').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on'); left = +b.dataset.left;
+  };
+});
+function two(n) { return (n < 10 ? '0' : '') + n; }
+function paint() {
+  var h = Math.floor(left / 3600), m = Math.floor(left % 3600 / 60), s = left % 60;
+  var txt = (h ? two(h) + ':' : '') + two(m) + ':' + two(s);
+  document.getElementById('ta').textContent = txt;
+  document.getElementById('tb').textContent = txt;
+  document.getElementById('tc').innerHTML = (h ? '<b>' + two(h) + '</b><u>:</u>' : '') + '<b>' + two(m) + '</b><u>:</u><b>' + two(s) + '</b>';
+  var pct = Math.max(1, Math.min(100, left / 864)).toFixed(1) + '%';   /* เทียบ 24 ชม. */
+  ['fa','fb','fc'].forEach(function (id) { document.getElementById(id).style.width = pct; });
+  if (left > 0) left--;
+}
+paint(); setInterval(paint, 1000);
+</script>
+</body>
+</html>
