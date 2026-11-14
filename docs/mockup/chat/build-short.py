@@ -60,7 +60,7 @@ rep("""  <div class="sticky-urgency">""", """  <div class="sticky-urgency" id="s
 i = s.index('<div class="sticky-urgency" id="stickyNote">')
 j = s.index('</div>', s.index('<span class="su-timer"', i)) + 6
 s = s[:i] + '<div class="sticky-urgency" id="stickyNote">โอนแล้วรับโค้ดทางอีเมล ปกติใน 1 นาที</div>' + s[j:]
-rep('รับสไลด์ทันที สั่งเลย', '<span id="stickyBtnTx">สั่งซื้อเลย</span>')
+rep('<span data-p1="สั่งซื้อ {p}฿">สั่งซื้อ 499฿</span>', '<span id="stickyBtnTx">สั่งซื้อเลย</span>')   # หน้าแรกเปลี่ยนคำปุ่มเป็นราคาแล้ว 15 พ.ย.
 
 # สคริปต์นับถอยหลังโบนัสไม่ได้ใช้บนหน้านี้ และมันเขียน localStorage ct_bdl ร่วมกับเว็บจริง
 cut('/* ── Countdown — single source of truth ── */', '/* ── Features: hover or tap picks one', 'สคริปต์นับถอยหลังโบนัส')  # ⚠️ ห้ามตัดเลยไปถึง revealObs ไม่งั้น section ที่มีคลาส reveal จะไม่โผล่
@@ -260,7 +260,16 @@ html:not(.got-code) .sticky-bar{visibility:hidden;transform:translateX(-50%) tra
 /* แถบล่างจอ: โผล่แล้วต้องอยู่ ไม่ให้ observer ตาม scroll ดึงกลับลง */
 html.got-code .sticky-bar{visibility:visible;transform:translateX(-50%) translateY(0)}
 /* ราคาในแถบล่างชิดขอบจอเกินไป */
-.sticky-bar .sticky-price-col{padding-left:4px}
+/* ทีมดีไซน์ 15 พ.ย.: ราคาเยื้องขวา 4px จากขอบแถบ ส่วนบรรทัดเวลาลอยกลางคนเดียว
+   ไม่เกาะแนวอะไรเลย จัดให้เริ่มเส้นเดียวกันหมด แถบดูเรียบขึ้นโดยไม่ต้องแต่งเพิ่ม */
+.sticky-bar .sticky-price-col{padding-left:0}
+#stickyNote{justify-content:flex-start}
+@media(min-width:768px){
+  /* จอใหญ่เวลาอยู่คนละมุมจอกับราคา ตรงกลางโล่ง 500px ดึงมาชิดกลุ่มราคา และตัดหลอดทิ้ง
+     เพราะเกือบทั้งวันมันเต็มหลอด อ่านไม่ได้ความ ตัวเลขบอกครบอยู่แล้ว */
+  #stickyNote{justify-content:flex-end;padding-right:18px}
+  .su-bar{display:none!important}
+}
 
 /* ราคาเปลี่ยนให้ตาจับได้ โดยเลย์เอาต์ไม่ขยับ */
 [data-p1]{display:inline-block}
