@@ -188,6 +188,10 @@
   function sheet(p, vars) {
     var seen = 'ct_promo_seen_' + p.code;
     if (wasSeen(seen)) return;
+    /* หน้าที่มีป๊อปอัพคูปองของตัวเอง (หน้าสั้น /chat) ตั้ง CT_NO_SHEET ไว้
+       ต้องนับว่าเห็นแล้วด้วย ไม่งั้นหน้าสั่งซื้อจะเด้งซ้ำ และห้ามล็อกสกรอลล์
+       เพราะป๊อปอัพตัวนี้ถูก CSS ซ่อนไว้ ลูกค้ากดปิดไม่ได้ หน้าจะเลื่อนไม่ลง */
+    if (window.CT_NO_SHEET) { markSeen(seen); return; }
     shown[seen] = 1;
     var o = document.createElement('div');
     o.className = 'ct-ovl';
