@@ -130,7 +130,7 @@ body{
 .up-hint{font-size:12.5px;color:var(--text-sub);line-height:1.6;margin:-2px 0 9px}
 .up2[hidden]{display:none}
 .up2{
-  display:block;width:100%;background:#FFFCFB;border:1.5px dashed rgba(211,71,36,.35);
+  display:block;width:100%;background:#FFFCFB;border:1.5px dashed #D8D8DE;   /* เส้นประเทาอ่อน ไอซ์ไม่เอาเส้นประสีส้ม 16 พ.ย. */
   border-radius:18px;padding:26px 16px;text-align:center;font:inherit;cursor:pointer;
   transition:border-color .2s,background .2s,transform .12s var(--ease);
 }
@@ -139,7 +139,7 @@ body{
 .up2 .ic svg{width:22px;height:22px;stroke:var(--red)}
 .up2 b{display:block;font-size:15px;font-weight:800;color:var(--text)}
 .up2 em{display:block;font-style:normal;font-size:12.5px;color:var(--text-sub);margin-top:4px}
-.up2:hover{border-color:var(--red);background:#FFF7F4}
+.up2:hover{border-color:#BDBDC6;background:#FDFBFA}
 .up2:active{transform:scale(.985)}
 
 /* ระหว่างกำลังแนบ ให้เห็นว่าเครื่องกำลังทำอะไรอยู่ ไม่ใช่เงียบแล้วเด้งผลขึ้นมาเฉยๆ */
@@ -154,7 +154,7 @@ body{
 .up-qr{display:flex;gap:9px;align-items:flex-start;background:var(--amber-soft);
   border-radius:13px;padding:10px 12px;margin-top:9px}
 .up-qr svg{width:17px;height:17px;flex:none;margin-top:1px}
-.up-qr p{font-size:12.5px;color:#8A5200;line-height:1.6}
+.up-qr p{font-size:12.5px;font-weight:600;color:#8A5200;line-height:1.6}
 
 /* หลังแนบแล้ว: เห็นรูปที่แนบไปจริง กับปุ่มเปลี่ยนรูป ไม่ต้องเดาว่าติดหรือยัง */
 .slip-ok[hidden]{display:none}
@@ -306,7 +306,7 @@ body{
           <span class="slip-tx"><b>แนบสลิปแล้ว</b><span>slip-2569-1116.jpg · 412 KB</span></span>
           <button class="slip-ch" id="upAgain">เปลี่ยนรูป</button>
         </div>
-        <div class="up-qr"><svg viewBox="0 0 24 24" fill="none" stroke="#B26A00" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2v2"/></svg><p>กรุณาอย่าให้สิ่งใดปิดทับ QR Code บนสลิป ระบบใช้ QR Code ในการตรวจสอบ หากถูกบัง ระบบจะตรวจสลิปไม่ผ่าน</p></div>
+        <div class="up-qr"><svg viewBox="0 0 24 24" fill="none" stroke="#B26A00" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2v2"/></svg><p>ระบบตรวจสลิปจาก QR Code กรุณาอย่าให้มีสิ่งใดปิดทับ</p></div>
       </div>
 
       <div class="fg">
