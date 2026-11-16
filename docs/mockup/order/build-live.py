@@ -57,9 +57,14 @@ RESPONSIVE = '''
   .wrap{
     max-width:1060px;display:grid;gap:22px 26px;align-items:start;
     grid-template-columns:minmax(0,1fr) minmax(0,452px);padding:0 28px 70px;
+    align-content:start;grid-auto-rows:min-content;
   }
   .nav{grid-column:1 / -1}
-  .col-l{grid-column:1;margin:0 0 0}
+  .col-l{grid-column:1;margin:0}
+  /* บนคอมจอเตี้ยกว่ามือถือ เลยสลับให้การ์ดบัญชี (ของที่ต้องใช้ก่อน) ขึ้นก่อนรายการสั่งซื้อ
+     บนมือถือยังเรียงรายการ -> บัญชี -> ฟอร์ม เหมือนเดิม */
+  .col-l:nth-of-type(2){grid-row:3}   /* div ตัวที่ 2 ใน .wrap คือการ์ดรายการสั่งซื้อ (ตัวแรกคือ nav) */
+  .col-l:nth-of-type(3){grid-row:2}   /* ตัวที่ 3 คือการ์ดบัญชีธนาคาร ให้อยู่บนสุดของคอลัมน์ซ้าย */
   .col-r{grid-column:2;grid-row:2 / span 2;position:sticky;top:22px;margin:0}
   .tax,.job{margin-left:16px;margin-right:16px}
   .total-p{font-size:28px}
