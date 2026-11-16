@@ -75,8 +75,11 @@ body{
   background:var(--white);border:1.5px solid var(--line);border-radius:999px;
   padding:10px 14px;min-height:44px;font:inherit;font-size:12.5px;font-weight:700;
   color:var(--text-mid);cursor:pointer;margin-left:8px;white-space:nowrap;
-  min-width:96px;text-align:center;
+  min-width:110px;display:inline-flex;align-items:center;justify-content:center;gap:6px;
 }
+.copy svg{width:15px;height:15px;flex:none;stroke:currentColor;stroke-width:2.1;
+  fill:none;stroke-linecap:round;stroke-linejoin:round}
+.copy.done svg{stroke-width:3}
 .copy:active{transform:scale(.94)}
 .copy{transition:background .2s,border-color .2s,color .2s,transform .1s}
 .copy.done{background:var(--green-soft);border-color:#BBE6CC;color:#14683B}
@@ -188,7 +191,7 @@ body{
 .tax.on .tax-box,.ship-chk.on .tax-box{background:var(--green);border-color:var(--green)}
 .tax.on .tax-box svg,.ship-chk.on .tax-box svg{opacity:1;transform:scale(1)}
 .tax b{display:block;font-size:14px;font-weight:700}
-.tax span{display:block;font-size:13px;color:var(--text-mid);margin-top:2px;line-height:1.6}
+.tax span span{display:block;font-size:13px;color:var(--text-mid);margin-top:2px;line-height:1.6}
 
 /* ช่องใบกำกับภาษี: หน้าจริงมี 7 ช่อง ติ๊กแล้วกางออกมา mockup รอบแรกหายไปทั้งก้อน */
 .tax-fields[hidden]{display:none}
@@ -309,10 +312,10 @@ body{
     <div class="bank-row"><span class="bank-k">ประเภท / สาขา</span>
       <span class="bank-v">ออมทรัพย์ · เซ็นทรัล เวสต์เกต</span></div>
     <div class="bank-row"><span class="bank-k">เลขบัญชี</span>
-      <span class="bank-v big">229-3-98096-1 <button type="button" class="copy">คัดลอก</button></span></div>
+      <span class="bank-v big">229-3-98096-1 <button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>คัดลอก</button></span></div>
     <!-- ยอดที่ต้องโอนคัดลอกได้ด้วย เดิมคัดลอกได้แค่เลขบัญชี ทั้งที่ต้องพิมพ์ยอดเหมือนกัน -->
     <div class="amt-row"><span class="amt-k">ยอดที่ต้องโอน</span>
-      <span class="amt-v">499.00 บาท <button type="button" class="copy">คัดลอก</button></span></div>
+      <span class="amt-v">499.00 บาท <button type="button" class="copy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>คัดลอก</button></span></div>
     <div class="warn">
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#B26A00" stroke-width="2" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
       <p>โอนเข้า<b>บัญชีนี้เท่านั้น</b> แล้วแนบสลิปด้านล่าง ระบบตรวจให้อัตโนมัติ ได้ Code ทางอีเมลภายใน 1 นาที</p>
@@ -480,17 +483,17 @@ seg.querySelectorAll('button').forEach(function (b, i) {
 });
 
 /* ปุ่มคัดลอก: คัดลอกจริง แล้วบอกว่าคัดลอกไปแล้ว */
-var TICK = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#14683B" stroke-width="3" style="vertical-align:-2px;margin-right:4px"><polyline points="20 6 9 17 4 12"/></svg>';
+var TICK = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
 document.querySelectorAll('.copy').forEach(function (b) {
-  var box = b.parentElement;
+  var box = b.parentElement, idle = b.innerHTML;
   b.onclick = function () {
-    var text = box.textContent.replace('คัดลอก', '').replace(/[^0-9.]/g, '');
+    var text = box.textContent.replace(/คัดลอก(แล้ว)?/, '').replace(/[^0-9.]/g, '');
     if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
     b.classList.add('done');
     b.innerHTML = TICK + 'คัดลอกแล้ว';
     box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
     clearTimeout(b._t);
-    b._t = setTimeout(function () { b.classList.remove('done'); b.textContent = 'คัดลอก'; }, 2600);
+    b._t = setTimeout(function () { b.classList.remove('done'); b.innerHTML = idle; }, 2600);
   };
 });
 
