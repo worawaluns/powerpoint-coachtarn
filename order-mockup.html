@@ -111,13 +111,15 @@ body{
 .inp:focus{background:var(--white);border-color:var(--red);box-shadow:0 0 0 3px rgba(211,71,36,.12)}
 
 /* อีเมลอ่านทวน แทนช่อง "ยืนยันอีเมล" ที่ต้องพิมพ์ซ้ำ */
-.echo{display:flex;gap:9px;align-items:flex-start;background:var(--green-soft);
+.echo[hidden]{display:none}
+.echo{animation:rise .3s var(--ease);display:flex;gap:9px;align-items:flex-start;background:var(--green-soft);
   border-radius:12px;padding:11px 13px;margin-top:8px;font-size:12.5px;color:#14683B;line-height:1.6}
 .echo b{font-weight:800}
 
 /* เลือกประเภทบัญชี: เดิมเป็นการ์ด 2 ใบสูงรวม 257px เหลือแถบเดียว 44 + คำอธิบาย */
 .seg{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#EFEFF2;
   border-radius:12px;padding:4px}
+.seg:not(.picked) .seg-pill{opacity:0}
 .seg-pill{position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);
   background:var(--white);border-radius:9px;box-shadow:0 1px 4px rgba(20,20,40,.1);
   transition:transform .3s var(--ease)}
@@ -348,10 +350,10 @@ body{
       <div class="fg">
         <label class="lbl">โอนจากบัญชีแบบไหน <span class="req">*</span></label>
         <div class="seg" id="seg"><span class="seg-pill"></span>
-          <button type="button" class="on">บัญชีส่วนตัว</button>
+          <button type="button">บัญชีส่วนตัว</button>
           <button type="button">บัญชีบริษัท</button>
         </div>
-        <div class="seg-note">สลิปจากแอปธนาคารที่มี QR <b>ระบบตรวจเองรู้ผลใน 1 นาที</b></div>
+        <div class="seg-note" id="segNote">สลิปจากแอปธนาคาร ระบบตรวจเองรู้ผลใน 1 นาที สลิปของบริษัททีมงานตรวจให้</div>
       </div>
 
       <div class="fg">
@@ -361,16 +363,16 @@ body{
 
       <div class="fg">
         <label class="lbl">อีเมล <span class="opt">(ส่ง Code ไปที่นี่)</span> <span class="req">*</span></label>
-        <input class="inp" value="somporn.work@gmail.com">
+        <input class="inp" id="em1" type="email" placeholder="อีเมลที่ใช้รับไฟล์">
       </div>
 
       <div class="fg">
         <label class="lbl">ยืนยันอีเมล <span class="req">*</span></label>
-        <input class="inp" value="somporn.work@gmail.com">
+        <input class="inp" id="em2" type="email" placeholder="พิมพ์อีเมลเดิมอีกครั้ง">
         <!-- ช่องยืนยันยังอยู่ แต่พอตรงกันแล้วขึ้นบอกให้เห็น จะได้รู้ว่าผ่านแล้วไม่ต้องเพ่งเทียบเอง -->
-        <div class="echo">
+        <div class="echo" id="echo" hidden>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" style="flex:none;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
-          <div>อีเมลตรงกันแล้ว จะส่ง Code ไปที่ <b>somporn.work@gmail.com</b></div>
+          <div>อีเมลตรงกันแล้ว จะส่ง Code ไปที่ <b id="echoMail"></b></div>
         </div>
       </div>
 
@@ -387,7 +389,7 @@ body{
       <div class="job-h">คุณเอาสไลด์ไปใช้กับงานแบบไหน</div>
       <div class="job-why">บอกไว้สักนิด พอถึงรอบอัปเดต <b>เราจะทำชุดสไลด์ที่ตรงกับงานของคุณก่อน</b> ปีนี้คนทำงานสายพยาบาลกับงานก่อสร้างบอกมาเยอะ เลยมีชุดใหม่ของสองสายนี้เพิ่มเข้าคลัง</div>
       <div class="chips">
-        <button type="button" class="chip on">พนักงาน / คนทำงาน</button>
+        <button type="button" class="chip">พนักงาน / คนทำงาน</button>
         <button type="button" class="chip">ครู / วิทยากร</button>
         <button type="button" class="chip">เจ้าของธุรกิจ</button>
         <button type="button" class="chip">งานขาย / Pitching</button>
@@ -433,7 +435,7 @@ seg.querySelectorAll('button').forEach(function (b, i) {
   b.onclick = function () {
     seg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); });
     b.classList.add('on');
-    seg.classList.toggle('right', i === 1);
+    seg.classList.add('picked'); seg.classList.toggle('right', i === 1);
     document.querySelector('.seg-note').innerHTML = i === 1
       ? 'สลิปจากระบบธนาคารของบริษัท หรือไฟล์ PDF <b style="color:#B26A00">ทีมงานตรวจให้ ไม่เกิน 2 ชั่วโมงทำการ</b>'
       : 'สลิปจากแอปธนาคารที่มี QR <b>ระบบตรวจเองรู้ผลใน 1 นาที</b>';
@@ -465,6 +467,17 @@ upPick.onclick = function () {
 document.getElementById('upAgain').onclick = function () {
   upDone.hidden = true; upPick.hidden = false;
 };
+
+/* อีเมลสองช่องตรงกันเมื่อไหร่ ค่อยขึ้นแถบเขียวบอก */
+var em1 = document.getElementById('em1'), em2 = document.getElementById('em2'),
+    echo = document.getElementById('echo'), echoMail = document.getElementById('echoMail');
+function checkMail() {
+  var a = em1.value.trim(), b = em2.value.trim();
+  var ok = a && a.toLowerCase() === b.toLowerCase() && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(a);
+  echo.hidden = !ok;
+  if (ok) echoMail.textContent = a;
+}
+em1.oninput = em2.oninput = checkMail;
 
 /* ติ๊กขอใบกำกับภาษี */
 var tax = document.querySelector('.tax');
