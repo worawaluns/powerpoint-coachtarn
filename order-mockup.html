@@ -79,6 +79,13 @@ body{
   padding:10px 14px;min-height:44px;font:inherit;font-size:12.5px;font-weight:700;
   color:var(--text-mid);cursor:pointer;margin-left:8px;white-space:nowrap;
 }
+.copy:active{transform:scale(.94)}
+.copy{transition:background .2s,border-color .2s,color .2s,transform .1s}
+.copy.done{background:var(--green-soft);border-color:#BBE6CC;color:#14683B}
+/* ค่าที่เพิ่งคัดลอกวาบขึ้นมาแป๊บนึง จะได้รู้ว่าคัดลอกอันไหนไป */
+@keyframes flash{0%{background:rgba(22,163,74,.16)}100%{background:transparent}}
+.flash{animation:flash 1.1s var(--ease);border-radius:8px}
+
 .amt-row{display:flex;align-items:center;justify-content:space-between;
   padding:12px 16px;background:var(--green-soft);border-top:1px solid var(--line)}
 .amt-k{font-size:13px;font-weight:700;color:#14683B}
@@ -109,29 +116,42 @@ body{
 .echo b{font-weight:800}
 
 /* เลือกประเภทบัญชี: เดิมเป็นการ์ด 2 ใบสูงรวม 257px เหลือแถบเดียว 44 + คำอธิบาย */
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#EFEFF2;
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#EFEFF2;
   border-radius:12px;padding:4px}
-.seg button{border:0;background:none;font:inherit;font-size:13.5px;font-weight:700;
+.seg-pill{position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);
+  background:var(--white);border-radius:9px;box-shadow:0 1px 4px rgba(20,20,40,.1);
+  transition:transform .3s var(--ease)}
+.seg.right .seg-pill{transform:translateX(100%)}
+.seg button{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:13.5px;font-weight:700;
   color:var(--text-sub);padding:10px 6px;border-radius:9px;cursor:pointer;transition:.15s}
-.seg button.on{background:var(--white);color:var(--text);box-shadow:0 1px 4px rgba(20,20,40,.1)}  /* ตัวที่เลือกเป็นตัวหนังสือดำ ไอซ์ไม่เอาส้ม 16 พ.ย. */
+.seg button.on{color:var(--text)}  /* ตัวที่เลือกเป็นตัวหนังสือดำ ไอซ์ไม่เอาส้ม 16 พ.ย. */
 .seg-note{font-size:12.5px;color:var(--text-sub);margin-top:7px;line-height:1.6}
 .seg-note b{color:var(--green);font-weight:800}
 
-/* อัปโหลดสลิป: ปุ่มเดียวจบ ไม่ต้องเลือกก่อนว่าจะถ่ายหรือเอารูปเก่า
-   แตะแล้วมือถือเด้งเมนูของเครื่องขึ้นมาให้เลือกเอง (ไอซ์ 16 พ.ย. ไม่อยากให้ต้องคิดสองที) */
+/* อัปโหลดสลิป: ไอซ์ 16 พ.ย. ลองแบบแถวเดียวแล้วงง เลยกลับมาเป็นกล่องกลางจอแบบหน้าจริง
+   แต่เกลาใหม่: เส้นประบางลง ไอคอนเล็กลง เหลือสองบรรทัด และแตะที่ไหนในกล่องก็ได้ */
 .up-hint{font-size:12.5px;color:var(--text-sub);line-height:1.6;margin:-2px 0 9px}
 .up2[hidden]{display:none}
 .up2{
-  display:flex;align-items:center;gap:12px;width:100%;
-  background:#FFFCFB;border:1.5px solid rgba(211,71,36,.45);border-radius:16px;
-  padding:15px 16px;font:inherit;text-align:left;cursor:pointer;transition:.15s;
+  display:block;width:100%;background:#FFFCFB;border:1.5px dashed rgba(211,71,36,.35);
+  border-radius:18px;padding:26px 16px;text-align:center;font:inherit;cursor:pointer;
+  transition:border-color .2s,background .2s,transform .12s var(--ease);
 }
-.up2 .ic{flex:none;width:38px;height:38px;border-radius:12px;background:rgba(211,71,36,.09);
-  display:flex;align-items:center;justify-content:center}
-.up2 .ic svg{width:19px;height:19px;stroke:var(--red)}
-.up2 b{display:block;font-size:14.5px;font-weight:800;color:var(--text)}
-.up2 em{display:block;font-size:12.5px;font-style:normal;color:var(--text-sub);margin-top:2px}
-.up2:active{transform:scale(.99);background:#FFF6F3}
+.up2 .ic{width:46px;height:46px;border-radius:15px;background:rgba(211,71,36,.09);
+  margin:0 auto 11px;display:flex;align-items:center;justify-content:center}
+.up2 .ic svg{width:22px;height:22px;stroke:var(--red)}
+.up2 b{display:block;font-size:15px;font-weight:800;color:var(--text)}
+.up2 em{display:block;font-style:normal;font-size:12.5px;color:var(--text-sub);margin-top:4px}
+.up2:hover{border-color:var(--red);background:#FFF7F4}
+.up2:active{transform:scale(.985)}
+
+/* ระหว่างกำลังแนบ ให้เห็นว่าเครื่องกำลังทำอะไรอยู่ ไม่ใช่เงียบแล้วเด้งผลขึ้นมาเฉยๆ */
+.up-load[hidden]{display:none}
+.up-load{display:flex;align-items:center;gap:11px;background:var(--field);
+  border-radius:16px;padding:16px 15px;font-size:13.5px;font-weight:700;color:var(--text-mid)}
+.spin{width:19px;height:19px;border-radius:50%;border:2.5px solid #DCDCE2;
+  border-top-color:var(--red);animation:spin .7s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
 /* คำเตือน QR: ลูกค้าหลายคนแนบสลิปที่มีอะไรทับ QR แล้วระบบตรวจไม่ผ่าน
    เลยเอาข้อความชนิดไฟล์กับขนาดออก ใส่เรื่อง QR แทน เพราะอันนี้คือสาเหตุที่ทำให้โดน reject จริง */
 .up-qr{display:flex;gap:9px;align-items:flex-start;background:var(--amber-soft);
@@ -141,11 +161,13 @@ body{
 
 /* หลังแนบแล้ว: เห็นรูปที่แนบไปจริง กับปุ่มเปลี่ยนรูป ไม่ต้องเดาว่าติดหรือยัง */
 .slip-ok[hidden]{display:none}
-.slip-ok{display:flex;gap:11px;align-items:center;background:var(--green-soft);
+@keyframes rise{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes tick{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.slip-ok{animation:rise .34s var(--ease);display:flex;gap:11px;align-items:center;background:var(--green-soft);
   border-radius:16px;padding:11px 13px}
 .slip-th{flex:none;width:44px;height:58px;border-radius:8px;background:#fff;
   border:1px solid #CFE7D8;display:flex;align-items:center;justify-content:center}
-.slip-th svg{width:18px;height:18px;stroke:#16A34A}
+.slip-th svg{width:18px;height:18px;stroke:#16A34A;animation:tick .4s .08s var(--ease) both}
 .slip-tx{flex:1;min-width:0}
 .slip-tx b{display:block;font-size:13.5px;font-weight:800;color:#14683B}
 .slip-tx span{display:block;font-size:12px;color:#2F7A52;margin-top:2px;
@@ -156,7 +178,12 @@ body{
 /* ใบกำกับภาษี: คำโปรยเหลือบรรทัดเดียว */
 .tax{display:flex;gap:11px;align-items:flex-start;margin:14px 16px;padding:13px 14px;
   border:1px solid var(--line);border-radius:16px;cursor:pointer}
-.tax-box{flex:0 0 22px;height:22px;border-radius:7px;border:2px solid #D5D5DB;margin-top:1px}
+.tax-box{flex:0 0 22px;height:22px;border-radius:7px;border:2px solid #D5D5DB;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;transition:background .18s,border-color .18s}
+.tax-box svg{width:13px;height:13px;stroke:#fff;stroke-width:3.4;opacity:0;transform:scale(.4);
+  transition:opacity .18s,transform .22s var(--ease)}
+.tax.on .tax-box{background:var(--green);border-color:var(--green)}
+.tax.on .tax-box svg{opacity:1;transform:scale(1)}
 .tax b{display:block;font-size:14px;font-weight:700}
 .tax span{display:block;font-size:12.5px;color:var(--text-sub);margin-top:2px;line-height:1.6}
 
@@ -173,6 +200,8 @@ body{
   cursor:pointer;transition:.15s;min-height:40px;
 }
 .chip.on{border-color:var(--red);color:var(--red);font-weight:800;background:#fff}
+.chip:active{transform:scale(.96)}
+.chip{transition:border-color .18s,color .18s,transform .1s}
 .job-free{margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
 .job-free .inp{font-size:14px;padding:11px 13px;background:var(--white)}
 .job-ask{font-size:13.5px;font-weight:800;margin-bottom:7px}
@@ -189,11 +218,18 @@ body{
 }
 .btn:active{background:var(--btn-press);transform:scale(.995)}
 .btn svg{width:19px;height:19px}
+.btn .spin{border-color:rgba(255,255,255,.35);border-top-color:#fff}
+.btn.busy{background:#2C2C30;pointer-events:none}
+.btn.ok{background:#14683B;pointer-events:none}
 .sub-note{text-align:center;font-size:12px;color:var(--text-sub);margin-top:9px}
 
 /* ป้ายเทียบให้ไอซ์ดู ไม่ใช่ส่วนหนึ่งของหน้าจริง */
 .tagline{max-width:430px;margin:14px auto 6px;padding:0 14px;font-size:12px;color:#8A8A92}
 .chg{background:#FFF8E6;border-left:3px solid var(--amber);padding:2px 6px;border-radius:0 6px 6px 0}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important}
+}
 /* ── แท็บเล็ตกับเดสก์ท็อป ──
    หน้าจริงตอนนี้เป็นมือถืออย่างเดียว กว้าง 430 แล้วเหลือขอบขาวโล่งสองข้างบนคอม
    แท็บเล็ต: คอลัมน์เดียวแต่กว้างขึ้นและตัวโตขึ้น
@@ -291,8 +327,10 @@ body{
         <div class="up-hint">แนบสลิปเต็มใบ ให้เห็นยอดเงินและเลขบัญชีครบ</div>
         <button class="up2" id="upPick">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.6"/><path d="M21 16l-5-5-6 6-3-3-4 4"/></svg></span>
-          <span><b>แตะเพื่อแนบสลิป</b><em>ถ่ายรูปใหม่ หรือเลือกรูปที่มีอยู่แล้วก็ได้</em></span>
+          <b>แตะเพื่อเลือกรูปสลิป</b>
+          <em>ถ่ายรูปใหม่ หรือเลือกรูปที่อยู่ในเครื่องก็ได้</em>
         </button>
+        <div class="up-load" id="upLoad" hidden><span class="spin"></span>กำลังแนบสลิป</div>
         <div class="slip-ok" id="upDone" hidden>
           <span class="slip-th"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
           <span class="slip-tx"><b>แนบสลิปแล้ว</b><span>slip-2569-1116.jpg · 412 KB</span></span>
@@ -303,7 +341,7 @@ body{
 
       <div class="fg">
         <label class="lbl">โอนจากบัญชีแบบไหน <span class="req">*</span></label>
-        <div class="seg">
+        <div class="seg" id="seg"><span class="seg-pill"></span>
           <button class="on">บัญชีส่วนตัว</button>
           <button>บัญชีบริษัท</button>
         </div>
@@ -333,7 +371,7 @@ body{
     </div>
 
     <label class="tax">
-      <span class="tax-box"></span>
+      <span class="tax-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></span>
       <span><b>ขอใบกำกับภาษี / ใบเสร็จ</b>
         <span>ได้ Code ทางอีเมลทันทีเหมือนเดิม เอกสารตัวจริงส่งไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</span></span>
     </label>
@@ -373,32 +411,70 @@ body{
 <p class="tagline">หน้าตัวอย่าง ยังไม่ได้แก้หน้าสั่งซื้อจริง ปุ่มทุกปุ่มในหน้านี้ไม่ได้ส่งข้อมูลไปไหน</p>
 
 <script>
-/* ให้กดเล่นได้ตอนดู mockup ไม่ใช่โค้ดที่จะเอาไปใช้จริง */
+/* สคริปต์สำหรับหน้าตัวอย่างเท่านั้น ไม่ได้ส่งข้อมูลไปที่ไหน ของจริงอยู่ใน order.html */
+
+/* ชิปอาชีพ */
 document.querySelectorAll('.chip').forEach(function (c) {
   c.onclick = function () {
     document.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); });
     c.classList.add('on');
   };
 });
-var upPick = document.getElementById('upPick'), upDone = document.getElementById('upDone');
-upPick.onclick = function () { upPick.hidden = true; upDone.hidden = false; };
-document.getElementById('upAgain').onclick = function () {
-  upDone.hidden = true; upPick.hidden = false;
-};
-document.querySelectorAll('.seg button').forEach(function (b) {
+
+/* แถบบัญชีส่วนตัว / บริษัท ตัวขาวเลื่อนตาม */
+var seg = document.getElementById('seg');
+seg.querySelectorAll('button').forEach(function (b, i) {
   b.onclick = function () {
-    var upPick = document.getElementById('upPick'), upDone = document.getElementById('upDone');
-upPick.onclick = function () { upPick.hidden = true; upDone.hidden = false; };
-document.getElementById('upAgain').onclick = function () {
-  upDone.hidden = true; upPick.hidden = false;
-};
-document.querySelectorAll('.seg button').forEach(function (x) { x.classList.remove('on'); });
+    seg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); });
     b.classList.add('on');
-    document.querySelector('.seg-note').innerHTML = b.textContent.indexOf('บริษัท') > -1
+    seg.classList.toggle('right', i === 1);
+    document.querySelector('.seg-note').innerHTML = i === 1
       ? 'สลิปจากระบบธนาคารของบริษัท หรือไฟล์ PDF <b style="color:#B26A00">ทีมงานตรวจให้ ไม่เกิน 2 ชั่วโมงทำการ</b>'
       : 'สลิปจากแอปธนาคารที่มี QR <b>ระบบตรวจเองรู้ผลใน 1 นาที</b>';
   };
 });
+
+/* ปุ่มคัดลอก: คัดลอกจริง แล้วบอกว่าคัดลอกไปแล้ว */
+var TICK = '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#14683B" stroke-width="3" style="vertical-align:-2px;margin-right:4px"><polyline points="20 6 9 17 4 12"/></svg>';
+document.querySelectorAll('.copy').forEach(function (b) {
+  var box = b.parentElement;
+  b.onclick = function () {
+    var text = box.textContent.replace('คัดลอก', '').replace(/[^0-9.]/g, '');
+    if (navigator.clipboard) navigator.clipboard.writeText(text).catch(function () {});
+    b.classList.add('done');
+    b.innerHTML = TICK + 'คัดลอกแล้ว';
+    box.classList.remove('flash'); void box.offsetWidth; box.classList.add('flash');
+    clearTimeout(b._t);
+    b._t = setTimeout(function () { b.classList.remove('done'); b.textContent = 'คัดลอก'; }, 1800);
+  };
+});
+
+/* แนบสลิป: กด แล้วขึ้นว่ากำลังแนบ แล้วค่อยโชว์ผล */
+var upPick = document.getElementById('upPick'), upLoad = document.getElementById('upLoad'),
+    upDone = document.getElementById('upDone');
+upPick.onclick = function () {
+  upPick.hidden = true; upLoad.hidden = false;
+  setTimeout(function () { upLoad.hidden = true; upDone.hidden = false; }, 850);
+};
+document.getElementById('upAgain').onclick = function () {
+  upDone.hidden = true; upPick.hidden = false;
+};
+
+/* ติ๊กขอใบกำกับภาษี */
+var tax = document.querySelector('.tax');
+tax.onclick = function (e) { e.preventDefault(); tax.classList.toggle('on'); };
+
+/* ปุ่มยืนยัน: ในหน้าตัวอย่างแค่เล่นสถานะให้ดู ไม่ได้ส่งสลิปจริง */
+var btn = document.querySelector('.btn'), btnHTML = btn.innerHTML;
+btn.onclick = function () {
+  btn.classList.add('busy');
+  btn.innerHTML = '<span class="spin"></span>กำลังส่งสลิปให้ระบบตรวจ';
+  setTimeout(function () {
+    btn.classList.remove('busy'); btn.classList.add('ok');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>ส่งสลิปแล้ว รอผลในอีเมล';
+    setTimeout(function () { btn.classList.remove('ok'); btn.innerHTML = btnHTML; }, 2200);
+  }, 1500);
+};
 </script>
 </body>
 </html>
