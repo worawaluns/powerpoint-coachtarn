@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>หน้าสั่งซื้อ (ตัวอย่าง) · Coach Tarn</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/x-icon" href="img/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* mockup ของหน้า order ยังไม่แตะไฟล์จริง เอาไว้ให้ไอซ์ดูก่อนเคาะ
+   ค่าที่เปลี่ยนจากของเดิมจะมีคอมเมนต์กำกับไว้ทุกจุด */
+:root{
+  --red:#D34724;          /* ส้มแบรนด์ ใช้กับตัวหนังสือและขอบ */
+  --btn:#1D1D1F;          /* ปุ่มหลักเป็นดำนิ่ง ไอซ์เลือกเอง 16 พ.ย. ส้มกับเขียวแย่งสีกับของที่มีอยู่ในหน้า */
+  --btn-press:#000;
+  --green:#16A34A;        /* เขียวแปลว่าเสร็จแล้วเท่านั้น ไม่ใช้กับปุ่มที่ยังไม่ได้กด */
+  --green-soft:#E8F7EF;
+  --amber:#B26A00;--amber-soft:#FFF4E5;
+  --text:#0A0A0A;--text-mid:#44444A;--text-sub:#6E6E73;--text-dim:#9A9AA0;
+  --line:#E3E3E8;--field:#F5F5F7;   /* เดิมช่องกรอกเป็น #FFF8F5 ชมพูอมส้ม เปลี่ยนเป็นเทากลาง */
+  --white:#fff;--page:#F2F2F4;
+  --r-chip:10px;--r-field:14px;--r-card:20px;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'SukhumvitSet','Sukhumvit Set','Noto Sans Thai',sans-serif;background:var(--page);color:var(--text);
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:430px;margin:0 auto;padding:0 14px 40px}
+
+/* ── nav: หน้าจ่ายเงินเหลือทางออกทางเดียว คือทักแอดมิน ── */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 4px 14px;
+}
+.nav-logo{display:flex;align-items:center;text-decoration:none}
+.nav-logo img{height:34px;width:auto;display:block}
+.nav-help{
+  font-size:13px;font-weight:700;color:var(--red);text-decoration:none;
+  border:1.5px solid rgba(211,71,36,.3);border-radius:999px;padding:7px 13px;
+}
+
+/* ── การ์ด ── */
+.card{background:var(--white);border-radius:var(--r-card);margin-bottom:12px;overflow:hidden;
+  box-shadow:0 1px 3px rgba(10,10,10,.05)}
+.card-h{                       /* เดิมหัวการ์ดมีกล่องไอคอนสีอ่อน 3 ใบเหมือนกันหมด สูงใบละ 75px ตัดเหลือบรรทัดเดียว */
+  font-size:15px;font-weight:800;padding:14px 16px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.card-h span{font-size:13px;font-weight:600;color:var(--text-sub)}
+
+/* ── สรุปรายการ ── */
+.item{display:flex;align-items:center;gap:11px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.item-th{width:52px;height:38px;border-radius:8px;background:#E9E9EE;flex:none;overflow:hidden}
+.item-th img{width:100%;height:100%;object-fit:cover;display:block}
+.item-nm{font-size:14px;font-weight:700;line-height:1.45}
+.item-ds{font-size:12px;color:var(--text-sub);margin-top:1px}
+.item-pr{font-size:14px;font-weight:800;white-space:nowrap}
+.item-pr.free{color:var(--green)}
+.item-old{font-size:11px;color:var(--text-dim);text-decoration:line-through;text-align:right}
+.total{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#FAFAFB}
+.total-l{font-size:13px;font-weight:700;color:var(--text-mid)}
+.total-n{font-size:11.5px;color:var(--text-sub)}
+.total-p{font-size:28px;font-weight:900;letter-spacing:-.5px}  /* ยอดเดียวที่ตัวใหญ่ในหน้า */
+
+/* ── บัญชีธนาคาร ── */
+.bank-row{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px 16px;border-bottom:1px solid var(--line)}
+.bank-row:last-child{border-bottom:none}
+.bank-k{font-size:13px;color:var(--text-sub);flex:none}
+.bank-v{font-size:14px;font-weight:700;text-align:right}
+.bank-v.big{font-size:17px;letter-spacing:.3px}
+.kbank{width:22px;height:22px;border-radius:6px;background:#0F9A4E;display:inline-block;vertical-align:-5px;margin-right:6px}
+.copy{                          /* เดิมสูง 31px นิ้วแตะพลาด ขยายเป็น 44 */
+  background:var(--white);border:1.5px solid var(--line);border-radius:999px;
+  padding:10px 14px;min-height:44px;font:inherit;font-size:12.5px;font-weight:700;
+  color:var(--text-mid);cursor:pointer;margin-left:8px;white-space:nowrap;
+}
+.amt-row{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;background:var(--green-soft);border-top:1px solid var(--line)}
+.amt-k{font-size:13px;font-weight:700;color:#14683B}
+.amt-v{font-size:17px;font-weight:900;color:#14683B}
+.warn{display:flex;gap:9px;padding:12px 16px;background:var(--amber-soft);
+  font-size:12.5px;color:#7A4A00;line-height:1.6}
+.warn b{color:#5E3800}
+
+/* ── ฟอร์ม ── */
+.form-body{padding:16px}
+.fg{margin-bottom:14px}          /* เดิม 18 */
+.fg:last-child{margin-bottom:0}
+.lbl{font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:6px;display:block}
+.lbl .opt{font-weight:500;color:var(--text-sub)}
+.req{color:var(--red)}
+.inp{                            /* หัวใจของรอบนี้ ช่องกรอกเป็นเทากลาง ไม่ใช่ชมพู */
+  width:100%;background:var(--field);border:1px solid var(--line);
+  border-radius:var(--r-field);padding:13px 14px;
+  font:inherit;font-size:16px;color:var(--text);outline:none;
+  transition:background .15s,border-color .15s,box-shadow .15s;-webkit-appearance:none;
+}
+.inp::placeholder{color:#A1A1A8}  /* เดิม #bbb จางไป ส่วน #767680 ไอซ์ว่าเข้มไป (16 พ.ย.) เลยมาจบตรงกลาง */
+.inp:focus{background:var(--white);border-color:var(--red);box-shadow:0 0 0 3px rgba(211,71,36,.12)}
+
+/* อีเมลอ่านทวน แทนช่อง "ยืนยันอีเมล" ที่ต้องพิมพ์ซ้ำ */
+.echo{display:flex;gap:9px;align-items:flex-start;background:var(--green-soft);
+  border-radius:12px;padding:11px 13px;margin-top:8px;font-size:12.5px;color:#14683B;line-height:1.6}
+.echo b{font-weight:800}
+
+/* เลือกประเภทบัญชี: เดิมเป็นการ์ด 2 ใบสูงรวม 257px เหลือแถบเดียว 44 + คำอธิบาย */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#EFEFF2;
+  border-radius:12px;padding:4px}
+.seg button{border:0;background:none;font:inherit;font-size:13.5px;font-weight:700;
+  color:var(--text-sub);padding:10px 6px;border-radius:9px;cursor:pointer;transition:.15s}
+.seg button.on{background:var(--white);color:var(--text);box-shadow:0 1px 4px rgba(20,20,40,.1)}  /* ตัวที่เลือกเป็นตัวหนังสือดำ ไอซ์ไม่เอาส้ม 16 พ.ย. */
+.seg-note{font-size:12.5px;color:var(--text-sub);margin-top:7px;line-height:1.6}
+.seg-note b{color:var(--green);font-weight:800}
+
+/* อัปโหลดสลิป: ปุ่มเดียวจบ ไม่ต้องเลือกก่อนว่าจะถ่ายหรือเอารูปเก่า
+   แตะแล้วมือถือเด้งเมนูของเครื่องขึ้นมาให้เลือกเอง (ไอซ์ 16 พ.ย. ไม่อยากให้ต้องคิดสองที) */
+.up-hint{font-size:12.5px;color:var(--text-sub);line-height:1.6;margin:-2px 0 9px}
+.up2[hidden]{display:none}
+.up2{
+  display:flex;align-items:center;gap:12px;width:100%;
+  background:#FFFCFB;border:1.5px solid rgba(211,71,36,.45);border-radius:16px;
+  padding:15px 16px;font:inherit;text-align:left;cursor:pointer;transition:.15s;
+}
+.up2 .ic{flex:none;width:38px;height:38px;border-radius:12px;background:rgba(211,71,36,.09);
+  display:flex;align-items:center;justify-content:center}
+.up2 .ic svg{width:19px;height:19px;stroke:var(--red)}
+.up2 b{display:block;font-size:14.5px;font-weight:800;color:var(--text)}
+.up2 em{display:block;font-size:12.5px;font-style:normal;color:var(--text-sub);margin-top:2px}
+.up2:active{transform:scale(.99);background:#FFF6F3}
+/* คำเตือน QR: ลูกค้าหลายคนแนบสลิปที่มีอะไรทับ QR แล้วระบบตรวจไม่ผ่าน
+   เลยเอาข้อความชนิดไฟล์กับขนาดออก ใส่เรื่อง QR แทน เพราะอันนี้คือสาเหตุที่ทำให้โดน reject จริง */
+.up-qr{display:flex;gap:9px;align-items:flex-start;background:var(--amber-soft);
+  border-radius:13px;padding:10px 12px;margin-top:9px}
+.up-qr svg{width:17px;height:17px;flex:none;margin-top:1px}
+.up-qr p{font-size:12.5px;color:#8A5200;line-height:1.6}
+
+/* หลังแนบแล้ว: เห็นรูปที่แนบไปจริง กับปุ่มเปลี่ยนรูป ไม่ต้องเดาว่าติดหรือยัง */
+.slip-ok[hidden]{display:none}
+.slip-ok{display:flex;gap:11px;align-items:center;background:var(--green-soft);
+  border-radius:16px;padding:11px 13px}
+.slip-th{flex:none;width:44px;height:58px;border-radius:8px;background:#fff;
+  border:1px solid #CFE7D8;display:flex;align-items:center;justify-content:center}
+.slip-th svg{width:18px;height:18px;stroke:#16A34A}
+.slip-tx{flex:1;min-width:0}
+.slip-tx b{display:block;font-size:13.5px;font-weight:800;color:#14683B}
+.slip-tx span{display:block;font-size:12px;color:#2F7A52;margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slip-ch{flex:none;background:none;border:0;font:inherit;font-size:12.5px;
+  font-weight:800;color:#14683B;text-decoration:underline;cursor:pointer;padding:6px 2px}
+
+/* ใบกำกับภาษี: คำโปรยเหลือบรรทัดเดียว */
+.tax{display:flex;gap:11px;align-items:flex-start;margin:14px 16px;padding:13px 14px;
+  border:1px solid var(--line);border-radius:16px;cursor:pointer}
+.tax-box{flex:0 0 22px;height:22px;border-radius:7px;border:2px solid #D5D5DB;margin-top:1px}
+.tax b{display:block;font-size:14px;font-weight:700}
+.tax span{display:block;font-size:12.5px;color:var(--text-sub);margin-top:2px;line-height:1.6}
+
+/* ── ถามอาชีพ: ใจความของรอบนี้ มีเหตุผลกำกับ และข้ามได้ ── */
+.job{margin:0 16px 4px;padding:15px 15px 16px;background:#FAFAFB;
+  border:1px solid var(--line);border-radius:16px}
+.job-h{font-size:14px;font-weight:800;margin-bottom:4px}
+.job-why{font-size:12.5px;color:var(--text-sub);line-height:1.65;margin-bottom:11px}
+.job-why b{color:var(--red);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{
+  border:1.5px solid var(--line);background:var(--white);border-radius:999px;
+  padding:9px 14px;font:inherit;font-size:13px;font-weight:600;color:var(--text-mid);
+  cursor:pointer;transition:.15s;min-height:40px;
+}
+.chip.on{border-color:var(--red);color:var(--red);font-weight:800;background:#fff}
+.job-free{margin-top:13px;padding-top:13px;border-top:1px solid var(--line)}
+.job-free .inp{font-size:14px;padding:11px 13px;background:var(--white)}
+.job-ask{font-size:13.5px;font-weight:800;margin-bottom:7px}
+.job-use{font-size:12px;color:var(--text-sub);line-height:1.65;margin-top:7px}
+.job-skip{font-size:12px;color:var(--text-dim);margin-top:8px}
+
+/* ── ปุ่มหลัก ── */
+.submit-area{padding:14px 16px 18px}
+.btn{
+  width:100%;background:var(--btn);color:#fff;border:none;border-radius:999px;
+  padding:17px;font:inherit;font-size:17px;font-weight:800;cursor:pointer;
+  box-shadow:0 2px 8px rgba(10,10,10,.16);display:flex;align-items:center;
+  justify-content:center;gap:9px;transition:background .15s,transform .12s;
+}
+.btn:active{background:var(--btn-press);transform:scale(.995)}
+.btn svg{width:19px;height:19px}
+.sub-note{text-align:center;font-size:12px;color:var(--text-sub);margin-top:9px}
+
+/* ป้ายเทียบให้ไอซ์ดู ไม่ใช่ส่วนหนึ่งของหน้าจริง */
+.tagline{max-width:430px;margin:14px auto 6px;padding:0 14px;font-size:12px;color:#8A8A92}
+.chg{background:#FFF8E6;border-left:3px solid var(--amber);padding:2px 6px;border-radius:0 6px 6px 0}
+/* ── แท็บเล็ตกับเดสก์ท็อป ──
+   หน้าจริงตอนนี้เป็นมือถืออย่างเดียว กว้าง 430 แล้วเหลือขอบขาวโล่งสองข้างบนคอม
+   แท็บเล็ต: คอลัมน์เดียวแต่กว้างขึ้นและตัวโตขึ้น
+   เดสก์ท็อป: ของที่อ่านอย่างเดียว (รายการ + บัญชี) ไว้ซ้าย ฟอร์มไว้ขวาและตรึงไว้ จะได้ไม่ต้องเลื่อนขึ้นลงหาเลขบัญชี */
+@media (min-width:760px){
+  .wrap{max-width:620px;padding:0 24px 56px}
+  .nav{padding:18px 0 14px}
+  .nav-logo img{height:40px}
+  .card-h{font-size:16.5px}
+  .item-nm{font-size:15px}
+  .total-p{font-size:26px}
+  .bank-v.big{font-size:18px}
+  .up2 b{font-size:15.5px}
+  .inp{font-size:16px}
+  .btn{font-size:18px}
+}
+@media (min-width:1080px){
+  .wrap{
+    max-width:1060px;display:grid;gap:22px 26px;align-items:start;
+    grid-template-columns:minmax(0,1fr) minmax(0,452px);padding:0 28px 70px;
+  }
+  .nav{grid-column:1 / -1}
+  .col-l{grid-column:1;margin:0 0 0}
+  .col-r{grid-column:2;grid-row:2 / span 2;position:sticky;top:22px;margin:0}
+  .tax,.job{margin-left:16px;margin-right:16px}
+  .total-p{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="nav">
+    <a class="nav-logo" href="/"><img src="img/logo.svg" alt="Coach Tarn"></a>
+    <a class="nav-help" href="#">ติดต่อแอดมิน</a>
+  </div>
+
+  <!-- ① สรุปรายการ -->
+  <div class="card col-l">
+    <div class="card-h">รายการสั่งซื้อ <span>ใช้ได้ตลอดชีพ</span></div>
+    <div class="item">
+      <div class="item-th"><img src="img/thumbnails-template.png" alt=""></div>
+      <div style="flex:1">
+        <div class="item-nm">สไลด์ PowerPoint โหลดไม่จำกัด</div>
+        <div class="item-ds">6,500+ สไลด์</div>
+      </div>
+      <div>
+        <div class="item-pr">499฿</div>
+        <div class="item-old">999฿</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-th"><img src="img/thumbnails-bonus-slide.png" alt=""></div>
+      <div style="flex:1">
+        <div class="item-nm">Bonus Slides</div>
+        <div class="item-ds">สั่งวันนี้รับฟรี มูลค่า 299฿</div>
+      </div>
+      <div class="item-pr free">ฟรี</div>
+    </div>
+    <div class="total">
+      <div>
+        <div class="total-l">ยอดรวมทั้งหมด</div>
+        <div class="total-n">รวม VAT 7% แล้ว</div>
+      </div>
+      <div class="total-p">499฿</div>
+    </div>
+  </div>
+
+  <!-- ② บัญชีที่ต้องโอน -->
+  <div class="card col-l">
+    <div class="card-h">โอนเงินมาที่บัญชีนี้</div>
+    <div class="bank-row"><span class="bank-k">ธนาคาร</span>
+      <span class="bank-v" style="display:flex;align-items:center;gap:7px;justify-content:flex-end"><img src="img/kbank-logo.webp" alt="KBANK" style="width:22px;height:22px;border-radius:6px;object-fit:contain;flex:none">กสิกรไทย</span></div>
+    <div class="bank-row"><span class="bank-k">ชื่อบัญชี</span>
+      <span class="bank-v">บจก. ดับเบิ้ลคราฟ์</span></div>
+    <div class="bank-row"><span class="bank-k">เลขบัญชี</span>
+      <span class="bank-v big">229-3-98096-1 <button class="copy">คัดลอก</button></span></div>
+    <!-- ยอดที่ต้องโอนคัดลอกได้ด้วย เดิมคัดลอกได้แค่เลขบัญชี ทั้งที่ต้องพิมพ์ยอดเหมือนกัน -->
+    <div class="amt-row"><span class="amt-k">ยอดที่ต้องโอน</span>
+      <span class="amt-v">499.00 บาท <button class="copy">คัดลอก</button></span></div>
+    <div class="warn">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#B26A00" stroke-width="2" style="flex:none;margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p>โอนเข้า<b>บัญชีนี้เท่านั้น</b> แล้วแนบสลิปด้านล่าง ระบบตรวจให้อัตโนมัติ ได้ Code ทางอีเมลภายใน 1 นาที</p>
+    </div>
+  </div>
+
+  <!-- ③ ฟอร์ม -->
+  <div class="card col-r">
+    <div class="card-h">แนบสลิป แล้วบอกอีเมล</div>
+    <div class="form-body">
+
+      <div class="fg">
+        <label class="lbl">แนบสลิปโอนเงิน <span class="req">*</span></label>
+        <div class="up-hint">แนบสลิปเต็มใบ ให้เห็นยอดเงินและเลขบัญชีครบ</div>
+        <button class="up2" id="upPick">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="9" r="1.6"/><path d="M21 16l-5-5-6 6-3-3-4 4"/></svg></span>
+          <span><b>แตะเพื่อแนบสลิป</b><em>ถ่ายรูปใหม่ หรือเลือกรูปที่มีอยู่แล้วก็ได้</em></span>
+        </button>
+        <div class="slip-ok" id="upDone" hidden>
+          <span class="slip-th"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span class="slip-tx"><b>แนบสลิปแล้ว</b><span>slip-2569-1116.jpg · 412 KB</span></span>
+          <button class="slip-ch" id="upAgain">เปลี่ยนรูป</button>
+        </div>
+        <div class="up-qr"><svg viewBox="0 0 24 24" fill="none" stroke="#B26A00" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2v2"/></svg><p>กรุณาอย่าให้สิ่งใดปิดทับ QR Code บนสลิป ระบบใช้ QR Code ในการตรวจสอบ หากถูกบัง ระบบจะตรวจสลิปไม่ผ่าน</p></div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">โอนจากบัญชีแบบไหน <span class="req">*</span></label>
+        <div class="seg">
+          <button class="on">บัญชีส่วนตัว</button>
+          <button>บัญชีบริษัท</button>
+        </div>
+        <div class="seg-note">สลิปจากแอปธนาคารที่มี QR <b>ระบบตรวจเองรู้ผลใน 1 นาที</b></div>
+      </div>
+
+      <div class="fg">
+        <label class="lbl">ชื่อ-นามสกุล <span class="req">*</span></label>
+        <input class="inp" placeholder="ชื่อ-นามสกุล ตามสลิป">
+      </div>
+
+      <div class="fg">
+        <label class="lbl">อีเมล <span class="opt">(ส่ง Code ไปที่นี่)</span> <span class="req">*</span></label>
+        <input class="inp" value="somporn.work@gmail.com">
+      </div>
+
+      <div class="fg">
+        <label class="lbl">ยืนยันอีเมล <span class="req">*</span></label>
+        <input class="inp" value="somporn.work@gmail.com">
+        <!-- ช่องยืนยันยังอยู่ แต่พอตรงกันแล้วขึ้นบอกให้เห็น จะได้รู้ว่าผ่านแล้วไม่ต้องเพ่งเทียบเอง -->
+        <div class="echo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" style="flex:none;margin-top:2px"><polyline points="20 6 9 17 4 12"/></svg>
+          <div>อีเมลตรงกันแล้ว จะส่ง Code ไปที่ <b>somporn.work@gmail.com</b></div>
+        </div>
+      </div>
+
+    </div>
+
+    <label class="tax">
+      <span class="tax-box"></span>
+      <span><b>ขอใบกำกับภาษี / ใบเสร็จ</b>
+        <span>ได้ Code ทางอีเมลทันทีเหมือนเดิม เอกสารตัวจริงส่งไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</span></span>
+    </label>
+
+    <!-- ④ ถามอาชีพ พร้อมเหตุผล -->
+    <div class="job">
+      <div class="job-h">คุณเอาสไลด์ไปใช้กับงานแบบไหน</div>
+      <div class="job-why">บอกไว้สักนิด พอถึงรอบอัปเดต <b>เราจะทำชุดสไลด์ที่ตรงกับงานของคุณก่อน</b> ปีนี้คนทำงานสายพยาบาลกับงานก่อสร้างบอกมาเยอะ เลยมีชุดใหม่ของสองสายนี้เพิ่มเข้าคลัง</div>
+      <div class="chips">
+        <button class="chip on">พนักงาน / คนทำงาน</button>
+        <button class="chip">ครู / วิทยากร</button>
+        <button class="chip">เจ้าของธุรกิจ</button>
+        <button class="chip">งานขาย / Pitching</button>
+        <button class="chip">สายสุขภาพ / โรงพยาบาล</button>
+        <button class="chip">ราชการ / วิศวกร</button>
+        <button class="chip">อื่นๆ</button>
+      </div>
+      <div class="job-free">
+        <div class="job-ask">อยากได้สไลด์แบบไหนเพิ่ม พิมพ์บอกได้เลย</div>
+        <input class="inp" placeholder="เช่น สรุปยอดขายรายเดือน, เสนองานลูกค้า">
+        <div class="job-use">ที่พิมพ์ไว้ตรงนี้ เราเอาไปทำเป็นเทมเพลตชุดใหม่ รอบอัปเดตคุณโหลดเพิ่มได้เลย ไม่เสียเงินอีก</div>
+      </div>
+      <div class="job-skip">ไม่กรอกก็สั่งซื้อได้ตามปกติ</div>
+    </div>
+
+    <div class="submit-area">
+      <button class="btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        ยืนยันการชำระเงิน
+      </button>
+      <div class="sub-note">ระบบตรวจสลิปอัตโนมัติ ส่งไฟล์เข้าอีเมลให้ทันที ตลอด 24 ชั่วโมง</div>
+    </div>
+  </div>
+
+</div>
+
+<p class="tagline">หน้าตัวอย่าง ยังไม่ได้แก้หน้าสั่งซื้อจริง ปุ่มทุกปุ่มในหน้านี้ไม่ได้ส่งข้อมูลไปไหน</p>
+
+<script>
+/* ให้กดเล่นได้ตอนดู mockup ไม่ใช่โค้ดที่จะเอาไปใช้จริง */
+document.querySelectorAll('.chip').forEach(function (c) {
+  c.onclick = function () {
+    document.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); });
+    c.classList.add('on');
+  };
+});
+var upPick = document.getElementById('upPick'), upDone = document.getElementById('upDone');
+upPick.onclick = function () { upPick.hidden = true; upDone.hidden = false; };
+document.getElementById('upAgain').onclick = function () {
+  upDone.hidden = true; upPick.hidden = false;
+};
+document.querySelectorAll('.seg button').forEach(function (b) {
+  b.onclick = function () {
+    var upPick = document.getElementById('upPick'), upDone = document.getElementById('upDone');
+upPick.onclick = function () { upPick.hidden = true; upDone.hidden = false; };
+document.getElementById('upAgain').onclick = function () {
+  upDone.hidden = true; upPick.hidden = false;
+};
+document.querySelectorAll('.seg button').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on');
+    document.querySelector('.seg-note').innerHTML = b.textContent.indexOf('บริษัท') > -1
+      ? 'สลิปจากระบบธนาคารของบริษัท หรือไฟล์ PDF <b style="color:#B26A00">ทีมงานตรวจให้ ไม่เกิน 2 ชั่วโมงทำการ</b>'
+      : 'สลิปจากแอปธนาคารที่มี QR <b>ระบบตรวจเองรู้ผลใน 1 นาที</b>';
+  };
+});
+</script>
+</body>
+</html>
