@@ -185,10 +185,30 @@ body{
   display:flex;align-items:center;justify-content:center;transition:background .18s,border-color .18s}
 .tax-box svg{width:13px;height:13px;stroke:#fff;stroke-width:3.4;opacity:0;transform:scale(.4);
   transition:opacity .18s,transform .22s var(--ease)}
-.tax.on .tax-box{background:var(--green);border-color:var(--green)}
-.tax.on .tax-box svg{opacity:1;transform:scale(1)}
+.tax.on .tax-box,.ship-chk.on .tax-box{background:var(--green);border-color:var(--green)}
+.tax.on .tax-box svg,.ship-chk.on .tax-box svg{opacity:1;transform:scale(1)}
 .tax b{display:block;font-size:14px;font-weight:700}
 .tax span{display:block;font-size:13px;color:var(--text-mid);margin-top:2px;line-height:1.6}
+
+/* ช่องใบกำกับภาษี: หน้าจริงมี 7 ช่อง ติ๊กแล้วกางออกมา mockup รอบแรกหายไปทั้งก้อน */
+.tax-fields[hidden]{display:none}
+.tax-fields{margin:-6px 16px 14px;padding:14px;background:var(--field);border-radius:16px;
+  animation:rise .3s var(--ease)}
+.tax-lbl{font-size:13px;font-weight:700;margin-bottom:6px}
+.tax-lbl .req{color:var(--red)}
+.tax-fg{margin-bottom:12px}
+.tax-fg:last-child{margin-bottom:0}
+.tax-2col{display:grid;grid-template-columns:1.3fr 1fr;gap:10px}
+@media (max-width:420px){.tax-2col{grid-template-columns:1fr}}
+.tax-fields .inp{background:var(--white);min-height:46px;font-size:16px}
+.tax-fields textarea.inp{min-height:76px;padding:11px 14px;resize:vertical;line-height:1.55}
+.tax-seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#E9E9EE;
+  border-radius:11px;padding:4px;margin-bottom:12px}
+.tax-seg button{border:0;background:none;font:inherit;font-size:13px;font-weight:700;
+  color:var(--text-sub);padding:9px 6px;border-radius:8px;cursor:pointer}
+.tax-seg button.on{background:var(--white);color:var(--text);box-shadow:0 1px 4px rgba(20,20,40,.1)}
+.ship-chk{display:flex;align-items:center;gap:9px;margin-top:9px;font-size:13px;cursor:pointer}
+.ship-chk .tax-box{flex:0 0 20px;height:20px;margin:0}
 
 /* ── ถามอาชีพ: คำถามไม่บังคับ 1 ข้อ ต้องอ่านจบใน 2 บรรทัด ไม่ใช่แบบสอบถาม ──
    ค่าทั้งหมดมาจากดีไซน์เนอร์ที่ตรวจหน้านี้ 16 พ.ย. (สูงลดจาก 497px เหลือ ~340px) */
@@ -286,6 +306,8 @@ body{
       <span class="bank-v"><span class="kbank"></span>กสิกรไทย</span></div>
     <div class="bank-row"><span class="bank-k">ชื่อบัญชี</span>
       <span class="bank-v">บจก. ดับเบิ้ลคราฟ์</span></div>
+    <div class="bank-row"><span class="bank-k">ประเภท / สาขา</span>
+      <span class="bank-v">ออมทรัพย์ · เซ็นทรัล เวสต์เกต</span></div>
     <div class="bank-row"><span class="bank-k">เลขบัญชี</span>
       <span class="bank-v big">229-3-98096-1 <button type="button" class="copy">คัดลอก</button></span></div>
     <!-- ยอดที่ต้องโอนคัดลอกได้ด้วย เดิมคัดลอกได้แค่เลขบัญชี ทั้งที่ต้องพิมพ์ยอดเหมือนกัน -->
@@ -312,7 +334,7 @@ body{
         </button>
         <div class="up-load" id="upLoad" hidden><span class="spin"></span>กำลังแนบสลิป</div>
         <div class="slip-ok" id="upDone" hidden>
-          <span class="slip-th"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span class="slip-th"><svg viewBox="0 0 32 42" fill="none" aria-hidden="true"><rect x="1" y="1" width="30" height="40" rx="3" fill="#fff" stroke="#CFE7D8"/><rect x="6" y="7" width="20" height="3" rx="1.5" fill="#D7D7DE"/><rect x="6" y="13" width="14" height="3" rx="1.5" fill="#E6E6EC"/><rect x="6" y="19" width="20" height="5" rx="2" fill="#CFE7D8"/><rect x="10" y="28" width="12" height="9" rx="1" fill="#E6E6EC"/></svg></span>
           <span class="slip-tx"><b>แนบสลิปแล้ว</b><span>slip-2569-1116.jpg · 412 KB</span></span>
           <button type="button" class="slip-ch" id="upAgain">เปลี่ยนรูป</button>
         </div>
@@ -355,6 +377,44 @@ body{
       <span><b>ขอใบกำกับภาษี / ใบเสร็จ</b>
         <span>ได้ Code ทางอีเมลทันทีเหมือนเดิม เอกสารตัวจริงส่งไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</span></span>
     </label>
+
+    <div class="tax-fields" id="taxFields" hidden>
+      <div class="tax-lbl">ออกใบกำกับภาษีในนามใคร</div>
+      <div class="tax-seg" id="taxSeg">
+        <button type="button" class="on">นิติบุคคล / บริษัท</button>
+        <button type="button">บุคคลธรรมดา</button>
+      </div>
+      <div class="tax-fg">
+        <div class="tax-lbl" id="taxNameLbl">ชื่อบริษัท / หน่วยงาน <span class="req">*</span></div>
+        <input class="inp" placeholder="บริษัท ตัวอย่าง จำกัด">
+      </div>
+      <div class="tax-2col">
+        <div class="tax-fg">
+          <div class="tax-lbl" id="taxIdLbl">เลขประจำตัวผู้เสียภาษี <span class="req">*</span></div>
+          <input class="inp" inputmode="numeric" placeholder="13 หลัก">
+        </div>
+        <div class="tax-fg" id="taxBranchWrap">
+          <div class="tax-lbl">สาขา</div>
+          <input class="inp" placeholder="สำนักงานใหญ่">
+        </div>
+      </div>
+      <div class="tax-fg">
+        <div class="tax-lbl" id="taxAddrLbl">ที่อยู่บริษัท ตามที่จดทะเบียน <span class="req">*</span></div>
+        <textarea class="inp" rows="3" placeholder="เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์"></textarea>
+        <label class="ship-chk" id="shipChk">
+          <span class="tax-box"><svg viewBox="0 0 24 24" fill="none"><polyline points="20 6 9 17 4 12"/></svg></span>
+          จัดส่งเอกสารที่อยู่อื่น
+        </label>
+      </div>
+      <div class="tax-fg" id="shipWrap" hidden>
+        <div class="tax-lbl">ที่อยู่สำหรับจัดส่งเอกสาร <span class="req">*</span></div>
+        <textarea class="inp" rows="3" placeholder="เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์"></textarea>
+      </div>
+      <div class="tax-fg">
+        <div class="tax-lbl">เบอร์โทรติดต่อ <span class="req">*</span></div>
+        <input class="inp" type="tel" inputmode="tel" placeholder="08X-XXX-XXXX">
+      </div>
+    </div>
 
     <!-- ④ ถามอาชีพ พร้อมเหตุผล -->
     <div class="job">
@@ -461,8 +521,33 @@ function checkMail() {
 em1.oninput = em2.oninput = checkMail;
 
 /* ติ๊กขอใบกำกับภาษี */
-var tax = document.querySelector('.tax');
-tax.onclick = function (e) { e.preventDefault(); tax.classList.toggle('on'); };
+var tax = document.querySelector('.tax'), taxFields = document.getElementById('taxFields');
+tax.onclick = function (e) {
+  e.preventDefault();
+  tax.classList.toggle('on');
+  taxFields.hidden = !tax.classList.contains('on');
+};
+
+/* นิติบุคคล / บุคคลธรรมดา: บุคคลธรรมดาไม่มีสาขา และเปลี่ยนคำว่าชื่อบริษัทเป็นชื่อผู้เสียภาษี */
+var taxSeg = document.getElementById('taxSeg');
+taxSeg.querySelectorAll('button').forEach(function (b, i) {
+  b.onclick = function () {
+    taxSeg.querySelectorAll('button').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on');
+    document.getElementById('taxBranchWrap').style.display = i === 1 ? 'none' : '';
+    document.getElementById('taxNameLbl').innerHTML = (i === 1 ? 'ชื่อ-นามสกุล ผู้เสียภาษี' : 'ชื่อบริษัท / หน่วยงาน') + ' <span class="req">*</span>';
+    document.getElementById('taxIdLbl').innerHTML = (i === 1 ? 'เลขบัตรประชาชน' : 'เลขประจำตัวผู้เสียภาษี') + ' <span class="req">*</span>';
+    document.getElementById('taxAddrLbl').innerHTML = (i === 1 ? 'ที่อยู่ตามบัตรประชาชน' : 'ที่อยู่บริษัท ตามที่จดทะเบียน') + ' <span class="req">*</span>';
+  };
+});
+
+/* ติ๊กส่งเอกสารที่อยู่อื่น */
+var shipChk = document.getElementById('shipChk'), shipWrap = document.getElementById('shipWrap');
+shipChk.onclick = function (e) {
+  e.preventDefault();
+  shipChk.classList.toggle('on');
+  shipWrap.hidden = !shipChk.classList.contains('on');
+};
 
 /* ปุ่มยืนยัน: ในหน้าตัวอย่างแค่เล่นสถานะให้ดู ไม่ได้ส่งสลิปจริง */
 var btn = document.querySelector('.btn'), btnHTML = btn.innerHTML;
