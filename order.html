@@ -1108,10 +1108,10 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
    ไอซ์ 17 พ.ย.: รวมบรรทัด "กดส่งสลิป ถือว่ายอมรับ" เข้ากับการรับข่าวสาร
    ติ๊กมาให้ตั้งแต่แรก ต้องติ๊กถึงส่งได้ และวางเหนือปุ่มส่งสีดำ
    ติ๊กที่อ่านไม่ออกว่าเปิดหรือปิดคือกล่องยินยอมที่ใช้อ้างไม่ได้ จึงใช้เขียวเต็มเหมือนช่องอื่น */
-.tax.agree{margin:0 0 12px;padding:12px 13px;align-items:flex-start}
+.tax.agree,.tax.agree:has(.tax-cb:checked){border-color:transparent;background:none;
+  margin:0 0 14px;padding:4px 2px;align-items:flex-start}
 /* ไอซ์ 17 พ.ย.: "ปุ่มติ๊กอันนี้ใช้เป็นสีเทา ไม่ต้องเด่นมาก" ปุ่มส่งสีดำต้องเด่นกว่า
    แต่ยังต้องอ่านออกว่าติ๊กอยู่ ติ๊กที่อ่านไม่ออกคือกล่องยินยอมที่ใช้อ้างไม่ได้ */
-.tax.agree:has(.tax-cb:checked){border-color:var(--line);background:none}
 .tax.agree:has(.tax-cb:checked) .tax-box{background:#8E8E96;border-color:#8E8E96}
 .tax.agree b{display:block;font-weight:600;font-size:13.5px;color:var(--text-mid);line-height:1.6}
 .tax.agree b a{color:var(--text);font-weight:700;text-decoration:underline;text-underline-offset:3px}
