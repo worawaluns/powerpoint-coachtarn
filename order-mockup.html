@@ -56,6 +56,35 @@ body{
 .item-pr{font-size:14px;font-weight:800;white-space:nowrap}
 .item-pr.free{color:var(--green)}
 .item-old{font-size:12px;color:var(--text-sub);text-decoration:line-through;text-align:right}
+/* ── โค้ดส่วนลด ──
+   คนส่วนใหญ่ไม่มีโค้ด ช่องนี้เลยต้องเล็กและเงียบ ไม่แย่งความสนใจกับยอดที่ต้องโอน
+   ช่องกรอกสูง 38 ตัวอักษร 14 ปุ่มกว้าง 76 (ของเดิมในหน้าจริง 48 / 16 / 116) */
+.promo{padding:12px 20px 0}
+.promo-f{position:relative;display:flex;gap:7px}
+.promo-f>svg{position:absolute;left:11px;top:50%;margin-top:-7px;width:14px;height:14px;
+  stroke:#B4B4BC;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.promo-in{flex:1;min-width:0;height:38px;padding:0 10px 0 32px;border:1px solid var(--line);
+  border-radius:var(--r-sm);background:var(--field);font:inherit;font-size:14px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--text);outline:none;-webkit-appearance:none;
+  transition:border-color .15s,background .15s}
+.promo-in::placeholder{color:#A1A1A8;letter-spacing:0;text-transform:none;font-weight:400}
+.promo-in:focus{background:var(--white);border-color:var(--red)}
+.promo-go{flex:none;min-width:76px;height:38px;padding:0 12px;border:1px solid rgba(211,71,36,.35);
+  border-radius:var(--r-sm);background:var(--white);font:inherit;font-size:14px;font-weight:700;
+  color:var(--red);cursor:pointer;transition:background .15s,transform .12s var(--ease)}
+.promo-go:active{transform:scale(.98)}
+.promo-er[hidden]{display:none}
+.promo-er{font-size:13px;color:var(--bad);margin-top:6px;animation:rise .22s var(--ease)}
+/* ใช้โค้ดแล้ว: ยุบเหลือบรรทัดเดียว ไม่เหลือช่องกรอกให้รก */
+.promo.on .promo-f{display:none}
+.promo.on{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 20px 0;font-size:14px}
+.promo-on[hidden]{display:none}
+.promo-on{display:flex;align-items:center;gap:7px;font-weight:700;color:#14683B}
+.promo-on svg{width:15px;height:15px;stroke:#14683B;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.promo-off{background:none;border:0;font:inherit;font-size:13px;color:var(--text-sub);
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px}
+
 .total{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:#FAFAFB}
 .total-l{font-size:14px;font-weight:600;color:var(--text-mid)}
 .total-n{font-size:12px;color:var(--text-sub)}
@@ -516,6 +545,17 @@ body{
       </div>
       <div class="item-pr free">ฟรี</div>
     </div>
+    <div class="promo" id="promo">
+      <div class="promo-f">
+        <svg viewBox="0 0 24 24"><path d="M20.6 12.6 12.6 20.6a2 2 0 0 1-2.8 0L3 13.8V4h9.8l7.8 7.8a2 2 0 0 1 0 .8z"/><circle cx="7.5" cy="8.5" r="1.2"/></svg>
+        <input class="promo-in" id="promoIn" placeholder="โค้ดส่วนลด" maxlength="24" autocomplete="off" spellcheck="false">
+        <button type="button" class="promo-go" id="promoGo">ใช้โค้ด</button>
+      </div>
+      <div class="promo-er" id="promoEr" hidden></div>
+      <div class="promo-on" id="promoOn" hidden><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span id="promoTx"></span></div>
+      <button type="button" class="promo-off" id="promoOff" hidden>เอาออก</button>
+    </div>
+
     <div class="total">
       <div>
         <div class="total-l">ยอดรวมทั้งหมด</div>
@@ -957,6 +997,42 @@ em1.addEventListener('input', function () { fixmail.hidden = true; });
 
 /* ติ๊กขอใบกำกับภาษี: ช่องที่กางออกสูงกว่า 600px ถ้าปล่อยกระโดดทีเดียวตาจะตามไม่ทัน
    เลยให้เนื้อในไล่ขึ้นทีละกลุ่มจบใน 200ms */
+/* โค้ดส่วนลด: ในหน้าตัวอย่างรับโค้ดสมมติ 2 ใบ ของจริงไปถาม promo_codes ผ่าน js/promo.js
+   เหตุผลที่ต้องมีในนี้: ถ้าหน้าจริงไม่มีช่องนี้ ลูกค้าที่ถือโค้ดจะโอนตามราคาลด
+   แต่ระบบคาดยอดเต็ม แล้ว Slip2Go ตีกลับเป็น wrong_amount ทั้งที่โอนถูก */
+var DEMO_CODES = { 'MIDNOV': [395, 'โปรกลางเดือน'], 'PITCHNOV': [325, 'โปรวันเงินเดือนออก'] };
+var promo = document.getElementById('promo'), promoIn = document.getElementById('promoIn'),
+    promoEr = document.getElementById('promoEr'), promoOn = document.getElementById('promoOn'),
+    promoTx = document.getElementById('promoTx'), promoOff = document.getElementById('promoOff');
+
+function setPrice(p) {
+  document.querySelector('.total-p').textContent = p + '฿';
+  document.querySelector('.amt-v').firstChild.textContent = p + '.00 บาท ';
+}
+
+document.getElementById('promoGo').onclick = function () {
+  var c = promoIn.value.trim().toUpperCase(), hit = DEMO_CODES[c];
+  if (!c) { promoEr.textContent = 'ใส่โค้ดก่อนนะครับ'; promoEr.hidden = false; promoIn.focus(); return; }
+  if (!hit) { promoEr.textContent = 'ไม่พบโค้ดนี้ ลองดูตัวอักษรอีกครั้ง'; promoEr.hidden = false; return; }
+  promoEr.hidden = true;
+  glide(function () {
+    promo.classList.add('on');
+    promoTx.textContent = c + ' ลดเหลือ ' + hit[0] + '฿';
+    promoOn.hidden = false; promoOff.hidden = false;
+    setPrice(hit[0]);
+  });
+};
+promoIn.addEventListener('input', function () { promoEr.hidden = true; });
+
+promoOff.onclick = function () {
+  glide(function () {
+    promo.classList.remove('on');
+    promoOn.hidden = true; promoOff.hidden = true;
+    promoIn.value = '';
+    setPrice(499);
+  });
+};
+
 var news = document.getElementById('newsChk');
 news.onclick = function (e) { e.preventDefault(); news.classList.toggle('on'); };
 
