@@ -10,10 +10,9 @@ const SLIP2GO_KEY      = Deno.env.get('SLIP2GO_SECRET_KEY')!
 const RESEND_API_KEY   = Deno.env.get('RESEND_API_KEY')!
 const TURNSTILE_SECRET = Deno.env.get('TURNSTILE_SECRET_KEY')!
 const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
-// ปุ่มในอีเมลพาไปคลังเทมเพลตพร้อมล็อกอินให้ ลูกค้าเลือกชุดที่อยากได้เองสะดวกกว่าหน้าดาวน์โหลดรวม
-const LIBRARY_URL      = Deno.env.get('LIBRARY_PAGE_URL') ?? 'https://coachtarnslide.com/templates'
 const ADMIN_EMAIL      = Deno.env.get('ADMIN_REVIEW_EMAIL') ?? 'powerpoint.officialth@gmail.com'
 const REVIEW_PAGE      = Deno.env.get('REVIEW_PAGE_URL') ?? 'https://coachtarnslide.com/review'
+// คลังเทมเพลตพร้อมล็อกอินให้ ใช้ทั้งปุ่มในอีเมลและ files_url ที่ส่งเข้า ManyChat
 const LIBRARY_URL      = Deno.env.get('LIBRARY_PAGE_URL') ?? 'https://coachtarnslide.com/templates'
 
 // Coach Tarn มี 2 เพจ = ManyChat 2 บัญชี token แยกกัน ยิงผิดเพจลูกค้าจะไม่ได้ข้อความขอบคุณ
@@ -187,7 +186,7 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
             </table>
           </td>
           <td style="padding-left:14px;padding-top:5px;font-size:15px;color:#1D1D1F;line-height:1.5;">
-            กดปุ่ม <strong style="color:#D34724;">"รับไฟล์สไลด์"</strong> ด้านล่าง
+            กดปุ่ม <strong style="color:#D34724;">"เข้าคลังเทมเพลต"</strong> ด้านล่าง
           </td>
         </tr>
       </table>
