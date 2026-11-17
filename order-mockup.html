@@ -366,17 +366,8 @@ body{
 
 /* ── ถามอาชีพ: ย้ายมาอยู่หลังจบงาน ไม่ขวางหน้าปุ่มจ่ายอีกต่อไป ── */
 .job{margin:0 0 20px}
-.job-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .job-h{font-size:15px;font-weight:700;line-height:1.45}
-.job-opt{font-size:12px;font-weight:500;color:var(--text-sub);flex:none}
-.job-why{display:grid;font-size:14px;color:var(--text-sub);line-height:1.6;margin:6px 0 14px}
-.job-why>span{grid-area:1/1;transition:opacity .2s}   /* ซ้อนสองข้อความในช่องเดียว ความสูงคงที่ ชิปใต้นิ้วจะได้ไม่กระโดด */
-.job-why .w2{opacity:0;display:flex;align-items:center;gap:6px;color:var(--green);font-weight:600}
-.job-why.saved .w1{opacity:0}
-.job-why.saved .w2{opacity:1}
-.job-why svg{width:15px;height:15px;stroke:var(--green);stroke-width:2.4;fill:none;
-  stroke-linecap:round;stroke-linejoin:round;flex:none}
-.job-why.saved .w2 svg{animation:tick .35s var(--ease) both}
+.job-why{font-size:14px;color:var(--text-sub);line-height:1.6;margin:6px 0 14px}
 .chips{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .chip-wide{grid-column:1 / -1}
 .job-other[hidden]{display:none}
@@ -587,14 +578,8 @@ body{
       <!-- ถามอาชีพอยู่ในฟอร์มเลย ไอซ์ 17 พ.ย.: "ให้ลูกค้ากรอกตั้งแต่หน้าแรกมันจะดูแล้วจบมากกว่า"
            ไม่บังคับ ไม่ถูกนับเป็นช่องที่ขาดตอนกดส่ง -->
       <div class="job">
-        <div class="job-top">
-          <div class="job-h">คุณใช้สไลด์กับงานสายไหน</div>
-          <span class="job-opt">ไม่บังคับ</span>
-        </div>
-        <div class="job-why" id="jobWhy">
-          <span class="w1">เราเอาคำตอบไปทำชุดใหม่ตามสายที่คนตอบเยอะ</span>
-          <span class="w2"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>บันทึกแล้ว ขอบคุณครับ</span>
-        </div>
+        <div class="job-h">คุณใช้สไลด์กับงานสายไหน</div>
+        <div class="job-why">เราเอาคำตอบไปทำชุดใหม่ตามสายที่คนตอบเยอะ ชุดที่ตรงกับงานคุณจะมาก่อน</div>
         <div class="chips">
           <button type="button" class="chip" data-value="employee">พนักงานบริษัท</button>
           <button type="button" class="chip" data-value="business">เจ้าของธุรกิจ</button>
@@ -744,7 +729,6 @@ document.querySelectorAll('.chip').forEach(function (c) {
   c.onclick = function () {
     document.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); });
     c.classList.add('on');
-    document.getElementById('jobWhy').classList.add('saved');
     var other = c.dataset.value === 'other';
     glide(function () { ucOther.hidden = !other; });
     if (other) ucOther.focus();
