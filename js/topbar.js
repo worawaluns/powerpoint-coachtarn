@@ -86,7 +86,7 @@ function acctBody() {
   const u = me() || {}, code = String(u.code || '');
   return `<div class="tb-phd"><span class="tb-av tb-lg">${ic('user-circle')}</span><span><b>${esc(u.name || 'สมาชิก')}</b>
       <small>${esc(code.slice(0, 5))}••••${esc(code.slice(-4))} <span class="tb-ok">${ic('seal-check-fill')}ใช้งานได้ทุกชุด</span></small></span></div>
-    <div class="tb-grp">${row('download.html', ic('download-simple'), 'หน้าดาวน์โหลด', chev)}${row('studio/', STUDIO, 'เปิด Slide Studio', ic('arrow-square-out', 'tb-chev'))}</div>
+    <div class="tb-grp">${row('templates.html', ic('squares-four-fill'), 'คลังเทมเพลต', chev)}${row('download.html', ic('download-simple'), 'หน้าดาวน์โหลด', chev)}${row('studio/', STUDIO, 'เปิด Slide Studio', ic('arrow-square-out', 'tb-chev'))}</div>
     <div class="tb-grp">${row('guide.html', ic('question'), 'วิธีดาวน์โหลด', chev)}${row(ADMIN, ic('chat-circle-dots'), 'ติดต่อแอดมิน', chev)}${row('terms.html', ic('file-text'), 'สิทธิ์การใช้ไฟล์', chev)}</div>
     <div class="tb-grp">${row(0, ic('user-switch'), 'เข้าสู่ระบบด้วย Code อื่น', '', { act: 'login' })}${row(0, ic('sign-out'), 'ออกจากระบบ', '', { act: 'logout', red: 1 })}</div>`;
 }

@@ -1436,7 +1436,7 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
   <!-- Nav -->
   <!-- แถบบนแบบล็อก: โลโก้อย่างเดียว ไม่มีลิงก์ออกจากหน้าสั่งซื้อ (งาน 046) -->
   <div id="ct-top" data-on="order"></div>
-  <script src="js/topbar.js?v=20261112b"></script>
+  <script src="js/topbar.js?v=20261117a"></script>
   <div class="progress-bar" id="progressBar"></div>
 
   
@@ -1477,15 +1477,15 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
 
         <div id="successCodeList" class="suc-codes"></div>
 
-        <div class="suc-go-h"><span class="suc-go-num">2</span>กดปุ่มดาวน์โหลดสไลด์</div>
-        <div class="suc-go-s">จะเปิดหน้าดาวน์โหลดพร้อมกรอก Code ให้<br>ถ้าช่องยังว่าง ให้วาง Code ที่คัดลอกไว้</div>
-        <a href="download" target="_blank" class="btn-download" onclick="handoffCode()">
+        <div class="suc-go-h"><span class="suc-go-num">2</span>เข้าคลังเทมเพลต</div>
+        <div class="suc-go-s">เปิดคลังพร้อมใส่ Code ให้แล้ว เลือกชุดที่อยากได้แล้วกดโหลดได้เลย</div>
+        <a href="templates" target="_blank" class="btn-download" id="successGoBtn" onclick="handoffCode()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="7 10 12 15 17 10"/>
             <line x1="12" y1="15" x2="12" y2="3"/>
           </svg>
-          ดาวน์โหลดสไลด์เลย
+          เข้าคลังเทมเพลต
         </a>
 
       </div>
@@ -2541,6 +2541,8 @@ function showSuccess(email, code, codes) {
   // ไม่มี code ใน response (ไม่ควรเกิด) → ซ่อนกล่อง code ให้ลูกค้ากรอกเองจากอีเมลแบบเดิม
   successCode = /^TARN-[A-Z0-9]{8}$/i.test(code || '') ? code.toUpperCase() : '';
   document.getElementById('successGo').classList.toggle('no-code', !successCode);
+  // แนบ code ไปกับลิงก์ด้วย เผื่อ localStorage ถูกบล็อก (โหมดส่วนตัว) คลังจะได้ล็อกอินให้เอง
+  if (successCode) document.getElementById('successGoBtn').href = 'templates?code=' + encodeURIComponent(successCode);
   document.getElementById('successCode').textContent = successCode;
   if (!successCode) document.getElementById('successLead').textContent = 'ระบบส่ง Redeem Code ไปที่อีเมลของคุณแล้ว';
   document.getElementById('successEmail').textContent      = email;

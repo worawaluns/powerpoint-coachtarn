@@ -10,6 +10,8 @@ const SLIP2GO_KEY      = Deno.env.get('SLIP2GO_SECRET_KEY')!
 const RESEND_API_KEY   = Deno.env.get('RESEND_API_KEY')!
 const TURNSTILE_SECRET = Deno.env.get('TURNSTILE_SECRET_KEY')!
 const DOWNLOAD_URL     = Deno.env.get('DOWNLOAD_PAGE_URL') ?? 'https://coachtarnslide.com/download'
+// ปุ่มในอีเมลพาไปคลังเทมเพลตพร้อมล็อกอินให้ ลูกค้าเลือกชุดที่อยากได้เองสะดวกกว่าหน้าดาวน์โหลดรวม
+const LIBRARY_URL      = Deno.env.get('LIBRARY_PAGE_URL') ?? 'https://coachtarnslide.com/templates'
 const ADMIN_EMAIL      = Deno.env.get('ADMIN_REVIEW_EMAIL') ?? 'powerpoint.officialth@gmail.com'
 const REVIEW_PAGE      = Deno.env.get('REVIEW_PAGE_URL') ?? 'https://coachtarnslide.com/review'
 const LIBRARY_URL      = Deno.env.get('LIBRARY_PAGE_URL') ?? 'https://coachtarnslide.com/templates'
@@ -79,7 +81,7 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
   const list = Array.isArray(codes) ? codes : [codes]
   const paid = Number(price).toLocaleString('en-US')
   const code = list[0]
-  const downloadUrl = `${DOWNLOAD_URL}?code=${encodeURIComponent(code)}`
+  const downloadUrl = `${LIBRARY_URL}?code=${encodeURIComponent(code)}`
   const fbUrl = 'https://www.facebook.com/ThePowerpointTemplate'
   return `<!DOCTYPE html>
 <html lang="th">
@@ -205,7 +207,7 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
             </table>
           </td>
           <td style="padding-left:14px;padding-top:5px;font-size:15px;color:#1D1D1F;line-height:1.5;">
-            วาง Code&nbsp;<span style="background:#FFF3EF;border-radius:6px;padding:3px 10px;font-family:'Courier New',monospace;font-size:13px;color:#D34724;font-weight:700;letter-spacing:2px;">${code}</span>&nbsp;ในช่องที่กำหนด
+            เก็บ Code&nbsp;<span style="background:#FFF3EF;border-radius:6px;padding:3px 10px;font-family:'Courier New',monospace;font-size:13px;color:#D34724;font-weight:700;letter-spacing:2px;">${code}</span>&nbsp;ไว้ ใช้ตอนเข้าจากเครื่องอื่น
           </td>
         </tr>
       </table>
@@ -225,7 +227,7 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
             </table>
           </td>
           <td style="padding-left:14px;padding-top:5px;font-size:15px;color:#1D1D1F;line-height:1.5;">
-            เลือกโฟลเดอร์ที่ต้องการแล้วดาวน์โหลดได้เลย
+            เลือกชุดที่อยากได้ในคลัง แล้วกดดาวน์โหลด
           </td>
         </tr>
       </table>
@@ -241,9 +243,9 @@ function buildEmailHtml(name: string, codes: string | string[], price = '499'): 
                 padding:18px 52px;border-radius:100px;
                 letter-spacing:-0.2px;
                 box-shadow:0 6px 20px rgba(211,71,36,0.35);">
-        รับไฟล์สไลด์
+        เข้าคลังเทมเพลต
       </a>
-      <p style="margin:16px 0 0;font-size:13px;color:#AEAEB2;">กดปุ่มด้านบนเพื่อไปยังหน้าดาวน์โหลด</p>
+      <p style="margin:16px 0 0;font-size:13px;color:#AEAEB2;">กดปุ่มด้านบน ระบบใส่ Code ให้อัตโนมัติ ไม่ต้องกรอกเอง</p>
     </td></tr>
 
     <!-- ── Order details ── -->

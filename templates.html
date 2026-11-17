@@ -18,6 +18,8 @@ a{color:inherit;text-decoration:none}
 .btn-red{background:#C84B2F;color:#fff;padding:10px 20px;font-size:15px}
 .btn-ghost{background:#fff;color:var(--text);border:1.5px solid var(--line);padding:9px 18px;font-size:14px}
 .btn svg{width:18px;height:18px}
+.lib-dl{margin-top:10px;font-size:13.5px;color:var(--sub);line-height:1.6}
+.lib-dl a{color:var(--red);font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
 .pill{display:inline-flex;align-items:center;gap:6px;border-radius:100px;padding:4px 12px;font-size:12px;font-weight:700}
 
@@ -232,7 +234,7 @@ addEventListener('pagereveal', e => { document.querySelectorAll('.cv img').forEa
 </head>
 <body>
 <div id="ct-top" data-on="templates"></div>
-<script src="js/topbar.js?v=20261112b"></script>
+<script src="js/topbar.js?v=20261117a"></script>
 <main class="wrap">
   <section class="lib-top">
     <div class="lib-head">
@@ -256,6 +258,7 @@ addEventListener('pagereveal', e => { document.querySelectorAll('.cv img').forEa
       <input id="q" placeholder="ค้นหา เช่น KPI, งบประมาณ, กราฟแท่ง, โรงเรียน" autocomplete="off" enterkeyhint="search">
       <button class="clr" id="qClr" onclick="clearQ()" aria-label="ล้างคำค้น"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </label>
+    <p class="lib-dl">เลือกทีละชุดจากคลังนี้ได้เลย หรือถ้าอยากได้ทั้งหมดรวดเดียว <a href="download">ไปที่หน้าดาวน์โหลด</a></p>
   </section>
   <div class="bar">
     <div class="chips" id="chips"></div>
@@ -275,9 +278,33 @@ const PATTERN = /^TARN-[A-Z0-9]{8}$/i;
 const ICON = { lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
   dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>',
   ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>', eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>' };
+const SB_URL = 'https://uyubtzyhuqalmjpjhmap.supabase.co', SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5dWJ0enlodXFhbG1qcGpobWFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3MjkzNjQsImV4cCI6MjA4OTMwNTM2NH0.z11wUqyRWOSsI5o_STNZWZx-e1HV7UuLe7bEtipk3nQ';
 const DRIVE = 'https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing';   // buyers download from the shared Drive folder (per-set links aren't public)
 const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } },
   set(v){ try{ v ? localStorage.setItem('ct_lib', JSON.stringify(v)) : localStorage.removeItem('ct_lib'); }catch(e){} } };
+
+// มาจากลิงก์ในอีเมลหรือหน้าสั่งซื้อสำเร็จ → ตรวจ Code แล้วล็อกอินให้เลย ลูกค้าไม่ต้องกรอกเอง
+(async function () {
+  const u = new URLSearchParams(location.search);
+  const code = (u.get('code') || '').trim().toUpperCase();
+  if (!/^TARN-[A-Z0-9]{8}$/.test(code)) return;
+  const clean = () => { u.delete('code'); const q = u.toString();
+    history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash); };
+  const cur = store.get();
+  if (cur && cur.code === code) { clean(); return; }   // ล็อกอินด้วย code เดิมอยู่แล้ว
+  try {
+    const r = await fetch(`${SB_URL}/functions/v1/verify-code`, {
+      method : 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${SB_KEY}` },
+      body   : JSON.stringify({ code }),
+    });
+    const d = await r.json();
+    if (!d.valid) return;   // Code ผิดก็ปล่อยให้ดูคลังแบบยังไม่ล็อกอิน ไม่ต้องขึ้น error ให้ตกใจ
+    store.set({ code, name: d.name || '', t: Date.now(), studio: !!d.studio, su: d.studio_until || null });
+    clean();
+    location.reload();   // โหลดใหม่รอบเดียว ให้แถบบนกับปุ่มโหลดรู้ว่าล็อกอินแล้ว (URL ไม่มี code แล้ว จึงไม่วน)
+  } catch (_) {}
+})();
 let DATA = [], TAGS = {}, PICK = {}, SEARCH = {}, group = 'all', q = '', mode = 'sets', type = 'กราฟ', shown = 48;
 // ตัวกรองนอกเหนือจากหมวดอาชีพ — ค่าว่าง = ไม่กรอง
 const F = { charts: new Set(), tone: '', photo: false, excel: false };
