@@ -22,13 +22,7 @@ sub('<title>หน้าสั่งซื้อ แบบใหม่ (mockup)<
     '<meta name="robots" content="noindex,nofollow">\n'
     '<link rel="icon" type="image/x-icon" href="img/favicon.ico">')
 
-# โลโก้ รูปสินค้า และโลโก้ธนาคารชุดเดียวกับหน้าจริง
-sub('.nav-logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px}\n'
-    '.nav-mark{width:26px;height:26px;border-radius:7px;background:var(--red);display:block}',
-    '.nav-logo{display:flex;align-items:center;text-decoration:none}\n'
-    '.nav-logo img{height:34px;width:auto;display:block}')
-sub('<div class="nav-logo"><span class="nav-mark"></span>coach tarn</div>',
-    '<a class="nav-logo" href="/"><img src="img/logo.svg" alt="Coach Tarn"></a>')
+# รูปสินค้ากับโลโก้ธนาคารชุดเดียวกับหน้าจริง (โลโก้บนแถบบนมาจาก topbar.js)
 sub('.foot-mark span{width:24px;height:24px;border-radius:7px;background:var(--red);display:block}',
     '.foot-mark img{height:28px;width:auto;display:block;filter:brightness(0) invert(1)}')
 sub('<div class="foot-mark"><span></span>coach tarn</div>',
@@ -60,8 +54,6 @@ RESPONSIVE = '''
    ต้องมองเลขบัญชีค้างไว้ตลอดเวลาที่กรอกฟอร์ม */
 @media (min-width:760px){
   .wrap{max-width:620px;padding:0 24px 56px}
-  .nav{padding:18px 0 14px}
-  .nav-logo img{height:40px}
   .card-h{font-size:16.5px}
   .item-nm{font-size:15px}
   .total-p{font-size:26px}
@@ -75,16 +67,15 @@ RESPONSIVE = '''
     grid-template-columns:minmax(0,1fr) minmax(0,452px);padding:0 28px 70px;
     align-content:start;grid-auto-rows:min-content;
   }
-  .nav{grid-column:1 / -1;grid-row:1}
-  .steps{grid-column:1 / -1;grid-row:2}
+  #ct-top{grid-column:1 / -1;grid-row:1}
   /* คอลัมน์ซ้ายเป็นกล่องเดียวแล้วเรียงข้างในเอง ถ้าแยกเป็นหลายแถวของ grid
      แถวจะถูกยืดตามความสูงของฟอร์มฝั่งขวา แล้วเกิดช่องว่าง 112px คั่นการ์ด */
-  .col-left{grid-column:1;grid-row:3;display:flex;flex-direction:column}
+  .col-left{grid-column:1;grid-row:2;display:flex;flex-direction:column}
   .bnk{order:1}
   .trst{order:2}
   .ord{order:3}
-  .col-r{grid-column:2;grid-row:3;position:sticky;top:22px;margin:0}
-  .foot{grid-column:1 / -1;grid-row:4}
+  .col-r{grid-column:2;grid-row:2;position:sticky;top:96px;margin:0}
+  .foot{grid-column:1 / -1;grid-row:3}
   .total-p{font-size:28px}
 }
 '''
