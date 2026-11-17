@@ -1745,6 +1745,7 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
         <div class="fg">
           <label class="lbl">โอนจากบัญชีแบบไหน <span class="req">*</span></label>
           <div class="seg picked" id="seg">
+            <span class="seg-pill"></span>
             <button type="button" class="on" id="pcPersonal" onclick="setChannel('personal')">บัญชีส่วนตัว</button>
             <button type="button" id="pcCorporate" onclick="setChannel('corporate')">บัญชีบริษัท</button>
           </div>
@@ -1952,6 +1953,7 @@ function setChannel(v){
   document.getElementById('pcPersonal').classList.toggle('on', v === 'personal');
   document.getElementById('pcCorporate').classList.toggle('on', v === 'corporate');
   document.getElementById('pcNote').classList.toggle('show', v === 'corporate');
+  document.getElementById('seg').classList.toggle('right', v === 'corporate');
   lockTax(v === 'corporate');
 }
 function selectUseCase(el) {
@@ -2486,6 +2488,7 @@ function setTaxType(v){
   taxType = v;
   const u = TAX_UI[v], req = ' <span class="req">*</span>';
   document.querySelectorAll('#taxSeg button').forEach((b, i) => b.classList.toggle('on', (i === 0) === (v === 'company')));
+  document.getElementById('taxSeg').classList.toggle('right', v === 'personal');
   document.getElementById('taxNameLbl').innerHTML = u.name + req;
   document.getElementById('taxIdLbl').innerHTML = u.id + req;
   document.getElementById('taxAddrLbl').innerHTML = u.addr + req;
