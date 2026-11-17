@@ -61,20 +61,22 @@ RESPONSIVE = '''
   .dock{display:none}          /* จอยาวพอ ปุ่มในหน้าเห็นอยู่แล้ว ไม่ต้องมีแถบติดล่าง */
   .tagline{padding-bottom:0}
 }
-@media (min-width:1080px){
+@media (min-width:1024px){
+  /* สองคอลัมน์ชุดเดียวกับ order.html จริง: ซ้าย 1fr ขวา 1.15fr เบรกที่ 1024
+     การ์ดบัญชีตรึงไว้ (top:110px เท่าหน้าจริง) ไหลตามลงมาตอนกรอกฟอร์ม
+     สรุปรายการอยู่บนสุดของคอลัมน์ซ้าย อ่านจบแล้วปล่อยให้เลื่อนผ่านไปได้ */
   .wrap{
-    max-width:1060px;display:grid;gap:16px 26px;align-items:start;
-    grid-template-columns:minmax(0,1fr) minmax(0,452px);padding:0 28px 70px;
+    max-width:1060px;display:grid;gap:16px 28px;align-items:start;
+    grid-template-columns:1fr 1.15fr;padding:0 40px 70px;
     align-content:start;grid-auto-rows:min-content;
   }
   #ct-top{grid-column:1 / -1;grid-row:1}
-  /* คอลัมน์ซ้ายเป็นกล่องเดียวแล้วเรียงข้างในเอง ถ้าแยกเป็นหลายแถวของ grid
-     แถวจะถูกยืดตามความสูงของฟอร์มฝั่งขวา แล้วเกิดช่องว่าง 112px คั่นการ์ด */
-  .col-left{grid-column:1;grid-row:2;display:flex;flex-direction:column}
-  .bnk{order:1}
-  .trst{order:2}
-  .ord{order:3}
-  .col-r{grid-column:2;grid-row:2;position:sticky;top:96px;margin:0}
+  /* align-self:stretch ทำให้คอลัมน์ซ้ายสูงเท่าฟอร์ม ไม่งั้น sticky ไม่มีระยะให้ไหล */
+  .col-left{grid-column:1;grid-row:2;display:flex;flex-direction:column;align-self:stretch}
+  .ord{order:1}
+  .bnk{order:2;position:sticky;top:110px}
+  .trst{order:3}
+  .col-r{grid-column:2;grid-row:2;margin:0}
   .foot{grid-column:1 / -1;grid-row:3}
   .total-p{font-size:28px}
 }
