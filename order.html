@@ -1109,6 +1109,10 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
    ติ๊กมาให้ตั้งแต่แรก ต้องติ๊กถึงส่งได้ และวางเหนือปุ่มส่งสีดำ
    ติ๊กที่อ่านไม่ออกว่าเปิดหรือปิดคือกล่องยินยอมที่ใช้อ้างไม่ได้ จึงใช้เขียวเต็มเหมือนช่องอื่น */
 .tax.agree{margin:0 0 12px;padding:12px 13px;align-items:flex-start}
+/* ไอซ์ 17 พ.ย.: "ปุ่มติ๊กอันนี้ใช้เป็นสีเทา ไม่ต้องเด่นมาก" ปุ่มส่งสีดำต้องเด่นกว่า
+   แต่ยังต้องอ่านออกว่าติ๊กอยู่ ติ๊กที่อ่านไม่ออกคือกล่องยินยอมที่ใช้อ้างไม่ได้ */
+.tax.agree:has(.tax-cb:checked){border-color:var(--line);background:none}
+.tax.agree:has(.tax-cb:checked) .tax-box{background:#8E8E96;border-color:#8E8E96}
 .tax.agree b{display:block;font-weight:600;font-size:13.5px;color:var(--text-mid);line-height:1.6}
 .tax.agree b a{color:var(--text);font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .tax.agree>span>span{display:block;margin-top:4px;font-size:12.5px;color:var(--text-sub);line-height:1.55}
@@ -1854,10 +1858,10 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
         <label class="tax agree" id="agreeChk" for="agreeBox">
           <input type="checkbox" id="agreeBox" class="tax-cb" checked>
           <span class="tax-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-          <span><b>ยอมรับ <a href="/terms.html" target="_blank" rel="noopener">เงื่อนไขการใช้งาน</a> และ <a href="/privacy.html" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัว</a> และยินดีรับข่าวสารกับโปรโมชั่นทางอีเมล</b>
-          <span>กดยกเลิกรับข่าวสารได้ทุกเมื่อ จากลิงก์ท้ายอีเมลทุกฉบับ</span></span>
+          <span><b>ยอมรับ<a href="/terms.html" target="_blank" rel="noopener">เงื่อนไขการใช้งาน</a> และ <a href="/privacy.html" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัว</a> พร้อมรับข่าวสารทางอีเมล</b>
+          <span>ยกเลิกได้ทุกเมื่อจากลิงก์ท้ายอีเมล</span></span>
         </label>
-        <div class="error-msg" id="errAgree"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>ต้องติ๊กยอมรับเงื่อนไขก่อนจึงจะส่งสลิปได้</div>
+        <div class="error-msg" id="errAgree"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>ต้องติ๊กช่องนี้ก่อน ไม่งั้นส่งสลิปไม่ได้</div>
         <button type="button" class="btn" id="submitBtn" onclick="handleSubmit()"><span>ส่งสลิป รับรหัสทางอีเมล</span></button>
         <div class="sub-note">ระบบตรวจสลิปอัตโนมัติ ทำงานตลอด 24 ชั่วโมง ส่วนใหญ่ได้ไฟล์ทางอีเมลใน 1 ถึง 3 นาที</div>
         <a class="chat-link" href="https://m.me/coachtarn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.2-.6L3 21l1.8-5.2A8.3 8.3 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><u>โอนแล้วติดปัญหา ทักแชทเพจ</u></a>
@@ -2241,9 +2245,12 @@ document.getElementById('taxChk').addEventListener('click', function (e) {
 document.querySelectorAll('#agreeChk a').forEach(a => {
   a.addEventListener('click', e => e.stopPropagation());
 });
-// ติ๊กกลับเข้ามาแล้วไฟแดงต้องหายเอง
+// ติ๊กออกเตือนทันที ไม่ต้องรอให้กดส่งแล้วค่อยรู้ว่าไปต่อไม่ได้
 document.getElementById('agreeBox').addEventListener('change', function () {
-  if (this.checked) document.getElementById('errAgree').classList.remove('show');
+  const err = document.getElementById('errAgree');
+  if (this.checked) { err.classList.remove('show'); return; }
+  err.classList.add('show');
+  say('ไม่ติ๊กช่องนี้จะส่งสลิปไม่ได้');
 });
 
 // ── BBL delay: show card section (nav stays visible) ─────────────────────────
