@@ -959,6 +959,9 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 /* ── แถบความน่าเชื่อถือ คั่นตรงรอยต่อ "กำลังจะโอนเงิน" ── */
 .trust[hidden]{display:none}
 .trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}
+/* ต่ำกว่า 768 ระยะขอบมาจากตัว .card เอง แถบนี้เลยต้องเว้นเท่ากัน ไม่งั้นชนขอบจอ
+   ตั้งแต่ 768 ขึ้นไป .page-inner เว้นให้แล้ว การ์ดก็ไม่เว้นเอง */
+@media(max-width:767px){.trust{margin:0 16px 16px}}
 .trust div{background:var(--white);border:1px solid var(--line);border-radius:var(--r-md);
   padding:11px 10px;text-align:center;font-size:12px;color:var(--text-sub);line-height:1.45}
 .trust svg{width:18px;height:18px;stroke:var(--text-sub);fill:none;stroke-width:1.8;
