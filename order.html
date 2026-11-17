@@ -842,6 +842,483 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 .hm-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:linear-gradient(135deg,#0084FF,#0068D1);color:#fff;font-size:15px;font-weight:700;border:none;border-radius:12px;cursor:pointer;font-family:inherit}
 /* ลดการเคลื่อนไหว: ข้ามไปสถานะสุดท้ายทันที (ไอซ์ 4 พ.ย. 2569) */
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important;scroll-behavior:auto!important}}
+
+
+/* ═══════════════ ดีไซน์ใหม่ของหน้าสั่งซื้อ (ยกมาจาก docs/mockup/order/after.html) ═══════════════
+   แก้ที่ mockup ก่อนเสมอ แล้วค่อยยกมาที่นี่ ของเดิมที่อยู่ข้างบนยังใช้กับจอหลังกดส่ง */
+
+/* ── ตัวแปรจากดีไซน์ใหม่ ── เติมเฉพาะตัวที่หน้านี้ยังไม่มี
+   ไม่แตะ --text-mid กับ --text-sub ของเดิม เพราะ nav กับจอหลังกดส่งใช้อยู่ */
+:root{
+  --btn:#1D1D1F;--btn-press:#000;
+  --green:#16A34A;--green-soft:#E8F7EF;
+  --amber:#B26A00;--amber-soft:#FFF4E5;
+  --bad:#A3301A;--bad-soft:#FDF3F0;
+  --text-dim:#9A9AA0;
+  --line:#E3E3E8;--field:#F5F5F7;--page:#F6F4F2;
+  --r-sm:10px;--r-md:14px;--r-lg:20px;
+}
+/* ── การ์ด ── */
+.card[hidden]{display:none}
+.card{background:var(--white);border-radius:var(--r-lg);margin-bottom:16px;overflow:hidden;
+  box-shadow:0 1px 3px rgba(10,10,10,.05)}
+.card.plain{box-shadow:none;border:1px solid var(--line)}   /* การ์ดบัญชีคือใบที่ต้องเชื่อ ให้ต่างจากเพื่อน */
+.card-h{
+  font-size:15px;font-weight:800;padding:14px 20px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.card-h span{font-size:14px;font-weight:500;color:var(--text-sub)}
+
+/* ── สรุปรายการ ── */
+.item{display:flex;align-items:center;gap:11px;padding:13px 20px;border-bottom:1px solid var(--line)}
+.item-th{width:52px;height:38px;border-radius:var(--r-sm);background:#E9E9EE;flex:none}
+.item-nm{font-size:14px;font-weight:600;line-height:1.45}
+.item-ds{font-size:14px;color:var(--text-sub);margin-top:1px}
+.item-pr{font-size:14px;font-weight:800;white-space:nowrap}
+.item-pr.free{color:var(--green)}
+.item-old{font-size:12px;color:var(--text-sub);text-decoration:line-through;text-align:right}
+/* ── โค้ดส่วนลด ──
+   คนส่วนใหญ่ไม่มีโค้ด ช่องนี้เลยต้องเล็กและเงียบ ไม่แย่งความสนใจกับยอดที่ต้องโอน
+   ช่องกรอกสูง 38 ตัวอักษร 14 ปุ่มกว้าง 76 (ของเดิมในหน้าจริง 48 / 16 / 116) */
+.promo{padding:12px 20px 0}
+.promo-f{position:relative;display:flex;gap:7px}
+.promo-f>svg{position:absolute;left:11px;top:50%;margin-top:-7px;width:14px;height:14px;
+  stroke:#B4B4BC;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.promo-in{flex:1;min-width:0;height:38px;padding:0 10px 0 32px;border:1px solid var(--line);
+  border-radius:var(--r-sm);background:var(--field);font:inherit;font-size:14px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--text);outline:none;-webkit-appearance:none;
+  transition:border-color .15s,background .15s}
+.promo-in::placeholder{color:#A1A1A8;letter-spacing:0;text-transform:none;font-weight:400}
+.promo-in:focus{background:var(--white);border-color:var(--red)}
+/* ปุ่มนี้ไม่ใช่ปุ่มหลักของหน้า ไอซ์ 17 พ.ย.: "เอาสีดำหรือเทา ไม่เอาสีส้ม"
+   สีแบรนด์เก็บไว้ให้ราคากับปุ่มส่งสลิป */
+.promo-go{flex:none;min-width:76px;height:38px;padding:0 12px;border:1px solid #D5D5DB;
+  border-radius:var(--r-sm);background:var(--white);font:inherit;font-size:14px;font-weight:700;
+  color:var(--text);cursor:pointer;transition:background .15s,border-color .15s,transform .12s var(--ease)}
+.promo-go:active{background:#F3F3F6;border-color:#C2C2CA;transform:scale(.98)}
+.promo-er[hidden]{display:none}
+.promo-er{font-size:13px;color:var(--bad);margin-top:6px;animation:rise .22s var(--ease)}
+/* ใช้โค้ดแล้ว: ยุบเหลือบรรทัดเดียว ไม่เหลือช่องกรอกให้รก */
+.promo.on .promo-f{display:none}
+.promo.on{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 20px 0;font-size:14px}
+.promo-on[hidden]{display:none}
+.promo-on{display:flex;align-items:center;gap:7px;font-weight:700;color:#14683B}
+.promo-on svg{width:15px;height:15px;stroke:#14683B;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.promo-off{background:none;border:0;font:inherit;font-size:13px;color:var(--text-sub);
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px}
+
+.total{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:#FAFAFB}
+.total-l{font-size:14px;font-weight:600;color:var(--text-mid)}
+.total-n{font-size:12px;color:var(--text-sub)}
+.total-p{font-size:28px;font-weight:800;letter-spacing:-.5px}  /* ยอดเดียวที่ตัวใหญ่ในหน้า */
+
+/* ── บัญชีธนาคาร: ให้อ่านเหมือนเอกสาร ไม่ใช่กล่องที่ใครก็พิมพ์ขึ้นมา ── */
+.bank-top{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line)}
+.kbank{width:30px;height:30px;border-radius:8px;background:#0F9A4E;flex:none}
+.bank-bank{font-size:15px;font-weight:600}
+.bank-main{padding:14px 20px;border-bottom:1px solid var(--line)}
+.bank-name{font-size:17px;font-weight:700;letter-spacing:.01em}
+.bank-sub{font-size:14px;color:var(--text-sub);margin-top:2px}
+/* แถวเลขบัญชีกับยอดเงิน: ป้ายอยู่บน ค่าอยู่ล่างคู่กับปุ่มคัดลอก
+   ถ้าวางป้ายกับค่าไว้บรรทัดเดียวกัน เลขบัญชี 20px จะตกบรรทัดที่จอ 390 */
+.bank-row{padding:12px 20px 13px;border-bottom:1px solid var(--line)}
+.bank-k{font-size:14px;color:var(--text-sub);display:block}
+.bank-k i{display:block;font-style:normal;font-size:12px;color:var(--text-sub);line-height:1.5}
+/* เลขบัญชีคือพระเอกของการ์ดนี้ ไม่ใช่ปุ่มคัดลอก */
+.bank-v{font-size:20px;font-weight:700;letter-spacing:.04em;font-variant-numeric:tabular-nums;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:3px;white-space:nowrap}
+.copy{
+  background:var(--field);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:11px 12px;min-height:44px;min-width:118px;   /* 118 = กว้างพอสำหรับคำว่า "คัดลอกแล้ว" ตัวเลขจะได้ไม่ขยับตอนกด */
+  font:inherit;font-size:14px;font-weight:600;color:var(--text-mid);cursor:pointer;flex:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  transition:background .2s,border-color .2s,color .2s,transform .12s var(--ease);
+}
+.copy svg{width:16px;height:16px;flex:none;stroke:currentColor;stroke-width:1.8;
+  fill:none;stroke-linecap:round;stroke-linejoin:round}
+.copy:active{transform:scale(.96)}
+.copy.done{background:var(--green-soft);border-color:#BBE6CC;color:#14683B}
+.copy.done svg{stroke-width:2.4;animation:tick .35s var(--ease) both}
+/* ค่าที่เพิ่งคัดลอกวาบขึ้นมาแป๊บนึง เป็นเทา ไม่ใช่เขียว เพราะเขียวจองไว้แปลว่า "เสร็จ" */
+.bank-v,.amt-v{position:relative;isolation:isolate}
+.flash::before{content:"";position:absolute;inset:-5px -8px;border-radius:var(--r-sm);z-index:-1;
+  pointer-events:none;background:rgba(10,10,10,.07);animation:flashFade .9s ease-out both}
+@keyframes flashFade{from{opacity:1}to{opacity:0}}
+
+.amt-row{padding:12px 20px 13px;border-bottom:1px solid var(--line);background:#FAFAFB}
+.amt-k{font-size:14px;font-weight:600;color:var(--text-mid);display:block}
+.amt-k i{display:block;font-style:normal;font-size:12px;font-weight:400;color:var(--text-sub);line-height:1.5}
+.amt-v{font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-top:3px;white-space:nowrap}
+.bank-foot{padding:12px 20px;font-size:12px;color:var(--text-sub);line-height:1.6}
+.warn{display:flex;gap:9px;padding:12px 20px;background:var(--amber-soft);
+  font-size:14px;color:#7A4A00;line-height:1.6}
+.warn b{color:#5E3800}
+
+/* ── แถบความน่าเชื่อถือ คั่นตรงรอยต่อ "กำลังจะโอนเงิน" ── */
+.trust[hidden]{display:none}
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 16px}
+.trust div{background:var(--white);border:1px solid var(--line);border-radius:var(--r-md);
+  padding:11px 10px;text-align:center;font-size:12px;color:var(--text-sub);line-height:1.45}
+.trust svg{width:18px;height:18px;stroke:var(--text-sub);fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;display:block;margin:0 auto 5px}
+.trust b{display:block;font-size:13px;font-weight:700;color:var(--text)}
+
+/* ── ฟอร์ม ── */
+.form-body{padding:20px}
+.fg{margin-bottom:20px}
+.fg:last-child{margin-bottom:0}
+.lbl{font-size:14px;font-weight:600;color:var(--text-mid);margin-bottom:8px;display:block}
+.lbl .opt{font-weight:400;color:var(--text-sub)}
+.req{color:var(--red)}
+.inp{
+  width:100%;background:var(--field);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:13px 14px;
+  font:inherit;font-size:16px;color:var(--text);outline:none;
+  transition:background .15s,border-color .15s,box-shadow .15s;-webkit-appearance:none;
+}
+.inp::placeholder{color:#A1A1A8}
+.inp:focus{background:var(--white);border-color:var(--red);box-shadow:0 0 0 3px rgba(211,71,36,.12)}
+.hint{font-size:14px;color:var(--text-sub);line-height:1.55;margin-top:8px}
+
+/* ── เดาอีเมลที่พิมพ์ผิด ──
+   .con .cm .om กับโดเมนยอดฮิตที่สะกดผิด กดทีเดียวแก้ให้เลย ไม่ต้องลบเอง
+   ใช้เหลืองไม่ใช่แดง เพราะยังไม่รู้ว่าผิดจริง แค่น่าจะผิด */
+.fixmail[hidden]{display:none}
+.fixmail{display:flex;align-items:center;gap:7px;width:100%;margin-top:8px;text-align:left;
+  background:var(--amber-soft);border:1px solid #F3DDB8;border-radius:var(--r-sm);
+  padding:10px 12px;font:inherit;font-size:14px;color:#7A4A05;cursor:pointer;
+  animation:rise .24s var(--ease)}
+.fixmail b{font-weight:700}
+.fixmail u{text-underline-offset:3px}
+.fixmail svg{width:16px;height:16px;flex:none;stroke:var(--amber);stroke-width:2;fill:none;stroke-linecap:round}
+
+/* ── ช่องที่ยังขาด ──
+   แดงที่ขอบอย่างเดียวคนอายุ 50 บนจอกลางแดดมองไม่เห็น เลยใส่พื้นอ่อนด้วย
+   และสะกิดซ้ายขวาสั้นๆ ครั้งเดียว ไม่ใช่สั่นรัว เพราะเป้าหมายคือชี้ที่ ไม่ใช่ดุ */
+.inp.bad,.up2.bad{border-color:var(--bad);background:var(--bad-soft)}
+.inp.bad:focus{box-shadow:0 0 0 3px rgba(163,48,26,.12)}
+.nudgeX{animation:nudgeX .42s var(--ease)}
+@keyframes nudgeX{0%,100%{transform:translateX(0)}22%{transform:translateX(-6px)}55%{transform:translateX(5px)}80%{transform:translateX(-2px)}}
+.err{display:flex;align-items:flex-start;gap:6px;font-size:14px;color:var(--bad);
+  margin-top:7px;line-height:1.5;animation:rise .24s var(--ease)}
+.err svg{width:15px;height:15px;flex:none;margin-top:3px;stroke:var(--bad);stroke-width:2;fill:none;
+  stroke-linecap:round}
+
+/* ป้ายเตือนลอยใต้แถบบน บอกภาพรวมว่าขาดกี่ช่อง ช่องแรกอยู่ตรงไหนเลื่อนไปให้แล้ว */
+.toast{position:fixed;left:12px;right:12px;top:78px;z-index:120;margin:0 auto;max-width:406px;
+  display:flex;align-items:center;gap:9px;background:var(--bad);color:#fff;
+  border-radius:var(--r-md);padding:12px 14px;font-size:15px;font-weight:600;line-height:1.45;
+  box-shadow:0 10px 30px rgba(163,48,26,.28);
+  transform:translateY(-14px);opacity:0;pointer-events:none;transition:transform .28s var(--ease),opacity .22s}
+.toast.show{transform:none;opacity:1}
+.toast svg{width:19px;height:19px;flex:none;stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round}
+
+/* อีเมลอ่านทวน: เขียวตอนตรง แดงตอนไม่ตรง และไอคอนต้องเปลี่ยนตามด้วย
+   ลูกค้าจำลองสะดุด: ข้อความแดงมีติ๊กถูกนำหน้า อ่านแล้วไม่รู้ว่าถูกหรือผิด */
+.echo[hidden]{display:none}
+.echo{display:flex;gap:9px;align-items:flex-start;background:var(--green-soft);
+  border-radius:var(--r-md);padding:11px 13px;margin-top:8px;font-size:14px;color:#14683B;line-height:1.55;
+  animation:rise .3s var(--ease);transition:background .2s,color .2s}
+.echo svg{width:17px;height:17px;flex:none;margin-top:2px;fill:none;stroke:#16A34A;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.echo:not(.bad) svg{animation:tick .35s var(--ease) both}
+.echo.bad{background:#FFF0ED;color:#A3301A}
+.echo.bad svg{stroke:#C0392B}
+.echo b{font-weight:800}
+
+/* เลือกประเภทบัญชี */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#EFEFF2;
+  border-radius:12px;padding:4px}
+.seg:not(.picked) .seg-pill{opacity:0}
+.seg-pill{position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);
+  background:var(--white);border-radius:9px;box-shadow:0 1px 4px rgba(20,20,40,.1);
+  transition:transform .3s var(--ease)}
+.seg.right .seg-pill{transform:translateX(100%)}
+.seg button{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:14px;font-weight:600;
+  color:var(--text-sub);padding:10px 6px;border-radius:9px;cursor:pointer;transition:.15s}
+.seg button.on{color:var(--text);font-weight:700}   /* ตัวที่เลือกเป็นตัวหนังสือดำ ไอซ์ไม่เอาส้ม 16 พ.ย. */
+.seg-note{font-size:14px;color:var(--text-mid);margin-top:8px;line-height:1.55}
+@keyframes noteIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.seg-note.swap{animation:noteIn .26s var(--ease)}
+
+/* ── อัปโหลดสลิป ──
+   ไอซ์ 16 พ.ย. ลองแบบแถวเดียวแล้วงง เลยกลับมาเป็นกล่องกลางจอ เส้นประเทาอ่อน ปุ่มเดียว
+   รอบนี้เอากรอบสีอ่อนหลังไอคอนออก (แพทเทิร์นที่ไอซ์ไล่ออกจากหัวการ์ดไปแล้ว) และเปลี่ยนไอคอนเป็นสลิป ไม่ใช่รูปภาพ */
+.up2[hidden]{display:none}
+.up2{
+  position:relative;display:block;width:100%;background:var(--white);border:1.5px dashed #D8D8DE;
+  border-radius:18px;padding:24px 16px;text-align:center;font:inherit;cursor:pointer;
+  transition:border-color .2s,background .2s,transform .12s var(--ease);
+}
+.up2 svg.slip-ic{width:28px;height:28px;stroke:var(--red);fill:none;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round;margin:0 auto 10px;display:block}
+.up2 b{display:block;font-size:15px;font-weight:800;color:var(--text)}
+.up2 em{display:block;font-style:normal;font-size:14px;color:var(--text-sub);margin-top:4px}
+.up2:active{transform:scale(.985)}
+.up2.again{animation:fadeIn .22s ease-out}
+/* กลับมาจากแอปธนาคารแล้วหน้าเงียบ ไม่มีอะไรชี้ว่าขั้นต่อไปคือแนบสลิป
+   วงขอบเต้น 2 ครั้ง เฉพาะคนที่เคยกดคัดลอกแล้ว ไม่เลื่อนหน้าเอง ไม่วนไม่สิ้นสุด */
+.up2::after{content:"";position:absolute;inset:-4px;border-radius:22px;border:2px solid var(--red);
+  opacity:0;pointer-events:none}
+.up2.nudge::after{animation:ring 1.1s ease-out 2}
+@keyframes ring{0%{opacity:.5;transform:scale(.985)}100%{opacity:0;transform:scale(1.03)}}
+
+.up-load[hidden]{display:none}
+.up-load{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:11px;
+  background:var(--field);border:1.5px solid var(--line);border-radius:18px;min-height:142px;padding:16px;
+  font-size:14px;font-weight:700;color:var(--text-mid);animation:fadeIn .16s ease-out}
+.up-load::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:40%;background:var(--red);
+  border-radius:3px;animation:bar 1s var(--ease) infinite}
+@keyframes bar{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+.spin{width:19px;height:19px;border-radius:50%;border:2.5px solid #DCDCE2;
+  border-top-color:var(--red);animation:spin .7s linear infinite;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.up-qr{display:flex;gap:9px;align-items:flex-start;background:var(--amber-soft);
+  border-radius:var(--r-md);padding:10px 12px;margin-top:8px}
+.up-qr svg{width:18px;height:18px;flex:none;margin-top:1px;fill:none;stroke:#B26A00;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.up-qr p{font-size:14px;font-weight:600;color:#8A5200;line-height:1.55}
+
+.slip-ok[hidden]{display:none}
+@keyframes rise{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes rise2{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeOut{to{opacity:0}}
+@keyframes tick{0%{transform:scale(.3);opacity:0}60%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.slip-ok{animation:rise .34s var(--ease);display:flex;gap:11px;align-items:center;background:var(--green-soft);
+  border-radius:var(--r-md);padding:11px 13px}
+.slip-th{flex:none;width:44px;height:58px;border-radius:8px;background:#fff;
+  border:1px solid #CFE7D8;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.slip-th svg{width:30px;height:40px}
+.slip-th img{width:100%;height:100%;object-fit:cover;display:block}
+.slip-tx{flex:1;min-width:0}
+.slip-tx b{display:block;font-size:14px;font-weight:800;color:#14683B}
+.slip-tx span{display:block;font-size:12px;color:#2F7A52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slip-ch{flex:none;background:none;border:0;font:inherit;font-size:14px;
+  font-weight:700;color:#14683B;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 2px}
+
+/* ── ใบกำกับภาษี ── */
+.tax{display:flex;gap:11px;align-items:flex-start;margin:20px;padding:13px 14px;
+  border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer;
+  transition:border-color .2s,background .2s,transform .12s var(--ease)}
+.tax:active{transform:scale(.99)}
+/* ── กล่องรับข่าวสาร ──
+   ไอซ์ 17 พ.ย.: "ไม่ต้องมีกรอบหรือ bg ไรล้อมรอบ ให้ดูเนียนๆ ตัวติ๊กถูกเปลี่ยนเป็นสีแนว disable"
+   เอากรอบกับพื้นออก และเปลี่ยนติ๊กจากเขียวเป็นเทากลางๆ ให้กลมกลืนไปกับหน้า
+   แต่ยังเห็นชัดว่าติ๊กอยู่ ติ๊กที่อ่านไม่ออกว่าเปิดหรือปิดคือกล่องยินยอมที่ใช้อ้างไม่ได้ */
+.tax.news,.tax.news.on{border-color:transparent;background:none;padding:4px 2px;margin:16px 20px 20px}
+.tax.news.on .tax-box{background:#8E8E96;border-color:#8E8E96}
+.tax.news b{font-weight:600;color:var(--text-mid)}
+.tax.locked{cursor:default}
+.tax.locked:active{transform:none}
+.tax.locked .tax-box{opacity:.75}
+.tax-seg.fixed button:not(.on){opacity:.45;pointer-events:none}
+.tax.on{border-color:#BBE6CC;background:#F6FCF9}
+.tax-box{flex:0 0 22px;height:22px;border-radius:7px;border:2px solid #D5D5DB;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;transition:background .18s,border-color .18s}
+.tax-box svg{width:13px;height:13px;stroke:#fff;stroke-width:3;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:scale(.4);
+  transition:opacity .18s,transform .22s var(--ease)}
+.tax.on .tax-box,.ship-chk.on .tax-box{background:var(--green);border-color:var(--green)}
+.tax.on .tax-box svg,.ship-chk.on .tax-box svg{opacity:1;transform:scale(1)}
+.tax b{display:block;font-size:14px;font-weight:700}
+/* selector ต้องเจาะถึงลูกชั้นในเท่านั้น ถ้าเขียน .tax span เฉยๆ จะไปทับกล่องติ๊กจน display กลายเป็น block
+   แล้วติ๊กถูกจะไม่อยู่กลางกล่อง (ไอซ์จับได้ 16 พ.ย.) */
+.tax span span{display:block;font-size:14px;color:var(--text-mid);margin-top:2px;line-height:1.55}
+.tax-fields[hidden]{display:none}
+.tax-fields{margin:-8px 20px 16px;padding:14px;background:var(--field);border-radius:var(--r-md)}
+.tax-fields.in{animation:fadeIn .2s ease-out}
+.tax-fields.in>*{animation:rise2 .34s var(--ease) both}
+.tax-fields.in>:nth-child(2){animation-delay:40ms}
+.tax-fields.in>:nth-child(3){animation-delay:80ms}
+.tax-fields.in>:nth-child(4){animation-delay:120ms}
+.tax-fields.in>:nth-child(5){animation-delay:160ms}
+.tax-fields.in>:nth-child(n+6){animation-delay:200ms}
+.tax-fields.out{animation:fadeOut .14s ease-in forwards}
+.legal{font-size:13px;color:var(--text-sub);text-align:center;margin-top:10px;line-height:1.6}
+.legal a{color:var(--text-mid);text-decoration:underline;text-underline-offset:3px}
+.tax-off{font-size:14px;color:var(--text-sub);margin-bottom:12px;line-height:1.55}
+.tax-lbl{font-size:14px;font-weight:600;margin-bottom:6px}
+.tax-lbl .req{color:var(--red)}
+.tax-fg{margin-bottom:12px}
+.tax-fg:last-child{margin-bottom:0}
+.tax-fg[hidden]{display:none}
+.tax-2col{display:grid;grid-template-columns:1.3fr 1fr;gap:10px}
+.tax-2col.one{grid-template-columns:1fr}   /* บุคคลธรรมดาไม่มีช่องสาขา ช่องเลขบัตรต้องเต็มแถว ไม่ใช่ครึ่งเดียวแล้วเหลือที่ว่าง */
+@media (max-width:420px){.tax-2col{grid-template-columns:1fr}}
+.tax-fields .inp{background:var(--white);min-height:46px;font-size:16px}
+.tax-fields textarea.inp{min-height:76px;padding:11px 14px;resize:vertical;line-height:1.55}
+.tax-seg{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#E9E9EE;
+  border-radius:11px;padding:4px;margin-bottom:12px}
+.tax-seg::before{content:"";position:absolute;top:4px;left:4px;width:calc(50% - 4px);height:calc(100% - 8px);
+  background:var(--white);border-radius:8px;box-shadow:0 1px 4px rgba(20,20,40,.1);
+  transition:transform .3s var(--ease)}
+.tax-seg.right::before{transform:translateX(100%)}
+.tax-seg button{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:14px;font-weight:600;
+  color:var(--text-sub);padding:9px 6px;border-radius:8px;cursor:pointer}
+.tax-seg button.on{color:var(--text);font-weight:700}
+.ship-chk{display:flex;align-items:center;gap:9px;margin-top:9px;font-size:14px;cursor:pointer}
+.ship-chk .tax-box{flex:0 0 20px;height:20px;margin:0}
+#shipWrap:not([hidden]){animation:rise2 .3s var(--ease)}
+
+/* ── ปุ่มหลัก ── */
+.submit-area{padding:0 20px 20px}
+.btn{
+  position:relative;width:100%;background:var(--btn);color:#fff;border:none;border-radius:999px;
+  padding:17px;font:inherit;font-size:17px;font-weight:800;cursor:pointer;letter-spacing:.01em;
+  box-shadow:0 1px 2px rgba(10,10,10,.12);display:flex;align-items:center;
+  justify-content:center;gap:9px;transition:background .15s,transform .14s var(--ease),box-shadow .2s;
+}
+.btn:active{background:var(--btn-press);transform:scale(.98)}   /* เดิม .995 ขยับ 1.7px นิ้วไม่รู้สึกว่าปุ่มรับแล้ว */
+.btn>*{animation:btnIn .22s var(--ease) both}
+@keyframes btnIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.btn svg{width:19px;height:19px}
+.btn .spin{border-color:rgba(255,255,255,.35);border-top-color:#fff}
+.btn.busy{background:#2C2C30;pointer-events:none}
+.btn.ok{background:#14683B;pointer-events:none}
+.btn.ok svg{animation:tick .4s var(--ease) both}
+.btn.ok::after{content:"";position:absolute;inset:0;border-radius:999px;background:#14683B;
+  pointer-events:none;animation:okPulse .7s ease-out both}
+@keyframes okPulse{from{opacity:.45;transform:scale(1)}to{opacity:0;transform:scale(1.04,1.25)}}
+/* พูดเรื่องเวลาที่เดียวในหน้า เดิมพูด 3 จุดและตัวเลขไม่ตรงกัน */
+.sub-note{text-align:center;font-size:14px;color:var(--text-mid);margin-top:10px;line-height:1.55}
+/* ทางออกตอนติดปัญหาอยู่ตรงนี้ ไม่ใช่มุมขวาบน
+   คำว่า "โอนแล้ว" ตั้งใจใส่ เพื่อไม่ให้คนที่ยังไม่โอนหายเข้าไปในแชทแล้วไม่กลับมา */
+.chat-link{display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;
+  margin-top:4px;font-size:14px;font-weight:600;color:var(--text-sub);text-decoration:none;
+  transition:color .2s}
+.chat-link svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+.chat-link u{text-underline-offset:3px}
+
+/* แถบปุ่มติดล่างจอ โผล่เฉพาะหลังแนบสลิปแล้ว เป็นแพทเทิร์นเดียวกับ checkout ที่ลูกค้ากลุ่มนี้ใช้ทุกวัน */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.96);
+  backdrop-filter:blur(8px);border-top:1px solid var(--line);
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  transform:translateY(110%);transition:transform .32s var(--ease)}
+.dock.show{transform:none}
+.dock>div{max-width:402px;margin:0 auto}
+.dock .btn{font-size:16px;padding:15px}
+.dock-note{text-align:center;font-size:12px;color:var(--text-sub);margin-top:6px}
+
+/* ── หน้าสำเร็จ ──
+   ลูกค้าจำลอง 51 ปี: "กดแล้วปุ่มกลับมาเป็นเหมือนเดิม ไม่รู้ว่าเงินถึงหรือยัง กลัวกดซ้ำโดนหักสองรอบ"
+   นี่คือสิ่งที่ขวางการโอนมากที่สุดในรอบที่แล้ว */
+.done-card{animation:rise .4s var(--ease)}
+.done-top{padding:26px 20px 20px;text-align:center;border-bottom:1px solid var(--line)}
+.done-ic{width:56px;height:56px;border-radius:50%;background:var(--green-soft);margin:0 auto 12px;
+  display:flex;align-items:center;justify-content:center}
+.done-ic svg{width:26px;height:26px;stroke:var(--green);stroke-width:2.4;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;animation:tick .45s .1s var(--ease) both}
+.done-h{font-size:19px;font-weight:800}
+.done-s{font-size:14px;color:var(--text-mid);margin-top:6px;line-height:1.6}
+.done-s b{color:var(--text)}
+.done-ref{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:var(--field);
+  border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 12px;font-size:14px;color:var(--text-sub)}
+.done-ref b{font-weight:700;color:var(--text);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.done-next{padding:16px 20px 6px;display:grid;gap:12px}
+.done-step{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:var(--text-mid);line-height:1.55}
+.done-step i{flex:none;width:22px;height:22px;border-radius:50%;background:var(--field);color:var(--text-mid);
+  font-style:normal;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.done-step b{color:var(--text);font-weight:700}
+
+/* ── ถามอาชีพ: ย้ายมาอยู่หลังจบงาน ไม่ขวางหน้าปุ่มจ่ายอีกต่อไป ── */
+.job{margin:0 0 20px}
+.job-h{font-size:15px;font-weight:700;line-height:1.45}
+.job-why{font-size:14px;color:var(--text-sub);line-height:1.6;margin:6px 0 14px}
+.chips{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.chip-wide{grid-column:1 / -1}
+.job-other[hidden]{display:none}
+.job-other{margin-top:8px;animation:rise .24s var(--ease)}
+.chip{
+  display:flex;align-items:center;min-height:46px;padding:0 14px;text-align:left;
+  border:1px solid var(--line);background:var(--white);border-radius:12px;
+  font:inherit;font-size:14px;font-weight:600;color:#1D1D1F;cursor:pointer;
+  transition:border-color .18s,background .18s,color .18s,transform .12s;
+}
+.chip.on{border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red);
+  background:#FFF6F3;color:#B23C1E;animation:chipPop .24s var(--ease)}  /* #D34724 บนพื้นอ่อนคอนทราสต์ไม่ถึง 4.5 เลยใช้ #B23C1E */
+@keyframes chipPop{0%{transform:scale(.96)}60%{transform:scale(1.02)}100%{transform:none}}
+.chip:active{transform:scale(.97)}
+.job-free{margin-top:16px}
+.job-ask{font-size:14px;font-weight:600;color:var(--text-mid);margin-bottom:6px}
+.job-free .inp{min-height:48px;padding:0 14px;font-size:16px;background:var(--white);
+  border:1px solid var(--line);border-radius:12px}   /* 16px กัน iOS ซูมหน้าจอเองตอนกดช่อง */
+@media (min-width:640px){ .chips{grid-template-columns:repeat(3,1fr)} }
+
+/* ── footer: ตัวตนบริษัท หน้ารับเงินที่ไม่มีชื่อนิติบุคคลเลยคือธงแดงอันดับหนึ่ง ── */
+
+/* ป้ายเทียบให้ไอซ์ดู ไม่ใช่ส่วนหนึ่งของหน้าจริง */
+.tagline{max-width:430px;margin:14px auto 6px;padding:0 14px 80px;font-size:12px;color:#8A8A92}
+
+@media (hover:hover){
+  .copy:hover{border-color:#C9C9D0;background:#EFEFF2}
+  .chip:not(.on):hover{border-color:#C9C9D0;background:#FAFAFB}
+  .tax:hover{border-color:#C9C9D0}
+  .up2:hover{border-color:#BDBDC6;background:#FDFDFD}
+  .seg button:not(.on):hover{color:var(--text)}
+  .btn:hover{box-shadow:0 4px 14px rgba(10,10,10,.22)}
+  .chat-link:hover{color:var(--text-mid)}
+}
+.btn:focus-visible,.copy:focus-visible,.chip:focus-visible,.up2:focus-visible,
+.seg button:focus-visible,.slip-ch:focus-visible,.chat-link:focus-visible{
+  outline:2px solid var(--red);outline-offset:2px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important}
+  /* ตัวหมุนที่ถูกหยุดจะดูเหมือนระบบแฮงก์ เปลี่ยนเป็นกะพริบแทน ยังบอกว่ากำลังทำงานอยู่ */
+  .spin{animation:pulseDot 1.2s ease-in-out infinite !important;border-top-color:var(--red)}
+  .up-load::after{display:none}
+}
+@keyframes pulseDot{50%{opacity:.35}}
+
+
+/* ── แก้จุดที่ CSS เดิมของหน้านี้ยังทับดีไซน์ใหม่อยู่ ──
+   ของเดิมประกาศ .bank-row เป็น flex สองคอลัมน์ ดีไซน์ใหม่วางหัวข้อไว้บนค่า
+   และรูปสินค้าต้องถูกครอบใน .item-th (กฎนี้เดิมอยู่ใน build-live.py ของ mockup) */
+.bank-row{display:block}
+.item-th{overflow:hidden}
+.item-th img{width:100%;height:100%;object-fit:cover;display:block}
+.item-old{font-size:12px;color:#B4B4BC;text-decoration:line-through;text-align:right;margin-top:2px}
+
+/* ── ย่อกล่องโค้ดส่วนลด (ไอซ์ 17 พ.ย.) ──
+   กล่องนี้ js/promo.js เป็นคนวาดและฉีด <style> ของตัวเองตอนรัน ซึ่งมาทีหลังไฟล์นี้
+   เลยต้องเขียน selector ให้เจาะกว่าของมัน (.ct-promo .ct-in ชนะ .ct-in)
+   ขนาดเดิม 48 / 16 / 116 → 38 / 14 / 76 ตามที่เคาะจาก mockup */
+.ct-promo .ct-in{height:38px;font-size:14px;letter-spacing:.06em;padding:0 10px 0 32px;border-radius:var(--r-sm);border-width:1px}
+.ct-promo .ct-ap{min-width:76px;height:38px;font-size:14px;border-radius:var(--r-sm);border-width:1px;
+  border-color:#D5D5DB;color:var(--text)}
+.ct-promo .ct-f>svg{width:14px;height:14px;left:11px}
+.ct-promo{padding:12px 20px 0}
+
+/* ── กลไกซ่อน/โชว์ที่สคริปต์เดิมใช้ ต้องให้ CSS ใหม่เข้ากับของเดิม ──
+   สคริปต์เดิมสลับคลาส .on ที่ #taxFields และสลับ style.display ที่ช่องอื่น
+   ดีไซน์ mockup ใช้ attribute hidden เลยต้องเขียนทับให้ตรงกับของเดิม */
+.tax-fields{display:none}
+.tax-fields.on{display:block;animation:rise .3s var(--ease)}
+.tax-cb{position:absolute;opacity:0;width:0;height:0;pointer-events:none}
+.tax:has(.tax-cb:checked) .tax-box,.ship-chk:has(.tax-cb:checked) .tax-box{background:var(--green);border-color:var(--green)}
+.tax:has(.tax-cb:checked) .tax-box svg,.ship-chk:has(.tax-cb:checked) .tax-box svg{opacity:1;transform:scale(1)}
+.tax:has(.tax-cb:checked){border-color:#BBE6CC;background:#F6FCF9}
+.tax.news:has(.tax-cb:checked){border-color:transparent;background:none}
+.slip-th img{width:100%;height:100%;object-fit:cover;display:block}
+/* หมายเหตุบัญชีบริษัท ของเดิมสลับคลาส show */
+.pc-note{display:none}
+.pc-note.show{display:flex;gap:8px;align-items:flex-start;background:var(--amber-soft);
+  border-radius:var(--r-sm);padding:11px 12px;margin-top:10px;font-size:14px;color:#7A4A05;line-height:1.55}
+.pc-note svg{width:17px;height:17px;flex:none;margin-top:2px;stroke:var(--amber);fill:none}
+.pc-note b{font-weight:700}
+/* ข้อความ error ของเดิม ใช้สีชุดเดียวกับดีไซน์ใหม่ */
+.error-msg{font-size:14px;color:var(--bad);margin-top:7px;align-items:flex-start;gap:6px;line-height:1.5}
+.error-msg svg{width:15px;height:15px;margin-top:3px;stroke:var(--bad)}
+.inp.error,.form-input.error{border-color:var(--bad);background:var(--bad-soft)}
+.up2.error{border-color:var(--bad);background:var(--bad-soft)}
+/* กล่องเดาอีเมลพิมพ์ผิด ของเดิมสลับ style.display แบบ block */
+.fixmail{display:block;width:100%;margin-top:8px;text-align:left;background:var(--amber-soft);
+  border:1px solid #F3DDB8;border-radius:var(--r-sm);padding:10px 12px;font-size:14px;color:#7A4A05;cursor:pointer;line-height:1.5}
 </style>
 <!-- โค้ดส่วนลด: อ่านโค้ดที่เครื่องจำไว้ ก่อน pixel จะยิงราคา -->
 <script src="js/promo.js?v=20261115a"></script>
@@ -1167,299 +1644,205 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
   <div id="mainContent">
     <div class="order-left">
 
-    <!-- ① Order summary -->
-    <div class="card">
-      <div class="summary-header">
-        <div class="summary-icon">
-          <img src="img/logo-powerpoint.png" alt="PowerPoint" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">
-        </div>
-        <div>
-          <div class="summary-title">PowerPoint Template by Coach Tarn</div>
-          <div class="summary-sub">6,500+ สไลด์ · Lifetime Access</div>
-        </div>
-      </div>
+    <!-- ① สรุปรายการ -->
+    <div class="card ord">
+      <div class="card-h">รายการสั่งซื้อ <span>ซื้อครั้งเดียว ไม่มีรายเดือน</span></div>
 
-      <div class="order-item">
-        <div class="item-thumb"><img src="img/thumbnails-template.png" alt="PowerPoint Template" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;"></div>
-        <div class="item-info">
-          <div class="item-name">สไลด์ PowerPoint โหลดไม่จำกัด</div>
-          <div class="item-desc" id="itemDesc">6,500+ สไลด์ · ใช้ได้ตลอดชีพ</div>
-        </div>
-        <div>
-          <div class="item-price" id="itemPrice">499฿</div>
-          <div style="font-size:11px;color:#bbb;text-decoration:line-through;text-align:right">999฿</div>
-        </div>
-      </div>
-
-      <div class="order-item">
-        <div class="item-thumb"><img src="img/thumbnails-bonus-slide.png" alt="Bonus Slides" style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:block;"></div>
-        <div class="item-info">
-          <div class="item-name"><span style="color:#C84B2F;margin-right:4px"><!-- Phosphor gift (MIT) --><svg class="gift-ic" aria-hidden="true" width="1.15em" height="1.15em" style="vertical-align:-.18em;flex:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor"><path d="M216,72H180.92c.39-.33.79-.65,1.17-1A29.53,29.53,0,0,0,192,49.57,32.62,32.62,0,0,0,158.44,16,29.53,29.53,0,0,0,137,25.91a54.94,54.94,0,0,0-9,14.48,54.94,54.94,0,0,0-9-14.48A29.53,29.53,0,0,0,97.56,16,32.62,32.62,0,0,0,64,49.57,29.53,29.53,0,0,0,73.91,71c.38.33.78.65,1.17,1H40A16,16,0,0,0,24,88v32a16,16,0,0,0,16,16v64a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V136a16,16,0,0,0,16-16V88A16,16,0,0,0,216,72ZM149,36.51a13.69,13.69,0,0,1,10-4.5h.49A16.62,16.62,0,0,1,176,49.08a13.69,13.69,0,0,1-4.5,10c-9.49,8.4-25.24,11.36-35,12.4C137.7,60.89,141,45.5,149,36.51Zm-64.09.36A16.63,16.63,0,0,1,96.59,32h.49a13.69,13.69,0,0,1,10,4.5c8.39,9.48,11.35,25.2,12.39,34.92-9.72-1-25.44-4-34.92-12.39a13.69,13.69,0,0,1-4.5-10A16.6,16.6,0,0,1,84.87,36.87ZM40,88h80v32H40Zm16,48h64v64H56Zm144,64H136V136h64Zm16-80H136V88h80v32Z"/></svg></span>Bonus Slides</div>
-          <div class="item-desc">สั่งวันนี้รับฟรี! มูลค่า 299฿</div>
-        </div>
-        <div class="item-price free">ฟรี</div>
-      </div>
-
-      <div class="total-row">
-        <div>
-          <div class="total-label">ยอดรวมทั้งหมด</div>
-          <div class="total-note" id="vatNote">รวม VAT 7% แล้ว (฿32.64)</div>
+      <div class="item">
+        <div class="item-th"><img src="img/thumbnails-template.png" alt=""></div>
+        <div style="flex:1">
+          <div class="item-nm">สไลด์ PowerPoint โหลดไม่จำกัด</div>
+          <div class="item-ds" id="itemDesc">6,500+ สไลด์</div>
         </div>
         <div style="text-align:right">
-          <div class="total-price" id="totalPrice">499฿</div>
+          <div class="item-pr item-price" id="itemPrice">499฿</div>
+          <div class="item-old">999฿</div>
         </div>
       </div>
-    </div>
 
-    <!-- ② Bank transfer -->
-    <div class="card bank-card">
-      <div class="bank-header">
-        <div class="bank-title-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      <div class="item">
+        <div class="item-th"><img src="img/thumbnails-bonus-slide.png" alt=""></div>
+        <div style="flex:1">
+          <div class="item-nm">Bonus Slides</div>
+          <div class="item-ds">สั่งวันนี้รับฟรี มูลค่า 299฿</div>
         </div>
+        <div class="item-pr free item-price">ฟรี</div>
+      </div>
+
+      <!-- .total-row คือจุดที่ js/promo.js แปะกล่องโค้ดส่วนลด ห้ามเปลี่ยนชื่อคลาส -->
+      <div class="total total-row">
         <div>
-          <div class="bank-title">ชำระเงินผ่านโอนเงิน</div>
-          <div class="bank-sub">โอนมาที่บัญชีด้านล่าง แล้วแนบสลิป</div>
+          <div class="total-l">ยอดรวมทั้งหมด</div>
+          <div class="total-n" id="vatNote">รวม VAT 7% แล้ว</div>
         </div>
+        <div class="total-p" id="totalPrice">499฿</div>
       </div>
-
-      <div class="bank-info">
-        <div class="bank-row">
-          <span class="bank-key">ธนาคาร</span>
-          <span class="bank-val" style="display:flex;align-items:center;gap:7px">
-            <img src="img/kbank-logo.webp" alt="KBANK" style="width:24px;height:24px;border-radius:6px;object-fit:contain;flex-shrink:0">
-            กสิกรไทย (KBANK)
-          </span>
-        </div>
-        <div class="bank-row">
-          <span class="bank-key">ชื่อบัญชี</span>
-          <span class="bank-val">บจก. ดับเบิ้ลคราฟ์</span>
-        </div>
-        <div class="bank-row">
-          <span class="bank-key">ประเภท / สาขา</span>
-          <span class="bank-val">ออมทรัพย์ · เซ็นทรัล เวสต์เกต</span>
-        </div>
-        <div class="bank-row" style="border-bottom:none">
-          <span class="bank-key">เลขบัญชี</span>
-          <div style="display:flex;align-items:center">
-            <span class="bank-val big" id="accNumber">229-3-98096-1</span>
-            <button class="copy-btn" onclick="copyAcc()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-              คัดลอก
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div style="padding:0 18px;margin-bottom:8px">
-        <div class="bank-row" style="background:var(--bg-soft);padding:12px 14px;border-radius:12px;border:1.5px solid rgba(211,71,36,0.12);border-bottom:1.5px solid rgba(211,71,36,0.12)">
-          <span class="bank-key" style="font-weight:700;color:var(--text)">จำนวนเงินที่โอน</span>
-          <span class="bank-val big" id="bankAmt">499 บาท</span>
-        </div>
-      </div>
-
-      <div style="padding:0 18px;margin:-2px 0 10px;font-size:12px;color:#8a8a92;line-height:1.6">
-        ต้องการใบกำกับภาษี ติ๊กช่องขอใบกำกับภาษีด้านล่าง แล้วกรอกข้อมูล ออกในนามบริษัทหรือบุคคลธรรมดาก็ได้ ไม่ต้องทักแชท
-      </div>
-      <div class="bank-note">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <p>โปรดโอนเข้า<strong>บัญชีนี้เท่านั้น</strong> แล้วแนบสลิปด้านล่าง ระบบตรวจสอบอัตโนมัติ รับ code ทันที</p>
-      </div>
-      <div style="height:16px"></div>
     </div>
 
-    <!-- Trust chips -->
-    <div class="trust-chips">
-      <div class="trust-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        ระบบปลอดภัย
+    <!-- ② บัญชีที่ต้องโอน -->
+    <div class="card plain bnk bank-card" id="bankCard">
+      <div class="bank-top"><img class="kbank" src="img/kbank-logo.webp" alt="KBANK" style="object-fit:contain;background:#fff"><span class="bank-bank">ธนาคารกสิกรไทย</span></div>
+      <div class="bank-main">
+        <div class="bank-name">บจก. ดับเบิ้ลคราฟ์</div>
+        <div class="bank-sub">ออมทรัพย์ · สาขาเซ็นทรัล เวสต์เกต</div>
       </div>
-      <div class="trust-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        รับ code ทางอีเมลทันที
+      <div class="bank-row"><span class="bank-k">เลขบัญชี</span>
+        <span class="bank-v"><span id="accNumber">229-3-98096-1</span> <button type="button" class="copy copy-btn" onclick="copyAcc()"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>คัดลอก</button></span></div>
+      <div class="amt-row"><span class="amt-k">ยอดที่ต้องโอน<i>โอนให้ตรงยอด ระบบจะจับคู่สลิปให้เอง</i></span>
+        <span class="amt-v" id="bankAmt">499 บาท</span></div>
+      <div class="warn">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="7.5" x2="12" y2="13"/><line x1="12" y1="16.5" x2="12.01" y2="16.5"/></svg>
+        <p>โอนเข้า<b>บัญชีนี้เท่านั้น</b> แล้วกลับมาแนบสลิปด้านล่าง</p>
       </div>
-      <div class="trust-chip">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-        ตลอด 24 ชั่วโมง
-      </div>
-    </div><!-- /trust-chips -->
+      <div class="bank-foot">บัญชีนิติบุคคล ในนามบริษัท ดับเบิ้ลคราฟ์ จำกัด</div>
+    </div>
+
+    <!-- แถบความน่าเชื่อถือ -->
+    <div class="trust trst" id="trustRow">
+      <div><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"/></svg><b>บริษัทจดทะเบียน</b>บจก. ดับเบิ้ลคราฟ์</div>
+      <div><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg><b>7,000+ คน</b>ซื้อไปแล้ว</div>
+      <div><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2v2"/></svg><b>ตรวจสลิปอัตโนมัติ</b>จาก QR บนสลิป</div>
+    </div>
+
     </div><!-- /order-left -->
 
     <div class="order-right">
-    <!-- ③ Order form -->
-    <div class="card">
-      <div class="form-header">
-        <div class="bank-title-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <div>
-          <div class="form-title">ข้อมูลการรับสินค้า</div>
-          <div class="form-sub">ระบบจะส่ง Redeem Code ไปที่อีเมลนี้</div>
-        </div>
-      </div>
-
+    <!-- ③ ฟอร์ม -->
+    <div class="card col-r" id="formCard">
+      <div class="card-h">แนบสลิป แล้วบอกอีเมล</div>
       <div class="form-body">
-        <div class="form-group">
-          <label class="form-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            ชื่อ-นามสกุล <span class="req">*</span>
+
+        <div class="fg">
+          <label class="lbl">แนบสลิปโอนเงิน <span class="req">*</span></label>
+          <input type="file" id="slipInput" accept="image/*,.pdf" onchange="handleFileChange(this)" style="display:none">
+          <label class="up2" id="uploadArea" for="slipInput" tabindex="-1">
+            <svg class="slip-ic" viewBox="0 0 24 24"><path d="M5 3h14v18l-2.3-1.6-2.4 1.6-2.3-1.6L9.7 21l-2.4-1.6L5 21z"/><path d="M9 8h6M9 12h6"/></svg>
+            <b>แตะเพื่อเลือกรูปสลิป</b>
+            <em>ถ่ายรูปใหม่ หรือเลือกรูปที่อยู่ในเครื่องก็ได้</em>
           </label>
-          <input type="text" class="form-input" id="inputName" placeholder="ชื่อ-นามสกุล" autocomplete="name">
-          <div class="error-msg" id="errName">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            กรุณากรอกชื่อ-นามสกุล
+          <div class="slip-ok" id="uploadPreview" style="display:none">
+            <span class="slip-th"><img id="previewImg" src="" alt="slip"></span>
+            <span class="slip-tx"><b>แนบสลิปแล้ว</b><span><span id="previewName"></span> · <span id="previewSize"></span></span></span>
+            <button type="button" class="slip-ch" onclick="removeFile(event)">เปลี่ยนรูป</button>
           </div>
+          <div class="error-msg" id="errSlip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>กรุณาแนบสลิปโอนเงิน</div>
+          <div class="up-qr"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2v2"/></svg><p>อย่าให้มีอะไรทับ QR บนสลิป</p></div>
         </div>
 
-        <div class="form-group">
-          <label class="form-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            อีเมล <span style="font-weight:400;font-size:13px;color:var(--text-sub)">(จะส่งไฟล์ไปที่นี่)</span> <span class="req">*</span>
-          </label>
-          <input type="email" class="form-input" id="inputEmail" placeholder="example@email.com" autocomplete="email" inputmode="email">
-          <div id="emailSuggest" style="display:none;font-size:13px;color:#92400E;background:#FEF3C7;border:1px solid #FCD34D;border-radius:10px;padding:10px 12px;margin-top:6px;cursor:pointer;line-height:1.5"></div>
-          <div class="error-msg" id="errEmail">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            กรุณากรอกอีเมลให้ถูกต้อง
+        <div class="fg">
+          <label class="lbl">โอนจากบัญชีแบบไหน <span class="req">*</span></label>
+          <div class="seg picked" id="seg">
+            <button type="button" class="on" id="pcPersonal" onclick="setChannel('personal')">บัญชีส่วนตัว</button>
+            <button type="button" id="pcCorporate" onclick="setChannel('corporate')">บัญชีบริษัท</button>
           </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            ยืนยันอีเมล <span class="req">*</span>
-          </label>
-          <input type="email" class="form-input" id="inputEmailConfirm" placeholder="กรอกอีเมลอีกครั้ง" autocomplete="off" inputmode="email">
-          <div class="error-msg" id="errEmailConfirm">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            อีเมลไม่ตรงกัน กรุณาตรวจสอบอีกครั้ง
-          </div>
-        </div>
-
-        <div class="pc-wrap">
-          <div class="pc-lbl">โอนจากบัญชีแบบไหน</div>
-          <div class="pc-opts">
-            <div class="pc-opt on" id="pcPersonal" onclick="setChannel('personal')">
-              <div class="pc-dot"></div>
-              <div><b>บัญชีส่วนตัว</b><p>สลิปจากแอปธนาคาร มี QR</p>
-                <span class="pc-tag fast">ตรวจอัตโนมัติ รู้ผลใน 1 นาที</span></div>
-            </div>
-            <div class="pc-opt" id="pcCorporate" onclick="setChannel('corporate')">
-              <div class="pc-dot"></div>
-              <div><b>บัญชีบริษัท</b><p>สลิปจากระบบธนาคารของบริษัท หรือไฟล์ PDF</p>
-                <span class="pc-tag slow">ทีมงานตรวจ ไม่เกิน 2 ชั่วโมงทำการ</span></div>
-            </div>
-          </div>
+          <div class="seg-note">สลิปจากแอปธนาคารที่มี QR ระบบตรวจให้เองอัตโนมัติ</div>
           <div class="pc-note" id="pcNote">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.6v.2"/></svg>
             <p><b>ตรวจสอบโดยทีมงาน</b><br>สลิปบริษัทไม่มี QR ให้ระบบอ่าน เมื่อตรวจยอดเงินเข้าบัญชีเรียบร้อย ส่ง Redeem Code ทางอีเมลทันที</p>
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom:0">
-          <label class="form-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            แนบสลิปโอนเงิน <span class="req">*</span>
+        <div class="fg">
+          <label class="lbl">ชื่อ-นามสกุล <span class="req">*</span></label>
+          <input type="text" class="inp form-input" id="inputName" placeholder="ชื่อ-นามสกุล ตามสลิป" autocomplete="name">
+          <div class="error-msg" id="errName"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>กรุณากรอกชื่อ-นามสกุล</div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">อีเมล <span class="opt">(ส่งรหัสดาวน์โหลดไปที่นี่)</span> <span class="req">*</span></label>
+          <input type="email" class="inp form-input" id="inputEmail" placeholder="อีเมลที่ใช้รับไฟล์" autocomplete="email" inputmode="email">
+          <div class="hint">รหัสดาวน์โหลดกับไฟล์ส่งไปที่อีเมลนี้</div>
+          <div class="fixmail" id="emailSuggest" style="display:none"></div>
+          <div class="error-msg" id="errEmail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>กรุณากรอกอีเมลให้ถูกต้อง</div>
+        </div>
+
+        <div class="fg">
+          <label class="lbl">ยืนยันอีเมล <span class="req">*</span></label>
+          <input type="email" class="inp form-input" id="inputEmailConfirm" placeholder="พิมพ์อีเมลเดิมอีกครั้ง" autocomplete="off" inputmode="email">
+          <div class="error-msg" id="errEmailConfirm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>อีเมลไม่ตรงกัน กรุณาตรวจสอบอีกครั้ง</div>
+        </div>
+
+        <!-- ถามอาชีพในฟอร์ม ไม่บังคับ -->
+        <div class="job">
+          <div class="job-h">คุณใช้สไลด์กับงานสายไหน</div>
+          <div class="job-why">เราเอาคำตอบไปทำชุดใหม่ตามสายที่คนตอบเยอะ ชุดที่ตรงกับงานคุณจะมาก่อน</div>
+          <div class="chips use-case-cards">
+            <button type="button" class="chip use-case-card" data-value="employee" onclick="selectUseCase(this)">พนักงานบริษัท</button>
+            <button type="button" class="chip use-case-card" data-value="business" onclick="selectUseCase(this)">เจ้าของธุรกิจ</button>
+            <button type="button" class="chip use-case-card" data-value="teacher" onclick="selectUseCase(this)">ครู อาจารย์</button>
+            <button type="button" class="chip use-case-card" data-value="sales" onclick="selectUseCase(this)">งานขาย เสนอลูกค้า</button>
+            <button type="button" class="chip use-case-card" data-value="medical" onclick="selectUseCase(this)">หมอ พยาบาล</button>
+            <button type="button" class="chip use-case-card" data-value="government" onclick="selectUseCase(this)">ราชการ รัฐวิสาหกิจ</button>
+            <button type="button" class="chip use-case-card" data-value="engineer" onclick="selectUseCase(this)">วิศวกร ก่อสร้าง</button>
+            <button type="button" class="chip use-case-card" data-value="accounting" onclick="selectUseCase(this)">บัญชี การเงิน</button>
+            <button type="button" class="chip use-case-card chip-wide" data-value="other" onclick="selectUseCase(this)">อื่นๆ พิมพ์เอง</button>
+          </div>
+          <input type="text" class="inp job-other use-case-other-input" id="useCaseOther" placeholder="อาชีพของคุณ" maxlength="80" oninput="selectedUseCase='other:'+this.value.trim()">
+          <div class="job-free">
+            <div class="job-ask">อยากได้สไลด์แบบไหนเพิ่ม บอกได้เลย</div>
+            <input type="text" class="inp" id="useCaseNote" maxlength="200" placeholder="เช่น สรุปยอดขายรายเดือน">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ใบกำกับภาษี: โครงเดิมทั้งหมด เปลี่ยนแค่หน้าตา -->
+      <label class="tax" id="taxChk" for="taxWant">
+        <input type="checkbox" id="taxWant" onchange="toggleTax(this)" class="tax-cb">
+        <span class="tax-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span><b>ขอใบกำกับภาษี</b>
+          <span>ได้รหัสดาวน์โหลดทางอีเมลทันทีเหมือนเดิม เอกสารตัวจริงส่งไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</span></span>
+      </label>
+
+      <div class="tax-fields" id="taxFields">
+        <div class="tax-off" id="taxOff">ไม่ต้องการใบกำกับภาษี ติ๊กออกได้ ไม่กระทบการรับรหัสดาวน์โหลด</div>
+        <div class="tax-seg" id="taxSeg">
+          <button type="button" class="on" onclick="setTaxType('company')">นิติบุคคล</button>
+          <button type="button" onclick="setTaxType('personal')">บุคคลธรรมดา</button>
+        </div>
+        <div class="tax-fg">
+          <div class="tax-lbl" id="taxNameLbl">ชื่อบริษัทหรือหน่วยงาน <span class="req">*</span></div>
+          <input type="text" class="inp form-input" id="taxName" placeholder="บริษัท ตัวอย่าง จำกัด" autocomplete="organization">
+        </div>
+        <div class="tax-2col" id="taxRow2">
+          <div class="tax-fg">
+            <div class="tax-lbl" id="taxIdLbl">เลขประจำตัวผู้เสียภาษี <span class="req">*</span></div>
+            <input type="text" class="inp form-input" id="taxId" placeholder="13 หลัก" inputmode="numeric" maxlength="17">
+          </div>
+          <div class="tax-fg" id="taxBranchWrap">
+            <div class="tax-lbl">สาขา</div>
+            <input type="text" class="inp form-input" id="taxBranch" placeholder="สำนักงานใหญ่">
+          </div>
+        </div>
+        <div class="tax-fg">
+          <div class="tax-lbl" id="taxAddrLbl">ที่อยู่บริษัท ตามที่จดทะเบียน <span class="req">*</span></div>
+          <textarea class="inp form-input" id="taxAddress" rows="3" placeholder="เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์"></textarea>
+          <label class="ship-chk" id="shipChk" for="taxShipDiff">
+            <input type="checkbox" id="taxShipDiff" onchange="toggleShip(this)" class="tax-cb">
+            <span class="tax-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+            จัดส่งเอกสารที่อยู่อื่น
           </label>
-          <input type="file" id="slipInput" accept="image/*,.pdf" onchange="handleFileChange(this)" style="display:none">
-          <label class="upload-area" id="uploadArea" for="slipInput">
-            <div class="upload-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#D34724" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            </div>
-            <div class="upload-title">ลากวางไฟล์ หรือคลิกเพื่อเลือก</div>
-            <div class="upload-sub">สลิปจากธนาคาร หรือ screenshot</div>
-            <div class="upload-types">
-              <span class="upload-type">JPG</span>
-              <span class="upload-type">PNG</span>
-              <span class="upload-type">PDF</span>
-            </div>
-          </label>
-          <div class="upload-preview" id="uploadPreview">
-            <img id="previewImg" class="up-img" src="" alt="slip">
-            <div class="up-info">
-              <div class="up-name" id="previewName">ชื่อไฟล์</div>
-              <div class="up-size" id="previewSize">ขนาดไฟล์</div>
-            </div>
-            <button class="up-remove" onclick="removeFile(event)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-          </div>
-          <div class="error-msg" id="errSlip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            กรุณาแนบสลิปโอนเงิน
-          </div>
+        </div>
+        <div class="tax-fg" id="taxShipWrap" style="display:none">
+          <div class="tax-lbl">ที่อยู่สำหรับจัดส่งเอกสาร <span class="req">*</span></div>
+          <textarea class="inp form-input" id="taxShipAddress" rows="3" placeholder="เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์"></textarea>
+        </div>
+        <div class="tax-fg">
+          <div class="tax-lbl">เบอร์โทรติดต่อ <span class="req">*</span></div>
+          <input type="tel" class="inp form-input" id="taxPhone" placeholder="08X-XXX-XXXX" inputmode="tel" maxlength="20">
+        </div>
+        <div class="error-msg" id="errTax">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span id="errTaxMsg">กรอกชื่อบริษัท เลขผู้เสียภาษี 13 หลัก ที่อยู่ และเบอร์โทรให้ครบ</span>
         </div>
       </div>
 
+      <!-- กล่องรับข่าวสาร ติ๊กมาให้ แต่กดออกได้ แยกจากบรรทัดยอมรับนโยบาย -->
+      <label class="tax news on" id="newsChk">
+        <span class="tax-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span><b>รับข่าวสารและสิทธิ์พิเศษจาก Coach Tarn</b></span>
+      </label>
 
-      <!-- ใบกำกับภาษี: ถามตั้งแต่ตอนแนบสลิป จะได้ไม่ต้องตามเก็บข้อมูลทีหลัง -->
-      <div class="tax-group">
-        <label class="tax-toggle" for="taxWant">
-          <input type="checkbox" id="taxWant" onchange="toggleTax(this)">
-          <span class="tax-box"></span>
-          <span>
-            <b>ขอใบกำกับภาษี / ใบเสร็จ</b>
-            <span class="tax-sub">รับ Redeem Code ทางอีเมลทันที ไม่ต้องรอเอกสาร ใบกำกับภาษีจัดส่งทางไปรษณีย์ภายใน 7 ถึง 10 วันทำการ</span>
-          </span>
-        </label>
-        <div class="tax-fields" id="taxFields">
-          <label class="form-label">ออกใบกำกับภาษีในนามใคร</label>
-          <div class="tx-seg" id="taxSeg">
-            <button type="button" class="on" onclick="setTaxType('company')">นิติบุคคล / บริษัท</button>
-            <button type="button" onclick="setTaxType('personal')">บุคคลธรรมดา</button>
-          </div>
-          <div class="form-group">
-            <label class="form-label" id="taxNameLbl">ชื่อบริษัท / หน่วยงาน <span class="req">*</span></label>
-            <input type="text" class="form-input" id="taxName" placeholder="บริษัท ตัวอย่าง จำกัด" autocomplete="organization">
-          </div>
-          <div class="tax-2col">
-            <div class="form-group">
-              <label class="form-label" id="taxIdLbl">เลขประจำตัวผู้เสียภาษี <span class="req">*</span></label>
-              <input type="text" class="form-input" id="taxId" placeholder="13 หลัก" inputmode="numeric" maxlength="17">
-            </div>
-            <div class="form-group" id="taxBranchWrap">
-              <label class="form-label">สาขา</label>
-              <input type="text" class="form-input" id="taxBranch" placeholder="สำนักงานใหญ่">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" id="taxAddrLbl">ที่อยู่บริษัท ตามที่จดทะเบียน <span class="req">*</span></label>
-            <textarea class="form-input tax-area" id="taxAddress" rows="3" placeholder="เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์"></textarea>
-            <label class="tax-ship-chk" for="taxShipDiff">
-              <input type="checkbox" id="taxShipDiff" onchange="toggleShip(this)">
-              <span class="tax-box"></span>
-              <span>จัดส่งเอกสารที่อยู่อื่น</span>
-            </label>
-          </div>
-          <div class="form-group" id="taxShipWrap" style="display:none">
-            <label class="form-label">ที่อยู่สำหรับจัดส่งเอกสาร <span class="req">*</span></label>
-            <textarea class="form-input tax-area" id="taxShipAddress" rows="3" placeholder="เลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์"></textarea>
-          </div>
-          <div class="form-group" style="margin-bottom:0">
-            <label class="form-label">เบอร์โทรติดต่อ <span class="req">*</span></label>
-            <input type="tel" class="form-input" id="taxPhone" placeholder="08X-XXX-XXXX" inputmode="tel" maxlength="20">
-          </div>
-          <div class="error-msg" id="errTax">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span id="errTaxMsg">กรอกชื่อบริษัท เลขผู้เสียภาษี 13 หลัก ที่อยู่ และเบอร์โทรให้ครบ</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Use Case selector -->
-      <div class="use-case-group">
-        <div class="use-case-heading">คุณใช้งานในด้านไหน</div>
-        <div class="use-case-cards">
-          <button type="button" class="use-case-card" data-value="employee" onclick="selectUseCase(this)">พนักงาน / คนทำงาน</button>
-          <button type="button" class="use-case-card" data-value="teacher" onclick="selectUseCase(this)">ครู / วิทยากร</button>
-          <button type="button" class="use-case-card" data-value="business" onclick="selectUseCase(this)">เจ้าของธุรกิจ</button>
-          <button type="button" class="use-case-card" data-value="sales" onclick="selectUseCase(this)">งานขาย / Pitching</button>
-          <button type="button" class="use-case-card use-case-card--wide" data-value="other" onclick="selectUseCase(this)">อื่นๆ</button>
-        </div>
-        <input type="text" id="useCaseOther" class="use-case-other-input" placeholder="ระบุเพิ่มเติม..." maxlength="80" oninput="selectedUseCase='other:'+this.value.trim()">
-      </div>
-
-      <!-- Cloudflare Turnstile invisible widget -->
       <div id="cf-turnstile" class="cf-turnstile"
            data-sitekey="0x4AAAAAACsD8RZ-057dj9gQ"
            data-theme="light"
@@ -1467,14 +1850,10 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
            data-size="invisible"></div>
 
       <div class="submit-area">
-        <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          ยืนยันการชำระเงิน
-        </button>
-        <div class="submit-note">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-          ข้อมูลของคุณปลอดภัย · ระบบตรวจสลิปอัตโนมัติตลอด 24 ชั่วโมง
-        </div>
+        <button type="button" class="btn" id="submitBtn" onclick="handleSubmit()"><span>ส่งสลิป รับรหัสทางอีเมล</span></button>
+        <div class="sub-note">ระบบตรวจสลิปอัตโนมัติ ทำงานตลอด 24 ชั่วโมง ส่วนใหญ่ได้ไฟล์ทางอีเมลใน 1 ถึง 3 นาที</div>
+        <p class="legal">กดส่งสลิป ถือว่ายอมรับ <a href="/terms.html">เงื่อนไขการใช้งาน</a> และ <a href="/privacy.html">นโยบายความเป็นส่วนตัว</a></p>
+        <a class="chat-link" href="https://m.me/coachtarn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.2-.6L3 21l1.8-5.2A8.3 8.3 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><u>โอนแล้วติดปัญหา ทักแชทเพจ</u></a>
       </div>
     </div>
 
@@ -1524,6 +1903,8 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
 </div>
 
 <!-- Loading overlay -->
+<div class="toast" id="toast"></div>
+
 <div class="loading-overlay" id="loadingOverlay">
   <div class="spinner"></div>
   <div class="loading-text">กำลังตรวจสอบสลิป...</div>
@@ -1557,6 +1938,7 @@ function setChannel(v){
   document.getElementById('pcPersonal').classList.toggle('on', v === 'personal');
   document.getElementById('pcCorporate').classList.toggle('on', v === 'corporate');
   document.getElementById('pcNote').classList.toggle('show', v === 'corporate');
+  lockTax(v === 'corporate');
 }
 function selectUseCase(el) {
   document.querySelectorAll('.use-case-card').forEach(c => c.classList.remove('selected'));
@@ -1634,15 +2016,14 @@ async function handleSubmit() {
     document.getElementById(id).classList.remove('show')
   );
 
-  if (!name)                  { setErr('inputName','errName');               valid = false; }
-  if (!emailRe.test(email))   { setErr('inputEmail','errEmail');             valid = false; }
-  if (email !== emailC)       { setErr('inputEmailConfirm','errEmailConfirm'); valid = false; }
-  if (!slip)                  { document.getElementById('errSlip').classList.add('show'); valid = false; }
-  if (!taxValid())            { valid = false; }
-  if (!valid) {
-    document.querySelector('.error-msg.show')?.scrollIntoView({ behavior:'smooth', block:'center' });
-    return;
-  }
+  // เก็บช่องที่ยังไม่ผ่านตามลำดับบนลงล่าง เพื่อพาไปที่ช่องแรก
+  const bad = [];
+  if (!slip)                  { document.getElementById('errSlip').classList.add('show'); bad.push('uploadArea'); valid = false; }
+  if (!name)                  { setErr('inputName','errName');                 bad.push('inputName');         valid = false; }
+  if (!emailRe.test(email))   { setErr('inputEmail','errEmail');               bad.push('inputEmail');        valid = false; }
+  if (email !== emailC)       { setErr('inputEmailConfirm','errEmailConfirm'); bad.push('inputEmailConfirm'); valid = false; }
+  if (!taxValid())            { bad.push(firstEmptyTax());                     valid = false; }
+  if (!valid) { flagGaps(bad); return; }
 
   // ── Meta Pixel: InitiateCheckout ──────────────────────────────────────────
   if (typeof fbq !== 'undefined') fbq('track','InitiateCheckout',{value:PRICE,currency:'THB',num_items:1,content_ids:['pptx-coachtarn']});
@@ -1703,6 +2084,7 @@ async function handleSubmit() {
         status    : 'pending',
         ref_source: new URLSearchParams(location.search).get('ref') ?? sessionStorage.getItem('ct_ref') ?? 'direct',
         use_case  : selectedUseCase,
+        use_case_note: (document.getElementById('useCaseNote').value || '').trim() || null,
         pack      : PACK,
         ...taxPayload(),
         pay_channel: payChannel,
@@ -1770,6 +2152,79 @@ function setErr(inputId, errId) {
   document.getElementById(inputId).classList.add('error');
   document.getElementById(errId).classList.add('show');
 }
+
+// ── กรอกไม่ครบ: บอกเป็นแถบด้านบน แล้วพาไปที่ช่องแรกที่ขาด ───────────────────
+const IC_WARN = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="7.5" x2="12" y2="13"/><line x1="12" y1="16.5" x2="12.01" y2="16.5"/></svg>';
+let toastT = null;
+function reduce(){ return matchMedia('(prefers-reduced-motion:reduce)').matches; }
+function say(msg){
+  const t = document.getElementById('toast');
+  t.innerHTML = IC_WARN + '<span>' + msg + '</span>';
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.classList.remove('show'), 4200);
+}
+// เลื่อนเองแทน scrollIntoView เพราะแถบบนลอยทับอยู่ ถ้าใช้ของสำเร็จช่องจะไปโผล่ใต้แถบ
+function bringTo(el){
+  window.scrollTo(0, Math.max(0, el.getBoundingClientRect().top + window.scrollY - 118));
+}
+function nudge(el){
+  if (reduce()) return;
+  el.classList.remove('nudgeX'); void el.offsetWidth; el.classList.add('nudgeX');
+}
+// ช่องใบกำกับภาษีช่องแรกที่ยังไม่ผ่าน — เงื่อนไขต้องตรงกับ taxValid() ทุกบรรทัด
+function firstEmptyTax(){
+  const v = id => (document.getElementById(id).value || '').trim();
+  if (v('taxName').length <= 1) return 'taxName';
+  if (v('taxId').replace(/\D/g,'').length !== 13) return 'taxId';
+  if (v('taxAddress').length <= 9) return 'taxAddress';
+  if (document.getElementById('taxShipDiff').checked && v('taxShipAddress').length <= 9) return 'taxShipAddress';
+  if (v('taxPhone').replace(/\D/g,'').length < 9) return 'taxPhone';
+  return 'taxName';
+}
+function flagGaps(ids){
+  const n = document.querySelectorAll('.error-msg.show').length;
+  const first = document.querySelector('.error-msg.show');
+  say(n === 1 && first ? first.textContent.trim()
+                       : 'ยังกรอกไม่ครบอีก ' + n + ' จุด พาไปที่จุดแรกให้แล้ว');
+  const el = document.getElementById(ids[0]);
+  if (!el) return;
+  if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') el.classList.add('error');
+  bringTo(el);
+  setTimeout(() => {
+    nudge(el);
+    el.focus({ preventScroll: true });
+  }, reduce() ? 0 : 420);
+}
+// ลบไฟแดงทันทีที่เริ่มแก้ ไม่ต้องรอกดส่งอีกรอบถึงจะรู้ว่าหายแล้ว
+document.querySelectorAll('.inp').forEach(el => {
+  el.addEventListener('input', () => {
+    if (!el.classList.contains('error')) return;
+    el.classList.remove('error');
+    const box = el.closest('.fg, .tax-fg');
+    const msg = box && box.querySelector('.error-msg');
+    if (msg) msg.classList.remove('show');
+  });
+});
+
+/* บัญชีบริษัทต้องออกใบกำกับภาษีทุกใบ ติ๊กให้เลยแล้วล็อกไว้ บังคับเป็นนิติบุคคล
+   ถ้าปล่อยให้ติ๊กออกได้ ฝ่ายบัญชีของลูกค้าจะกลับมาขอทีหลัง ซึ่งออกย้อนหลังไม่ได้ */
+function lockTax(on){
+  const chk = document.getElementById('taxChk');
+  const cb  = document.getElementById('taxWant');
+  chk.classList.toggle('locked', on);
+  document.getElementById('taxOff').textContent = on
+    ? 'บัญชีบริษัทต้องออกใบกำกับภาษีทุกครั้ง กรอกให้ครบทุกช่อง'
+    : 'ไม่ต้องการใบกำกับภาษี ติ๊กออกได้ ไม่กระทบการรับรหัสดาวน์โหลด';
+  if (on) {
+    if (!cb.checked) { cb.checked = true; toggleTax(cb); }
+    setTaxType('company');
+  }
+  document.getElementById('taxSeg').classList.toggle('fixed', on);
+}
+document.getElementById('taxChk').addEventListener('click', function (e) {
+  if (this.classList.contains('locked')) e.preventDefault();   // ปลดติ๊กไม่ได้
+});
 
 // ── BBL delay: show card section (nav stays visible) ─────────────────────────
 async function startBBLWait(orderId, email) {
