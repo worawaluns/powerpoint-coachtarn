@@ -910,10 +910,14 @@ function guessMail() {
   var v = em1.value.trim().toLowerCase(), at = v.lastIndexOf('@');
   if (at < 1) { fixmail.hidden = true; return; }
   var dom = v.slice(at + 1), fix = TYPOS[dom];
-  /* ลงท้ายผิดแบบทั่วไป ครอบโดเมนที่ไม่อยู่ในรายการด้วย */
+  /* ลงท้ายผิดแบบทั่วไป ครอบโดเมนที่ไม่อยู่ในรายการด้วย
+     พิมพ์ผิดสองที่พร้อมกันก็มี (gmial.con) แก้ลงท้ายแล้วต้องเอาผลไปเทียบชื่อโดเมนอีกรอบ
+     ไม่งั้นได้ gmial.com ซึ่งยังผิดอยู่ แล้วลูกค้าจะกดแก้แล้วคิดว่าถูกแล้ว */
   if (!fix) {
-    if (/\.con$/.test(dom)) fix = dom.slice(0, -4) + '.com';
-    else if (/\.cm$/.test(dom) || /\.om$/.test(dom)) fix = dom.slice(0, -3) + '.com';
+    var t = null;
+    if (/\.con$/.test(dom)) t = dom.slice(0, -4) + '.com';
+    else if (/\.cm$/.test(dom) || /\.om$/.test(dom)) t = dom.slice(0, -3) + '.com';
+    if (t) fix = TYPOS[t] || t;
   }
   if (!fix || fix === dom) { fixmail.hidden = true; return; }
   var full = v.slice(0, at + 1) + fix;
