@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="clock-off">
 <head>
 <meta charset="UTF-8">
 <script>
@@ -1489,6 +1489,9 @@ body{
 /* ══════════════════════════════════════
    STICKY BOTTOM BAR
 ══════════════════════════════════════ */
+/* ยังไม่รู้ว่ามีโปรที่กำลังจะหมดไหม ก็ยังไม่ต้องโชว์อะไรที่พูดถึงเวลา */
+.clock-off .sticky-urgency,.clock-off .dc-urg,.clock-off .hf-time{display:none!important}
+
 .sticky-bar{
   position:fixed;bottom:0;left:50%;
   transform:translateX(-50%) translateY(110%);
@@ -2749,7 +2752,7 @@ fbq('track','PageView');
   <div class="hero-inner">
     <a href="#bonus" class="hero-flash" id="heroFlash">
       <span class="hf-badge">แถมฟรี</span>
-      <span class="hf-txt">Bonus Slides อีก 1 ชุด หมดใน <b id="heroTimer">--:--:--</b></span>
+      <span class="hf-txt">Bonus Slides อีก 1 ชุด<span class="hf-time"> หมดใน <b id="heroTimer">--:--:--</b></span></span>
     </a>
     <h1 class="hero-h1">
       สไลด์ PowerPoint<br>
@@ -3878,17 +3881,14 @@ async function setFile(slug){
   }
 
   var timer;
-  function hideClock(){                         /* ไม่มีโปร ก็ไม่มีอะไรให้นับ ซ่อนที่พูดถึงเวลาให้หมด */
-    [document.querySelector('.sticky-bar .sticky-urgency'),
-     document.querySelector('.dc-urg')].forEach(function(el){ if(el) el.style.display='none'; });
-    /* ป้ายของแถมในฮีโร่ไม่ต้องหาย แค่ตัดคำว่า "หมดใน <เวลา>" ออก ของแถมยังมีอยู่จริง */
-    var hf=document.getElementById('heroFlash'), tx=hf && hf.querySelector('.hf-txt');
-    if(tx) tx.textContent='Bonus Slides อีก 1 ชุด';
+  function hideClock(){                         /* ไม่มีโปร ก็ไม่มีอะไรให้นับ ปล่อย clock-off ไว้อย่างนั้น
+                                                   ป้ายของแถมในฮีโร่ยังอยู่ แค่ไม่มีคำว่า "หมดใน <เวลา>" */
     var b = document.querySelector('.dc-btn');     /* แถบเวลาหายแล้วปุ่มไปติดขอบการ์ด ต้องคืนช่องไฟให้ */
     if (b) b.style.marginTop = '16px';
   }
   function start(end){
     deadline = end;
+    document.documentElement.classList.remove('clock-off');   /* มีเวลาจริงแล้วค่อยโชว์ */
     tick();
     timer = setInterval(tick, 1000);
     if(Date.now() >= deadline) setExpired();
