@@ -248,6 +248,13 @@ body{
   border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer;
   transition:border-color .2s,background .2s,transform .12s var(--ease)}
 .tax:active{transform:scale(.99)}
+/* ── กล่องรับข่าวสาร ──
+   ไอซ์ 17 พ.ย.: "ไม่ต้องมีกรอบหรือ bg ไรล้อมรอบ ให้ดูเนียนๆ ตัวติ๊กถูกเปลี่ยนเป็นสีแนว disable"
+   เอากรอบกับพื้นออก และเปลี่ยนติ๊กจากเขียวเป็นเทากลางๆ ให้กลมกลืนไปกับหน้า
+   แต่ยังเห็นชัดว่าติ๊กอยู่ ติ๊กที่อ่านไม่ออกว่าเปิดหรือปิดคือกล่องยินยอมที่ใช้อ้างไม่ได้ */
+.tax.news,.tax.news.on{border-color:transparent;background:none;padding:4px 2px;margin:16px 20px 20px}
+.tax.news.on .tax-box{background:#8E8E96;border-color:#8E8E96}
+.tax.news b{font-weight:600;color:var(--text-mid)}
 .tax.locked{cursor:default}
 .tax.locked:active{transform:none}
 .tax.locked .tax-box{opacity:.75}
@@ -386,15 +393,24 @@ body{
 @media (min-width:640px){ .chips{grid-template-columns:repeat(3,1fr)} }
 
 /* ── footer: ตัวตนบริษัท หน้ารับเงินที่ไม่มีชื่อนิติบุคคลเลยคือธงแดงอันดับหนึ่ง ── */
-.foot{background:#141416;color:#fff;border-radius:var(--r-lg);padding:20px;margin-bottom:10px}
-.foot-mark{display:flex;align-items:center;gap:8px;font-weight:800;font-size:15px;margin-bottom:6px}
-.foot-mark span{width:24px;height:24px;border-radius:7px;background:var(--red);display:block}
-.foot a{color:#fff;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:7px;min-height:40px}
-.foot a u{text-underline-offset:3px}
-.foot svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.foot-links{display:flex;gap:18px;flex-wrap:wrap}
-.foot-links a{font-size:14px;color:rgba(255,255,255,.75)}
-.foot-co{font-size:12px;color:rgba(255,255,255,.45);margin-top:10px;line-height:1.6}
+/* ── ฟุตเตอร์ ── ค่าชุดเดียวกับ order.html จริงทุกบรรทัด */
+.footer{background:#111;padding:28px 24px 0}
+.footer-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;padding-bottom:24px}
+.footer-col{display:flex;flex-direction:column;gap:10px}
+.footer-col--brand{align-items:center;gap:12px}
+.footer-logo-link{display:block;opacity:.88}
+.footer-mark{display:block;width:120px;height:34px;background:#fff;
+  -webkit-mask:url(img/logo.svg) no-repeat center/contain;mask:url(img/logo.svg) no-repeat center/contain}
+.footer-tagline{font-size:13px;color:rgba(255,255,255,.38);line-height:1.5}
+.footer-guarantee{font-size:12px;color:rgba(255,255,255,.28);line-height:1.65;margin-top:2px}
+.footer-guarantee strong{color:rgba(255,255,255,.52);font-weight:700}
+.footer-col-link{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.45);
+  text-decoration:none;padding:3px 0;transition:color .15s}
+.footer-col-link svg{width:14px;height:14px;flex-shrink:0;opacity:.65}
+.footer-divider{height:1px;background:rgba(255,255,255,.07)}
+.footer-bottom{padding:16px 24px 28px;text-align:center;font-size:11px;color:rgba(255,255,255,.22);line-height:1.8}
+.footer-bottom a{color:inherit;text-decoration:underline;text-underline-offset:3px;margin:0 14px}
 
 /* ป้ายเทียบให้ไอซ์ดู ไม่ใช่ส่วนหนึ่งของหน้าจริง */
 .tagline{max-width:430px;margin:14px auto 6px;padding:0 14px 80px;font-size:12px;color:#8A8A92}
@@ -609,7 +625,7 @@ body{
 
     <!-- กล่องรับข่าวสาร ติ๊กมาให้ตั้งแต่แรก แต่กดออกได้ และแยกจากบรรทัดยอมรับนโยบายข้างล่าง
          ถ้ามัดรวมกันเป็นติ๊กเดียว ความยินยอมทางการตลาดจะใช้อ้างไม่ได้ตาม PDPA -->
-    <label class="tax on" id="newsChk">
+    <label class="tax news on" id="newsChk">
       <span class="tax-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
       <span><b>รับข่าวสารและสิทธิ์พิเศษจาก Coach Tarn</b>
         <span>เครื่องมือใหม่อย่าง Slide Studio ที่เปลี่ยนไฟล์ Word Excel PDF เป็นสไลด์ให้เอง และส่วนลดเฉพาะลูกค้าเดิม ยกเลิกได้จากลิงก์ท้ายอีเมล</span></span>
@@ -640,17 +656,31 @@ body{
 
   </div>
 
-  <div class="foot">
-    <div class="foot-mark"><span></span>coach tarn</div>
-    <a href="https://m.me/coachtarn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.2-.6L3 21l1.8-5.2A8.3 8.3 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><u>ติดปัญหา ทักแชทเพจ</u></a>
-    <div class="foot-links">
-      <a href="/terms.html">เงื่อนไขการใช้งาน</a>
-      <a href="/privacy.html">นโยบายความเป็นส่วนตัว</a>
-    </div>
-    <div class="foot-co">© 2026 บริษัท ดับเบิ้ลคราฟ์ จำกัด</div>
-  </div>
 
 </div>
+
+<!-- ฟุตเตอร์ชุดเดียวกับหน้าแรกและ order.html จริง อยู่นอก .wrap จะได้เต็มความกว้างจอ
+     หน้าสั่งซื้อตัดเมนูออก เหลือแค่ทางติดต่อตอนติดปัญหา ไม่มีลิงก์พาออกจากหน้าจ่ายเงิน -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col footer-col--brand">
+      <a href="/" class="footer-logo-link"><span class="footer-mark"></span></a>
+      <p class="footer-tagline">PowerPoint Template สำเร็จรูป · โหลดไม่จำกัด</p>
+      <p class="footer-guarantee">ชำระเงินแล้ว ปกติได้ Code ทางอีเมล<br><strong>ภายใน 1 ถึง 3 นาที</strong> · ระบบตรวจสลิปให้อัตโนมัติ</p>
+    </div>
+    <div class="footer-col">
+      <a href="https://m.me/coachtarn" target="_blank" rel="noopener" class="footer-col-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.2-.6L3 21l1.8-5.2A8.3 8.3 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg>
+        ติดปัญหา ทักแชทเพจ
+      </a>
+    </div>
+  </div>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">
+    <a href="/privacy.html">นโยบายความเป็นส่วนตัว</a><a href="/terms.html">เงื่อนไขการใช้งาน</a><br>
+    © 2026 บริษัท ดับเบิ้ลคราฟ์ จำกัด, All rights reserved
+  </div>
+</footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

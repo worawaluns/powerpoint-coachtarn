@@ -23,10 +23,6 @@ sub('<title>หน้าสั่งซื้อ แบบใหม่ (mockup)<
     '<link rel="icon" type="image/x-icon" href="img/favicon.ico">')
 
 # รูปสินค้ากับโลโก้ธนาคารชุดเดียวกับหน้าจริง (โลโก้บนแถบบนมาจาก topbar.js)
-sub('.foot-mark span{width:24px;height:24px;border-radius:7px;background:var(--red);display:block}',
-    '.foot-mark img{height:28px;width:auto;display:block;filter:brightness(0) invert(1)}')
-sub('<div class="foot-mark"><span></span>coach tarn</div>',
-    '<div class="foot-mark"><img src="img/logo.svg" alt="Coach Tarn"></div>')
 sub('.item-th{width:52px;height:38px;border-radius:var(--r-sm);background:#E9E9EE;flex:none}',
     '.item-th{width:52px;height:38px;border-radius:var(--r-sm);background:#E9E9EE;flex:none;overflow:hidden}\n'
     '.item-th img{width:100%;height:100%;object-fit:cover;display:block}')
@@ -60,6 +56,15 @@ RESPONSIVE = '''
   .btn{font-size:18px}
   .dock{display:none}          /* จอยาวพอ ปุ่มในหน้าเห็นอยู่แล้ว ไม่ต้องมีแถบติดล่าง */
   .tagline{padding-bottom:0}
+  /* ฟุตเตอร์ชุดเดียวกับหน้าจริง: แบรนด์ซ้าย ทางติดต่อขวา */
+  .footer{padding:52px 0 0}
+  .footer-inner{display:grid;grid-template-columns:1.6fr 1fr;align-items:start;text-align:left;gap:40px;
+    padding:0 48px 36px;max-width:1060px;margin:0 auto}
+  .footer-col--brand{align-items:flex-start}
+  .footer-col-link{justify-content:flex-start;font-size:14px}
+  .footer-bottom{padding:16px 48px 32px;font-size:12px}
+  .footer-tagline{font-size:14px}
+  .footer-guarantee{font-size:13px}
 }
 @media (min-width:1024px){
   /* สองคอลัมน์ชุดเดียวกับ order.html จริง: ซ้าย 1fr ขวา 1.15fr เบรกที่ 1024
@@ -77,8 +82,10 @@ RESPONSIVE = '''
   .bnk{order:2;position:sticky;top:110px}
   .trst{order:3}
   .col-r{grid-column:2;grid-row:2;margin:0}
-  .foot{grid-column:1 / -1;grid-row:3}
   .total-p{font-size:28px}
+  .footer-inner{grid-template-columns:2fr 1.3fr;gap:56px;padding:0 80px 52px}
+  .footer-bottom{padding:20px 80px 36px}
+  .footer-mark{width:140px;height:40px}
 }
 '''
 sub('\n</style>', RESPONSIVE + '</style>')
