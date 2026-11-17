@@ -1291,6 +1291,12 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 .ct-promo .ct-in{height:38px;font-size:14px;letter-spacing:.06em;padding:0 10px 0 32px;border-radius:var(--r-sm);border-width:1px}
 .ct-promo .ct-ap{min-width:76px;height:38px;font-size:14px;border-radius:var(--r-sm);border-width:1px;
   border-color:#D5D5DB;color:var(--text)}
+/* ชื่อไฟล์ยาวต้องตัดท้าย อยู่บรรทัดเดียวกับ · และขนาดไฟล์
+   กฎ .slip-tx span{display:block} เดิมกินสแปนลูกด้วย ชื่อไฟล์เลยกินเต็มบรรทัด
+   แล้วดัน · กับขนาดไฟล์ตกไปอีกสองบรรทัด */
+.slip-tx>span{display:flex;gap:5px;align-items:baseline}
+.slip-tx>span>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#previewSize{flex:none}
 .ct-promo .ct-f>svg{width:14px;height:14px;left:11px}
 .ct-promo{padding:12px 20px 0}
 
@@ -1691,7 +1697,7 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
       <div class="amt-row"><span class="amt-k">ยอดที่ต้องโอน<i>โอนให้ตรงยอด ระบบจะจับคู่สลิปให้เอง</i></span>
         <span class="amt-v" id="bankAmt">499 บาท</span></div>
       <div class="warn">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="7.5" x2="12" y2="13"/><line x1="12" y1="16.5" x2="12.01" y2="16.5"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#B26A00" stroke-width="1.8" stroke-linecap="round" style="width:18px;height:18px;flex:none;margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <p>โอนเข้า<b>บัญชีนี้เท่านั้น</b> แล้วกลับมาแนบสลิปด้านล่าง</p>
       </div>
       <div class="bank-foot">บัญชีนิติบุคคล ในนามบริษัท ดับเบิ้ลคราฟ์ จำกัด</div>
