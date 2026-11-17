@@ -66,10 +66,12 @@ body{
   transition:border-color .15s,background .15s}
 .promo-in::placeholder{color:#A1A1A8;letter-spacing:0;text-transform:none;font-weight:400}
 .promo-in:focus{background:var(--white);border-color:var(--red)}
-.promo-go{flex:none;min-width:76px;height:38px;padding:0 12px;border:1px solid rgba(211,71,36,.35);
+/* ปุ่มนี้ไม่ใช่ปุ่มหลักของหน้า ไอซ์ 17 พ.ย.: "เอาสีดำหรือเทา ไม่เอาสีส้ม"
+   สีแบรนด์เก็บไว้ให้ราคากับปุ่มส่งสลิป */
+.promo-go{flex:none;min-width:76px;height:38px;padding:0 12px;border:1px solid #D5D5DB;
   border-radius:var(--r-sm);background:var(--white);font:inherit;font-size:14px;font-weight:700;
-  color:var(--red);cursor:pointer;transition:background .15s,transform .12s var(--ease)}
-.promo-go:active{transform:scale(.98)}
+  color:var(--text);cursor:pointer;transition:background .15s,border-color .15s,transform .12s var(--ease)}
+.promo-go:active{background:#F3F3F6;border-color:#C2C2CA;transform:scale(.98)}
 .promo-er[hidden]{display:none}
 .promo-er{font-size:13px;color:var(--bad);margin-top:6px;animation:rise .22s var(--ease)}
 /* ใช้โค้ดแล้ว: ยุบเหลือบรรทัดเดียว ไม่เหลือช่องกรอกให้รก */
@@ -728,7 +730,7 @@ body{
 <div class="dock" id="dock">
   <div>
     <button type="button" class="btn" id="dockBtn"><span>ไปที่ปุ่มส่งสลิป</span></button>
-    <div class="dock-note">ส่งแล้วได้รหัสทางอีเมลใน 1 ถึง 3 นาที</div>
+    <div class="dock-note">ส่งแล้วได้รหัสทางอีเมลทันที</div>
   </div>
 </div>
 
