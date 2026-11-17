@@ -1104,13 +1104,14 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
   border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer;
   transition:border-color .2s,background .2s,transform .12s var(--ease)}
 .tax:active{transform:scale(.99)}
-/* ── กล่องรับข่าวสาร ──
-   ไอซ์ 17 พ.ย.: "ไม่ต้องมีกรอบหรือ bg ไรล้อมรอบ ให้ดูเนียนๆ ตัวติ๊กถูกเปลี่ยนเป็นสีแนว disable"
-   เอากรอบกับพื้นออก และเปลี่ยนติ๊กจากเขียวเป็นเทากลางๆ ให้กลมกลืนไปกับหน้า
-   แต่ยังเห็นชัดว่าติ๊กอยู่ ติ๊กที่อ่านไม่ออกว่าเปิดหรือปิดคือกล่องยินยอมที่ใช้อ้างไม่ได้ */
-.tax.news,.tax.news.on{border-color:transparent;background:none;padding:4px 2px;margin:16px 20px 20px}
-.tax.news.on .tax-box{background:#8E8E96;border-color:#8E8E96}
-.tax.news b{font-weight:600;color:var(--text-mid)}
+/* ── ช่องยอมรับเงื่อนไข + รับข่าวสาร ──
+   ไอซ์ 17 พ.ย.: รวมบรรทัด "กดส่งสลิป ถือว่ายอมรับ" เข้ากับการรับข่าวสาร
+   ติ๊กมาให้ตั้งแต่แรก ต้องติ๊กถึงส่งได้ และวางเหนือปุ่มส่งสีดำ
+   ติ๊กที่อ่านไม่ออกว่าเปิดหรือปิดคือกล่องยินยอมที่ใช้อ้างไม่ได้ จึงใช้เขียวเต็มเหมือนช่องอื่น */
+.tax.agree{margin:0 0 12px;padding:12px 13px;align-items:flex-start}
+.tax.agree b{display:block;font-weight:600;font-size:13.5px;color:var(--text-mid);line-height:1.6}
+.tax.agree b a{color:var(--text);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.tax.agree>span>span{display:block;margin-top:4px;font-size:12.5px;color:var(--text-sub);line-height:1.55}
 .tax.locked{cursor:default}
 .tax.locked:active{transform:none}
 .tax.locked .tax-box{opacity:.75}
@@ -1309,7 +1310,6 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
 .tax:has(.tax-cb:checked) .tax-box,.ship-chk:has(.tax-cb:checked) .tax-box{background:var(--green);border-color:var(--green)}
 .tax:has(.tax-cb:checked) .tax-box svg,.ship-chk:has(.tax-cb:checked) .tax-box svg{opacity:1;transform:scale(1)}
 .tax:has(.tax-cb:checked){border-color:#BBE6CC;background:#F6FCF9}
-.tax.news:has(.tax-cb:checked){border-color:transparent;background:none}
 .slip-th img{width:100%;height:100%;object-fit:cover;display:block}
 /* หมายเหตุบัญชีบริษัท ของเดิมสลับคลาส show */
 .pc-note{display:none}
@@ -1843,12 +1843,6 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
         </div>
       </div>
 
-      <!-- กล่องรับข่าวสาร ติ๊กมาให้ แต่กดออกได้ แยกจากบรรทัดยอมรับนโยบาย -->
-      <label class="tax news on" id="newsChk">
-        <span class="tax-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span><b>รับข่าวสารและสิทธิ์พิเศษจาก Coach Tarn</b></span>
-      </label>
-
       <div id="cf-turnstile" class="cf-turnstile"
            data-sitekey="0x4AAAAAACsD8RZ-057dj9gQ"
            data-theme="light"
@@ -1856,9 +1850,16 @@ document.addEventListener('DOMContentLoaded', window.ctRenderPrice);
            data-size="invisible"></div>
 
       <div class="submit-area">
+        <!-- ยอมรับเงื่อนไข + รับข่าวสาร รวมเป็นช่องเดียว ติ๊กมาให้ ต้องติ๊กถึงส่งได้ -->
+        <label class="tax agree" id="agreeChk" for="agreeBox">
+          <input type="checkbox" id="agreeBox" class="tax-cb" checked>
+          <span class="tax-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+          <span><b>ยอมรับ <a href="/terms.html" target="_blank" rel="noopener">เงื่อนไขการใช้งาน</a> และ <a href="/privacy.html" target="_blank" rel="noopener">นโยบายความเป็นส่วนตัว</a> และยินดีรับข่าวสารกับโปรโมชั่นทางอีเมล</b>
+          <span>กดยกเลิกรับข่าวสารได้ทุกเมื่อ จากลิงก์ท้ายอีเมลทุกฉบับ</span></span>
+        </label>
+        <div class="error-msg" id="errAgree"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>ต้องติ๊กยอมรับเงื่อนไขก่อนจึงจะส่งสลิปได้</div>
         <button type="button" class="btn" id="submitBtn" onclick="handleSubmit()"><span>ส่งสลิป รับรหัสทางอีเมล</span></button>
         <div class="sub-note">ระบบตรวจสลิปอัตโนมัติ ทำงานตลอด 24 ชั่วโมง ส่วนใหญ่ได้ไฟล์ทางอีเมลใน 1 ถึง 3 นาที</div>
-        <p class="legal">กดส่งสลิป ถือว่ายอมรับ <a href="/terms.html">เงื่อนไขการใช้งาน</a> และ <a href="/privacy.html">นโยบายความเป็นส่วนตัว</a></p>
         <a class="chat-link" href="https://m.me/coachtarn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9 9 0 0 1-3.2-.6L3 21l1.8-5.2A8.3 8.3 0 0 1 4 11.5 8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z"/></svg><u>โอนแล้วติดปัญหา ทักแชทเพจ</u></a>
       </div>
     </div>
@@ -2018,7 +2019,7 @@ async function handleSubmit() {
   ['inputName','inputEmail','inputEmailConfirm'].forEach(id =>
     document.getElementById(id).classList.remove('error')
   );
-  ['errName','errEmail','errEmailConfirm','errSlip','errTax'].forEach(id =>
+  ['errName','errEmail','errEmailConfirm','errSlip','errTax','errAgree'].forEach(id =>
     document.getElementById(id).classList.remove('show')
   );
 
@@ -2029,6 +2030,9 @@ async function handleSubmit() {
   if (!emailRe.test(email))   { setErr('inputEmail','errEmail');               bad.push('inputEmail');        valid = false; }
   if (email !== emailC)       { setErr('inputEmailConfirm','errEmailConfirm'); bad.push('inputEmailConfirm'); valid = false; }
   if (!taxValid())            { bad.push(firstEmptyTax());                     valid = false; }
+  if (!document.getElementById('agreeBox').checked) {
+    document.getElementById('errAgree').classList.add('show'); bad.push('agreeChk'); valid = false;
+  }
   if (!valid) { flagGaps(bad); return; }
 
   // ── Meta Pixel: InitiateCheckout ──────────────────────────────────────────
@@ -2091,6 +2095,7 @@ async function handleSubmit() {
         ref_source: new URLSearchParams(location.search).get('ref') ?? sessionStorage.getItem('ct_ref') ?? 'direct',
         use_case  : selectedUseCase,
         use_case_note: (document.getElementById('useCaseNote').value || '').trim() || null,
+        marketing_consent_at: document.getElementById('agreeBox').checked ? new Date().toISOString() : null,
         pack      : PACK,
         ...taxPayload(),
         pay_channel: payChannel,
@@ -2230,6 +2235,15 @@ function lockTax(on){
 }
 document.getElementById('taxChk').addEventListener('click', function (e) {
   if (this.classList.contains('locked')) e.preventDefault();   // ปลดติ๊กไม่ได้
+});
+
+// คลิกลิงก์เงื่อนไข/นโยบาย ต้องเปิดหน้านั้น ไม่ใช่ไปติ๊กกล่องออก
+document.querySelectorAll('#agreeChk a').forEach(a => {
+  a.addEventListener('click', e => e.stopPropagation());
+});
+// ติ๊กกลับเข้ามาแล้วไฟแดงต้องหายเอง
+document.getElementById('agreeBox').addEventListener('change', function () {
+  if (this.checked) document.getElementById('errAgree').classList.remove('show');
 });
 
 // ── BBL delay: show card section (nav stays visible) ─────────────────────────
