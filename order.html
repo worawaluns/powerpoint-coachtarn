@@ -1103,6 +1103,11 @@ dialog.help-modal::backdrop{background:rgba(0,0,0,0.5);backdrop-filter:blur(4px)
   font-weight:700;color:#14683B;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:6px 2px}
 
 /* ── ใบกำกับภาษี ── */
+/* ช่องถามอาชีพเป็นบล็อกสุดท้ายใน .form-body ระยะล่างซ้อนกันสามชั้นรวม 60px
+   (margin ของ .job + padding ของ .form-body + margin ของการ์ดใบกำกับภาษี)
+   ตัดสองชั้นออกให้เหลือ 20px เท่าระยะระหว่างบล็อกอื่นทั้งหน้า */
+.form-body>.job:last-child{margin-bottom:0}
+#taxChk{margin-top:0}
 .tax{display:flex;gap:11px;align-items:flex-start;margin:20px;padding:13px 14px;
   border:1px solid var(--line);border-radius:var(--r-md);cursor:pointer;
   transition:border-color .2s,background .2s,transform .12s var(--ease)}
