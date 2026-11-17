@@ -240,6 +240,7 @@ body{
 .slip-th{flex:none;width:44px;height:58px;border-radius:8px;background:#fff;
   border:1px solid #CFE7D8;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .slip-th svg{width:30px;height:40px}
+.slip-th img{width:100%;height:100%;object-fit:cover;display:block}
 .slip-tx{flex:1;min-width:0}
 .slip-tx b{display:block;font-size:14px;font-weight:800;color:#14683B}
 .slip-tx span{display:block;font-size:12px;color:#2F7A52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -558,16 +559,17 @@ body{
 
       <div class="fg">
         <label class="lbl">แนบสลิปโอนเงิน <span class="req">*</span></label>
-        <button type="button" class="up2" id="upPick">
+        <input type="file" id="slipInput" accept="image/*,.pdf" hidden>
+        <label class="up2" id="upPick" for="slipInput" tabindex="-1">
           <svg class="slip-ic" viewBox="0 0 24 24"><path d="M5 3h14v18l-2.3-1.6-2.4 1.6-2.3-1.6L9.7 21l-2.4-1.6L5 21z"/><path d="M9 8h6M9 12h6"/></svg>
           <b>แตะเพื่อเลือกรูปสลิป</b>
           <em>ถ่ายรูปใหม่ หรือเลือกรูปที่อยู่ในเครื่องก็ได้</em>
-        </button>
+        </label>
         <div class="up-load" id="upLoad" hidden><span class="spin"></span>กำลังแนบสลิป</div>
         <div class="slip-ok" id="upDone" hidden>
-          <span class="slip-th"><svg viewBox="0 0 32 42" fill="none" aria-hidden="true"><rect x="1" y="1" width="30" height="40" rx="3" fill="#fff" stroke="#CFE7D8"/><rect x="6" y="7" width="20" height="3" rx="1.5" fill="#D7D7DE"/><rect x="6" y="13" width="14" height="3" rx="1.5" fill="#E6E6EC"/><rect x="6" y="19" width="20" height="5" rx="2" fill="#CFE7D8"/><rect x="10" y="28" width="12" height="9" rx="1" fill="#E6E6EC"/></svg></span>
-          <span class="slip-tx"><b>แนบสลิปแล้ว</b><span>slip-2569-1116.jpg · 412 KB</span></span>
-          <button type="button" class="slip-ch" id="upAgain">เปลี่ยนรูป</button>
+          <span class="slip-th" id="slipTh"></span>
+          <span class="slip-tx"><b>แนบสลิปแล้ว</b><span id="slipName"></span></span>
+          <label class="slip-ch" id="upAgain" for="slipInput">เปลี่ยนรูป</label>
         </div>
         <div class="up-qr"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM19 19h2M19 14h2v2"/></svg><p>อย่าให้มีอะไรทับ QR บนสลิป</p></div>
       </div>
@@ -845,16 +847,34 @@ function syncDock() {
 }
 window.addEventListener('scroll', syncDock, { passive: true });
 window.addEventListener('resize', syncDock);
-upPick.onclick = function () {
-  glide(function () { upPick.hidden = true; upLoad.hidden = false; });
+/* ไฟล์ที่ลูกค้าเลือกจริง ชื่อกับขนาดมาจากไฟล์ ไม่ใช่ข้อความที่เขียนทิ้งไว้
+   รูปสลิปเอามาโชว์เป็นภาพย่อ ส่วน PDF ใช้ไอคอนแทน */
+var slipInput = document.getElementById('slipInput'),
+    slipTh = document.getElementById('slipTh'), slipName = document.getElementById('slipName');
+var PDF_IC = '<svg viewBox="0 0 32 42" fill="none" aria-hidden="true"><rect x="1" y="1" width="30" height="40" rx="3" fill="#fff" stroke="#CFE7D8"/><rect x="6" y="7" width="20" height="3" rx="1.5" fill="#D7D7DE"/><rect x="6" y="13" width="14" height="3" rx="1.5" fill="#E6E6EC"/><rect x="6" y="19" width="20" height="5" rx="2" fill="#CFE7D8"/><rect x="10" y="28" width="12" height="9" rx="1" fill="#E6E6EC"/></svg>';
+
+function kb(n) {
+  return n < 1024 * 1024 ? Math.round(n / 1024) + ' KB' : (n / 1024 / 1024).toFixed(1) + ' MB';
+}
+
+slipInput.onchange = function () {
+  var f = slipInput.files && slipInput.files[0];
+  if (!f) return;
+  if (slipTh._url) { URL.revokeObjectURL(slipTh._url); slipTh._url = null; }
+  glide(function () { upPick.hidden = true; upDone.hidden = true; upLoad.hidden = false; });
+  slipOn = false; syncDock();
+  clearBad(upPick);
   setTimeout(function () {
+    if (f.type.indexOf('image/') === 0) {
+      slipTh._url = URL.createObjectURL(f);
+      slipTh.innerHTML = '<img src="' + slipTh._url + '" alt="">';
+    } else {
+      slipTh.innerHTML = PDF_IC;
+    }
+    slipName.textContent = f.name + ' · ' + kb(f.size);
     glide(function () { upLoad.hidden = true; upDone.hidden = false; });
     slipOn = true; syncDock();
   }, 850);
-};
-document.getElementById('upAgain').onclick = function () {
-  glide(function () { upDone.hidden = true; upPick.hidden = false; upPick.classList.add('again'); });
-  slipOn = false; syncDock();
 };
 
 /* กลับมาจากแอปธนาคาร: ชี้ให้เห็นว่าขั้นต่อไปคือแนบสลิป */
@@ -863,6 +883,7 @@ document.addEventListener('visibilitychange', function () {
   upPick.classList.remove('nudge'); void upPick.offsetWidth; upPick.classList.add('nudge');
 });
 upPick.addEventListener('animationend', function () { upPick.classList.remove('nudge'); });
+document.getElementById('upAgain').onclick = function () { slipInput.value = ''; };
 
 /* อีเมล: เขียวทันทีที่ตรง แต่แดงต่อเมื่อออกจากช่องแล้ว จะได้ไม่ดุระหว่างพิมพ์
    และไอคอนเปลี่ยนตามสถานะ ไม่ใช่ติ๊กถูกสีแดง */
@@ -1023,7 +1044,7 @@ document.querySelectorAll('.inp').forEach(function (el) {
 function gaps() {
   var out = [];
   var add = function (el, msg) { out.push({ el: el, msg: msg }); };
-  if (upDone.hidden) out.push({ el: upPick, msg: 'ยังไม่ได้แนบสลิป แตะที่กล่องนี้เพื่อเลือกรูป' });
+  if (upDone.hidden) out.push({ el: upPick, msg: 'ยังไม่ได้แนบสลิป แตะที่กล่องนี้เพื่อเลือกรูปสลิป' });
   if (!nm.value.trim()) add(nm, 'ใส่ชื่อ-นามสกุลตามสลิป');
   var a = em1.value.trim(), b = em2.value.trim();
   if (!a) add(em1, 'ใส่อีเมลที่จะใช้รับรหัสดาวน์โหลด');
