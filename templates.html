@@ -258,7 +258,7 @@ addEventListener('pagereveal', e => { document.querySelectorAll('.cv img').forEa
       <input id="q" placeholder="ค้นหา เช่น KPI, งบประมาณ, กราฟแท่ง, โรงเรียน" autocomplete="off" enterkeyhint="search">
       <button class="clr" id="qClr" onclick="clearQ()" aria-label="ล้างคำค้น"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </label>
-    <p class="lib-dl">เลือกทีละชุดจากคลังนี้ได้เลย หรือถ้าอยากได้ทั้งหมดรวดเดียว <a href="download">ไปที่หน้าดาวน์โหลด</a></p>
+    <p class="lib-dl" id="libDl" hidden>เลือกทีละชุดจากคลังนี้ได้เลย หรือถ้าอยากได้ทั้งหมดรวดเดียว <a href="download">ไปที่หน้าดาวน์โหลด</a></p>
   </section>
   <div class="bar">
     <div class="chips" id="chips"></div>
@@ -282,6 +282,10 @@ const SB_URL = 'https://uyubtzyhuqalmjpjhmap.supabase.co', SB_KEY = 'eyJhbGciOiJ
 const DRIVE = 'https://drive.google.com/drive/folders/1F7FofnmoMQnYapa3zicEjkQZl1QceRal?usp=sharing';   // buyers download from the shared Drive folder (per-set links aren't public)
 const store = { get(){ try{ const v = JSON.parse(localStorage.getItem('ct_lib')||'null'); return v && v.code ? v : null; }catch(e){ return null; } },
   set(v){ try{ v ? localStorage.setItem('ct_lib', JSON.stringify(v)) : localStorage.removeItem('ct_lib'); }catch(e){} } };
+
+// บรรทัดบอกทางไปหน้าดาวน์โหลดรวม ขึ้นเฉพาะคนที่ล็อกอินแล้ว
+// คนที่ยังไม่ได้ซื้อกดไปก็โหลดอะไรไม่ได้ เห็นแล้วสับสนเปล่าๆ
+if (store.get()) document.getElementById('libDl').hidden = false;
 
 // มาจากลิงก์ในอีเมลหรือหน้าสั่งซื้อสำเร็จ → ตรวจ Code แล้วล็อกอินให้เลย ลูกค้าไม่ต้องกรอกเอง
 (async function () {
