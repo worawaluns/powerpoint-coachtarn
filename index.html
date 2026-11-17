@@ -3877,8 +3877,10 @@ async function setFile(slug){
   var timer;
   function hideClock(){                         /* ไม่มีโปร ก็ไม่มีอะไรให้นับ ซ่อนที่พูดถึงเวลาให้หมด */
     [document.querySelector('.sticky-bar .sticky-urgency'),
-     document.querySelector('.dc-urg'),
-     document.getElementById('heroFlash')].forEach(function(el){ if(el) el.style.display='none'; });
+     document.querySelector('.dc-urg')].forEach(function(el){ if(el) el.style.display='none'; });
+    /* ป้ายของแถมในฮีโร่ไม่ต้องหาย แค่ตัดคำว่า "หมดใน <เวลา>" ออก ของแถมยังมีอยู่จริง */
+    var hf=document.getElementById('heroFlash'), tx=hf && hf.querySelector('.hf-txt');
+    if(tx) tx.textContent='Bonus Slides อีก 1 ชุด';
     var b = document.querySelector('.dc-btn');     /* แถบเวลาหายแล้วปุ่มไปติดขอบการ์ด ต้องคืนช่องไฟให้ */
     if (b) b.style.marginTop = '16px';
   }
@@ -3888,9 +3890,18 @@ async function setFile(slug){
     timer = setInterval(tick, 1000);
     if(Date.now() >= deadline) setExpired();
   }
+  /* โค้ดจากแชทบางใบตั้ง ends_at ไว้ปี 2030 คือตั้งใจให้ไม่มีวันหมด
+     ถ้าเอามานับถอยหลังจะได้เลขอย่าง 36132:34:10 ซึ่งไม่ใช่ความเร่ง เป็นของเสียบนหน้า
+     เกิน 48 ชม. = ไม่ใช่โปรที่กำลังจะหมด ไม่ต้องมีนาฬิกา (ไอซ์เจอ 17 พ.ย. 2569) */
+  var MAX_CLOCK = 48 * 3600 * 1000;
+
   (function wait(n){                            /* promo.js ตรวจโค้ดกับฐานข้อมูลแบบ async ต้องรอผลก่อน */
     var p = window.CT_PROMO;
-    if (p && p.ends) return start(Date.parse(p.ends));
+    if (p && p.ends) {
+      var end = Date.parse(p.ends);
+      if (!end || end - Date.now() > MAX_CLOCK) return hideClock();
+      return start(end);
+    }
     if (n > 0) return setTimeout(function(){ wait(n - 1); }, 300);
     hideClock();
   })(12);
