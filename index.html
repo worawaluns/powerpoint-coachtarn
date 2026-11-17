@@ -2037,12 +2037,11 @@ body{
 
   /* Sticky bar — horizontal on tablet */
   .sticky-bar{display:flex;flex-direction:row;align-items:center;padding:10px 20px;gap:14px}
-  /* ราคากับปุ่มอยู่ซ้ายเสมอ ไอซ์ 17 พ.ย.: "desktop ปุ่มมันควรอยู่ฝั่งซ้าย"
-     ใช้ order แทนการสลับ DOM เพราะบนมือถือยังต้องให้แถบเวลาอยู่บรรทัดบน
-     เดิม .sticky-urgency กิน flex:1 เป็นตัวดันปุ่มไปขวา พอไม่มีโปรที่กำลังจะหมด
-     แถบเวลาถูกซ่อน ปุ่มเลยหล่นมากองซ้ายแบบไม่ได้ตั้งใจ สองสถานะอยู่คนละที่ */
-  .sticky-inner{flex:none;gap:10px;order:-1}
-  .sticky-urgency{margin-bottom:0;background:none;padding:0;border-radius:0;justify-content:flex-start;flex:1;font-size:12px}
+  /* ราคากับปุ่มอยู่ขวาเสมอ ไอซ์ 17 พ.ย.: "ตรงราคา 499 กับปุ่มอยากให้อยู่ฝั่งขวาครับบน desktop"
+     margin-left:auto เป็นตัวดันเอง ไม่ฝากไว้กับ flex:1 ของแถบเวลา
+     เพราะวันไหนไม่มีโปรที่กำลังจะหมด แถบเวลาถูกซ่อน ตัวดันหายไป กลุ่มปุ่มจะหล่นมากองซ้าย */
+  .sticky-inner{flex:none;gap:10px;margin-left:auto}
+  .sticky-urgency{margin-bottom:0;background:none;padding:0;border-radius:0;justify-content:flex-start;flex:0 1 auto;font-size:12px}
   .btn-sticky{flex:none;width:auto;padding:11px 28px;font-size:14px}
 
   /* Social bar — center */
@@ -2258,8 +2257,8 @@ body{
 
   /* Sticky bar — horizontal row on desktop */
   .sticky-bar{display:flex;flex-direction:row;align-items:center;padding:10px 64px;gap:24px}
-  .sticky-inner{flex:none;gap:20px;order:-1}
-  .sticky-urgency{flex:1;margin-bottom:0;background:none;padding:0;border-radius:0;justify-content:flex-start;font-size:13px}
+  .sticky-inner{flex:none;gap:20px;margin-left:auto}
+  .sticky-urgency{flex:0 1 auto;margin-bottom:0;background:none;padding:0;border-radius:0;justify-content:flex-start;font-size:13px}
   .btn-sticky{flex:none;width:auto;padding:12px 52px}
 
   /* Reels — remove scroll/mask, center grid */
