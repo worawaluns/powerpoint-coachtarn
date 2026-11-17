@@ -2172,10 +2172,14 @@ function closeDrawer(){
     const domain = v.slice(at+1);
     let fix = TYPOS[domain];
     // ponytail: generic TLD typos (.con/.cm/.om → .com) — covers unknown providers too
+    // พิมพ์ผิดสองที่พร้อมกันก็มี (gmial.con) แก้ลงท้ายแล้วต้องเอาผลไปเทียบ TYPOS อีกรอบ
+    // ไม่งั้นเสนอ gmial.com ซึ่งยังผิด ลูกค้ากดแก้แล้วคิดว่าถูกแล้ว สุดท้ายไม่ได้รับอีเมล
     if (!fix) {
-      if      (domain.endsWith('.con')) fix = domain.slice(0, -4) + '.com';
-      else if (domain.endsWith('.cm'))  fix = domain.slice(0, -3) + '.com';
-      else if (domain.endsWith('.om'))  fix = domain.slice(0, -3) + '.com';
+      let t = null;
+      if      (domain.endsWith('.con')) t = domain.slice(0, -4) + '.com';
+      else if (domain.endsWith('.cm'))  t = domain.slice(0, -3) + '.com';
+      else if (domain.endsWith('.om'))  t = domain.slice(0, -3) + '.com';
+      if (t) fix = TYPOS[t] || t;
     }
     if (!fix || fix === domain) { hint.style.display='none'; return; }
     const suggested = v.slice(0, at+1) + fix;
